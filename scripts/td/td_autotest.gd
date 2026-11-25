@@ -187,7 +187,7 @@ func _cast_spells() -> void:
 			"bone_wall":
 				if -game.progress(lead) < THREAT_DIST and lead.holder == null:
 					game.cast_spell(i, lead.follower.road.point_at(lead.follower.dist + 30.0))
-			"corpse_explosion", "plague_cloud", "death_mark", "soul_chains", "heros_fist":
+			"corpse_explosion", "plague_cloud", "death_mark", "soul_chains":
 				game.cast_spell(i, lead.position)
 			"wither":
 				var sp: Spot = null  # The spot nearest the leader (Wither stands on a spot).
@@ -199,11 +199,12 @@ func _cast_spells() -> void:
 			"raise_dead":
 				if -game.progress(lead) < THREAT_DIST and lead.holder == null:
 					game.cast_spell(i, lead.follower.road.point_at(lead.follower.dist + 40.0))
-			"hearse_run", "bone_mines":  # Act IV (w2b-city): just ahead of the leader, so it drives / walks into them
-			"hundred_shadows":  # Act V (w2b-shogun): clones just ahead of the leader
+			"hearse_run", "bone_mines":  # Act IV: just ahead of the leader, so it drives / walks into them
+				game.cast_spell(i, lead.follower.road.point_at(lead.follower.dist + 30.0))
+			"hundred_shadows":  # Act V: clones just ahead of a threatening leader
 				if -game.progress(lead) < THREAT_DIST:
 					game.cast_spell(i, lead.follower.road.point_at(lead.follower.dist + 40.0))
-			"banner_of_the_dead", "black_sun":  # Act V: on the leader (the banner rallies the towers near it)
+			_:  # Every other later-act spell (enemy / point targets): on the leader.
 				game.cast_spell(i, lead.position)
 	if game.caster.ultimate_ready():
 		game.caster.cast_ultimate()

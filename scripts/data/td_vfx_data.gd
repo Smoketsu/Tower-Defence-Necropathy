@@ -48,7 +48,6 @@ const SHOTS: Dictionary = {
 		"halo": 10.0, "impact": "corpse_explosion", "impact_d": 56.0, "ring": true, "muzzle": 0.0},  # TUNING (not in GDD) powder orange: its blasts (real radius ring) and burning shrapnel streaks
 	"blood_spawn": {"sprite": "projectiles/bone_spear", "scale": 1.6, "tint": Color(1.0, 0.22, 0.3), "trail": 70.0, "trail_w": 12.0,
 		"halo": 7.0, "impact": "volley_hit", "impact_d": 56.0, "ring": false, "muzzle": 0.0},  # TUNING (not in GDD) w2b-court: its Lv3 blood darts, crimson
-		"halo": 0.0, "impact": "volley_hit", "impact_d": 52.0, "ring": false, "muzzle": 0.0},  # TUNING (not in GDD) its Lv3 bone shards	# --- Act IV (w2b-city) ---
 	"fallen_hero": {"sprite": "volleys/wave", "scale": 2.0, "tint": Color(0.45, 0.65, 1.0), "trail": 70.0, "trail_w": 12.0,
 		"halo": 8.0, "impact": "volley_hit", "impact_d": 60.0, "ring": false, "muzzle": 48.0},  # TUNING (not in GDD) hero-blue shockwaves (its slam draws golem_slam + a ring at the real radius)
 	"bound_oni": {"sprite": "projectiles/bone_spear", "scale": 1.6, "tint": Color(1.0, 0.55, 0.4), "trail": 62.0, "trail_w": 11.0,
@@ -319,7 +318,7 @@ const SPELLS: Dictionary = {
 	"moonfang": {"tint": Color(0.82, 0.86, 1.0), "flash": 96.0, "strip": "volley_flash", "strip_d": 110.0, "ring": 50.0, "shake": 2.0},  # TUNING (not in GDD) moon-silver; ring = a jaw's real radius
 	"witch_circle": {"tint": Color(1.0, 0.2, 0.35), "flash": 96.0, "strip": "volley_hit", "strip_d": 170.0, "ring": 80.0, "shake": 0.0},  # TUNING (not in GDD) crimson; ring = the circle's real radius
 	"night_swarm": {"tint": Color(0.5, 1.0, 0.9), "flash": 96.0, "strip": "volley_flash", "strip_d": 120.0, "ring": 46.0, "shake": 0.0},  # TUNING (not in GDD) spectral soul-teal bats
-	"grave_tide": {"tint": Color(0.45, 1.0, 0.7), "flash": 180.0, "strip": "grave_tide", "strip_d": 300.0, "ring": 320.0, "shake": 4.0},  # TUNING (not in GDD)	# --- Act IV (w2b-city) ---
+	# --- Act IV spells (w2b-city) ---
 	"hearse_run": {"tint": Color(0.55, 0.95, 0.9), "flash": 96.0, "strip": "summon_rise", "strip_d": 110.0, "ring": 50.0, "shake": 1.0},  # TUNING (not in GDD) spectral teal
 	"bone_mines": {"tint": Color(0.8, 0.5, 1.0), "flash": 96.0, "strip": "bone_wall_rise", "strip_d": 90.0, "ring": 50.0, "shake": 0.0},  # TUNING (not in GDD) violet lamps
 	"heros_fist": {"tint": Color(0.45, 0.65, 1.0), "flash": 96.0, "strip": "", "strip_d": 0.0, "ring": 0.0, "shake": 0.0},  # TUNING (not in GDD) its own fist, slam and ring

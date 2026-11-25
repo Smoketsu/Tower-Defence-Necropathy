@@ -12,8 +12,7 @@ extends RefCounted
 ## Build-menu order of the towers.
 const ORDER: Array[String] = ["archer", "mage", "frost_wraith", "corpse_catapult", "banshee", "mender", "warrior", "abomination",
 	"warder", "rogue", "gargoyle", "bone_hound", "fallen_seraph", "bone_golem",
-	"powder_wraith", "blood_spawn", "fallen_hero"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
-	"warder", "rogue", "gargoyle", "bone_hound", "fallen_seraph", "bone_golem", "bound_oni"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
+	"powder_wraith", "blood_spawn", "fallen_hero", "bound_oni"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
 
 ## Targeting modes (GDD §4.3), in the order the Target button cycles them.
 const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
