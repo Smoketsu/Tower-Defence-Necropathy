@@ -1,0 +1,36 @@
+## BlockBody: one undead body standing on a road post (or one Bone Wall),
+## holding up to `capacity` enemies. Damage reaches it only through
+## TdCombat.damage_body(); a fallen body returns for free after its respawn
+## time (GDD §4.3), driven by the Blocker behaviour.
+class_name BlockBody
+extends RefCounted
+
+## The RoadBlock it belongs to.
+var block: RoadBlock = null
+## Map px where the body stands.
+var pos: Vector2 = Vector2.ZERO
+## Current HP (0 .. max_hp).
+var hp: float = 1.0
+## Max HP (from the tower's stats).
+var max_hp: float = 1.0
+## Enemies it holds at once (before the block's hold_bonus).
+var capacity: int = 1
+## Enemies currently held.
+var held: Array[TdEnemy] = []
+## False while fallen (waiting for its respawn).
+var alive: bool = true
+## Seconds a fallen body waits before it returns (from the tower's stats).
+var respawn_time: float = 8.0
+## Game time (s) at which a fallen body returns.
+var respawn_at: float = 0.0
+## Game time (s) of its next attack.
+var next_attack: float = 0.0
+## Game time (s) until which it draws a hit flash (visual only).
+var flash_until: float = 0.0
+
+
+## Lets go of every held enemy (they walk on).
+func release_all() -> void:
+	for e: TdEnemy in held:
+		e.holder = null
+	held.clear()
