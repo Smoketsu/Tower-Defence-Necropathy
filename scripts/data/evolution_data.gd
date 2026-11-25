@@ -200,4 +200,16 @@ const EVOLUTIONS: Dictionary = {
 		},
 		"recipe": {"type": "kills", "n": 25},  # TUNING (not in GDD) Necropathy Thirst Eternal -> the thirst of many kills
 	},
+	# --- Act IV (w2b-city): Necropathy's Black Paragon (Fallen Hero + Origin Story) ---
+	"black_paragon": {
+		"from": "fallen_hero", "name": "Black Paragon", "sprite": "summons/black_paragon", "icon": "black_paragon",
+		"stats": {"damage": 1.35, "range": 1.1},  # Necropathy damage x1.35; TUNING (not in GDD)
+		"set": {
+			"splash": 62.0,  # Necropathy slam_radius x1.2
+			"dive_stun": 0.6,  # Necropathy slam_stun 0.6 s (rank multipliers apply)
+			"chain_slams": 1,  # Necropathy chain_slams 1
+			"chain_range": 150.0,  # TUNING (not in GDD) Necropathy CHAIN_RANGE
+		},
+		"recipe": {"type": "damage", "n": 12000},  # TUNING (not in GDD) Necropathy Origin Story -> a hero's record: 12000 damage dealt
+	},
 }

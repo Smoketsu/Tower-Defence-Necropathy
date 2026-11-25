@@ -27,6 +27,8 @@ const LOOKS: Dictionary = {
 	"cannon": {"sprite": "projectiles/iron_shell", "scale": 1.8, "tint": Color(1.0, 0.5, 0.25), "trail": 0.0, "impact": 90.0},  # TUNING (not in GDD) a gunboat's shell
 	"spit": {"sprite": "projectiles/radiant_bolt", "scale": 2.2, "tint": Color(0.4, 0.85, 0.75), "trail": 72.0, "impact": 64.0},  # TUNING (not in GDD) the sea serpent's spit (serpent teal)
 	"spectral": {"sprite": "projectiles/radiant_bolt", "scale": 2.0, "tint": Color(0.45, 1.0, 0.8), "trail": 72.0, "impact": 60.0},  # TUNING (not in GDD) the ghost crew's and Vandermere's lantern shots
+	"bullet": {"sprite": "projectiles/priest_bolt", "tint": Color(0.91, 0.64, 0.23), "scale": 1.4, "trail": 60.0, "impact": 44.0},  # TUNING (not in GDD) Act IV gunfire, sodium yellow
+	"flashbang": {"sprite": "projectiles/mortar_shell", "tint": Color(0.85, 0.85, 1.0), "scale": 2.0, "trail": 0.0, "impact": 110.0},  # TUNING (not in GDD) Act IV SWAT flashbang, a white pop
 }
 ## Trail width (px) of hostile shots.
 const TRAIL_W: float = 10.0  # TUNING (not in GDD)

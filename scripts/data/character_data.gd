@@ -15,7 +15,7 @@ const DEFAULT_ID: String = "gravecaller"
 ## Picker order.
 const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "plague_scholar",
 	"doomsayer", "soulbinder", "wither_witch", "grave_herald",
-	"marooned_quartermaster", "corsair_queen", "ghost_helmsman", "moon_huntress", "hedge_witch", "dhampir"]  # The later spells' characters (gw2-kit), appended
+	"marooned_quartermaster", "corsair_queen", "ghost_helmsman", "moon_huntress", "hedge_witch", "dhampir", "undertaker", "fallen_sergeant", "revenant_heroine"]  # The later spells' characters (gw2-kit), appended
 
 ## Character rows. Keys:
 ##   name         — UI name.
@@ -120,6 +120,27 @@ const CHARACTERS: Dictionary = {
 		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
 		"innate": {"name": "Half-Blood", "desc": "Night Swarm calls two more bats", "swarm_bats": 2},  # Necropathy "two more bats"
 		"unlock_after": "castle_sanguis",  # TUNING (not in GDD)
+	},
+	# --- Act IV, the Last Line (w2b-city; Necropathy character_data.gd innates). Innate keys
+	# read by their spells through CharacterModifiers.innate(): hearse_extra (+hearses a Hearse
+	# Run cast), mines_extra (+mines a Bone Mines cast), fist_extra (+fists a Hero's Fist cast). ---
+	"undertaker": {
+		"name": "The Undertaker", "short": "Undertaker", "sprite": "player/undertaker", "spell": "hearse_run",
+		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Last Ride", "desc": "Hearse Run sends one more hearse", "hearse_extra": 1},  # Necropathy "one more hearse"
+		"unlock_after": "skid_row",  # TUNING (not in GDD)
+	},
+	"fallen_sergeant": {
+		"name": "The Fallen Sergeant", "short": "Sergeant", "sprite": "player/fallen_sergeant", "spell": "bone_mines",
+		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Sapper's Hands", "desc": "Bone Mines lays one more mine", "mines_extra": 1},  # Necropathy "two mines where it lays one"
+		"unlock_after": "fort_kessler",  # TUNING (not in GDD)
+	},
+	"revenant_heroine": {
+		"name": "The Revenant Heroine", "short": "Heroine", "sprite": "player/revenant_heroine", "spell": "heros_fist",
+		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Back From the Dead", "desc": "Hero's Fist strikes one more foe", "fist_extra": 1},  # Necropathy "strikes one more foe"
+		"unlock_after": "liberty_heights",  # TUNING (not in GDD)
 	},
 }
 

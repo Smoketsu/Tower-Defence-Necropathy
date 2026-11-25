@@ -208,6 +208,20 @@ change); act-rule duck typing (`game.act_rule.has_method(...)`) for kind <-> rul
 calls; `vars.mist_until` / `vars.hidden_until` hidden through `can_target()`;
 the bot casts any later spell on the leader (`TdAutotest._cast_spells()` default
 branch). Build orders `ravensmoor_* / witchwood_* / castle_sanguis_*`, `court_kit`.
+## Status: Act IV, the Last Line (w2b-city, wave 2b)
+
+Built on branch `w2b-city` (DECISIONS T4-1..T4-11): Skid Row, Fort Kessler,
+Liberty Heights (`scripts/maps/<id>_map.gd`, map key `escalation`), the act data
+`scripts/data/acts/city_act_data.gd` (22 kinds, RULE, MOODS, six orders), the act
+rule `rules/city/escalation.gd` (+ `EscalationMeter` HUD pips, `CityStreets`
+repaved roads), traits `city/vehicle` (crash through light posts, shells),
+`city/super` (power + weakness), `city/big_sal`, bosses `city/don_marrow`,
+`city/harrow`, `city/paragon` (shared `city_tactics.gd`), the Fallen Hero tower
+(extends `gargoyle.gd`) with Black Paragon and the Origin Story synergy, spells
+Hearse Run / Bone Mines / Hero's Fist with the Undertaker, the Fallen Sergeant
+and the Revenant Heroine. Hooks other acts may reuse: `city/vehicle` (any armoured
+car: `crush_hp`), `city/super` (any one-power hero), `CityTactics.squad()` /
+`road_line()`. `towers_check` has `_city_checks()`.
 
 ## Visual conventions (owner-approved look, Nov 2026)
 
