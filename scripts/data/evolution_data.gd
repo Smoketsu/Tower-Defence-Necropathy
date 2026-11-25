@@ -189,6 +189,6 @@ const EVOLUTIONS: Dictionary = {
 			"quake_radius": 90.0,  # TUNING (not in GDD) px the smash shakes the ground
 			"quake_mult": 0.6,  # TUNING (not in GDD) fraction of its damage to each foe in the quake
 		},
-		"recipe": {"type": "elite_kills", "n": 12},  # TUNING (not in GDD) Necropathy Oni's Resolve -> a record of slain elites
+		"recipe": {"type": "any", "of": [{"type": "elite_kills", "n": 6}, {"type": "kills", "n": 30}]},  # TUNING (not in GDD) Necropathy Oni's Resolve -> a record of slain foes
 	},
 }
