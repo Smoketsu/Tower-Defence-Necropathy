@@ -1,9 +1,11 @@
 # Adding an act to Gravewatch
 
-The checklist an act agent follows. An act is three maps, its enemy kinds,
-minibosses and bosses, one act gimmick (GDD §7.3) and its look. Everything
-goes in **new files**; the only shared tables you may append to are named
-below (append rows only, never reorder or reformat). The worked example is
+The one checklist an act agent follows. An act is: three maps, its enemy
+kinds and traits, minibosses and bosses, one act rule (its gimmick, GDD §7.3),
+its act tower with an evolution and a synergy, its act spell if it has one,
+its look, and its tests. Everything goes in **new files**; the only shared
+tables you may append to are named below (append rows only, never reorder or
+reformat). The worked example is
 the hidden test act (`test`, map `test_grounds`): read its four files first.
 
 | Test act file | What it shows |
@@ -82,6 +84,43 @@ Replace `<act>` with your ActData id (`corsair`, `court`, `city`, `shogunate`, .
    your stages. Reuse Necropathy's sprites by key; do not invent new looks when
    one exists.
 
+6. **Act tower** (owner rule, DECISIONS K9: each act's unlockable summon class
+   becomes a tower unlocked by its act's boss; the worked examples are the six
+   wave 2a kit towers, e.g. `scripts/towers/bone_golem.gd`, `rogue.gd`):
+   - append one `TowerData.TOWERS` row (keys documented there) with
+     `"unlock": {"map": "<your finale map>"}` (one reader: `Unlocks`; `{"map",
+     "skulls": n}` also works), `"ground_only": true` if it cannot hit flyers,
+     `"family"` if it belongs to an Ossuary tree; five `TowerData.LEVELS` rows;
+     its id appended to `TowerData.ORDER`;
+   - its kit `scripts/towers/<id>.gd` extending `projectile.gd` / `aura.gd` /
+     `blocker.gd` / `TowerBehavior` (hooks in CLAUDE.md "Tower class"); every
+     target it picks itself must pass `t.can_hit(e)` (ground_only + rule
+     visibility) and its specials go through the `TdCombat` helpers;
+   - it must react to `TdCombat.disable_tower()` (nothing to do: a disabled
+     tower's `step` is not called, so keep signal-driven effects behind
+     `t.game.time < t.disabled_until`, as the Golem's Ossuary Hunger does);
+   - a blocker kit keeps `blocker.gd`'s body handling (fresh bodies start at
+     `body_hp`; `towers_check` checks every blocker class);
+   - look: a `TdVfxData.SHOTS` row (its own tint, shot 40+ px, trail, muzzle,
+     impact; real radius for area hits) or `game.vfx.melee()` for a blocker;
+     its sound in `TdSoundData.FIRE`; its sprite / icon copied from Necropathy;
+   - nothing else: the build menu pages (`TdUiData.MENU_PAGE`), the Codex,
+     masteries and the Ossuary badges pick it up.
+7. **Its evolution**: one `EvolutionData.EVOLUTIONS` row (from, name, sprite,
+   icon, stats, set, recipe; recipe types in `Evolutions.recipe_met()`, a new
+   type is one `match` branch), named by the tower row's `evolution`. Never
+   hinted.
+8. **Its synergy**: one `SynergyData.SYNERGIES` row pairing it with an existing
+   class (effects, optional `hit` vs a status, `hint`) and its badge icon.
+9. **Act spell** (only if your act has one): a `SpellData.SPELLS` row with
+   `unlock`, `scripts/spells/<id>.gd` (`extends TdSpell`), a `TdVfxData.SPELLS`
+   row and a cast look (`game.vfx.cast(id, pos)`); Risen go through
+   `TempBlockers.raise()`.
+10. **Autotest**: one build order per act (in your data file's `ORDERS`) that
+   builds the act tower, reaches its evolution where it can and casts the act
+   spell, so its kit lines (`tower_value=` / `kit=`) print; extend
+   `tools/towers_check.gd` with a check of its special.
+
 ## 2. One path per concern (use these, never write HP or timers yourself)
 
 - **Stop a tower** (shelled, trampled, blinded, stunned): `TdCombat.disable_tower(game, t, seconds, cause)`.
@@ -142,8 +181,10 @@ $G --headless res://tools/meta_check.tscn -- --autotest  # META CHECK OK
 - Zero `SCRIPT ERROR` / `ERROR:` / `WARNING:` lines, `stuck_enemies=0`, the same
   seed twice gives the same summary, and your default orders win.
 - **Act I unchanged:** the default summaries of
-  `--map=graveyard|crimson_march|sanctum --seed=1|2` are byte-identical
-  before and after (record them first; ignore the `[audio]` timing line).
+  `--map=graveyard|crimson_march|sanctum --seed=1|2` are byte-identical to the
+  baseline in `docs/BALANCE.md` (the lines from `TDAUTOTEST SUMMARY`).
+- Your act tower: its build order wins its map, `towers_check` passes with its
+  new check, and its evolution and synergy show in a run's summary.
 - Web: build it (CLAUDE.md), run `?gw_autotest=--map=<map>,--speed=1` in
   Playwright at 1280x720 and 844x390, look at the screenshots.
 - Append your decisions to `docs/DECISIONS.md` with your prefix and a status

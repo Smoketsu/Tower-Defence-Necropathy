@@ -33,7 +33,7 @@ const SKULL_BIG: float = 40.0  # TUNING (not in GDD)
 ## Pre-map setup: size (px) of a character tile, a spell / ultimate tile.
 const CHAR_TILE := Vector2(118.0, 112.0)  # TUNING (not in GDD) gw2-kit: eight characters in one row (150 x 118 before)
 ## See CHAR_TILE.
-const SPELL_TILE := Vector2(134.0, 84.0)  # TUNING (not in GDD)
+const SPELL_TILE := Vector2(146.0, 84.0)  # TUNING (not in GDD) wide enough for "Corpse Explosion" (W4)
 ## Pre-map grid columns: characters (one row of eight) and spells (two rows of four; gw2-kit).
 const CHAR_COLUMNS: int = 8  # TUNING (not in GDD)
 ## See CHAR_COLUMNS.

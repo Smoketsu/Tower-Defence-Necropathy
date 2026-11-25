@@ -138,7 +138,7 @@ func _tile(tex: Texture2D, text: String, px: Vector2, dark: bool = false) -> But
 func _char_tile(id: String) -> Button:
 	var row: Dictionary = CharacterData.CHARACTERS[id]
 	var open := GameState.autotest or GameState.unlock_all or Meta.character_open(id)  # Pickable now.
-	var t := _tile(SpriteBank.texture(String(row["sprite"])), String(row["name"]) if open else "?", MenuData.CHAR_TILE, not open)
+	var t := _tile(SpriteBank.texture(String(row["sprite"])), String(row.get("short", row["name"])) if open else "?", MenuData.CHAR_TILE, not open)
 	t.pressed.connect(_pick_character.bind(id))
 	t.disabled = not open
 	if not open:

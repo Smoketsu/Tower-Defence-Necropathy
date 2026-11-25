@@ -28,14 +28,21 @@ The design is `docs/GDD.md`; decisions it does not cover are in
   (levels 1-5), **Target** (First / Last / Strongest / Nearest), **Sell** (70%
   back) and **Evolve** only once a hidden recipe is met (tier 6).
 - **Level 3** switches on the class's volley (extra tinted shots / pulse look).
-- **Blockers** (Skeleton Warrior, Corpse Abomination) stand on the road and hold
-  enemies; a fallen body returns for free after its respawn time.
+- **Blockers** (Skeleton Warrior, Corpse Abomination, Bone Golem) stand on the road and hold
+  enemies; bodies fall several times a map and return for free after their respawn time.
+- **Later towers** open as Act I is cleared (DECISIONS K2): Crypt Warder (barriers on
+  blockers), Grave Rogue (dashes at elites), Crypt Gargoyle (swoops, flyers first), Bone
+  Hounds (a pack running the road), Fallen Seraph (three feathers) and Bone Golem (slams,
+  plants). The build menu pages when a spot offers more than six towers.
+- **Acts:** the map select has one tab per act (fifteen, Necropathy's act order); Act I
+  is playable, the rest say "Coming soon" until their maps exist (`docs/ACT_TEMPLATE.md`).
 - **Spells** (bottom bar, or a left column on wide phones; keys 1-4): tap the
   spell, then the target. Shadow Bolt (aimed shot from the necromancer at the
   gate), Bone Wall (blocks the road a few seconds; bosses walk through), Corpse
   Explosion (detonates the corpses near the tap), Plague Cloud (Rot along the
-  road). Three are brought; the Ossuary's Fourth Rite adds a slot. **Ultimate** (Space): Dread Rally, charged by kills, revives
-  every fallen blocker and gives all towers +40% damage and attack speed for 8 s.
+  road); later Death Mark, Soul Chains, Wither and Raise Dead. Three are brought; the Ossuary's Fourth Rite adds a slot.
+  **Ultimate** (Space), charged by kills, picked before the map: Dread Rally (revives every fallen
+  blocker, all towers +40% damage and attack speed for 8 s), later Sovereign's Decree, Eclipse, Grave Tide.
 - **Lives:** fodder 1, elite 3, miniboss 5, a boss ends the map. The mid-map
   miniboss drops a **chest** = one free upgrade or evolution. The stage boss
   walks the road on the final wave. A win is rated 1-3 skulls by lives kept.
@@ -105,14 +112,13 @@ $G --headless --fixed-fps 60 --quit-after 60000 -- --autotest [--map=graveyard|c
 | `--meta=` | `none` (default without a save) or `max` (every Ossuary upgrade and Mastery) |
 | `--meta-save` | read and write the real save (records the run, Codex, masteries) |
 | `--character=` | CharacterData id (default `gravecaller`; its spell goes to slot 1) |
-| `--test-act` | shows the hidden test act on the map select and in the Codex (debug only) |
-
-Every registered map at once: `tools/run_all_maps.sh` (2 at a time, one line per map; `WEAK=1` adds the weak orders, `SEED=N`). Act framework self-check: `tools/acts_check.tscn -- --autotest`. Adding an act: `docs/ACT_TEMPLATE.md`.
-
+| `--test-act` | shows the hidden test act on the map select and in the Codex (debug only); its map `test_grounds` runs with `--build=test_default` / `test_kit` / `test_weak` |
 | `--build=kit_a` / `kit_b` / `kit_evolve` | gw2-kit orders: any Act I map's default order with the later towers in some slots and the later spells / ultimates; `kit_evolve` (Graveyard) = all six later evolutions. Kit runs add the `tower_value=` and `kit=` lines |
 | `--ultimate=` | SpellData.ULTIMATES id (`sovereigns_decree`, `eclipse`, `grave_tide`; default Dread Rally) |
 | `--swap=from:to` | A/B strength check: the order's first build of `from` builds `to` (e.g. `archer:fallen_seraph`) |
 | `?gw_flags=--unlock-all` | Web only, no bot: every later tower, spell, ultimate and character shows open in the menus (visual checks) |
+
+Every registered map at once: `tools/run_all_maps.sh` (2 at a time, one line per map; `WEAK=1` adds the weak orders, `SEED=N`). Act framework self-check: `tools/acts_check.tscn -- --autotest`. Adding an act: `docs/ACT_TEMPLATE.md`.
 
 The summary's `meta=` line names the meta profile, character, loadout, the Soul
 Ash the run would pay and the active bonuses. `godot --headless tools/meta_check.tscn -- --autotest`
@@ -123,7 +129,9 @@ earned / spent, kills / leaks by kind, damage by source, every tower, wave
 spawn / clear seconds, stuck enemies, evolutions reached and active synergies,
 casts / damage per spell, blockers lost / respawned, Mender healing, Lich
 Risen, Deep Freezes, shatters, Colossus shrapnel, corpses detonated, the Reckoning
-wave and tower-seconds suppressed, trait / boss `events=`, the map rule's `rule=` line) and exits 0 when the run completed
+wave and tower-seconds suppressed, trait / boss `events=`, the map rule's `rule=` line, the act rule's `act_rule=` and
+hostile fire's `hostile=` lines when used, and `leak_curve=`: first leak wave, end wave, lives lost, permanent body
+deaths, lives lost within 15 s of a body death and per death) and exits 0 when the run completed
 (1 on a timeout). It never touches `user://`. Same seed -> identical summary.
 
 ## Web build
@@ -173,7 +181,8 @@ autotest query also takes `--reduce-motion` and `--damage-numbers`.
 - The spot menu can cover a neighbouring spot (tap elsewhere to close it first).
 - The gamepad cursor is untested on real hardware (no pad in the test browser).
 - Balance (`docs/BALANCE.md`) comes from the autotest bot's fixed build orders;
-  the owner's playtests come first. Lich on the Sanctum is the sharpest spike.
+  the owner's playtests come first. Since the blocker HP fix (wave 2a) Lich wins about one run in four on
+  every map. The default orders lean on Dread Rally: with another ultimate the bot often loses.
 - Gravewatch-only art is mostly drawn with Pillow (`tools/vfx_art.py`, `art_source/td_pillow/` keeps the
   originals); the road tiles and the Sanctum candles were regenerated with the image API (DECISIONS V17).
   How: `tools/gw_gen.sh NAME SUFFIX QUALITY "prompt" refs...` (calls `tools/gen_image.py`, logs the cost to

@@ -18,6 +18,7 @@ const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "p
 
 ## Character rows. Keys:
 ##   name         — UI name.
+##   short        — optional: shorter name for the pre-map tile when the name does not fit.
 ##   sprite       — SpriteData key of the portrait.
 ##   spell        — SpellData id it always brings (slot 1).
 ##   boost        — its own spell's row keys x these multipliers (only keys the row
@@ -31,7 +32,7 @@ const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "p
 ##   unlock_after — map id whose boss opens it ("" = open from the start).
 const CHARACTERS: Dictionary = {
 	"gravecaller": {
-		"name": "The Gravecaller", "sprite": "player/necromancer", "spell": "shadow_bolt",
+		"name": "The Gravecaller", "short": "Gravecaller", "sprite": "player/necromancer", "spell": "shadow_bolt",
 		"boost": {},  # GDD §5 "the default with no innate"
 		"innate": {},  # GDD §5
 		"unlock_after": "",
