@@ -30,10 +30,11 @@ The design is `docs/GDD.md`; decisions it does not cover are in
 - **Level 3** switches on the class's volley (extra tinted shots / pulse look).
 - **Blockers** (Skeleton Warrior, Corpse Abomination) stand on the road and hold
   enemies; a fallen body returns for free after its respawn time.
-- **Spells** (bottom bar, keys 1-3): tap the spell, then the target. Shadow Bolt
-  (aimed shot from the necromancer at the gate), Bone Wall (blocks the road a few
-  seconds; bosses walk through). Corpse Explosion / Plague Cloud are listed but
-  not built yet. **Ultimate** (Space): Dread Rally, charged by kills, revives
+- **Spells** (bottom bar, or a left column on wide phones; keys 1-4): tap the
+  spell, then the target. Shadow Bolt (aimed shot from the necromancer at the
+  gate), Bone Wall (blocks the road a few seconds; bosses walk through), Corpse
+  Explosion (detonates the corpses near the tap), Plague Cloud (Rot along the
+  road). Three are brought; the Ossuary's Fourth Rite adds a slot. **Ultimate** (Space): Dread Rally, charged by kills, revives
   every fallen blocker and gives all towers +40% damage and attack speed for 8 s.
 - **Lives:** fodder 1, elite 3, miniboss 5, a boss ends the map. The mid-map
   miniboss drops a **chest** = one free upgrade or evolution. The stage boss
@@ -125,12 +126,22 @@ $G --headless --export-release "Web" build/web/index.html
 python3 tools/patch_web_audio.py build/web/index.js   # always; also runs the GL id patch
 ```
 
+CI (`.github/workflows/ci.yml`) runs the import, the towers / meta self-checks,
+one autotest job per map (default and losing orders) and exports the Web build
+as the artifact `Gravewatch-web`. It does not publish: pushing the build to the
+public play repository (Gravewatch-Play, GitHub Pages) needs a token secret
+`PAGES_TOKEN` that only the owner can create; until then the build is pushed by
+hand. Debug: `index.html?gw_autotest=--map=sanctum,--speed=8` runs the bot on
+screen.
+
 ## Known limits
 
 - The spot menu can cover a neighbouring spot (tap elsewhere to close it first).
 - The gamepad cursor is untested on real hardware (no pad in the test browser).
-- Balance is a first pass: the default build order clears the Graveyard with
-  19-20 lives on seeds 1-2 and the result is sensitive to enemy HP.
+- Balance (`docs/BALANCE.md`) comes from the autotest bot's fixed build orders;
+  the owner's playtests come first. Lich on the Sanctum is the sharpest spike.
+- All new art (Gravewatch-only pieces, ward structures, character portraits) is
+  drawn with Pillow; it waits for a regeneration pass when the image key works again.
 
 ## Tower kits, evolutions, synergies, spells (gw-towers)
 

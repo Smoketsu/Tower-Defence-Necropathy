@@ -58,3 +58,14 @@ healing (towers_b: ~5000 HP healed, Death Knight and Profane Bishop reached).
   lives.
 - The tipping point is sharp: once leaks start, a run can lose all 20 lives in
   two waves.
+
+## Meta and Soul Ash
+
+- `--meta=max` (every Ossuary level and mastery): seed 1 keeps 26/26 lives on
+  all three maps and loses 10-22 blocker bodies instead of 50-100: clearly
+  easier, still a fight on Lich / Deathlord.
+- Soul Ash (I8): a 3-skull Necromancer clear pays 300 / 375 / 450 (Graveyard /
+  March / Sanctum), Lich x1.5, Deathlord x2; a defeat pays 6 per wave cleared.
+  The whole Ossuary (7,380) takes ~20 good clears.
+- Gravecaller with no meta gives the same summaries as before the menus merge
+  (checked on all three maps, seed 1).
