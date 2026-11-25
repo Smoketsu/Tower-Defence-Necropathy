@@ -56,4 +56,6 @@ const POSES: Dictionary = {
 	"wild/summer_queen": {1: "bargain"},  # TUNING (not in GDD) a hand held out with the bargain (BossSummerQueen: while an offer waits)
 	# --- Act XV (temporary number): the World-Tree ---
 	"wild/green_mother": {1: "cast", 2: "burial"},  # TUNING (not in GDD) arms raised with a season (BossGreenMother: just after the Turning casts) / hands pressed into the earth (just after a burial)
+	# --- Gravewatch Act IV (w2b-city) ---
+	"bosses/harrow": {2: "command"},  # TUNING (not in GDD) Command: the General in his command car (bosses/harrow_command)
 }

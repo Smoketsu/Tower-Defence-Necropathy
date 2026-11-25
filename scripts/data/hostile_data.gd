@@ -20,6 +20,8 @@ const LOOKS: Dictionary = {
 	"arrow": {"sprite": "projectiles/enemy_arrow", "tint": Color(1.0, 0.45, 0.3), "scale": 2.0, "trail": 64.0, "impact": 56.0},  # TUNING (not in GDD)
 	"bolt": {"sprite": "projectiles/radiant_bolt", "tint": Color(1.0, 0.3, 0.25), "scale": 2.2, "trail": 72.0, "impact": 64.0},  # TUNING (not in GDD)
 	"shell": {"sprite": "projectiles/corpse_boulder", "tint": Color(1.0, 0.55, 0.25), "scale": 1.6, "trail": 0.0, "impact": 90.0},  # TUNING (not in GDD)
+	"bullet": {"sprite": "projectiles/priest_bolt", "tint": Color(0.91, 0.64, 0.23), "scale": 1.4, "trail": 60.0, "impact": 44.0},  # TUNING (not in GDD) Act IV gunfire, sodium yellow
+	"flashbang": {"sprite": "projectiles/mortar_shell", "tint": Color(0.85, 0.85, 1.0), "scale": 2.0, "trail": 0.0, "impact": 110.0},  # TUNING (not in GDD) Act IV SWAT flashbang, a white pop
 }
 ## Trail width (px) of hostile shots.
 const TRAIL_W: float = 10.0  # TUNING (not in GDD)

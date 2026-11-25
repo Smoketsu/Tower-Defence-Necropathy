@@ -11,7 +11,8 @@ extends RefCounted
 
 ## Build-menu order of the towers.
 const ORDER: Array[String] = ["archer", "mage", "frost_wraith", "corpse_catapult", "banshee", "mender", "warrior", "abomination",
-	"warder", "rogue", "gargoyle", "bone_hound", "fallen_seraph", "bone_golem"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
+	"warder", "rogue", "gargoyle", "bone_hound", "fallen_seraph", "bone_golem",
+	"fallen_hero"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
 
 ## Targeting modes (GDD §4.3), in the order the Target button cycles them.
 const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
@@ -333,6 +334,30 @@ const TOWERS: Dictionary = {
 		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(0.95, 0.9, 0.75), "reach": 120.0},  # TUNING (not in GDD)
 		"evolution": "ossuary_titan",
 	},
+	# --- Act IV, the Last Line (w2b-city) ---
+	"fallen_hero": {
+		"name": "Fallen Hero", "sprite": "summons/fallen_hero", "icon": "fallen_hero", "spot": "plot",
+		"desc": "A raised Super: flies over the city and slams into the densest pack, cracking armour",
+		"unlock": {"map": "liberty_heights"},  # DECISIONS K9: the act's summon, unlocked by its finale boss (Paragon)
+		"cost": 130,  # TUNING (not in GDD)
+		"behavior": "fallen_hero",
+		"range": 175.0,  # TUNING (not in GDD)
+		"damage": 34.0,  # TUNING (not in GDD) one slam
+		"interval": 2.6,  # TUNING (not in GDD)
+		"target": "first",
+		"splash": 52.0,  # TUNING (not in GDD) the slam's real radius
+		"patrol_r": 26.0, "patrol_speed": 1.3,  # TUNING (not in GDD) Necropathy: he flies round the ring
+		"dive_time": 0.35,  # TUNING (not in GDD)
+		"swoop_mark": 0.0, "air_bonus": 0.0, "air_mult": 1.0,  # not the Gargoyle's: no swoop mark, no flyer bias
+		"dive_stun": 0.0, "stone_time": 0.0,  # Black Paragon sets dive_stun
+		"slam_stagger": 0.8,  # TUNING (not in GDD) s slammed foes make no attack
+		"slam_shred": 4.0, "shred_time": 4.0,  # TUNING (not in GDD) GDD §7.3 armour shred: flat armour off, s
+		"elite_weight": 3.0,  # TUNING (not in GDD) a non-fodder foe counts as this many in the pack score
+		"chain_slams": 0, "chain_range": 0.0,  # Black Paragon: packs slammed after the first, px between them
+		"projectile_speed": 420.0,  # TUNING (not in GDD) its Lv3 volley
+		"volley": {"every": 2, "count": 3, "damage": 0.4, "sprite": "volleys/wave", "tint": Color(0.45, 0.65, 1.0)},  # TUNING (not in GDD)
+		"evolution": "black_paragon",
+	},
 }
 
 ## Per-level multipliers, 5 rows (levels 1-5) per tower. Keys:
@@ -440,6 +465,13 @@ const LEVELS: Dictionary = {
 		{"damage": 1.6, "rate": 1.1, "range": 1.0, "bodies": 1, "hp": 1.8},  # TUNING (not in GDD)
 		{"damage": 2.0, "rate": 1.2, "range": 1.0, "bodies": 1, "hp": 2.4},  # TUNING (not in GDD)
 		{"damage": 2.5, "rate": 1.3, "range": 1.0, "bodies": 1, "hp": 3.0},  # TUNING (not in GDD)
+	],
+	"fallen_hero": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0},
+		{"damage": 1.35, "rate": 1.05, "range": 1.05},  # TUNING (not in GDD)
+		{"damage": 1.75, "rate": 1.1, "range": 1.1},  # TUNING (not in GDD)
+		{"damage": 2.2, "rate": 1.15, "range": 1.15},  # TUNING (not in GDD)
+		{"damage": 2.8, "rate": 1.25, "range": 1.2},  # TUNING (not in GDD)
 	],
 }
 

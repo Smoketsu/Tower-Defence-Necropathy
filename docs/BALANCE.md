@@ -312,3 +312,19 @@ healing (towers_b: ~5000 HP healed, Death Knight and Profane Bishop reached).
   The whole Ossuary (7,380) takes ~20 good clears.
 - Gravecaller with no meta gives the same summaries as before the menus merge
   (checked on all three maps, seed 1).
+
+## Act IV, the Last Line (w2b-city, wave 2b)
+
+Necromancer, default orders, `--seed=1..4` (lives kept of 20; every run 0 script errors, `stuck_enemies=0`):
+
+| Map | s1 | s2 | s3 | s4 | Weak order (s1, s2) |
+|---|---|---|---|---|---|
+| Skid Row (`skid_row_default`) | won 12 | won 15 | won 20 | won 20 | lost, lost |
+| Fort Kessler (`fort_kessler_default`) | won 15 | won 15 | won 12 | won 15 | lost, lost |
+| Liberty Heights (`liberty_heights_default`) | won 11 | won 12 | won 8 | won 14 | lost, lost |
+
+Act I's six baseline summaries above are byte-identical on this branch. No
+cliff: first leaks on waves 17-20, lives go a few at a time (`leak_curve`
+per_death 0.1-0.2). What leaks is the act's threat (vehicles, Supers, the
+Mammoth, Big Sal), never plain fodder. Liberty Heights evolves Black Paragon in
+every run; the Origin Story synergy is active in its order.

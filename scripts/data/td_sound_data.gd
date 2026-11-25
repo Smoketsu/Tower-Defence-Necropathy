@@ -19,6 +19,9 @@ const EVENTS: Dictionary = {
 	"denied": "denied",  # TUNING (not in GDD)
 	"enemy_death": "enemy_death",  # TUNING (not in GDD)
 	"rally": "ult_decree",  # TUNING (not in GDD)
+	# Act IV (w2b-city): Necropathy's City pack (rendered with the "siren" score).
+	"city_crash": "vehicle_wreck", "city_super": "super_arrive", "city_weak": "weakness_crack",  # TUNING (not in GDD)
+	"city_tier": "tier_alarm", "city_gun": "gun_burst", "city_siren": "siren_wail",  # TUNING (not in GDD)
 }
 ## Tower class -> Sfx id of its shot / pulse / hit.
 const FIRE: Dictionary = {
@@ -27,11 +30,13 @@ const FIRE: Dictionary = {
 	# Later towers (gw2-kit): Necropathy's own class sounds where they exist, else a td pack recipe below.
 	"warder": "priest_ward", "rogue": "rogue_dash", "gargoyle": "gargoyle_dive", "bone_hound": "td_hound_bite",
 	"fallen_seraph": "td_seraph_feather", "bone_golem": "td_golem_slam",
+	"fallen_hero": "abom_stomp",  # Act IV (w2b-city)
 }  # TUNING (not in GDD)
 ## Spell / ultimate id -> Sfx id played on its cast (gw2-kit: the later spells; the
 ## launch spells keep their own sounds). Ultimates use their row's "sound".
 const CAST: Dictionary = {
 	"death_mark": "bolt_cast", "soul_chains": "td_soul_chains", "wither": "plague_cast", "raise_dead": "summon_rise",
+	"hearse_run": "engine_rev", "bone_mines": "catapult_launch", "heros_fist": "weakness_crack",  # Act IV (w2b-city)
 }  # TUNING (not in GDD)
 
 ## The five Gravewatch sounds (GDD §11), id -> recipe; keys exactly as

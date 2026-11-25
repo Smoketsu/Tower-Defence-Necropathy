@@ -100,6 +100,46 @@ const SPELLS: Dictionary = {
 		"interval": 1.0,  # TUNING (not in GDD)
 		"duration": 10.0,  # TUNING (not in GDD)
 	},
+	# --- Act IV, the Last Line (w2b-city; Necropathy's Act VIII spells) ---
+	"hearse_run": {
+		"name": "Hearse Run", "icon": "hearse_run", "cooldown": 16.0, "target": "road", "ready": true,  # TUNING (not in GDD)
+		"desc": "A spectral hearse drives back up the road through the enemy",
+		"unlock": {"map": "skid_row"},  # Necropathy: slaying Don Marrow unlocks Hearse Run
+		"max_snap": 60.0,  # px: a tap farther than this from any road does nothing
+		"length": 260.0,  # TUNING (not in GDD) px of road it drives, from the tap back toward the entrance
+		"drive_time": 1.1,  # TUNING (not in GDD) s it takes
+		"damage": 75.0,  # TUNING (not in GDD) to each enemy it runs over (once per hearse)
+		"stagger": 1.0,  # TUNING (not in GDD) s each one makes no attack
+		"hit_radius": 26.0,  # TUNING (not in GDD) px from the hearse that counts as run over
+		"hearses": 1,  # Necropathy one hearse a cast (the Undertaker's Last Ride adds one)
+		"hearse_gap": 0.35,  # TUNING (not in GDD) s between two hearses of one cast
+	},
+	"bone_mines": {
+		"name": "Bone Mines", "icon": "bone_mines", "cooldown": 14.0, "target": "road", "ready": true,  # TUNING (not in GDD)
+		"desc": "Bone mines along the road go off under the enemy",
+		"unlock": {"map": "fort_kessler"},  # Necropathy: slaying General Harrow unlocks Bone Mines
+		"max_snap": 60.0,  # px: a tap farther than this from any road does nothing
+		"mines": 3,  # TUNING (not in GDD) mines laid per cast (the Fallen Sergeant's Sapper's Hands adds one)
+		"spacing": 42.0,  # TUNING (not in GDD) px between mines along the road
+		"arm": 0.5,  # Necropathy ARM_TIME 0.5 s
+		"trigger": 18.0,  # TUNING (not in GDD) px: an enemy's body within this of a mine sets it off (flyers never do)
+		"body_pad": 30.0,  # px added to the trigger search (>= the largest walking body radius)
+		"blast_radius": 52.0,  # TUNING (not in GDD) px
+		"damage": 85.0,  # TUNING (not in GDD) to every enemy in the blast (armour applies; it goes round shields)
+		"life": 30.0,  # TUNING (not in GDD) s an unexploded mine lies there
+		"max_mines": 15,  # TUNING (not in GDD) mines on the road at once (oldest dropped)
+	},
+	"heros_fist": {
+		"name": "Hero's Fist", "icon": "heros_fist", "cooldown": 12.0, "target": "enemy", "ready": true,  # TUNING (not in GDD)
+		"desc": "A spectral fist slams the strongest foe and flings it through the rest",
+		"unlock": {"map": "liberty_heights"},  # Necropathy: defeating Paragon unlocks Hero's Fist
+		"pick_radius": 130.0,  # TUNING (not in GDD) px around the tap searched for the strongest foe
+		"damage": 230.0,  # TUNING (not in GDD) the slam
+		"stun": 1.0,  # TUNING (not in GDD) s the struck foe is frozen (rank multipliers apply)
+		"fling_radius": 70.0,  # TUNING (not in GDD) px round it where the flung foe strikes the others
+		"fling_damage": 60.0,  # TUNING (not in GDD) to each of those
+		"fists": 1,  # Necropathy one fist (the Revenant Heroine adds one, at the next strongest)
+	},
 }
 
 ## The ultimate (GDD §5 Dread Rally), cast through SpellCaster like a spell

@@ -42,7 +42,9 @@ const SHOTS: Dictionary = {
 	"fallen_seraph": {"sprite": "projectiles/seraph_feather", "scale": 3.2, "tint": Color(0.85, 0.4, 1.0), "trail": 80.0, "trail_w": 13.0,
 		"halo": 9.0, "impact": "volley_hit", "impact_d": 60.0, "ring": false, "muzzle": 50.0},  # TUNING (not in GDD) 45 px black feathers, violet streaks
 	"bone_golem": {"sprite": "projectiles/bone_spear", "scale": 1.6, "tint": Color(0.95, 0.9, 0.72), "trail": 60.0, "trail_w": 11.0,
-		"halo": 0.0, "impact": "volley_hit", "impact_d": 52.0, "ring": false, "muzzle": 0.0},  # TUNING (not in GDD) its Lv3 bone shards
+		"halo": 0.0, "impact": "volley_hit", "impact_d": 52.0, "ring": false, "muzzle": 0.0},  # TUNING (not in GDD) its Lv3 bone shards	# --- Act IV (w2b-city) ---
+	"fallen_hero": {"sprite": "volleys/wave", "scale": 2.0, "tint": Color(0.45, 0.65, 1.0), "trail": 70.0, "trail_w": 12.0,
+		"halo": 8.0, "impact": "volley_hit", "impact_d": 60.0, "ring": false, "muzzle": 48.0},  # TUNING (not in GDD) hero-blue shockwaves (its slam draws golem_slam + a ring at the real radius)
 }
 ## Look of a class missing from SHOTS (same keys).
 const SHOT_DEFAULT: Dictionary = {"sprite": "", "scale": 2.0, "tint": Color(1.0, 1.0, 1.0), "trail": 40.0, "trail_w": 6.0,
@@ -300,7 +302,10 @@ const SPELLS: Dictionary = {
 	"raise_dead": {"tint": Color(0.6, 1.0, 0.75), "flash": 96.0, "strip": "raise_dead", "strip_d": 130.0, "ring": 60.0, "shake": 2.0},  # TUNING (not in GDD)
 	"sovereigns_decree": {"tint": Color(1.0, 0.85, 0.4), "flash": 180.0, "strip": "sovereigns_decree", "strip_d": 300.0, "ring": 320.0, "shake": 4.0},  # TUNING (not in GDD)
 	"eclipse": {"tint": Color(0.55, 0.4, 1.0), "flash": 180.0, "strip": "eclipse", "strip_d": 360.0, "ring": 420.0, "shake": 5.0},  # TUNING (not in GDD)
-	"grave_tide": {"tint": Color(0.45, 1.0, 0.7), "flash": 180.0, "strip": "grave_tide", "strip_d": 300.0, "ring": 320.0, "shake": 4.0},  # TUNING (not in GDD)
+	"grave_tide": {"tint": Color(0.45, 1.0, 0.7), "flash": 180.0, "strip": "grave_tide", "strip_d": 300.0, "ring": 320.0, "shake": 4.0},  # TUNING (not in GDD)	# --- Act IV (w2b-city) ---
+	"hearse_run": {"tint": Color(0.55, 0.95, 0.9), "flash": 96.0, "strip": "summon_rise", "strip_d": 110.0, "ring": 50.0, "shake": 1.0},  # TUNING (not in GDD) spectral teal
+	"bone_mines": {"tint": Color(0.8, 0.5, 1.0), "flash": 96.0, "strip": "bone_wall_rise", "strip_d": 90.0, "ring": 50.0, "shake": 0.0},  # TUNING (not in GDD) violet lamps
+	"heros_fist": {"tint": Color(0.45, 0.65, 1.0), "flash": 96.0, "strip": "", "strip_d": 0.0, "ring": 0.0, "shake": 0.0},  # TUNING (not in GDD) its own fist, slam and ring
 }
 ## Seconds a cast flash and its target ring play.
 const CAST_TIME: float = 0.45  # TUNING (not in GDD)
@@ -399,3 +404,74 @@ const KIT_CHAIN_W: float = 10.0  # TUNING (not in GDD)
 const KIT_WITHER_PERIOD: float = 1.2  # TUNING (not in GDD)
 ## See KIT_WITHER_PERIOD.
 const KIT_WITHER_A: float = 0.6  # TUNING (not in GDD)
+
+## --- Act IV, the Last Line (w2b-city): vehicles, Supers, bosses, the Fallen Hero, the act spells ---
+
+## A vehicle crashing through a post: burst diameter (px), its s, the shake (px).
+const CITY_CRASH_D: float = 96.0  # TUNING (not in GDD)
+## See CITY_CRASH_D.
+const CITY_CRASH_TIME: float = 0.4  # TUNING (not in GDD)
+## See CITY_CRASH_D.
+const CITY_CRASH_SHAKE: float = 2.0  # TUNING (not in GDD)
+## A Super's power / a boss's call: burst diameter (px) and s.
+const CITY_POWER_D: float = 90.0  # TUNING (not in GDD)
+## See CITY_POWER_D.
+const CITY_POWER_TIME: float = 0.45  # TUNING (not in GDD)
+## Blitz's dash flash (hero orange) and Big Sal's whistle (gang neon pink).
+const CITY_HERO_TINT: Color = Color(0.94, 0.48, 0.12)  # TUNING (not in GDD) Necropathy CITY_HERO_ORANGE
+## See CITY_HERO_TINT.
+const CITY_GANG_TINT: Color = Color(1.0, 0.31, 0.66)  # TUNING (not in GDD) Necropathy CITY_NEON_PINK
+## Nightjar's smoke bomb: s and tint of its cloud (drawn at the real radius).
+const CITY_SMOKE_TIME: float = 1.2  # TUNING (not in GDD)
+## See CITY_SMOKE_TIME.
+const CITY_SMOKE_TINT: Color = Color(0.55, 0.55, 0.62)  # TUNING (not in GDD)
+## Broken Arrow's strike: s of its blast and the shake (px).
+const CITY_STRIKE_TIME: float = 0.8  # TUNING (not in GDD)
+## See CITY_STRIKE_TIME.
+const CITY_STRIKE_SHAKE: float = 6.0  # TUNING (not in GDD)
+## Paragon's eyes above his feet (px), the aim line width (px) and tint, the
+## beam width (px), its s and tint; his landing crack's scale.
+const CITY_EYES: Vector2 = Vector2(0, -42)  # TUNING (not in GDD)
+## See CITY_EYES.
+const CITY_HEAT_AIM_W: float = 3.0  # TUNING (not in GDD)
+## See CITY_EYES.
+const CITY_HEAT_AIM_TINT: Color = Color(1.0, 0.25, 0.15, 0.6)  # TUNING (not in GDD)
+## See CITY_EYES.
+const CITY_HEAT_W: float = 16.0  # TUNING (not in GDD)
+## See CITY_EYES.
+const CITY_HEAT_TIME: float = 0.45  # TUNING (not in GDD)
+## See CITY_EYES.
+const CITY_HEAT_TINT: Color = Color(1.0, 0.35, 0.2)  # TUNING (not in GDD)
+## See CITY_EYES.
+const CITY_CRATER: float = 1.2  # TUNING (not in GDD)
+## The Fallen Hero's colour (trail, rings, chain line), the chain line width (px) and s.
+const KIT_HERO_TINT: Color = Color(0.45, 0.65, 1.0)  # TUNING (not in GDD) hero blue (not the Gargoyle's violet)
+## See KIT_HERO_TINT.
+const KIT_HERO_CHAIN_W: float = 8.0  # TUNING (not in GDD)
+## See KIT_HERO_TINT.
+const KIT_HERO_CHAIN_TIME: float = 0.4  # TUNING (not in GDD)
+## Hearse Run: its sprite, hit burst diameter (px), fade-in / out fraction of
+## the drive, drawn offset (px) and alpha.
+const CITY_HEARSE_SPRITE: String = "projectiles/spectral_hearse"
+## See CITY_HEARSE_SPRITE.
+const CITY_HEARSE_HIT_D: float = 56.0  # TUNING (not in GDD)
+## See CITY_HEARSE_SPRITE.
+const CITY_HEARSE_FADE: float = 0.15  # TUNING (not in GDD)
+## See CITY_HEARSE_SPRITE.
+const CITY_HEARSE_LIFT: float = -6.0  # TUNING (not in GDD)
+## See CITY_HEARSE_SPRITE.
+const CITY_HEARSE_ALPHA: float = 0.85  # TUNING (not in GDD) Necropathy draws it faded
+## Bone Mines: its sprite, the lamp's blink (Hz) and radius (px).
+const CITY_MINE_SPRITE: String = "spells/bone_mine"
+## See CITY_MINE_SPRITE.
+const CITY_MINE_BLINK_HZ: float = 0.8  # TUNING (not in GDD)
+## See CITY_MINE_SPRITE.
+const CITY_MINE_LAMP_R: float = 3.0  # TUNING (not in GDD)
+## Hero's Fist: s it falls, s it lingers after landing, px it falls from, half size (px).
+const CITY_FIST_FALL: float = 0.22  # TUNING (not in GDD)
+## See CITY_FIST_FALL.
+const CITY_FIST_LINGER: float = 0.3  # TUNING (not in GDD)
+## See CITY_FIST_FALL.
+const CITY_FIST_DROP: float = 140.0  # TUNING (not in GDD)
+## See CITY_FIST_FALL.
+const CITY_FIST_PX: float = 24.0  # TUNING (not in GDD)

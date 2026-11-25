@@ -51,6 +51,7 @@ func _ready() -> void:
 	var boosted := TdCombat.damage_enemy(game, b, 10.0, {"tower": cat, "dot": true})  # Frozen and cursed.
 	_check("shatterfall + curse", is_equal_approx(boosted, plain * 1.6 * 1.15))
 	_kit_checks()
+	_city_checks()
 	print("TOWERS CHECK %s %s" % ["PASS" if _fails.is_empty() else "FAIL", ",".join(_fails)])
 	get_tree().quit(0 if _fails.is_empty() else 1)
 
@@ -181,3 +182,67 @@ func _kit_checks() -> void:
 	var opened := Unlocks.refresh()
 	_check("unlock refresh", opened.has("Crypt Warder") and opened.has("Grave Rogue") and opened.has("Death Mark"))
 	(Meta.data["maps"]["cleared"] as Array).erase("graveyard")
+
+
+## w2b-city (Act IV): the Fallen Hero's slam (shred, stagger), Black Paragon's
+## stun, a vehicle crashing through a light post and held by a heavy one, a
+## Super's weakness, and the three act spells.
+func _city_checks() -> void:
+	var loadout: Array[String] = ["hearse_run", "bone_mines", "heros_fist"]
+	var game := TdGame.new()
+	game.setup("skid_row", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(game)
+	game.economy.earn(50000, "test_bonus")
+	# Fallen Hero (evolved: Black Paragon) beside foes: slams, shreds, stuns.
+	var hero := _maxed(game, "plot:4", "fallen_hero")
+	_check("black paragon evolved", hero.evolution == "black_paragon")
+	var foes: Array[TdEnemy] = []
+	for i in 3:
+		foes.append(_enemy_at(game, "riot_cop", hero.position + Vector2(60 + i * 12, 0)))
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	var shredded := false  # Some foe had its armour shredded.
+	for i in roundi(6.0 * float(TdRulesData.TICK_RATE)):
+		game.tick(1.0 / float(TdRulesData.TICK_RATE))
+		for e: TdEnemy in foes:
+			shredded = shredded or (e.alive and TdCombat.shred_of(game, e) > 0.0)
+	_check("hero slams", int(hero.vars.get("slams", 0)) > 0)
+	_check("hero shreds", shredded)
+	game.sell(game.spot_by_id("plot:4"))
+	# A squad car crashes through a level-1 Warrior post, and is held by a level-5 Abomination.
+	var post := game.spot_by_id("post:1")
+	game.build(post, "warrior")
+	var car := game.spawn_at("squad_car", post.tower.block.road_id, 1, maxf(post.tower.block.dist - 60.0, 0.0), 0.0)
+	var crashed := false  # The car ran the post over.
+	for i in roundi(4.0 * float(TdRulesData.TICK_RATE)):
+		game.tick(1.0 / float(TdRulesData.TICK_RATE))
+		crashed = crashed or float(game.stats.get("events", {}).get("vehicle_crashes", 0.0)) > 0.0
+	_check("vehicle crashes light post", crashed and car.follower.dist > post.tower.block.dist)
+	game.remove_enemy(car, false)
+	game.sell(post)
+	var heavy := _maxed(game, "post:1", "abomination")
+	var car2 := game.spawn_at("squad_car", heavy.block.road_id, 1, maxf(heavy.block.dist - 60.0, 0.0), 0.0)
+	for i in roundi(2.0 * float(TdRulesData.TICK_RATE)):
+		game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	_check("vehicle held by heavy post", float(game.stats.get("events", {}).get("vehicle_held", 0.0)) > 0.0)
+	if car2.alive:
+		game.remove_enemy(car2, false)
+	# A Super's weakness: Atlas takes double once shredded.
+	var atlas := _enemy_at(game, "atlas", Vector2(620, 560))
+	var plain := TdCombat.damage_enemy(game, atlas, 100.0, {"source": "check", "dot": true})
+	TdCombat.shred_enemy(game, atlas, 1.0, 2.0)
+	var weak := TdCombat.damage_enemy(game, atlas, 100.0, {"source": "check", "dot": true})
+	_check("super weakness", is_equal_approx(weak, plain * 2.0))
+	game.remove_enemy(atlas, false)
+	# The act spells.
+	for p: Vector2 in [Vector2(500, 560), Vector2(520, 560), Vector2(540, 560)]:
+		_enemy_at(game, "city_tank", p)
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	var cast := 0  # Spells cast.
+	for i in loadout.size():
+		if game.cast_spell(i, Vector2(560, 560)):
+			cast += 1
+	_run(game, 2.0)
+	_check("act iv spells cast", cast == 3)
+	_check("hearse ran over", int(game.stats.get("hearse_hits", 0)) > 0)
+	_check("fist struck", int(game.stats.get("fists", 0)) > 0)
+	game.queue_free()

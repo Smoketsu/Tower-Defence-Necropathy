@@ -99,4 +99,12 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "b", "vs": "weakened", "mult": 1.25},  # TUNING (not in GDD)
 		"hint": "Banshee near a Seraph: feathers hit weakened foes harder",
 	},
+	# --- Act IV (w2b-city) ---
+	"origin_story": {
+		"name": "Origin Story", "icon": "origin_story", "a": "abomination", "b": "fallen_hero",
+		"radius": 240.0,  # TUNING (not in GDD) new pair (Necropathy's Origin Story is the hero's passive)
+		"effects": {"a": {"hp": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "b", "vs": "staggered", "mult": 1.4},  # TUNING (not in GDD) the hero lands on what the Abomination stomped
+		"hint": "Abomination near a Fallen Hero: slams crush staggered foes",
+	},
 }
