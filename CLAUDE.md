@@ -155,7 +155,47 @@ structures last; area effects use `TdGame.foes_near()`); one silence test
 `wave_hp_end`). The Web build reads `?gw_autotest=--map=sanctum,--speed=8` to run
 the bot on screen (for looking at late waves and bosses).
 
-## Combat effects (Nov 2026)
+## Visual conventions (owner-approved look, Nov 2026)
+
+The owner approved this look ("runs smoothly and looks good"); it is the bar for
+all new content. Proposal: <https://claude.ai/artifact/A89UtBCRguk6NSUCD7qQkS>;
+decisions `docs/DECISIONS.md` V1-V15. **A fight must read in one still frame.**
+
+1. **Nothing happens silently.** Every shot, blow, hit, death, heal, status,
+   cast and leak has a visible effect. New content is not done without its look:
+   - new tower: a row in `TdVfxData.SHOTS` (its own tint; shot 40+ px on screen,
+     trail 60-90 px, muzzle flash, impact burst; an area hit shows its REAL
+     radius); a blocker goes through `game.vfx.melee()` (lunge + slash);
+   - new evolution: nothing to add, `EVOLVED_MULT` makes it louder (give it its
+     own slash / shot tint if it has a theme);
+   - new enemy / boss: hit flash and death burst come by rank; its attack on a
+     blocker calls `game.vfx.enemy_blow()`; a boss has a strike pose;
+   - new status: one body tint and one icon (`TdVfxData.STATUS_ORDER` / `STATUS_TINT` / `STATUS_ICON`, art `td/vfx_status.png`);
+   - new spell: `game.vfx.cast(id, pos)` plus its own burst colour;
+   - new map: a `TdMoodData.MOODS` row (props with glows, ambient layer).
+2. **One colour per tower class**, used for its trail, flash and impact, so the
+   player sees who did what. Gold-white = friendly melee, red = enemy blows.
+3. **Visuals never touch the simulation.** Gameplay calls `game.vfx.<event>()`
+   AFTER resolving the event; lunges, nudges and shakes are drawn offsets
+   (`vis_*` fields, never read by gameplay); never `game.rng` (hash or a visual
+   RNG); nothing runs headless. Gate: the same-seed summaries stay byte-identical.
+4. **All visual numbers in `TdVfxData` / `TdMoodData`** (tagged, commented), new
+   art made by `tools/vfx_art.py` or reused from Necropathy's `effects/` strips.
+5. **Cheap drawing.** Textures only (no per-frame polygons or circles), glows and
+   trails on the additive layers, no screen-reading shaders, no full-screen
+   overlays (edge bands instead), effects pooled under the cap (160 Full / 70
+   Reduced).
+6. **Three settings must keep working:** Effects Full / Reduced (Reduced keeps
+   shots, slashes, impacts, deaths; drops trails, wisps, fog, glows, breathing),
+   Reduce motion (no lunges, shake, recoil), Screen shake. Damage numbers stay
+   off by default.
+7. **The interface stays off the fight:** banners inside the top bar, menus open
+   away from neighbouring spots, nothing covers a road.
+8. **Check by eye.** Build the Web export, run `?gw_autotest=--map=<id>,--speed=1`
+   in Playwright at 1280x720 and phone landscape, look at the screenshots, and
+   compare the late-Sanctum frame time with DECISIONS V15 before publishing.
+
+### How it is built
 
 `TdVfx` (`game.vfx`) + `TdVfxData`: every shot, melee blow, hit, death, status,
 leak and tower shot gets its look there (DECISIONS V1-V8). Gameplay code only
