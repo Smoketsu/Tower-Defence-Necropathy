@@ -14,6 +14,8 @@ const DECAL_TRIES: int = 90  # TUNING (not in GDD) visual density
 ## Px decals keep away from road centre lines and spots.
 const DECAL_CLEAR: float = 40.0  # TUNING (not in GDD)
 
+## grid_texture() cache: key (+ "#r" when tiled) -> wrapped texture or null.
+static var _tex_cache: Dictionary = {}
 ## The map data.
 var map: Dictionary = {}
 ## Its roads (id -> Road).
@@ -25,15 +27,20 @@ func _ready() -> void:
 
 
 ## Raw grid texture for a Necropathy sprite key, wrapped for the sharp shader
-## (`repeat` = tiled), or null.
+## (`repeat` = tiled), or null. Cached: a draw command only holds the texture's
+## RID, so the wrapper must outlive the _draw() that used it.
 static func grid_texture(key: String, repeat: bool = false) -> Texture2D:
+	var ck := key + ("#r" if repeat else "")  # Cache key.
+	if _tex_cache.has(ck):
+		return _tex_cache[ck]
 	var path := SpriteData.ROOT + key + ".png"  # Its PNG.
-	if not ResourceLoader.exists(path):
-		return null
-	var ct := CanvasTexture.new()
-	ct.diffuse_texture = load(path) as Texture2D
-	ct.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-	ct.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED if repeat else CanvasItem.TEXTURE_REPEAT_DISABLED
+	var ct: CanvasTexture = null  # The wrapper (null = no art).
+	if ResourceLoader.exists(path):
+		ct = CanvasTexture.new()
+		ct.diffuse_texture = load(path) as Texture2D
+		ct.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+		ct.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED if repeat else CanvasItem.TEXTURE_REPEAT_DISABLED
+	_tex_cache[ck] = ct
 	return ct
 
 

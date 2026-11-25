@@ -10,12 +10,12 @@ signal play_pressed
 
 func _ready() -> void:
 	var root := Control.new()  # Full-screen holder with the UI theme.
-	root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.theme = UiTheme.get_theme()
 	add_child(root)
 	root.add_child(TitleBackdrop.new())
 	var center := CenterContainer.new()  # Centres the column.
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.add_child(center)
 	var box := VBoxContainer.new()  # Logo and buttons.
 	box.add_theme_constant_override("separation", 14)

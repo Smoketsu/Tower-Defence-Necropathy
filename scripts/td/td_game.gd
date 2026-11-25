@@ -157,6 +157,9 @@ func _ready() -> void:
 	world.add_child(spot_layer)
 	spots = MapLoader.build_spots(map, roads, spot_layer)
 	gate_layer = _layer(-4, _draw_gate)
+	var necro := _layer(-3, func(ci: CanvasItem) -> void: SpriteBank.draw(ci, TdArtData.NECROMANCER, Vector2.ZERO, false))  # The necromancer beside the gate.
+	necro.position = necromancer_pos()
+	necro.scale = Vector2(-1, 1)  # Faces the road (the art faces right).
 	units = Node2D.new()
 	units.y_sort_enabled = true
 	world.add_child(units)
@@ -576,15 +579,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
-## Gate layer: the gate art by lives left, and the necromancer beside it.
+## Gate layer: the gate art by lives left.
 func _draw_gate(ci: CanvasItem) -> void:
 	var f := float(lives) / float(maxi(start_lives, 1))  # Lives fraction.
 	var role := "gate_intact" if f > TdArtData.GATE_DAMAGED_FRAC else ("gate_damaged" if f > TdArtData.GATE_BROKEN_FRAC else "gate_broken")  # Art role.
 	if not TdArt.draw(ci, role, map["gate"]):
 		ci.draw_rect(Rect2(Vector2(map["gate"]) - Vector2(40, 50), Vector2(80, 100)), Color(0.4, 0.4, 0.5))
-	ci.draw_set_transform(necromancer_pos(), 0.0, Vector2(-1, 1))
-	SpriteBank.draw(ci, TdArtData.NECROMANCER, Vector2.ZERO, false)
-	ci.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 
 ## Overlay: the selected tower's range ring with links to its synergy

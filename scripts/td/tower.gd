@@ -45,6 +45,9 @@ var vars: Dictionary = {}
 var squash_until: float = 0.0
 ## Horizontal facing: -1 left, 1 right (visual only).
 var facing: float = 1.0
+## Body layers (UnitLayer children): one per drawn unit (blockers: one per body),
+## mirrored and squashed by node scale. Visual only.
+var layers: Array[UnitLayer] = []
 
 
 ## Sets up a new tower of class `id` on spot `p_spot`.
@@ -154,18 +157,37 @@ func pick_target() -> TdEnemy:
 
 ## Turns toward map px `p` (visual).
 func face(p: Vector2) -> void:
-	var f := -1.0 if p.x < position.x else 1.0  # New facing.
-	if f != facing:
-		facing = f
-		queue_redraw()
+	facing = -1.0 if p.x < position.x else 1.0
 
 
-## Redraws while the fire squash plays, and every frame for blockers (their
-## bodies' HP bars and flashes change without a stat change). Visual only.
+## Makes sure at least `n` body layers exist; layer i draws through
+## behavior.draw_body(self, layer, i). Returns nothing; read `layers`.
+func ensure_layers(n: int) -> void:
+	while layers.size() < n:
+		var l := UnitLayer.new()  # A new body layer.
+		var i := layers.size()  # Its index.
+		l.draw_fn = func(ci: CanvasItem) -> void: behavior.draw_body(self, ci, i)
+		add_child(l)
+		layers.append(l)
+
+
+## Mirrors, squashes and redraws the body layers (every frame for blockers,
+## whose bodies flash and fall; during the fire squash otherwise) and the
+## node's own overlay (HP bars). Visual only.
 func _process(_delta: float) -> void:
-	if game != null and (block != null or game.time < squash_until + 0.05):
+	if game == null:
+		return
+	var squash := 0.0  # 0..1 squash amount.
+	if game.time < squash_until:
+		squash = (squash_until - game.time) / TowerData.FIRE_SQUASH_TIME
+	var sc := Vector2(facing * (1.0 + TowerData.FIRE_SQUASH * squash), 1.0 - TowerData.FIRE_SQUASH * squash)  # Body scale.
+	for l: UnitLayer in layers:
+		if l.scale != sc or block != null:
+			l.scale = sc
+			l.queue_redraw()
+	if block != null:
 		queue_redraw()
 
 
 func _draw() -> void:
-	behavior.draw(self)
+	behavior.draw_overlay(self)

@@ -10,10 +10,10 @@ var game: TdGame = null
 
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(UiTheme.backdrop())
 	var center := CenterContainer.new()  # Centres the panel.
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(center)
 	var panel := UiTheme.ornate_panel("violet")  # The card.
 	center.add_child(panel)

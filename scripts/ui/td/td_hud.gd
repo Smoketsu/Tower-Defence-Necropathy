@@ -47,7 +47,7 @@ var _preview_wave: int = -2
 func _ready() -> void:
 	layer = 5
 	root = Control.new()
-	root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	root.theme = UiTheme.get_theme()
 	add_child(root)
@@ -91,7 +91,7 @@ func _button(role: String, text: String, cb: Callable) -> Button:
 func _build_top_bar() -> void:
 	var bar := PanelContainer.new()  # The strip across the top.
 	bar.add_theme_stylebox_override("panel", UiTheme.style("panel", "dim"))
-	bar.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	bar.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 	bar.custom_minimum_size = Vector2(0, TdUiData.TOP_BAR_H)
 	root.add_child(bar)
 	var row := HBoxContainer.new()  # Its contents.
@@ -124,7 +124,7 @@ func _build_top_bar() -> void:
 func _build_spell_bar() -> void:
 	var bar := HBoxContainer.new()  # Bottom centre.
 	bar.add_theme_constant_override("separation", 8)
-	bar.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	bar.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
 	bar.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	bar.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	bar.position.y -= TdUiData.SPELL_BAR_MARGIN
@@ -167,8 +167,7 @@ func _refresh() -> void:
 	_wave.text = "%d/%d" % [w, game.waves.total()]
 	_chest.text = "Free x%d" % game.free_upgrades if game.free_upgrades > 0 else ""
 	_call.disabled = not game.waves.can_call()
-	var left := game.waves.time_to_next()  # Seconds to the next wave.
-	_call.text = "Call" if left == INF or game.waves.current < 0 else "Call +%d" % floori(left * EconomyData.CALL_PER_SECOND)
+	_call.text = "Call"  # _process adds the bonus while a gap runs.
 	_speed.text = "x%d" % game.speed
 	if _preview_wave != game.waves.current:
 		_preview_wave = game.waves.current
@@ -202,6 +201,8 @@ func _process(delta: float) -> void:
 	_ult.queue_redraw()
 	if game.waves.current >= 0 and game.waves.can_call():
 		_call.text = "Call +%d" % floori(game.waves.time_to_next() * EconomyData.CALL_PER_SECOND)
+	elif _call.text != "Call":
+		_call.text = "Call"
 	_step_banner(delta)
 
 

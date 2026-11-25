@@ -21,12 +21,12 @@ func _ready() -> void:
 	_map = GameState.map_id if MapRegistry.MAPS.has(GameState.map_id) else MapRegistry.DEFAULT_ID
 	_difficulty = GameState.difficulty
 	var root := Control.new()  # Full-screen holder with the UI theme.
-	root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.theme = UiTheme.get_theme()
 	add_child(root)
 	root.add_child(TitleBackdrop.new())
 	var center := CenterContainer.new()  # Centres the card.
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.add_child(center)
 	var panel := UiTheme.ornate_panel("violet")  # The card.
 	center.add_child(panel)

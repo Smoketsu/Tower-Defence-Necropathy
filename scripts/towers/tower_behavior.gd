@@ -4,12 +4,14 @@
 ## Tower.vars. Numbers come from Tower.stats only.
 ##
 ## Hooks (override what the class needs):
-##   setup(t)            — once, after the tower is built (blockers make their bodies).
+##   setup(t)            — once, after the tower is built (default: one body layer;
+##                         blockers make their bodies and a layer each).
 ##   on_recompute(t)     — after every Tower.recompute() (stats changed).
 ##   step(t, dt)         — every fixed step.
 ##   volley(t, target)   — the Lv3+ volley burst (default: extra tinted shots, see below).
 ##   on_removed(t)       — the tower is sold (blockers let go of their enemies).
-##   draw(t)             — draws the tower on its own node (default: the unit sprite).
+##   draw_body(t, ci, i) — draws body layer `i` on `ci` (default: the unit sprite).
+##   draw_overlay(t)     — draws on the tower node over its layers, unmirrored (HP bars).
 ## A class-specific behaviour (e.g. scripts/towers/lich.gd) extends the
 ## behaviour it builds on (projectile.gd / aura.gd / blocker.gd) by path.
 class_name TowerBehavior
@@ -32,8 +34,9 @@ static func for_id(id: String) -> TowerBehavior:
 
 
 ## See the header.
-func setup(_t: Tower) -> void:
-	pass
+func setup(t: Tower) -> void:
+	t.ensure_layers(1)
+	t.layers[0].position = Vector2(0, TowerData.BODY_LIFT)
 
 
 ## See the header.
@@ -66,13 +69,13 @@ func on_removed(_t: Tower) -> void:
 	pass
 
 
-## See the header. Default: the unit sprite on the spot, mirrored to face,
-## squashed briefly after a shot.
-func draw(t: Tower) -> void:
-	var squash := 0.0  # 0..1 squash amount.
-	if t.game.time < t.squash_until:
-		squash = (t.squash_until - t.game.time) / TowerData.FIRE_SQUASH_TIME
-	t.draw_set_transform(Vector2(0, 8), 0.0, Vector2(t.facing * (1.0 + TowerData.FIRE_SQUASH * squash), 1.0 - TowerData.FIRE_SQUASH * squash))
-	if not SpriteBank.draw(t, String(t.stats["sprite"]), Vector2(0, -8), false):
-		t.draw_rect(Rect2(-10, -26, 20, 30), Color(0.6, 0.8, 0.6))
-	t.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+## See the header. Default: the unit sprite, feet on the layer origin (the
+## layer sits on the spot and is mirrored / squashed by Tower._process()).
+func draw_body(t: Tower, ci: CanvasItem, _index: int) -> void:
+	if not SpriteBank.draw(ci, String(t.stats["sprite"]), Vector2(0, -TowerData.BODY_LIFT), false):
+		ci.draw_rect(Rect2(-10, -26, 20, 30), Color(0.6, 0.8, 0.6))
+
+
+## See the header. Default: nothing over the bodies.
+func draw_overlay(_t: Tower) -> void:
+	pass

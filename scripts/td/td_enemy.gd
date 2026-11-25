@@ -68,6 +68,8 @@ var last_dist: float = 0.0
 var last_moved: float = 0.0
 ## Its body layer (sprite, walk strip, facing by scale.x).
 var body: UnitLayer = null
+## Flash / frozen look the body was last drawn with (redraw when it changes; visual).
+var _look: int = 0
 ## Pose shown by a boss sprite (BossPoseData: 0 walk, 1 windup, 3 strike); set by its trait.
 var pose: int = 0
 
@@ -208,6 +210,16 @@ func _place() -> void:
 		if f != body.walk_frame:
 			body.walk_frame = f
 			body.queue_redraw()
+
+
+## Redraws the body when its hit flash or frozen look starts or ends (visual only).
+func _process(_delta: float) -> void:
+	if not alive:
+		return
+	var look := (1 if game.time < flash_until else 0) + (2 if game.time < freeze_until else 0)  # Current look.
+	if look != _look:
+		_look = look
+		body.queue_redraw()
 
 
 ## Draws the HP bar and freeze tint on the node (not on the mirrored body).

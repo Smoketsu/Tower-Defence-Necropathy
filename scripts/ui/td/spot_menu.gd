@@ -36,6 +36,7 @@ func refresh() -> void:
 	_for = s
 	_sig = sig
 	for c: Node in get_children():
+		remove_child(c)  # At once, so reset_size() measures only the new rows.
 		c.queue_free()
 	var box := VBoxContainer.new()  # The menu's rows.
 	add_child(box)
@@ -125,10 +126,10 @@ func _build_tower(box: VBoxContainer, t: Tower) -> void:
 		box.add_child(UiTheme.tier_label("+ " + String(SynergyData.SYNERGIES[pair[0]]["name"]), UiTheme.Tier.BODY, UiTheme.TEXT_GOOD))
 
 
-## Builds tower `id` on `s` and closes the menu.
+## Builds tower `id` on `s` and closes the menu (tap the spot again for its upgrades).
 func _do_build(s: Spot, id: String) -> void:
 	if game.build(s, id):
-		game.selected = s
+		game.selected = null
 	else:
 		game.sound("denied")
 	game.changed.emit()

@@ -239,3 +239,5 @@ const BODY_SPACING: float = 16.0  # TUNING (not in GDD)
 const FIRE_SQUASH_TIME: float = 0.12  # TUNING (not in GDD)
 ## Scale change (fraction) at the peak of that squash (visual only).
 const FIRE_SQUASH: float = 0.08  # TUNING (not in GDD)
+## Px a plot tower stands above its spot centre (on the open grave; visual only).
+const BODY_LIFT: float = 8.0  # TUNING (not in GDD)

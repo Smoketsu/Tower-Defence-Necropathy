@@ -37,6 +37,9 @@ func on_recompute(t: Tower) -> void:
 		b.respawn_time = float(t.stats["respawn"])
 		b.pos = road.point_at(t.block.dist) + nrm * (float(i) - float(n - 1) * 0.5) * TowerData.BODY_SPACING
 	t.block.hold_bonus = int(t.stats["hold_bonus"])
+	t.ensure_layers(n)
+	for i in t.layers.size():
+		t.layers[i].position = t.block.bodies[i].pos - t.position if i < n else Vector2.ZERO
 	t.facing = -1.0 if dir.x > 0.0 else 1.0  # Bodies face the oncoming column.
 
 
@@ -63,16 +66,17 @@ func on_removed(t: Tower) -> void:
 	t.game.remove_block(t.block)
 
 
-func draw(t: Tower) -> void:
-	var key := String(t.stats["sprite"])  # Unit sprite.
+func draw_body(t: Tower, ci: CanvasItem, i: int) -> void:
+	if i >= t.block.bodies.size() or not t.block.bodies[i].alive:
+		return
+	if not SpriteBank.draw(ci, String(t.stats["sprite"]), Vector2.ZERO, t.game.time < t.block.bodies[i].flash_until):
+		ci.draw_rect(Rect2(-8, -16, 16, 24), Color(0.8, 0.8, 0.7))
+
+
+func draw_overlay(t: Tower) -> void:
+	var lift := SpriteBank.drawn_height(String(t.stats["sprite"])) * 0.5 + 6.0  # Bar height above the feet line.
 	for b: BlockBody in t.block.bodies:
-		var o := b.pos - t.position  # Body offset on the tower node (px).
-		if not b.alive:
-			continue
-		t.draw_set_transform(o, 0.0, Vector2(t.facing, 1.0))
-		if not SpriteBank.draw(t, key, Vector2.ZERO, t.game.time < b.flash_until):
-			t.draw_rect(Rect2(-8, -16, 16, 24), Color(0.8, 0.8, 0.7))
-		t.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
-		if b.hp < b.max_hp:
-			t.draw_rect(Rect2(o + Vector2(-10, -SpriteBank.drawn_height(key) * 0.5 - 6), Vector2(20, 3)), Color(0, 0, 0, 0.7))
-			t.draw_rect(Rect2(o + Vector2(-10, -SpriteBank.drawn_height(key) * 0.5 - 6), Vector2(20 * b.hp / b.max_hp, 3)), Color(0.3, 0.9, 0.5))
+		if b.alive and b.hp < b.max_hp:
+			var o := b.pos - t.position + Vector2(-10, -lift)  # Bar corner (px).
+			t.draw_rect(Rect2(o, Vector2(20, 3)), Color(0, 0, 0, 0.7))
+			t.draw_rect(Rect2(o, Vector2(20 * b.hp / b.max_hp, 3)), Color(0.3, 0.9, 0.5))

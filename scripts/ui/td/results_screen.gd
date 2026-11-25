@@ -11,10 +11,10 @@ var won: bool = false
 
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(UiTheme.backdrop())
 	var center := CenterContainer.new()  # Centres the card.
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(center)
 	var panel := UiTheme.ornate_panel("gold" if won else "crimson")  # The card.
 	center.add_child(panel)
