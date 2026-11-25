@@ -72,6 +72,13 @@ var body: UnitLayer = null
 var _look: int = 0
 ## Pose shown by a boss sprite (BossPoseData: 0 walk, 1 windup, 3 strike); set by its trait.
 var pose: int = 0
+## Game time (s) until which it cannot heal or revive others (Banshee silence; healer traits read it).
+var silenced_until: float = 0.0
+## Multiplier (0..1) on the damage it takes while warded (Sun Paladin aura, Holy Ward
+## Generators; TdCombat.ward_enemy, the strongest ward wins) and the ward's end (game s).
+var ward_mult: float = 1.0
+## See ward_mult.
+var ward_until: float = 0.0
 
 
 func _ready() -> void:
@@ -102,6 +109,9 @@ func activate(p_kind: String, road: Road, d: float, lane: float, hp_mult: float,
 	haste_mult = 1.0
 	haste_until = 0.0
 	unholdable_until = 0.0
+	silenced_until = 0.0
+	ward_mult = 1.0
+	ward_until = 0.0
 	dots.clear()
 	vars.clear()
 	wave = p_wave
@@ -195,7 +205,10 @@ func _fight() -> void:
 	if game.time < freeze_until or game.time < next_attack:
 		return
 	next_attack = game.time + float(row["attack_interval"])
-	TdCombat.damage_body(game, holder, float(row["damage"]) * damage_mult())
+	var b := holder  # The body struck (the hit may kill it and release us).
+	TdCombat.damage_body(game, b, float(row["damage"]) * damage_mult())
+	if traits != null and alive:
+		traits.on_attack(self, game, b)
 
 
 ## Moves the node to the follower and updates facing and walk frame (visual).

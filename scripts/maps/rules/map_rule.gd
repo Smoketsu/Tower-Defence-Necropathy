@@ -8,6 +8,10 @@
 ##   step(dt)           — every fixed step, after the waves and spells.
 ##   tower_damage_mult(t: Tower) -> float — multiplier on tower `t`'s damage
 ##                         (read by Tower.recompute(); the Sanctum's chambers).
+##   summary() -> String — the rule's line in the autotest summary.
+## Helper: finish_structures() removes the rule's leftover structures (ward
+## generators, crystals: enemies with row key "structure") once every wave has
+## spawned and only structures remain, so the map can end.
 class_name MapRule
 extends RefCounted
 
@@ -28,3 +32,19 @@ func step(_dt: float) -> void:
 ## See the header.
 func tower_damage_mult(_t: Tower) -> float:
 	return 1.0
+
+
+## See the header.
+func summary() -> String:
+	return ""
+
+
+## See the header. Call from step().
+func finish_structures() -> void:
+	if not game.waves.all_spawned() or game.enemies.is_empty():
+		return
+	for e: TdEnemy in game.enemies:
+		if not bool(e.row.get("structure", false)):
+			return
+	for e: TdEnemy in game.enemies.duplicate():
+		game.remove_enemy(e, false)

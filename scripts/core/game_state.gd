@@ -22,6 +22,8 @@ var run_seed: int = 1
 var autotest_speed: int = 8
 ## Autotest build order id (BuildOrderData.ORDERS key; "" = the map's default).
 var autotest_build: String = ""
+## Autotest: start the Reckoning endless mode after a cleared map (--reckoning).
+var autotest_reckoning: bool = false
 
 
 func _init() -> void:
@@ -35,4 +37,5 @@ func _init() -> void:
 			"--speed": autotest_speed = clampi(int(v), 1, 64)
 			"--difficulty": difficulty = v
 			"--build": autotest_build = v
+			"--reckoning": autotest_reckoning = true
 			"--effects": autotest_effects = v

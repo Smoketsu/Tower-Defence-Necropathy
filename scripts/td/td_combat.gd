@@ -11,7 +11,7 @@ extends RefCounted
 ## (tower class / spell id, for stats), tower (Tower that dealt it, for its
 ## kills), armour_pierce (flat armour ignored), dot (true for damage over
 ## time: armour does not apply), origin (map px the hit came from).
-## Order: trait incoming_damage -> flat armour -> HP -> on_hit or kill.
+## Order: trait incoming_damage -> ward -> flat armour -> HP -> on_hit or kill.
 ## Returns the damage applied.
 static func damage_enemy(game: TdGame, e: TdEnemy, amount: float, hit: Dictionary) -> float:
 	if not e.alive or amount <= 0.0:
@@ -19,6 +19,8 @@ static func damage_enemy(game: TdGame, e: TdEnemy, amount: float, hit: Dictionar
 	var dmg := amount  # Damage after every modifier.
 	if e.traits != null:
 		dmg = e.traits.incoming_damage(e, game, dmg, hit)
+	if game.time < e.ward_until:
+		dmg *= e.ward_mult
 	if not bool(hit.get("dot", false)):
 		var arm := maxf(e.armour - float(hit.get("armour_pierce", 0.0)), 0.0)  # Effective flat armour.
 		dmg = maxf(dmg - arm, dmg * TdRulesData.ARMOUR_MIN_FRACTION)
@@ -54,6 +56,7 @@ static func kill_enemy(game: TdGame, e: TdEnemy, tower: Tower) -> void:
 	game.stats["kills"][e.kind] = int(game.stats["kills"].get(e.kind, 0)) + 1
 	if rank == "miniboss":
 		game.grant_chest(e.position)
+	CovenantField.record_death(game, e)
 	game.fx.spawn("boss_death" if rank == "boss" else "enemy_death", e.position, 64.0 if rank == "fodder" else 128.0, 0.45)
 	game.remove_enemy(e, false)
 
@@ -134,3 +137,26 @@ static func revive_body(game: TdGame, b: BlockBody) -> void:
 	b.alive = true
 	b.hp = b.max_hp
 	game.fx.spawn("summon_rise", b.pos, 64.0, 0.4)
+
+
+## Wards `e`: it takes `mult` (0..1) of every hit for `time` s (the strongest
+## ward wins; a longer one extends). Sun Paladin aura, Holy Ward Generators.
+static func ward_enemy(game: TdGame, e: TdEnemy, mult: float, time: float) -> void:
+	if game.time >= e.ward_until or mult <= e.ward_mult:
+		e.ward_mult = mult
+	e.ward_until = maxf(e.ward_until, game.time + time)
+
+
+## Silences `e` for `time` s: it cannot heal or revive (EnemyTrait.can_heal()).
+static func silence_enemy(game: TdGame, e: TdEnemy, time: float) -> void:
+	e.silenced_until = maxf(e.silenced_until, game.time + time)
+
+
+## Suppresses tower `t` (holy zones, Seraphine's beams): its damage x `mult`
+## (0..1) for `time` s, through Tower.recompute() (the strongest wins; a
+## longer one extends). The tower recomputes again when it ends (Tower.step).
+static func suppress_tower(game: TdGame, t: Tower, mult: float, time: float) -> void:
+	if game.time >= t.suppress_until or mult <= t.suppress_mult:
+		t.suppress_mult = mult
+	t.suppress_until = maxf(t.suppress_until, game.time + time)
+	t.recompute()

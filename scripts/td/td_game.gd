@@ -93,6 +93,14 @@ var selected: Spot = null
 var armed: int = -1
 ## Map rule instance (MapRule subclass) or null.
 var rule: MapRule = null
+## True once the optional Reckoning endless mode was started on a cleared map (GDD §6.2).
+var reckoning: bool = false
+## Reckoning waves reached (0 = not started; the menu stores the best per map).
+var reckoning_wave: int = 0
+## Lives kept when the map was cleared (the skull rating once a Reckoning ran).
+var lives_at_clear: int = 0
+## Extra HP multiplier on enemies spawned now (the Reckoning's escalation; 1 = none).
+var extra_hp_mult: float = 1.0
 
 ## Nodes.
 var world: Node2D = null
@@ -252,24 +260,46 @@ func _end(p_won: bool) -> void:
 	if over:
 		return
 	over = true
-	won = p_won
-	ended.emit(p_won)
+	won = p_won or reckoning  # A Reckoning only ends when the gate falls; the map stays cleared.
+	if p_won and not reckoning:
+		lives_at_clear = lives
+	ended.emit(won)
+
+
+## Starts the Reckoning endless mode on a cleared map (GDD §6.2): the run
+## resumes and escalating waves come until the gate falls (`ended` again,
+## `reckoning_wave` = waves reached). False when the map was not cleared.
+func start_reckoning() -> bool:
+	if not over or not won or reckoning:
+		return false
+	reckoning = true
+	over = false
+	waves.start_reckoning()
+	changed.emit()
+	return true
 
 
 # ------------------------------------------------------------------ enemies
 
 ## Spawns kind `kind` at the start of road `road_id` for wave `w` (1-based).
-func spawn_enemy(kind: String, road_id: String, w: int) -> void:
+func spawn_enemy(kind: String, road_id: String, w: int) -> TdEnemy:
+	var lane := rng.randf_range(-TdRulesData.LANE_SPREAD, TdRulesData.LANE_SPREAD)  # Lateral offset.
+	return spawn_at(kind, road_id, w, 0.0, lane)
+
+
+## Spawns kind `kind` on road `road_id` at distance `dist` px and lateral
+## offset `lane` px for wave `w` (0 = no wave: structures); returns it.
+func spawn_at(kind: String, road_id: String, w: int, dist: float, lane: float) -> TdEnemy:
 	var e: TdEnemy = _pool.pop_back() if not _pool.is_empty() else null  # A pooled enemy.
 	if e == null:
 		e = TdEnemy.new()
 		e.game = self
 		units.add_child(e)
-	var lane := rng.randf_range(-TdRulesData.LANE_SPREAD, TdRulesData.LANE_SPREAD)  # Lateral offset.
-	e.activate(kind, roads[road_id], 0.0, lane, DifficultyModifiers.hp_mult(difficulty), w)
+	e.activate(kind, roads[road_id], dist, lane, DifficultyModifiers.hp_mult(difficulty) * extra_hp_mult, w)
 	enemies.append(e)
 	if String(e.row["rank"]) == "boss" or String(e.row["rank"]) == "miniboss":
 		sound("boss")
+	return e
 
 
 ## Takes `e` off the road into the pool (`leaked` = it reached the gate).
@@ -416,7 +446,7 @@ func banner(text: String) -> void:
 func skulls() -> int:
 	if not won:
 		return 0
-	var f := float(lives) / float(start_lives)  # Lives kept.
+	var f := float(lives_at_clear if reckoning else lives) / float(start_lives)  # Lives kept.
 	return 3 if f >= TdRulesData.SKULL_THRESHOLDS[0] else (2 if f >= TdRulesData.SKULL_THRESHOLDS[1] else 1)
 
 

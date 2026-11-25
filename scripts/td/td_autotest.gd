@@ -96,6 +96,8 @@ func _recipe_reachable(t: Tower) -> bool:
 func _cast_spells() -> void:
 	var lead: TdEnemy = null  # Enemy closest to the gate.
 	for e: TdEnemy in game.enemies:
+		if bool(e.row.get("structure", false)):
+			continue
 		if lead == null or game.progress(e) > game.progress(lead):
 			lead = e
 	if lead == null:
@@ -114,6 +116,9 @@ func _cast_spells() -> void:
 
 
 func _on_ended(_won: bool) -> void:
+	if GameState.autotest_reckoning and game.won and not game.reckoning:
+		game.start_reckoning()
+		return
 	_summary("won" if game.won else "lost")
 	get_tree().quit(0)
 
@@ -147,6 +152,13 @@ func _summary(result: String) -> void:
 		var clear := float(r["cleared"]) - float(r["start"]) if float(r["cleared"]) >= 0.0 else -1.0  # Seconds to clear.
 		wd.append("w%d:%.1f/%.1f%s" % [i + 1, spawn, clear, "L" if bool(r["leaked"]) else ""])
 	lines.append("wave_spawn/clear_s=%s" % " ".join(wd))
+	lines.append("reckoning=%s reckoning_wave=%d suppressed_tower_s=%.1f" % [str(game.reckoning), game.reckoning_wave, float(game.stats.get("suppressed_s", 0.0))])
+	var ev := {}  # Rounded trait / boss event counters.
+	for k: String in game.stats.get("events", {}):
+		ev[k] = roundi(float(game.stats["events"][k]))
+	lines.append("events=%s" % _sorted(ev))
+	if game.rule != null:
+		lines.append("rule=%s %s" % [String(game.map["rule"]), game.rule.summary()])
 	lines.append("stuck_enemies=%d alive_at_end=%d" % [int(game.stats["stuck"]), game.enemies.size()])
 	for l: String in lines:
 		print(l)

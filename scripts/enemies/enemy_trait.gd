@@ -13,6 +13,8 @@
 ##                                            `hit` = {source, tower, origin, dot, armour_pierce}.
 ##   on_hit(e, game, amount, hit)           — after damage was applied and it survived.
 ##   on_death(e, game)                      — when killed (not when it leaks).
+##   on_attack(e, game, body)               — after each of its attacks on the body holding it.
+## Helper: note(game, key) counts a trait / boss event for the autotest summary.
 class_name EnemyTrait
 extends RefCounted
 
@@ -60,3 +62,20 @@ func on_hit(_e: TdEnemy, _game: TdGame, _amount: float, _hit: Dictionary) -> voi
 ## See the header.
 func on_death(_e: TdEnemy, _game: TdGame) -> void:
 	pass
+
+
+## See the header.
+func on_attack(_e: TdEnemy, _game: TdGame, _body: BlockBody) -> void:
+	pass
+
+
+## Counts event `key` (+`n`) in game.stats["events"] (the autotest's events line).
+static func note(game: TdGame, key: String, n: float = 1.0) -> void:
+	var ev: Dictionary = game.stats.get("events", {})  # Event counters.
+	ev[key] = float(ev.get(key, 0.0)) + n
+	game.stats["events"] = ev
+
+
+## True when `e` may heal or revive others now (not silenced).
+static func can_heal(e: TdEnemy, game: TdGame) -> bool:
+	return game.time >= e.silenced_until

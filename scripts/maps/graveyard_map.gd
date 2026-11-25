@@ -8,6 +8,8 @@ extends RefCounted
 
 ## The map. Keys:
 ##   id, name        — registry id and UI name.
+##   unlock_after    — map id whose boss must be beaten to open this map ("" = open
+##                     from the start; GDD §3 "Beating a map's boss opens the next map").
 ##   floor           — SpriteData-style key of the floor tile, repeated over the map.
 ##   decals          — floor decal keys scattered by MapView (a pure position hash).
 ##   obstacles       — [sprite key, position] pairs: decoration only, nothing collides.
@@ -31,6 +33,7 @@ extends RefCounted
 const MAP: Dictionary = {
 	"id": "graveyard",
 	"name": "The Desecrated Graveyard",
+	"unlock_after": "",
 	"floor": "tiles/graveyard",
 	"decals": ["decals/graveyard_grass", "decals/graveyard_grass_2", "decals/graveyard_grass_3",
 		"decals/graveyard_grave", "decals/graveyard_grave_2", "decals/graveyard_fog"],
