@@ -166,8 +166,12 @@ autotest query also takes `--reduce-motion` and `--damage-numbers`.
 - The gamepad cursor is untested on real hardware (no pad in the test browser).
 - Balance (`docs/BALANCE.md`) comes from the autotest bot's fixed build orders;
   the owner's playtests come first. Lich on the Sanctum is the sharpest spike.
-- All new art (Gravewatch-only pieces, ward structures, character portraits) is
-  drawn with Pillow; it waits for a regeneration pass when the image key works again.
+- Gravewatch-only art is mostly drawn with Pillow (`tools/vfx_art.py`, `art_source/td_pillow/` keeps the
+  originals); the road tiles and the Sanctum candles were regenerated with the image API (DECISIONS V17).
+  How: `tools/gw_gen.sh NAME SUFFIX QUALITY "prompt" refs...` (calls `tools/gen_image.py`, logs the cost to
+  `docs/art/generation_ledger.csv`), then `tools/gw_tile.py` (seamless tiles through `make_tile.py`) or
+  `tools/prepare_sprite.py --art-height N --out FILE` (sprites), `tools/gw_art.py install`, and
+  `tools/gw_sheet.py` for the before / after sheet. Prompts and raw images: `art_source/td_gen/`.
 
 ## Tower kits, evolutions, synergies, spells (gw-towers)
 

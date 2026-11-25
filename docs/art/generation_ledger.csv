@@ -1,0 +1,10 @@
+utc,key,model,quality,size,refs,text_in,image_in,image_out,usd_est,file
+2026-11-25 18:23,road_fill,gpt-image-2.5-flare,low,1024x1024,1,131,1521,196,0.0187,road_fill_a.png
+2026-11-25 18:25,road_edge,gpt-image-2.5-flare,low,1536x1024,1,136,1024,158,0.0136,road_edge_a.png
+2026-11-25 18:25,plot_occupied,gpt-image-2.5-flare,medium,1024x1024,2,285,1028,439,0.0228,plot_occupied_a.png
+2026-11-25 18:26,plot_empty,gpt-image-2.5-flare,medium,1024x1024,2,311,1028,439,0.0229,plot_empty_a.png
+2026-11-25 18:26,road_post,gpt-image-2.5-flare,medium,1024x1024,2,273,742,439,0.0205,road_post_a.png
+2026-11-25 18:26,mood_candles,gpt-image-2.5-flare,medium,1024x1024,2,274,2,439,0.0146,mood_candles_a.png
+2026-11-25 18:26,mood_glass,gpt-image-2.5-flare,medium,1024x1024,1,274,640,439,0.0197,mood_glass_a.png
+2026-11-25 18:27,mood_glass,gpt-image-2.5-flare,medium,1024x1024,1,303,15,439,0.0148,mood_glass_b.png
+2026-11-25 18:27,subtitle_gravewatch,gpt-image-2.5-flare,medium,1536x1024,1,289,512,343,0.0158,subtitle_gravewatch_a.png

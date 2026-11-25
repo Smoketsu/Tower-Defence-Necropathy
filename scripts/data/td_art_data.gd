@@ -43,7 +43,7 @@ const ROLES: Dictionary = {
 	"vfx_crack": ROOT + "vfx_crack.png",  # 44x20 ground crack (Abomination smash, boulder impact)
 	"mood_lantern": ROOT + "mood_lantern.png",  # 28x40 lit stone lantern (Necropathy obstacles/stone_lantern_lit), Graveyard mood
 	"mood_fire": ROOT + "mood_fire.png",  # 8 frames of 32x32 lit brazier (Necropathy norse/brazier_lit_anim), Crimson March campfires
-	"mood_candles": ROOT + "mood_candles.png",  # 15x11 candle cluster (Necropathy menu/candles), Sanctum mood
+	"mood_candles": ROOT + "mood_candles.png",  # 20x30 lit candle cluster with flames (generated, V17), Sanctum mood, drawn 1:1
 	"mood_candle_flame": ROOT + "mood_candle_flame.png",  # 9x5 flames over the candles (Necropathy menu/candle_flame)
 	"mood_glass": ROOT + "mood_glass.png",  # 72x44 stained-glass light pool, drawn additively (tools/vfx_art.py)
 }

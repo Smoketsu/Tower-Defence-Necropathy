@@ -36,8 +36,8 @@ const MOODS: Dictionary = {
 		"pools": 0,
 	},
 	"sanctum": {
-		"props": [{"art": "mood_candles", "frames": 1, "count": 8, "scale": 2.0, "glow": Color(1.0, 0.82, 0.45, 0.5), "glow_r": 40.0,
-			"glow_at": Vector2(0, -10), "flicker": 0.15, "flame": "mood_candle_flame", "flame_at": Vector2(0, -12), "sway": 0.0}],  # TUNING (not in GDD) candles
+		"props": [{"art": "mood_candles", "frames": 1, "count": 8, "scale": 1.0, "glow": Color(1.0, 0.82, 0.45, 0.5), "glow_r": 40.0,
+			"glow_at": Vector2(0, -18), "flicker": 0.15, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD) candles: generated 20x30 art with its own flames (V17), drawn 1:1, glow flickers
 		"fog": 0,
 		"pools": 5,  # TUNING (not in GDD) stained-glass light pools
 	},

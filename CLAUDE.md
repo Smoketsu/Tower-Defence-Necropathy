@@ -129,7 +129,7 @@ Fields `game`, `id`, `row`. Road helpers: `game.nearest_road(pos, max_d)`,
 **Ultimate** — `SpellData.ULTIMATE` + a TdSpell script (Dread Rally); the meter is
 `SpellCaster.charge(rank)` per kill.
 
-**Art** — Gravewatch-only roles in `TdArtData.ROLES` (drawn with `TdArt.draw /
+**Art** (regenerated with the image API for roads and candles, DECISIONS V17; `tools/gw_gen.sh`, `gw_tile.py`, `gw_art.py`, originals in `art_source/td_pillow/`) — Gravewatch-only roles in `TdArtData.ROLES` (drawn with `TdArt.draw /
 texture`); Necropathy sprites by their `SpriteData` key via `SpriteBank`.
 
 ## Status (phase 1 integrated, Nov 2026)
