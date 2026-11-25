@@ -24,6 +24,14 @@ var autotest_speed: int = 8
 var autotest_build: String = ""
 ## Autotest: start the Reckoning endless mode after a cleared map (--reckoning).
 var autotest_reckoning: bool = false
+## Autotest meta profile: "" (the save under --meta-save, else none), "none" or "max" (every upgrade and mastery).
+var autotest_meta: String = ""
+## True with --meta-save: the autotest reads and writes the real save file.
+var meta_save: bool = false
+## Character id of the run (CharacterData key; --character= in the autotest).
+var character: String = CharacterData.DEFAULT_ID
+## Spells of the run in slot order (empty = SpellData.DEFAULT_LOADOUT).
+var loadout: Array[String] = []
 
 
 func _init() -> void:
@@ -39,3 +47,6 @@ func _init() -> void:
 			"--build": autotest_build = v
 			"--reckoning": autotest_reckoning = true
 			"--effects": autotest_effects = v
+			"--meta": autotest_meta = v
+			"--meta-save": meta_save = true
+			"--character": character = v

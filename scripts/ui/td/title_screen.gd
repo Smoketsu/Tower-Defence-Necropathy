@@ -1,39 +1,52 @@
-## TitleScreen: the minimal title (GDD §9.3): the Gravewatch logo over the
-## night graveyard and Play (and Quit off the Web). A later agent replaces
-## this with the full menu set (Codex, Ossuary, Settings, Credits).
+## TitleScreen: the title (GDD §9.3): the Gravewatch logo over the night
+## graveyard, the Soul Ash held, and Play / Codex / Ossuary / Settings /
+## Credits (Quit too, off the Web; it asks first). Emits `chosen` with the
+## item id (MenuData.TITLE_ITEMS); Main opens the screen.
 class_name TitleScreen
-extends CanvasLayer
+extends Control
 
-## Emitted when Play is pressed.
-signal play_pressed
+## Emitted with the picked item id ("play", "codex", "ossuary", "settings", "credits").
+signal chosen(id: String)
 
 
 func _ready() -> void:
-	var root := Control.new()  # Full-screen holder with the UI theme.
-	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	root.theme = UiTheme.get_theme()
-	add_child(root)
-	root.add_child(TitleBackdrop.new())
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	theme = UiTheme.get_theme()
+	add_child(TitleBackdrop.new())
 	var center := CenterContainer.new()  # Centres the column.
 	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	root.add_child(center)
-	var box := VBoxContainer.new()  # Logo and buttons.
-	box.add_theme_constant_override("separation", 14)
-	center.add_child(box)
-	var logo := TextureRect.new()  # NECROPATHY + Gravewatch, at 2x.
-	logo.texture = TdArt.texture("logo")
-	logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	logo.custom_minimum_size = Vector2(500, 248)
-	box.add_child(logo)
-	var play := Button.new()  # Play.
-	play.text = "Play"
-	play.pressed.connect(func() -> void: play_pressed.emit())
-	box.add_child(play)
-	if not OS.has_feature("web"):
-		var quit := Button.new()  # Quit (asks first).
-		quit.text = "Quit"
-		quit.pressed.connect(func() -> void: ConfirmDialog.ask(root, "Quit?", "Leave the crypt for now.", "Quit", get_tree().quit))
-		box.add_child(quit)
-	UiTheme.focus_deferred(play)
+	add_child(center)
+	var col := VBoxContainer.new()  # Logo and buttons.
+	col.add_theme_constant_override("separation", 8)
+	center.add_child(col)
+	var logo := MenuScreen.icon_rect(TdArt.texture("logo"), 0.0)  # NECROPATHY + Gravewatch, at 2x.
+	logo.custom_minimum_size = MenuData.LOGO_SIZE
+	col.add_child(logo)
+	var ash := HBoxContainer.new()  # Soul Ash held.
+	ash.alignment = BoxContainer.ALIGNMENT_CENTER
+	ash.add_child(MenuScreen.icon_rect(SpriteBank.texture("icons/soul_ash"), 28.0))
+	ash.add_child(UiTheme.tier_label(str(Meta.ash()), UiTheme.Tier.NAME, UiTheme.TEXT_GOLD))
+	col.add_child(ash)
+	var first: Button = null  # Focused on open.
+	var buttons: Array = []  # For the staggered entrance.
+	for item: Array in MenuData.TITLE_ITEMS:
+		var id := String(item[0])  # Item id.
+		if id == "quit" and OS.has_feature("web"):
+			continue
+		var b := Button.new()  # One item.
+		b.text = String(item[1])
+		b.custom_minimum_size = MenuData.TITLE_BUTTON
+		b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		if id == "quit":
+			b.pressed.connect(func() -> void: ConfirmDialog.ask(self, "Quit?", "Leave the crypt for now.", "Quit", get_tree().quit))
+		else:
+			b.pressed.connect(func() -> void: chosen.emit(id))
+		if id == "play":
+			UiTheme.style_button(b, "button", "gold")
+		col.add_child(b)
+		buttons.append(b)
+		if first == null:
+			first = b
+	UiMotion.stagger(buttons)
+	UiTheme.focus_deferred(first)
 	TouchSupport.fit_to_screen(center)

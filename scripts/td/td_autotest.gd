@@ -24,6 +24,17 @@ var _order_id: String = ""
 
 
 func _ready() -> void:
+	Meta.load_save()  # A fresh save unless --meta-save (never touches user:// otherwise).
+	if GameState.autotest_meta == "max":
+		MetaModifiers.set_max()
+	elif GameState.autotest_meta == "none":
+		MetaModifiers.bonuses.clear()
+		MetaModifiers.masteries.clear()
+	CharacterModifiers.current = GameState.character if CharacterData.CHARACTERS.has(GameState.character) else CharacterData.DEFAULT_ID
+	var spells: Array[String] = SpellData.DEFAULT_LOADOUT.duplicate()  # Three spells, then the meta slot.
+	for id: String in SpellData.SPELLS:
+		if spells.size() < MetaModifiers.spell_slots() and not spells.has(id):
+			spells.append(id)
 	game = TdGame.new()
 	var map_default := String(MapRegistry.get_map(GameState.map_id if MapRegistry.MAPS.has(GameState.map_id) else MapRegistry.DEFAULT_ID)["build_order"])  # The map's own order.
 	_order_id = GameState.autotest_build if GameState.autotest_build != "" else map_default
@@ -31,10 +42,16 @@ func _ready() -> void:
 		push_error("TdAutotest: unknown build order '%s'" % _order_id)
 		_order_id = map_default
 	order = BuildOrderData.ORDERS[_order_id]
-	var loadout: Array[String] = SpellData.DEFAULT_LOADOUT.duplicate()  # Spells brought in (the order may name its own).
 	if order.has("loadout"):
-		loadout.assign(order["loadout"])
-	game.setup(GameState.map_id, GameState.difficulty, GameState.run_seed, loadout)
+		spells.assign(order["loadout"])  # The order's own spells (test orders).
+		for id: String in SpellData.SPELLS:
+			if spells.size() < MetaModifiers.spell_slots() and not spells.has(id):
+				spells.append(id)
+	game.setup(GameState.map_id, GameState.difficulty, GameState.run_seed, CharacterModifiers.loadout(spells))
+	if GameState.meta_save:
+		var watch := RunWatch.new()  # Codex and masteries into the real save.
+		watch.game = game
+		game.add_child(watch)
 	if order.has("bonus_souls"):
 		game.economy.earn(int(order["bonus_souls"]), "test_bonus")
 	game.speed = GameState.autotest_speed
@@ -127,6 +144,8 @@ func _on_ended(_won: bool) -> void:
 	if GameState.autotest_reckoning and game.won and not game.reckoning:
 		game.start_reckoning()
 		return
+	if GameState.meta_save:
+		Meta.record_run(game)
 	_summary("won" if game.won else "lost")
 	get_tree().quit(0)
 
@@ -186,6 +205,8 @@ func _summary(result: String) -> void:
 	lines.append("events=%s" % _sorted(ev))
 	if game.rule != null:
 		lines.append("rule=%s %s" % [String(game.map["rule"]), game.rule.summary()])
+	lines.append("meta=%s character=%s loadout=%s ash=%d bonuses=%s masteries=%d saved=%s" % [GameState.autotest_meta if GameState.autotest_meta != "" else "save" if GameState.meta_save else "none",
+		CharacterModifiers.current, ",".join(game.caster.loadout), Meta.ash_for(game), _sorted(MetaModifiers.bonuses), MetaModifiers.masteries.size(), str(GameState.meta_save)])
 	lines.append("stuck_enemies=%d alive_at_end=%d" % [int(game.stats["stuck"]), game.enemies.size()])
 	for l: String in lines:
 		print(l)

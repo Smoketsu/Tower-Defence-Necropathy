@@ -42,7 +42,7 @@ func _make(id: String, row: Dictionary) -> TdSpell:
 	var s := (load(path) as GDScript).new() as TdSpell  # The instance.
 	s.game = game
 	s.id = id
-	s.row = row
+	s.row = CharacterModifiers.spell_row(id, row)  # The character's own spell is boosted.
 	return s
 
 
@@ -59,7 +59,7 @@ func cooldown_frac(i: int) -> float:
 
 ## Full cooldown (s) of slot `i`.
 func _cooldown(i: int) -> float:
-	return float(SpellData.SPELLS[loadout[i]]["cooldown"]) * MetaModifiers.spell_cooldown_mult()
+	return float(SpellData.SPELLS[loadout[i]]["cooldown"]) * MetaModifiers.spell_cooldown_mult() * CharacterModifiers.cooldown_mult(loadout[i])
 
 
 ## Casts slot `i` at map px `pos`; returns true when it was cast.

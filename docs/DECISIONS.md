@@ -91,3 +91,29 @@ decisions given with the foundation brief are listed first. Append new rows.
 | I5 | Difficulty | Lich HP x1.35 -> x1.2 and Deathlord x1.8 -> x1.5 (counts unchanged): a constant HP multiplier hit the early waves hardest, where the economy has no slack. |
 | I6 | Tuning against the new blockers | Halberdier damage 24 -> 10 (x4 `BLOCKER_HIT_MULT` = 40 per strike), Sir Alaric 12000 -> 9000 HP, Frost Wraith damage 5 -> 8, Abomination damage 14 -> 22. |
 | I7 | Evolutions | Gravebow recipe 90 -> 60 kills (the March and Sanctum split kills over more towers; 90 was never reached there). Default March / Sanctum orders evolve their first archer before their late builds. |
+
+## gw-menus (menus, meta, saves, Codex, Settings, controls)
+
+| # | Area | Decision |
+|---|---|---|
+| U1 | Save | One ConfigFile `user://gravewatch_save.cfg` (MetaData.SAVE_PATH), `[meta] save_version=1`, sections ash / ossuary / masteries / maps / codex / prerun; written through a temp file; never touched under `--autotest` unless `--meta-save`. Settings stay in `user://settings.cfg` (device options, not in backup codes). |
+| U2 | Soul Ash | Clear: (30 + 40 x skulls) x difficulty ash_mult x map position (1, 1.25, 1.5 by MapRegistry order). Defeat: 3 per wave cleared, same multipliers. Reckoning: +5 per Reckoning wave reached, same multipliers, paid when the Reckoning ends. A 3-skull Necromancer Graveyard clear = 150. |
+| U3 | Ossuary | Nine upgrades (MetaData.UPGRADES, 7,380 Ash in all: ~50 three-skull Necromancer Graveyard clears, ~30 runs at the later maps and higher difficulties): Grave Tithe +15 souls x5, Bone Gate +2 lives x3, Thrift +5% refund x3, Quick Rites -4% cooldowns x5, Fourth Rite (4th spell slot), Restless -10% respawn x3, and one tree per tower family (ranged / aura +5% damage, blockers +8% body HP, x3 each). Family = "post" spot -> blocker, "aura" behaviour -> aura, else ranged, so new tower rows need no table edit. Refund all returns everything (asks first). |
+| U4 | Masteries | A class at Lv 5 in any map opens its Mastery permanently and for free: x1.08 on its family stat (damage, body HP for blockers), from the next run. No purchase step (GDD "opens a permanent bonus"). |
+| U5 | Map unlocks | A map opens when the map in its MAP `"unlock_after"` key (default: the previous MapRegistry map) has been cleared on any difficulty. Records: best skulls per map and difficulty, best Reckoning wave per map (read defensively from `game.get("reckoning_wave")`). |
+| U6 | Characters | Gravecaller (Shadow Bolt, no boost, no innate: identical game), Barrow Warden (Bone Wall: duration x1.3, cooldown x0.85; Stonebone blockers +15% body HP), Carrion Lord (Corpse Explosion: damage x1.25, radius x1.15, cooldown x0.85; Grave Harvest +40 start souls), Plague Scholar (Plague Cloud: damage/dps x1.25, duration x1.2, cooldown x0.85; Contagion all cooldowns x0.9). The boost multiplies only row keys the spell row has. Unlocks: Warden after the Graveyard's boss, Carrion Lord after the Crimson March's, Plague Scholar after the Sanctum's; a character whose unlock map does not exist yet is open. The character's spell is always slot 1. |
+| U7 | Spell pick | The setup offers every SpellData row; rows with `"ready": false` show dark and cannot be picked (the character's own spell is brought anyway and shows its slot dimmed until built). Picks up to MetaModifiers.spell_slots(); a full loadout replaces the last pick. Key 4 = `spell_4` (rebindable). |
+| U8 | Flow | Title -> map select -> pre-map setup (character, spells, ultimate, difficulty) -> run. Results: Reckoning (only when TdGame has `start_reckoning()`), Next (next MapRegistry map if open), Again, Menu. Main records the run before the results open (`ash_paid` / `on_next` metas on the run node). |
+| U9 | Spot menu | Empty-spot build options are compact tiles (icon, name, cost, 3 per row). The menu takes the side (right, left, below, above, diagonals) covering the fewest other spots and avoiding the spell bar; its panel lets taps through between buttons; rebuilds are deferred to the end of the frame. Affordable = soul-teal tile and cost, unaffordable = dim tile, crimson cost; a synergy it would form = gold "+" before the name, and teal links on the map (MapHints). The selected spot gets a gold ring. |
+| U10 | Banners | Each wave keeps its banner; a kind new to the map (after wave 1) adds "New foe: X" (violet ribbon); a boss adds "X arrives" (crimson ribbon). |
+| U11 | Gamepad | SpotCursor reacts to pad events only (keyboard Enter / Space stay Call / ultimate): stick / D-pad flick jumps to the nearest spot in a 60-degree cone, A opens its menu with focus on the first button, B (ui_cancel) closes it; with a spell armed the stick moves the cursor freely (520 px/s) and A casts. |
+| U12 | Touch | Top-bar and spell buttons x1.35 on phones / tablets (TouchSupport.is_mobile()); spot-menu tiles 112 x 82. |
+| U13 | Codex | Categories towers / spells / foes / bosses / evolutions, met = a run raised it (towers), brought it (spells), started a wave containing it (foes, bosses) or evolved it. Evolutions are not listed at all until found; then the recipe shows. Silhouettes are a dark violet tint of the icon. |
+| U14 | Skull icon | A 16 x 16 bone skull drawn with Pillow (`assets/sprites/td/icon_skull.png`, path in MenuData.SKULL_ICON), gold-tinted when earned. |
+
+## integration (Stage B: menus merged)
+
+| # | Area | Decision |
+|---|---|---|
+| I8 | Soul Ash | Payouts doubled (overrides U2): clear (60 + 80 x skulls), defeat 6 per wave, Reckoning 10 per wave, same multipliers. A 3-skull Necromancer clear pays 300 / 375 / 450 on the three maps, so the 7,380-Ash Ossuary takes ~20 good clears (15 with Lich clears). |
+| I9 | Decision ids | The menus branch's rows were renamed U1-U14 (the maps branch already used M1-M14). |

@@ -138,7 +138,7 @@ func setup(p_map_id: String, p_difficulty: String, p_seed: int, loadout: Array[S
 		_tail[id] = _tail_of(id)
 	start_lives = MetaModifiers.start_lives(int(map["lives"]) if int(map["lives"]) > 0 else TdRulesData.START_LIVES)
 	lives = start_lives
-	economy = SoulEconomy.new(MetaModifiers.start_souls(int(map["souls"]) if int(map["souls"]) > 0 else EconomyData.START_SOULS))
+	economy = SoulEconomy.new(CharacterModifiers.start_souls(MetaModifiers.start_souls(int(map["souls"]) if int(map["souls"]) > 0 else EconomyData.START_SOULS)))
 	economy.changed.connect(func() -> void: changed.emit())
 	waves = WaveDirector.new(self, map["waves"])
 	caster = SpellCaster.new(self, loadout)

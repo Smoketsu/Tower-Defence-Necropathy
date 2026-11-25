@@ -37,9 +37,9 @@ const PATH: String = "user://settings.cfg"
 ## Actions the player may rebind (keyboard primary key only), in menu order.
 ## (`dash` = Grave Step, `ultimate` = Dread Rally, GDD §5.5.)
 ## (Gravewatch: the three spell slots, the ultimate, Call, speed and pause; GDD §9.2.)
-const REBINDABLE: Array = ["spell_1", "spell_2", "spell_3", "ultimate", "call_wave", "speed", "pause"]
+const REBINDABLE: Array = ["spell_1", "spell_2", "spell_3", "spell_4", "ultimate", "call_wave", "speed", "pause"]
 ## Menu labels for REBINDABLE actions.
-const ACTION_LABELS: Dictionary = {"spell_1": "Spell 1", "spell_2": "Spell 2", "spell_3": "Spell 3",
+const ACTION_LABELS: Dictionary = {"spell_1": "Spell 1", "spell_2": "Spell 2", "spell_3": "Spell 3", "spell_4": "Spell 4",
 	"ultimate": "Ultimate", "call_wave": "Call wave", "speed": "Speed", "pause": "Pause"}
 ## fullscreen_mode(): the Settings screen shows the Fullscreen toggle.
 const FULLSCREEN_TOGGLE: int = 0

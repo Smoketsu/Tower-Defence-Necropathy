@@ -172,3 +172,25 @@ endless mode (`--reckoning`), build orders `march_default` / `march_weak` /
 `silence_enemy`, `suppress_tower`; EnemyTrait `on_attack` hook and `note()`;
 `TdGame.spawn_at()`, `WaveDirector.spawn_extra()`; `MapRule.summary()` /
 `finish_structures()`; enemy row key `structure`.
+
+Sister / Sentinel / Inquisitor zone / Confessor / Paladin traits, Reckoning endless mode, the five new
+sounds (stand-ins in `TdSoundData`), CI.
+
+## Menus, meta and saves (gw-menus)
+
+- Screens extend `MenuScreen` (`scripts/ui/td/menu_screen.gd`: backdrop, ornate
+  panel, title, `_build(box)`, Back / ui_cancel, UiMotion, fit_to_screen); Main
+  hosts each on a CanvasLayer. Layout numbers and words in `MenuData`.
+- Meta: `Meta` (static, `scripts/core/meta.gd`) owns the save; it hands the
+  Ossuary and Masteries to `MetaModifiers` (the one path into a run:
+  `apply_tower()` in `Tower.recompute()`, start souls / lives / refund /
+  cooldowns / respawn / `spell_slots()`). New Ossuary row: `MetaData.UPGRADES` +
+  `ORDER`, then read its key in `MetaModifiers`.
+- Characters: `CharacterData` rows, applied only through `CharacterModifiers`
+  (`loadout()`, `spell_row()` in SpellCaster, `cooldown_mult()`, `start_souls()`,
+  `apply_tower()`). The Gravecaller changes nothing.
+- Codex / masteries are recorded by `RunWatch` from TdGame's signals; screens
+  read lists from the data tables, so new towers / spells / kinds / maps /
+  evolutions appear by themselves.
+- Reckoning hooks read defensively: `game.get("reckoning_wave")` (int) and
+  `game.has_method("start_reckoning")` for the results' offer.
