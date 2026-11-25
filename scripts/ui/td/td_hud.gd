@@ -51,6 +51,10 @@ var _banner_left: float = 0.0
 var menu: SpotMenu = null
 ## Wave number the preview was built for (rebuilt when it changes).
 var _preview_wave: int = -2
+## Real seconds left on the lives counter's leak shake (0 = still; visual).
+var _lives_shake: float = 0.0
+## The lives label's x before the shake (px).
+var _lives_x: float = 0.0
 
 
 func _ready() -> void:
@@ -236,6 +240,33 @@ func _process(delta: float) -> void:
 	elif _call.text != "Call":
 		_call.text = "Call"
 	_step_banner(delta)
+	_step_lives_shake(delta)
+
+
+## Viewport px of the soul counter's centre (TdVfx soul wisps fly there).
+func souls_screen_pos() -> Vector2:
+	return _souls.get_global_rect().get_center()
+
+
+## A life was lost: the lives counter flashes red and shakes (real time; no
+## shake under Reduce motion).
+func shake_lives() -> void:
+	if _lives_shake <= 0.0:
+		_lives_x = _lives.position.x
+	_lives_shake = TdVfxData.LIVES_SHAKE_TIME
+
+
+## Advances the lives counter's shake by `delta` real s.
+func _step_lives_shake(delta: float) -> void:
+	if _lives_shake <= 0.0:
+		return
+	_lives_shake = maxf(_lives_shake - delta, 0.0)
+	var f := _lives_shake / TdVfxData.LIVES_SHAKE_TIME  # 1 -> 0.
+	_lives.modulate = Color.WHITE.lerp(TdVfxData.LEAK_TINT, f)
+	if TdVfx.motion():
+		_lives.position.x = _lives_x + sin(f * 40.0) * TdVfxData.LIVES_SHAKE_PX * f
+	if _lives_shake <= 0.0:
+		_lives.position.x = _lives_x
 
 
 ## Queues banner line `text` (shown one after another) on an `accent` ribbon.

@@ -121,3 +121,16 @@ decisions given with the foundation brief are listed first. Append new rows.
 | I11 | HUD | Esc first closes an open spot menu or disarms a spell, then pauses. At most 2 banners wait behind the one showing (`TdUiData.BANNER_QUEUE_MAX`): stale wave banners are dropped. |
 | I12 | Title backdrop | Necropathy's white diorama masks get its night tints (dark hills, faint halo, low fog); they were drawn near white. |
 | I13 | Web debug | `?gw_autotest=--map=sanctum,--speed=8` (comma-separated autotest options) runs the bot on screen in the Web build: used to see late waves, bosses and tower specials in a browser. |
+
+## combat effects (visual-only pass, owner: "shots are barely visible")
+
+| # | Area | Decision |
+|---|---|---|
+| V1 | One layer | All combat visuals are `TdVfx` (`game.vfx`) and `TdVfxData`; gameplay calls it after an event resolves and it never writes run state. Its RNG is its own (seed 7); it is off headless, so the six recorded same-seed summaries (3 maps x seeds 1, 2) are byte-identical before and after. |
+| V2 | Shots | Per-class look in `TdVfxData.SHOTS` (sprite override, scale 1.5-2.4, trail, halo, impact strip, splash ring, muzzle flash); the Archer draws Necropathy's bone spear, the Mage its violet orb. Trails are one stretched `vfx_streak` mask per shot (no polygons). Volley shots bow out sideways and meet at the target (drawn only). Evolved towers x1.35. |
+| V3 | Melee | Blocker bodies lunge (drawn offset in the mirrored layer) and a `vfx_slash` crescent sweeps the target; the target is nudged 2 px back. The Abomination heaves up over the 0.22 s before its stomp (it reads `next_attack`) and lands with a crack, dust ring and bone burst. Enemy blows: lunge, red slash, body flinch, sparks; a boss shows strike pose 3 for 0.3 s with Vael's cleave strip. Fallen bodies draw a bone pile; a respawn rises out of it (`draw_rising`). |
+| V4 | Reactions | Hit squash, death burst by rank (+ ring for elites, a 5-burst sequence with a white flash and shake for bosses), soul wisps to the soul counter (capped 24), one tint per status by priority (frozen, burning, rot, cursed, weakened, slowed) plus up to 3 icons (`vfx_status`). Burning / rot are the last ground-field tick (`vis_field_*`). |
+| V5 | Towers | Firing: a 0.06 s brighten and a 3 px recoil away from its facing; idle breathing +-2.5% on game time. Body layers now change scale without a redraw (a node transform); they redraw on a flash change, a recompute, or every frame for blockers. |
+| V6 | Leak | The gate flashes red 0.5 s and the lives counter shakes and flashes red (real time). |
+| V7 | Levels | Reduced effects keeps shots, slashes, impacts and deaths, drops trails, wisps, breathing and the extra wail rings, cap 70 (Full 160). Reduce motion drops lunges, nudges, shake, recoil, breathing and the lives shake. The shake also never runs headless (the autotest); the on-screen Web autotest shows it. |
+| V8 | Cost | Measured in headless Chromium (software GL), Sanctum at speed x3: before 85 / 108 ms mean frame at 120 / 160 s, after 89 / 113 ms (about +4%). |

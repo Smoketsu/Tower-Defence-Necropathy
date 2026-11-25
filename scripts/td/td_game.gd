@@ -436,6 +436,7 @@ func first_entrance() -> String:
 func lose_lives(n: int) -> void:
 	lives = maxi(lives - n, 0)
 	gate_layer.queue_redraw()
+	vfx.leak()
 	sound("life_lost")
 	changed.emit()
 

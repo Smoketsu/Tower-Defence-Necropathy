@@ -155,6 +155,14 @@ structures last; area effects use `TdGame.foes_near()`); one silence test
 `wave_hp_end`). The Web build reads `?gw_autotest=--map=sanctum,--speed=8` to run
 the bot on screen (for looking at late waves and bosses).
 
+## Combat effects (Nov 2026)
+
+`TdVfx` (`game.vfx`) + `TdVfxData`: every shot, melee blow, hit, death, status,
+leak and tower shot gets its look there (DECISIONS V1-V8). Gameplay code only
+calls `game.vfx.<event>()` after resolving the event; visual state on units is
+the `vis_*` fields (TdEnemy, BlockBody), never read by the simulation. Off
+headless; never use `game.rng` for visuals. Same-seed summaries must stay identical.
+
 ## Tower kits (gw-towers, Nov 2026)
 
 All 8 towers have their class kit in `scripts/towers/<class>.gd`; the 8

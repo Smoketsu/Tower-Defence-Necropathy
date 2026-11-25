@@ -79,7 +79,8 @@ func on_removed(_t: Tower) -> void:
 ## See the header. Default: the unit sprite, feet on the layer origin (the
 ## layer sits on the spot and is mirrored / squashed by Tower._process()).
 func draw_body(t: Tower, ci: CanvasItem, _index: int) -> void:
-	if not SpriteBank.draw(ci, String(t.stats["sprite"]), Vector2(0, -TowerData.BODY_LIFT), false):
+	var tint := Color(1.6, 1.6, 1.5) if t.game.vfx.on and t.firing_flash() else Color.WHITE  # Brightens as it fires (drawn only).
+	if not SpriteBank.draw(ci, String(t.stats["sprite"]), Vector2(0, -TowerData.BODY_LIFT), false, tint):
 		ci.draw_rect(Rect2(-10, -26, 20, 30), Color(0.6, 0.8, 0.6))
 
 

@@ -71,7 +71,7 @@ scripts/
   td/                    the core: td_game (run root, clock, actions), map_loader, map_view, road, path_follower,
                          road_block, block_body, td_enemy, wave_director, tower, spot, td_projectiles, td_fx,
                          td_combat, soul_economy, spell_caster, synergies, evolutions, difficulty_modifiers,
-                         meta_modifiers, td_art, td_autotest
+                         meta_modifiers, td_art, td_autotest, td_vfx (combat effects, visual only)
   towers/                tower_behavior.gd (base) + projectile.gd, aura.gd, blocker.gd
   enemies/               enemy_trait.gd (base) + traits/templar_charge, healer, banner_aura
   bosses/                alaric.gd (an EnemyTrait)
@@ -133,6 +133,24 @@ public play repository (Gravewatch-Play, GitHub Pages) needs a token secret
 `PAGES_TOKEN` that only the owner can create; until then the build is pushed by
 hand. Debug: `index.html?gw_autotest=--map=sanctum,--speed=8` runs the bot on
 screen.
+
+## Combat effects (visual only)
+
+`TdVfx` (`scripts/td/td_vfx.gd`, numbers in `scripts/data/td_vfx_data.gd`) draws
+what combat events look like: shots 1.5-2.4x their art size with streak trails,
+muzzle flashes and impact bursts per tower (archer bone arrows, mage orbs with a
+halo and a splash-sized burst, frost shards and rings, tumbling boulders with a
+shadow, dust ring, crack and a small screen shake), fanned volleys, Warrior lunges
+and sword slashes, the Abomination's smash, enemy blows with a red slash and shield
+sparks, boss strike poses, bone piles and the climb back out, Banshee sound rings,
+Mender soul-threads, hit squash, death bursts by rank, the boss death sequence,
+soul wisps flying to the soul counter, status tints and icons, tower recoil,
+firing flash and breathing, and the gate's red flash and lives shake on a leak.
+It only reads the run and uses its own RNG; it is off headless, so the same-seed
+autotest summaries are byte-identical with or without it. Settings > Reduced
+effects (default on phones) drops trails, wisps, breathing and extra rings;
+Reduce motion drops lunges, shake and breathing. Its new pixel art
+(`assets/sprites/td/vfx_*.png`) is drawn by `tools/vfx_art.py`.
 
 ## Known limits
 

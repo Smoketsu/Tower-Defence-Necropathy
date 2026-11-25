@@ -243,6 +243,42 @@ func heal(t: Tower, b: BlockBody) -> void:
 	add(Kind.ANIM, b.pos + Vector2(0, -12), TdVfxData.HEAL_SPARKLE_D, 0.4, TdVfxData.THREAD_TINT, "volley_hit", 0.12)
 
 
+## Enemy `e` died: its burst by rank, a soul wisp to the soul counter, and the
+## boss death sequence (staggered bursts, a white flash, the shake).
+func death(e: TdEnemy) -> void:
+	if not on:
+		return
+	var rank := String(e.row["rank"])  # fodder / elite / miniboss / boss.
+	var d := float(TdVfxData.DEATH_D.get(rank, 70.0))  # Burst diameter (px).
+	if rank == "boss":
+		for i in TdVfxData.BOSS_BURSTS:
+			var off := Vector2(_rng.randf_range(-40, 40), _rng.randf_range(-50, 20)) if i > 0 else Vector2.ZERO  # Around the body.
+			add(Kind.ANIM, e.position + off, d * (0.6 if i < TdVfxData.BOSS_BURSTS - 1 else 1.2), 0.6, Color.WHITE, "boss_death", float(i) * TdVfxData.BOSS_BURST_GAP)
+		add(Kind.FLASH, e.position, TdVfxData.BOSS_FLASH_R, TdVfxData.BOSS_FLASH_TIME, Color(1, 1, 1, 0.9), "", float(TdVfxData.BOSS_BURSTS - 1) * TdVfxData.BOSS_BURST_GAP)
+		shake(TdVfxData.BOSS_DEATH_SHAKE)
+	else:
+		add(Kind.ANIM, e.position, d, TdVfxData.DEATH_TIME, Color.WHITE, "enemy_death")
+		if rank != "fodder":
+			add(Kind.ANIM, e.position, d * 0.9, TdVfxData.DEATH_TIME, TdVfxData.ELITE_TINT, "volley_hit")
+			var r := add(Kind.RING, e.position, d * 0.6, 0.4, TdVfxData.ELITE_TINT)
+			if r != null:
+				r.size0 = 8.0
+			if rank == "miniboss":
+				shake(TdVfxData.BOSS_SHAKE)
+	if not reduced() and _wisps < TdVfxData.WISP_CAP:
+		_wisps += 1
+		add(Kind.WISP, e.position + Vector2(0, -10), TdVfxData.WISP_R * (1.0 if rank == "fodder" else 1.6), TdVfxData.WISP_TIME, TdVfxData.WISP_TINT, "", 0.1)
+
+
+## An enemy reached the gate: the gate flashes red and the lives counter shakes.
+func leak() -> void:
+	if not on:
+		return
+	_leak_at = game.time
+	if game.hud != null:
+		game.hud.shake_lives()
+
+
 func _process(delta: float) -> void:
 	if not on:
 		return

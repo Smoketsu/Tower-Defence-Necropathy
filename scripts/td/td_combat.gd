@@ -66,7 +66,7 @@ static func kill_enemy(game: TdGame, e: TdEnemy, tower: Tower) -> void:
 		game.grant_chest(e.position)
 	game.enemy_killed.emit(e, tower)
 	CovenantField.record_death(game, e)
-	game.fx.spawn("boss_death" if rank == "boss" else "enemy_death", e.position, 64.0 if rank == "fodder" else 128.0, 0.45)
+	game.vfx.death(e)
 	game.remove_enemy(e, false)
 
 

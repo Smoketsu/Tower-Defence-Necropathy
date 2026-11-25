@@ -52,6 +52,8 @@ var suppress_until: float = 0.0
 ## Body layers (UnitLayer children): one per drawn unit (blockers: one per body),
 ## mirrored and squashed by node scale. Visual only.
 var layers: Array[UnitLayer] = []
+## True while the body layers were last drawn with the firing flash (visual only).
+var _flash_drawn: bool = false
 
 
 ## Sets up a new tower of class `id` on spot `p_spot`.
@@ -116,6 +118,8 @@ func recompute() -> void:
 	if behavior != null:
 		behavior.on_recompute(self)
 	queue_redraw()
+	for l: UnitLayer in layers:
+		l.queue_redraw()  # A new level or evolution may change the sprite.
 
 
 ## One fixed step: the behaviour acts.
@@ -198,12 +202,27 @@ func _process(_delta: float) -> void:
 	if game.time < squash_until:
 		squash = (squash_until - game.time) / TowerData.FIRE_SQUASH_TIME
 	var sc := Vector2(facing * (1.0 + TowerData.FIRE_SQUASH * squash), 1.0 - TowerData.FIRE_SQUASH * squash)  # Body scale.
+	var fx := game.vfx.on  # Combat effects drawn (not headless).
+	if fx and TdVfx.motion() and not TdVfx.reduced():
+		var br := TdVfxData.BREATH_AMP * sin(game.time * TAU / TdVfxData.BREATH_PERIOD + position.x * 0.013 + position.y * 0.029)  # Idle breathing.
+		sc = Vector2(sc.x * (1.0 - br * 0.5), sc.y * (1.0 + br))
+	var flash := fx and firing_flash()  # The muzzle-side brighten.
 	for l: UnitLayer in layers:
-		if l.scale != sc or block != null:
-			l.scale = sc
+		l.scale = sc  # A node transform: no redraw needed.
+		if block != null or flash != _flash_drawn:
 			l.queue_redraw()
+	_flash_drawn = flash
 	if block != null:
 		queue_redraw()
+	elif not layers.is_empty():
+		var rf := (game.time - (squash_until - TowerData.FIRE_SQUASH_TIME)) / TdVfxData.RECOIL_TIME  # 0..1 through the recoil.
+		var kick := TdVfxData.RECOIL_PX * sin(rf * PI) if fx and TdVfx.motion() and rf >= 0.0 and rf < 1.0 else 0.0  # Px pushed back.
+		layers[0].position = Vector2(-facing * kick, TowerData.BODY_LIFT + kick * 0.4).round()
+
+
+## True during the brief brighten after it fires (visual only).
+func firing_flash() -> bool:
+	return game.time < squash_until - TowerData.FIRE_SQUASH_TIME + TdVfxData.FIRE_FLASH_TIME
 
 
 func _draw() -> void:
