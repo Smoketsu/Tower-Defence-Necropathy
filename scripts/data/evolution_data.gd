@@ -179,4 +179,16 @@ const EVOLUTIONS: Dictionary = {
 		},
 		"recipe": {"type": "near", "class": "warder", "radius": 220.0},  # TUNING (not in GDD) Necropathy Grave Masonry -> a Warder beside it
 	},
+	"oni_lord": {
+		"from": "bound_oni", "name": "Oni Lord", "sprite": "summons/oni_lord", "icon": "oni_lord",
+		"stats": {"damage": 1.4, "hp": 1.4},  # TUNING (not in GDD)
+		"set": {
+			"hold": 4,  # TUNING (not in GDD)
+			"smash_every": 2,  # TUNING (not in GDD)
+			"stun_time": 1.4,  # TUNING (not in GDD)
+			"quake_radius": 90.0,  # TUNING (not in GDD) px the smash shakes the ground
+			"quake_mult": 0.6,  # TUNING (not in GDD) fraction of its damage to each foe in the quake
+		},
+		"recipe": {"type": "elite_kills", "n": 12},  # TUNING (not in GDD) Necropathy Oni's Resolve -> a record of slain elites
+	},
 }

@@ -27,11 +27,13 @@ const FIRE: Dictionary = {
 	# Later towers (gw2-kit): Necropathy's own class sounds where they exist, else a td pack recipe below.
 	"warder": "priest_ward", "rogue": "rogue_dash", "gargoyle": "gargoyle_dive", "bone_hound": "td_hound_bite",
 	"fallen_seraph": "td_seraph_feather", "bone_golem": "td_golem_slam",
+	"bound_oni": "oni_smash",  # Act V (w2b-shogun): Necropathy's oni club (shogunate pack)
 }  # TUNING (not in GDD)
 ## Spell / ultimate id -> Sfx id played on its cast (gw2-kit: the later spells; the
 ## launch spells keep their own sounds). Ultimates use their row's "sound".
 const CAST: Dictionary = {
 	"death_mark": "bolt_cast", "soul_chains": "td_soul_chains", "wither": "plague_cast", "raise_dead": "summon_rise",
+	"hundred_shadows": "kage_split", "banner_of_the_dead": "taiko_hit", "black_sun": "bolt_cast",  # Act V (w2b-shogun)
 }  # TUNING (not in GDD)
 
 ## The five Gravewatch sounds (GDD §11), id -> recipe; keys exactly as

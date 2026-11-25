@@ -43,6 +43,8 @@ const SHOTS: Dictionary = {
 		"halo": 9.0, "impact": "volley_hit", "impact_d": 60.0, "ring": false, "muzzle": 50.0},  # TUNING (not in GDD) 45 px black feathers, violet streaks
 	"bone_golem": {"sprite": "projectiles/bone_spear", "scale": 1.6, "tint": Color(0.95, 0.9, 0.72), "trail": 60.0, "trail_w": 11.0,
 		"halo": 0.0, "impact": "volley_hit", "impact_d": 52.0, "ring": false, "muzzle": 0.0},  # TUNING (not in GDD) its Lv3 bone shards
+	"bound_oni": {"sprite": "projectiles/bone_spear", "scale": 1.6, "tint": Color(1.0, 0.55, 0.4), "trail": 62.0, "trail_w": 11.0,
+		"halo": 0.0, "impact": "volley_hit", "impact_d": 52.0, "ring": false, "muzzle": 0.0},  # TUNING (not in GDD) Act V: its Lv3 iron-red shards
 }
 ## Look of a class missing from SHOTS (same keys).
 const SHOT_DEFAULT: Dictionary = {"sprite": "", "scale": 2.0, "tint": Color(1.0, 1.0, 1.0), "trail": 40.0, "trail_w": 6.0,
@@ -301,6 +303,10 @@ const SPELLS: Dictionary = {
 	"sovereigns_decree": {"tint": Color(1.0, 0.85, 0.4), "flash": 180.0, "strip": "sovereigns_decree", "strip_d": 300.0, "ring": 320.0, "shake": 4.0},  # TUNING (not in GDD)
 	"eclipse": {"tint": Color(0.55, 0.4, 1.0), "flash": 180.0, "strip": "eclipse", "strip_d": 360.0, "ring": 420.0, "shake": 5.0},  # TUNING (not in GDD)
 	"grave_tide": {"tint": Color(0.45, 1.0, 0.7), "flash": 180.0, "strip": "grave_tide", "strip_d": 300.0, "ring": 320.0, "shake": 4.0},  # TUNING (not in GDD)
+	# --- Act V spells (w2b-shogun) ---
+	"hundred_shadows": {"tint": Color(0.7, 0.45, 1.0), "flash": 96.0, "strip": "spore_cloud", "strip_d": 120.0, "ring": 60.0, "shake": 0.0},  # TUNING (not in GDD) violet shadow strikes
+	"banner_of_the_dead": {"tint": Color(1.0, 0.35, 0.3), "flash": 96.0, "strip": "volley_flash", "strip_d": 120.0, "ring": 170.0, "shake": 1.5},  # TUNING (not in GDD) ring = its real reach
+	"black_sun": {"tint": Color(0.75, 0.35, 1.0), "flash": 120.0, "strip": "eclipse", "strip_d": 160.0, "ring": 150.0, "shake": 2.0},  # TUNING (not in GDD) ring = its real reach
 }
 ## Seconds a cast flash and its target ring play.
 const CAST_TIME: float = 0.45  # TUNING (not in GDD)

@@ -11,7 +11,7 @@ extends RefCounted
 
 ## Build-menu order of the towers.
 const ORDER: Array[String] = ["archer", "mage", "frost_wraith", "corpse_catapult", "banshee", "mender", "warrior", "abomination",
-	"warder", "rogue", "gargoyle", "bone_hound", "fallen_seraph", "bone_golem"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
+	"warder", "rogue", "gargoyle", "bone_hound", "fallen_seraph", "bone_golem", "bound_oni"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
 
 ## Targeting modes (GDD §4.3), in the order the Target button cycles them.
 const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
@@ -333,6 +333,28 @@ const TOWERS: Dictionary = {
 		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(0.95, 0.9, 0.75), "reach": 120.0},  # TUNING (not in GDD)
 		"evolution": "ossuary_titan",
 	},
+	# --- Act V, the Shogunate (w2b-shogun): unlocked by Amaterasu ---
+	"bound_oni": {
+		"name": "Bound Oni", "sprite": "summons/bound_oni", "icon": "bound_oni", "spot": "post",
+		"desc": "Heavy blocker: every blow hits all it holds, its kanabo smash stuns them",
+		"unlock": {"map": "sun_road"},  # Act V's finale boss (DECISIONS K9)
+		"cost": 130,  # TUNING (not in GDD)
+		"behavior": "bound_oni",
+		"range": 40.0,  # TUNING (not in GDD)
+		"damage": 20.0,  # TUNING (not in GDD) per held enemy
+		"interval": 1.6,  # TUNING (not in GDD)
+		"target": "first",
+		"bodies": 1,
+		"body_hp": 440.0,  # TUNING (not in GDD) between the Abomination (350) and the Golem (500)
+		"hold": 3,  # TUNING (not in GDD)
+		"hits_all_held": true,  # Necropathy kanabo sweep
+		"respawn": 11.0,  # TUNING (not in GDD)
+		"smash_every": 3,  # TUNING (not in GDD) every 3rd strike is the smash
+		"stun_time": 1.0,  # TUNING (not in GDD) s, Necropathy "a heavy blocker with a stun smash"
+		"quake_radius": 0.0, "quake_mult": 0.0,  # Oni Lord only (EvolutionData "oni_lord")
+		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(1.0, 0.55, 0.4), "reach": 120.0},  # TUNING (not in GDD)
+		"evolution": "oni_lord",
+	},
 }
 
 ## Per-level multipliers, 5 rows (levels 1-5) per tower. Keys:
@@ -435,6 +457,13 @@ const LEVELS: Dictionary = {
 		{"damage": 2.5, "rate": 1.25, "range": 1.2},  # TUNING (not in GDD)
 	],
 	"bone_golem": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.0},
+		{"damage": 1.3, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.4},  # TUNING (not in GDD)
+		{"damage": 1.6, "rate": 1.1, "range": 1.0, "bodies": 1, "hp": 1.8},  # TUNING (not in GDD)
+		{"damage": 2.0, "rate": 1.2, "range": 1.0, "bodies": 1, "hp": 2.4},  # TUNING (not in GDD)
+		{"damage": 2.5, "rate": 1.3, "range": 1.0, "bodies": 1, "hp": 3.0},  # TUNING (not in GDD)
+	],
+	"bound_oni": [
 		{"damage": 1.0, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.0},
 		{"damage": 1.3, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.4},  # TUNING (not in GDD)
 		{"damage": 1.6, "rate": 1.1, "range": 1.0, "bodies": 1, "hp": 1.8},  # TUNING (not in GDD)

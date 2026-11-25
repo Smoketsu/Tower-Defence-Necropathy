@@ -59,7 +59,7 @@ static func kill_enemy(game: TdGame, e: TdEnemy, tower: Tower) -> void:
 	var rank := String(e.row["rank"])  # fodder / elite / miniboss / boss.
 	if e.traits != null:
 		e.traits.on_death(e, game)
-	game.economy.earn(int(EconomyData.KILL_SOULS[rank]), "kills")
+	game.economy.earn(int(e.row.get("souls", EconomyData.KILL_SOULS[rank])), "kills")  # A row's "souls" overrides its rank's (w2b-shogun).
 	game.caster.charge(rank)
 	if tower != null:
 		tower.kills += 1
@@ -262,3 +262,13 @@ static func shred_of(game: TdGame, e: TdEnemy) -> float:
 ## Wild Hunt read it through Synergies.has_status()).
 static func swoop_enemy(game: TdGame, e: TdEnemy, time: float) -> void:
 	e.vars["k_swooped"] = maxf(float(e.vars.get("k_swooped", 0.0)), game.time + time)
+
+
+## Rallies tower `t` (Banner of the Dead): its attack speed x `rate_mult` for
+## `time` s through Tower.recompute() (the stronger rally wins, a longer one
+## extends); Tower.step() recomputes it when the rally ends.
+static func rally_tower(game: TdGame, t: Tower, rate_mult: float, time: float) -> void:
+	if game.time >= float(t.vars.get("k_rally_until", 0.0)) or rate_mult >= float(t.vars.get("k_rally", 1.0)):
+		t.vars["k_rally"] = rate_mult
+	t.vars["k_rally_until"] = maxf(float(t.vars.get("k_rally_until", 0.0)), game.time + time)
+	t.recompute()

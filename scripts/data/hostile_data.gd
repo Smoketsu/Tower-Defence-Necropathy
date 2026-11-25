@@ -20,6 +20,7 @@ const LOOKS: Dictionary = {
 	"arrow": {"sprite": "projectiles/enemy_arrow", "tint": Color(1.0, 0.45, 0.3), "scale": 2.0, "trail": 64.0, "impact": 56.0},  # TUNING (not in GDD)
 	"bolt": {"sprite": "projectiles/radiant_bolt", "tint": Color(1.0, 0.3, 0.25), "scale": 2.2, "trail": 72.0, "impact": 64.0},  # TUNING (not in GDD)
 	"shell": {"sprite": "projectiles/corpse_boulder", "tint": Color(1.0, 0.55, 0.25), "scale": 1.6, "trail": 0.0, "impact": 90.0},  # TUNING (not in GDD)
+	"teppo": {"sprite": "projectiles/priest_bolt", "tint": Color(1.0, 0.85, 0.55), "scale": 1.6, "trail": 80.0, "impact": 48.0},  # TUNING (not in GDD) Act V arquebus ball, a powder-white streak
 }
 ## Trail width (px) of hostile shots.
 const TRAIL_W: float = 10.0  # TUNING (not in GDD)

@@ -99,4 +99,12 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "b", "vs": "weakened", "mult": 1.25},  # TUNING (not in GDD)
 		"hint": "Banshee near a Seraph: feathers hit weakened foes harder",
 	},
+	# --- Act V (w2b-shogun) ---
+	"iron_and_bone": {
+		"name": "Iron and Bone", "icon": "onis_resolve", "a": "bound_oni", "b": "archer",
+		"radius": 220.0,  # TUNING (not in GDD)
+		"effects": {"a": {"hp": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "b", "vs": "frozen", "mult": 1.35},  # TUNING (not in GDD) arrows punish the oni's stunned foes
+		"hint": "Bound Oni near Archers: arrows hit stunned foes harder",
+	},
 }

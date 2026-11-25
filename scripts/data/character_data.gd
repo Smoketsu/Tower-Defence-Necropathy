@@ -14,7 +14,8 @@ extends RefCounted
 const DEFAULT_ID: String = "gravecaller"
 ## Picker order.
 const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "plague_scholar",
-	"doomsayer", "soulbinder", "wither_witch", "grave_herald"]  # The later spells' characters (gw2-kit), appended
+	"doomsayer", "soulbinder", "wither_witch", "grave_herald",
+	"grave_kunoichi", "ronin_revenant", "shrine_maiden"]  # The later spells' characters (gw2-kit), appended
 
 ## Character rows. Keys:
 ##   name         — UI name.
@@ -79,6 +80,25 @@ const CHARACTERS: Dictionary = {
 		"boost": {"hp": 1.25, "count": 1.34, "cooldown": 0.85},  # TUNING (not in GDD) count 3 -> 4
 		"innate": {"name": "Restless", "desc": "Every Risen lasts 25% longer", "temp_time": 1.25},  # Necropathy "last 25% longer"
 		"unlock_after": "sanctum",  # TUNING (not in GDD)
+	},
+	# --- Act V's characters (w2b-shogun; Necropathy's Shogunate characters) ---
+	"grave_kunoichi": {
+		"name": "Grave Kunoichi", "short": "Kunoichi", "sprite": "player/grave_kunoichi", "spell": "hundred_shadows",
+		"boost": {"damage": 1.25, "count": 1.34, "cooldown": 0.85},  # TUNING (not in GDD) count 3 -> 4
+		"innate": {"name": "Hidden Hand", "desc": "+40 souls at the start of a map", "start_souls": 40},  # TUNING (not in GDD)
+		"unlock_after": "province",  # Kage
+	},
+	"ronin_revenant": {
+		"name": "Ronin Revenant", "short": "Ronin", "sprite": "player/ronin_revenant", "spell": "banner_of_the_dead",
+		"boost": {"rate_mult": 1.1, "duration": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Unbending", "desc": "Blockers +15% body HP", "blocker_hp": 1.15},  # Necropathy's Act V counter-passive name
+		"unlock_after": "kurogane",  # Shogun Kurogane
+	},
+	"shrine_maiden": {
+		"name": "Shrine Maiden of Night", "short": "Shrine Maiden", "sprite": "player/shrine_maiden", "spell": "black_sun",
+		"boost": {"damage": 1.25, "duration": 1.2, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Stolen Dawn", "desc": "All spell cooldowns 10% shorter", "cooldown": 0.9},  # TUNING (not in GDD)
+		"unlock_after": "sun_road",  # Amaterasu
 	},
 }
 
