@@ -116,7 +116,7 @@ func _slash(t: Tower, a: Vector2, b: Vector2) -> void:
 	if st != null:
 		st.ang = (b - a).angle()
 		st.size0 = maxf(a.distance_to(b), 30.0)
-	var f := t.game.vfx.add(TdVfx.Kind.SLASH, b, TdVfxData.KIT_DASH_SLASH_D * k, TdVfxData.SLASH_TIME, TdVfxData.KIT_DASH_TINT, "evolved")
+	var f := t.game.vfx.add(TdVfx.Kind.SLASH, b, TdVfxData.KIT_DASH_SLASH_D * k, TdVfxData.SLASH_TIME, TdVfxData.KIT_DASH_TINT, "kit")  # "kit": the rim takes its own colour
 	if f != null:
 		f.ang = (b - a).angle()
 	t.game.vfx.add(TdVfx.Kind.ANIM, b + Vector2(0, -10), 60.0 * k, TdVfxData.IMPACT_TIME, TdVfxData.KIT_DASH_TINT, "volley_hit")

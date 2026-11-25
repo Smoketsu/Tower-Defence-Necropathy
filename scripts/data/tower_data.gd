@@ -85,6 +85,7 @@ const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
 ##   stone_time    — Gargoyle (Cathedral Horror): s it stands as stone after a landing (visual + no attack).
 ##   pack          — Bone Hounds: hounds in the pack at level 1 (LEVELS "bodies" override it).
 ##   hound_speed   — Bone Hounds: px/s a hound runs.
+##   kennel_dx / kennel_dy — Bone Hounds: px between hounds resting on the plot, across / in depth.
 ##   pack_bonus / pack_max — Bone Hounds: + damage fraction per other hound biting the same prey, and its cap.
 ##   burn_dps / burn_time — Bone Hounds (Hellhound): fire damage over time per bite.
 ##   feathers      — Fallen Seraph: feathers per shot (each at a different enemy in range).
@@ -284,6 +285,7 @@ const TOWERS: Dictionary = {
 		"target": "first",
 		"pack": 3,  # TUNING (not in GDD) Necropathy 3 -> 9 hounds
 		"hound_speed": 210.0,  # TUNING (not in GDD)
+		"kennel_dx": 20.0, "kennel_dy": 14.0,  # TUNING (not in GDD) px between resting hounds (12 read as one blob)
 		"pack_bonus": 0.15, "pack_max": 0.45,  # GDD §6.3 Necropathy Pack Hunt (+15% per packmate, max +45%)
 		"elite_bonus": 0.0,
 		"burn_dps": 0.0, "burn_time": 0.0,

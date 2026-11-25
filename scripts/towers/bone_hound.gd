@@ -30,7 +30,7 @@ func on_recompute(t: Tower) -> void:
 
 ## Map px of hound `i`'s place in the kennel.
 func _home(t: Tower, i: int) -> Vector2:
-	return t.position + Vector2((float(i % 3) - 1.0) * 12.0, float(i / 3) * 8.0 - 2.0)
+	return t.position + Vector2((float(i % 3) - 1.0) * float(t.stats["kennel_dx"]) + float(i / 3) * float(t.stats["kennel_dx"]) * 0.5, float(i / 3) * float(t.stats["kennel_dy"]) - 4.0)
 
 
 func step(t: Tower, dt: float) -> void:
@@ -95,7 +95,7 @@ func _bite(t: Tower, h: Array, e: TdEnemy, biting: int) -> void:
 	if g.vfx.on:
 		var hell := float(t.stats["burn_dps"]) > 0.0  # Hellhound fire.
 		var tint := TdVfxData.KIT_HELL_TINT if hell else TdVfxData.KIT_BITE_TINT  # Its colour.
-		var f := g.vfx.add(TdVfx.Kind.SLASH, e.position - (e.position - p).normalized() * 4.0, TdVfxData.KIT_BITE_D * TdVfx.loud(t), TdVfxData.SLASH_TIME * 0.8, tint, "evolved")
+		var f := g.vfx.add(TdVfx.Kind.SLASH, e.position - (e.position - p).normalized() * 4.0, TdVfxData.KIT_BITE_D * TdVfx.loud(t), TdVfxData.SLASH_TIME * 0.8, tint, "kit")  # "kit": the rim takes its own colour
 		if f != null:
 			f.ang = (e.position - p).angle()
 			f.flip = (t.shots % 2) == 0

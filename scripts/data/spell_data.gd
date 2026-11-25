@@ -117,10 +117,11 @@ const ULTIMATE: Dictionary = {
 ## later unlocks on the same meter"; gw2-kit). Each is cast by
 ## scripts/spells/<id>.gd on the Dread Rally meter (ULTIMATE meter_max / charge);
 ## chosen in the pre-map pick (SpellCaster.ultimate_id). Common keys: name,
+## short (optional tile name when the name is too long),
 ## icon, desc, unlock (Unlocks spec), sound (Sfx id); the rest are its own numbers.
 const ULTIMATES: Dictionary = {
 	"sovereigns_decree": {
-		"name": "Sovereign's Decree", "icon": "sovereigns_decree", "sound": "ult_decree",
+		"name": "Sovereign's Decree", "short": "Decree", "icon": "sovereigns_decree", "sound": "ult_decree",
 		"desc": "Revives every blocker; barriers on all of them, held foes weakened",
 		"unlock": {"map": "graveyard", "skulls": 3},  # TUNING (not in GDD)
 		"duration": 8.0,  # Necropathy "for 8 s"

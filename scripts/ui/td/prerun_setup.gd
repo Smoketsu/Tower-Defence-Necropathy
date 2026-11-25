@@ -59,7 +59,7 @@ func _build(b: VBoxContainer) -> void:
 	for id: String in CharacterData.ULTIMATES:
 		var ur := SpellCaster.ult_row(id)  # Its row.
 		var open := _ult_open(id)  # Pickable now.
-		var t := _tile(SpriteBank.texture("icons/" + String(ur["icon"])), String(ur["name"]) if open else "?", MenuData.ULT_TILE, not open)  # The ultimate.
+		var t := _tile(SpriteBank.texture("icons/" + String(ur["icon"])), String(ur.get("short", ur["name"])) if open else "?", MenuData.ULT_TILE, not open)  # The ultimate.
 		t.disabled = not open
 		t.tooltip_text = String(ur.get("desc", "Revives every blocker; towers +40% for 8 s")) if open else Unlocks.line(ur.get("unlock", {}))
 		t.pressed.connect(func() -> void:
