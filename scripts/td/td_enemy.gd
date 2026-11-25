@@ -373,11 +373,11 @@ func _draw() -> void:
 func _draw_body(ci: CanvasItem) -> void:
 	var key := String(row.get("sprite", ""))  # Sprite key.
 	var flash := game != null and game.time < flash_until  # Hit flash.
-	var tint := Color.WHITE  # Status look.
+	var tint: Color = row.get("tint", Color.WHITE)  # Status look (an optional row tint: the Black Tide's ghost crew).
 	if game != null:
 		var sts := statuses()  # Statuses on it.
 		if not sts.is_empty():
-			tint = TdVfxData.STATUS_TINT[sts[0]]
+			tint *= TdVfxData.STATUS_TINT[sts[0]]
 	if row.get("rank", "") == "boss":
 		var p := 3 if pose == 0 and game != null and _striking() else pose  # A blow shows the strike pose.
 		if not SpriteBank.draw_pose(ci, key, p, Vector2.ZERO, flash, tint):

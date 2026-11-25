@@ -11,7 +11,8 @@ extends RefCounted
 
 ## Build-menu order of the towers.
 const ORDER: Array[String] = ["archer", "mage", "frost_wraith", "corpse_catapult", "banshee", "mender", "warrior", "abomination",
-	"warder", "rogue", "gargoyle", "bone_hound", "fallen_seraph", "bone_golem"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
+	"warder", "rogue", "gargoyle", "bone_hound", "fallen_seraph", "bone_golem",
+	"powder_wraith"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
 
 ## Targeting modes (GDD §4.3), in the order the Target button cycles them.
 const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
@@ -333,6 +334,26 @@ const TOWERS: Dictionary = {
 		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(0.95, 0.9, 0.75), "reach": 120.0},  # TUNING (not in GDD)
 		"evolution": "ossuary_titan",
 	},
+	# --- Act II, the Black Tide (w2b-tide): the act tower, unlocked by Captain Vandermere ---
+	"powder_wraith": {
+		"name": "Powder Wraith", "sprite": "summons/powder_wraith", "icon": "powder_wraith", "spot": "plot",
+		"desc": "Marches a lit keg into the densest pack and bursts, then reforms",
+		"unlock": {"map": "maelstrom"},  # DECISIONS K9: the act's summon class, unlocked by its finale's boss
+		"cost": 115,  # TUNING (not in GDD)
+		"behavior": "powder_wraith", "ground_only": true,
+		"range": 190.0,  # TUNING (not in GDD) Necropathy picks a pack within 260 px of its necromancer
+		"damage": 40.0,  # Necropathy 40 damage a burst
+		"interval": 5.5,  # TUNING (not in GDD) s to reform after a burst (Necropathy 12 s on the open deck)
+		"target": "first",
+		"splash": 64.0,  # Necropathy 64 px blast
+		"march_speed": 150.0,  # Necropathy 150 px/s
+		"knock": 45.0,  # TUNING (not in GDD) px down the road (Necropathy 60 px knockback)
+		"stagger_time": 0.5,  # TUNING (not in GDD)
+		"second_burst": 0.0,  # Magazine Lord: px to the second pack (0 = none)
+		"armour_pierce": 3.0,  # TUNING (not in GDD) a keg ignores some armour
+		"volley": {"every": 1, "count": 5, "damage": 0.3, "sprite": "volleys/shard", "tint": Color(1.0, 0.6, 0.25), "reach": 110.0},  # Necropathy "a ring of burning shrapnel off every keg"; TUNING (not in GDD)
+		"evolution": "magazine_lord",
+	},
 }
 
 ## Per-level multipliers, 5 rows (levels 1-5) per tower. Keys:
@@ -440,6 +461,14 @@ const LEVELS: Dictionary = {
 		{"damage": 1.6, "rate": 1.1, "range": 1.0, "bodies": 1, "hp": 1.8},  # TUNING (not in GDD)
 		{"damage": 2.0, "rate": 1.2, "range": 1.0, "bodies": 1, "hp": 2.4},  # TUNING (not in GDD)
 		{"damage": 2.5, "rate": 1.3, "range": 1.0, "bodies": 1, "hp": 3.0},  # TUNING (not in GDD)
+	],
+	# --- Act II, the Black Tide (w2b-tide) ---
+	"powder_wraith": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0},
+		{"damage": 1.35, "rate": 1.05, "range": 1.05},  # TUNING (not in GDD)
+		{"damage": 1.75, "rate": 1.1, "range": 1.1},  # TUNING (not in GDD)
+		{"damage": 2.2, "rate": 1.15, "range": 1.12},  # TUNING (not in GDD)
+		{"damage": 2.8, "rate": 1.25, "range": 1.15},  # TUNING (not in GDD)
 	],
 }
 

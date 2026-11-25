@@ -43,6 +43,9 @@ const SHOTS: Dictionary = {
 		"halo": 9.0, "impact": "volley_hit", "impact_d": 60.0, "ring": false, "muzzle": 50.0},  # TUNING (not in GDD) 45 px black feathers, violet streaks
 	"bone_golem": {"sprite": "projectiles/bone_spear", "scale": 1.6, "tint": Color(0.95, 0.9, 0.72), "trail": 60.0, "trail_w": 11.0,
 		"halo": 0.0, "impact": "volley_hit", "impact_d": 52.0, "ring": false, "muzzle": 0.0},  # TUNING (not in GDD) its Lv3 bone shards
+	# --- Act II, the Black Tide (w2b-tide) ---
+	"powder_wraith": {"sprite": "projectiles/mortar_shell", "scale": 2.0, "tint": Color(1.0, 0.6, 0.25), "trail": 70.0, "trail_w": 12.0,
+		"halo": 10.0, "impact": "corpse_explosion", "impact_d": 56.0, "ring": true, "muzzle": 0.0},  # TUNING (not in GDD) powder orange: its blasts (real radius ring) and burning shrapnel streaks
 }
 ## Look of a class missing from SHOTS (same keys).
 const SHOT_DEFAULT: Dictionary = {"sprite": "", "scale": 2.0, "tint": Color(1.0, 1.0, 1.0), "trail": 40.0, "trail_w": 6.0,
@@ -301,6 +304,10 @@ const SPELLS: Dictionary = {
 	"sovereigns_decree": {"tint": Color(1.0, 0.85, 0.4), "flash": 180.0, "strip": "sovereigns_decree", "strip_d": 300.0, "ring": 320.0, "shake": 4.0},  # TUNING (not in GDD)
 	"eclipse": {"tint": Color(0.55, 0.4, 1.0), "flash": 180.0, "strip": "eclipse", "strip_d": 360.0, "ring": 420.0, "shake": 5.0},  # TUNING (not in GDD)
 	"grave_tide": {"tint": Color(0.45, 1.0, 0.7), "flash": 180.0, "strip": "grave_tide", "strip_d": 300.0, "ring": 320.0, "shake": 4.0},  # TUNING (not in GDD)
+	# --- Act II, the Black Tide (w2b-tide) ---
+	"chain_shot": {"tint": Color(0.55, 1.0, 0.8), "flash": 96.0, "strip": "volley_hit", "strip_d": 90.0, "ring": 50.0, "shake": 1.5},  # TUNING (not in GDD) pale spectral green (Necropathy's chain-shot)
+	"cannonade": {"tint": Color(1.0, 0.65, 0.25), "flash": 96.0, "strip": "volley_flash", "strip_d": 100.0, "ring": 70.0, "shake": 2.0},  # TUNING (not in GDD) cannon fire amber
+	"anchor_drop": {"tint": Color(0.5, 0.95, 0.85), "flash": 96.0, "strip": "tide_splash", "strip_d": 130.0, "ring": 64.0, "shake": 3.0},  # TUNING (not in GDD) ring = the shock's real radius
 }
 ## Seconds a cast flash and its target ring play.
 const CAST_TIME: float = 0.45  # TUNING (not in GDD)
@@ -399,3 +406,34 @@ const KIT_CHAIN_W: float = 10.0  # TUNING (not in GDD)
 const KIT_WITHER_PERIOD: float = 1.2  # TUNING (not in GDD)
 ## See KIT_WITHER_PERIOD.
 const KIT_WITHER_A: float = 0.6  # TUNING (not in GDD)
+
+## --- Act II, the Black Tide (w2b-tide): spell and act-tower looks ---------------------
+## Chain Shot: impact burst (px), the balls' whirl speed (rad/s) and half-chain (px),
+## trail length / width (px), chain width (px), balls' draw scale and tint.
+const TIDE_CHAIN_HIT_D: float = 56.0  # TUNING (not in GDD)
+## See TIDE_CHAIN_HIT_D.
+const TIDE_CHAIN_SPIN: float = 18.0  # TUNING (not in GDD)
+## See TIDE_CHAIN_HIT_D.
+const TIDE_CHAIN_ARM: float = 12.0  # TUNING (not in GDD)
+## See TIDE_CHAIN_HIT_D.
+const TIDE_CHAIN_TRAIL: float = 70.0  # TUNING (not in GDD)
+## See TIDE_CHAIN_HIT_D.
+const TIDE_CHAIN_TRAIL_W: float = 14.0  # TUNING (not in GDD)
+## See TIDE_CHAIN_HIT_D.
+const TIDE_CHAIN_LINK_W: float = 5.0  # TUNING (not in GDD)
+## See TIDE_CHAIN_HIT_D.
+const TIDE_BALL_SCALE: float = 1.2  # TUNING (not in GDD)
+## See TIDE_CHAIN_HIT_D.
+const TIDE_BALL_TINT: Color = Color(0.8, 1.0, 0.9)  # TUNING (not in GDD) spectral iron
+## Cannonade / Anchor Drop: px the ball / anchor falls from (drawn only) and their draw scales.
+const TIDE_FALL_H: float = 260.0  # TUNING (not in GDD)
+## See TIDE_FALL_H.
+const TIDE_CANNONBALL_SCALE: float = 2.0  # TUNING (not in GDD)
+## See TIDE_FALL_H.
+const TIDE_ANCHOR_SCALE: float = 1.6  # TUNING (not in GDD)
+## Powder Wraith: shrapnel flash (px), fuse flicker rate (Hz) and its lit tint.
+const TIDE_SHRAPNEL_FLASH: float = 48.0  # TUNING (not in GDD)
+## See TIDE_SHRAPNEL_FLASH.
+const TIDE_FUSE_HZ: float = 12.0  # TUNING (not in GDD)
+## See TIDE_SHRAPNEL_FLASH.
+const TIDE_FUSE_TINT: Color = Color(1.7, 1.3, 0.9)  # TUNING (not in GDD)

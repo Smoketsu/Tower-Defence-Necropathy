@@ -100,6 +100,42 @@ const SPELLS: Dictionary = {
 		"interval": 1.0,  # TUNING (not in GDD)
 		"duration": 10.0,  # TUNING (not in GDD)
 	},
+	# --- Act II, the Black Tide (w2b-tide): Necropathy's Crow / Marrec / Vandermere rewards ---
+	"chain_shot": {
+		"name": "Chain Shot", "icon": "chain_shot", "cooldown": 10.0, "target": "road", "ready": true,  # TUNING (not in GDD)
+		"desc": "Spectral chain-shot rakes the road back and forth, knocking foes back",
+		"unlock": {"map": "cutter"},  # Necropathy: Captain Crow's reward
+		"max_snap": 60.0,  # px: a tap farther than this from any road does nothing
+		"length": 260.0,  # TUNING (not in GDD) px of road raked back toward the entrance (Necropathy 230-320 px)
+		"speed": 520.0,  # TUNING (not in GDD) px/s of a shot along the road
+		"width": 22.0,  # TUNING (not in GDD) px from the shot within which a foe is struck (Necropathy 14-18)
+		"damage": 34.0,  # TUNING (not in GDD) per foe each way (out and back)
+		"knock": 50.0,  # TUNING (not in GDD) px a foe struck on the way out is knocked back (Necropathy Keelhauler 80)
+		"shots": 1,  # TUNING (not in GDD) chain-shots per cast (Necropathy 1 -> 3)
+		"stagger": 0.35,  # TUNING (not in GDD) s between two shots of one cast
+	},
+	"cannonade": {
+		"name": "Cannonade", "icon": "cannonade", "cooldown": 14.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "Marks the densest packs; spectral cannonballs fall on them",
+		"unlock": {"map": "galleon"},  # Necropathy: Admiral Marrec's reward
+		"reach": 200.0,  # TUNING (not in GDD) px around the tap searched for packs (Necropathy 340-360 around the necromancer)
+		"marks": 3,  # Necropathy up to 3 marks (4 from Lv 4)
+		"delay": 0.75,  # Necropathy "a soul-lit ring shows 0.75 s"
+		"radius": 40.0,  # TUNING (not in GDD) px of a ball's blast (Necropathy 30-38)
+		"damage": 60.0,  # TUNING (not in GDD) per ball to every foe in it
+		"spread": 70.0,  # TUNING (not in GDD) px two marks keep apart
+	},
+	"anchor_drop": {
+		"name": "Anchor Drop", "icon": "anchor_drop", "cooldown": 12.0, "target": "enemy", "ready": true,  # TUNING (not in GDD)
+		"desc": "A spectral anchor slams the strongest foe, stuns it and shocks those around",
+		"unlock": {"map": "maelstrom"},  # Necropathy: Captain Vandermere's reward
+		"pick_radius": 120.0,  # TUNING (not in GDD) px around the tap searched for the strongest foe
+		"fall": 0.4,  # Necropathy the anchor falls 0.4 s
+		"damage": 150.0,  # TUNING (not in GDD) to the anchored foe (Necropathy 34 -> 72 on the open deck)
+		"stun": 1.2,  # Necropathy 0.8 -> 1.2 s (TdCombat.freeze_enemy: rank multipliers apply)
+		"shock": 0.35,  # Necropathy 30-40% of it to the foes around
+		"shock_radius": 64.0,  # Necropathy 48 -> 64 px
+	},
 }
 
 ## The ultimate (GDD §5 Dread Rally), cast through SpellCaster like a spell

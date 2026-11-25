@@ -199,6 +199,8 @@ func _cast_spells() -> void:
 			"raise_dead":
 				if -game.progress(lead) < THREAT_DIST and lead.holder == null:
 					game.cast_spell(i, lead.follower.road.point_at(lead.follower.dist + 40.0))
+			_:  # Later acts' spells (w2b-tide: Chain Shot, Cannonade, Anchor Drop): at the leader.
+				game.cast_spell(i, lead.position)
 	if game.caster.ultimate_ready():
 		game.caster.cast_ultimate()
 

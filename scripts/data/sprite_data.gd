@@ -604,6 +604,14 @@ const HEIGHTS: Dictionary = {
 	"summons/magazine_lord": 52.0,  # TUNING (not in GDD) a MAGAZINE LORD, undead skeleton; walk strip
 	# --- Act X: the Smuggler's Cutter ---
 	"obstacles/deck_barrels_s": 21.0,  # TUNING (not in GDD) the deck furniture's two lashed barrels (30 x 21), drawn as the Cutter's Powder Barrel enemy (CutterEnemyData.BARREL_SPRITE)
+	# --- Act II, the Black Tide (w2b-tide): deck furniture used as structures and obstacles, Marrec's coin ---
+	"obstacles/deck_cannon_l": 22.0,  # TUNING (not in GDD) a deck cannon (42 x 22), the Broadsides' cannon structure
+	"obstacles/deck_cannon_l_v": 42.0,  # TUNING (not in GDD) the cannon turned 90 degrees
+	"obstacles/deck_barrels_l": 48.0,  # TUNING (not in GDD) four lashed powder barrels (40 x 48)
+	"obstacles/deck_mast_l": 51.0,  # TUNING (not in GDD) a mast stub (38 x 51)
+	"obstacles/deck_hatch_l": 35.0,  # TUNING (not in GDD) a grating hatch (44 x 35)
+	"obstacles/deck_hatch_l_v": 44.0,  # TUNING (not in GDD) the hatch turned 90 degrees
+	"corsair/cursed_coin": 12.0,  # TUNING (not in GDD) Marrec's cursed coin, 12 x 12 (Pillow, the act's brass ramp)
 }
 
 ## Height (world px) used for a key missing from HEIGHTS.

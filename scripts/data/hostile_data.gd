@@ -20,6 +20,13 @@ const LOOKS: Dictionary = {
 	"arrow": {"sprite": "projectiles/enemy_arrow", "tint": Color(1.0, 0.45, 0.3), "scale": 2.0, "trail": 64.0, "impact": 56.0},  # TUNING (not in GDD)
 	"bolt": {"sprite": "projectiles/radiant_bolt", "tint": Color(1.0, 0.3, 0.25), "scale": 2.2, "trail": 72.0, "impact": 64.0},  # TUNING (not in GDD)
 	"shell": {"sprite": "projectiles/corpse_boulder", "tint": Color(1.0, 0.55, 0.25), "scale": 1.6, "trail": 0.0, "impact": 90.0},  # TUNING (not in GDD)
+	# --- Act II, the Black Tide (w2b-tide) ---
+	"musket": {"sprite": "projectiles/iron_shell", "scale": 1.0, "tint": Color(1.0, 0.55, 0.3), "trail": 60.0, "impact": 48.0},  # TUNING (not in GDD) a musket ball
+	"hook": {"sprite": "corsair/grapple_hook", "scale": 1.0, "tint": Color(0.85, 0.7, 0.45), "trail": 70.0, "impact": 56.0},  # TUNING (not in GDD) the Grappler's hook, a rope-tan trail
+	"grenado": {"sprite": "projectiles/mortar_shell", "scale": 1.4, "tint": Color(1.0, 0.6, 0.25), "trail": 0.0, "impact": 80.0},  # TUNING (not in GDD) the Gunnery Mate's lob
+	"cannon": {"sprite": "projectiles/iron_shell", "scale": 1.8, "tint": Color(1.0, 0.5, 0.25), "trail": 0.0, "impact": 90.0},  # TUNING (not in GDD) a gunboat's shell
+	"spit": {"sprite": "projectiles/radiant_bolt", "scale": 2.2, "tint": Color(0.4, 0.85, 0.75), "trail": 72.0, "impact": 64.0},  # TUNING (not in GDD) the sea serpent's spit (serpent teal)
+	"spectral": {"sprite": "projectiles/radiant_bolt", "scale": 2.0, "tint": Color(0.45, 1.0, 0.8), "trail": 72.0, "impact": 60.0},  # TUNING (not in GDD) the ghost crew's and Vandermere's lantern shots
 }
 ## Trail width (px) of hostile shots.
 const TRAIL_W: float = 10.0  # TUNING (not in GDD)
@@ -42,6 +49,8 @@ const CAUSE_TINT: Dictionary = {
 	"trampled": Color(0.85, 0.65, 0.35),  # TUNING (not in GDD) stampedes
 	"blinded": Color(0.75, 0.7, 1.0),  # TUNING (not in GDD) light / darkness
 	"stunned": Color(1.0, 0.9, 0.4),  # TUNING (not in GDD) anything else
+	"hooked": Color(0.85, 0.7, 0.45),  # TUNING (not in GDD) w2b-tide: a Grappler's hook (rope tan)
+	"grabbed": Color(0.7, 0.45, 0.9),  # TUNING (not in GDD) w2b-tide: a tentacle from the deep (kraken purple)
 }
 ## Diameter (px) of the disabled ring around a tower's base, and its pulse period (s).
 const DISABLED_RING: float = 52.0  # TUNING (not in GDD)

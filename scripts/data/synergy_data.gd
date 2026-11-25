@@ -99,4 +99,12 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "b", "vs": "weakened", "mult": 1.25},  # TUNING (not in GDD)
 		"hint": "Banshee near a Seraph: feathers hit weakened foes harder",
 	},
+	# --- Act II, the Black Tide (w2b-tide) ---
+	"boarding_party": {
+		"name": "Boarding Party", "icon": "syn_boarding_party", "a": "abomination", "b": "powder_wraith",
+		"radius": 240.0,  # TUNING (not in GDD) new pair (Necropathy has no synergy for the Wraith)
+		"effects": {"a": {"hp": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "b", "vs": "staggered", "mult": 1.4},  # TUNING (not in GDD) kegs blast stomped packs harder
+		"hint": "Abomination near a Powder Wraith: kegs blast staggered foes harder",
+	},
 }

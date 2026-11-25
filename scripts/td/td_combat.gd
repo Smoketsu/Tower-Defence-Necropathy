@@ -262,3 +262,19 @@ static func shred_of(game: TdGame, e: TdEnemy) -> float:
 ## Wild Hunt read it through Synergies.has_status()).
 static func swoop_enemy(game: TdGame, e: TdEnemy, time: float) -> void:
 	e.vars["k_swooped"] = maxf(float(e.vars.get("k_swooped", 0.0)), game.time + time)
+
+
+## Knocks `e` back `px` px along its road, away from the gate (a Powder
+## Wraith's keg, the Black Tide's blasts; the one knockback path): a body
+## holding it lets go. Bosses, minibosses, structures and flyers stand firm;
+## it never goes back past the start of its current road.
+static func knock_enemy(game: TdGame, e: TdEnemy, px: float) -> void:
+	var rank := String(e.row["rank"])  # Its rank.
+	if px <= 0.0 or not e.alive or rank == "boss" or rank == "miniboss" or bool(e.row.get("structure", false)) or bool(e.row.get("flying", false)):
+		return
+	if e.holder != null:
+		e.holder.held.erase(e)
+		e.holder = null
+	e.follower.dist = maxf(e.follower.dist - px, 0.0)
+	e.position = e.follower.position()
+	EnemyTrait.note(game, "knocked_back")

@@ -27,6 +27,7 @@ extends RefCounted
 ##                     belongs to no wave, targeted only when nothing else is in range
 ##                     (or on Strongest), never warded, removed when the map ends.
 ##   args            — the trait's own numbers (documented in the trait script).
+##   tint            — optional Color multiplied into the sprite (drawn only; w2b-tide's ghost crew).
 const KINDS: Dictionary = {
 	# GDD §6.1 "Baseline fodder" (Necropathy: Covenant Recruit).
 	"recruit": {

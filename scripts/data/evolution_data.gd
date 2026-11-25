@@ -179,4 +179,14 @@ const EVOLUTIONS: Dictionary = {
 		},
 		"recipe": {"type": "near", "class": "warder", "radius": 220.0},  # TUNING (not in GDD) Necropathy Grave Masonry -> a Warder beside it
 	},
+	# --- Act II, the Black Tide (w2b-tide) ---
+	"magazine_lord": {
+		"from": "powder_wraith", "name": "Magazine Lord", "sprite": "summons/magazine_lord", "icon": "magazine_lord",
+		"stats": {"damage": 1.3, "rate": 1.3},  # Necropathy x1.3 damage, reforms faster (12 -> 8 s)
+		"set": {
+			"splash": 80.0,  # Necropathy kegs x1.25 wider
+			"second_burst": 130.0,  # Necropathy "a second burst at the next pack within 130 px"
+		},
+		"recipe": {"type": "kills", "n": 90},  # TUNING (not in GDD) Necropathy pairs it with Slow Match; here a deed
+	},
 }

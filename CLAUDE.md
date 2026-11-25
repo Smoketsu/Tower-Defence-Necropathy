@@ -282,3 +282,25 @@ glows, fog, light pools, vignette, road wear, spot looks); a new map adds a
   `kit=`, act runs `act_rule=` / `hostile=`. Tools: `tools/run_all_maps.sh`
   (`WEAK=1`, `SEED=`), `tools/map_list.tscn` (the CI matrix),
   `tools/towers_check.tscn`, `tools/meta_check.tscn`, `tools/acts_check.tscn`.
+
+## Status: Act II, the Black Tide (wave 2b, w2b-tide)
+
+Built: maps `cutter`, `galleon`, `maelstrom` (deck floors, a sea band and rail
+along the bottom, a `grapple` second entrance on every map, an off-road `sea`
+lane for gunboats and the sea serpent); 14 kinds + 3 structures in
+`scripts/data/acts/corsair_act_data.gd` (ids `tide_*`); traits in
+`scripts/enemies/traits/corsair/`; minibosses Bosun Gorran, Old Hollow-Eye, the
+Ghost Bosun; bosses Captain Crow, Admiral Marrec, Captain Vandermere
+(`scripts/bosses/corsair/`); the act rule **Broadsides**
+(`scripts/maps/rules/corsair/broadsides.gd`: deck cannons shell plots on a
+telegraph; powder barrels spike them; Gunnery Mates crew them); the act tower
+**Powder Wraith** / Magazine Lord + synergy Boarding Party; spells Chain Shot,
+Cannonade, Anchor Drop with the Marooned Quartermaster, the Corsair Queen and
+the Ghost Helmsman. Decisions T2-1..T2-11. Orders `<map>_default`,
+`<map>_weak`, `tide_kit` (every Black Tide map; the act tower, then the default).
+New hooks for later acts: `TdCombat.knock_enemy(game, e, px)` (the one
+knockback path), enemy row key `tint`, `HostileData` causes `hooked` /
+`grabbed`, shared helpers `corsair/lunge.gd` `lunge_through()`,
+`corsair/bellow.gd` `bellow_at()`, `corsair/sea_mark.gd` `nearest_tower()`,
+`corsair/ghost_bosun.gd` `board()` (a crew boarding a road), and the autotest
+casts any later spell at the leading enemy.

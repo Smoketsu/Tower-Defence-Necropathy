@@ -14,7 +14,8 @@ extends RefCounted
 const DEFAULT_ID: String = "gravecaller"
 ## Picker order.
 const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "plague_scholar",
-	"doomsayer", "soulbinder", "wither_witch", "grave_herald"]  # The later spells' characters (gw2-kit), appended
+	"doomsayer", "soulbinder", "wither_witch", "grave_herald",
+	"marooned_quartermaster", "corsair_queen", "ghost_helmsman"]  # The later spells' characters (gw2-kit), appended
 
 ## Character rows. Keys:
 ##   name         — UI name.
@@ -79,6 +80,25 @@ const CHARACTERS: Dictionary = {
 		"boost": {"hp": 1.25, "count": 1.34, "cooldown": 0.85},  # TUNING (not in GDD) count 3 -> 4
 		"innate": {"name": "Restless", "desc": "Every Risen lasts 25% longer", "temp_time": 1.25},  # Necropathy "last 25% longer"
 		"unlock_after": "sanctum",  # TUNING (not in GDD)
+	},
+	# --- Act II, the Black Tide (w2b-tide; Necropathy character_data.gd innates) ---
+	"marooned_quartermaster": {
+		"name": "Marooned Quartermaster", "short": "Quartermaster", "sprite": "player/marooned_quartermaster", "spell": "chain_shot",
+		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Spare Shot", "desc": "Chain Shot fires one more chain-shot", "shot_extra": 1},  # Necropathy "one more chain-shot a cast"; key shot_extra: + shots (read by chain_shot.gd)
+		"unlock_after": "cutter",  # TUNING (not in GDD)
+	},
+	"corsair_queen": {
+		"name": "The Corsair Queen", "short": "Corsair Queen", "sprite": "player/corsair_queen", "spell": "cannonade",
+		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Queen's Ransom", "desc": "Cannonade marks one more pack", "marks_extra": 1},  # Necropathy "one more mark a volley"; key marks_extra: + marks (read by cannonade.gd)
+		"unlock_after": "galleon",  # TUNING (not in GDD)
+	},
+	"ghost_helmsman": {
+		"name": "Ghost Helmsman", "short": "Helmsman", "sprite": "player/ghost_helmsman", "spell": "anchor_drop",
+		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Second Anchor", "desc": "Anchor Drop drops a second anchor", "anchor_extra": 1},  # Necropathy "one more anchor a cast"; key anchor_extra: + anchors (read by anchor_drop.gd)
+		"unlock_after": "maelstrom",  # TUNING (not in GDD)
 	},
 }
 

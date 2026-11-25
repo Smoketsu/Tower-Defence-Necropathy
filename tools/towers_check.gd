@@ -1,7 +1,8 @@
 ## towers_check: a headless self-check of the tower kit specials that a
 ## normal autotest run rarely reaches (Bone Colossus taunt and shrapnel,
 ## Winter Revenant shatter, Keening Lady silence, Gravebow curse, Shatterfall),
-## and the gw2-kit later towers, spells, ultimates, statuses and unlocks (_kit_checks).
+## and the gw2-kit later towers, spells, ultimates, statuses and unlocks (_kit_checks),
+## and the Black Tide's tower, spells, Broadsides and kinds (_tide_checks, w2b-tide).
 ## Run: godot --headless tools/towers_check.tscn   (prints PASS / FAIL, exit 0 / 1)
 extends Node
 
@@ -51,6 +52,7 @@ func _ready() -> void:
 	var boosted := TdCombat.damage_enemy(game, b, 10.0, {"tower": cat, "dot": true})  # Frozen and cursed.
 	_check("shatterfall + curse", is_equal_approx(boosted, plain * 1.6 * 1.15))
 	_kit_checks()
+	_tide_checks()
 	print("TOWERS CHECK %s %s" % ["PASS" if _fails.is_empty() else "FAIL", ",".join(_fails)])
 	get_tree().quit(0 if _fails.is_empty() else 1)
 
@@ -181,3 +183,51 @@ func _kit_checks() -> void:
 	var opened := Unlocks.refresh()
 	_check("unlock refresh", opened.has("Crypt Warder") and opened.has("Grave Rogue") and opened.has("Death Mark"))
 	(Meta.data["maps"]["cleared"] as Array).erase("graveyard")
+
+
+## w2b-tide: the Powder Wraith's burst and knockback (Magazine Lord, Boarding
+## Party), the three act spells, the Broadsides (a shell, a barrel blast spiking
+## its cannon), a Powder Runner's blast and Dead Men's Oath.
+func _tide_checks() -> void:
+	var loadout: Array[String] = ["chain_shot", "cannonade", "anchor_drop"]
+	var game := TdGame.new()
+	game.setup("cutter", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(game)
+	game.economy.earn(50000, "test_bonus")
+	var ab := _maxed(game, "post:3", "abomination")
+	var pw := _maxed(game, "plot:4", "powder_wraith")
+	_check("tide magazine lord", pw.evolution == "magazine_lord" and float(pw.stats["second_burst"]) > 0.0)
+	_check("tide boarding party", pw.synergies.any(func(p: Array) -> bool: return p[0] == "boarding_party") and ab != null)
+	for x: float in [620.0, 640.0, 660.0, 760.0, 780.0]:
+		_enemy_at(game, "tide_boarding_bruiser", Vector2(x, 480)).hp = 5000.0
+	_run(game, 3.0)
+	_check("tide wraith burst", int(pw.vars.get("bursts", 0)) > 0)
+	_check("tide knockback", float(game.stats.get("events", {}).get("knocked_back", 0.0)) > 0.0)
+	for p: Vector2 in [Vector2(420, 260), Vector2(420, 280), Vector2(420, 300)]:
+		_enemy_at(game, "tide_boarding_bruiser", p)
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	var cast := 0  # Act spells cast.
+	for i in [1, 2, 0]:  # Cannonade lands before the chain-shot knocks its marks away.
+		if game.cast_spell(i, Vector2(420, 280)):
+			cast += 1
+		_run(game, 1.0)
+	_run(game, 2.0)
+	_check("tide spells cast", cast == 3)
+	for id: String in loadout:
+		_check("tide " + id + " hits", float(game.stats["damage"].get(id, 0.0)) > 0.0)
+	var rule: MapRule = game.act_rule
+	var slot: Dictionary = rule.slots[0]
+	rule._run_out(slot)
+	slot["next"] = game.time
+	_run(game, 2.0)
+	_check("tide broadside", int(rule.counts["broadsides"]) > 0 and int(game.hostile.counts["shells"]) > 0)
+	TdCombat.kill_enemy(game, slot["k"], null)
+	_check("tide keg spikes", int(rule.counts["blasts"]) == 1 and int(rule.counts["spiked"]) == 1 and game.time < float(slot["spiked"]))
+	var war := _maxed(game, "post:0", "warrior")
+	var road: Road = game.roads["main"]
+	game.spawn_at("tide_powder_runner", "main", 1, road.project(war.block.bodies[0].pos) - 40.0, 0.0).hp = 5000.0  # Outlives the Warrior's blows.
+	_run(game, 3.0)
+	_check("tide powder runner", float(game.stats["events"].get("powder_blasts", 0.0)) > 0.0)
+	var v := _enemy_at(game, "vandermere", Vector2(1100, 180))
+	var dealt := TdCombat.damage_enemy(game, v, 100.0, {"source": "check", "dot": true})
+	_check("tide oath", dealt < 50.0)

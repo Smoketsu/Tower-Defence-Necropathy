@@ -27,11 +27,13 @@ const FIRE: Dictionary = {
 	# Later towers (gw2-kit): Necropathy's own class sounds where they exist, else a td pack recipe below.
 	"warder": "priest_ward", "rogue": "rogue_dash", "gargoyle": "gargoyle_dive", "bone_hound": "td_hound_bite",
 	"fallen_seraph": "td_seraph_feather", "bone_golem": "td_golem_slam",
+	"powder_wraith": "fuse_hiss",  # w2b-tide: the Black Tide pack's lit fuse (its burst plays powder_blast)
 }  # TUNING (not in GDD)
 ## Spell / ultimate id -> Sfx id played on its cast (gw2-kit: the later spells; the
 ## launch spells keep their own sounds). Ultimates use their row's "sound".
 const CAST: Dictionary = {
 	"death_mark": "bolt_cast", "soul_chains": "td_soul_chains", "wither": "plague_cast", "raise_dead": "summon_rise",
+	"chain_shot": "hook_throw", "cannonade": "cannon_fire", "anchor_drop": "splash",  # w2b-tide: the Black Tide pack
 }  # TUNING (not in GDD)
 
 ## The five Gravewatch sounds (GDD §11), id -> recipe; keys exactly as
