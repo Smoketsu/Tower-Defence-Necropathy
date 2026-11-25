@@ -1,7 +1,8 @@
 ## towers_check: a headless self-check of the tower kit specials that a
 ## normal autotest run rarely reaches (Bone Colossus taunt and shrapnel,
 ## Winter Revenant shatter, Keening Lady silence, Gravebow curse, Shatterfall),
-## and the gw2-kit later towers, spells, ultimates, statuses and unlocks (_kit_checks).
+## and the gw2-kit later towers, spells, ultimates, statuses and unlocks (_kit_checks),
+## and Act III's Blood Spawn, its spells and the Blood Moon (_court_checks, w2b-court).
 ## Run: godot --headless tools/towers_check.tscn   (prints PASS / FAIL, exit 0 / 1)
 extends Node
 
@@ -51,6 +52,7 @@ func _ready() -> void:
 	var boosted := TdCombat.damage_enemy(game, b, 10.0, {"tower": cat, "dot": true})  # Frozen and cursed.
 	_check("shatterfall + curse", is_equal_approx(boosted, plain * 1.6 * 1.15))
 	_kit_checks()
+	_court_checks()
 	print("TOWERS CHECK %s %s" % ["PASS" if _fails.is_empty() else "FAIL", ",".join(_fails)])
 	get_tree().quit(0 if _fails.is_empty() else 1)
 
@@ -181,3 +183,71 @@ func _kit_checks() -> void:
 	var opened := Unlocks.refresh()
 	_check("unlock refresh", opened.has("Crypt Warder") and opened.has("Grave Rogue") and opened.has("Death Mark"))
 	(Meta.data["maps"]["cleared"] as Array).erase("graveyard")
+
+
+## w2b-court: the Blood Spawn drinks, the Nosferatu spills, the Red Waltz pairs,
+## the three Court spells cast, the Blood Moon feeds and shields, a werewolf
+## turns under it, a mist noble is hidden, and the Court's locks open.
+func _court_checks() -> void:
+	var loadout: Array[String] = ["moonfang", "witch_circle", "night_swarm"]
+	var game := TdGame.new()
+	game.setup("ravensmoor", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(game)
+	game.economy.earn(50000, "test_bonus")
+	for c: TdEnemy in game.enemies.duplicate():  # No coffins in the way.
+		game.remove_enemy(c, false)
+	var bs := _maxed(game, "post:3", "blood_spawn")
+	_check("nosferatu", bs.evolution == "nosferatu" and float(bs.stats["spill_share"]) > 0.0)
+	var war := _maxed(game, "post:4", "warrior")
+	var e := _enemy_at(game, "blood_knight", bs.block.bodies[0].pos)
+	e.hp = e.max_hp
+	game.tick(1.0 / 60.0)
+	var b: BlockBody = bs.block.bodies[0]
+	b.held.append(e)
+	b.hp = b.max_hp - 1.0  # Nearly full: most of the drink spills.
+	var mate: BlockBody = bs.block.bodies[1]  # Its wounded post-mate takes the spill.
+	mate.hp = mate.max_hp * 0.2
+	var w0: float = mate.hp  # Its HP before the spill.
+	bs.behavior.strike(bs, b)
+	_check("blood spawn drinks", float(bs.vars.get("fed", 0.0)) > 0.0)
+	_check("nosferatu spills", float(bs.vars.get("spilled", 0.0)) > 0.0 and mate.hp > w0)
+	b.held.erase(e)
+	var ban := _maxed(game, "plot:12", "banshee")
+	Synergies.evaluate(game.towers)
+	_check("red waltz", bs.synergies.any(func(p: Array) -> bool: return p[0] == "red_waltz") or ban.position.distance_to(bs.position) > 220.0)
+	# The spells.
+	var cast := 0  # Spells cast.
+	game.tick(1.0 / 60.0)
+	for i in loadout.size():
+		if game.cast_spell(i, e.position):
+			cast += 1
+		else:
+			_check("cast " + loadout[i], false)
+	_check("court spells cast", cast == 3)
+	_run(game, 3.0)
+	_check("moonfang bites", int(game.stats.get("moonfang_bites", 0)) > 0)
+	_check("night swarm bites", int(game.stats.get("swarm_bites", 0)) > 0)
+	# The Blood Moon: rise, shield, feed, turn, mist.
+	var moon: MapRule = game.act_rule
+	_check("moon down", not bool(moon.call("moon_up")))
+	var wolf := _enemy_at(game, "werewolf", Vector2(600, 140))
+	var thrall := _enemy_at(game, "blood_thrall", Vector2(620, 140))
+	thrall.hp = thrall.max_hp * 0.5
+	moon.call("force_moon", game.time + 10.0)
+	_run(game, 0.1)
+	_check("moon up", bool(moon.call("moon_up")) and int(moon.counts["moons"]) == 1 and int(moon.counts["bats"]) > 0)
+	_check("moon shields", game.time < thrall.ward_until)
+	_check("werewolf turns", bool(wolf.vars.get("beast", false)) and String(wolf.row["sprite"]) == "court/werewolf_beast")
+	var hp0 := thrall.hp  # Before a kill beside it.
+	var victim := _enemy_at(game, "blood_thrall", Vector2(610, 140))
+	game.tick(1.0 / 60.0)
+	TdCombat.kill_enemy(game, victim, null)
+	_check("bloodfeast", thrall.hp > hp0 and int(moon.counts["feeds"]) > 0)
+	var noble := _enemy_at(game, "vampire_noble", Vector2(640, 380))
+	TdCombat.damage_enemy(game, noble, noble.max_hp * 0.95, {"source": "check", "dot": true})  # Through the moon's blood shield.
+	_check("noble mists", game.time < float(noble.vars["mist_until"]) and not game.can_target(war, noble))
+	# Unlocks: the Court's finale opens the Blood Spawn.
+	_check("blood spawn locked", not Unlocks.met({"map": "castle_sanguis"}))
+	(Meta.data["maps"]["cleared"] as Array).append("castle_sanguis")
+	_check("blood spawn unlock", Unlocks.tower_open("blood_spawn") and Unlocks.met(TowerData.TOWERS["blood_spawn"]["unlock"]))
+	(Meta.data["maps"]["cleared"] as Array).erase("castle_sanguis")

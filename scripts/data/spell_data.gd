@@ -100,6 +100,43 @@ const SPELLS: Dictionary = {
 		"interval": 1.0,  # TUNING (not in GDD)
 		"duration": 10.0,  # TUNING (not in GDD)
 	},
+	# --- Act III: the Sanguine Court (w2b-court; Necropathy's Act VII spells) ---
+	"moonfang": {
+		"name": "Moonfang", "icon": "moonfang", "cooldown": 12.0, "target": "enemy", "ready": true,  # TUNING (not in GDD)
+		"desc": "Spectral wolf jaws snap at the nearest packs and leave them bleeding",
+		"unlock": {"map": "ravensmoor"},  # Necropathy: unlocked by slaying Vargr
+		"pick_radius": 110.0,  # TUNING (not in GDD) px around the tap searched for the first pack
+		"jaws": 2,  # TUNING (not in GDD) packs snapped per cast (+ the Moon-Cursed Huntress's innate "moonfang_jaws")
+		"jaw_gap": 90.0,  # TUNING (not in GDD) px a further jaw's pack keeps from the others (Necropathy JAW_GAP)
+		"jaw_reach": 260.0,  # TUNING (not in GDD) px from the tap searched for the further packs
+		"jaw_radius": 50.0,  # TUNING (not in GDD) px of each jaw's bite
+		"damage": 55.0,  # TUNING (not in GDD) per enemy in a jaw
+		"bleed_dps": 12.0, "bleed_time": 4.0,  # TUNING (not in GDD) the bleed (damage over time)
+		"snap_time": 0.25,  # Necropathy SNAP_TIME: s the jaws take to close
+	},
+	"witch_circle": {
+		"name": "Hex Circle", "icon": "witch_circle", "cooldown": 18.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "A crimson circle drains every foe inside and feeds your blockers",
+		"unlock": {"map": "witchwood"},  # Necropathy: unlocked by slaying Isolde
+		"radius": 80.0,  # TUNING (not in GDD) px (+ the Hedge Witch's innate "circle_radius" share)
+		"duration": 7.0,  # TUNING (not in GDD) s
+		"tick": 0.5,  # TUNING (not in GDD) s between drains
+		"drain": 10.0,  # TUNING (not in GDD) damage per tick to every foe inside (damage over time)
+		"heal_share": 0.5,  # TUNING (not in GDD) share of the drain healed to the blocker bodies inside, split between them
+	},
+	"night_swarm": {
+		"name": "Night Swarm", "icon": "night_swarm", "cooldown": 20.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "Spectral bats circle a spot and dart at every foe near it",
+		"unlock": {"map": "castle_sanguis"},  # Necropathy: unlocked by Carmilla and the Elder
+		"bats": 4,  # TUNING (not in GDD) Necropathy `bats` (+ the Dhampir's innate "swarm_bats")
+		"orbit": 46.0,  # TUNING (not in GDD) px the swarm circles the spot
+		"orbit_speed": 2.4,  # TUNING (not in GDD) rad/s
+		"aim": 150.0,  # TUNING (not in GDD) px from the spot a bat darts to
+		"bite_every": 1.2,  # TUNING (not in GDD) s between one bat's bites (staggered round the swarm)
+		"damage": 8.0,  # TUNING (not in GDD) per bite
+		"dart_time": 0.25,  # TUNING (not in GDD) s a dart takes (drawn only: the bite lands at once)
+		"duration": 7.0,  # TUNING (not in GDD) s the swarm stays
+	},
 }
 
 ## The ultimate (GDD §5 Dread Rally), cast through SpellCaster like a spell

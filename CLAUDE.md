@@ -187,6 +187,28 @@ and `TdGame.can_target()`, asked by every pick, kits too); the wave HP ramp
 `?gw_flags=--unlock-all` to open every later tower / spell / ultimate /
 character in the menus.
 
+## Status (wave 2b: Act III, the Sanguine Court, branch w2b-court)
+
+Built: **Ravensmoor, the Witchwood, Castle Sanguis** (`scripts/maps/<id>_map.gd`;
+data `scripts/data/acts/court_act_data.gd`), the act rule **Blood Moon**
+(`rules/court/blood_moon.gd`: every 5 waves from wave 6; Bloodfeast, blood
+shields, bat flights, red edge bands + moon disc, HUD cue), the map rule
+`rules/court/court_structures.gd` (coffins / hex stones / fountains from
+STRUCTURES), 13 Court kinds + 3 structures (`traits/court/`), minibosses Old
+Greymane, the Bog Mother, the Chiropteran King, bosses **Vargr, Isolde Vane,
+Queen Carmilla and the Elder** (`bosses/court/`), the act tower **Blood Spawn**
+-> Nosferatu (unlocked by Castle Sanguis), synergy The Red Waltz, spells
+**Moonfang, Hex Circle (`witch_circle`), Night Swarm** with the Moon-Cursed
+Huntress, the Hedge Witch and the Dhampir. Decisions T3-1..T3-9.
+
+Hooks for the next act agents: `traits/court/court_kit.gd` (preload it: moon
+query, pools, road lunge, feeding bite, hex circle on towers, `call_out()`,
+`reshape()` = a per-enemy row copy to swap sprite / body / blow for a form
+change); act-rule duck typing (`game.act_rule.has_method(...)`) for kind <-> rule
+calls; `vars.mist_until` / `vars.hidden_until` hidden through `can_target()`;
+the bot casts any later spell on the leader (`TdAutotest._cast_spells()` default
+branch). Build orders `ravensmoor_* / witchwood_* / castle_sanguis_*`, `court_kit`.
+
 ## Visual conventions (owner-approved look, Nov 2026)
 
 The owner approved this look ("runs smoothly and looks good"); it is the bar for

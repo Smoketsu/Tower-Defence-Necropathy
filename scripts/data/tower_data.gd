@@ -11,7 +11,8 @@ extends RefCounted
 
 ## Build-menu order of the towers.
 const ORDER: Array[String] = ["archer", "mage", "frost_wraith", "corpse_catapult", "banshee", "mender", "warrior", "abomination",
-	"warder", "rogue", "gargoyle", "bone_hound", "fallen_seraph", "bone_golem"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
+	"warder", "rogue", "gargoyle", "bone_hound", "fallen_seraph", "bone_golem",
+	"blood_spawn"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
 
 ## Targeting modes (GDD §4.3), in the order the Target button cycles them.
 const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
@@ -94,6 +95,9 @@ const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
 ##   slam_every / slam_mult — Bone Golem: every Nth strike slams all it holds for slam_mult x damage and staggers them.
 ##   hunger_heal   — Bone Golem: HP restored to a body when an enemy it holds dies.
 ##   plant_frac / plant_cut — Bone Golem: below this HP fraction it plants and takes plant_cut of each hit (Bulwark).
+##   drink_share   — Blood Spawn: share (0..1) of each strike's damage healed back to the striking body (Bloodthirst).
+##   spill_share / spill_radius — Blood Spawn (Nosferatu): share of the drink its body cannot hold given to the
+##                   most wounded other blocker body within spill_radius px.
 const TOWERS: Dictionary = {
 	"archer": {
 		"name": "Skeleton Archer", "sprite": "summons/archer", "icon": "archer", "spot": "plot",
@@ -333,6 +337,27 @@ const TOWERS: Dictionary = {
 		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(0.95, 0.9, 0.75), "reach": 120.0},  # TUNING (not in GDD)
 		"evolution": "ossuary_titan",
 	},
+	# --- Act III: the Sanguine Court (w2b-court) ---
+	"blood_spawn": {
+		"name": "Blood Spawn", "sprite": "summons/blood_spawn", "icon": "blood_spawn", "spot": "post",
+		"desc": "Fast vampire brawlers that heal themselves with every blow",
+		"unlock": {"map": "castle_sanguis"},  # DECISIONS K9: the act's summon, unlocked by its finale's boss
+		"cost": 90,  # TUNING (not in GDD)
+		"behavior": "blood_spawn",
+		"range": 30.0,  # TUNING (not in GDD)
+		"damage": 10.0,  # TUNING (not in GDD) Necropathy claw rake 9
+		"interval": 0.6,  # TUNING (not in GDD) Necropathy 0.75 s, fast
+		"target": "first",
+		"bodies": 2,
+		"body_hp": 120.0,  # TUNING (not in GDD) between the Warrior (90) and the Abomination: it lives on its bites
+		"hold": 1,  # TUNING (not in GDD)
+		"hits_all_held": false,
+		"respawn": 7.0,  # TUNING (not in GDD)
+		"drink_share": 0.4,  # TUNING (not in GDD) Necropathy BLOODTHIRST 0.3: share of each blow's damage healed back to the striking body
+		"spill_share": 0.0, "spill_radius": 0.0,  # Nosferatu only (EvolutionData "nosferatu")
+		"volley": {"every": 4, "count": 3, "damage": 0.6, "sprite": "volleys/dagger", "tint": Color(1.0, 0.25, 0.3), "reach": 110.0},  # TUNING (not in GDD) Necropathy blood_spawn fan volley
+		"evolution": "nosferatu",
+	},
 }
 
 ## Per-level multipliers, 5 rows (levels 1-5) per tower. Keys:
@@ -440,6 +465,13 @@ const LEVELS: Dictionary = {
 		{"damage": 1.6, "rate": 1.1, "range": 1.0, "bodies": 1, "hp": 1.8},  # TUNING (not in GDD)
 		{"damage": 2.0, "rate": 1.2, "range": 1.0, "bodies": 1, "hp": 2.4},  # TUNING (not in GDD)
 		{"damage": 2.5, "rate": 1.3, "range": 1.0, "bodies": 1, "hp": 3.0},  # TUNING (not in GDD)
+	],
+	"blood_spawn": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0, "bodies": 2, "hp": 1.0},
+		{"damage": 1.3, "rate": 1.05, "range": 1.0, "bodies": 2, "hp": 1.35},  # TUNING (not in GDD)
+		{"damage": 1.65, "rate": 1.1, "range": 1.0, "bodies": 3, "hp": 1.7},  # TUNING (not in GDD)
+		{"damage": 2.05, "rate": 1.2, "range": 1.0, "bodies": 3, "hp": 2.2},  # TUNING (not in GDD)
+		{"damage": 2.5, "rate": 1.3, "range": 1.0, "bodies": 3, "hp": 2.8},  # TUNING (not in GDD)
 	],
 }
 

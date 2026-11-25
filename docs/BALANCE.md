@@ -312,3 +312,20 @@ healing (towers_b: ~5000 HP healed, Death Knight and Profane Bishop reached).
   The whole Ossuary (7,380) takes ~20 good clears.
 - Gravecaller with no meta gives the same summaries as before the menus merge
   (checked on all three maps, seed 1).
+
+## Act III, the Sanguine Court (wave 2b, w2b-court)
+
+Necromancer, default orders, meta none, Gravecaller, seeds 1-4 (lives left of 20):
+
+| Map | s1 | s2 | s3 | s4 | wave_hp_end | Notes |
+|---|---|---|---|---|---|---|
+| Ravensmoor | 17 | 17 | 17 | 17 | 2.75 | the 3 lives are a Vampire Noble out of a sleeping coffin at the first Blood Moon (wave 6) |
+| The Witchwood | 12 | 17 | 20 | 11 | 2.2 | leaks from wave 12-18 (knights, the Bog Mother on some seeds) |
+| Castle Sanguis | 20 | 20 | 17 | 17 | 3.35 | spiral road: waves overlap (clear times 100-200 s); at 3.45-3.6 one seed in two collapses from wave 17 (a cliff), so 3.35 |
+
+Weak orders (`<map>_weak`, seeds 1-2) lose on wave 5 / 3 / 7. `court_kit` (seed 1;
+Castle Sanguis also with `--character=dhampir`) wins all three and evolves the
+Nosferatu on each. Act I baseline summaries unchanged (seeds 1-2, all three maps).
+Known: Castle Sanguis loses fewer lives than Ravensmoor with these orders (its
+default order builds more towers on a longer road); the bot's default orders
+never build the act tower.
