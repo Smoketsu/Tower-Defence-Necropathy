@@ -1,5 +1,5 @@
 ## SunDial: the HUD cue of the Sun's Course (rules/shogunate/sun_course.gd):
-## a small disc under the top bar's left end showing the sun (day), the setting
+## a small disc in the screen's bottom-left corner showing the sun (day), the setting
 ## sun (dusk) or the moon (night) and a label with the phase and the lanterns
 ## lit ("Night  4/6 lit"). Textures only (the shared disc), redrawn when the
 ## rule changes. Drawing only. Numbers in the act data's RULE (dial_*).
@@ -20,7 +20,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	var rr: Dictionary = Acts.data("shogunate")["RULE"]
 	var m: Vector2 = rr["dial_margin"]
-	position = Vector2(m.x, rule.game.top_inset + m.y)
+	position = Vector2(m.x, get_viewport_rect().size.y - float(rr["dial_px"]) - m.y)  # Bottom-left: off the roads and the bosses' entrances.
 
 
 func _draw() -> void:

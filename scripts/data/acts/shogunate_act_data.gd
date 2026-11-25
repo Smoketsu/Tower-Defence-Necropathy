@@ -667,7 +667,7 @@ const RULE: Dictionary = {
 	"ring": Color(1.0, 0.8, 0.45, 0.35),  # TUNING (not in GDD) the light pool's real edge (range ring) at dusk and night
 	"doused_tint": Color(0.55, 0.6, 0.8),  # TUNING (not in GDD) a doused lantern's sprite tint
 	"dial_px": 46.0,  # TUNING (not in GDD) HUD sun dial size (px)
-	"dial_margin": Vector2(10.0, 8.0),  # TUNING (not in GDD) px from the screen's left edge / below the top bar
+	"dial_margin": Vector2(10.0, 8.0),  # TUNING (not in GDD) px from the screen's left / bottom edges
 	"sun_color": Color(1.0, 0.82, 0.3),  # TUNING (not in GDD) the dial's sun
 	"dusk_color": Color(1.0, 0.45, 0.2),  # TUNING (not in GDD) the dial's setting sun
 	"moon_color": Color(0.75, 0.82, 1.0),  # TUNING (not in GDD) the dial's moon
