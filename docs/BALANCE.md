@@ -312,3 +312,15 @@ healing (towers_b: ~5000 HP healed, Death Knight and Profane Bishop reached).
   The whole Ossuary (7,380) takes ~20 good clears.
 - Gravecaller with no meta gives the same summaries as before the menus merge
   (checked on all three maps, seed 1).
+
+## Act II, the Black Tide (w2b-tide)
+
+Necromancer, default orders, `--seed=1..4` (lives left / 20, all won):
+
+| Map | s1 | s2 | s3 | s4 | weak (s1, s2) |
+|---|---|---|---|---|---|
+| cutter | 15 | 15 | 15 | 15 | lost, lost |
+| galleon | 14 | 12 | 5 | 20 | lost, lost |
+| maelstrom | 15 | 11 | 8 | 14 | lost, lost |
+
+Act I default summaries (seeds 1, 2) reproduce the baselines above byte for byte. Details: DECISIONS T2-11.
