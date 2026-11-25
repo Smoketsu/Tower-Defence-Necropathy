@@ -25,6 +25,9 @@ var hover_id: String = ""
 var pad_focus: bool = false
 ## True while a rebuild is queued for the end of the frame.
 var _pending: bool = false
+## Build-menu page per spot kind ("plot" / "post" -> 0-based page; gw2-kit: more
+## towers than TdUiData.MENU_PAGE tiles are paged, so the menu never grows).
+var _page: Dictionary = {}
 
 
 func _ready() -> void:
@@ -55,7 +58,7 @@ func _rebuild() -> void:
 		return
 	var t := s.tower  # Its tower, or null.
 	var sig := "%s|%d|%d|%s|%d|%s" % [s.spot_id(), game.economy.souls, game.free_upgrades,
-		t.tower_id + str(t.level) + t.target_mode + t.evolution + str(t.can_evolve()) if t != null else "-", game.towers.size(), str(game.over)]  # What the menu shows.
+		t.tower_id + str(t.level) + t.target_mode + t.evolution + str(t.can_evolve()) if t != null else "p%d" % int(_page.get(s.kind, 0)), game.towers.size(), str(game.over)]  # What the menu shows.
 	if s == _for and sig == _sig and visible:
 		return
 	_for = s
@@ -147,10 +150,16 @@ func _build_empty(box: VBoxContainer, s: Spot) -> void:
 	grid.columns = TdUiData.MENU_COLUMNS
 	grid.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	box.add_child(grid)
+	var ids: Array[String] = []  # Open classes that fit this spot (locked ones hidden, Unlocks).
 	for id: String in TowerData.ORDER:
+		if String(TowerData.TOWERS[id]["spot"]) == s.kind and Unlocks.tower_open(id):
+			ids.append(id)
+	var pages := maxi(ceili(float(ids.size()) / float(TdUiData.MENU_PAGE)), 1)  # Pages of tiles.
+	var page := clampi(int(_page.get(s.kind, 0)), 0, pages - 1)  # Page shown.
+	if pages > 1:
+		_pager(box, s.kind, page, pages)
+	for id: String in ids.slice(page * TdUiData.MENU_PAGE, (page + 1) * TdUiData.MENU_PAGE):
 		var row: Dictionary = TowerData.TOWERS[id]
-		if String(row["spot"]) != s.kind:
-			continue
 		var joins := _would_join(id, s)  # Synergy names it would form here.
 		var can := game.economy.can_afford(int(row["cost"]))  # Affordable now.
 		var b := Button.new()  # The tile.
@@ -187,6 +196,28 @@ func _build_empty(box: VBoxContainer, s: Spot) -> void:
 			hints.append(String(SynergyData.SYNERGIES[sid]["hint"]))
 		b.tooltip_text = "\n".join(hints)
 		grid.add_child(b)
+
+
+## The page row of the build menu: < page / pages > (gw2-kit; wraps around).
+func _pager(box: VBoxContainer, kind: String, page: int, pages: int) -> void:
+	var row := HBoxContainer.new()  # The pager.
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.add_child(row)
+	for d: int in [-1, 1]:
+		var b := Button.new()  # Previous / next page.
+		b.text = "<" if d < 0 else ">"
+		b.custom_minimum_size = TdUiData.MENU_PAGER
+		b.focus_mode = Control.FOCUS_ALL if pad_focus else Control.FOCUS_NONE
+		b.pressed.connect(func() -> void:
+			_page[kind] = posmod(page + d, pages)
+			refresh())
+		row.add_child(b)
+		if d < 0:
+			var l := UiTheme.tier_label("%d / %d" % [page + 1, pages], UiTheme.Tier.BODY, UiTheme.TEXT_DIM)
+			l.custom_minimum_size.x = 64.0
+			l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			row.add_child(l)
 
 
 ## Enables `b` when affordable (soul-teal text), else dims it with a crimson cost.

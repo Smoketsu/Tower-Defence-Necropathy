@@ -10,8 +10,18 @@ static func recipe_met(t: Tower, game: TdGame) -> bool:
 	var id := String(t.row.get("evolution", ""))  # Its EvolutionData id.
 	if id == "" or not EvolutionData.EVOLUTIONS.has(id):
 		return false
-	var rec: Dictionary = EvolutionData.EVOLUTIONS[id]["recipe"]  # The recipe.
+	return met(EvolutionData.EVOLUTIONS[id]["recipe"], t, game)
+
+
+## True when recipe `rec` is met by tower `t` right now (recursive for "any").
+static func met(rec: Dictionary, t: Tower, game: TdGame) -> bool:
 	match String(rec["type"]):
+		"any":
+			for r: Dictionary in rec["of"]:
+				if met(r, t, game):
+					return true
+		"elite_kills":
+			return int(t.vars.get("elite_kills", 0)) >= int(rec["n"])
 		"kills":
 			return t.kills >= int(rec["n"])
 		"damage":

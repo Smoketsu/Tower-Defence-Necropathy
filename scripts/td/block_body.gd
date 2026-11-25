@@ -31,6 +31,13 @@ var temporary: bool = false
 var taunt_by: BlockBody = null
 ## Game time (s) the taunt lasts (refreshed by the Colossus every step).
 var taunt_until: float = 0.0
+## Barrier HP absorbed before its own HP (Crypt Warder, Sovereign's Decree;
+## TdCombat.barrier_body / damage_body), and the game s it fades (gw2-kit).
+var barrier: float = 0.0
+## See barrier.
+var barrier_until: float = 0.0
+## Fraction (0..1) of each hit it ignores (Bone Golem planted; 0 = none).
+var damage_cut: float = 0.0
 ## Game time (s) until which it draws a hit flash (visual only).
 var flash_until: float = 0.0
 ## Drawing only (TdVfx): game s of its last strike and the lunge direction (unit vector).

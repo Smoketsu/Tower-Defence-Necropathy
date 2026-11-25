@@ -36,7 +36,7 @@ func _draw() -> void:
 		var link := TdArt.texture("synergy_link", true)  # Grey link mask.
 		if link != null:
 			for id: String in TowerData.ORDER:
-				if (hover != "" and id != hover) or String(TowerData.TOWERS[id]["spot"]) != s.kind:
+				if (hover != "" and id != hover) or String(TowerData.TOWERS[id]["spot"]) != s.kind or not Unlocks.tower_open(id):
 					continue
 				for t: Tower in _partners(game, id, s.position):
 					var d := t.position - s.position  # Link vector.

@@ -9,7 +9,8 @@ extends RefCounted
 ## Owned upgrade values, upgrade id -> level x per (empty = a fresh save):
 ##   start_souls (+souls), lives (+lives), sell_refund (+fraction),
 ##   spell_cooldown (fraction off, 0..0.5), spell_slot (+slots), respawn
-##   (fraction off, 0..0.5), tree_ranged / tree_aura / tree_blocker (+fraction).
+##   (fraction off, 0..0.5), tree_ranged / tree_aura / tree_blocker (+fraction),
+##   ult_charge (+fraction of ultimate meter charge, gw2-kit).
 static var bonuses: Dictionary = {}
 ## Tower class ids whose Mastery is open (each true).
 static var masteries: Dictionary = {}
@@ -45,8 +46,16 @@ static func spell_slots() -> int:
 	return 3 + int(bonuses.get("spell_slot", 0))
 
 
-## The family ("ranged" / "aura" / "blocker", MetaData.FAMILIES) of tower row `r`.
+## Multiplier on the ultimate meter's charge per kill (Soul Hunger; 1 = none).
+static func ultimate_charge_mult() -> float:
+	return 1.0 + float(bonuses.get("ult_charge", 0.0))
+
+
+## The family ("ranged" / "aura" / "blocker", MetaData.FAMILIES) of tower row `r`
+## (its "family" key wins: the Crypt Warder is an aura without the aura behaviour).
 static func family(r: Dictionary) -> String:
+	if r.has("family"):
+		return String(r["family"])
 	if String(r.get("spot", "")) == "post":
 		return "blocker"
 	return "aura" if String(r.get("behavior", "")) == "aura" else "ranged"

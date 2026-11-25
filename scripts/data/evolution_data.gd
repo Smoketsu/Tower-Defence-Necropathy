@@ -18,6 +18,10 @@ extends RefCounted
 ##                 "near_level" — a tower of class `class` at level >= `level` within `radius`.
 ##                 "healed" — this tower has restored `n` HP to blockers (Mender).
 ##                 "damage" — this tower has dealt `n` damage.
+##                 "any"   — any of the recipes in `of` (an Array of recipes) is met.
+##                 "elite_kills" — this tower has killed `n` elites / minibosses / bosses.
+##   tint      — optional Color the class kit draws the evolved sprite with (when it
+##               shares its base sprite, e.g. the Bone Aegis).
 const EVOLUTIONS: Dictionary = {
 	"gravebow": {
 		"from": "archer", "name": "Gravebow", "sprite": "summons/gravebow", "icon": "gravebow",
@@ -93,7 +97,7 @@ const EVOLUTIONS: Dictionary = {
 			"burn": 10.0,  # TUNING (not in GDD) damage to every enemy in range each pulse (Necropathy: Bishops burn foes with an aura)
 			"revive_haste": 2.0,  # TUNING (not in GDD) s each pulse takes off a fallen body's respawn wait
 		},
-		"recipe": {"type": "healed", "n": 1500},  # TUNING (not in GDD) GDD §4.1 asks for a Warder (not a launch tower): a healing record instead
+		"recipe": {"type": "any", "of": [{"type": "healed", "n": 1500}, {"type": "near", "class": "warder", "radius": 210.0}]},  # TUNING (not in GDD) GDD §4.1 "needs a Warder adjacent" (gw2-kit, DECISIONS K6); the healing record stays for rosters without the Warder
 	},
 	"death_knight": {
 		"from": "warrior", "name": "Death Knight", "sprite": "summons/death_knight", "icon": "death_knight",
@@ -115,5 +119,64 @@ const EVOLUTIONS: Dictionary = {
 			"shrapnel_mult": 3.0,  # TUNING (not in GDD) x its stomp damage (Necropathy 2.0)
 		},
 		"recipe": {"type": "near", "class": "warrior", "radius": 200.0},  # TUNING (not in GDD) Flesh Rampart pair
+	},
+	# --- Later towers (gw2-kit) ---
+	"bone_aegis": {
+		"from": "warder", "name": "Bone Aegis", "sprite": "summons/warder", "icon": "warder",
+		"tint": Color(1.3, 1.15, 0.7),  # TUNING (not in GDD) the Warder in gold (no own art)
+		"stats": {"hp": 1.6, "rate": 1.2, "range": 1.1},  # TUNING (not in GDD)
+		"set": {
+			"barrier_time": 8.0,  # TUNING (not in GDD)
+			"thorns": 0.5,  # TUNING (not in GDD) fraction of the damage a barrier absorbs dealt back to the striker
+		},
+		"recipe": {"type": "near", "class": "mender", "radius": 210.0},  # TUNING (not in GDD) Necropathy's Mender + Warder pair, about one plot apart
+	},
+	"shadow_reaper": {
+		"from": "rogue", "name": "Shadow Reaper", "sprite": "summons/shadow_reaper", "icon": "shadow_reaper",
+		"stats": {"damage": 1.3, "rate": 1.6},  # TUNING (not in GDD) Necropathy: halved dash cooldown
+		"set": {
+			"chain_dashes": 2, "chain_radius": 90.0,  # TUNING (not in GDD) Necropathy chained dashes
+			"bleed_dps": 12.0, "bleed_time": 4.0,  # TUNING (not in GDD) Necropathy stacking bleeds
+			"kill_reset": 0.6,  # TUNING (not in GDD) Necropathy dash-kill reset
+		},
+		"recipe": {"type": "elite_kills", "n": 12},  # TUNING (not in GDD) a deed: the elite hunter's record
+	},
+	"cathedral_horror": {
+		"from": "gargoyle", "name": "Cathedral Horror", "sprite": "summons/cathedral_horror", "icon": "cathedral_horror",
+		"stats": {"damage": 1.5, "range": 1.1},  # TUNING (not in GDD)
+		"set": {
+			"splash": 62.0,  # TUNING (not in GDD) Necropathy wider swoop
+			"dive_stun": 0.8,  # TUNING (not in GDD) Necropathy dive stun
+			"stone_time": 0.9,  # TUNING (not in GDD) Necropathy stone form after landing
+		},
+		"recipe": {"type": "near", "class": "rogue", "radius": 240.0},  # TUNING (not in GDD) Death from Above pair
+	},
+	"hellhound": {
+		"from": "bone_hound", "name": "Hellhound", "sprite": "summons/hellhound", "icon": "hellhound",
+		"stats": {"damage": 1.4, "rate": 1.15},  # TUNING (not in GDD)
+		"set": {
+			"hound_speed": 270.0,  # TUNING (not in GDD) Necropathy Blood Scent
+			"burn_dps": 9.0, "burn_time": 2.0,  # TUNING (not in GDD) Necropathy burning bites
+		},
+		"recipe": {"type": "near", "class": "banshee", "radius": 220.0},  # TUNING (not in GDD) Baying pair
+	},
+	"seraph_of_ruin": {
+		"from": "fallen_seraph", "name": "Seraph of Ruin", "sprite": "summons/ruin_seraph", "icon": "ruin_seraph",
+		"stats": {"damage": 1.35, "range": 1.1},  # TUNING (not in GDD)
+		"set": {
+			"feathers": 5, "pierce": 1,  # TUNING (not in GDD)
+			"ruin_every": 5, "ruin_mult": 3.0, "ruin_radius": 70.0,  # TUNING (not in GDD) Necropathy's dive (effects/seraph_dive)
+		},
+		"recipe": {"type": "kills", "n": 70},  # TUNING (not in GDD)
+	},
+	"ossuary_titan": {
+		"from": "bone_golem", "name": "Ossuary Titan", "sprite": "summons/ossuary_titan", "icon": "ossuary_titan",
+		"stats": {"damage": 1.4, "hp": 1.5},  # TUNING (not in GDD)
+		"set": {
+			"hold": 5,  # TUNING (not in GDD)
+			"slam_every": 2,  # TUNING (not in GDD)
+			"hunger_heal": 30.0,  # TUNING (not in GDD)
+		},
+		"recipe": {"type": "near", "class": "warder", "radius": 220.0},  # TUNING (not in GDD) Necropathy Grave Masonry -> a Warder beside it
 	},
 }

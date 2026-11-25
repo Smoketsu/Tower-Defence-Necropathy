@@ -10,7 +10,8 @@ class_name TowerData
 extends RefCounted
 
 ## Build-menu order of the towers.
-const ORDER: Array[String] = ["archer", "mage", "frost_wraith", "corpse_catapult", "banshee", "mender", "warrior", "abomination"]
+const ORDER: Array[String] = ["archer", "mage", "frost_wraith", "corpse_catapult", "banshee", "mender", "warrior", "abomination",
+	"warder", "rogue", "gargoyle", "bone_hound", "fallen_seraph", "bone_golem"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
 
 ## Targeting modes (GDD §4.3), in the order the Target button cycles them.
 const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
@@ -60,6 +61,38 @@ const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
 ##   respawn       — s before a fallen body returns, free (GDD §4.3).
 ##   stagger_time  — Abomination: s each stomp staggers what it holds (no attacks).
 ##   evolution     — id of its EvolutionData row (hidden tier 6), "" = none.
+## Later-tower keys (gw2-kit, DECISIONS K1-K9; read by Unlocks, Tower and the kits):
+##   unlock        — optional Unlocks spec ({"map": id} = beat that map's boss;
+##                   {"map": id, "skulls": n}); absent = open from the start.
+##   desc          — optional one-line role shown in the Codex.
+##   ground_only   — optional, default false: true = never targets flying enemies (the
+##                   act framework's key, read by Tower.pick_target(); the Rogue and the
+##                   Hounds run on the road; the Gargoyle prefers flyers, DECISIONS K5).
+##   family        — optional Ossuary tree family override ("ranged"|"aura"|"blocker").
+##   barrier       — Warder: barrier HP put on each blocker body in range per ward (x the "hp" multiplier).
+##   barrier_time  — Warder: s a barrier lasts before it fades.
+##   dash_time     — Rogue: s its dash out to the target takes (it strikes on arrival).
+##   linger        — Rogue: s it stays by its victim before running back (as long again to return).
+##   elite_bonus   — Rogue / Hounds: targeting score bonus of elites, minibosses and bosses.
+##   bleed_dps / bleed_time — Rogue: bleed damage over time (per s) and its length (s).
+##   chain_dashes / chain_radius — Rogue (Shadow Reaper): extra enemies struck within that radius of the victim.
+##   kill_reset    — Rogue (Shadow Reaper): fraction of the cooldown refunded when a dash kills.
+##   patrol_r / patrol_speed — Gargoyle: radius (px) of its circle over the plot, radians/s around it.
+##   dive_time     — Gargoyle: s from take-off to the landing hit.
+##   swoop_mark    — Gargoyle: s the landing marks enemies "swooped" (Death from Above / Wild Hunt read it).
+##   air_bonus / air_mult — Gargoyle: targeting score bonus and damage multiplier vs flyers.
+##   dive_stun     — Gargoyle (Cathedral Horror): s the landing freezes what it hits (0 = none).
+##   stone_time    — Gargoyle (Cathedral Horror): s it stands as stone after a landing (visual + no attack).
+##   pack          — Bone Hounds: hounds in the pack at level 1 (LEVELS "bodies" override it).
+##   hound_speed   — Bone Hounds: px/s a hound runs.
+##   pack_bonus / pack_max — Bone Hounds: + damage fraction per other hound biting the same prey, and its cap.
+##   burn_dps / burn_time — Bone Hounds (Hellhound): fire damage over time per bite.
+##   feathers      — Fallen Seraph: feathers per shot (each at a different enemy in range).
+##   ruin_every / ruin_mult / ruin_radius — Fallen Seraph (Seraph of Ruin): every Nth shot a dive on the
+##                   strongest enemy for ruin_mult x damage within ruin_radius px.
+##   slam_every / slam_mult — Bone Golem: every Nth strike slams all it holds for slam_mult x damage and staggers them.
+##   hunger_heal   — Bone Golem: HP restored to a body when an enemy it holds dies.
+##   plant_frac / plant_cut — Bone Golem: below this HP fraction it plants and takes plant_cut of each hit (Bulwark).
 const TOWERS: Dictionary = {
 	"archer": {
 		"name": "Skeleton Archer", "sprite": "summons/archer", "icon": "archer", "spot": "plot",
@@ -182,6 +215,122 @@ const TOWERS: Dictionary = {
 		"volley": {"every": 2, "count": 4, "damage": 0.4, "sprite": "volleys/shard", "tint": Color(0.95, 0.8, 0.7), "reach": 120.0},  # TUNING (not in GDD)
 		"evolution": "bone_colossus",
 	},
+	# --- Later towers (GDD §4.2, gw2-kit): appended rows, each locked until its Unlocks spec is met ---
+	"warder": {
+		"name": "Crypt Warder", "sprite": "summons/warder", "icon": "warder", "spot": "plot",
+		"desc": "Support: bone barriers on blockers in range",
+		"unlock": {"map": "graveyard"},  # TUNING (not in GDD) DECISIONS K2: Act I clears grow the roster
+		"cost": 85,  # TUNING (not in GDD)
+		"behavior": "warder", "affects": "blockers", "family": "aura",
+		"range": 135.0,  # TUNING (not in GDD)
+		"damage": 9.0,  # TUNING (not in GDD) its Lv3 ward darts only
+		"interval": 3.5,  # TUNING (not in GDD) s between wards
+		"target": "first",
+		"barrier": 26.0,  # TUNING (not in GDD) Necropathy Shieldwall: 25% of a warrior's HP
+		"barrier_time": 6.0,  # TUNING (not in GDD)
+		"projectile_speed": 460.0,  # TUNING (not in GDD) its ward darts
+		"volley": {"every": 1, "count": 3, "damage": 1.0, "sprite": "volleys/shard", "tint": Color(0.55, 0.95, 1.0), "reach": 150.0},  # TUNING (not in GDD)
+		"evolution": "bone_aegis",
+	},
+	"rogue": {
+		"name": "Grave Rogue", "sprite": "summons/rogue", "icon": "rogue", "spot": "plot",
+		"desc": "Leaves its grave to dash at elites, bleeds them",
+		"unlock": {"map": "graveyard"},  # TUNING (not in GDD)
+		"cost": 95,  # TUNING (not in GDD)
+		"behavior": "rogue", "ground_only": true,
+		"range": 150.0,  # TUNING (not in GDD)
+		"damage": 38.0,  # TUNING (not in GDD) one dash strike
+		"interval": 1.9,  # TUNING (not in GDD) s between dashes
+		"target": "first",
+		"dash_time": 0.2,  # TUNING (not in GDD) Necropathy dash ~0.2 s
+		"linger": 0.25,  # TUNING (not in GDD)
+		"elite_bonus": 2000.0,  # TUNING (not in GDD) score bonus (px of progress) for elites and up
+		"bleed_dps": 7.0, "bleed_time": 3.0,  # TUNING (not in GDD) Necropathy bleed
+		"chain_dashes": 0, "chain_radius": 0.0, "kill_reset": 0.0,
+		"armour_pierce": 2.0,  # TUNING (not in GDD)
+		"projectile_speed": 560.0,  # TUNING (not in GDD) its Lv3 thrown daggers
+		"volley": {"every": 2, "count": 3, "damage": 0.45, "sprite": "volleys/dagger", "tint": Color(1.0, 0.35, 0.4)},  # TUNING (not in GDD)
+		"evolution": "shadow_reaper",
+	},
+	"gargoyle": {
+		"name": "Crypt Gargoyle", "sprite": "summons/gargoyle", "icon": "gargoyle", "spot": "plot",
+		"desc": "Circles in the air, swoops on packs; the answer to flyers",
+		"unlock": {"map": "crimson_march"},  # TUNING (not in GDD)
+		"cost": 110,  # TUNING (not in GDD)
+		"behavior": "gargoyle",
+		"range": 155.0,  # TUNING (not in GDD)
+		"damage": 30.0,  # TUNING (not in GDD) one landing
+		"interval": 2.3,  # TUNING (not in GDD)
+		"target": "first",
+		"splash": 42.0,  # TUNING (not in GDD) the landing's area
+		"patrol_r": 34.0, "patrol_speed": 1.6,  # TUNING (not in GDD) GDD §4.2 "patrols a circle"
+		"dive_time": 0.3,  # TUNING (not in GDD)
+		"swoop_mark": 3.0,  # TUNING (not in GDD) Necropathy swoop mark
+		"air_bonus": 5000.0, "air_mult": 1.6,  # TUNING (not in GDD) GDD §4.2 "the answer to flyers"
+		"dive_stun": 0.0, "stone_time": 0.0,
+		"projectile_speed": 420.0,  # TUNING (not in GDD) its Lv3 feather shards
+		"volley": {"every": 2, "count": 4, "damage": 0.35, "sprite": "volleys/feather", "tint": Color(0.75, 0.7, 0.95)},  # TUNING (not in GDD)
+		"evolution": "cathedral_horror",
+	},
+	"bone_hound": {
+		"name": "Bone Hounds", "sprite": "summons/bone_hound", "icon": "bone_hound", "spot": "plot",
+		"desc": "A pack that runs down the road after the enemy nearest the gate",
+		"unlock": {"map": "crimson_march"},  # TUNING (not in GDD)
+		"cost": 80,  # TUNING (not in GDD)
+		"behavior": "bone_hound", "ground_only": true,
+		"range": 230.0,  # TUNING (not in GDD) GDD §4.2 "chases leaks down the road": the leash
+		"damage": 4.2,  # TUNING (not in GDD) one bite; A/B pass (DECISIONS K16): 6 gave ~2x an archer's damage per soul, 3.6 lost the Sanctum, 4.6 still ~20% over the Mage
+		"interval": 0.75,  # TUNING (not in GDD) s between one hound's bites
+		"target": "first",
+		"pack": 3,  # TUNING (not in GDD) Necropathy 3 -> 9 hounds
+		"hound_speed": 210.0,  # TUNING (not in GDD)
+		"pack_bonus": 0.15, "pack_max": 0.45,  # GDD §6.3 Necropathy Pack Hunt (+15% per packmate, max +45%)
+		"elite_bonus": 0.0,
+		"burn_dps": 0.0, "burn_time": 0.0,
+		"projectile_speed": 380.0,  # TUNING (not in GDD) its Lv3 howl
+		"volley": {"every": 6, "count": 3, "damage": 0.8, "sprite": "volleys/wave", "tint": Color(1.0, 0.85, 0.55), "reach": 230.0},  # TUNING (not in GDD)
+		"evolution": "hellhound",
+	},
+	"fallen_seraph": {
+		"name": "Fallen Seraph", "sprite": "summons/fallen_seraph", "icon": "fallen_seraph", "spot": "plot",
+		"desc": "Black feathers at several foes at once; hits flyers",
+		"unlock": {"map": "sanctum"},  # Owner decision (Nov 25 2026): unlocked by beating Seraphine
+		"cost": 120,  # TUNING (not in GDD) A/B pass: 130 left the early waves thin
+		"behavior": "fallen_seraph",
+		"range": 160.0,  # TUNING (not in GDD)
+		"damage": 14.0,  # TUNING (not in GDD) per feather
+		"interval": 1.1,  # TUNING (not in GDD)
+		"target": "first",
+		"projectile": "projectiles/seraph_feather", "projectile_speed": 480.0,  # TUNING (not in GDD)
+		"feathers": 3,  # TUNING (not in GDD) Necropathy feather ring
+		"splash": 0.0, "slow": 1.0, "slow_time": 0.0, "freeze_every": 0, "freeze_time": 0.0,
+		"pierce": 0, "armour_pierce": 1.0,  # TUNING (not in GDD)
+		"ruin_every": 0, "ruin_mult": 0.0, "ruin_radius": 0.0,
+		"volley": {"every": 3, "count": 4, "damage": 0.5, "sprite": "volleys/feather", "tint": Color(0.8, 0.45, 1.0)},  # TUNING (not in GDD)
+		"evolution": "seraph_of_ruin",
+	},
+	"bone_golem": {
+		"name": "Bone Golem", "sprite": "summons/bone_golem", "icon": "bone_golem", "spot": "post",
+		"desc": "Heavy blocker: plants itself when hurt, feeds on what it holds",
+		"unlock": {"map": "sanctum"},  # TUNING (not in GDD)
+		"cost": 125,  # TUNING (not in GDD)
+		"behavior": "bone_golem",
+		"range": 40.0,  # TUNING (not in GDD)
+		"damage": 18.0,  # TUNING (not in GDD)
+		"interval": 1.5,  # TUNING (not in GDD)
+		"target": "first",
+		"bodies": 1,
+		"body_hp": 300.0,  # TUNING (not in GDD) Abomination 200, but holds fewer
+		"hold": 3,  # TUNING (not in GDD)
+		"hits_all_held": false,
+		"respawn": 14.0,  # TUNING (not in GDD)
+		"slam_every": 3, "slam_mult": 1.5,  # TUNING (not in GDD)
+		"stagger_time": 0.6,  # TUNING (not in GDD)
+		"hunger_heal": 14.0,  # TUNING (not in GDD) Necropathy Ossuary Hunger
+		"plant_frac": 0.5, "plant_cut": 0.35,  # TUNING (not in GDD) Necropathy Bulwark (planted: 30% cut)
+		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(0.95, 0.9, 0.75), "reach": 120.0},  # TUNING (not in GDD)
+		"evolution": "ossuary_titan",
+	},
 }
 
 ## Per-level multipliers, 5 rows (levels 1-5) per tower. Keys:
@@ -241,6 +390,49 @@ const LEVELS: Dictionary = {
 		{"damage": 2.5, "rate": 1.3, "range": 1.0, "bodies": 4, "hp": 3.0},  # TUNING (not in GDD)
 	],
 	"abomination": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.0},
+		{"damage": 1.3, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.4},  # TUNING (not in GDD)
+		{"damage": 1.6, "rate": 1.1, "range": 1.0, "bodies": 1, "hp": 1.8},  # TUNING (not in GDD)
+		{"damage": 2.0, "rate": 1.2, "range": 1.0, "bodies": 1, "hp": 2.4},  # TUNING (not in GDD)
+		{"damage": 2.5, "rate": 1.3, "range": 1.0, "bodies": 1, "hp": 3.0},  # TUNING (not in GDD)
+	],
+	# --- Later towers ---
+	"warder": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0, "hp": 1.0},
+		{"damage": 1.2, "rate": 1.1, "range": 1.05, "hp": 1.3},  # TUNING (not in GDD)
+		{"damage": 1.4, "rate": 1.2, "range": 1.1, "hp": 1.6},  # TUNING (not in GDD)
+		{"damage": 1.7, "rate": 1.3, "range": 1.15, "hp": 2.0},  # TUNING (not in GDD)
+		{"damage": 2.0, "rate": 1.4, "range": 1.2, "hp": 2.5},  # TUNING (not in GDD)
+	],
+	"rogue": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0},
+		{"damage": 1.35, "rate": 1.05, "range": 1.05},  # TUNING (not in GDD)
+		{"damage": 1.75, "rate": 1.1, "range": 1.1},  # TUNING (not in GDD)
+		{"damage": 2.2, "rate": 1.2, "range": 1.15},  # TUNING (not in GDD)
+		{"damage": 2.8, "rate": 1.3, "range": 1.2},  # TUNING (not in GDD)
+	],
+	"gargoyle": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0},
+		{"damage": 1.35, "rate": 1.05, "range": 1.05},  # TUNING (not in GDD)
+		{"damage": 1.75, "rate": 1.1, "range": 1.1},  # TUNING (not in GDD)
+		{"damage": 2.2, "rate": 1.15, "range": 1.15},  # TUNING (not in GDD)
+		{"damage": 2.8, "rate": 1.25, "range": 1.2},  # TUNING (not in GDD)
+	],
+	"bone_hound": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0, "bodies": 3},
+		{"damage": 1.3, "rate": 1.05, "range": 1.0, "bodies": 3},  # TUNING (not in GDD)
+		{"damage": 1.6, "rate": 1.1, "range": 1.05, "bodies": 4},  # TUNING (not in GDD)
+		{"damage": 2.0, "rate": 1.15, "range": 1.1, "bodies": 4},  # TUNING (not in GDD)
+		{"damage": 2.4, "rate": 1.2, "range": 1.15, "bodies": 5},  # TUNING (not in GDD) Necropathy pack grows with levels
+	],
+	"fallen_seraph": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0},
+		{"damage": 1.3, "rate": 1.05, "range": 1.05},  # TUNING (not in GDD)
+		{"damage": 1.65, "rate": 1.1, "range": 1.1},  # TUNING (not in GDD)
+		{"damage": 2.05, "rate": 1.15, "range": 1.15},  # TUNING (not in GDD)
+		{"damage": 2.5, "rate": 1.25, "range": 1.2},  # TUNING (not in GDD)
+	],
+	"bone_golem": [
 		{"damage": 1.0, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.0},
 		{"damage": 1.3, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.4},  # TUNING (not in GDD)
 		{"damage": 1.6, "rate": 1.1, "range": 1.0, "bodies": 1, "hp": 1.8},  # TUNING (not in GDD)

@@ -29,7 +29,7 @@ static func damage_enemy(game: TdGame, e: TdEnemy, amount: float, hit: Dictionar
 		if game.time < e.curse_until:
 			dmg *= e.curse_mult
 	if not bool(hit.get("dot", false)):
-		var arm := maxf(e.armour - float(hit.get("armour_pierce", 0.0)), 0.0)  # Effective flat armour.
+		var arm := maxf(e.armour - float(hit.get("armour_pierce", 0.0)) - shred_of(game, e), 0.0)  # Effective flat armour (Wither shreds it).
 		dmg = maxf(dmg - arm, dmg * TdRulesData.ARMOUR_MIN_FRACTION)
 		e.flash_until = game.time + TdRulesData.HIT_FLASH
 		e.vis_hit_at = game.time  # Its hit squash (drawn only).
@@ -63,6 +63,8 @@ static func kill_enemy(game: TdGame, e: TdEnemy, tower: Tower) -> void:
 	game.caster.charge(rank)
 	if tower != null:
 		tower.kills += 1
+		if rank != "fodder":
+			tower.vars["elite_kills"] = int(tower.vars.get("elite_kills", 0)) + 1  # Shadow Reaper's deed (gw2-kit).
 	game.stats["kills"][e.kind] = int(game.stats["kills"].get(e.kind, 0)) + 1
 	if rank == "miniboss":
 		game.grant_chest(e.position)
@@ -125,6 +127,16 @@ static func heal_enemy(_game: TdGame, e: TdEnemy, amount: float) -> void:
 static func damage_body(game: TdGame, b: BlockBody, amount: float) -> void:
 	if not b.alive or amount <= 0.0:
 		return
+	if b.damage_cut > 0.0:
+		amount *= 1.0 - b.damage_cut  # Bone Golem planted (gw2-kit).
+	if b.barrier > 0.0 and game.time < b.barrier_until:
+		var soak := minf(b.barrier, amount)  # Barrier absorbs first (gw2-kit).
+		b.barrier -= soak
+		amount -= soak
+		game.stats["barrier_absorbed"] = float(game.stats.get("barrier_absorbed", 0.0)) + soak
+		if amount <= 0.0:
+			b.flash_until = game.time + TdRulesData.HIT_FLASH
+			return
 	b.hp -= amount
 	b.flash_until = game.time + TdRulesData.HIT_FLASH
 	game.stats["body_damage"] = float(game.stats["body_damage"]) + amount
@@ -193,3 +205,35 @@ static func suppress_tower(game: TdGame, t: Tower, mult: float, time: float) -> 
 		t.suppress_mult = mult
 	t.suppress_until = maxf(t.suppress_until, game.time + time)
 	t.recompute()
+
+
+# ------------------------------------------------------------------ gw2-kit statuses
+
+## Puts a barrier of `amount` HP on blocker body `b` for `time` s (refreshed,
+## never stacked: the bigger of the old and new barrier). Returns the HP added.
+static func barrier_body(game: TdGame, b: BlockBody, amount: float, time: float) -> float:
+	if not b.alive:
+		return 0.0
+	var before := b.barrier if game.time < b.barrier_until else 0.0  # Barrier still up.
+	b.barrier = maxf(before, amount)
+	b.barrier_until = game.time + time
+	return b.barrier - before
+
+
+## Shreds `e`'s flat armour by `amount` for `time` s (Wither; the strongest wins,
+## a longer one extends). Read in damage_enemy() through shred_of().
+static func shred_enemy(game: TdGame, e: TdEnemy, amount: float, time: float) -> void:
+	if game.time >= float(e.vars.get("k_shred_until", 0.0)) or amount >= float(e.vars.get("k_shred", 0.0)):
+		e.vars["k_shred"] = amount
+	e.vars["k_shred_until"] = maxf(float(e.vars.get("k_shred_until", 0.0)), game.time + time)
+
+
+## Armour shredded off `e` now (0 = none).
+static func shred_of(game: TdGame, e: TdEnemy) -> float:
+	return float(e.vars.get("k_shred", 0.0)) if game.time < float(e.vars.get("k_shred_until", 0.0)) else 0.0
+
+
+## Marks `e` swooped for `time` s (a Gargoyle landing; Death from Above and the
+## Wild Hunt read it through Synergies.has_status()).
+static func swoop_enemy(game: TdGame, e: TdEnemy, time: float) -> void:
+	e.vars["k_swooped"] = maxf(float(e.vars.get("k_swooped", 0.0)), game.time + time)

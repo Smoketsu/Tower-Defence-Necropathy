@@ -113,6 +113,8 @@ func recompute() -> void:
 		s["respawn"] = float(s["respawn"]) * MetaModifiers.respawn_mult()
 	if s.has("heal"):
 		s["heal"] = float(s["heal"]) * float(mult["hp"])
+	if s.has("barrier"):
+		s["barrier"] = float(s["barrier"]) * float(mult["hp"])  # Warder barriers grow like heals (gw2-kit).
 	s["hold_bonus"] = hold_bonus
 	stats = s
 	if behavior != null:

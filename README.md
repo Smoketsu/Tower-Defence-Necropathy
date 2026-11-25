@@ -105,6 +105,10 @@ $G --headless --fixed-fps 60 --quit-after 60000 -- --autotest [--map=graveyard|c
 | `--meta=` | `none` (default without a save) or `max` (every Ossuary upgrade and Mastery) |
 | `--meta-save` | read and write the real save (records the run, Codex, masteries) |
 | `--character=` | CharacterData id (default `gravecaller`; its spell goes to slot 1) |
+| `--build=kit_a` / `kit_b` / `kit_evolve` | gw2-kit orders: any Act I map's default order with the later towers in some slots and the later spells / ultimates; `kit_evolve` (Graveyard) = all six later evolutions. Kit runs add the `tower_value=` and `kit=` lines |
+| `--ultimate=` | SpellData.ULTIMATES id (`sovereigns_decree`, `eclipse`, `grave_tide`; default Dread Rally) |
+| `--swap=from:to` | A/B strength check: the order's first build of `from` builds `to` (e.g. `archer:fallen_seraph`) |
+| `?gw_flags=--unlock-all` | Web only, no bot: every later tower, spell, ultimate and character shows open in the menus (visual checks) |
 
 The summary's `meta=` line names the meta profile, character, loadout, the Soul
 Ash the run would pay and the active bonuses. `godot --headless tools/meta_check.tscn -- --autotest`

@@ -127,7 +127,18 @@ Fields `game`, `id`, `row`. Road helpers: `game.nearest_road(pos, max_d)`,
 `Road.project(p)`, `Road.point_at(d)`; blocking: `game.add_block(RoadBlock)`.
 
 **Ultimate** — `SpellData.ULTIMATE` + a TdSpell script (Dread Rally); the meter is
-`SpellCaster.charge(rank)` per kill.
+`SpellCaster.charge(rank)` per kill. Later ultimates: a row in `SpellData.ULTIMATES`
+(name, icon, desc, unlock, sound, own numbers), its id in `CharacterData.ULTIMATES`,
+`scripts/spells/<id>.gd`, a `TdVfxData.SPELLS` row; the run's pick is `SpellCaster.ultimate_id`.
+
+**Act tower (later acts, gw2-kit)** — each act's unlockable summon class is one
+`TowerData.TOWERS` row with `"unlock": {"map": "<the act's finale map>"}` (one
+reader: `Unlocks`; rows may also use `{"map", "skulls"}`), 5 `LEVELS` rows, its id
+appended to `ORDER`, `scripts/towers/<id>.gd`, an `EvolutionData` row, a
+`SynergyData` pair, a `TdVfxData.SHOTS` row and a `TdSoundData.FIRE` sound. The
+build menu pages (`TdUiData.MENU_PAGE`), the Codex scrolls and the mastery badges
+wrap, so ~30 towers fit; masteries need nothing (any class at Lv 5). A tower
+that cannot hit flyers says `"ground_only": true`. Spells use the same `unlock` key.
 
 **Art** (regenerated with the image API for roads and candles, DECISIONS V17; `tools/gw_gen.sh`, `gw_tile.py`, `gw_art.py`, originals in `art_source/td_pillow/`) — Gravewatch-only roles in `TdArtData.ROLES` (drawn with `TdArt.draw /
 texture`); Necropathy sprites by their `SpriteData` key via `SpriteBank`.
@@ -250,3 +261,21 @@ endless mode (`--reckoning`), build orders `march_default` / `march_weak` /
   evolutions appear by themselves.
 - Reckoning hooks read defensively: `game.get("reckoning_wave")` (int) and
   `game.has_method("start_reckoning")` for the results' offer.
+
+## Shared kit (gw2-kit, Nov 2026; DECISIONS K1-K16)
+
+Built: six later towers (Crypt Warder, Grave Rogue, Crypt Gargoyle, Bone Hounds,
+Fallen Seraph, Bone Golem) with kits in `scripts/towers/`, hidden evolutions (Bone
+Aegis, Shadow Reaper, Cathedral Horror, Hellhound, Seraph of Ruin, Ossuary Titan),
+seven synergies, A/B-tuned; four later spells (Death Mark, Soul Chains, Wither,
+Raise Dead); three later ultimates (Sovereign's Decree, Eclipse, Grave Tide) with
+a pre-map pick; four characters (Doomsayer, Soulbinder, Wither Witch, Grave
+Herald); unlocks (`Unlocks`, save version 2 + migration), Soul Hunger in the
+Ossuary, the paged build menu. New one-path helpers: `TdCombat.barrier_body` /
+`shred_enemy` / `swoop_enemy`, `BlockBody.barrier` / `damage_cut`, `TempBlockers`
+(every temporary Risen), recipe types `any` / `elite_kills`, synergy statuses
+`slowed` / `swooped`, `CharacterModifiers.temp_time_mult()`,
+`MetaModifiers.ultimate_charge_mult()` and the `family` row key. Autotest:
+`--build=kit_a|kit_b` (any Act I map), `--ultimate=`, `--swap=from:to`, the
+`tower_value=` / `kit=` lines (kit runs only; Act I summaries unchanged).
+Known: the shared blocker HP bug (DECISIONS K15) is reported, not fixed.

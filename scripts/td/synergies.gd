@@ -52,12 +52,14 @@ static func hit_mult(t: Tower, e: TdEnemy, game: TdGame) -> float:
 	return best
 
 
-## True when enemy `e` has status `vs` ("frozen" | "staggered" | "weakened") now.
+## True when enemy `e` has status `vs` ("frozen" | "staggered" | "weakened" | "slowed" | "swooped") now.
 static func has_status(e: TdEnemy, vs: String, game: TdGame) -> bool:
 	match vs:
 		"frozen": return game.time < e.freeze_until
 		"staggered": return game.time < e.staggered_until
 		"weakened": return game.time < e.weaken_until
+		"slowed": return game.time < e.slow_until
+		"swooped": return game.time < float(e.vars.get("k_swooped", 0.0))  # Gargoyle landing mark (gw2-kit).
 	return false
 
 

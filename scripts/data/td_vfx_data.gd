@@ -30,6 +30,19 @@ const SHOTS: Dictionary = {
 		"halo": 9.0, "impact": "frost_shatter", "impact_d": 80.0, "ring": true, "muzzle": 48.0},  # TUNING (not in GDD) 48 px ice shard, ice-blue streak, frost ring
 	"corpse_catapult": {"sprite": "projectiles/corpse_boulder", "scale": 3.6, "tint": Color(0.95, 0.72, 0.45), "trail": 0.0, "trail_w": 0.0,
 		"halo": 0.0, "impact": "bone_wall_burst", "impact_d": 0.0, "ring": true, "muzzle": 56.0},  # TUNING (not in GDD) 58 px tumbling boulder, dust ring + bone chips
+	# --- Later towers (gw2-kit): one colour per class ---
+	"warder": {"sprite": "projectiles/bone_spear", "scale": 1.7, "tint": Color(0.55, 0.95, 1.0), "trail": 70.0, "trail_w": 12.0,
+		"halo": 8.0, "impact": "volley_hit", "impact_d": 56.0, "ring": false, "muzzle": 48.0},  # TUNING (not in GDD) ward-teal darts
+	"rogue": {"sprite": "projectiles/bone_spear", "scale": 1.6, "tint": Color(1.0, 0.3, 0.38), "trail": 70.0, "trail_w": 12.0,
+		"halo": 6.0, "impact": "volley_hit", "impact_d": 60.0, "ring": false, "muzzle": 40.0},  # TUNING (not in GDD) blood-red daggers
+	"gargoyle": {"sprite": "projectiles/seraph_feather", "scale": 3.0, "tint": Color(0.72, 0.68, 1.0), "trail": 65.0, "trail_w": 12.0,
+		"halo": 6.0, "impact": "volley_hit", "impact_d": 56.0, "ring": false, "muzzle": 44.0},  # TUNING (not in GDD) stone-violet shards
+	"bone_hound": {"sprite": "projectiles/bone_spear", "scale": 1.6, "tint": Color(1.0, 0.82, 0.45), "trail": 60.0, "trail_w": 12.0,
+		"halo": 6.0, "impact": "volley_hit", "impact_d": 56.0, "ring": false, "muzzle": 44.0},  # TUNING (not in GDD) bone-amber howl
+	"fallen_seraph": {"sprite": "projectiles/seraph_feather", "scale": 3.2, "tint": Color(0.85, 0.4, 1.0), "trail": 80.0, "trail_w": 13.0,
+		"halo": 9.0, "impact": "volley_hit", "impact_d": 60.0, "ring": false, "muzzle": 50.0},  # TUNING (not in GDD) 45 px black feathers, violet streaks
+	"bone_golem": {"sprite": "projectiles/bone_spear", "scale": 1.6, "tint": Color(0.95, 0.9, 0.72), "trail": 60.0, "trail_w": 11.0,
+		"halo": 0.0, "impact": "volley_hit", "impact_d": 52.0, "ring": false, "muzzle": 0.0},  # TUNING (not in GDD) its Lv3 bone shards
 }
 ## Look of a class missing from SHOTS (same keys).
 const SHOT_DEFAULT: Dictionary = {"sprite": "", "scale": 2.0, "tint": Color(1.0, 1.0, 1.0), "trail": 40.0, "trail_w": 6.0,
@@ -280,6 +293,14 @@ const SPELLS: Dictionary = {
 	"corpse_explosion": {"tint": Color(1.0, 0.35, 0.3), "flash": 96.0, "strip": "volley_flash", "strip_d": 120.0, "ring": 90.0, "shake": 3.0},  # TUNING (not in GDD)
 	"plague_cloud": {"tint": Color(0.6, 1.0, 0.35), "flash": 96.0, "strip": "volley_hit", "strip_d": 150.0, "ring": 100.0, "shake": 0.0},  # TUNING (not in GDD)
 	"dread_rally": {"tint": Color(0.5, 1.0, 0.85), "flash": 180.0, "strip": "evolution", "strip_d": 260.0, "ring": 320.0, "shake": 5.0},  # TUNING (not in GDD)
+	# --- Later spells and ultimates (gw2-kit; Necropathy effect strips) ---
+	"death_mark": {"tint": Color(1.0, 0.3, 0.25), "flash": 96.0, "strip": "doom_burst", "strip_d": 110.0, "ring": 60.0, "shake": 0.0},  # TUNING (not in GDD)
+	"soul_chains": {"tint": Color(0.45, 0.9, 1.0), "flash": 96.0, "strip": "soul_lightning", "strip_d": 140.0, "ring": 110.0, "shake": 1.5},  # TUNING (not in GDD)
+	"wither": {"tint": Color(0.7, 0.95, 0.35), "flash": 96.0, "strip": "wither_aura", "strip_d": 240.0, "ring": 120.0, "shake": 0.0},  # TUNING (not in GDD) ring = the aura's real radius
+	"raise_dead": {"tint": Color(0.6, 1.0, 0.75), "flash": 96.0, "strip": "raise_dead", "strip_d": 130.0, "ring": 60.0, "shake": 2.0},  # TUNING (not in GDD)
+	"sovereigns_decree": {"tint": Color(1.0, 0.85, 0.4), "flash": 180.0, "strip": "sovereigns_decree", "strip_d": 300.0, "ring": 320.0, "shake": 4.0},  # TUNING (not in GDD)
+	"eclipse": {"tint": Color(0.55, 0.4, 1.0), "flash": 180.0, "strip": "eclipse", "strip_d": 360.0, "ring": 420.0, "shake": 5.0},  # TUNING (not in GDD)
+	"grave_tide": {"tint": Color(0.45, 1.0, 0.7), "flash": 180.0, "strip": "grave_tide", "strip_d": 300.0, "ring": 320.0, "shake": 4.0},  # TUNING (not in GDD)
 }
 ## Seconds a cast flash and its target ring play.
 const CAST_TIME: float = 0.45  # TUNING (not in GDD)
@@ -321,3 +342,60 @@ const CAP_REDUCED: int = 70  # TUNING (not in GDD)
 const SHAKE_MAX: float = 8.0  # TUNING (not in GDD)
 ## See SHAKE_MAX.
 const SHAKE_DECAY: float = 24.0  # TUNING (not in GDD)
+
+## --- Later towers, spells and ultimates (gw2-kit, DECISIONS K12) -------------------
+
+## Temporary Risen (TempBlockers): slash diameter (px), slash tint, body tint.
+const KIT_RISEN_SLASH_D: float = 78.0  # TUNING (not in GDD)
+## See KIT_RISEN_SLASH_D.
+const KIT_RISEN_TINT: Color = Color(0.6, 1.0, 0.75)  # TUNING (not in GDD) soul-green (the Lich's Risen look)
+## See KIT_RISEN_SLASH_D.
+const KIT_RISEN_BODY: Color = Color(0.85, 1.05, 0.9)  # TUNING (not in GDD)
+## Warder barrier: shell sprite drawn over a warded body, its tint (alpha = strength) and size (px).
+const KIT_BARRIER_TINT: Color = Color(0.55, 0.95, 1.0, 0.8)  # TUNING (not in GDD) ward-teal
+## See KIT_BARRIER_TINT.
+const KIT_BARRIER_D: float = 46.0  # TUNING (not in GDD)
+## Warder ward thread width (px) and how long it shows (s).
+const KIT_WARD_THREAD_W: float = 9.0  # TUNING (not in GDD)
+## See KIT_WARD_THREAD_W.
+const KIT_WARD_THREAD_T: float = 0.6  # TUNING (not in GDD)
+## Rogue dash: trail width (px), slash diameter (px) at the victim, tint (blood red).
+const KIT_DASH_W: float = 18.0  # TUNING (not in GDD)
+## See KIT_DASH_W.
+const KIT_DASH_SLASH_D: float = 96.0  # TUNING (not in GDD)
+## See KIT_DASH_W.
+const KIT_DASH_TINT: Color = Color(1.0, 0.3, 0.38)  # TUNING (not in GDD)
+## Rogue: drawn scale of the body while it dashes (a stretched lunge; visual only).
+const KIT_DASH_STRETCH: float = 1.25  # TUNING (not in GDD)
+## Gargoyle: px it flies above its circle (shadow below), landing ring tint, dive trail width (px).
+const KIT_FLY_LIFT: float = 22.0  # TUNING (not in GDD)
+## See KIT_FLY_LIFT.
+const KIT_SWOOP_TINT: Color = Color(0.72, 0.68, 1.0)  # TUNING (not in GDD) stone-violet
+## See KIT_FLY_LIFT.
+const KIT_SWOOP_W: float = 20.0  # TUNING (not in GDD)
+## Gargoyle / any flyer: ground shadow radius (px) and alpha.
+const KIT_SHADOW_R: float = 12.0  # TUNING (not in GDD)
+## See KIT_SHADOW_R.
+const KIT_SHADOW_A: float = 0.55  # TUNING (not in GDD)
+## Bone Hounds: bite slash diameter (px) and tint; Hellhound fire tint; trail width (px).
+const KIT_BITE_D: float = 58.0  # TUNING (not in GDD)
+## See KIT_BITE_D.
+const KIT_BITE_TINT: Color = Color(1.0, 0.85, 0.5)  # TUNING (not in GDD) bone amber
+## See KIT_BITE_D.
+const KIT_HELL_TINT: Color = Color(1.0, 0.45, 0.15)  # TUNING (not in GDD)
+## See KIT_BITE_D.
+const KIT_HOUND_TRAIL_W: float = 10.0  # TUNING (not in GDD)
+## Fallen Seraph (Seraph of Ruin): ruin dive burst diameter (x its real radius) tint.
+const KIT_RUIN_TINT: Color = Color(1.0, 0.5, 0.3)  # TUNING (not in GDD)
+## Bone Golem: slam strip diameter (px), planted tint on its body.
+const KIT_SLAM_D: float = 130.0  # TUNING (not in GDD)
+## See KIT_SLAM_D.
+const KIT_PLANT_TINT: Color = Color(0.85, 0.9, 1.25)  # TUNING (not in GDD) a grey-blue set stone
+## Death Mark: brand sigil size (px) over a branded foe; Soul Chains link thread width (px).
+const KIT_BRAND_PX: float = 18.0  # TUNING (not in GDD)
+## See KIT_BRAND_PX.
+const KIT_CHAIN_W: float = 10.0  # TUNING (not in GDD)
+## Wither: aura strip loop period (s) and alpha.
+const KIT_WITHER_PERIOD: float = 1.2  # TUNING (not in GDD)
+## See KIT_WITHER_PERIOD.
+const KIT_WITHER_A: float = 0.6  # TUNING (not in GDD)

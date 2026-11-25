@@ -30,9 +30,9 @@ func _build(b: VBoxContainer) -> void:
 	_grid.add_theme_constant_override("v_separation", 8)
 	b.add_child(_grid)
 	b.add_child(section("Masteries"))
-	var m := HBoxContainer.new()  # One badge per class.
-	m.alignment = BoxContainer.ALIGNMENT_CENTER
-	m.add_theme_constant_override("separation", 6)
+	var m := HFlowContainer.new()  # One badge per class (wraps: ~30 classes with the later acts; gw2-kit).
+	m.alignment = FlowContainer.ALIGNMENT_CENTER
+	m.add_theme_constant_override("h_separation", 6)
 	b.add_child(m)
 	for id: String in TowerData.ORDER:
 		var row: Dictionary = TowerData.TOWERS[id]
