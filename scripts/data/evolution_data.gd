@@ -212,4 +212,16 @@ const EVOLUTIONS: Dictionary = {
 		},
 		"recipe": {"type": "damage", "n": 12000},  # TUNING (not in GDD) Necropathy Origin Story -> a hero's record: 12000 damage dealt
 	},
+	"oni_lord": {
+		"from": "bound_oni", "name": "Oni Lord", "sprite": "summons/oni_lord", "icon": "oni_lord",
+		"stats": {"damage": 1.4, "hp": 1.4},  # TUNING (not in GDD)
+		"set": {
+			"hold": 4,  # TUNING (not in GDD)
+			"smash_every": 2,  # TUNING (not in GDD)
+			"stun_time": 1.4,  # TUNING (not in GDD)
+			"quake_radius": 90.0,  # TUNING (not in GDD) px the smash shakes the ground
+			"quake_mult": 0.6,  # TUNING (not in GDD) fraction of its damage to each foe in the quake
+		},
+		"recipe": {"type": "any", "of": [{"type": "elite_kills", "n": 6}, {"type": "kills", "n": 30}]},  # TUNING (not in GDD) Necropathy Oni's Resolve -> a record of slain foes
+	},
 }

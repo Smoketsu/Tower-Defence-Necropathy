@@ -340,3 +340,29 @@ knockback path), enemy row key `tint`, `HostileData` causes `hooked` /
 `corsair/bellow.gd` `bellow_at()`, `corsair/sea_mark.gd` `nearest_tower()`,
 `corsair/ghost_bosun.gd` `board()` (a crew boarding a road), and the autotest
 casts any later spell at the leading enemy.
+## Act V, the Shogunate (w2b-shogun, wave 2b)
+
+Built: the Burning Province, Castle Kurogane, the Road to the Sun
+(`scripts/maps/province|kurogane|sun_road_map.gd`), 18 kinds and the act's
+orders / moods / rule numbers / looks in `scripts/data/acts/shogunate_act_data.gd`,
+traits in `scripts/enemies/traits/shogunate/` (draw, ninja, kunoichi, oni,
+shuten, kappa, cavalry, kitsune, fox_fire, kirin), bosses in
+`scripts/bosses/shogunate/` (kage, shogun, amaterasu), the act rule the Sun's
+Course (`scripts/maps/rules/shogunate/sun_course.gd` + `sun_layer.gd` darkness
+and lanterns + `sun_dial.gd` HUD), the Bound Oni tower / Oni Lord / Iron and
+Bone, the spells Hundred Shadows, Banner of the Dead, Black Sun and their three
+characters. Decisions: `docs/DECISIONS.md` T5 rows; balance: `docs/BALANCE.md`.
+
+New extension points other acts may use:
+- enemy row key `souls` (optional): souls its kill pays instead of its rank's.
+- `TdCombat.rally_tower(game, t, rate_mult, time)`: a timed attack-speed buff
+  through `Tower.recompute()` (vars `k_rally` / `k_rally_until`).
+- act rule method `autotest_tap()` (optional): the autotest bot calls it every
+  tick so an act's tap mechanic (Act V: relight lanterns) is played.
+- map keys `lanterns` / `ambush` (Sun's Course only); the rule's
+  `in_light(pos)`, `douse_near(pos, r)`, `relight(i)`, `ambush_point()`,
+  `set_override(phase)` (a boss that moves the sun).
+- `scripts/enemies/traits/shogunate/draw.gd` `line()` / `cut()`: the white Draw
+  line (any trait may reuse it for a telegraphed line strike).
+Autotest: `--build=province_default|province_weak|kurogane_*|sun_road_*|shogunate_kit`;
+Act V runs print `act_rule=shogunate/sun_course phase:..,lanterns:..,ambushes:..,doused:..,hidden:..,relit:..,rekindled:..,overrides:..`.

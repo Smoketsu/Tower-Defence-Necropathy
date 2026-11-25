@@ -355,3 +355,24 @@ cliff: first leaks on waves 17-20, lives go a few at a time (`leak_curve`
 per_death 0.1-0.2). What leaks is the act's threat (vehicles, Supers, the
 Mammoth, Big Sal), never plain fodder. Liberty Heights evolves Black Paragon in
 every run; the Origin Story synergy is active in its order.
+## Act V, the Shogunate (w2b-shogun, wave 2b)
+
+Necromancer, default orders, `--autotest`, seeds 1-4 (lives kept / 20; the
+leaks; `leak_curve` first leak wave). Wave HP ramp end: Province 2.35,
+Kurogane 2.5, Road to the Sun 3.6 (Act I Sanctum 3.0; Act V kinds are tougher
+per unit and the night halves what towers can see).
+
+| Map | Seed 1 | Seed 2 | Seed 3 | Seed 4 | Weak order | Kit order (seed 1) |
+|---|---|---|---|---|---|---|
+| province | won 20 | won 9 (kunoichi x2, Shuten-doji; w21) | won 20 | won 13 (w21) | lost w~6, 0 stuck | won 17, no Oni Lord (kills too low) |
+| kurogane | won 20 | won 20 | won 19 (samurai) | won 15 (General of the Left) | lost, 0 stuck | won 20, 1 Oni Lord; Ronin: won 4, 2 Oni Lords |
+| sun_road | won 14 (the Kirin, ninja; w18) | won 15 (the Kirin) | won 15 (the Kirin) | won 14 (the Kirin, ninja) | lost w6, 0 stuck | won 20, 2 Oni Lords |
+
+Levers that moved it (see DECISIONS T5-2, T5-6): ninja douse one lantern
+each (the bot was spending 500+ souls relighting), soldier `souls` (income
+~2000 -> ~3400 a map), teppo disable 1.6 -> 0.8 s, cavalry charges once
+(Kiba-musha leaks cost 3 lives each), miniboss HP (Shuten 2600, General 1500,
+Kirin 2500) and Kage 6000 / speed 26. The Road to the Sun was re-laid after the Web check (its bottom run passed under the spell bar; runs now at y 590 / 450 / 310 / 170) and re-tuned: at 3.4 nothing leaked, at 3.6 the Kirin walks through every seed (5 lives) and nothing else threatens; the Kirin is the map's whole margin. Known: the Province's losses come in
+its last two waves (a late lump, not an early cliff); the minibosses are the
+swing factor on Kurogane and the Road (5 lives when one walks through).
+Act I summaries: byte-identical to the baseline (seeds 1-2, three maps).

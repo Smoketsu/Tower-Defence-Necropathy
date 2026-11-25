@@ -28,6 +28,8 @@ extends RefCounted
 ##                     (or on Strongest), never warded, removed when the map ends.
 ##   args            — the trait's own numbers (documented in the trait script).
 ##   tint            — optional Color multiplied into the sprite (drawn only; w2b-tide's ghost crew).
+##   souls           — optional: souls its kill pays instead of its rank's EconomyData.KILL_SOULS
+##                     (later acts' soldier tiers: tougher than fodder, still one life on a leak).
 const KINDS: Dictionary = {
 	# GDD §6.1 "Baseline fodder" (Necropathy: Covenant Recruit).
 	"recruit": {

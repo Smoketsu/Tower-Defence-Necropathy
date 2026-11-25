@@ -15,7 +15,7 @@ const DEFAULT_ID: String = "gravecaller"
 ## Picker order.
 const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "plague_scholar",
 	"doomsayer", "soulbinder", "wither_witch", "grave_herald",
-	"marooned_quartermaster", "corsair_queen", "ghost_helmsman", "moon_huntress", "hedge_witch", "dhampir", "undertaker", "fallen_sergeant", "revenant_heroine"]  # The later spells' characters (gw2-kit), appended
+	"marooned_quartermaster", "corsair_queen", "ghost_helmsman", "moon_huntress", "hedge_witch", "dhampir", "undertaker", "fallen_sergeant", "revenant_heroine", "grave_kunoichi", "ronin_revenant", "shrine_maiden"]  # The later spells' characters (gw2-kit), appended
 
 ## Character rows. Keys:
 ##   name         — UI name.
@@ -141,6 +141,25 @@ const CHARACTERS: Dictionary = {
 		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
 		"innate": {"name": "Back From the Dead", "desc": "Hero's Fist strikes one more foe", "fist_extra": 1},  # Necropathy "strikes one more foe"
 		"unlock_after": "liberty_heights",  # TUNING (not in GDD)
+	},
+	# --- Act V's characters (w2b-shogun; Necropathy's Shogunate characters) ---
+	"grave_kunoichi": {
+		"name": "Grave Kunoichi", "short": "Kunoichi", "sprite": "player/grave_kunoichi", "spell": "hundred_shadows",
+		"boost": {"damage": 1.25, "count": 1.34, "cooldown": 0.85},  # TUNING (not in GDD) count 3 -> 4
+		"innate": {"name": "Hidden Hand", "desc": "+40 souls at the start of a map", "start_souls": 40},  # TUNING (not in GDD)
+		"unlock_after": "province",  # Kage
+	},
+	"ronin_revenant": {
+		"name": "Ronin Revenant", "short": "Ronin", "sprite": "player/ronin_revenant", "spell": "banner_of_the_dead",
+		"boost": {"rate_mult": 1.1, "duration": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Unbending", "desc": "Blockers +15% body HP", "blocker_hp": 1.15},  # Necropathy's Act V counter-passive name
+		"unlock_after": "kurogane",  # Shogun Kurogane
+	},
+	"shrine_maiden": {
+		"name": "Shrine Maiden of Night", "short": "Shrine Maiden", "sprite": "player/shrine_maiden", "spell": "black_sun",
+		"boost": {"damage": 1.25, "duration": 1.2, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Stolen Dawn", "desc": "All spell cooldowns 10% shorter", "cooldown": 0.9},  # TUNING (not in GDD)
+		"unlock_after": "sun_road",  # Amaterasu
 	},
 }
 

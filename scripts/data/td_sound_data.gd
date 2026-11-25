@@ -33,6 +33,7 @@ const FIRE: Dictionary = {
 	"powder_wraith": "fuse_hiss",  # w2b-tide: the Black Tide pack's lit fuse (its burst plays powder_blast)
 	"blood_spawn": "td_blood_bite",  # w2b-court
 	"fallen_hero": "abom_stomp",  # Act IV (w2b-city)
+	"bound_oni": "oni_smash",  # Act V (w2b-shogun): Necropathy's oni club (shogunate pack)
 }  # TUNING (not in GDD)
 ## Spell / ultimate id -> Sfx id played on its cast (gw2-kit: the later spells; the
 ## launch spells keep their own sounds). Ultimates use their row's "sound".
@@ -41,6 +42,7 @@ const CAST: Dictionary = {
 	"chain_shot": "hook_throw", "cannonade": "cannon_fire", "anchor_drop": "splash",  # w2b-tide: the Black Tide pack
 	"moonfang": "td_blood_bite", "witch_circle": "plague_cast", "night_swarm": "gargoyle_dive",  # w2b-court
 	"hearse_run": "engine_rev", "bone_mines": "catapult_launch", "heros_fist": "weakness_crack",  # Act IV (w2b-city)
+	"hundred_shadows": "kage_split", "banner_of_the_dead": "taiko_hit", "black_sun": "bolt_cast",  # Act V (w2b-shogun)
 }  # TUNING (not in GDD)
 
 ## The five Gravewatch sounds (GDD §11), id -> recipe; keys exactly as

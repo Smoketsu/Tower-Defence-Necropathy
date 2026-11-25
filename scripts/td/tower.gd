@@ -110,6 +110,8 @@ func recompute() -> void:
 	if game.time < game.rally_until:
 		mult["damage"] = float(mult["damage"]) * float(SpellData.ULTIMATE["damage_mult"])
 		mult["rate"] = float(mult["rate"]) * float(SpellData.ULTIMATE["rate_mult"])
+	if game.time < float(vars.get("k_rally_until", 0.0)):
+		mult["rate"] = float(mult["rate"]) * float(vars["k_rally"])  # Banner of the Dead (TdCombat.rally_tower).
 	s["damage"] = float(s["damage"]) * float(mult["damage"])
 	s["interval"] = float(s["interval"]) / float(mult["rate"])
 	s["range"] = float(s["range"]) * float(mult["range"])
@@ -131,6 +133,9 @@ func recompute() -> void:
 
 ## One fixed step: the behaviour acts.
 func step(dt: float) -> void:
+	if vars.has("k_rally_until") and game.time >= float(vars["k_rally_until"]):
+		vars.erase("k_rally_until")  # The banner's rally ended.
+		recompute()
 	if suppress_until > 0.0:
 		if game.time >= suppress_until:
 			suppress_until = 0.0

@@ -4,6 +4,8 @@
 ## and the gw2-kit later towers, spells, ultimates, statuses and unlocks (_kit_checks),
 ## and the Black Tide's tower, spells, Broadsides and kinds (_tide_checks, w2b-tide).
 ## and Act III's Blood Spawn, its spells and the Blood Moon (_court_checks, w2b-court).
+## and Act V (_shogun_checks): the Bound Oni smash, the Oni Lord quake, the act
+## spells and the Sun's Course (night visibility, douse / relight, ambush, Kage, the Shogun).
 ## Run: godot --headless tools/towers_check.tscn   (prints PASS / FAIL, exit 0 / 1)
 extends Node
 
@@ -56,6 +58,7 @@ func _ready() -> void:
 	_tide_checks()
 	_court_checks()
 	_city_checks()
+	_shogun_checks()
 	print("TOWERS CHECK %s %s" % ["PASS" if _fails.is_empty() else "FAIL", ",".join(_fails)])
 	get_tree().quit(0 if _fails.is_empty() else 1)
 
@@ -364,3 +367,74 @@ func _city_checks() -> void:
 	_check("hearse ran over", int(game.stats.get("hearse_hits", 0)) > 0)
 	_check("fist struck", int(game.stats.get("fists", 0)) > 0)
 	game.queue_free()
+## Act V (w2b-shogun): the Bound Oni and Oni Lord, the three act spells, and the
+## Sun's Course on the Burning Province (visibility, lanterns, ambush, bosses).
+func _shogun_checks() -> void:
+	var loadout: Array[String] = ["hundred_shadows", "banner_of_the_dead", "black_sun"]
+	var game := TdGame.new()
+	game.setup("province", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(game)
+	game.economy.earn(50000, "test_bonus")
+	var sun: MapRule = game.act_rule
+	_check("sun course loaded", sun != null and sun.has_method("douse_near"))
+	# Bound Oni: the third strike smashes: what it holds is stunned.
+	var oni := game.spot_by_id("post:2")
+	game.build(oni, "bound_oni")
+	var held: Array[TdEnemy] = []  # Enemies walked into the oni.
+	for i in 3:
+		var e := game.spawn_at("samurai", "main", 1, oni.road_dist - 60.0 - float(i) * 6.0, 0.0)
+		e.max_hp = 1.0e6
+		e.hp = e.max_hp
+		held.append(e)
+	_run(game, 6.0)
+	_check("oni holds three", oni.tower.block.bodies[0].held.size() == 3)
+	_check("oni smash stuns", int(oni.tower.vars.get("slams", 0)) > 0 and held.any(func(e: TdEnemy) -> bool: return e.freeze_until > 0.0))
+	var lord := _maxed(game, "post:4", "bound_oni")
+	_check("oni lord quake set", lord.evolution == "oni_lord" and float(lord.stats["quake_radius"]) > 0.0)
+	var arch := _maxed(game, "plot:5", "archer")
+	_check("iron and bone active", arch.synergies.any(func(p: Array) -> bool: return p[0] == "iron_and_bone"))
+	for e: TdEnemy in held:
+		game.remove_enemy(e, false)
+	# The act spells.
+	var foe := _enemy_at(game, "ashigaru", Vector2(700, 440))
+	foe.max_hp = 1.0e6
+	foe.hp = foe.max_hp
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	var rate := float(arch.stats["interval"])  # Before the banner.
+	_check("cast hundred_shadows", game.cast_spell(0, foe.position))
+	_check("cast banner", game.cast_spell(1, arch.position))
+	_check("banner rallies", float(arch.stats["interval"]) < rate)
+	_check("cast black_sun", game.cast_spell(2, foe.position))
+	_run(game, 3.0)
+	_check("shadow strikes", int(game.stats.get("shadow_strikes", 0)) > 0)
+	_check("black sun beams", int(game.stats.get("black_sun_beams", 0)) > 0)
+	_run(game, 10.0)
+	_check("banner ends", is_equal_approx(float(arch.stats["interval"]), rate))
+	# The Sun's Course: night hides foes outside lantern light; douse and relight.
+	sun.call("on_wave_start", 15)
+	_check("night falls", int(sun.get("phase")) == 2 and int(sun.call("lit_count")) == (sun.get("lanterns") as Array).size())
+	var lan: Dictionary = (sun.get("lanterns") as Array)[0]
+	var lit_foe := _enemy_at(game, "ashigaru", Vector2(lan["pos"]))
+	var dark_foe := _enemy_at(game, "ashigaru", Vector2(1150, 240))
+	_check("lit foe seen", game.can_target(arch, lit_foe))
+	_check("dark foe hidden", bool(sun.call("in_light", dark_foe.position)) or not game.can_target(arch, dark_foe))
+	_check("douse", int(sun.call("douse_near", lan["pos"], 10.0)) == 1 and not bool(lan["lit"]))
+	var souls := game.economy.souls  # Before the relight.
+	_check("relight costs souls", bool(sun.call("relight", 0)) and game.economy.souls < souls and bool(lan["lit"]))
+	# From the Shadows: a ninja appears at an ambush point.
+	var nj := game.spawn_enemy("ninja", "main", 1)
+	_check("ninja ambush", nj.follower.dist > 100.0)
+	# Kage: hidden in the dark while a shadow stands, true in the light.
+	var kage := game.spawn_at("kage", "main", 1, 1000.0, 0.0)
+	_run(game, 6.0)
+	sun.call("douse_near", kage.position, 400.0)
+	sun.call("douse_near", kage.position, 400.0)
+	var hp := kage.hp  # Before a hit.
+	var dealt := TdCombat.damage_enemy(game, kage, 100.0, {"source": "check", "dot": true})
+	_check("kage hidden", bool(sun.call("in_light", kage.position)) or dealt < 100.0 or hp <= 0.0)
+	sun.call("set_override", 0)
+	_check("kage in daylight", is_equal_approx(TdCombat.damage_enemy(game, kage, 100.0, {"source": "check", "dot": true}), 100.0))
+	sun.call("set_override", -1)
+	# The Shogun: guarded while his regiments march.
+	var sg := game.spawn_at("shogun", "main", 1, 0.0, 0.0)
+	_check("shogun guarded", TdCombat.damage_enemy(game, sg, 1000.0, {"source": "check", "dot": true}) < 200.0)

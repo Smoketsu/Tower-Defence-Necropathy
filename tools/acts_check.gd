@@ -18,7 +18,7 @@ func _ready() -> void:
 	_check("order", Acts.map_order().slice(0, 3) == ["graveyard", "crimson_march", "sanctum"])
 	_check("prev map", Acts.prev_map("crimson_march") == "graveyard" and Acts.prev_map("graveyard") == "")
 	_check("ash step", Meta.map_index("sanctum") == 2 and Meta.map_index("graveyard") == 0)
-	_check("hidden act open", Acts.prev_map("test_grounds") == "" and Acts.next_map("sanctum") != "test_grounds")  # later acts follow the Sanctum once built
+	_check("hidden act open", Acts.prev_map("test_grounds") == "" and Acts.next_map("sanctum") != "test_grounds")  # wave 2b: later acts follow Act I
 	_check("numerals", Acts.numeral("covenant") == "I" and Acts.numeral("wild") == "XV" and Acts.numeral("test") == "T")
 	_check("coming soon", Acts.maps_of("corsair").is_empty() or MapRegistry.has("cutter"))
 	_check("act defaults", String(MapRegistry.get_map("test_grounds")["act_rule"]) == "test/proving" and String(MapRegistry.get_map("graveyard")["act"]) == "covenant")

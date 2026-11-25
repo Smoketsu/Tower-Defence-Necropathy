@@ -200,8 +200,15 @@ func _cast_spells() -> void:
 				if -game.progress(lead) < THREAT_DIST and lead.holder == null:
 					game.cast_spell(i, lead.follower.road.point_at(lead.follower.dist + 40.0))
 			"hearse_run", "bone_mines":  # Act IV (w2b-city): just ahead of the leader, so it drives / walks into them
+			"hundred_shadows":  # Act V (w2b-shogun): clones just ahead of the leader
+				if -game.progress(lead) < THREAT_DIST:
+					game.cast_spell(i, lead.follower.road.point_at(lead.follower.dist + 40.0))
+			"banner_of_the_dead", "black_sun":  # Act V: on the leader (the banner rallies the towers near it)
+				game.cast_spell(i, lead.position)
 	if game.caster.ultimate_ready():
 		game.caster.cast_ultimate()
+	if game.act_rule != null and game.act_rule.has_method("autotest_tap"):
+		game.act_rule.call("autotest_tap")  # The act's own tap policy (Act V: relight doused lanterns).
 
 
 func _on_ended(_won: bool) -> void:

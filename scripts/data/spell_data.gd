@@ -213,6 +213,37 @@ const SPELLS: Dictionary = {
 		"fling_damage": 60.0,  # TUNING (not in GDD) to each of those
 		"fists": 1,  # Necropathy one fist (the Revenant Heroine adds one, at the next strongest)
 	},
+	# --- Act V spells (w2b-shogun; Necropathy's Shogunate rewards) ---
+	"hundred_shadows": {
+		"name": "Hundred Shadows", "icon": "hundred_shadows", "cooldown": 18.0, "target": "road", "ready": true,  # TUNING (not in GDD)
+		"desc": "Shadow clones step out of the road and cut down what comes near",
+		"unlock": {"map": "province"},  # Kage's reward
+		"max_snap": 60.0,  # px: a tap farther than this from any road does nothing
+		"count": 3,  # TUNING (not in GDD) clones per cast
+		"damage": 22.0,  # TUNING (not in GDD) per strike
+		"tick": 0.6,  # TUNING (not in GDD) s between one clone's strikes
+		"radius": 110.0,  # TUNING (not in GDD) px a clone reaches
+		"duration": 7.0,  # TUNING (not in GDD) s they fight
+		"sprite": "player/grave_kunoichi",  # the clones' look
+	},
+	"banner_of_the_dead": {
+		"name": "Banner of the Dead", "short": "Banner", "icon": "banner_of_the_dead", "cooldown": 24.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "A war banner: towers near it attack faster for a while",
+		"unlock": {"map": "kurogane"},  # Shogun Kurogane's reward
+		"radius": 170.0,  # TUNING (not in GDD) px of towers rallied
+		"rate_mult": 1.3,  # TUNING (not in GDD) attack speed x
+		"duration": 9.0,  # TUNING (not in GDD) s
+	},
+	"black_sun": {
+		"name": "Black Sun", "icon": "black_sun", "cooldown": 20.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "A dark sun hangs over the road and beams the thickest pack",
+		"unlock": {"map": "sun_road"},  # Amaterasu's reward
+		"radius": 150.0,  # TUNING (not in GDD) px it reaches
+		"damage": 34.0,  # TUNING (not in GDD) per beam to each foe in the splash
+		"splash": 40.0,  # TUNING (not in GDD) px around the beamed foe
+		"tick": 0.8,  # TUNING (not in GDD) s between beams
+		"duration": 8.0,  # TUNING (not in GDD) s it hangs
+	},
 }
 
 ## The ultimate (GDD §5 Dread Rally), cast through SpellCaster like a spell

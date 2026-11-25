@@ -123,4 +123,12 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "b", "vs": "staggered", "mult": 1.4},  # TUNING (not in GDD) the hero lands on what the Abomination stomped
 		"hint": "Abomination near a Fallen Hero: slams crush staggered foes",
 	},
+	# --- Act V (w2b-shogun) ---
+	"iron_and_bone": {
+		"name": "Iron and Bone", "icon": "onis_resolve", "a": "bound_oni", "b": "archer",
+		"radius": 220.0,  # TUNING (not in GDD)
+		"effects": {"a": {"hp": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "b", "vs": "frozen", "mult": 1.35},  # TUNING (not in GDD) arrows punish the oni's stunned foes
+		"hint": "Bound Oni near Archers: arrows hit stunned foes harder",
+	},
 }
