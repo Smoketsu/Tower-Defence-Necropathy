@@ -35,7 +35,13 @@ var loadout: Array[String] = []
 
 
 func _init() -> void:
-	for arg: String in OS.get_cmdline_user_args():
+	var args := OS.get_cmdline_user_args()  # The options after `--`.
+	if OS.has_feature("web"):
+		# Web debug: `?gw_autotest=--map=sanctum,--speed=8` runs the bot on screen.
+		var q := String(JavaScriptBridge.eval("new URLSearchParams(location.search).get('gw_autotest') || ''", true))  # The query value.
+		if q != "":
+			args = PackedStringArray(["--autotest"]) + q.split(",", false)
+	for arg: String in args:
 		var kv := arg.split("=", true, 1)  # [name, value] or [flag].
 		var v := kv[1] if kv.size() > 1 else ""  # Option value ("" for flags).
 		match kv[0]:

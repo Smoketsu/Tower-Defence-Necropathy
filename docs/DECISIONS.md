@@ -117,3 +117,7 @@ decisions given with the foundation brief are listed first. Append new rows.
 |---|---|---|
 | I8 | Soul Ash | Payouts doubled (overrides U2): clear (60 + 80 x skulls), defeat 6 per wave, Reckoning 10 per wave, same multipliers. A 3-skull Necromancer clear pays 300 / 375 / 450 on the three maps, so the 7,380-Ash Ossuary takes ~20 good clears (15 with Lich clears). |
 | I9 | Decision ids | The menus branch's rows were renamed U1-U14 (the maps branch already used M1-M14). |
+| I10 | Phone layout | On screens wider than 1.95 : 1 (phones in landscape) the spell bar is a column in the free left margin and the map fits below the top bar (`TdGame.set_top_inset()`), so no spot hides under the HUD. Top-bar buttons are x1.7 on touch (~40 CSS px tall). Desktop 16:9 is unchanged. |
+| I11 | HUD | Esc first closes an open spot menu or disarms a spell, then pauses. At most 2 banners wait behind the one showing (`TdUiData.BANNER_QUEUE_MAX`): stale wave banners are dropped. |
+| I12 | Title backdrop | Necropathy's white diorama masks get its night tints (dark hills, faint halo, low fog); they were drawn near white. |
+| I13 | Web debug | `?gw_autotest=--map=sanctum,--speed=8` (comma-separated autotest options) runs the bot on screen in the Web build: used to see late waves, bosses and tower specials in a browser. |

@@ -201,12 +201,25 @@ func _layer(z: int, fn: Callable) -> UnitLayer:
 	return l
 
 
-## Scales and centres the 1280 x 720 map in the visible viewport.
+## Px of the screen's top covered by the HUD's top bar (set by TdHud; visual).
+var top_inset: float = 0.0
+
+
+## Sets the HUD's top-bar height (px) and refits the map.
+func set_top_inset(px: float) -> void:
+	top_inset = px
+	_fit()
+
+
+## Scales and centres the 1280 x 720 map in the visible viewport. On screens
+## wider than the map (phones in landscape) it fits below the top bar, so the
+## top row of spots is not hidden under it.
 func _fit() -> void:
 	var vp := get_viewport().get_visible_rect().size  # Visible layout size.
-	var k := minf(vp.x / MapView.SIZE.x, vp.y / MapView.SIZE.y)  # Fit scale.
+	var top := top_inset if vp.x / vp.y > MapView.SIZE.x / MapView.SIZE.y + 0.05 else 0.0  # Reserved strip (px).
+	var k := minf(vp.x / MapView.SIZE.x, (vp.y - top) / MapView.SIZE.y)  # Fit scale.
 	world.scale = Vector2(k, k)
-	world.position = ((vp - MapView.SIZE * k) * 0.5).round()
+	world.position = ((vp - Vector2(0.0, top) - MapView.SIZE * k) * 0.5 + Vector2(0.0, top)).round()
 
 
 func _physics_process(_delta: float) -> void:

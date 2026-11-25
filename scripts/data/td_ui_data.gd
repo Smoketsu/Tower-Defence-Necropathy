@@ -19,6 +19,9 @@ const MENU_OFFSET: float = 36.0  # TUNING (not in GDD)
 const MENU_ICON: float = 32.0  # TUNING (not in GDD)
 ## Seconds a banner stays fully shown (real time), and its fade (s).
 const BANNER_HOLD: float = 1.8  # TUNING (not in GDD)
+## Most banners waiting behind the one showing; older ones are dropped so a
+## line never shows long after its moment (back-to-back waves at x3).
+const BANNER_QUEUE_MAX: int = 2  # TUNING (not in GDD)
 ## See BANNER_HOLD.
 const BANNER_FADE: float = 0.4  # TUNING (not in GDD)
 ## Banner centre height (px from the top).
@@ -44,6 +47,11 @@ const BANNER_BOSS: String = "crimson"  # TUNING (not in GDD)
 ## Spot menu build tiles per row, and one tile's size (px).
 const MENU_COLUMNS: int = 3  # TUNING (not in GDD)
 ## See MENU_COLUMNS.
-const MENU_TILE := Vector2(112.0, 82.0)  # TUNING (not in GDD)
+const MENU_TILE := Vector2(140.0, 82.0)  # TUNING (not in GDD)
 ## Phones and tablets: top-bar and spell buttons are this much bigger (a thumb, GDD §9.3).
 const TOUCH_SCALE: float = 1.35  # TUNING (not in GDD)
+## Phones in landscape at least this wide (width / height) put the spell bar in a
+## column in the free left margin instead of over the map's bottom spots.
+const SIDE_SPELL_ASPECT: float = 1.95  # TUNING (not in GDD)
+## Phones and tablets: top-bar buttons are this much bigger (about 40 CSS px tall on a phone).
+const TOUCH_TOP_SCALE: float = 1.7  # TUNING (not in GDD)

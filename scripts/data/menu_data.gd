@@ -33,7 +33,7 @@ const SKULL_BIG: float = 40.0  # TUNING (not in GDD)
 ## Pre-map setup: size (px) of a character tile, a spell / ultimate tile.
 const CHAR_TILE := Vector2(150.0, 118.0)  # TUNING (not in GDD)
 ## See CHAR_TILE.
-const SPELL_TILE := Vector2(124.0, 84.0)  # TUNING (not in GDD)
+const SPELL_TILE := Vector2(134.0, 84.0)  # TUNING (not in GDD)
 
 ## Ossuary: size (px) of an upgrade tile and of a mastery badge.
 const OSSUARY_TILE := Vector2(300.0, 84.0)  # TUNING (not in GDD)

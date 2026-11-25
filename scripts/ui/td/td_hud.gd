@@ -106,7 +106,7 @@ func _button(role: String, text: String, cb: Callable) -> Button:
 	b.text = text
 	b.icon = TdArt.texture(role) if role != "" else null
 	b.focus_mode = Control.FOCUS_NONE
-	b.custom_minimum_size = TdUiData.TOP_BUTTON * _touch()
+	b.custom_minimum_size = TdUiData.TOP_BUTTON * (TdUiData.TOUCH_TOP_SCALE if TouchSupport.is_mobile() else 1.0)
 	b.pressed.connect(cb)
 	return b
 
@@ -117,6 +117,7 @@ func _build_top_bar() -> void:
 	bar.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 	bar.custom_minimum_size = Vector2(0, TdUiData.TOP_BAR_H)
 	root.add_child(bar)
+	bar.resized.connect(func() -> void: game.set_top_inset(bar.get_global_rect().end.y))
 	var row := HBoxContainer.new()  # Its contents.
 	row.add_theme_constant_override("separation", 10)
 	bar.add_child(row)
@@ -146,12 +147,19 @@ func _build_top_bar() -> void:
 
 
 func _build_spell_bar() -> void:
-	var bar := HBoxContainer.new()  # Bottom centre.
+	var vp := get_viewport().get_visible_rect().size  # Layout size.
+	var side := TouchSupport.is_mobile() and vp.x / vp.y >= TdUiData.SIDE_SPELL_ASPECT  # Wide phone: a column in the free left margin.
+	var bar: BoxContainer = VBoxContainer.new() if side else HBoxContainer.new()  # Bottom centre, or left column.
 	bar.add_theme_constant_override("separation", 8)
-	bar.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
-	bar.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	bar.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	bar.position.y -= TdUiData.SPELL_BAR_MARGIN
+	if side:
+		bar.set_anchors_and_offsets_preset(Control.PRESET_CENTER_LEFT)
+		bar.grow_vertical = Control.GROW_DIRECTION_BOTH
+		bar.position.x += TdUiData.SPELL_BAR_MARGIN
+	else:
+		bar.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+		bar.grow_horizontal = Control.GROW_DIRECTION_BOTH
+		bar.grow_vertical = Control.GROW_DIRECTION_BEGIN
+		bar.position.y -= TdUiData.SPELL_BAR_MARGIN
 	root.add_child(bar)
 	for i in game.caster.loadout.size():
 		var b := SpellButton.new()  # One spell slot.
@@ -233,6 +241,8 @@ func _process(delta: float) -> void:
 ## Queues banner line `text` (shown one after another) on an `accent` ribbon.
 func _queue_banner(text: String, accent: String = "gold") -> void:
 	_banner_queue.append([text, accent])
+	while _banner_queue.size() > TdUiData.BANNER_QUEUE_MAX:
+		_banner_queue.pop_front()  # Stale: a newer line replaces it.
 
 
 ## Wave `n` (1-based) started: announces the kinds new to this map and a boss.
@@ -307,4 +317,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("speed"):
 		game.cycle_speed()
 	elif event.is_action_pressed("pause") and not game.paused:
-		open_pause()
+		if game.selected != null or game.armed >= 0:
+			game.selected = null  # Esc first closes the spot menu / disarms the spell.
+			game.armed = -1
+			game.changed.emit()
+		else:
+			open_pause()

@@ -8,6 +8,17 @@ extends Control
 
 ## Sky colour behind everything.
 const SKY: Color = Color(0.05, 0.04, 0.09)  # TUNING (not in GDD)
+## Tints of Necropathy's white diorama masks (its default "night" mood).
+## Moon halo (faint; the art is a stepped white disc).
+const HALO: Color = Color(0.65, 0.72, 0.95, 0.10)  # TUNING (not in GDD) Necropathy MenuBackdropData night
+## Far hills silhouette.
+const FAR_HILLS: Color = Color("17152a")  # TUNING (not in GDD) Necropathy night
+## Near hills silhouette.
+const MID_HILLS: Color = Color("0d0d17")  # TUNING (not in GDD) Necropathy night
+## Fence and near props.
+const NEAR: Color = Color(0.55, 0.56, 0.7)  # TUNING (not in GDD) Necropathy night
+## Low fog band.
+const FOG: Color = Color(0.62, 0.68, 0.86, 0.16)  # TUNING (not in GDD) Necropathy night
 ## Stars drawn (pure hash positions in the upper half).
 const STARS: int = 40  # TUNING (not in GDD)
 
@@ -42,12 +53,12 @@ func _draw() -> void:
 	for i in STARS:
 		var h := hash(Vector2i(i, 31))  # Pure hash of the index.
 		_put("stars", Vector2(float(h % maxi(int(size.x), 1)), 20.0 + float((h / 977) % maxi(int(size.y * 0.45), 1))))
-	_put("moon_halo", Vector2(size.x * 0.78, size.y * 0.55), Color(1, 1, 1, 0.6))
+	_put("moon_halo", Vector2(size.x * 0.78, size.y * 0.55), HALO)
 	_put("moon", Vector2(size.x * 0.78, size.y * 0.36))
-	_band("hills_far", size.y * 0.8, Color(0.7, 0.7, 0.8))
+	_band("hills_far", size.y * 0.8, FAR_HILLS)
 	_put("cathedral", Vector2(size.x * 0.22, size.y * 0.8))
-	_band("hills_mid", size.y * 0.9)
+	_band("hills_mid", size.y * 0.9, MID_HILLS)
 	_put("mausoleum", Vector2(size.x * 0.68, size.y * 0.92))
-	_band("fence", size.y * 0.95)
+	_band("fence", size.y * 0.95, NEAR)
 	_band("ground_lip", size.y + 2.0)
-	_band("fog_1", size.y * 0.97, Color(1, 1, 1, 0.5))
+	_band("fog_1", size.y * 0.97, FOG)
