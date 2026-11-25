@@ -1,0 +1,147 @@
+# Gravewatch CI (adapted from Necropathy's)
+#
+# On every push / pull request:
+#   test   - one parallel job per map: imports the project with Godot 4.3 headless,
+#            runs the map's default build order (--autotest) and its losing order,
+#            and (on the Graveyard job) the towers and meta self-check scenes. Fails
+#            on any script error / warning, a stuck enemy, or a run that does not
+#            complete.
+#   export - the no-threads Web build (index.html + .js + .wasm + .pck), patched with
+#            tools/patch_web_audio.py, uploaded as the artifact Gravewatch-web.
+# There is NO publish job: pushing the build to the public play repository needs a
+# token secret (PAGES_TOKEN) that only the owner can create (see README "Web build").
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  # GODOT_VERSION: engine version the project targets (must match project.godot features).
+  GODOT_VERSION: "4.3"
+  # GODOT_BIN: path where the downloaded Godot editor binary is placed.
+  GODOT_BIN: /home/runner/godot/Godot_v4.3-stable_linux.x86_64
+  # GODOT_URL: official Linux editor build used for import, tests and export.
+  GODOT_URL: https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
+  # TEMPLATES_URL: official export templates (needed only by the export job).
+  TEMPLATES_URL: https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz
+
+jobs:
+  test:
+    name: test (${{ matrix.map }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        # map  - MapRegistry id; weak - its losing build order (must load and end cleanly).
+        include:
+          - {map: graveyard, weak: weak}
+          - {map: crimson_march, weak: march_weak}
+          - {map: sanctum, weak: sanctum_weak}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Godot
+        uses: actions/cache@v4
+        with:
+          path: /home/runner/godot
+          key: godot-${{ env.GODOT_VERSION }}-linux
+
+      - name: Download Godot
+        run: |
+          if [ ! -x "$GODOT_BIN" ]; then
+            mkdir -p "$(dirname "$GODOT_BIN")"
+            curl -sSL -o /tmp/godot.zip "$GODOT_URL"
+            unzip -q /tmp/godot.zip -d "$(dirname "$GODOT_BIN")"
+          fi
+          "$GODOT_BIN" --headless --version
+
+      - name: Import project
+        run: |
+          "$GODOT_BIN" --headless --import 2>&1 | tee import.log
+          if grep -qE "SCRIPT ERROR|Parse Error|ERROR:" import.log; then
+            echo "::error::Script errors during import"; exit 1
+          fi
+
+      - name: Self-checks (towers, meta)
+        if: matrix.map == 'graveyard'
+        run: |
+          set -euo pipefail
+          timeout 120 "$GODOT_BIN" --headless res://tools/towers_check.tscn 2>&1 | tee towers_check.log
+          timeout 120 "$GODOT_BIN" --headless res://tools/meta_check.tscn -- --autotest 2>&1 | tee meta_check.log
+          grep -qF "TOWERS CHECK PASS" towers_check.log
+          grep -qF "META CHECK OK" meta_check.log
+          if grep -qE "SCRIPT ERROR|ERROR:|WARNING:" towers_check.log meta_check.log; then
+            echo "::error::Errors in a self-check"; exit 1
+          fi
+
+      - name: Autotest (default and losing orders)
+        run: |
+          set -uo pipefail
+          for args in "--map=${{ matrix.map }} --seed=1" "--map=${{ matrix.map }} --seed=1 --build=${{ matrix.weak }}"; do
+            echo "::group::autotest $args"
+            timeout 600 "$GODOT_BIN" --headless --fixed-fps 60 --quit-after 200000 -- --autotest $args 2>&1 | tee run.log
+            status=${PIPESTATUS[0]}
+            echo "::endgroup::"
+            if [ "$status" != "0" ]; then echo "::error::Run did not complete: $args"; exit 1; fi
+            if grep -qE "SCRIPT ERROR|ERROR:|WARNING:" run.log; then echo "::error::Errors in run: $args"; exit 1; fi
+            grep -qE "^stuck_enemies=0 " run.log || { echo "::error::Stuck enemies: $args"; exit 1; }
+          done
+
+  export:
+    name: export (Web)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Godot and export templates
+        uses: actions/cache@v4
+        with:
+          path: |
+            /home/runner/godot
+            ~/.local/share/godot/export_templates/4.3.stable
+          key: godot-${{ env.GODOT_VERSION }}-linux-templates-web
+
+      - name: Download Godot and templates
+        run: |
+          if [ ! -x "$GODOT_BIN" ]; then
+            mkdir -p "$(dirname "$GODOT_BIN")"
+            curl -sSL -o /tmp/godot.zip "$GODOT_URL"
+            unzip -q /tmp/godot.zip -d "$(dirname "$GODOT_BIN")"
+          fi
+          # TEMPLATE_DIR: where Godot looks for 4.3 export templates on Linux.
+          TEMPLATE_DIR=~/.local/share/godot/export_templates/4.3.stable
+          if [ ! -f "$TEMPLATE_DIR/web_nothreads_release.zip" ]; then
+            mkdir -p "$TEMPLATE_DIR"
+            curl -sSL -o /tmp/templates.tpz "$TEMPLATES_URL"
+            unzip -q -o -j /tmp/templates.tpz templates/web_nothreads_release.zip templates/web_nothreads_debug.zip \
+              templates/version.txt -d "$TEMPLATE_DIR"
+            rm /tmp/templates.tpz
+          fi
+
+      - name: Export Web build
+        run: |
+          mkdir -p build/web
+          # build/.gdignore keeps Godot from importing the export's PNGs as project resources.
+          touch build/.gdignore
+          "$GODOT_BIN" --headless --import > /dev/null 2>&1
+          "$GODOT_BIN" --headless --export-release "Web" build/web/index.html 2>&1 | tee export_web.log
+          test -s build/web/index.html && test -s build/web/index.wasm && test -s build/web/index.pck
+          if grep -qE "SCRIPT ERROR|ERROR:" export_web.log; then
+            echo "::error::Errors during the Web export"; exit 1
+          fi
+          # Always: shares sample buffers (phone tabs ran out of memory without it)
+          # and runs tools/patch_web_gl.py (WebGL id reuse).
+          python3 tools/patch_web_audio.py build/web/index.js
+
+      - name: Upload Web build
+        uses: actions/upload-artifact@v4
+        with:
+          name: Gravewatch-web
+          path: build/web
+          retention-days: 7
