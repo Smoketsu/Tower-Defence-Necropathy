@@ -202,10 +202,17 @@ static func record_run(game: TdGame) -> int:
 	return paid
 
 
-## Records a Reckoning ending after the clear was already recorded: only the best wave.
-static func record_reckoning(game: TdGame) -> void:
+## Records a Reckoning ending after the clear was already recorded (the
+## clear paid with no Reckoning waves): the best wave and the Reckoning's Ash.
+## Returns the Ash paid.
+static func record_reckoning(game: TdGame) -> int:
+	var mult := float(DifficultyModifiers.row(game.difficulty)["ash_mult"]) * (1.0 + MetaData.MAP_STEP * float(maxi(map_index(game.map_id), 0)))  # As in ash_for().
+	var paid := roundi(float(MetaData.ASH_PER_RECKONING_WAVE * reckoning_of(game)) * mult)  # Ash for the Reckoning waves.
+	data["ash"]["ash"] = ash() + paid
+	data["ash"]["earned"] = int(data["ash"]["earned"]) + paid
 	data["maps"]["reckoning"][game.map_id] = maxi(best_reckoning(game.map_id), reckoning_of(game))
 	save()
+	return paid
 
 
 # ------------------------------------------------------------------ Codex and Masteries

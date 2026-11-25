@@ -2,8 +2,14 @@
 ## towers that fit it with their costs, and the synergies each would join
 ## there (hinted, never secret, GDD §4.4). Occupied spot: Upgrade (or Free
 ## with a chest credit), Target (cycles the mode), Sell, and Evolve only
-## once the hidden recipe is met (gold). Follows TdGame.selected; rebuilt by
-## refresh() whenever the run changes. Calls only TdGame's player actions.
+## once the hidden recipe is met (gold). Affordable choices are soul-teal,
+## unaffordable ones dim with a crimson cost (GDD §9 colour meaning).
+## Follows TdGame.selected; rebuilt by refresh() whenever the run changes.
+## Calls only TdGame's player actions. It sits on the side of the spot that
+## covers the fewest other spots, and only its buttons take taps (the panel
+## lets them through), so a neighbouring spot stays tappable. `hover_id` is
+## the tower class under the pointer / pad focus (MapHints previews it).
+## With `pad_focus` the first button takes the focus (gamepad, SpotCursor).
 class_name SpotMenu
 extends PanelContainer
 
@@ -13,10 +19,15 @@ var game: TdGame = null
 var _for: Spot = null
 ## Souls / level / mode snapshot it was built with (rebuilt when it changes).
 var _sig: String = ""
+## Tower class whose build button is hovered / focused ("" = none; MapHints).
+var hover_id: String = ""
+## True: the first button grabs the focus after each build (gamepad).
+var pad_focus: bool = false
 
 
 func _ready() -> void:
 	add_theme_stylebox_override("panel", UiTheme.style("ornate", "violet"))
+	mouse_filter = Control.MOUSE_FILTER_IGNORE  # Gaps between buttons pass taps to the map.
 	visible = false
 
 
@@ -27,6 +38,8 @@ func refresh() -> void:
 	if s == null or game.over:
 		visible = false
 		_for = null
+		hover_id = ""
+		pad_focus = false
 		return
 	var t := s.tower  # Its tower, or null.
 	var sig := "%s|%d|%d|%s|%d|%s" % [s.spot_id(), game.economy.souls, game.free_upgrades,
@@ -39,6 +52,7 @@ func refresh() -> void:
 		remove_child(c)  # At once, so reset_size() measures only the new rows.
 		c.queue_free()
 	var box := VBoxContainer.new()  # The menu's rows.
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(box)
 	if t == null:
 		_build_empty(box, s)
@@ -49,13 +63,36 @@ func refresh() -> void:
 	_place.call_deferred(s)
 
 
-## Puts the menu beside spot `s`, kept on screen.
+## Puts the menu beside spot `s`, kept on screen, on the side (right, left,
+## below, above) that covers the fewest other spots (ties: that order).
 func _place(s: Spot) -> void:
-	var p := game.world.get_global_transform_with_canvas() * s.position  # Spot on screen.
+	if not is_instance_valid(s) or game.selected != s:
+		return
+	var xf := game.world.get_global_transform_with_canvas()  # Map -> screen.
+	var p := xf * s.position  # Spot on screen.
 	var vp := get_viewport().get_visible_rect().size  # Screen size.
+	var pick := TdRulesData.SPOT_PICK * xf.get_scale().x  # Tap radius of a spot on screen.
 	reset_size()
-	var x := p.x + TdUiData.MENU_OFFSET if p.x + TdUiData.MENU_OFFSET + size.x < vp.x else p.x - TdUiData.MENU_OFFSET - size.x  # Right of it, else left.
-	position = Vector2(x, clampf(p.y - size.y * 0.5, TdUiData.TOP_BAR_H + 4.0, vp.y - size.y - 4.0))
+	var off := TdUiData.MENU_OFFSET  # Gap from the spot.
+	var tries: Array[Vector2] = [Vector2(p.x + off, p.y - size.y * 0.5), Vector2(p.x - off - size.x, p.y - size.y * 0.5),
+		Vector2(p.x - size.x * 0.5, p.y + off), Vector2(p.x - size.x * 0.5, p.y - off - size.y)]  # Candidate top-left corners.
+	var best := Vector2.ZERO  # Chosen corner.
+	var best_n := 1 << 30  # Spots it covers.
+	for c: Vector2 in tries:
+		var r := Rect2(Vector2(clampf(c.x, 4.0, vp.x - size.x - 4.0), clampf(c.y, TdUiData.TOP_BAR_H + 4.0, vp.y - size.y - 4.0)), size)  # On screen.
+		var n := 0  # Covered spots (the spot itself counts heavily).
+		for o: Spot in game.spots:
+			if r.grow(pick).has_point(xf * o.position):
+				n += 1000 if o == s else 1
+		if n < best_n:
+			best_n = n
+			best = r.position
+	position = best
+	if pad_focus:
+		for c: Node in get_child(0).get_children():
+			if c is Button and not (c as Button).disabled:
+				(c as Button).grab_focus()
+				break
 
 
 ## A menu button with icon texture `tex`, text and callback.
@@ -65,7 +102,8 @@ func _button(box: Container, tex: Texture2D, text: String, cb: Callable, accent:
 	b.icon = tex
 	b.expand_icon = false
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	b.focus_mode = Control.FOCUS_NONE
+	b.focus_mode = Control.FOCUS_ALL if pad_focus else Control.FOCUS_NONE
+	b.custom_minimum_size.y = TdUiData.MENU_BUTTON_H
 	b.pressed.connect(cb)
 	if accent != "":
 		UiTheme.style_button(b, "button", accent)
@@ -83,12 +121,24 @@ func _build_empty(box: VBoxContainer, s: Spot) -> void:
 		var text := "%s  %d" % [String(row["name"]), int(row["cost"])]  # Name and cost.
 		if not joins.is_empty():
 			text += "  + " + ", ".join(joins)
-		var b := _button(box, SpriteBank.texture("icons/" + String(row["icon"])), text, _do_build.bind(s, id), "soul" if not joins.is_empty() else "")
-		b.disabled = not game.economy.can_afford(int(row["cost"]))
+		var can := game.economy.can_afford(int(row["cost"]))  # Affordable now.
+		var b := _button(box, SpriteBank.texture("icons/" + String(row["icon"])), text, _do_build.bind(s, id), "soul" if can else "")
+		_afford(b, can)
+		b.mouse_entered.connect(func() -> void: hover_id = id)
+		b.focus_entered.connect(func() -> void: hover_id = id)
+		b.mouse_exited.connect(func() -> void: hover_id = "")
 		var hints: Array[String] = []  # Every synergy this class can join (tooltip).
 		for sid: String in Synergies.hints_for(id):
 			hints.append(String(SynergyData.SYNERGIES[sid]["hint"]))
 		b.tooltip_text = "\n".join(hints)
+
+
+## Enables `b` when affordable (soul-teal text), else dims it with a crimson cost.
+func _afford(b: Button, can: bool) -> void:
+	b.disabled = not can
+	if can and b.get_theme_stylebox("normal") == UiTheme.style("button", "soul"):
+		b.add_theme_color_override("font_color", MenuData.TEAL)
+	b.add_theme_color_override("font_disabled_color", MenuData.CRIMSON)
 
 
 ## Names of the synergies tower class `id` would form on spot `s` now.
@@ -113,12 +163,13 @@ func _build_tower(box: VBoxContainer, t: Tower) -> void:
 	if t.level < 5:
 		var cost := t.upgrade_cost()  # Souls for the next level.
 		var free := game.free_upgrades > 0  # A chest credit pays it.
-		var b := _button(box, TdArt.texture("icon_upgrade"), "Upgrade  " + ("Free" if free else str(cost)), _act.bind(game.upgrade, t.spot), "gold" if free else "")
-		b.disabled = not free and not game.economy.can_afford(cost)
+		var can := free or game.economy.can_afford(cost)  # Affordable now.
+		var b := _button(box, TdArt.texture("icon_upgrade"), "Upgrade  " + ("Free" if free else str(cost)), _act.bind(game.upgrade, t.spot), "gold" if free else ("soul" if can else ""))
+		_afford(b, can)
 	if t.can_evolve():
 		var free := game.free_upgrades > 0  # A chest credit pays it.
 		var e := _button(box, TdArt.texture("icon_evolve"), "Evolve  " + ("Free" if free else str(t.evolve_cost())), _act.bind(game.evolve, t.spot), "gold")
-		e.disabled = not free and not game.economy.can_afford(t.evolve_cost())
+		_afford(e, free or game.economy.can_afford(t.evolve_cost()))
 	if t.block == null:
 		_button(box, TdArt.texture("icon_target_" + t.target_mode), "Target  " + t.target_mode.capitalize(), func() -> void: game.set_target(t.spot))
 	_button(box, TdArt.texture("icon_sell"), "Sell  +%d" % t.sell_value(), _act.bind(game.sell, t.spot), "crimson")

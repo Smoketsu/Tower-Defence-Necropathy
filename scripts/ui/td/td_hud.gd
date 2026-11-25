@@ -3,7 +3,10 @@
 ## credits, speed, pause), the spell bar (three spells with cooldown sweeps
 ## and the ultimate with its meter), the banner line, the spot menu
 ## (SpotMenu), the pause menu (PauseMenu) and the results (ResultsScreen).
-## Keyboard / pad actions (GDD §9.2) are handled here too. It only reads the
+## Keyboard / pad actions (GDD §9.2) are handled here too; the gamepad spot
+## cursor is SpotCursor and the map-space hints (range / synergy preview,
+## cursor ring) are MapHints. Banners announce each wave, every enemy kind
+## new to the map (violet) and a boss arrival (crimson). It only reads the
 ## run and calls TdGame's player actions; it never changes state itself.
 class_name TdHud
 extends CanvasLayer
@@ -34,8 +37,14 @@ var _ult: SpellButton = null
 var _banner: PanelContainer = null
 ## See _banner.
 var _banner_label: Label = null
-## Banner lines waiting to be shown.
-var _banner_queue: Array[String] = []
+## Banners waiting to be shown: [text, ribbon accent] pairs.
+var _banner_queue: Array = []
+## Ribbon accent -> its stylebox (the banner switches between them).
+var _banner_accent: String = "gold"
+## Enemy kinds already announced on this map (new-kind banners).
+var _announced: Dictionary = {}
+## The gamepad spot cursor.
+var cursor: SpotCursor = null
 ## Real seconds left on the current banner (0 = none showing).
 var _banner_left: float = 0.0
 ## The spot menu.
@@ -64,6 +73,14 @@ func _ready() -> void:
 	game.changed.connect(_refresh)
 	game.caster.changed.connect(_refresh)
 	game.banner_requested.connect(_queue_banner)
+	game.wave_started.connect(_announce)
+	cursor = SpotCursor.new()
+	cursor.game = game
+	cursor.hud = self
+	add_child(cursor)
+	var hints := MapHints.new()  # Range / synergy preview and the cursor ring, in map space.
+	hints.hud = self
+	game.world.add_child(hints)
 	game.ended.connect(_on_ended)
 	_refresh()
 
@@ -84,6 +101,7 @@ func _button(role: String, text: String, cb: Callable) -> Button:
 	b.text = text
 	b.icon = TdArt.texture(role) if role != "" else null
 	b.focus_mode = Control.FOCUS_NONE
+	b.custom_minimum_size = TdUiData.TOP_BUTTON
 	b.pressed.connect(cb)
 	return b
 
@@ -106,6 +124,7 @@ func _build_top_bar() -> void:
 	row.add_child(_icon("icon_wave"))
 	_wave = UiTheme.tier_label("", UiTheme.Tier.NAME)
 	row.add_child(_wave)
+	row.add_child(UiTheme.tier_label("Next", UiTheme.Tier.LABEL, UiTheme.TEXT_DIM))
 	_preview = HBoxContainer.new()
 	row.add_child(_preview)
 	_chest = UiTheme.tier_label("", UiTheme.Tier.BODY, UiTheme.TEXT_GOLD)
@@ -206,9 +225,25 @@ func _process(delta: float) -> void:
 	_step_banner(delta)
 
 
-## Queues banner line `text` (shown one after another).
-func _queue_banner(text: String) -> void:
-	_banner_queue.append(text)
+## Queues banner line `text` (shown one after another) on an `accent` ribbon.
+func _queue_banner(text: String, accent: String = "gold") -> void:
+	_banner_queue.append([text, accent])
+
+
+## Wave `n` (1-based) started: announces the kinds new to this map and a boss.
+func _announce(n: int) -> void:
+	if n - 1 >= (game.map["waves"] as Array).size():
+		return
+	for g: Dictionary in game.map["waves"][n - 1]["groups"]:
+		var kind := String(g["kind"])  # The group's kind.
+		if _announced.has(kind) or not TdEnemyData.KINDS.has(kind):
+			continue
+		_announced[kind] = true
+		var row: Dictionary = TdEnemyData.KINDS[kind]
+		if String(row["rank"]) == "boss":
+			_queue_banner("%s arrives" % String(row["name"]), TdUiData.BANNER_BOSS)
+		elif n > 1:
+			_queue_banner("New foe: %s" % String(row["name"]), TdUiData.BANNER_NEW)
 
 
 ## Shows, holds and fades the banners on real time (UI motion, not gameplay).
@@ -217,7 +252,12 @@ func _step_banner(delta: float) -> void:
 		if _banner_queue.is_empty():
 			_banner.visible = false
 			return
-		_banner_label.text = _banner_queue.pop_front()
+		var next: Array = _banner_queue.pop_front()  # [text, accent].
+		_banner_label.text = String(next[0])
+		if String(next[1]) != _banner_accent:
+			_banner_accent = String(next[1])
+			_banner.add_theme_stylebox_override("panel", UiTheme.style("ribbon", _banner_accent))
+			_banner_label.add_theme_color_override("font_color", UiTheme.HEADER_TEXT.get(_banner_accent, UiTheme.TEXT))
 		_banner_left = TdUiData.BANNER_HOLD + TdUiData.BANNER_FADE
 		_banner.visible = true
 		_banner.reset_size()
@@ -249,8 +289,8 @@ func _on_ended(won: bool) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if game.over:
 		return
-	for i in 3:
-		if event.is_action_pressed("spell_%d" % (i + 1)) and i < _spells.size():
+	for i in _spells.size():
+		if InputMap.has_action("spell_%d" % (i + 1)) and event.is_action_pressed("spell_%d" % (i + 1)):
 			_arm(i)
 	if event.is_action_pressed("ultimate"):
 		game.caster.cast_ultimate()

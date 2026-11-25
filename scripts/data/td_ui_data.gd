@@ -27,3 +27,17 @@ const BANNER_Y: float = 92.0  # TUNING (not in GDD)
 const SWEEP: Color = Color(0.0, 0.0, 0.0, 0.62)  # TUNING (not in GDD)
 ## Colour of the ultimate meter fill (soul-teal, GDD §9 colour meaning).
 const METER: Color = Color(0.35, 0.95, 0.8, 0.45)  # TUNING (not in GDD)
+## Minimum height (px) of a spot-menu button (a fingertip at phone scale).
+const MENU_BUTTON_H: float = 40.0  # TUNING (not in GDD)
+## Minimum size (px) of a top-bar button (a fingertip at phone scale).
+const TOP_BUTTON := Vector2(64.0, 40.0)  # TUNING (not in GDD)
+## Speed (px/s, map px) of the gamepad cursor while a spell is aimed.
+const CURSOR_SPEED: float = 520.0  # TUNING (not in GDD)
+## Half-angle (degrees) of the cone a stick flick searches for the next spot.
+const CURSOR_CONE: float = 60.0  # TUNING (not in GDD)
+## Colour of the gamepad cursor ring (gold = selection, GDD §9).
+const CURSOR: Color = Color(1.0, 0.84, 0.4, 0.9)  # TUNING (not in GDD)
+## Banner ribbon accents: a new enemy kind (violet) and a boss arrival (crimson).
+const BANNER_NEW: String = "violet"  # TUNING (not in GDD)
+## See BANNER_NEW.
+const BANNER_BOSS: String = "crimson"  # TUNING (not in GDD)
