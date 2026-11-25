@@ -76,7 +76,7 @@ clock (60 ticks per game second, `speed` ticks per physics frame), no wall time.
 ```bash
 G=/home/user/tools/godot/Godot_v4.3-stable_linux.x86_64
 $G --headless --import
-$G --headless --fixed-fps 60 --quit-after 40000 -- --autotest [--map=graveyard] [--seed=N] [--speed=N] [--difficulty=initiate|necromancer|lich|deathlord] [--build=ID]
+$G --headless --fixed-fps 60 --quit-after 60000 -- --autotest [--map=graveyard|crimson_march|sanctum] [--seed=N] [--speed=N] [--difficulty=initiate|necromancer|lich|deathlord] [--build=ID]
 ```
 
 | Option | Meaning |
@@ -85,11 +85,13 @@ $G --headless --fixed-fps 60 --quit-after 40000 -- --autotest [--map=graveyard] 
 | `--seed=` | run seed (default 1) |
 | `--speed=` | fixed steps per physics frame, 1-64 (default 8; the result does not depend on it) |
 | `--difficulty=` | DifficultyData id (default `necromancer`) |
-| `--build=` | BuildOrderData id (default: the map's `build_order`; `weak` = the bad placement order) |
+| `--build=` | BuildOrderData id (default: the map's `build_order`; `weak` / `march_weak` / `sanctum_weak` = the losing orders) |
+| `--reckoning` | after a cleared map, start the Reckoning endless mode and run until the gate falls |
 
 It prints a `TDAUTOTEST SUMMARY` (result, skulls, waves cleared, lives, souls
 earned / spent, kills / leaks by kind, damage by source, every tower, wave
-spawn / clear seconds, stuck enemies) and exits 0 when the run completed
+spawn / clear seconds, the Reckoning wave and tower-seconds suppressed, trait / boss
+`events=`, the map rule's `rule=` line, stuck enemies) and exits 0 when the run completed
 (1 on a timeout). It never touches `user://`. Same seed -> identical summary.
 
 ## Web build
@@ -102,8 +104,29 @@ python3 tools/patch_web_audio.py build/web/index.js   # always; also runs the GL
 
 ## Known limits
 
-- Only the Graveyard is built; Corpse Explosion / Plague Cloud, the Ossuary,
+- Corpse Explosion / Plague Cloud, the Ossuary,
   Codex, Settings screen, character pick and saves are not (see CLAUDE.md "Status").
 - The spot menu can cover a neighbouring spot (tap elsewhere to close it first).
 - Balance is a first pass: the default build order clears the Graveyard with
   19-20 lives on seeds 1-2 and the result is sensitive to enemy HP.
+
+## Act I maps and the Covenant (gw-maps)
+
+- **The Desecrated Graveyard** (22 waves, Inquisitor miniboss, Sir Alaric charges through
+  a post at intervals). **The Crimson March** (`crimson_march`, opens after the Graveyard):
+  two roads merge into a trunk; Holy Ward Generators beside the roads halve the damage
+  enemies near them take until destroyed; Templar Commander miniboss; Marshal Vael calls
+  squads in by two side lanes and raises a Shieldwall. **The Sanctum of Judgment**
+  (`sanctum`, opens after the March): one long road through two chambers where towers deal
+  25% less until the chamber's ward crystals break; Cathedral Guardian miniboss; Grand
+  Inquisitor Seraphine blinks down the road, suppresses towers where she lands and is
+  healed by her Confessor Attendants.
+- Enemy traits (`scripts/enemies/traits/`): shield_front (Shieldbearer), banner_aura,
+  halberd_reach, lash (Sister), templar_charge, healer (Chaplain), holy_zone (Radiant
+  Inquisitor), confessor (High Confessor), sun_ward (Sun Paladin), guardian, ward_structure
+  (generators / crystals). Bosses in `scripts/bosses/`. Shared per-run ground state
+  (zones, recent deaths) in `scripts/enemies/covenant_field.gd`; map rules and their
+  numbers in `scripts/maps/rules/` and `scripts/data/act1_rule_data.gd`.
+- **Reckoning** (`TdGame.start_reckoning()`, `game.reckoning_wave`; numbers in
+  `reckoning_data.gd`): after a cleared map, escalating waves made from the map's own
+  table until the gate falls.

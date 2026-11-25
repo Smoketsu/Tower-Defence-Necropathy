@@ -143,3 +143,15 @@ Sister / Sentinel / Inquisitor zone / Confessor / Paladin traits, the pre-map
 setup (spell / character / ultimate pick), Ossuary + meta save, Codex,
 Settings / Credits screens, Reckoning endless mode, skull records, the five new
 sounds (stand-ins in `TdSoundData`), gamepad spot cursor, CI.
+
+## Status (gw-maps branch)
+
+Built: Crimson March and Sanctum maps with their rules (Holy Ward Generators,
+sanctified chambers), all ten Act I enemy traits, the Templar Commander and
+Cathedral Guardian minibosses, Marshal Vael, Grand Inquisitor Seraphine,
+Alaric's interval charge, map unlock data (`unlock_after`), the Reckoning
+endless mode (`--reckoning`), build orders `march_default` / `march_weak` /
+`sanctum_default` / `sanctum_weak`. New one-path helpers: `TdCombat.ward_enemy`,
+`silence_enemy`, `suppress_tower`; EnemyTrait `on_attack` hook and `note()`;
+`TdGame.spawn_at()`, `WaveDirector.spawn_extra()`; `MapRule.summary()` /
+`finish_structures()`; enemy row key `structure`.
