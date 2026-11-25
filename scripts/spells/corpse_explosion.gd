@@ -22,9 +22,10 @@ func step(_dt: float) -> void:
 		_corpses.pop_front()
 
 
-## TdGame.enemy_killed: leaves a corpse (not for bosses: the map ends).
+## TdGame.enemy_killed: leaves a corpse (not for bosses: the map ends; not for
+## structures: a generator or crystal is no body).
 func _on_kill(e: TdEnemy, _tower: Tower) -> void:
-	if String(e.row["rank"]) == "boss":
+	if String(e.row["rank"]) == "boss" or bool(e.row.get("structure", false)):
 		return
 	if _corpses.size() >= int(row["max_corpses"]):
 		_corpses.pop_front()
@@ -41,7 +42,7 @@ func cast(pos: Vector2) -> bool:
 			continue
 		_corpses.remove_at(i)
 		n += 1
-		for e: TdEnemy in game.enemies_near(p, float(row["blast_radius"])):
+		for e: TdEnemy in game.foes_near(p, float(row["blast_radius"])):
 			TdCombat.damage_enemy(game, e, float(row["damage"]), hit.merged({"origin": p}))
 		game.fx.spawn("corpse_explosion", p, float(row["blast_radius"]) * 2.0, 0.45)
 	if n > 0:

@@ -8,6 +8,8 @@ extends RefCounted
 
 ## The map. Keys:
 ##   id, name        — registry id and UI name.
+##   unlock_after    — map id whose boss must be beaten to open this map ("" = open
+##                     from the start; GDD §3 "Beating a map's boss opens the next map").
 ##   floor           — SpriteData-style key of the floor tile, repeated over the map.
 ##   decals          — floor decal keys scattered by MapView (a pure position hash).
 ##   obstacles       — [sprite key, position] pairs: decoration only, nothing collides.
@@ -20,6 +22,7 @@ extends RefCounted
 ##   plots           — map px of each grave plot (ranged / support towers).
 ##   posts           — map px of each road post (blockers); snapped to the nearest road.
 ##   lives / souls   — optional overrides of TdRulesData.START_LIVES / EconomyData.START_SOULS (0 = default).
+##   wave_hp_end     — optional override of TdRulesData.WAVE_HP_END (the last waves' HP multiplier; 0 = default).
 ##   rule            — "" or scripts/maps/rules/<id>.gd (extends MapRule): the map's own rule.
 ##   build_order     — BuildOrderData id the autotest plays by default.
 ##   waves           — wave rows, in order. Each wave: {groups: [...], banner: "" or a
@@ -31,6 +34,7 @@ extends RefCounted
 const MAP: Dictionary = {
 	"id": "graveyard",
 	"name": "The Desecrated Graveyard",
+	"unlock_after": "",
 	"floor": "tiles/graveyard",
 	"decals": ["decals/graveyard_grass", "decals/graveyard_grass_2", "decals/graveyard_grass_3",
 		"decals/graveyard_grave", "decals/graveyard_grave_2", "decals/graveyard_fog"],
@@ -62,30 +66,31 @@ const MAP: Dictionary = {
 	"posts": [Vector2(700, 150), Vector2(560, 350), Vector2(640, 530), Vector2(1060, 530)],
 	"lives": 0,
 	"souls": 0,
+	"wave_hp_end": 2.6,  # TUNING (not in GDD) integration balance: the first map is the gentlest
 	"rule": "",
 	"build_order": "graveyard_default",
 	"waves": [
-		{"banner": "The Covenant marches on the crypt", "groups": [{"kind": "recruit", "count": 8, "spacing": 1.0}]},
-		{"banner": "", "groups": [{"kind": "recruit", "count": 12, "spacing": 0.8}]},
-		{"banner": "", "groups": [{"kind": "recruit", "count": 8}, {"kind": "archer", "count": 6, "delay": 4.0}]},
-		{"banner": "Footmen: armoured", "groups": [{"kind": "footman", "count": 6, "spacing": 1.1}, {"kind": "recruit", "count": 8, "delay": 3.0}]},
-		{"banner": "Purifiers: fast", "groups": [{"kind": "purifier", "count": 8, "spacing": 0.6}, {"kind": "recruit", "count": 10, "delay": 2.0}]},
-		{"banner": "", "groups": [{"kind": "footman", "count": 10, "spacing": 0.9}, {"kind": "archer", "count": 8, "delay": 2.0}]},
-		{"banner": "Chaplains heal those around them", "groups": [{"kind": "footman", "count": 8}, {"kind": "chaplain", "count": 2, "spacing": 3.0, "delay": 2.0}, {"kind": "recruit", "count": 10, "delay": 5.0}]},
-		{"banner": "Templars charge when struck", "groups": [{"kind": "templar", "count": 2, "spacing": 4.0}, {"kind": "recruit", "count": 14, "delay": 1.0}]},
-		{"banner": "", "groups": [{"kind": "purifier", "count": 14, "spacing": 0.5}, {"kind": "archer", "count": 10, "delay": 3.0}]},
-		{"banner": "", "groups": [{"kind": "footman", "count": 14, "spacing": 0.8}, {"kind": "chaplain", "count": 3, "spacing": 3.0, "delay": 3.0}, {"kind": "templar", "count": 2, "spacing": 3.0, "delay": 6.0}]},
-		{"banner": "The Inquisitor comes for the crypt", "groups": [{"kind": "inquisitor", "count": 1}, {"kind": "recruit", "count": 16, "spacing": 0.6, "delay": 2.0}]},
-		{"banner": "", "groups": [{"kind": "templar", "count": 4, "spacing": 2.0}, {"kind": "purifier", "count": 12, "spacing": 0.5, "delay": 2.0}]},
-		{"banner": "", "groups": [{"kind": "footman", "count": 18, "spacing": 0.7}, {"kind": "chaplain", "count": 4, "spacing": 2.5, "delay": 3.0}]},
-		{"banner": "", "groups": [{"kind": "archer", "count": 24, "spacing": 0.4}, {"kind": "purifier", "count": 10, "spacing": 0.5, "delay": 4.0}]},
-		{"banner": "", "groups": [{"kind": "templar", "count": 6, "spacing": 1.6}, {"kind": "footman", "count": 12, "delay": 2.0}]},
-		{"banner": "A swarm of recruits", "groups": [{"kind": "recruit", "count": 30, "spacing": 0.35}, {"kind": "chaplain", "count": 4, "spacing": 2.0, "delay": 3.0}]},
-		{"banner": "", "groups": [{"kind": "templar", "count": 6, "spacing": 1.5}, {"kind": "chaplain", "count": 4, "spacing": 2.0, "delay": 2.0}, {"kind": "footman", "count": 14, "delay": 4.0}]},
-		{"banner": "", "groups": [{"kind": "purifier", "count": 20, "spacing": 0.4}, {"kind": "templar", "count": 4, "spacing": 2.0, "delay": 3.0}]},
-		{"banner": "", "groups": [{"kind": "footman", "count": 22, "spacing": 0.6}, {"kind": "archer", "count": 16, "spacing": 0.4, "delay": 3.0}]},
-		{"banner": "", "groups": [{"kind": "templar", "count": 10, "spacing": 1.2}, {"kind": "chaplain", "count": 6, "spacing": 1.8, "delay": 2.0}]},
-		{"banner": "The Covenant's full muster", "groups": [{"kind": "footman", "count": 16, "spacing": 0.6}, {"kind": "templar", "count": 8, "spacing": 1.2, "delay": 2.0}, {"kind": "purifier", "count": 16, "spacing": 0.4, "delay": 5.0}, {"kind": "chaplain", "count": 5, "spacing": 2.0, "delay": 6.0}]},
-		{"banner": "Sir Alaric, the Gravebreaker, has arrived!", "groups": [{"kind": "alaric", "count": 1}, {"kind": "templar", "count": 4, "spacing": 2.0, "delay": 3.0}, {"kind": "footman", "count": 10, "spacing": 0.8, "delay": 6.0}]},
+		{"banner": "The Covenant marches on the crypt", "groups": [{"kind": "recruit", "count": 8, "spacing": 1.35}]},
+		{"banner": "", "groups": [{"kind": "recruit", "count": 12, "spacing": 1.08}]},
+		{"banner": "", "groups": [{"kind": "recruit", "count": 8, "spacing": 0.95}, {"kind": "archer", "count": 6, "spacing": 0.95, "delay": 5.4}]},
+		{"banner": "Footmen: armoured", "groups": [{"kind": "footman", "count": 6, "spacing": 1.49}, {"kind": "recruit", "count": 8, "spacing": 0.95, "delay": 4.1}]},
+		{"banner": "Purifiers: fast", "groups": [{"kind": "purifier", "count": 8, "spacing": 0.81}, {"kind": "recruit", "count": 10, "spacing": 0.95, "delay": 2.7}]},
+		{"banner": "", "groups": [{"kind": "footman", "count": 10, "spacing": 1.22}, {"kind": "archer", "count": 8, "spacing": 0.95, "delay": 2.7}]},
+		{"banner": "Chaplains heal those around them", "groups": [{"kind": "footman", "count": 8, "spacing": 0.95}, {"kind": "chaplain", "count": 2, "spacing": 4.05, "delay": 2.7}, {"kind": "recruit", "count": 10, "spacing": 0.95, "delay": 6.8}]},
+		{"banner": "Templars charge when struck", "groups": [{"kind": "templar", "count": 2, "spacing": 5.40}, {"kind": "recruit", "count": 14, "spacing": 0.95, "delay": 1.4}]},
+		{"banner": "", "groups": [{"kind": "purifier", "count": 14, "spacing": 0.68}, {"kind": "archer", "count": 10, "spacing": 0.95, "delay": 4.1}]},
+		{"banner": "", "groups": [{"kind": "footman", "count": 14, "spacing": 1.08}, {"kind": "chaplain", "count": 3, "spacing": 4.05, "delay": 4.1}, {"kind": "templar", "count": 2, "spacing": 4.05, "delay": 8.1}]},
+		{"banner": "The Inquisitor comes for the crypt", "groups": [{"kind": "inquisitor", "count": 1, "spacing": 0.95}, {"kind": "recruit", "count": 16, "spacing": 0.81, "delay": 2.7}]},
+		{"banner": "", "groups": [{"kind": "templar", "count": 4, "spacing": 2.70}, {"kind": "purifier", "count": 12, "spacing": 0.68, "delay": 2.7}]},
+		{"banner": "", "groups": [{"kind": "footman", "count": 18, "spacing": 0.94}, {"kind": "chaplain", "count": 4, "spacing": 3.38, "delay": 4.1}]},
+		{"banner": "", "groups": [{"kind": "archer", "count": 24, "spacing": 0.54}, {"kind": "purifier", "count": 10, "spacing": 0.68, "delay": 5.4}]},
+		{"banner": "", "groups": [{"kind": "templar", "count": 6, "spacing": 2.16}, {"kind": "footman", "count": 12, "spacing": 0.95, "delay": 2.7}]},
+		{"banner": "A swarm of recruits", "groups": [{"kind": "recruit", "count": 30, "spacing": 0.47}, {"kind": "chaplain", "count": 4, "spacing": 2.70, "delay": 4.1}]},
+		{"banner": "", "groups": [{"kind": "templar", "count": 6, "spacing": 2.03}, {"kind": "chaplain", "count": 4, "spacing": 2.70, "delay": 2.7}, {"kind": "footman", "count": 14, "spacing": 0.95, "delay": 5.4}]},
+		{"banner": "", "groups": [{"kind": "purifier", "count": 20, "spacing": 0.54}, {"kind": "templar", "count": 4, "spacing": 2.70, "delay": 4.1}]},
+		{"banner": "", "groups": [{"kind": "footman", "count": 22, "spacing": 0.81}, {"kind": "archer", "count": 16, "spacing": 0.54, "delay": 4.1}]},
+		{"banner": "", "groups": [{"kind": "templar", "count": 10, "spacing": 1.62}, {"kind": "chaplain", "count": 6, "spacing": 2.43, "delay": 2.7}]},
+		{"banner": "The Covenant's full muster", "groups": [{"kind": "footman", "count": 16, "spacing": 0.81}, {"kind": "templar", "count": 8, "spacing": 1.62, "delay": 2.7}, {"kind": "purifier", "count": 16, "spacing": 0.54, "delay": 6.8}, {"kind": "chaplain", "count": 5, "spacing": 2.70, "delay": 8.1}]},
+		{"banner": "Sir Alaric, the Gravebreaker, has arrived!", "groups": [{"kind": "alaric", "count": 1, "spacing": 0.95}, {"kind": "templar", "count": 4, "spacing": 2.70, "delay": 4.1}, {"kind": "footman", "count": 10, "spacing": 1.08, "delay": 8.1}]},
 	],
 }

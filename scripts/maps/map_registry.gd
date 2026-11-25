@@ -10,6 +10,8 @@ const DEFAULT_ID: String = "graveyard"
 ## Map id -> its data script (each defines const MAP). Order = map-select order.
 const MAPS: Dictionary = {
 	"graveyard": preload("res://scripts/maps/graveyard_map.gd"),
+	"crimson_march": preload("res://scripts/maps/crimson_march_map.gd"),
+	"sanctum": preload("res://scripts/maps/sanctum_map.gd"),
 }
 
 

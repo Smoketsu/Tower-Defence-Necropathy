@@ -30,7 +30,7 @@ const EVOLUTIONS: Dictionary = {
 			"curse_mult": 1.15,  # TUNING (not in GDD) Necropathy curse +15% damage taken from the undead
 			"curse_time": 4.0,  # TUNING (not in GDD) s, Necropathy curse_duration
 		},
-		"recipe": {"type": "kills", "n": 90},  # TUNING (not in GDD) GDD §4.3 example "200 kills", scaled to a Graveyard run
+		"recipe": {"type": "kills", "n": 60},  # TUNING (not in GDD) GDD §4.3 example "200 kills", scaled so the March and Sanctum archers reach it too (integration)
 	},
 	"lich": {
 		"from": "mage", "name": "Lich", "sprite": "summons/lich", "icon": "lich",

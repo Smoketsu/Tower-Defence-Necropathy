@@ -190,7 +190,7 @@ func step(dt: float) -> void:
 		if game.time >= f.next_tick:
 			f.next_tick += f.tick
 			var hit := {"source": f.source, "tower": f.tower if is_instance_valid(f.tower) else null, "dot": true}  # TdCombat hit info.
-			for e: TdEnemy in game.enemies_near(f.pos, f.radius):
+			for e: TdEnemy in game.foes_near(f.pos, f.radius):
 				TdCombat.damage_enemy(game, e, f.damage, hit)
 	for s: Shot in _shots:
 		if not s.active:

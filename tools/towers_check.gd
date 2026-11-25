@@ -39,7 +39,7 @@ func _ready() -> void:
 	_check("revenant shatter", int(game.stats.get("shatters", 0)) == 1 and b.hp < hp_b)
 	# Silence, curse and Shatterfall on one enemy.
 	TdCombat.silence_enemy(game, b, 1.0)
-	_check("silence query", TdCombat.is_silenced(game, b))
+	_check("silence query", not EnemyTrait.can_heal(b, game))
 	var cat := _maxed(game, "plot:10", "corpse_catapult")
 	_check("shatterfall active", cat.synergies.any(func(p: Array) -> bool: return p[0] == "shatterfall"))
 	b.hp = b.max_hp

@@ -16,7 +16,7 @@ func impact(t: Tower, shot: TdProjectiles.Shot, victims: Array[TdEnemy]) -> void
 		if e.alive:
 			if ext > 0.0 and t.game.time < e.weaken_until:
 				TdCombat.weaken_enemy(t.game, e, e.weaken_mult, ext)
-		elif every > 0 and not shot.is_volley:
+		elif every > 0 and not shot.is_volley and not bool(e.row.get("structure", false)):
 			t.vars["raise_count"] = int(t.vars.get("raise_count", 0)) + 1
 			if int(t.vars["raise_count"]) >= every and (t.vars.get("risen", []) as Array).size() < int(t.stats["risen_max"]):
 				t.vars["raise_count"] = 0

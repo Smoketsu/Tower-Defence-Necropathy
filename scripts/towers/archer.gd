@@ -15,7 +15,7 @@ func step(t: Tower, dt: float) -> void:
 		return
 	var main := t.pick_target()  # The arrow's own target (split arrows look for others).
 	var n := 0  # Split arrows fired.
-	for e: TdEnemy in t.game.enemies_near(t.position, float(t.stats["range"])):
+	for e: TdEnemy in t.game.foes_near(t.position, float(t.stats["range"])):
 		if e != main and n < int(t.stats["split_count"]):
 			t.game.projectiles.fire(t, e, float(t.stats["damage"]) * float(t.stats["split_damage"]), String(t.stats["projectile"]), Color(0.75, 1.0, 0.8), false)
 			n += 1

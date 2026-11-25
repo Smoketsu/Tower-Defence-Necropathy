@@ -45,6 +45,10 @@ var vars: Dictionary = {}
 var squash_until: float = 0.0
 ## Horizontal facing: -1 left, 1 right (visual only).
 var facing: float = 1.0
+## Damage multiplier (0..1) while suppressed (TdCombat.suppress_tower) and its end (game s; 0 = none).
+var suppress_mult: float = 1.0
+## See suppress_mult.
+var suppress_until: float = 0.0
 ## Body layers (UnitLayer children): one per drawn unit (blockers: one per body),
 ## mirrored and squashed by node scale. Visual only.
 var layers: Array[UnitLayer] = []
@@ -92,6 +96,8 @@ func recompute() -> void:
 				mult[k] = float(mult[k]) * float(fx[k])
 	if game.rule != null:
 		mult["damage"] = float(mult["damage"]) * game.rule.tower_damage_mult(self)
+	if game.time < suppress_until:
+		mult["damage"] = float(mult["damage"]) * suppress_mult
 	if game.time < game.rally_until:
 		mult["damage"] = float(mult["damage"]) * float(SpellData.ULTIMATE["damage_mult"])
 		mult["rate"] = float(mult["rate"]) * float(SpellData.ULTIMATE["rate_mult"])
@@ -112,6 +118,13 @@ func recompute() -> void:
 
 ## One fixed step: the behaviour acts.
 func step(dt: float) -> void:
+	if suppress_until > 0.0:
+		if game.time >= suppress_until:
+			suppress_until = 0.0
+			suppress_mult = 1.0
+			recompute()
+		else:
+			game.stats["suppressed_s"] = float(game.stats.get("suppressed_s", 0.0)) + dt
 	behavior.step(self, dt)
 
 
@@ -149,6 +162,8 @@ func pick_target() -> TdEnemy:
 			"last": score = -game.progress(e)
 			"strongest": score = e.hp + game.progress(e) * 0.001
 			"nearest": score = -position.distance_squared_to(e.position)
+		if bool(e.row.get("structure", false)):
+			score -= 1.0e7  # Structures (ward generators, crystals) only when nothing else is in range.
 		if score > best_score:
 			best_score = score
 			best = e

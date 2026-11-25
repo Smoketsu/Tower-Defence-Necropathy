@@ -21,7 +21,7 @@ func step(t: Tower, _dt: float) -> void:
 		rings.pop_front()
 	if not waves.is_empty() or not (t.vars.get("rings", []) as Array).is_empty():
 		t.queue_redraw()
-	if not waves.is_empty() or t.game.time < t.next_fire or t.game.enemies_near(t.position, float(t.stats["range"])).is_empty():
+	if not waves.is_empty() or t.game.time < t.next_fire or t.game.foes_near(t.position, float(t.stats["range"])).is_empty():
 		return
 	t.next_fire = t.game.time + float(t.stats["interval"])
 	t.shots += 1
@@ -36,7 +36,7 @@ func _wail(t: Tower, r: float) -> void:
 	t.squash_until = t.game.time + TowerData.FIRE_SQUASH_TIME
 	t.game.sound_fire(t.tower_id)
 	var silence := float(t.stats.get("silence_time", 0.0))  # Keening Lady silence (0 = none).
-	for e: TdEnemy in t.game.enemies_near(t.position, r):
+	for e: TdEnemy in t.game.foes_near(t.position, r):
 		TdCombat.damage_enemy(t.game, e, float(t.stats["damage"]), {"source": t.tower_id, "tower": t})
 		if e.alive:
 			TdCombat.slow_enemy(t.game, e, float(t.stats["slow"]), float(t.stats["slow_time"]))

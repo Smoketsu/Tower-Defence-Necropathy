@@ -95,7 +95,7 @@ const TOWERS: Dictionary = {
 		"cost": 90,  # TUNING (not in GDD)
 		"behavior": "frost_wraith",
 		"range": 125.0,  # TUNING (not in GDD)
-		"damage": 5.0,  # TUNING (not in GDD)
+		"damage": 8.0,  # TUNING (not in GDD) integration: 5 did almost nothing
 		"interval": 1.0,  # TUNING (not in GDD)
 		"target": "first",
 		"projectile": "projectiles/frost_bolt", "projectile_speed": 420.0,  # TUNING (not in GDD)
@@ -170,7 +170,7 @@ const TOWERS: Dictionary = {
 		"cost": 110,  # TUNING (not in GDD)
 		"behavior": "abomination",
 		"range": 40.0,  # TUNING (not in GDD)
-		"damage": 14.0,  # TUNING (not in GDD)
+		"damage": 22.0,  # TUNING (not in GDD) integration: 14 barely registered
 		"interval": 1.4,  # TUNING (not in GDD)
 		"target": "first",
 		"bodies": 1,

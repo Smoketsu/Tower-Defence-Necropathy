@@ -47,23 +47,23 @@ func _aim_target(t: Tower) -> TdEnemy:
 	var mode := t.pick_target()  # The targeting mode's pick (tie-break).
 	var best: TdEnemy = null  # Best candidate.
 	var best_score := -1.0  # Its pack score.
-	for e: TdEnemy in t.game.enemies_near(t.position, float(t.stats["range"])):
+	for e: TdEnemy in t.game.foes_near(t.position, float(t.stats["range"])):
 		var score := 0.0  # Pack weight around e.
-		for o: TdEnemy in t.game.enemies_near(e.position, float(t.stats["splash"])):
+		for o: TdEnemy in t.game.foes_near(e.position, float(t.stats["splash"])):
 			score += 2.0 if aim_status != "" and Synergies.has_status(o, aim_status, t.game) else 1.0
 		if e == mode:
 			score += 0.5
 		if score > best_score:
 			best_score = score
 			best = e
-	return best
+	return best if best != null else mode  # Only structures in range: the targeting pick.
 
 
 func volley(t: Tower, target: TdEnemy) -> void:
 	var v: Dictionary = t.stats.get("volley", {})  # The class's volley row.
 	if v.is_empty() or t.level < 3 or t.shots % int(v["every"]) != 0:
 		return
-	var others := t.game.enemies_near(t.position, float(t.stats["range"]))  # Candidates.
+	var others := t.game.foes_near(t.position, float(t.stats["range"]))  # Candidates.
 	for i in int(v["count"]):
 		var e: TdEnemy = others[(i + 1) % others.size()] if others.size() > 1 else target  # Its target.
 		t.game.projectiles.fire_at(t, lead(e, float(t.stats["arc_time"])), float(t.stats["arc_time"]),

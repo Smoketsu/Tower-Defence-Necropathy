@@ -74,13 +74,18 @@ var _look: int = 0
 var curse_mult: float = 1.0
 ## See curse_mult.
 var curse_until: float = 0.0
-## Game time (s) until which it is silenced: healer traits must skip their heals
-## (Keening Lady; query TdCombat.is_silenced()).
+## Game time (s) until which it is silenced: it cannot heal or revive others
+## (Keening Lady / Banshee; healer traits ask EnemyTrait.can_heal()).
 var silenced_until: float = 0.0
 ## Game time (s) until which it is staggered by a stomp (no attacks; Killing Field reads it).
 var staggered_until: float = 0.0
 ## Pose shown by a boss sprite (BossPoseData: 0 walk, 1 windup, 3 strike); set by its trait.
 var pose: int = 0
+## Multiplier (0..1) on the damage it takes while warded (Sun Paladin aura, Holy Ward
+## Generators; TdCombat.ward_enemy, the strongest ward wins) and the ward's end (game s).
+var ward_mult: float = 1.0
+## See ward_mult.
+var ward_until: float = 0.0
 
 
 func _ready() -> void:
@@ -115,6 +120,8 @@ func activate(p_kind: String, road: Road, d: float, lane: float, hp_mult: float,
 	curse_until = 0.0
 	silenced_until = 0.0
 	staggered_until = 0.0
+	ward_mult = 1.0
+	ward_until = 0.0
 	dots.clear()
 	vars.clear()
 	wave = p_wave
@@ -212,6 +219,8 @@ func _fight() -> void:
 	if holder.taunt_by != null and holder.taunt_by.alive and game.time < holder.taunt_until:
 		target = holder.taunt_by
 	TdCombat.damage_body(game, target, float(row["damage"]) * damage_mult() * TdRulesData.BLOCKER_HIT_MULT)
+	if traits != null and alive:
+		traits.on_attack(self, game, target)
 
 
 ## Moves the node to the follower and updates facing and walk frame (visual).

@@ -157,6 +157,18 @@ the five GDD §11 sounds are synthesized (`TdSoundData.SOUNDS`, Sfx pack "td").
 Hooks added: `TowerBehavior.impact(t, shot, victims)`, `TdProjectiles.fire_at()`
 (lobbed, telegraphed) and `add_field()` (ground damage fields),
 `TdGame.enemy_killed(e, tower)` signal, `TdCombat.curse_enemy / silence_enemy /
-is_silenced / stagger_enemy`. **Healer traits must skip their heal while
-`TdCombat.is_silenced(game, e)` is true** (Keening Lady). `TdRulesData.BLOCKER_HIT_MULT`
+stagger_enemy`. **Healer traits must skip their heal unless
+`EnemyTrait.can_heal(e, game)`** (the one silence test). `TdRulesData.BLOCKER_HIT_MULT`
 scales held enemies' hits on blockers. Self-check: `tools/towers_check.tscn`.
+
+## Status (gw-maps branch)
+
+Built: Crimson March and Sanctum maps with their rules (Holy Ward Generators,
+sanctified chambers), all ten Act I enemy traits, the Templar Commander and
+Cathedral Guardian minibosses, Marshal Vael, Grand Inquisitor Seraphine,
+Alaric's interval charge, map unlock data (`unlock_after`), the Reckoning
+endless mode (`--reckoning`), build orders `march_default` / `march_weak` /
+`sanctum_default` / `sanctum_weak`. New one-path helpers: `TdCombat.ward_enemy`,
+`silence_enemy`, `suppress_tower`; EnemyTrait `on_attack` hook and `note()`;
+`TdGame.spawn_at()`, `WaveDirector.spawn_extra()`; `MapRule.summary()` /
+`finish_structures()`; enemy row key `structure`.

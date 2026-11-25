@@ -21,7 +21,7 @@ var _last_gen: int = -1
 func impact(t: Tower, shot: TdProjectiles.Shot, _victims: Array[TdEnemy]) -> void:
 	if shot.freeze_time <= 0.0:
 		return
-	for e: TdEnemy in t.game.enemies_near(shot.pos, float(t.stats["freeze_radius"])):
+	for e: TdEnemy in t.game.foes_near(shot.pos, float(t.stats["freeze_radius"])):
 		TdCombat.freeze_enemy(t.game, e, shot.freeze_time)
 	t.game.fx.spawn("frost_nova", shot.pos, float(t.stats["freeze_radius"]) * 2.0, 0.4)
 	t.game.stats["deep_freezes"] = int(t.game.stats.get("deep_freezes", 0)) + 1

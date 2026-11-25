@@ -59,7 +59,7 @@ func volley(t: Tower, target: TdEnemy) -> void:
 	var v: Dictionary = t.stats.get("volley", {})  # The class's volley row.
 	if v.is_empty() or t.level < 3 or t.shots % int(v["every"]) != 0:
 		return
-	var others := t.game.enemies_near(t.position, float(v.get("reach", t.stats["range"])))  # Candidates (blockers: the volley's own reach).
+	var others := t.game.foes_near(t.position, float(v.get("reach", t.stats["range"])))  # Candidates (blockers: the volley's own reach).
 	for i in int(v["count"]):
 		var e: TdEnemy = others[i % others.size()] if not others.is_empty() else target  # Its target.
 		t.game.projectiles.fire(t, e, float(t.stats["damage"]) * float(v["damage"]), String(v["sprite"]), v["tint"], true)

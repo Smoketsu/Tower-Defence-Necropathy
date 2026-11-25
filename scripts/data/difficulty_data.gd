@@ -15,6 +15,6 @@ const ORDER: Array[String] = ["initiate", "necromancer", "lich", "deathlord"]
 const LEVELS: Dictionary = {
 	"initiate": {"name": "Initiate", "hp_mult": 0.75, "count_mult": 0.85, "ash_mult": 0.75},  # TUNING (not in GDD)
 	"necromancer": {"name": "Necromancer", "hp_mult": 1.0, "count_mult": 1.0, "ash_mult": 1.0},  # GDD §8.2 baseline
-	"lich": {"name": "Lich", "hp_mult": 1.35, "count_mult": 1.15, "ash_mult": 1.5},  # TUNING (not in GDD)
-	"deathlord": {"name": "Deathlord", "hp_mult": 1.8, "count_mult": 1.3, "ash_mult": 2.0},  # TUNING (not in GDD)
+	"lich": {"name": "Lich", "hp_mult": 1.1, "count_mult": 1.1, "ash_mult": 1.5},  # TUNING (not in GDD)
+	"deathlord": {"name": "Deathlord", "hp_mult": 1.5, "count_mult": 1.3, "ash_mult": 2.0},  # TUNING (not in GDD)
 }
