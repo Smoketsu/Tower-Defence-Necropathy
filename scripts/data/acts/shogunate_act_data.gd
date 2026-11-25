@@ -134,7 +134,7 @@ const KINDS: Dictionary = {
 	# Road to the Sun miniboss: the Kirin, a holy beast of light that dazzles towers and wards its kin.
 	"kirin": {
 		"name": "The Kirin", "sprite": "shogunate/kirin", "rank": "miniboss",
-		"hp": 2900.0, "speed": 36.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD)
+		"hp": 2500.0, "speed": 36.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD)
 		"damage": 22.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "shogunate/kirin",
 		"args": {"first": 4.0, "every": 7.0, "radius": 140.0, "blind": 2.0, "ward": 0.7, "ward_radius": 110.0, "ward_time": 6.0},  # TUNING (not in GDD)

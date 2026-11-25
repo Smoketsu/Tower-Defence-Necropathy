@@ -1,7 +1,7 @@
 ## The Road to the Sun (Act V map 3, the finale; Necropathy stage "sun_road"):
 ## a pilgrim road of torii gates climbing to the sun goddess's shrine. One
 ## long switchback road (four runs, bottom to top), so each row of plots
-## covers two runs. 14 plots, 6 posts, 24 waves. The Sun's Course: dusk from
+## covers two runs. 15 plots, 6 posts, 24 waves. The Sun's Course: dusk from
 ## wave 8, night from wave 14. The Kirin (miniboss, chest) on wave 12;
 ## Amaterasu on wave 24: she forces day at dawn and noon and the eclipse
 ## (night) at sunset. Beating her unlocks the Bound Oni tower.
@@ -16,34 +16,34 @@ const MAP: Dictionary = {
 	"floor": "tiles/sun_road_torii",
 	"decals": [],
 	"obstacles": [
-		["obstacles/torii_post_l", Vector2(60, 610)], ["obstacles/torii_post_l", Vector2(110, 610)],
-		["obstacles/cloud_rock_l", Vector2(1220, 690)], ["obstacles/black_pine_l", Vector2(640, 570)],
-		["obstacles/torii_post_s", Vector2(1150, 380)], ["obstacles/sun_mirror_s", Vector2(700, 410)],
+		["obstacles/torii_post_l", Vector2(60, 660)], ["obstacles/torii_post_l", Vector2(110, 660)],
+		["obstacles/cloud_rock_l", Vector2(1220, 690)], ["obstacles/black_pine_l", Vector2(1220, 600)],
+		["obstacles/torii_post_s", Vector2(1150, 370)], ["obstacles/sun_mirror_s", Vector2(180, 190)],
 		["obstacles/cloud_rock_m", Vector2(60, 250)], ["obstacles/black_pine_s", Vector2(300, 250)],
-		["obstacles/torii_post_l", Vector2(1100, 110)], ["obstacles/sun_mirror_l", Vector2(600, 120)],
+		["obstacles/torii_post_l", Vector2(1000, 110)], ["obstacles/sun_mirror_l", Vector2(600, 120)],
 		["obstacles/cloud_rock_s", Vector2(260, 110)], ["obstacles/burning_censer_s", Vector2(840, 110)],
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 650), Vector2(1000, 650), Vector2(1060, 590), Vector2(1060, 550),
-				Vector2(1000, 490), Vector2(300, 490), Vector2(240, 430), Vector2(240, 390),
-				Vector2(300, 330), Vector2(1000, 330), Vector2(1060, 270), Vector2(1060, 230),
+			"points": [Vector2(-40, 590), Vector2(1000, 590), Vector2(1060, 530), Vector2(1060, 510),
+				Vector2(1000, 450), Vector2(300, 450), Vector2(240, 390), Vector2(240, 370),
+				Vector2(300, 310), Vector2(1000, 310), Vector2(1060, 250), Vector2(1060, 230),
 				Vector2(1120, 170), Vector2(1190, 170)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 	},
 	"gate": Vector2(1218, 140),
 	"plots": [
-		Vector2(200, 580), Vector2(480, 580), Vector2(760, 580), Vector2(1140, 600), Vector2(560, 410),
-		Vector2(820, 410), Vector2(160, 330), Vector2(1150, 480), Vector2(440, 250), Vector2(700, 250),
-		Vector2(950, 250), Vector2(1150, 250), Vector2(1000, 410), Vector2(380, 410),
+		Vector2(200, 520), Vector2(480, 520), Vector2(760, 520), Vector2(900, 660), Vector2(560, 380),
+		Vector2(820, 380), Vector2(150, 380), Vector2(1150, 450), Vector2(440, 240), Vector2(700, 240),
+		Vector2(950, 240), Vector2(1150, 260), Vector2(1000, 380), Vector2(380, 380), Vector2(300, 660),
 	],
-	"posts": [Vector2(600, 650), Vector2(1060, 570), Vector2(500, 490), Vector2(240, 410), Vector2(800, 330), Vector2(1150, 170)],
-	"lanterns": [Vector2(320, 700), Vector2(880, 700), Vector2(1130, 520), Vector2(660, 440), Vector2(170, 450), Vector2(520, 280), Vector2(900, 280), Vector2(1120, 110)],
+	"posts": [Vector2(600, 590), Vector2(1060, 520), Vector2(500, 450), Vector2(240, 380), Vector2(800, 310), Vector2(1150, 170)],
+	"lanterns": [Vector2(420, 640), Vector2(1000, 640), Vector2(1130, 560), Vector2(660, 400), Vector2(170, 460), Vector2(520, 260), Vector2(860, 260), Vector2(1120, 110)],
 	"ambush": [["main", 700.0], ["main", 1500.0], ["main", 2200.0]],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD)
-	"wave_hp_end": 3.4,  # TUNING (not in GDD) the act's finale presses hardest
+	"wave_hp_end": 3.6,  # TUNING (not in GDD) the act's finale presses hardest
 	"rule": "",
 	"act_rule": "shogunate/sun_course",
 	"build_order": "sun_road_default",
