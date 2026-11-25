@@ -22,6 +22,14 @@ var run_seed: int = 1
 var autotest_speed: int = 8
 ## Autotest build order id (BuildOrderData.ORDERS key; "" = the map's default).
 var autotest_build: String = ""
+## Autotest meta profile: "" (the save under --meta-save, else none), "none" or "max" (every upgrade and mastery).
+var autotest_meta: String = ""
+## True with --meta-save: the autotest reads and writes the real save file.
+var meta_save: bool = false
+## Character id of the run (CharacterData key; --character= in the autotest).
+var character: String = CharacterData.DEFAULT_ID
+## Spells of the run in slot order (empty = SpellData.DEFAULT_LOADOUT).
+var loadout: Array[String] = []
 
 
 func _init() -> void:
@@ -36,3 +44,6 @@ func _init() -> void:
 			"--difficulty": difficulty = v
 			"--build": autotest_build = v
 			"--effects": autotest_effects = v
+			"--meta": autotest_meta = v
+			"--meta-save": meta_save = true
+			"--character": character = v

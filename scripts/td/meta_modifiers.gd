@@ -1,14 +1,18 @@
 ## MetaModifiers: the one path through which permanent progression (the
-## Ossuary, GDD §8.2) changes a run. No meta save exists yet, so every value
-## is the baseline; the Ossuary agent fills `bonuses` from the save and adds
-## keys here, never elsewhere.
+## Ossuary and Masteries, GDD §8.2) changes a run. Meta fills `bonuses` and
+## `masteries` from the save (or the autotest from --meta); empty = a fresh
+## save = the baseline game. Every key is an Ossuary upgrade id
+## (MetaData.UPGRADES) whose value is its owned level x its "per".
 class_name MetaModifiers
 extends RefCounted
 
-## Owned upgrade values, key -> value (empty = a fresh save). Keys read below:
+## Owned upgrade values, upgrade id -> level x per (empty = a fresh save):
 ##   start_souls (+souls), lives (+lives), sell_refund (+fraction),
-##   spell_cooldown (fraction off, 0..0.5), respawn (fraction off, 0..0.5).
+##   spell_cooldown (fraction off, 0..0.5), spell_slot (+slots), respawn
+##   (fraction off, 0..0.5), tree_ranged / tree_aura / tree_blocker (+fraction).
 static var bonuses: Dictionary = {}
+## Tower class ids whose Mastery is open (each true).
+static var masteries: Dictionary = {}
 
 
 ## Souls at the start of a map whose base is `base`.
@@ -34,3 +38,40 @@ static func spell_cooldown_mult() -> float:
 ## Multiplier on every blocker respawn time.
 static func respawn_mult() -> float:
 	return 1.0 - float(bonuses.get("respawn", 0.0))
+
+
+## Spell slots brought into a map (3, or 4 with the Fourth Rite).
+static func spell_slots() -> int:
+	return 3 + int(bonuses.get("spell_slot", 0))
+
+
+## The family ("ranged" / "aura" / "blocker", MetaData.FAMILIES) of tower row `r`.
+static func family(r: Dictionary) -> String:
+	if String(r.get("spot", "")) == "post":
+		return "blocker"
+	return "aura" if String(r.get("behavior", "")) == "aura" else "ranged"
+
+
+## Scales tower `t`'s stat multipliers `mult` (Tower.recompute()) by its
+## family tree and its class Mastery.
+static func apply_tower(t: Tower, mult: Dictionary) -> void:
+	if bonuses.is_empty() and masteries.is_empty():
+		return
+	var fam: Array = MetaData.FAMILIES[family(t.row)]  # [tree id, stat key].
+	var m := 1.0 + float(bonuses.get(String(fam[0]), 0.0))  # Tree multiplier.
+	if masteries.has(t.tower_id):
+		m *= MetaData.MASTERY_MULT
+	mult[String(fam[1])] = float(mult[String(fam[1])]) * m
+	if family(t.row) == "aura":
+		mult["hp"] = float(mult["hp"]) * m  # Aura heals scale with "hp" in Tower.recompute().
+
+
+## Every upgrade at its max level and every class mastered (--meta=max).
+static func set_max() -> void:
+	bonuses.clear()
+	for id: String in MetaData.UPGRADES:
+		var u: Dictionary = MetaData.UPGRADES[id]
+		bonuses[id] = float(u["per"]) * float((u["costs"] as Array).size())
+	masteries.clear()
+	for id: String in TowerData.TOWERS:
+		masteries[id] = true

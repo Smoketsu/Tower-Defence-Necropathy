@@ -90,6 +90,8 @@ func recompute() -> void:
 				hold_bonus += int(fx[k])
 			else:
 				mult[k] = float(mult[k]) * float(fx[k])
+	MetaModifiers.apply_tower(self, mult)  # Ossuary trees and Masteries.
+	CharacterModifiers.apply_tower(self, mult)  # The character's innate.
 	if game.rule != null:
 		mult["damage"] = float(mult["damage"]) * game.rule.tower_damage_mult(self)
 	if game.time < game.rally_until:

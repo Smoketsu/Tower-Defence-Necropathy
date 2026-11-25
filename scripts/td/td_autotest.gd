@@ -24,8 +24,23 @@ var _order_id: String = ""
 
 
 func _ready() -> void:
+	Meta.load_save()  # A fresh save unless --meta-save (never touches user:// otherwise).
+	if GameState.autotest_meta == "max":
+		MetaModifiers.set_max()
+	elif GameState.autotest_meta == "none":
+		MetaModifiers.bonuses.clear()
+		MetaModifiers.masteries.clear()
+	CharacterModifiers.current = GameState.character if CharacterData.CHARACTERS.has(GameState.character) else CharacterData.DEFAULT_ID
+	var spells: Array[String] = SpellData.DEFAULT_LOADOUT.duplicate()  # Three spells, then the meta slot.
+	for id: String in SpellData.SPELLS:
+		if spells.size() < MetaModifiers.spell_slots() and not spells.has(id):
+			spells.append(id)
 	game = TdGame.new()
-	game.setup(GameState.map_id, GameState.difficulty, GameState.run_seed)
+	game.setup(GameState.map_id, GameState.difficulty, GameState.run_seed, CharacterModifiers.loadout(spells))
+	if GameState.meta_save:
+		var watch := RunWatch.new()  # Codex and masteries into the real save.
+		watch.game = game
+		game.add_child(watch)
 	_order_id = GameState.autotest_build if GameState.autotest_build != "" else String(game.map["build_order"])
 	if not BuildOrderData.ORDERS.has(_order_id):
 		push_error("TdAutotest: unknown build order '%s'" % _order_id)
@@ -114,6 +129,8 @@ func _cast_spells() -> void:
 
 
 func _on_ended(_won: bool) -> void:
+	if GameState.meta_save:
+		Meta.record_run(game)
 	_summary("won" if game.won else "lost")
 	get_tree().quit(0)
 
@@ -147,6 +164,8 @@ func _summary(result: String) -> void:
 		var clear := float(r["cleared"]) - float(r["start"]) if float(r["cleared"]) >= 0.0 else -1.0  # Seconds to clear.
 		wd.append("w%d:%.1f/%.1f%s" % [i + 1, spawn, clear, "L" if bool(r["leaked"]) else ""])
 	lines.append("wave_spawn/clear_s=%s" % " ".join(wd))
+	lines.append("meta=%s character=%s loadout=%s ash=%d bonuses=%s masteries=%d saved=%s" % [GameState.autotest_meta if GameState.autotest_meta != "" else "save" if GameState.meta_save else "none",
+		CharacterModifiers.current, ",".join(game.caster.loadout), Meta.ash_for(game), _sorted(MetaModifiers.bonuses), MetaModifiers.masteries.size(), str(GameState.meta_save)])
 	lines.append("stuck_enemies=%d alive_at_end=%d" % [int(game.stats["stuck"]), game.enemies.size()])
 	for l: String in lines:
 		print(l)
