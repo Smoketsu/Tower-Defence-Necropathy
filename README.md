@@ -9,7 +9,15 @@ The design is `docs/GDD.md`; decisions it does not cover are in
 
 ## How it plays
 
-- **Title -> map select (map + difficulty) -> map.** One fixed screen per map.
+- **Title -> map select -> pre-map setup -> map.** One fixed screen per map. The
+  title also opens the Codex, the Ossuary, Settings and Credits. The map select
+  shows each map's lock, best skulls per difficulty and best Reckoning wave; the
+  setup picks the character, the spells (3, or 4 with the Fourth Rite), the
+  ultimate and the difficulty (with its Soul Ash multiplier).
+- **Meta (GDD §8.2):** Soul Ash from every run (by skulls and difficulty on a
+  clear, by waves on a defeat) buys Ossuary upgrades; a class at Lv 5 opens its
+  Mastery; a map's boss opens the next map. Saved in `user://gravewatch_save.cfg`
+  (Settings -> Save gives a backup code).
 - **Waves stream in back to back** (owner decision): enemies are tightly spaced
   inside a wave and the next wave starts by itself `TdRulesData.AUTO_GAP` (5 s)
   after the previous wave's last spawn. The first wave waits for **Call**; Call
@@ -30,7 +38,9 @@ The design is `docs/GDD.md`; decisions it does not cover are in
 - **Lives:** fodder 1, elite 3, miniboss 5, a boss ends the map. The mid-map
   miniboss drops a **chest** = one free upgrade or evolution. The stage boss
   walks the road on the final wave. A win is rated 1-3 skulls by lives kept.
-- **Speed** x1 / x2 / x3 (Tab), **Pause** (Esc), Call (Enter). Mouse and touch.
+- **Speed** x1 / x2 / x3 (Tab), **Pause** (Esc), Call (Enter). Mouse, touch
+  and gamepad (stick jumps between spots, A selects, X / Y / B spells, LB
+  ultimate, RB call, Start pause). Keys are rebindable in Settings.
 
 ## Architecture
 
@@ -45,8 +55,12 @@ scripts/
   fx/                    copied: sharp_pixel.gdshader, unit_layer.gd (a draw-callback layer, reused everywhere)
   ui/                    copied: ui_theme, kit_style_box, ui_motion, confirm_dialog, input_hints, touch_support,
                          rotate_overlay (+ chamfer() from Necropathy's TouchControls)
-  ui/td/                 new screens: title_screen, title_backdrop, map_select, td_hud, spell_button,
-                         spot_menu, pause_menu, results_screen
+  ui/td/                 new screens: menu_screen (shared frame), title_screen, title_backdrop, map_select,
+                         prerun_setup, ossuary_screen, codex_screen, settings_screen, credits_screen,
+                         td_hud, spell_button, spot_menu, spot_cursor (gamepad), map_hints (range /
+                         synergy preview), pause_menu, results_screen
+  core/meta.gd           the save file and records (Soul Ash, Ossuary, masteries, clears, skulls, Codex);
+                         core/run_watch.gd records a run's Codex entries and masteries; core/save_backup.gd
   data/                  copied Necropathy data (sprite/ui/sound/menu-theme/touch/input/effects/walk/idle/boss-pose)
                          new Gravewatch data, no logic:
                            td_art_data (art role -> PNG), td_rules_data (clock, lives, pacing, skulls),
@@ -86,6 +100,13 @@ $G --headless --fixed-fps 60 --quit-after 40000 -- --autotest [--map=graveyard] 
 | `--speed=` | fixed steps per physics frame, 1-64 (default 8; the result does not depend on it) |
 | `--difficulty=` | DifficultyData id (default `necromancer`) |
 | `--build=` | BuildOrderData id (default: the map's `build_order`; `weak` = the bad placement order) |
+| `--meta=` | `none` (default without a save) or `max` (every Ossuary upgrade and Mastery) |
+| `--meta-save` | read and write the real save (records the run, Codex, masteries) |
+| `--character=` | CharacterData id (default `gravecaller`; its spell goes to slot 1) |
+
+The summary's `meta=` line names the meta profile, character, loadout, the Soul
+Ash the run would pay and the active bonuses. `godot --headless tools/meta_check.tscn -- --autotest`
+self-checks the Ossuary, unlocks and character paths.
 
 It prints a `TDAUTOTEST SUMMARY` (result, skulls, waves cleared, lives, souls
 earned / spent, kills / leaks by kind, damage by source, every tower, wave
@@ -102,8 +123,7 @@ python3 tools/patch_web_audio.py build/web/index.js   # always; also runs the GL
 
 ## Known limits
 
-- Only the Graveyard is built; Corpse Explosion / Plague Cloud, the Ossuary,
-  Codex, Settings screen, character pick and saves are not (see CLAUDE.md "Status").
-- The spot menu can cover a neighbouring spot (tap elsewhere to close it first).
+- Only the Graveyard is built; Corpse Explosion / Plague Cloud are not (see CLAUDE.md "Status").
+- The gamepad cursor is untested on real hardware (no pad in the test browser).
 - Balance is a first pass: the default build order clears the Graveyard with
   19-20 lives on seeds 1-2 and the result is sensitive to enemy HP.
