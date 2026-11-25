@@ -84,10 +84,10 @@ const KINDS: Dictionary = {
 	# Kiba-musha: mounted samurai; a charge breaks free of the post and runs on.
 	"kiba_musha": {
 		"name": "Kiba-musha", "sprite": "shogunate/kiba_musha", "rank": "elite",
-		"hp": 380.0, "speed": 54.0, "armour": 3.0, "radius": 15.0,  # TUNING (not in GDD)
+		"hp": 320.0, "speed": 50.0, "armour": 3.0, "radius": 15.0,  # TUNING (not in GDD)
 		"damage": 16.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "shogunate/cavalry",
-		"args": {"charge_first": 3.0, "charge_every": 8.0, "charge_time": 1.3, "speed_mult": 2.0, "charge_damage": 35.0},  # TUNING (not in GDD)
+		"args": {"charge_first": 3.0, "charge_every": 9.0, "charge_time": 1.0, "speed_mult": 1.8, "charge_damage": 35.0, "charges": 1},  # TUNING (not in GDD)
 	},
 	# Kitsune: conjures fox-fire illusions of herself that soak the towers' shots.
 	"kitsune": {
@@ -126,10 +126,10 @@ const KINDS: Dictionary = {
 	# Kurogane miniboss: the General of the Left, a cavalry charge that bowls through a post.
 	"general_left": {
 		"name": "The General of the Left", "sprite": "shogunate/general_left", "rank": "miniboss",
-		"hp": 3800.0, "speed": 34.0, "armour": 5.0, "radius": 26.0,  # TUNING (not in GDD)
+		"hp": 1500.0, "speed": 30.0, "armour": 5.0, "radius": 26.0,  # TUNING (not in GDD)
 		"damage": 22.0, "attack_interval": 1.4,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "shogunate/cavalry",
-		"args": {"charge_first": 3.0, "charge_every": 7.0, "charge_time": 1.5, "speed_mult": 2.2, "charge_damage": 70.0},  # TUNING (not in GDD)
+		"args": {"charge_first": 3.0, "charge_every": 8.0, "charge_time": 1.2, "speed_mult": 2.0, "charge_damage": 60.0, "charges": 2},  # TUNING (not in GDD)
 	},
 	# Road to the Sun miniboss: the Kirin, a holy beast of light that dazzles towers and wards its kin.
 	"kirin": {
@@ -163,7 +163,7 @@ const KINDS: Dictionary = {
 		"hp": 12000.0, "speed": 30.0, "armour": 5.0, "radius": 24.0,  # TUNING (not in GDD)
 		"damage": 34.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "shogunate/shogun",
-		"args": {"stand_dist": 110.0, "regiment_first": 2.0, "regiment_every": 10.0, "regiment_spacing": 0.8,
+		"args": {"stand_dist": 110.0, "regiment_first": 2.0, "regiment_every": 10.0, "regiment_gap": 24.0,
 			"regiments": [["teppo_gunner", 7], ["ashigaru", 12], ["kiba_musha", 4], ["ninja", 6], ["samurai", 6], ["sohei", 5]],
 			"hatamoto_kind": "hatamoto", "guard_mult": 0.1, "points_frac": 0.9, "duel_hp": 0.1,
 			"cut_every": 3.0, "cut_every_min": 1.4, "cut_damage": 110.0, "cut_reach": 150.0, "triple_hp": 0.04, "pose_time": 0.7},  # TUNING (not in GDD) Necropathy: six regiments, duel under 10%
@@ -267,10 +267,12 @@ const ORDERS: Dictionary = {
 			{"do": "build", "spot": "plot:3", "tower": "corpse_catapult"},
 			{"do": "target", "spot": "plot:3", "mode": "strongest"},
 			{"do": "build", "spot": "post:3", "tower": "warrior"},
+			{"do": "build", "spot": "post:1", "tower": "warrior"},
 			{"do": "upgrade", "spot": "plot:6"},
 			{"do": "upgrade", "spot": "plot:7"},
 			{"do": "upgrade", "spot": "plot:8"},
 			{"do": "build", "spot": "plot:15", "tower": "mage"},
+			{"do": "build", "spot": "post:0", "tower": "warrior"},
 			{"do": "build", "spot": "plot:10", "tower": "archer"},
 			{"do": "upgrade", "spot": "plot:3"},
 			{"do": "build", "spot": "plot:5", "tower": "banshee"},
@@ -470,10 +472,12 @@ const ORDERS: Dictionary = {
 				{"do": "build", "spot": "plot:3", "tower": "corpse_catapult"},
 				{"do": "target", "spot": "plot:3", "mode": "strongest"},
 				{"do": "build", "spot": "post:3", "tower": "bound_oni"},
+				{"do": "build", "spot": "post:1", "tower": "bound_oni"},
 				{"do": "upgrade", "spot": "plot:6"},
 				{"do": "upgrade", "spot": "plot:7"},
 				{"do": "upgrade", "spot": "plot:8"},
 				{"do": "build", "spot": "plot:15", "tower": "mage"},
+				{"do": "build", "spot": "post:0", "tower": "bound_oni"},
 				{"do": "build", "spot": "plot:10", "tower": "archer"},
 				{"do": "upgrade", "spot": "plot:3"},
 				{"do": "build", "spot": "plot:5", "tower": "banshee"},
@@ -521,6 +525,8 @@ const ORDERS: Dictionary = {
 				{"do": "upgrade", "spot": "post:2"},
 				{"do": "evolve", "spot": "post:2"},
 				{"do": "evolve", "spot": "post:3"},
+				{"do": "evolve", "spot": "post:1"},
+				{"do": "evolve", "spot": "post:0"},
 				{"do": "evolve", "spot": "post:4"},
 			],
 			"sun_road": [

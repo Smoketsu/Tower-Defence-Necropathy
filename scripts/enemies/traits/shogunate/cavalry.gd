@@ -3,8 +3,9 @@
 ## (first after `charge_first`), once a post holds it, it charges: the body
 ## holding it takes `charge_damage` (x its weaken), it breaks free and gallops
 ## on at `speed_mult` for `charge_time` s, unholdable (TdEnemy.unholdable_until).
-## Args: charge_first, charge_every, charge_time (s), speed_mult, charge_damage.
-## vars: "next_charge" (game s).
+## It charges at most `charges` times. Args: charge_first, charge_every,
+## charge_time (s), speed_mult, charge_damage, charges.
+## vars: "next_charge" (game s), "charged" (count).
 extends EnemyTrait
 
 
@@ -13,10 +14,11 @@ func on_spawn(e: TdEnemy, game: TdGame) -> void:
 
 
 func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
-	if e.holder == null or game.time < float(e.vars["next_charge"]) or game.time < e.freeze_until or game.time < e.staggered_until:
+	if e.holder == null or int(e.vars.get("charged", 0)) >= int(e.row["args"]["charges"]) or game.time < float(e.vars["next_charge"]) or game.time < e.freeze_until or game.time < e.staggered_until:
 		return
 	var a: Dictionary = e.row["args"]  # Its numbers.
 	e.vars["next_charge"] = game.time + float(a["charge_every"])
+	e.vars["charged"] = int(e.vars.get("charged", 0)) + 1
 	var b := e.holder  # The body it rides down.
 	TdCombat.damage_body(game, b, float(a["charge_damage"]) * e.damage_mult(), e)
 	if e.holder != null:

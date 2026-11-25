@@ -50,7 +50,7 @@ const MAP: Dictionary = {
 	"ambush": [["north", 520.0], ["south", 500.0], ["keep", 360.0]],
 	"lives": 0,
 	"souls": 280,  # TUNING (not in GDD)
-	"wave_hp_end": 3.2,  # TUNING (not in GDD) rising through the act
+	"wave_hp_end": 2.5,  # TUNING (not in GDD) rising through the act
 	"rule": "",
 	"act_rule": "shogunate/sun_course",
 	"build_order": "kurogane_default",
@@ -65,12 +65,12 @@ const MAP: Dictionary = {
 		{"banner": "", "groups": [{"kind": "hatamoto", "count": 1, "spacing": 1.0, "road": "south"}, {"kind": "samurai", "count": 8, "spacing": 1.2, "delay": 0.5, "road": "south"}, {"kind": "kiba_musha", "count": 2, "spacing": 4.0, "delay": 3.0}]},
 		{"banner": "", "groups": [{"kind": "ashigaru", "count": 22, "spacing": 0.55}, {"kind": "teppo_gunner", "count": 10, "spacing": 1.0, "delay": 3.0, "road": "south"}]},
 		{"banner": "Dusk over the gatehouse: ninja in the courtyards!", "groups": [{"kind": "ninja", "count": 8, "spacing": 1.3}, {"kind": "samurai", "count": 8, "spacing": 1.2, "delay": 2.0, "road": "south"}]},
-		{"banner": "", "groups": [{"kind": "kiba_musha", "count": 4, "spacing": 3.0}, {"kind": "hatamoto", "count": 1, "spacing": 1.0, "delay": 2.0, "road": "south"}, {"kind": "ashigaru", "count": 14, "spacing": 0.7, "delay": 2.5, "road": "south"}]},
+		{"banner": "", "groups": [{"kind": "kiba_musha", "count": 3, "spacing": 3.5}, {"kind": "hatamoto", "count": 1, "spacing": 1.0, "delay": 2.0, "road": "south"}, {"kind": "ashigaru", "count": 14, "spacing": 0.7, "delay": 2.5, "road": "south"}]},
 		{"banner": "", "groups": [{"kind": "kunoichi", "count": 2, "spacing": 4.0, "road": "south"}, {"kind": "ninja", "count": 10, "spacing": 1.0, "delay": 2.0}, {"kind": "teppo_gunner", "count": 8, "spacing": 1.0, "delay": 3.0}]},
 		{"banner": "The General of the Left charges!", "groups": [{"kind": "general_left", "count": 1, "spacing": 1.0}, {"kind": "kiba_musha", "count": 4, "spacing": 2.5, "delay": 3.0, "road": "south"}, {"kind": "samurai", "count": 8, "spacing": 1.2, "delay": 6.0}]},
 		{"banner": "", "groups": [{"kind": "samurai", "count": 12, "spacing": 1.0, "road": "south"}, {"kind": "hatamoto", "count": 2, "spacing": 4.0, "delay": 1.0}, {"kind": "ashigaru", "count": 14, "spacing": 0.7, "delay": 2.0}]},
 		{"banner": "", "groups": [{"kind": "teppo_gunner", "count": 12, "spacing": 0.9}, {"kind": "ninja", "count": 10, "spacing": 1.0, "delay": 3.0, "road": "south"}]},
-		{"banner": "", "groups": [{"kind": "kiba_musha", "count": 6, "spacing": 2.2, "road": "south"}, {"kind": "kunoichi", "count": 2, "spacing": 4.0, "delay": 2.0}, {"kind": "samurai", "count": 8, "spacing": 1.2, "delay": 4.0}]},
+		{"banner": "", "groups": [{"kind": "kiba_musha", "count": 4, "spacing": 3.0, "road": "south"}, {"kind": "kunoichi", "count": 2, "spacing": 4.0, "delay": 2.0}, {"kind": "samurai", "count": 8, "spacing": 1.2, "delay": 4.0}]},
 		{"banner": "Night over the keep: the oni come down from the mountain", "groups": [{"kind": "oni", "count": 2, "spacing": 5.0}, {"kind": "onryo", "count": 12, "spacing": 0.8, "delay": 2.0, "road": "south"}, {"kind": "ashigaru", "count": 14, "spacing": 0.7, "delay": 4.0}]},
 		{"banner": "", "groups": [{"kind": "hatamoto", "count": 2, "spacing": 4.0, "road": "south"}, {"kind": "samurai", "count": 12, "spacing": 0.9, "delay": 1.0, "road": "south"}, {"kind": "ninja", "count": 10, "spacing": 1.0, "delay": 2.0}]},
 		{"banner": "", "groups": [{"kind": "kiba_musha", "count": 6, "spacing": 2.0}, {"kind": "oni", "count": 2, "spacing": 5.0, "delay": 3.0, "road": "south"}, {"kind": "teppo_gunner", "count": 10, "spacing": 1.0, "delay": 2.0, "road": "south"}]},
