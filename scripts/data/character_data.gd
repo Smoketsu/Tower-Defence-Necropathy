@@ -15,7 +15,7 @@ const DEFAULT_ID: String = "gravecaller"
 ## Picker order.
 const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "plague_scholar",
 	"doomsayer", "soulbinder", "wither_witch", "grave_herald",
-	"marooned_quartermaster", "corsair_queen", "ghost_helmsman"]  # The later spells' characters (gw2-kit), appended
+	"marooned_quartermaster", "corsair_queen", "ghost_helmsman", "moon_huntress", "hedge_witch", "dhampir"]  # The later spells' characters (gw2-kit), appended
 
 ## Character rows. Keys:
 ##   name         — UI name.
@@ -29,7 +29,9 @@ const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "p
 ##                  cooldown (x every spell cooldown); gw2-kit: brand_slow (Death Mark's
 ##                  brand also slows to this multiplier), chain_extra (+links for Soul
 ##                  Chains), wither_rot (Wither's aura adds this Rot damage per s),
-##                  temp_time (x every temporary Risen's lifetime). {} = none.
+##                  temp_time (x every temporary Risen's lifetime); w2b-court: moonfang_jaws
+##                  (+jaws per Moonfang cast), circle_radius (+share of Hex Circle's radius),
+##                  swarm_bats (+bats in Night Swarm), read by those spells. {} = none.
 ##   unlock_after — map id whose boss opens it ("" = open from the start).
 const CHARACTERS: Dictionary = {
 	"gravecaller": {
@@ -99,6 +101,25 @@ const CHARACTERS: Dictionary = {
 		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
 		"innate": {"name": "Second Anchor", "desc": "Anchor Drop drops a second anchor", "anchor_extra": 1},  # Necropathy "one more anchor a cast"; key anchor_extra: + anchors (read by anchor_drop.gd)
 		"unlock_after": "maelstrom",  # TUNING (not in GDD)
+	},
+	# --- Act III: the Sanguine Court (w2b-court; Necropathy character_data.gd innates) ---
+	"moon_huntress": {
+		"name": "The Moon-Cursed Huntress", "short": "Huntress", "sprite": "player/moon_huntress", "spell": "moonfang",
+		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Hunter's Moon", "desc": "Moonfang snaps one more set of jaws", "moonfang_jaws": 1},  # Necropathy "one more jaw per cast"
+		"unlock_after": "ravensmoor",  # TUNING (not in GDD)
+	},
+	"hedge_witch": {
+		"name": "The Hedge Witch", "short": "Hedge Witch", "sprite": "player/hedge_witch", "spell": "witch_circle",
+		"boost": {"drain": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Hedge Lore", "desc": "Every Hex Circle she draws is a quarter wider", "circle_radius": 0.25},  # Necropathy +25% radius
+		"unlock_after": "witchwood",  # TUNING (not in GDD)
+	},
+	"dhampir": {
+		"name": "The Dhampir", "short": "Dhampir", "sprite": "player/dhampir", "spell": "night_swarm",
+		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Half-Blood", "desc": "Night Swarm calls two more bats", "swarm_bats": 2},  # Necropathy "two more bats"
+		"unlock_after": "castle_sanguis",  # TUNING (not in GDD)
 	},
 }
 

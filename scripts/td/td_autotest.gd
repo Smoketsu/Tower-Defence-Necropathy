@@ -199,7 +199,7 @@ func _cast_spells() -> void:
 			"raise_dead":
 				if -game.progress(lead) < THREAT_DIST and lead.holder == null:
 					game.cast_spell(i, lead.follower.road.point_at(lead.follower.dist + 40.0))
-			_:  # Later acts' spells (w2b-tide: Chain Shot, Cannonade, Anchor Drop): at the leader.
+			_:  # Later acts' spells (wave 2b): cast on the leader.
 				game.cast_spell(i, lead.position)
 	if game.caster.ultimate_ready():
 		game.caster.cast_ultimate()
@@ -329,10 +329,10 @@ func _kit_summary(lines: Array[String]) -> void:
 	lines.append("tower_value=%s" % _sorted(tv))
 	var c := {}  # Kit counters.
 	for t: Tower in game.towers:
-		for k: String in ["warded", "dashes", "swoops", "bites", "ruins", "slams", "fed"]:
+		for k: String in ["warded", "dashes", "swoops", "bites", "ruins", "slams", "fed", "spilled"]:
 			if t.vars.has(k):
 				c[k] = roundi(float(c.get(k, 0)) + float(t.vars[k]))
-	for k: String in ["barrier_absorbed", "rogue_resets", "brand_risen", "chained", "withered", "eclipsed", "risen"]:
+	for k: String in ["barrier_absorbed", "rogue_resets", "brand_risen", "chained", "withered", "eclipsed", "risen", "moonfang_bites", "hex_healed", "swarm_bites"]:
 		if game.stats.has(k):
 			c[k] = roundi(float(game.stats[k]))
 	lines.append("kit=%s ultimate=%s" % [_sorted(c), game.caster.ultimate.id if game.caster.ultimate != null else "-"])

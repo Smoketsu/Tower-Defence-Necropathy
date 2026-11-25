@@ -107,4 +107,12 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "b", "vs": "staggered", "mult": 1.4},  # TUNING (not in GDD) kegs blast stomped packs harder
 		"hint": "Abomination near a Powder Wraith: kegs blast staggered foes harder",
 	},
+	# --- Act III: the Sanguine Court (w2b-court) ---
+	"red_waltz": {
+		"name": "The Red Waltz", "icon": "pack_blood", "a": "banshee", "b": "blood_spawn",
+		"radius": 220.0,  # TUNING (not in GDD) new pair (no Necropathy synergy for the Blood Spawn)
+		"effects": {"b": {"rate": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "b", "vs": "weakened", "mult": 1.3},  # TUNING (not in GDD) the Dirge's victims bleed easier
+		"hint": "Banshee near Blood Spawn: they bite weakened foes harder",
+	},
 }

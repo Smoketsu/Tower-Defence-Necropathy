@@ -46,6 +46,8 @@ const SHOTS: Dictionary = {
 	# --- Act II, the Black Tide (w2b-tide) ---
 	"powder_wraith": {"sprite": "projectiles/mortar_shell", "scale": 2.0, "tint": Color(1.0, 0.6, 0.25), "trail": 70.0, "trail_w": 12.0,
 		"halo": 10.0, "impact": "corpse_explosion", "impact_d": 56.0, "ring": true, "muzzle": 0.0},  # TUNING (not in GDD) powder orange: its blasts (real radius ring) and burning shrapnel streaks
+	"blood_spawn": {"sprite": "projectiles/bone_spear", "scale": 1.6, "tint": Color(1.0, 0.22, 0.3), "trail": 70.0, "trail_w": 12.0,
+		"halo": 7.0, "impact": "volley_hit", "impact_d": 56.0, "ring": false, "muzzle": 0.0},  # TUNING (not in GDD) w2b-court: its Lv3 blood darts, crimson
 }
 ## Look of a class missing from SHOTS (same keys).
 const SHOT_DEFAULT: Dictionary = {"sprite": "", "scale": 2.0, "tint": Color(1.0, 1.0, 1.0), "trail": 40.0, "trail_w": 6.0,
@@ -308,7 +310,29 @@ const SPELLS: Dictionary = {
 	"chain_shot": {"tint": Color(0.55, 1.0, 0.8), "flash": 96.0, "strip": "volley_hit", "strip_d": 90.0, "ring": 50.0, "shake": 1.5},  # TUNING (not in GDD) pale spectral green (Necropathy's chain-shot)
 	"cannonade": {"tint": Color(1.0, 0.65, 0.25), "flash": 96.0, "strip": "volley_flash", "strip_d": 100.0, "ring": 70.0, "shake": 2.0},  # TUNING (not in GDD) cannon fire amber
 	"anchor_drop": {"tint": Color(0.5, 0.95, 0.85), "flash": 96.0, "strip": "tide_splash", "strip_d": 130.0, "ring": 64.0, "shake": 3.0},  # TUNING (not in GDD) ring = the shock's real radius
+	# --- Act III spells (w2b-court) ---
+	"moonfang": {"tint": Color(0.82, 0.86, 1.0), "flash": 96.0, "strip": "volley_flash", "strip_d": 110.0, "ring": 50.0, "shake": 2.0},  # TUNING (not in GDD) moon-silver; ring = a jaw's real radius
+	"witch_circle": {"tint": Color(1.0, 0.2, 0.35), "flash": 96.0, "strip": "volley_hit", "strip_d": 170.0, "ring": 80.0, "shake": 0.0},  # TUNING (not in GDD) crimson; ring = the circle's real radius
+	"night_swarm": {"tint": Color(0.5, 1.0, 0.9), "flash": 96.0, "strip": "volley_flash", "strip_d": 120.0, "ring": 46.0, "shake": 0.0},  # TUNING (not in GDD) spectral soul-teal bats
 }
+## Act III spells' own looks (w2b-court; drawn only): Moonfang's jaw strip
+## diameter as a multiple of its bite radius; Hex Circle's disc alpha and pulse
+## period (s); Night Swarm's bat tint, drawn size multiplier and dart streak width (px).
+const COURT_JAW_D: float = 2.4  # TUNING (not in GDD)
+## See COURT_JAW_D.
+const COURT_CIRCLE_A: float = 0.45  # TUNING (not in GDD)
+## See COURT_JAW_D.
+const COURT_CIRCLE_PERIOD: float = 0.5  # TUNING (not in GDD) one pulse per drain tick
+## See COURT_JAW_D.
+const COURT_BAT_TINT: Color = Color(0.55, 1.1, 1.0, 0.9)  # TUNING (not in GDD) spectral bats
+## See COURT_JAW_D.
+const COURT_BAT_SCALE: float = 0.8  # TUNING (not in GDD)
+## See COURT_JAW_D.
+const COURT_DART_W: float = 8.0  # TUNING (not in GDD)
+## Blood Spawn: the drink sparkle's diameter (px) and tint on the striking body (Nosferatu's spill thread too).
+const COURT_DRINK_D: float = 40.0  # TUNING (not in GDD)
+## See COURT_DRINK_D.
+const COURT_DRINK_TINT: Color = Color(1.0, 0.2, 0.3)  # TUNING (not in GDD)
 ## Seconds a cast flash and its target ring play.
 const CAST_TIME: float = 0.45  # TUNING (not in GDD)
 ## Shadow Bolt in flight: drawn scale, trail length (px) and width (px); its impact burst diameter (px).

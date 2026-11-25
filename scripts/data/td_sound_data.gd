@@ -28,12 +28,14 @@ const FIRE: Dictionary = {
 	"warder": "priest_ward", "rogue": "rogue_dash", "gargoyle": "gargoyle_dive", "bone_hound": "td_hound_bite",
 	"fallen_seraph": "td_seraph_feather", "bone_golem": "td_golem_slam",
 	"powder_wraith": "fuse_hiss",  # w2b-tide: the Black Tide pack's lit fuse (its burst plays powder_blast)
+	"blood_spawn": "td_blood_bite",  # w2b-court
 }  # TUNING (not in GDD)
 ## Spell / ultimate id -> Sfx id played on its cast (gw2-kit: the later spells; the
 ## launch spells keep their own sounds). Ultimates use their row's "sound".
 const CAST: Dictionary = {
 	"death_mark": "bolt_cast", "soul_chains": "td_soul_chains", "wither": "plague_cast", "raise_dead": "summon_rise",
 	"chain_shot": "hook_throw", "cannonade": "cannon_fire", "anchor_drop": "splash",  # w2b-tide: the Black Tide pack
+	"moonfang": "td_blood_bite", "witch_circle": "plague_cast", "night_swarm": "gargoyle_dive",  # w2b-court
 }  # TUNING (not in GDD)
 
 ## The five Gravewatch sounds (GDD §11), id -> recipe; keys exactly as
@@ -100,4 +102,11 @@ const SOUNDS: Dictionary = {  # TUNING (not in GDD)
 			{"wave": "sine", "f0": 1900.0, "start": 0.1, "dur": 0.07, "amp": 0.1, "decay": 0.025},
 			{"wave": "sine", "f0": 2300.0, "start": 0.18, "dur": 0.07, "amp": 0.09, "decay": 0.025},
 			{"wave": "saw", "f0": 120.0, "f1": 90.0, "start": 0.2, "dur": 0.45, "amp": 0.2, "decay": 0.18, "lp0": 3000.0, "vib_hz": 30.0, "vib_depth": 0.08}]},
+	# --- w2b-court (appended at the END) ---
+	# Blood bite: a wet snap of fangs and a short drink (the Blood Spawn's strikes, Moonfang's jaws).
+	"td_blood_bite": {"dur": 0.38, "volume_db": -14.0, "max_voices": 2, "min_interval": 110, "pitch_var": 0.1, "priority": 2,
+		"layers": [
+			{"wave": "noise", "dur": 0.07, "amp": 0.65, "decay": 0.02, "lp0": 6000.0, "lp1": 1800.0},
+			{"wave": "sine", "f0": 160.0, "f1": 70.0, "dur": 0.25, "amp": 0.4, "decay": 0.08},
+			{"wave": "noise", "start": 0.08, "dur": 0.25, "amp": 0.2, "attack": 0.03, "decay": 0.1, "lp0": 900.0, "lp1": 400.0}]},
 }

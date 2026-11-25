@@ -189,4 +189,15 @@ const EVOLUTIONS: Dictionary = {
 		},
 		"recipe": {"type": "kills", "n": 90},  # TUNING (not in GDD) Necropathy pairs it with Slow Match; here a deed
 	},
+	# --- Act III: the Sanguine Court (w2b-court) ---
+	"nosferatu": {
+		"from": "blood_spawn", "name": "Nosferatu", "sprite": "summons/nosferatu", "icon": "nosferatu",
+		"stats": {"damage": 1.3, "hp": 1.4},  # Necropathy mult max_hp 1.4, damage 1.3
+		"set": {
+			"drink_share": 0.55,  # TUNING (not in GDD) Necropathy 0.45: they drink deeper
+			"spill_share": 0.6,  # Necropathy spill_share
+			"spill_radius": 120.0,  # TUNING (not in GDD) Necropathy 90 px, the posts are farther apart
+		},
+		"recipe": {"type": "kills", "n": 25},  # TUNING (not in GDD) Necropathy Thirst Eternal -> the thirst of many kills
+	},
 }
