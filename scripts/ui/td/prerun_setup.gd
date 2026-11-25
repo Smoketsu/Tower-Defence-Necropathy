@@ -17,6 +17,8 @@ var map_id: String = MapRegistry.DEFAULT_ID
 var _character: String = CharacterData.DEFAULT_ID
 ## Chosen spells in slot order (slot 1 = the character's spell).
 var _spells: Array[String] = []
+## Chosen ultimate id (SpellCaster.ultimate_id; gw2-kit).
+var _ultimate: String = "dread_rally"
 ## Chosen difficulty id.
 var _difficulty: String = DifficultyData.DEFAULT_ID
 ## Character id -> tile; spell id -> tile; "d:" + difficulty -> button (selection looks).
@@ -33,29 +35,38 @@ func _init() -> void:
 
 func _build(b: VBoxContainer) -> void:
 	var c := String(Meta.prerun("character", CharacterData.DEFAULT_ID))  # Remembered character.
-	_character = c if CharacterData.CHARACTERS.has(c) and Meta.character_open(c) else CharacterData.DEFAULT_ID
+	_character = c if CharacterData.CHARACTERS.has(c) and (Meta.character_open(c) or GameState.unlock_all) else CharacterData.DEFAULT_ID
 	var d := String(Meta.prerun("difficulty", DifficultyData.DEFAULT_ID))  # Remembered difficulty.
 	_difficulty = d if DifficultyData.LEVELS.has(d) else DifficultyData.DEFAULT_ID
 	for id: Variant in Meta.prerun("spells", SpellData.DEFAULT_LOADOUT):
 		if _offered(String(id)) and not _spells.has(String(id)):
 			_spells.append(String(id))
+	var u := String(Meta.prerun("ultimate", "dread_rally"))  # Remembered ultimate.
+	_ultimate = u if CharacterData.ULTIMATES.has(u) and _ult_open(u) else "dread_rally"
 	b.add_child(UiTheme.tier_label(String(MapRegistry.get_map(map_id)["name"]), UiTheme.Tier.NAME, UiTheme.TEXT_DIM))
 	(b.get_child(b.get_child_count() - 1) as Label).horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var chars := _row(b)  # Character tiles.
+	var chars := _grid(b, MenuData.CHAR_COLUMNS)  # Character tiles (gw2-kit: eight in a row).
 	for id: String in CharacterData.ORDER:
 		chars.add_child(_char_tile(id))
 	_innate = UiTheme.para("", MenuData.PANEL_WIDTH, UiTheme.TEXT)
 	_innate.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	b.add_child(_innate)
 	b.add_child(section("Spells"))
-	var spells := _row(b)  # Spell tiles.
+	var spells := _grid(b, MenuData.SPELL_COLUMNS)  # Spell tiles (gw2-kit: eight in two rows).
 	for id: String in SpellData.SPELLS:
 		spells.add_child(_spell_tile(id))
 	var low := _row(b)  # Ultimate and difficulty.
 	for id: String in CharacterData.ULTIMATES:
-		var t := _tile(SpriteBank.texture("icons/" + id), String(SpellData.ULTIMATE["name"]) if id == String(SpellData.ULTIMATE["id"]) else id, MenuData.SPELL_TILE)  # The ultimate.
-		UiTheme.style_button(t, "card", "gold")
+		var ur := SpellCaster.ult_row(id)  # Its row.
+		var open := _ult_open(id)  # Pickable now.
+		var t := _tile(SpriteBank.texture("icons/" + String(ur["icon"])), String(ur.get("short", ur["name"])) if open else "?", MenuData.ULT_TILE, not open)  # The ultimate.
+		t.disabled = not open
+		t.tooltip_text = String(ur.get("desc", "Revives every blocker; towers +40% for 8 s")) if open else Unlocks.line(ur.get("unlock", {}))
+		t.pressed.connect(func() -> void:
+			_ultimate = id
+			_mark())
 		low.add_child(t)
+		_tiles["u:" + id] = t
 	var gap := Control.new()  # Space between the two groups.
 	gap.custom_minimum_size = Vector2(24, 0)
 	low.add_child(gap)
@@ -88,6 +99,23 @@ func _row(b: VBoxContainer) -> HBoxContainer:
 	return r
 
 
+## A centred grid of `cols` columns in `b` (gw2-kit: eight characters / spells).
+func _grid(b: VBoxContainer, cols: int) -> GridContainer:
+	var c := CenterContainer.new()  # Centres the grid.
+	b.add_child(c)
+	var g := GridContainer.new()  # The tiles.
+	g.columns = cols
+	g.add_theme_constant_override("h_separation", 8)
+	g.add_theme_constant_override("v_separation", 6)
+	c.add_child(g)
+	return g
+
+
+## True when ultimate `id` can be brought (Dread Rally always; Unlocks).
+func _ult_open(id: String) -> bool:
+	return id == String(SpellData.ULTIMATE["id"]) or Unlocks.ultimate_open(id)
+
+
 ## A tile button: icon `tex` over `text`, `px` in size.
 func _tile(tex: Texture2D, text: String, px: Vector2, dark: bool = false) -> Button:
 	var t := Button.new()  # The tile.
@@ -109,7 +137,7 @@ func _tile(tex: Texture2D, text: String, px: Vector2, dark: bool = false) -> But
 
 func _char_tile(id: String) -> Button:
 	var row: Dictionary = CharacterData.CHARACTERS[id]
-	var open := GameState.autotest or Meta.character_open(id)  # Pickable now.
+	var open := GameState.autotest or GameState.unlock_all or Meta.character_open(id)  # Pickable now.
 	var t := _tile(SpriteBank.texture(String(row["sprite"])), String(row["name"]) if open else "?", MenuData.CHAR_TILE, not open)
 	t.pressed.connect(_pick_character.bind(id))
 	t.disabled = not open
@@ -121,18 +149,19 @@ func _char_tile(id: String) -> Button:
 
 func _spell_tile(id: String) -> Button:
 	var row: Dictionary = SpellData.SPELLS[id]
-	var t := _tile(SpriteBank.texture("icons/" + String(row["icon"])), String(row["name"]), MenuData.SPELL_TILE, not _offered(id))
+	var t := _tile(SpriteBank.texture("icons/" + String(row["icon"])), String(row["name"]) if _offered(id) else "?", MenuData.SPELL_TILE, not _offered(id))
 	t.disabled = not _offered(id)
+	t.tooltip_text = String(row.get("desc", ""))
 	if not _offered(id):
-		t.tooltip_text = "Soon"
+		t.tooltip_text = "Soon" if not bool(row.get("ready", true)) else Unlocks.line(row.get("unlock", {}))
 	t.pressed.connect(_toggle_spell.bind(id))
 	_tiles["s:" + id] = t
 	return t
 
 
-## True when spell `id` can be brought (its script is built: row "ready").
+## True when spell `id` can be brought (its script is built: row "ready"; and open, Unlocks).
 func _offered(id: String) -> bool:
-	return SpellData.SPELLS.has(id) and bool(SpellData.SPELLS[id].get("ready", true))
+	return SpellData.SPELLS.has(id) and bool(SpellData.SPELLS[id].get("ready", true)) and Unlocks.spell_open(id)
 
 
 func _pick_difficulty(id: String) -> void:
@@ -178,7 +207,7 @@ func _mark() -> void:
 	if _innate == null:
 		return
 	for k: String in _tiles:
-		var on := k == _character or k == "d:" + _difficulty or (k.begins_with("s:") and _spells.has(k.substr(2)))  # Chosen.
+		var on := k == _character or k == "d:" + _difficulty or k == "u:" + _ultimate or (k.begins_with("s:") and _spells.has(k.substr(2)))  # Chosen.
 		UiTheme.style_button(_tiles[k], "card" if not k.begins_with("d:") else "button", "gold" if on else "")
 	var inn: Dictionary = CharacterData.CHARACTERS[_character]["innate"]
 	_innate.text = "%s: %s" % [inn["name"], inn["desc"]] if not inn.is_empty() else "No innate. Brings %s." % String(SpellData.SPELLS[_own()]["name"])
@@ -193,5 +222,7 @@ func _go() -> void:
 	Meta.set_prerun("difficulty", _difficulty)
 	Meta.set_prerun("spells", _spells.duplicate())
 	Meta.set_prerun("map", map_id)
+	Meta.set_prerun("ultimate", _ultimate)
+	SpellCaster.ultimate_id = _ultimate  # The run's ultimate (kept by Restart and Next).
 	Meta.save()
 	start.emit(map_id, _difficulty, _character, _spells.duplicate())

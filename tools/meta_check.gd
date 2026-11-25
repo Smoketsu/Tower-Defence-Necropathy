@@ -28,7 +28,18 @@ func _ready() -> void:
 	ok = ok and is_equal_approx(CharacterModifiers.cooldown_mult("plague_cloud"), 0.9 * 0.85) and is_equal_approx(CharacterModifiers.cooldown_mult("bone_wall"), 0.9)
 	CharacterModifiers.current = "barrow_warden"
 	ok = ok and is_equal_approx(float(CharacterModifiers.spell_row("bone_wall", SpellData.SPELLS["bone_wall"])["duration"]), 5.0 * 1.3)
+	# gw2-kit: a version-1 save (no `unlocks` section) with the Graveyard cleared migrates.
+	Meta.data.erase("unlocks")
+	(Meta.data["maps"]["cleared"] as Array).append("graveyard")
+	Meta.migrate()
+	ok = ok and MetaData.SAVE_VERSION == 2 and (Meta.data["unlocks"]["towers"] as Array).has("warder") \
+		and (Meta.data["unlocks"]["spells"] as Array).has("death_mark") and not (Meta.data["unlocks"]["towers"] as Array).has("fallen_seraph")
+	ok = ok and is_equal_approx(MetaModifiers.ultimate_charge_mult(), 1.0)
+	CharacterModifiers.current = "grave_herald"
+	ok = ok and is_equal_approx(CharacterModifiers.temp_time_mult(), 1.25) and CharacterModifiers.loadout(base)[0] == "raise_dead"
+	CharacterModifiers.current = "gravecaller"
 	MetaModifiers.set_max()
 	ok = ok and MetaModifiers.spell_slots() == 4 and MetaModifiers.masteries.size() == TowerData.TOWERS.size()
+	ok = ok and is_equal_approx(MetaModifiers.ultimate_charge_mult(), 1.3)
 	print("META CHECK OK" if ok else "META CHECK FAILED")
 	get_tree().quit(0 if ok else 1)

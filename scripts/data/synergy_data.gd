@@ -51,4 +51,52 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "b", "vs": "weakened", "mult": 1.15},  # TUNING (not in GDD)
 		"hint": "Banshee near a Mage: Mage hits stretch the Dirge",
 	},
+	# --- Later towers (gw2-kit; names from Necropathy's SynergyData where they exist) ---
+	"shieldwall": {
+		"name": "Shieldwall", "icon": "syn_shieldwall", "a": "warder", "b": "warrior",
+		"radius": 200.0,  # TUNING (not in GDD)
+		"effects": {"a": {"rate": 1.2}, "b": {"hp": 1.15}},  # TUNING (not in GDD) Necropathy "Warders raise bone barriers on your frontline warriors"
+		"hint": "Warder near Warriors: faster wards, sturdier Warriors",
+	},
+	"death_from_above": {
+		"name": "Death from Above", "icon": "syn_death_from_above", "a": "gargoyle", "b": "rogue",
+		"radius": 240.0,  # TUNING (not in GDD)
+		"effects": {},
+		"hit": {"side": "b", "vs": "swooped", "mult": 1.4},  # Necropathy +40% rogue damage on a swooped foe
+		"hint": "Gargoyle near a Rogue: Rogues hit swooped foes harder",
+	},
+	"cold_blood": {
+		"name": "Cold Blood", "icon": "syn_cold_blood", "a": "frost_wraith", "b": "rogue",
+		"radius": 220.0,  # TUNING (not in GDD)
+		"effects": {},
+		"hit": {"side": "b", "vs": "slowed", "mult": 1.4},  # Necropathy +40% rogue damage on a chilled foe
+		"hint": "Frost Wraith near a Rogue: Rogues hit chilled foes harder",
+	},
+	"wild_hunt": {
+		"name": "The Wild Hunt", "icon": "syn_wild_hunt", "a": "gargoyle", "b": "bone_hound",
+		"radius": 260.0,  # TUNING (not in GDD)
+		"effects": {},
+		"hit": {"side": "b", "vs": "swooped", "mult": 1.35},  # Necropathy +35% hound damage on a swooped foe
+		"hint": "Gargoyle near Hounds: bites on swooped foes hit harder",
+	},
+	"baying": {
+		"name": "Baying of the Damned", "icon": "syn_baying", "a": "banshee", "b": "bone_hound",
+		"radius": 230.0,  # TUNING (not in GDD)
+		"effects": {"b": {"rate": 1.15}},  # Necropathy +15% hound attack speed (the frenzy, kept on)
+		"hit": {"side": "b", "vs": "weakened", "mult": 1.15},  # TUNING (not in GDD)
+		"hint": "Banshee near Hounds: the pack bites faster",
+	},
+	"bone_bastion": {
+		"name": "Bone Bastion", "icon": "syn_bone_bastion", "a": "bone_golem", "b": "warrior",
+		"radius": 200.0,  # TUNING (not in GDD)
+		"effects": {"a": {"hold_bonus": 1.0}, "b": {"hp": 1.2}},  # TUNING (not in GDD) Necropathy: summons near a Golem take less damage
+		"hint": "Golem near Warriors: Warriors sturdier, the Golem holds one more",
+	},
+	"hymn_of_ruin": {
+		"name": "Hymn of Ruin", "icon": "syn_requiem", "a": "banshee", "b": "fallen_seraph",
+		"radius": 220.0,  # TUNING (not in GDD) new pair (no Necropathy synergy for the Seraph)
+		"effects": {"a": {"range": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "b", "vs": "weakened", "mult": 1.25},  # TUNING (not in GDD)
+		"hint": "Banshee near a Seraph: feathers hit weakened foes harder",
+	},
 }

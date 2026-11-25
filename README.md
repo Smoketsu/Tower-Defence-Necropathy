@@ -109,6 +109,11 @@ $G --headless --fixed-fps 60 --quit-after 60000 -- --autotest [--map=graveyard|c
 
 Every registered map at once: `tools/run_all_maps.sh` (2 at a time, one line per map; `WEAK=1` adds the weak orders, `SEED=N`). Act framework self-check: `tools/acts_check.tscn -- --autotest`. Adding an act: `docs/ACT_TEMPLATE.md`.
 
+| `--build=kit_a` / `kit_b` / `kit_evolve` | gw2-kit orders: any Act I map's default order with the later towers in some slots and the later spells / ultimates; `kit_evolve` (Graveyard) = all six later evolutions. Kit runs add the `tower_value=` and `kit=` lines |
+| `--ultimate=` | SpellData.ULTIMATES id (`sovereigns_decree`, `eclipse`, `grave_tide`; default Dread Rally) |
+| `--swap=from:to` | A/B strength check: the order's first build of `from` builds `to` (e.g. `archer:fallen_seraph`) |
+| `?gw_flags=--unlock-all` | Web only, no bot: every later tower, spell, ultimate and character shows open in the menus (visual checks) |
+
 The summary's `meta=` line names the meta profile, character, loadout, the Soul
 Ash the run would pay and the active bonuses. `godot --headless tools/meta_check.tscn -- --autotest`
 self-checks the Ossuary, unlocks and character paths.

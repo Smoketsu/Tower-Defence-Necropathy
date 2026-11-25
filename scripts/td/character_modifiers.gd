@@ -65,3 +65,8 @@ static func start_souls(base: int) -> int:
 static func apply_tower(t: Tower, mult: Dictionary) -> void:
 	if t.row.has("body_hp"):
 		mult["hp"] = float(mult["hp"]) * float(innate("blocker_hp", 1.0))
+
+
+## Multiplier on every temporary Risen's lifetime (Grave Herald's Restless; 1 = none).
+static func temp_time_mult() -> float:
+	return float(innate("temp_time", 1.0))

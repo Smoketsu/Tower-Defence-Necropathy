@@ -12,7 +12,7 @@ extends RefCounted
 ## under --autotest unless --meta-save.
 const SAVE_PATH: String = "user://gravewatch_save.cfg"
 ## Save format version (bump with a migration in Meta.load_save()).
-const SAVE_VERSION: int = 1
+const SAVE_VERSION: int = 2  # 2: the `unlocks` section (gw2-kit; Meta migrates version 1 saves)
 
 ## --- Soul Ash (GDD §8.2 "by skulls earned and difficulty") -------------------
 
@@ -32,7 +32,7 @@ const ASH_PER_RECKONING_WAVE: int = 10  # TUNING (not in GDD)
 
 ## Ossuary tile order (the screen lists them in this order).
 const ORDER: Array[String] = ["start_souls", "lives", "sell_refund", "spell_cooldown", "spell_slot", "respawn",
-	"tree_ranged", "tree_aura", "tree_blocker"]
+	"tree_ranged", "tree_aura", "tree_blocker", "ult_charge"]
 
 ## Upgrade rows. Keys:
 ##   name  — tile name (NAME tier, a few words).
@@ -60,6 +60,8 @@ const UPGRADES: Dictionary = {
 		"costs": [120, 240, 420], "per": 0.05},  # TUNING (not in GDD)
 	"tree_blocker": {"name": "Bulwark", "desc": "Blockers +8% body HP", "icon": "icons/abomination",
 		"costs": [120, 240, 420], "per": 0.08},  # TUNING (not in GDD)
+	"ult_charge": {"name": "Soul Hunger", "desc": "The ultimate charges 10% faster", "icon": "icons/dread_rally",
+		"costs": [150, 300, 500], "per": 0.1},  # TUNING (not in GDD) gw2-kit: four ultimates on one meter
 }
 
 ## Tower family of a tower row (the trees and masteries): "post" spots are

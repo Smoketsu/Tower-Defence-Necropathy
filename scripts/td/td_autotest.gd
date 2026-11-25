@@ -35,6 +35,7 @@ func _ready() -> void:
 	for id: String in SpellData.SPELLS:
 		if spells.size() < MetaModifiers.spell_slots() and not spells.has(id):
 			spells.append(id)
+	SpellCaster.ultimate_id = GameState.autotest_ultimate if SpellData.ULTIMATES.has(GameState.autotest_ultimate) else String(SpellData.ULTIMATE["id"])
 	game = TdGame.new()
 	var map_default := String(MapRegistry.get_map(GameState.map_id if MapRegistry.has(GameState.map_id) else MapRegistry.DEFAULT_ID)["build_order"])  # The map's own order.
 	_order_id = GameState.autotest_build if GameState.autotest_build != "" else map_default
@@ -42,6 +43,11 @@ func _ready() -> void:
 		push_error("TdAutotest: unknown build order '%s'" % _order_id)
 		_order_id = map_default
 	order = Acts.orders()[_order_id]
+	if order.has("ultimate") and GameState.autotest_ultimate == "":
+		SpellCaster.ultimate_id = String(order["ultimate"])
+	if order.has("steps_by_map"):  # One order for every map (gw2-kit kit orders): this map's steps.
+		order = order.duplicate()
+		order["steps"] = order["steps_by_map"].get(GameState.map_id if MapRegistry.has(GameState.map_id) else MapRegistry.DEFAULT_ID, [])
 	if order.has("loadout"):
 		spells.assign(order["loadout"])  # The order's own spells (test orders).
 		for id: String in SpellData.SPELLS:
@@ -52,6 +58,8 @@ func _ready() -> void:
 		var watch := RunWatch.new()  # Codex and masteries into the real save.
 		watch.game = game
 		game.add_child(watch)
+	if GameState.autotest_swap.contains(":"):
+		_swap(GameState.autotest_swap.get_slice(":", 0), GameState.autotest_swap.get_slice(":", 1))
 	if order.has("bonus_souls"):
 		game.economy.earn(int(order["bonus_souls"]), "test_bonus")
 	game.speed = GameState.autotest_speed
@@ -60,6 +68,21 @@ func _ready() -> void:
 	add_child(game)
 	_on_tick()
 	game.call_wave()
+
+
+## --swap: the order's first "build" of class `from` builds `to` instead (a copy; the data is untouched).
+func _swap(from: String, to: String) -> void:
+	if not TowerData.TOWERS.has(to):
+		push_error("TdAutotest: unknown tower '%s'" % to)
+		return
+	order = order.duplicate()
+	var st: Array = (order["steps"] as Array).duplicate(true)
+	for s: Dictionary in st:
+		if String(s["do"]) == "build" and String(s.get("tower", "")) == from:
+			s["tower"] = to
+			break
+	order["steps"] = st
+	_order_id += "/swap:" + to
 
 
 ## Every fixed step: build what the order allows, cast spells, watch the clock.
@@ -109,8 +132,14 @@ func _try(st: Dictionary) -> bool:
 
 ## False for recipes the bot cannot wait for (a partner class it never builds).
 func _recipe_reachable(t: Tower) -> bool:
-	var rec: Dictionary = EvolutionData.EVOLUTIONS[String(t.row["evolution"])]["recipe"]  # The recipe.
-	return String(rec["type"]) in ["kills", "healed", "damage"]
+	return _reachable(EvolutionData.EVOLUTIONS[String(t.row["evolution"])]["recipe"])
+
+
+## True for a record recipe the bot can wait for ("any": one of its parts is).
+func _reachable(rec: Dictionary) -> bool:
+	if String(rec["type"]) == "any":
+		return (rec["of"] as Array).any(func(r: Dictionary) -> bool: return _reachable(r))
+	return String(rec["type"]) in ["kills", "healed", "damage", "elite_kills"]
 
 
 ## Spell policy: Shadow Bolt the enemy nearest the gate; Bone Wall in front of
@@ -134,8 +163,18 @@ func _cast_spells() -> void:
 			"bone_wall":
 				if -game.progress(lead) < THREAT_DIST and lead.holder == null:
 					game.cast_spell(i, lead.follower.road.point_at(lead.follower.dist + 30.0))
-			"corpse_explosion", "plague_cloud":
+			"corpse_explosion", "plague_cloud", "death_mark", "soul_chains":
 				game.cast_spell(i, lead.position)
+			"wither":
+				var sp: Spot = null  # The spot nearest the leader (Wither stands on a spot).
+				for o: Spot in game.spots:
+					if sp == null or o.position.distance_squared_to(lead.position) < sp.position.distance_squared_to(lead.position):
+						sp = o
+				if sp != null and sp.position.distance_to(lead.position) < float(SpellData.SPELLS["wither"]["radius"]):
+					game.cast_spell(i, sp.position)
+			"raise_dead":
+				if -game.progress(lead) < THREAT_DIST and lead.holder == null:
+					game.cast_spell(i, lead.follower.road.point_at(lead.follower.dist + 40.0))
 	if game.caster.ultimate_ready():
 		game.caster.cast_ultimate()
 
@@ -191,7 +230,7 @@ func _summary(result: String) -> void:
 	evo.sort()
 	lines.append("evolutions=%d %s synergies=%s" % [evo.size(), ",".join(evo), _sorted(syn)])
 	var sd := {}  # Damage by spell (loadout and ultimate).
-	for id: String in game.caster.loadout + [String(SpellData.ULTIMATE["id"])]:
+	for id: String in game.caster.loadout + [game.caster.ultimate.id if game.caster.ultimate != null else String(SpellData.ULTIMATE["id"])]:
 		sd[id] = "%dc/%dd" % [int(game.caster.casts.get(id, 0)), roundi(float(game.stats["damage"].get(id, 0.0)))]
 	lines.append("spell_casts/damage=%s" % _sorted(sd))
 	lines.append("blockers_lost=%d respawned=%d healed=%d risen=%d deep_freezes=%d shatters=%d shrapnel=%d corpses_detonated=%d" % [
@@ -212,6 +251,8 @@ func _summary(result: String) -> void:
 		lines.append("hostile=%s disabled_tower_s=%.1f" % [_sorted(hc), float(game.stats.get("disabled_s", 0.0))])
 	lines.append("meta=%s character=%s loadout=%s ash=%d bonuses=%s masteries=%d saved=%s" % [GameState.autotest_meta if GameState.autotest_meta != "" else "save" if GameState.meta_save else "none",
 		CharacterModifiers.current, ",".join(game.caster.loadout), Meta.ash_for(game), _sorted(MetaModifiers.bonuses), MetaModifiers.masteries.size(), str(GameState.meta_save)])
+	if _kit_run():
+		_kit_summary(lines)
 	lines.append("stuck_enemies=%d alive_at_end=%d" % [int(game.stats["stuck"]), game.enemies.size()])
 	for l: String in lines:
 		print(l)
@@ -225,3 +266,38 @@ func _sorted(d: Dictionary) -> String:
 	for k: Variant in keys:
 		parts.append("%s:%s" % [str(k), str(d[k])])
 	return ",".join(parts)
+
+
+## True when the run uses any gw2-kit content (later towers, spells, ultimates or
+## characters): only then are the kit lines printed, so Act I summaries stay byte-identical.
+func _kit_run() -> bool:
+	for t: Tower in game.towers:
+		if TowerData.TOWERS[t.tower_id].has("unlock"):
+			return true
+	for id: String in game.caster.loadout:
+		if SpellData.SPELLS[id].has("unlock"):
+			return true
+	return GameState.autotest_swap != "" or SpellCaster.ultimate_id != String(SpellData.ULTIMATE["id"]) or CharacterData.ORDER.find(CharacterModifiers.current) >= 4
+
+
+## The kit summary lines: every class's souls spent per damage (tower strength
+## comparison), the later systems' counters and the ultimate.
+func _kit_summary(lines: Array[String]) -> void:
+	var val := {}  # Class -> [souls spent, damage, kills, towers].
+	for t: Tower in game.towers:
+		var v: Array = val.get(t.tower_id, [0, 0.0, 0, 0])
+		val[t.tower_id] = [int(v[0]) + t.spent, float(v[1]) + t.damage_done, int(v[2]) + t.kills, int(v[3]) + 1]
+	var tv := {}  # Class -> "n x spent / damage = damage per soul".
+	for id: String in val:
+		var v: Array = val[id]
+		tv[id] = "%dx%ds/%dd/%dk=%.1f/soul" % [int(v[3]), int(v[0]), roundi(float(v[1])), int(v[2]), float(v[1]) / maxf(float(v[0]), 1.0)]
+	lines.append("tower_value=%s" % _sorted(tv))
+	var c := {}  # Kit counters.
+	for t: Tower in game.towers:
+		for k: String in ["warded", "dashes", "swoops", "bites", "ruins", "slams", "fed"]:
+			if t.vars.has(k):
+				c[k] = roundi(float(c.get(k, 0)) + float(t.vars[k]))
+	for k: String in ["barrier_absorbed", "rogue_resets", "brand_risen", "chained", "withered", "eclipsed", "risen"]:
+		if game.stats.has(k):
+			c[k] = roundi(float(game.stats[k]))
+	lines.append("kit=%s ultimate=%s" % [_sorted(c), game.caster.ultimate.id if game.caster.ultimate != null else "-"])

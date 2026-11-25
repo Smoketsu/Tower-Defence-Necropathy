@@ -94,11 +94,13 @@ func _entries(c: String) -> Array:
 			for id: String in TowerData.ORDER:
 				var r: Dictionary = TowerData.TOWERS[id]
 				out.append([id, String(r["name"]), SpriteBank.texture("icons/" + String(r["icon"])),
-					"%s. Cost %d. %s." % ["Road post" if String(r["spot"]) == "post" else "Grave plot", int(r["cost"]), String(r["behavior"]).capitalize()]])
+					"%s. Cost %d. %s." % ["Road post" if String(r["spot"]) == "post" else "Grave plot", int(r["cost"]), String(r.get("desc", String(r["behavior"]).capitalize()))],
+					r.get("unlock", {})])
 		"spells":
 			for id: String in SpellData.SPELLS:
 				var r: Dictionary = SpellData.SPELLS[id]
-				out.append([id, String(r["name"]), SpriteBank.texture("icons/" + String(r["icon"])), "Cooldown %s s." % str(float(r["cooldown"]))])
+				out.append([id, String(r["name"]), SpriteBank.texture("icons/" + String(r["icon"])),
+					("%s. " % String(r["desc"]) if r.has("desc") else "") + "Cooldown %s s." % str(float(r["cooldown"])), r.get("unlock", {})])
 		"enemies", "bosses":
 			for id: String in Acts.kinds():
 				var r: Dictionary = Acts.kinds()[id]
@@ -122,8 +124,12 @@ func _recipe(r: Dictionary) -> String:
 	var from := String(TowerData.TOWERS[String(r["from"])]["name"]) if TowerData.TOWERS.has(String(r["from"])) else String(r["from"])  # Base class.
 	var rec: Dictionary = r["recipe"]
 	var cls := String(TowerData.TOWERS[String(rec["class"])]["name"]) if rec.has("class") and TowerData.TOWERS.has(String(rec["class"])) else String(rec.get("class", ""))  # Partner class.
+	if String(rec["type"]) == "any":
+		rec = rec["of"][rec["of"].size() - 1]  # The placement part names the pair (gw2-kit, Profane Bishop).
+		cls = String(TowerData.TOWERS[String(rec["class"])]["name"]) if rec.has("class") and TowerData.TOWERS.has(String(rec["class"])) else ""
 	match String(rec["type"]):
 		"kills": return "%s at Lv 5 with %d kills." % [from, int(rec["n"])]
+		"elite_kills": return "%s at Lv 5 with %d elite kills." % [from, int(rec["n"])]
 		"near": return "%s at Lv 5 near a %s." % [from, cls]
 		"near_level": return "%s at Lv 5 near a Lv %d %s." % [from, int(rec["level"]), cls]
 	return "%s at Lv 5." % from
@@ -165,4 +171,5 @@ func _detail(e: Array, met: bool) -> void:
 	_d_name.text = String(e[1]) if met else "?"
 	_d_pic.texture = e[2]
 	_d_pic.modulate = Color.WHITE if met else MenuData.SILHOUETTE
-	_d_text.text = String(e[3]) if met else "Not met yet."
+	var lock := Unlocks.line(e[4]) if e.size() > 4 and not Unlocks.met(e[4]) else ""  # Its unlock line while locked (gw2-kit).
+	_d_text.text = String(e[3]) if met else ("Locked. %s." % lock if lock != "" else "Not met yet.")

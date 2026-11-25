@@ -39,6 +39,10 @@ func _ready() -> void:
 	ash.add_child(al)
 	box.add_child(ash)
 	UiMotion.count_up(al, int(game.get_meta("ash_paid", 0)), "+%d")
+	if won and not Meta.last_unlocks.is_empty():  # What this clear opened (gw2-kit; soul-teal = new).
+		var ul := UiTheme.para("Unlocked: " + ", ".join(Meta.last_unlocks), 420.0, MenuData.TEAL)
+		ul.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		box.add_child(ul)
 	box.add_child(UiTheme.divider("gold" if won else "crimson"))
 	var row := HBoxContainer.new()  # Buttons.
 	row.alignment = BoxContainer.ALIGNMENT_CENTER

@@ -31,9 +31,15 @@ const SKULL_ICON: String = "res://assets/sprites/td/icon_skull.png"
 const SKULL_BIG: float = 40.0  # TUNING (not in GDD)
 
 ## Pre-map setup: size (px) of a character tile, a spell / ultimate tile.
-const CHAR_TILE := Vector2(150.0, 118.0)  # TUNING (not in GDD)
+const CHAR_TILE := Vector2(118.0, 112.0)  # TUNING (not in GDD) gw2-kit: eight characters in one row (150 x 118 before)
 ## See CHAR_TILE.
 const SPELL_TILE := Vector2(134.0, 84.0)  # TUNING (not in GDD)
+## Pre-map grid columns: characters (one row of eight) and spells (two rows of four; gw2-kit).
+const CHAR_COLUMNS: int = 8  # TUNING (not in GDD)
+## See CHAR_COLUMNS.
+const SPELL_COLUMNS: int = 4  # TUNING (not in GDD)
+## Size (px) of a pre-map ultimate tile (four beside the difficulties; gw2-kit).
+const ULT_TILE := Vector2(104.0, 84.0)  # TUNING (not in GDD)
 
 ## Ossuary: size (px) of an upgrade tile and of a mastery badge.
 const OSSUARY_TILE := Vector2(300.0, 84.0)  # TUNING (not in GDD)

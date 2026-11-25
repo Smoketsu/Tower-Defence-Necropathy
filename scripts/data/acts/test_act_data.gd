@@ -74,6 +74,30 @@ const ORDERS: Dictionary = {
 			{"do": "upgrade", "spot": "plot:2"},
 		],
 	},
+	# The shared kit on the test act (wave 2a integration): ground-only Rogue and
+	# Hounds under flyers, the Gargoyle, a Golem under fire, kit spells and Grave Tide.
+	"test_kit": {
+		"spells": true,
+		"bonus_souls": 600,  # TUNING (not in GDD)
+		"loadout": ["raise_dead", "death_mark", "soul_chains", "wither"],
+		"ultimate": "grave_tide",
+		"steps": [
+			{"do": "build", "spot": "plot:0", "tower": "fallen_seraph"},
+			{"do": "build", "spot": "post:0", "tower": "bone_golem"},
+			{"do": "build", "spot": "plot:3", "tower": "rogue"},
+			{"do": "build", "spot": "plot:1", "tower": "bone_hound"},
+			{"do": "build", "spot": "plot:2", "tower": "gargoyle"},
+			{"do": "build", "spot": "plot:4", "tower": "warder"},
+			{"do": "build", "spot": "post:1", "tower": "warrior"},
+			{"do": "upgrade", "spot": "plot:0"},
+			{"do": "upgrade", "spot": "plot:1"},
+			{"do": "upgrade", "spot": "plot:2"},
+			{"do": "upgrade", "spot": "plot:3"},
+			{"do": "upgrade", "spot": "post:0"},
+			{"do": "upgrade", "spot": "plot:0"},
+			{"do": "upgrade", "spot": "plot:2"},
+		],
+	},
 	"test_weak": {
 		"spells": false,
 		"steps": [

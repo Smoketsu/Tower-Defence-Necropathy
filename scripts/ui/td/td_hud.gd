@@ -175,8 +175,9 @@ func _build_spell_bar() -> void:
 		bar.add_child(b)
 		_spells.append(b)
 	_ult = SpellButton.new()
-	_ult.icon_key = String(SpellData.ULTIMATE["icon"])
-	_ult.tooltip_text = String(SpellData.ULTIMATE["name"])
+	var urow := SpellCaster.ult_row(game.caster.ultimate.id if game.caster.ultimate != null else "")  # The run's ultimate (gw2-kit).
+	_ult.icon_key = String(urow["icon"])
+	_ult.tooltip_text = String(urow["name"])
 	_ult.is_ultimate = true
 	_ult.custom_minimum_size = Vector2(TdUiData.SPELL_BUTTON, TdUiData.SPELL_BUTTON) * _touch()
 	_ult.focus_mode = Control.FOCUS_NONE

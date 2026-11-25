@@ -39,7 +39,7 @@ func _raise(t: Tower, e: TdEnemy) -> void:
 	t.game.add_block(blk)
 	if not t.vars.has("risen"):
 		t.vars["risen"] = []
-	(t.vars["risen"] as Array).append([blk, t.game.time + float(t.stats["risen_time"])])
+	(t.vars["risen"] as Array).append([blk, t.game.time + float(t.stats["risen_time"]) * CharacterModifiers.temp_time_mult()])
 	t.game.fx.spawn("summon_rise", b.pos, 64.0, 0.4)
 	t.game.stats["risen"] = int(t.game.stats.get("risen", 0)) + 1
 

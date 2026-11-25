@@ -24,6 +24,14 @@ const EVENTS: Dictionary = {
 const FIRE: Dictionary = {
 	"archer": "spear_cast", "mage": "mage_burst", "frost_wraith": "frost_bolt", "corpse_catapult": "catapult_launch",
 	"banshee": "banshee_wail", "mender": "priest_ward", "warrior": "warrior_bash", "abomination": "abom_stomp",
+	# Later towers (gw2-kit): Necropathy's own class sounds where they exist, else a td pack recipe below.
+	"warder": "priest_ward", "rogue": "rogue_dash", "gargoyle": "gargoyle_dive", "bone_hound": "td_hound_bite",
+	"fallen_seraph": "td_seraph_feather", "bone_golem": "td_golem_slam",
+}  # TUNING (not in GDD)
+## Spell / ultimate id -> Sfx id played on its cast (gw2-kit: the later spells; the
+## launch spells keep their own sounds). Ultimates use their row's "sound".
+const CAST: Dictionary = {
+	"death_mark": "bolt_cast", "soul_chains": "td_soul_chains", "wither": "plague_cast", "raise_dead": "summon_rise",
 }  # TUNING (not in GDD)
 
 ## The five Gravewatch sounds (GDD §11), id -> recipe; keys exactly as
@@ -65,4 +73,29 @@ const SOUNDS: Dictionary = {  # TUNING (not in GDD)
 			{"wave": "saw", "f0": 220.0, "f1": 247.0, "start": 0.05, "dur": 0.7, "amp": 0.22, "attack": 0.1, "decay": 0.5, "lp0": 900.0, "lp1": 1600.0},
 			{"wave": "sine", "f0": 80.0, "f1": 45.0, "start": 0.7, "dur": 0.3, "amp": 0.7, "decay": 0.08},
 			{"wave": "noise", "start": 0.7, "dur": 0.1, "amp": 0.3, "decay": 0.025, "lp0": 1500.0}]},
+	# --- gw2-kit (appended at the END: the pack's earlier sounds keep their seeds) ---
+	# Hound bite: a snapping crunch with a thud under it (Necropathy's hound_bite, lighter).
+	"td_hound_bite": {"dur": 0.4, "volume_db": -14.0, "max_voices": 2, "min_interval": 120, "pitch_var": 0.1, "priority": 2,
+		"layers": [
+			{"wave": "noise", "dur": 0.08, "amp": 0.7, "decay": 0.02, "lp0": 7000.0, "lp1": 2000.0},
+			{"wave": "sine", "f0": 120.0, "f1": 60.0, "dur": 0.3, "amp": 0.45, "decay": 0.1},
+			{"wave": "square", "f0": 260.0, "f1": 150.0, "start": 0.02, "dur": 0.1, "amp": 0.08, "decay": 0.03, "lp0": 1500.0}]},
+	# Golem slam: a deep stone thud with a rumble (Necropathy's brute_slam, shorter).
+	"td_golem_slam": {"dur": 0.8, "volume_db": -11.0, "max_voices": 2, "min_interval": 200, "pitch_var": 0.05, "priority": 3,
+		"layers": [
+			{"wave": "sine", "f0": 70.0, "f1": 24.0, "dur": 0.7, "amp": 0.9, "attack": 0.002, "decay": 0.22},
+			{"wave": "noise", "dur": 0.08, "amp": 0.7, "attack": 0.001, "decay": 0.02, "lp0": 5000.0, "lp1": 1000.0},
+			{"wave": "noise", "start": 0.05, "dur": 0.6, "amp": 0.3, "attack": 0.03, "decay": 0.25, "lp0": 700.0, "lp1": 150.0}]},
+	# Seraph feathers: a dark airy whoosh with a faint falling choir tone.
+	"td_seraph_feather": {"dur": 0.35, "volume_db": -16.0, "max_voices": 2, "min_interval": 90, "pitch_var": 0.08, "priority": 1,
+		"layers": [
+			{"wave": "noise", "dur": 0.3, "amp": 0.45, "attack": 0.03, "decay": 0.12, "lp0": 4000.0, "lp1": 1200.0},
+			{"wave": "sine", "f0": 880.0, "f1": 660.0, "dur": 0.3, "amp": 0.12, "attack": 0.02, "decay": 0.12, "vib_hz": 7.0, "vib_depth": 0.01}]},
+	# Soul Chains: iron links rattling, then a crackle of soul lightning.
+	"td_soul_chains": {"dur": 0.7, "volume_db": -12.0, "max_voices": 1, "min_interval": 200, "pitch_var": 0.04, "priority": 3,
+		"layers": [
+			{"wave": "noise", "dur": 0.15, "amp": 0.35, "attack": 0.02, "decay": 0.06, "lp0": 1500.0, "lp1": 6000.0},
+			{"wave": "sine", "f0": 1900.0, "start": 0.1, "dur": 0.07, "amp": 0.1, "decay": 0.025},
+			{"wave": "sine", "f0": 2300.0, "start": 0.18, "dur": 0.07, "amp": 0.09, "decay": 0.025},
+			{"wave": "saw", "f0": 120.0, "f1": 90.0, "start": 0.2, "dur": 0.45, "amp": 0.2, "decay": 0.18, "lp0": 3000.0, "vib_hz": 30.0, "vib_depth": 0.08}]},
 }

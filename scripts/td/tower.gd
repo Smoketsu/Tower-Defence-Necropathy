@@ -118,6 +118,8 @@ func recompute() -> void:
 		s["respawn"] = float(s["respawn"]) * MetaModifiers.respawn_mult()
 	if s.has("heal"):
 		s["heal"] = float(s["heal"]) * float(mult["hp"])
+	if s.has("barrier"):
+		s["barrier"] = float(s["barrier"]) * float(mult["hp"])  # Warder barriers grow like heals (gw2-kit).
 	s["hold_bonus"] = hold_bonus
 	stats = s
 	if behavior != null:
@@ -170,9 +172,8 @@ func sell_value() -> int:
 func pick_target() -> TdEnemy:
 	var best: TdEnemy = null  # Best candidate so far.
 	var best_score := -INF  # Its score (higher = preferred).
-	var ground := bool(stats.get("ground_only", false))  # Cannot hit flyers.
 	for e: TdEnemy in game.enemies_near(position, float(stats["range"])):
-		if (ground and bool(e.row["flying"])) or not game.can_target(self, e):
+		if not can_hit(e):
 			continue
 		var score := 0.0  # This enemy's score.
 		match target_mode:
@@ -186,6 +187,12 @@ func pick_target() -> TdEnemy:
 			best_score = score
 			best = e
 	return best
+
+
+## True when this tower may strike `e`: not a flyer for a "ground_only" row, and
+## no rule hides it (TdGame.can_target()). Every target pick (kits too) asks this.
+func can_hit(e: TdEnemy) -> bool:
+	return not (bool(stats.get("ground_only", false)) and bool(e.row.get("flying", false))) and game.can_target(self, e)
 
 
 ## Turns toward map px `p` (visual).

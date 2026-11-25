@@ -3,7 +3,8 @@
 ## and build-order tables, and every act hook on the test act's map: hostile
 ## shots stopped by a blocker, the tower disable path, flyers never held and
 ## skipped by ground-only towers, a fallen body raised hostile, an off-road
-## exit, visibility through the rule hook).
+## exit, visibility through the rule hook; the shared kit's towers and Risen
+## under those rules).
 ## Run: godot --headless tools/acts_check.tscn -- --autotest   (prints PASS / FAIL, exit 0 / 1)
 extends Node
 
@@ -66,9 +67,47 @@ func _ready() -> void:
 	_check("ground only", arc.pick_target() != fly)
 	arc.stats["ground_only"] = false
 	_check("air ok", arc.pick_target() == fly)
+	# Kit towers under the framework (wave 2a integration): the ground-only Rogue /
+	# Hounds never take the flyer, the Gargoyle takes it first; a disabled kit tower
+	# does nothing; hostile shots stop on a Golem body and on a temporary Risen.
+	game.build(game.spot_by_id("plot:3"), "rogue")
+	game.build(game.spot_by_id("plot:1"), "bone_hound")
+	game.build(game.spot_by_id("plot:2"), "gargoyle")
+	var rog := game.spot_by_id("plot:3").tower  # (420, 300).
+	var hnd := game.spot_by_id("plot:1").tower  # (800, 290).
+	var gar := game.spot_by_id("plot:2").tower  # (900, 120).
+	fly.follower.dist = 560.0
+	fly.position = fly.follower.position()
+	var fly2 := game.spawn_at("test_bat", "main", 1, 850.0, 0.0)  # Near the hounds and the gargoyle.
+	game.tick(1.0 / 60.0)  # The spatial hash is rebuilt each tick.
+	_check("kit ground only", rog.behavior.call("_pick", rog) == null and hnd.behavior.call("_pick", hnd) == null)
+	_check("kit air first", gar.behavior.call("_pick", gar) == fly2)
+	var swoops := int(gar.vars.get("swoops", 0))  # Before.
+	var gshots := gar.shots  # Before.
+	TdCombat.disable_tower(game, gar, 3.0, "shot")
+	for i in 60:
+		game.tick(1.0 / 60.0)
+	_check("kit disabled", int(gar.vars.get("swoops", 0)) == swoops and gar.shots == gshots)
 	TdCombat.kill_enemy(game, fly, null)
+	TdCombat.kill_enemy(game, fly2, null)
+	game.build(game.spot_by_id("post:1"), "bone_golem")
+	var gol: BlockBody = game.spot_by_id("post:1").tower.block.bodies[0]  # At (1000, 400).
+	var ghp := gol.hp  # Before.
+	game.hostile.fire(gol.pos + Vector2(-60, 0), gol, {"damage": 7.0})
+	for i in 60:
+		game.tick(1.0 / 60.0)
+	_check("golem takes shots", gol.alive and gol.hp <= ghp - 7.0)
+	var tb := TempBlockers.new(game)  # Risen as a spell raises them.
+	var rb := tb.raise("main", 300.0, 1, 50.0, 1, 1.0, 1.0, 10.0, "check")
+	var rbody: BlockBody = rb.bodies[0]
+	game.hostile.fire(rbody.pos + Vector2(-40, 0), arc, {"damage": 9.0})
+	for i in 30:
+		game.tick(1.0 / 60.0)
+	_check("risen blocks shots", rbody.hp < 50.0)
+	_check("no risen off road", tb.raise("trail", 100.0, 1, 50.0, 1, 1.0, 1.0, 10.0, "check") == null)
 	# Claims: a body felled by a claimer's blow rises as a thrall.
 	var cl := game.spawn_at("test_claimer", "main", 1, 640.0, 0.0)
+	game.tick(1.0 / 60.0)  # Into the spatial hash (the claim looks it up there).
 	var before := game.enemies.size()  # Live enemies.
 	TdCombat.damage_body(game, body, INF, cl)
 	_check("thrall raised", game.enemies.size() == before + 1 and game.enemies.back().kind == "test_thrall")

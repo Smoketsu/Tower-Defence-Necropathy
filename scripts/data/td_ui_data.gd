@@ -61,3 +61,8 @@ const TOUCH_SCALE: float = 1.35  # TUNING (not in GDD)
 const SIDE_SPELL_ASPECT: float = 1.95  # TUNING (not in GDD)
 ## Phones and tablets: top-bar buttons are this much bigger (about 40 CSS px tall on a phone).
 const TOUCH_TOP_SCALE: float = 1.7  # TUNING (not in GDD)
+## Build-menu tiles per page (gw2-kit): more open towers than this are paged
+## (MENU_COLUMNS x 2 rows: the Act I menu's size, phone landscape included).
+const MENU_PAGE: int = 6  # TUNING (not in GDD)
+## Size (px) of a build-menu page button (a fingertip at phone scale).
+const MENU_PAGER := Vector2(56.0, 36.0)  # TUNING (not in GDD)

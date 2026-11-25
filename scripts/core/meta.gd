@@ -18,10 +18,15 @@ const CODEX: Array[String] = ["towers", "spells", "enemies", "bosses", "evolutio
 ##   masteries {class id: true}
 ##   maps {cleared: Array of map ids, skulls: {"map|difficulty": 1..3}, reckoning: {map: best wave}}
 ##   codex {category: Array of ids met}
-##   prerun {map, difficulty, character, spells: Array}
+##   prerun {map, difficulty, character, spells: Array, ultimate}
+##   unlocks {towers / spells / ultimates: Array of ids opened (Unlocks.refresh(); save version 2)}
 static var data: Dictionary = {}
 ## Last load result (OK, ERR_FILE_NOT_FOUND...; shown nowhere, kept for tests).
 static var last_error: Error = OK
+## Save version of the file last loaded (0 = none; kept for the migration check).
+static var loaded_version: int = 0
+## Names of what the last recorded run unlocked (towers, spells, ultimates; the results card lists them).
+static var last_unlocks: Array[String] = []
 
 
 ## True when the save may be read and written (never under --autotest unless --meta-save).
@@ -35,7 +40,8 @@ static func _fresh() -> Dictionary:
 	for c: String in CODEX:
 		codex[c] = []
 	return {"ash": {"ash": 0, "earned": 0}, "ossuary": {}, "masteries": {},
-		"maps": {"cleared": [], "skulls": {}, "reckoning": {}}, "codex": codex, "prerun": {}}
+		"maps": {"cleared": [], "skulls": {}, "reckoning": {}}, "codex": codex, "prerun": {},
+		"unlocks": {"towers": [], "spells": [], "ultimates": []}}
 
 
 ## Loads the save (a fresh one when missing or unreadable) and applies it.
@@ -44,12 +50,21 @@ static func load_save() -> void:
 	if can_write():
 		var cfg := ConfigFile.new()
 		last_error = cfg.load(MetaData.SAVE_PATH)
-		if last_error == OK and int(cfg.get_value("meta", "save_version", 0)) >= 1:
+		loaded_version = int(cfg.get_value("meta", "save_version", 0)) if last_error == OK else 0
+		if last_error == OK and loaded_version >= 1:
 			for sec: String in data:
 				for key: String in (data[sec] as Dictionary).keys() + (Array(cfg.get_section_keys(sec)) if cfg.has_section(sec) else []):
 					if cfg.has_section_key(sec, key):
 						data[sec][key] = cfg.get_value(sec, key)
+	migrate()
 	apply()
+
+
+## Brings a loaded save up to MetaData.SAVE_VERSION (version 1 -> 2: the
+## `unlocks` section is filled from the map records already kept, so an
+## existing player keeps everything their clears earned). Safe to run twice.
+static func migrate() -> void:
+	Unlocks.refresh()
 
 
 ## Writes the save (skipped when can_write() is false). Temp file + rename.
@@ -203,6 +218,7 @@ static func record_run(game: TdGame) -> int:
 		var key := game.map_id + "|" + game.difficulty  # Skull record key.
 		data["maps"]["skulls"][key] = maxi(skulls(game.map_id, game.difficulty), maxi(game.skulls(), 1))
 	data["maps"]["reckoning"][game.map_id] = maxi(best_reckoning(game.map_id), reckoning_of(game))
+	last_unlocks = Unlocks.refresh()  # Later towers, spells and ultimates this clear opened (gw2-kit).
 	apply()  # Masteries opened this run count from the next one.
 	save()
 	return paid

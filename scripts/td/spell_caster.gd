@@ -9,6 +9,10 @@ extends RefCounted
 ## Emitted after a cast or a meter change (HUD refresh).
 signal changed
 
+## Ultimate the next run brings (SpellData.ULTIMATE id or a SpellData.ULTIMATES
+## key; set by the pre-map pick / the autotest's --ultimate; gw2-kit).
+static var ultimate_id: String = "dread_rally"
+
 ## The run.
 var game: TdGame = null
 ## Spell ids in slot order.
@@ -31,7 +35,14 @@ func _init(p_game: TdGame, p_loadout: Array[String]) -> void:
 	for id: String in loadout:
 		spells.append(_make(id, SpellData.SPELLS[id]))
 		ready_at.append(0.0)
-	ultimate = _make(String(SpellData.ULTIMATE["id"]), SpellData.ULTIMATE)
+	var uid := ultimate_id if SpellData.ULTIMATES.has(ultimate_id) else String(SpellData.ULTIMATE["id"])  # The run's ultimate.
+	ultimate = _make(uid, ult_row(uid))
+
+
+## The row of ultimate `id`: Dread Rally's SpellData.ULTIMATE, else its
+## SpellData.ULTIMATES row (every ultimate shares ULTIMATE's meter).
+static func ult_row(id: String) -> Dictionary:
+	return SpellData.ULTIMATES.get(id, SpellData.ULTIMATE)
 
 
 ## The spell script instance for `id` with row `row`, or null when not built.
@@ -94,7 +105,7 @@ func cast_ultimate() -> bool:
 
 ## Adds the meter charge of a kill of rank `rank`.
 func charge(rank: String) -> void:
-	meter = minf(meter + float(SpellData.ULTIMATE["charge"][rank]), float(SpellData.ULTIMATE["meter_max"]))
+	meter = minf(meter + float(SpellData.ULTIMATE["charge"][rank]) * MetaModifiers.ultimate_charge_mult(), float(SpellData.ULTIMATE["meter_max"]))
 	changed.emit()
 
 

@@ -36,6 +36,14 @@ var meta_save: bool = false
 var character: String = CharacterData.DEFAULT_ID
 ## --test-act: shows the hidden test act (ActData "hidden") on the map select and in the Codex (debug only).
 var test_act: bool = false
+## --unlock-all (Web visual checks, `?gw_flags=--unlock-all`; gw2-kit): every later
+## tower, spell, ultimate and character shows as open in the menus. Never saved.
+var unlock_all: bool = false
+## Ultimate of the autotest run (--ultimate=; "" = Dread Rally; SpellData.ULTIMATES key).
+var autotest_ultimate: String = ""
+## Autotest A/B swap (--swap=from:to, gw2-kit): the first "build" step of class
+## `from` in the order builds class `to` instead ("" = none). Tower strength checks.
+var autotest_swap: String = ""
 ## Spells of the run in slot order (empty = SpellData.DEFAULT_LOADOUT).
 var loadout: Array[String] = []
 
@@ -47,6 +55,9 @@ func _init() -> void:
 		var q := String(JavaScriptBridge.eval("new URLSearchParams(location.search).get('gw_autotest') || ''", true))  # The query value.
 		if q != "":
 			args = PackedStringArray(["--autotest"]) + q.split(",", false)
+		var fl := String(JavaScriptBridge.eval("new URLSearchParams(location.search).get('gw_flags') || ''", true))  # Menu-only flags (no bot).
+		if fl != "":
+			args += fl.split(",", false)
 	for arg: String in args:
 		var kv := arg.split("=", true, 1)  # [name, value] or [flag].
 		var v := kv[1] if kv.size() > 1 else ""  # Option value ("" for flags).
@@ -65,3 +76,6 @@ func _init() -> void:
 			"--meta-save": meta_save = true
 			"--character": character = v
 			"--test-act": test_act = true
+			"--ultimate": autotest_ultimate = v
+			"--swap": autotest_swap = v
+			"--unlock-all": unlock_all = true
