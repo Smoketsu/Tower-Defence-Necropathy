@@ -192,10 +192,10 @@ const TOWERS: Dictionary = {
 		"interval": 1.0,  # TUNING (not in GDD)
 		"target": "first",
 		"bodies": 2,  # GDD §4.1 "holds 2 enemies"
-		"body_hp": 50.0,  # TUNING (not in GDD) low enough that the column threatens blockers (Mender, respawn, Dread Rally have a job)
+		"body_hp": 90.0,  # TUNING (not in GDD) DECISIONS W2: falls a few times a map; low enough that the column threatens blockers (Mender, respawn, Dread Rally have a job)
 		"hold": 1,  # TUNING (not in GDD)
 		"hits_all_held": false,
-		"respawn": 8.0,  # TUNING (not in GDD) GDD §4.3 "return after a cooldown"
+		"respawn": 6.0,  # TUNING (not in GDD) GDD §4.3 "return after a cooldown"; soon, so a fall costs a few leaks (W2)
 		"volley": {"every": 3, "count": 2, "damage": 0.6, "sprite": "volleys/dagger", "tint": Color(0.9, 0.9, 0.8), "reach": 110.0},  # TUNING (not in GDD)
 		"evolution": "death_knight",
 	},
@@ -208,10 +208,10 @@ const TOWERS: Dictionary = {
 		"interval": 1.4,  # TUNING (not in GDD)
 		"target": "first",
 		"bodies": 1,
-		"body_hp": 200.0,  # TUNING (not in GDD) see the Warrior
+		"body_hp": 350.0,  # TUNING (not in GDD) see the Warrior
 		"hold": 4,  # GDD §4.1 "holds 4"
 		"hits_all_held": true,  # GDD §4.1 stomp
-		"respawn": 12.0,  # TUNING (not in GDD)
+		"respawn": 10.0,  # TUNING (not in GDD)
 		"stagger_time": 0.8,  # TUNING (not in GDD) GDD §4.1 "stomp staggers"
 		"volley": {"every": 2, "count": 4, "damage": 0.4, "sprite": "volleys/shard", "tint": Color(0.95, 0.8, 0.7), "reach": 120.0},  # TUNING (not in GDD)
 		"evolution": "bone_colossus",
@@ -322,10 +322,10 @@ const TOWERS: Dictionary = {
 		"interval": 1.5,  # TUNING (not in GDD)
 		"target": "first",
 		"bodies": 1,
-		"body_hp": 300.0,  # TUNING (not in GDD) Abomination 200, but holds fewer
+		"body_hp": 500.0,  # TUNING (not in GDD) Abomination 350, but holds fewer (DECISIONS W2)
 		"hold": 3,  # TUNING (not in GDD)
 		"hits_all_held": false,
-		"respawn": 14.0,  # TUNING (not in GDD)
+		"respawn": 12.0,  # TUNING (not in GDD)
 		"slam_every": 3, "slam_mult": 1.5,  # TUNING (not in GDD)
 		"stagger_time": 0.6,  # TUNING (not in GDD)
 		"hunger_heal": 14.0,  # TUNING (not in GDD) Necropathy Ossuary Hunger

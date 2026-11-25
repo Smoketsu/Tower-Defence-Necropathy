@@ -25,7 +25,8 @@ func on_recompute(t: Tower) -> void:
 	while t.block.bodies.size() < want:
 		var b := BlockBody.new()  # A new body, at full HP.
 		b.block = t.block
-		b.hp = float(t.stats["body_hp"])
+		b.max_hp = float(t.stats["body_hp"])  # Before the share below reads it (DECISIONS K15).
+		b.hp = b.max_hp
 		t.block.bodies.append(b)
 	var road: Road = t.game.roads[t.block.road_id]  # The post's road.
 	var dir := road.dir_at(t.block.dist)  # Road direction at the post.

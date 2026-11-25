@@ -83,15 +83,15 @@ const KINDS: Dictionary = {
 	# Graveyard miniboss (GDD §6.3: picked from an existing elite kind): the Inquisitor.
 	"inquisitor": {
 		"name": "Covenant Inquisitor", "sprite": "enemies/inquisitor", "rank": "miniboss",
-		"hp": 3000.0, "speed": 30.0, "armour": 5.0, "radius": 18.0,  # TUNING (not in GDD)
-		"damage": 30.0, "attack_interval": 1.2,  # TUNING (not in GDD)
+		"hp": 2700.0, "speed": 30.0, "armour": 5.0, "radius": 18.0,  # TUNING (not in GDD)
+		"damage": 20.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "", "args": {},
 	},
 	# GDD §6.3 Sir Alaric: walks the road, charges through one blocker post at intervals.
 	"alaric": {
 		"name": "Sir Alaric, the Gravebreaker", "sprite": "bosses/alaric", "rank": "boss",
-		"hp": 9000.0, "speed": 26.0, "armour": 6.0, "radius": 28.0,  # TUNING (not in GDD)
-		"damage": 45.0, "attack_interval": 1.2,  # TUNING (not in GDD)
+		"hp": 8200.0, "speed": 26.0, "armour": 6.0, "radius": 28.0,  # TUNING (not in GDD)
+		"damage": 30.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "alaric",
 		"args": {
 			"charge_first": 4.0,  # s after he arrives before his first charge may start
@@ -119,7 +119,7 @@ const KINDS: Dictionary = {
 	"halberdier": {
 		"name": "Crimson Halberdier", "sprite": "enemies/halberdier", "rank": "elite",
 		"hp": 300.0, "speed": 38.0, "armour": 4.0, "radius": 12.0,  # TUNING (not in GDD)
-		"damage": 10.0, "attack_interval": 1.5,  # TUNING (not in GDD) hits blockers hard (x BLOCKER_HIT_MULT 4)
+		"damage": 10.0, "attack_interval": 1.5,  # TUNING (not in GDD) hits blockers hard (x BLOCKER_HIT_MULT)
 		"flying": false, "ignores_walls": false, "trait": "halberd_reach",
 		"args": {"reach": 60.0},  # TUNING (not in GDD) px ahead it strikes a post from
 	},
@@ -190,20 +190,20 @@ const KINDS: Dictionary = {
 	# commander whose banner hastens the column around him.
 	"templar_commander": {
 		"name": "Templar Commander", "sprite": "enemies/templar", "rank": "miniboss",
-		"hp": 4200.0, "speed": 30.0, "armour": 5.0, "radius": 18.0,  # TUNING (not in GDD)
-		"damage": 32.0, "attack_interval": 1.2,  # TUNING (not in GDD)
+		"hp": 1500.0, "speed": 30.0, "armour": 5.0, "radius": 18.0,  # TUNING (not in GDD)
+		"damage": 20.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "banner_aura",
 		"args": {"radius": 110.0, "speed_mult": 1.25, "refresh": 0.25},  # TUNING (not in GDD)
 	},
 	# GDD §6.3 the Sanctum's miniboss (Necropathy cathedral_guardian: slams, sweeping beam).
 	"cathedral_guardian": {
 		"name": "Cathedral Guardian", "sprite": "enemies/cathedral_guardian", "rank": "miniboss",
-		"hp": 5600.0, "speed": 26.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD)
-		"damage": 30.0, "attack_interval": 1.6,  # TUNING (not in GDD)
+		"hp": 3000.0, "speed": 26.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD)
+		"damage": 12.0, "attack_interval": 1.6,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "guardian",
 		"args": {
 			"slam_every": 5.0,  # TUNING (not in GDD) s between slams while held
-			"slam_damage": 60.0,  # TUNING (not in GDD) to every body of the post holding it
+			"slam_damage": 25.0,  # TUNING (not in GDD) to every body of the post holding it
 			"beam_first": 4.0,  # TUNING (not in GDD) s before its first beam
 			"beam_every": 12.0,  # TUNING (not in GDD) s between beams
 			"beam_radius": 150.0,  # TUNING (not in GDD) px around it
@@ -214,8 +214,8 @@ const KINDS: Dictionary = {
 	# GDD §6.3 Marshal Vael: calls reinforcement squads from side lanes while advancing.
 	"vael": {
 		"name": "Marshal Vael", "sprite": "bosses/vael", "rank": "boss",
-		"hp": 12000.0, "speed": 26.0, "armour": 6.0, "radius": 24.0,  # TUNING (not in GDD)
-		"damage": 45.0, "attack_interval": 1.2,  # TUNING (not in GDD)
+		"hp": 8000.0, "speed": 26.0, "armour": 6.0, "radius": 24.0,  # TUNING (not in GDD)
+		"damage": 30.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "vael",
 		"args": {
 			"call_first": 4.0,  # s after he arrives before the first squad
@@ -247,8 +247,8 @@ const KINDS: Dictionary = {
 	# GDD §6.3 Grand Inquisitor Seraphine: teleports forward, suppresses towers with beams, healed by attendants.
 	"seraphine": {
 		"name": "Grand Inquisitor Seraphine", "sprite": "bosses/seraphine", "rank": "boss",
-		"hp": 16000.0, "speed": 24.0, "armour": 4.0, "radius": 22.0,  # TUNING (not in GDD)
-		"damage": 40.0, "attack_interval": 1.2,  # TUNING (not in GDD)
+		"hp": 13000.0, "speed": 24.0, "armour": 4.0, "radius": 22.0,  # TUNING (not in GDD)
+		"damage": 28.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "seraphine",
 		"args": {
 			"attendants": 3,  # escorts at her arrival (Necropathy: 3 minus altars destroyed)

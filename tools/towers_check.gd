@@ -14,6 +14,7 @@ func _ready() -> void:
 	game.setup("graveyard", DifficultyData.DEFAULT_ID, 1)
 	add_child(game)
 	game.economy.earn(20000, "test_bonus")
+	_fresh_bodies(game)
 	# Bone Colossus at post:1 beside a Warrior at post:2 (197 px apart).
 	var col := _maxed(game, "post:1", "abomination")
 	var war := _maxed(game, "post:2", "warrior")
@@ -52,6 +53,23 @@ func _ready() -> void:
 	_kit_checks()
 	print("TOWERS CHECK %s %s" % ["PASS" if _fails.is_empty() else "FAIL", ",".join(_fails)])
 	get_tree().quit(0 if _fails.is_empty() else 1)
+
+
+## Every blocker class: a fresh body has exactly its body_hp, and a level up
+## (more bodies) keeps every body at its stat (DECISIONS K15, W-rows). Sells them after.
+func _fresh_bodies(game: TdGame) -> void:
+	for id: String in TowerData.ORDER:
+		if String(TowerData.TOWERS[id]["spot"]) != "post" or not TowerData.TOWERS[id].has("body_hp"):
+			continue
+		var s := game.spot_by_id("post:0")  # A free post.
+		game.build(s, id)
+		var t := s.tower  # The blocker.
+		var ok := t.block.bodies.all(func(b: BlockBody) -> bool: return is_equal_approx(b.hp, float(t.stats["body_hp"])) and is_equal_approx(b.max_hp, float(t.stats["body_hp"])))
+		while t.level < 5:
+			game.upgrade(s)
+		ok = ok and t.block.bodies.all(func(b: BlockBody) -> bool: return is_equal_approx(b.hp, float(t.stats["body_hp"])) and is_equal_approx(b.max_hp, float(t.stats["body_hp"])))
+		_check("fresh body hp " + id, ok)
+		game.sell(s)
 
 
 ## Builds `id` on spot `spot`, raises it to level 5 and evolves it.

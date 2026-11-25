@@ -21,6 +21,16 @@ var order: Dictionary = {}
 var _step: int = 0
 ## Build order id played.
 var _order_id: String = ""
+## Leak curve (balance report, W-rows): lives at the last tick (-1 before the first).
+var _lives_seen: int = -1
+## Wave number (1-based) of the first life lost (0 = none yet).
+var _first_leak_wave: int = 0
+## Game times (s) of every permanent blocker body's fall (body_fallen, not Risen).
+var _deaths: Array[float] = []
+## Game times (s) of every life lost, one entry per life.
+var _life_losses: Array[float] = []
+## Seconds after a body falls in which lost lives are charged to that fall.
+const DEATH_WINDOW: float = 15.0  # TUNING (not in GDD) report only
 
 
 func _ready() -> void:
@@ -65,6 +75,9 @@ func _ready() -> void:
 	game.speed = GameState.autotest_speed
 	game.ticked.connect(_on_tick)
 	game.ended.connect(_on_ended)
+	game.body_fallen.connect(func(b: BlockBody, _by: TdEnemy) -> void:
+		if not b.temporary:
+			_deaths.append(game.time))
 	add_child(game)
 	_on_tick()
 	game.call_wave()
@@ -86,7 +99,18 @@ func _swap(from: String, to: String) -> void:
 
 
 ## Every fixed step: build what the order allows, cast spells, watch the clock.
+## Leak curve: records lives lost since the last look (each tick and at the end).
+func _track_lives() -> void:
+	if _lives_seen >= 0 and game.lives < _lives_seen:
+		for i in _lives_seen - game.lives:
+			_life_losses.append(game.time)
+		if _first_leak_wave == 0:
+			_first_leak_wave = game.waves.current + 1
+	_lives_seen = game.lives
+
+
 func _on_tick() -> void:
+	_track_lives()
 	if game.over:
 		return
 	while _step < (order["steps"] as Array).size() and _try(order["steps"][_step]):
@@ -253,6 +277,15 @@ func _summary(result: String) -> void:
 		CharacterModifiers.current, ",".join(game.caster.loadout), Meta.ash_for(game), _sorted(MetaModifiers.bonuses), MetaModifiers.masteries.size(), str(GameState.meta_save)])
 	if _kit_run():
 		_kit_summary(lines)
+	_track_lives()
+	var charged := 0  # Lives lost within DEATH_WINDOW s after some body fell.
+	for t: float in _life_losses:
+		for d: float in _deaths:
+			if t >= d and t - d <= DEATH_WINDOW:
+				charged += 1
+				break
+	lines.append("leak_curve=first_leak_wave:%d end_wave:%d lives_lost:%d body_deaths:%d lives_after_deaths:%d per_death:%.2f" % [
+		_first_leak_wave, game.waves.current + 1, _life_losses.size(), _deaths.size(), charged, float(charged) / maxf(1.0, float(_deaths.size()))])
 	lines.append("stuck_enemies=%d alive_at_end=%d" % [int(game.stats["stuck"]), game.enemies.size()])
 	for l: String in lines:
 		print(l)

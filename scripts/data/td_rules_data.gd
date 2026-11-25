@@ -50,7 +50,7 @@ const SPOT_PICK: float = 34.0  # TUNING (not in GDD) about a fingertip at phone 
 ## Multiplier on every held enemy's attack on its blocker body (TdEnemy._fight):
 ## kind rows keep Necropathy-scaled damage, this makes the column a real threat
 ## to blockers so the Mender, the free respawn and Dread Rally's revive matter.
-const BLOCKER_HIT_MULT: float = 4.0  # TUNING (not in GDD)
+const BLOCKER_HIT_MULT: float = 2.0  # TUNING (not in GDD) 4 before the blocker HP fix (DECISIONS W2)
 ## Wave HP ramp (integration balance): every non-boss enemy of map wave i
 ## (0-based, of n) gets HP x lerp(WAVE_HP_START, WAVE_HP_END, i / (n - 1)), so a
 ## map starts a little softer and its late waves press harder; Reckoning waves
