@@ -63,6 +63,7 @@ const MAP: Dictionary = {
 	"wave_hp_end": 2.4,  # TUNING (not in GDD) integration balance
 	"rule": "holy_ward_generators",
 	"build_order": "march_default",
+	"weak_order": "march_weak",
 	"waves": [
 		{"banner": "The Crimson March begins", "groups": [{"kind": "recruit", "count": 8, "spacing": 1.7, "road": "north"}, {"kind": "recruit", "count": 6, "spacing": 1.7, "delay": 6.8, "road": "south"}]},
 		{"banner": "", "groups": [{"kind": "recruit", "count": 10, "spacing": 1.4, "road": "north"}, {"kind": "archer", "count": 6, "spacing": 1.4, "delay": 5.1, "road": "south"}]},

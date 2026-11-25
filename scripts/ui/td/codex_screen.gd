@@ -2,8 +2,10 @@
 ## bosses and evolutions, a grid of entry tiles (dark silhouettes until a run
 ## has met them, Meta.seen()) and a detail column for the tapped entry.
 ## Evolutions are listed only once obtained, with their recipe then (never
-## hinted before). Built from TowerData / SpellData / TdEnemyData /
-## EvolutionData, so new rows appear by themselves. Only reads Meta.
+## hinted before). Foes and bosses have an act filter (All + one numeral per
+## act that adds kinds, Acts.act_of_kind()). Built from TowerData / SpellData /
+## Acts.kinds() / EvolutionData / ActData, so new rows and acts appear by
+## themselves. Only reads Meta.
 class_name CodexScreen
 extends MenuScreen
 
@@ -11,6 +13,12 @@ extends MenuScreen
 var _tab: String = "towers"
 ## Tab id -> its button.
 var _tabs: Dictionary = {}
+## Act filter of the foe / boss tabs ("" = every act).
+var _act: String = ""
+## The act filter row (shown on the foe / boss tabs) and its buttons, act id ("" = All) -> button.
+var _act_row: HBoxContainer = null
+## See _act_row.
+var _act_tabs: Dictionary = {}
 ## The entry grid.
 var _grid: GridContainer = null
 ## Detail column: name, picture, lines.
@@ -32,6 +40,26 @@ func _build(b: VBoxContainer) -> void:
 	for c: String in Meta.CODEX:
 		var t := button(tabs, String(MenuData.CODEX_TABS.get(c, c.capitalize())), _show.bind(c))
 		_tabs[c] = t
+	_act_row = HBoxContainer.new()
+	_act_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	_act_row.add_theme_constant_override("separation", MenuData.ACT_TAB_GAP)
+	b.add_child(_act_row)
+	var with_kinds := {}  # Act ids that define some kind.
+	for id: String in Acts.kinds():
+		with_kinds[Acts.act_of_kind(id)] = true
+	for act: String in [""] + Acts.visible_acts().map(func(r: Dictionary) -> String: return String(r["id"])):
+		if act != "" and not with_kinds.has(act):
+			continue
+		var ab := Button.new()  # The filter button.
+		ab.text = MenuData.CODEX_ALL_ACTS if act == "" else Acts.numeral(act)
+		ab.custom_minimum_size = MenuData.CODEX_ACT_TAB
+		if act != "":
+			ab.tooltip_text = "Act %s: %s" % [Acts.numeral(act), String(Acts.row(act)["name"])]
+		ab.pressed.connect(func() -> void:
+			_act = act
+			_show(_tab))
+		_act_row.add_child(ab)
+		_act_tabs[act] = ab
 	var row := HBoxContainer.new()  # Grid | detail.
 	row.add_theme_constant_override("separation", 12)
 	b.add_child(row)
@@ -72,10 +100,12 @@ func _entries(c: String) -> Array:
 				var r: Dictionary = SpellData.SPELLS[id]
 				out.append([id, String(r["name"]), SpriteBank.texture("icons/" + String(r["icon"])), "Cooldown %s s." % str(float(r["cooldown"]))])
 		"enemies", "bosses":
-			for id: String in TdEnemyData.KINDS:
-				var r: Dictionary = TdEnemyData.KINDS[id]
-				if (String(r["rank"]) == "boss") != (c == "bosses"):
+			for id: String in Acts.kinds():
+				var r: Dictionary = Acts.kinds()[id]
+				if (String(r["rank"]) == "boss") != (c == "bosses") or (_act != "" and Acts.act_of_kind(id) != _act):
 					continue
+				if not Acts.shown(Acts.row(Acts.act_of_kind(id))):
+					continue  # A hidden act's kinds (the test act) only with --test-act.
 				out.append([id, String(r["name"]), SpriteBank.texture(String(r["sprite"])),
 					"%s. HP %d, speed %d%s." % [String(r["rank"]).capitalize(), int(r["hp"]), int(r["speed"]), ", armour %d" % int(r["armour"]) if int(r.get("armour", 0)) > 0 else ""]])
 		"evolutions":
@@ -103,6 +133,9 @@ func _show(c: String) -> void:
 	_tab = c
 	for k: String in _tabs:
 		UiTheme.style_button(_tabs[k], "button", "gold" if k == c else "")
+	_act_row.visible = c == "enemies" or c == "bosses"
+	for k: String in _act_tabs:
+		UiTheme.style_button(_act_tabs[k], "button", "gold" if k == _act else "")
 	for n: Node in _grid.get_children():
 		_grid.remove_child(n)
 		n.queue_free()

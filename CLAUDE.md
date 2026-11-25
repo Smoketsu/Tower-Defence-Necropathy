@@ -92,7 +92,11 @@ test `t.synergies` ([id, partner] pairs) for conditional effects. Optional keys:
 `Synergies.hit_mult()` from `TdCombat.damage_enemy()`), `extend_weaken`, `aim`
 (read by the class kits through `Synergies.value()`).
 
-**Enemy kind** — a row in `TdEnemyData.KINDS`: name, sprite, rank
+**Act** — see `docs/ACT_TEMPLATE.md` (the checklist) and the section "Act
+framework" below. Later acts put enemy kinds, build orders and moods in their
+own data file, not in the Act I tables.
+
+**Enemy kind** — a row in `TdEnemyData.KINDS` (Act I; later acts: their act data file's `KINDS`; read every row through `Acts.kinds()`): name, sprite, rank
 (fodder|elite|miniboss|boss), hp, speed, armour (flat), radius, damage,
 attack_interval, flying, ignores_walls, trait, args. Trait = `scripts/enemies/traits/<trait>.gd`
 `extends EnemyTrait`, one shared instance, per-enemy state in `e.vars`, hooks:
@@ -110,10 +114,10 @@ Minibosses are rank "miniboss" kinds (their death grants the chest).
 **Map** — `scripts/maps/<id>_map.gd` with `const MAP` (every key documented in
 `graveyard_map.gd`: id, name, floor, decals, obstacles, roads {id: {points,
 next, next_at, entrance}}, gate, plots, posts, lives, souls, rule, build_order,
-waves [{banner, groups [{kind, count, spacing, delay, road}]}]) and one row in
-`MapRegistry.MAPS`. Merging roads: a side road with `next` = the main road and
-`next_at` = the join distance on it. Add its default build order to
-`BuildOrderData.ORDERS` and its music id in `Sfx.run_mode_for()` if not the Act I loop.
+waves [{banner, groups [{kind, count, spacing, delay, road}]}], weak_order) —
+Act I maps are preloaded in `MapRegistry.MAPS`; a later act's map is found by
+its file name once its ActData row lists the id. Merging roads: a side road with `next` = the main road and
+`next_at` = the join distance on it. Its build orders go in its act data file's `ORDERS` (Act I: `BuildOrderData`); its music comes from its act row.
 
 **Map rule** — `scripts/maps/rules/<id>.gd` `extends MapRule` (MAP "rule": id):
 `setup()`, `step(dt: float)`, `tower_damage_mult(t: Tower) -> float` (read by
@@ -250,3 +254,23 @@ endless mode (`--reckoning`), build orders `march_default` / `march_weak` /
   evolutions appear by themselves.
 - Reckoning hooks read defensively: `game.get("reckoning_wave")` (int) and
   `game.has_method("start_reckoning")` for the results' offer.
+
+## Act framework (gw2-acts, Nov 2026)
+
+Acts are `ActData.ACTS` (the one ordered list, all 15 acts pre-filled from
+Necropathy's ACT_ORDER, plus a hidden test act shown only with `--test-act`).
+Lookups: `Acts` (`scripts/td/acts.gd`: map order, act of a map, position in act,
+prev / next map, merged `kinds()` / `orders()` / `moods()`, `data(act)` for an
+act data file's consts). `MapRegistry.has()` / `get_map()` (act defaults
+filled in). Unlock chain across acts (`Meta.unlock_after()`), Soul Ash x1 /
+x1.25 / x1.5 per position in act. Map select with act tabs and "Coming soon";
+Codex act filter. Act rule: MAP `act_rule` (MapRule) with hooks
+`on_wave_start / on_spawn / on_kill / on_body_fallen / can_target`. One path
+each: `TdCombat.disable_tower()` (towers stopped; look in `HostileData`),
+`game.hostile.fire() / shell()` (HostileFire: shots stopped by blockers and
+Bone Walls, telegraphed shelling), `TdCombat.empower_enemy()` (wave tiers),
+`game.spawn_from_body()` (claims). Flyers: row `flying`, towers skip them only
+with row `ground_only`. Off-road trails: road keys `off_road` / `exit`. Generic
+traits `shooter`, `trampler`. Maps need `build_order` + `weak_order`
+(validated). Tools: `tools/map_list.tscn` (the map list, CI matrix),
+`tools/run_all_maps.sh`, `tools/acts_check.tscn`. Decisions A1-A14.

@@ -27,7 +27,7 @@ func _ready() -> void:
 	if DisplayServer.get_name() == "headless":
 		set_process(false)
 		return
-	_mood = TdMoodData.MOODS.get(game.map_id, {})
+	_mood = Acts.mood_for(game.map)
 	_place()
 	_anim = UnitLayer.new()
 	_anim.draw_fn = _draw_anim

@@ -34,6 +34,8 @@ var autotest_meta: String = ""
 var meta_save: bool = false
 ## Character id of the run (CharacterData key; --character= in the autotest).
 var character: String = CharacterData.DEFAULT_ID
+## --test-act: shows the hidden test act (ActData "hidden") on the map select and in the Codex (debug only).
+var test_act: bool = false
 ## Spells of the run in slot order (empty = SpellData.DEFAULT_LOADOUT).
 var loadout: Array[String] = []
 
@@ -62,3 +64,4 @@ func _init() -> void:
 			"--meta": autotest_meta = v
 			"--meta-save": meta_save = true
 			"--character": character = v
+			"--test-act": test_act = true

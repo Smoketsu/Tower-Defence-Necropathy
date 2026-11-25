@@ -116,7 +116,7 @@ func activate(p_kind: String, road: Road, d: float, lane: float, hp_mult: float,
 	alive = true
 	visible = true
 	kind = p_kind
-	row = TdEnemyData.KINDS[p_kind]
+	row = Acts.kinds()[p_kind]
 	max_hp = float(row["hp"]) * hp_mult
 	hp = max_hp
 	armour = float(row["armour"])
@@ -222,7 +222,11 @@ func step(dt: float) -> void:
 				+ float((n - 1) % 2 * 2 - 1) * float(n / 2) * 7.0
 		next_attack = game.time + float(row["attack_interval"]) * 0.5
 	elif follower.advance(move):
-		TdCombat.leak(game, self)
+		if follower.road.exit:
+			EnemyTrait.note(game, "crossed")  # An off-road crosser left the map: no lives lost.
+			game.remove_enemy(self, false)
+		else:
+			TdCombat.leak(game, self)
 		return
 	walked += move
 	if follower.dist != last_dist:
@@ -239,7 +243,7 @@ func _fight() -> void:
 	var target := holder  # The body it hits: its holder, or a taunting Bone Colossus body.
 	if holder.taunt_by != null and holder.taunt_by.alive and game.time < holder.taunt_until:
 		target = holder.taunt_by
-	TdCombat.damage_body(game, target, float(row["damage"]) * damage_mult() * TdRulesData.BLOCKER_HIT_MULT)
+	TdCombat.damage_body(game, target, float(row["damage"]) * damage_mult() * TdRulesData.BLOCKER_HIT_MULT, self)
 	game.vfx.enemy_blow(self, target)
 	if traits != null and alive:
 		traits.on_attack(self, game, target)
@@ -325,6 +329,8 @@ func _process(_delta: float) -> void:
 		if lf >= 0.0 and lf < 1.0:
 			var px := TdVfxData.BOSS_LUNGE_PX if String(row["rank"]) == "boss" else TdVfxData.ENEMY_LUNGE_PX  # Lunge reach.
 			off += vis_strike_dir * px * TdVfx.lunge_curve(lf)
+	if bool(row["flying"]):
+		off.y -= HostileData.FLY_LIFT  # Flyers hang above the road; their shadow stays on it (_draw).
 	body.position = off.round()
 	var sq := 0.0  # Squash amount now.
 	var hf := (game.time - vis_hit_at) / TdVfxData.HIT_SQUASH_TIME  # 0..1 through the hit squash.
@@ -337,6 +343,10 @@ func _process(_delta: float) -> void:
 ## Draws the HP bar and the status icons on the node (not on the mirrored body).
 func _draw() -> void:
 	var h := SpriteBank.drawn_height(String(row["sprite"]))  # Sprite height (px).
+	if bool(row.get("flying", false)) and game != null and game.vfx.on:
+		var sh := HostileData.FLY_SHADOW  # Its ground shadow (px).
+		draw_texture_rect(SpriteBank.disc(), Rect2(Vector2(-sh.x * 0.5, h * 0.3 - sh.y * 0.5), sh), false, Color(0, 0, 0, HostileData.FLY_SHADOW_A))
+		h += HostileData.FLY_LIFT * 2.0  # HP bar and icons above the lifted body.
 	if hp < max_hp:
 		var w := clampf(radius * 2.2, 18.0, 60.0)  # Bar width (px).
 		var top := Vector2(-w * 0.5, -h * 0.5 - 8.0)  # Bar corner (px).

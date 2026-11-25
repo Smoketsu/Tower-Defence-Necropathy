@@ -19,6 +19,7 @@ func _ready() -> void:
 	Meta.refund_all()
 	ok = ok and Meta.ash() == 2000 - 700 + 60 + 700 and MetaModifiers.bonuses.is_empty() and MetaModifiers.spell_slots() == 3
 	ok = ok and Meta.map_open(MapRegistry.DEFAULT_ID)
+	ok = ok and Meta.unlock_after("crimson_march") == "graveyard" and not Meta.map_open("crimson_march")  # The act unlock chain (fresh save).
 	CharacterModifiers.current = "gravecaller"
 	var base: Array[String] = ["shadow_bolt", "bone_wall", "corpse_explosion"]
 	ok = ok and CharacterModifiers.loadout(base) == base and CharacterModifiers.spell_row("shadow_bolt", SpellData.SPELLS["shadow_bolt"]) == SpellData.SPELLS["shadow_bolt"]

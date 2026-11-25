@@ -45,6 +45,7 @@ const MAP: Dictionary = {
 	"wave_hp_end": 3.0,  # TUNING (not in GDD) integration balance: the last map presses hardest
 	"rule": "sanctified_chambers",
 	"build_order": "sanctum_default",
+	"weak_order": "sanctum_weak",
 	"waves": [
 		{"banner": "The Sanctum's doors open", "groups": [{"kind": "recruit", "count": 10, "spacing": 1.4}, {"kind": "footman", "count": 4, "spacing": 1.2, "delay": 10.2}]},
 		{"banner": "", "groups": [{"kind": "footman", "count": 8, "spacing": 1.2}, {"kind": "archer", "count": 8, "spacing": 0.8, "delay": 5.1}]},

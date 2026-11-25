@@ -106,10 +106,8 @@ func _on_run_ended(_won: bool, g: TdGame) -> void:
 		return
 	g.set_meta("recorded", true)
 	g.set_meta("ash_paid", Meta.record_run(g))
-	var keys := MapRegistry.MAPS.keys()  # Map order.
-	var i := keys.find(g.map_id)  # This map's position.
-	if i >= 0 and i + 1 < keys.size() and Meta.map_open(String(keys[i + 1])):
-		var nxt := String(keys[i + 1])  # The next map.
+	var nxt := Acts.next_map(g.map_id)  # The next map in the campaign order ("" = none).
+	if nxt != "" and Meta.map_open(nxt):
 		g.set_meta("on_next", func() -> void: _start_run.call_deferred(nxt, g.difficulty, GameState.character, GameState.loadout))
 
 

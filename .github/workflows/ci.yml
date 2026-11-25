@@ -1,6 +1,9 @@
 # Gravewatch CI (adapted from Necropathy's)
 #
 # On every push / pull request:
+#   maps   - lists every registered, non-hidden map from the one map list
+#            (tools/map_list.tscn: ActData + MapRegistry, validated) as the
+#            test matrix, so a new act's maps get CI jobs with no edit here.
 #   test   - one parallel job per map: imports the project with Godot 4.3 headless,
 #            runs the map's default build order (--autotest) and its losing order,
 #            and (on the Graveyard job) the towers and meta self-check scenes. Fails
@@ -30,18 +33,49 @@ env:
   TEMPLATES_URL: https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz
 
 jobs:
+  maps:
+    name: map list
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      # matrix - JSON list of {map, weak}: map id and its weak build order (MAP "weak_order").
+      matrix: ${{ steps.list.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Godot
+        uses: actions/cache@v4
+        with:
+          path: /home/runner/godot
+          key: godot-${{ env.GODOT_VERSION }}-linux
+
+      - name: Download Godot
+        run: |
+          if [ ! -x "$GODOT_BIN" ]; then
+            mkdir -p "$(dirname "$GODOT_BIN")"
+            curl -sSL -o /tmp/godot.zip "$GODOT_URL"
+            unzip -q /tmp/godot.zip -d "$(dirname "$GODOT_BIN")"
+          fi
+
+      - name: List maps
+        id: list
+        run: |
+          set -euo pipefail
+          "$GODOT_BIN" --headless --import > /dev/null 2>&1
+          timeout 120 "$GODOT_BIN" --headless res://tools/map_list.tscn 2>&1 | tee maps.log
+          if grep -qE "SCRIPT ERROR|ERROR:" maps.log; then echo "::error::A map failed validation"; exit 1; fi
+          echo "matrix=$(grep '^MAP ' maps.log | awk '{printf "%s{\"map\":\"%s\",\"weak\":\"%s\"}", (NR>1?",":""), $2, $3}' | sed 's/^/[/;s/$/]/')" >> "$GITHUB_OUTPUT"
+
   test:
     name: test (${{ matrix.map }})
+    needs: maps
     runs-on: ubuntu-latest
     timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        # map  - MapRegistry id; weak - its losing build order (must load and end cleanly).
-        include:
-          - {map: graveyard, weak: weak}
-          - {map: crimson_march, weak: march_weak}
-          - {map: sanctum, weak: sanctum_weak}
+        # map  - map id; weak - its losing build order (must load and end cleanly). From the maps job.
+        include: ${{ fromJson(needs.maps.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -67,15 +101,17 @@ jobs:
             echo "::error::Script errors during import"; exit 1
           fi
 
-      - name: Self-checks (towers, meta)
+      - name: Self-checks (towers, meta, acts)
         if: matrix.map == 'graveyard'
         run: |
           set -euo pipefail
           timeout 120 "$GODOT_BIN" --headless res://tools/towers_check.tscn 2>&1 | tee towers_check.log
           timeout 120 "$GODOT_BIN" --headless res://tools/meta_check.tscn -- --autotest 2>&1 | tee meta_check.log
+          timeout 120 "$GODOT_BIN" --headless res://tools/acts_check.tscn -- --autotest 2>&1 | tee acts_check.log
           grep -qF "TOWERS CHECK PASS" towers_check.log
           grep -qF "META CHECK OK" meta_check.log
-          if grep -qE "SCRIPT ERROR|ERROR:|WARNING:" towers_check.log meta_check.log; then
+          grep -qF "ACTS CHECK PASS" acts_check.log
+          if grep -qE "SCRIPT ERROR|ERROR:|WARNING:" towers_check.log meta_check.log acts_check.log; then
             echo "::error::Errors in a self-check"; exit 1
           fi
 

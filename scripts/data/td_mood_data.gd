@@ -131,3 +131,8 @@ const POST_MARK_TINT: Color = Color(0.45, 0.06, 0.08, 0.55)  # TUNING (not in GD
 const RANGE_FILL_A: float = 0.1  # TUNING (not in GDD)
 ## See RANGE_FILL_A.
 const RANGE_TINT: Color = Color(0.45, 1.0, 0.85, 0.95)  # TUNING (not in GDD)
+
+## --- Act framework (gw2-acts) --------------------------------------------------
+## Width of an off-road route's trampled trail, as a fraction of the road width
+## (MapView draws only its worn shoulder; map road key "off_road").
+const OFF_ROAD_TRAIL: float = 0.22  # TUNING (not in GDD)

@@ -18,6 +18,12 @@ var next_id: String = ""
 var next_at: float = 0.0
 ## True when enemies may spawn at its start (an entrance arch is drawn there).
 var entrance: bool = false
+## True for an off-road route (herds, riders crossing the map; map road key "off_road"):
+## not drawn as a road, no post snaps to it, no spell targets it, nothing holds on it.
+var off_road: bool = false
+## True when an enemy reaching its end leaves the map without costing lives
+## (map road key "exit"; a crossing herd) instead of reaching the gate.
+var exit: bool = false
 
 
 func _init(p_id: String, row: Dictionary) -> void:
@@ -27,6 +33,8 @@ func _init(p_id: String, row: Dictionary) -> void:
 	next_id = String(row.get("next", ""))
 	next_at = float(row.get("next_at", 0.0))
 	entrance = bool(row.get("entrance", false))
+	off_road = bool(row.get("off_road", false))
+	exit = bool(row.get("exit", false))
 	cum.append(0.0)
 	for i in range(1, points.size()):
 		length += points[i - 1].distance_to(points[i])

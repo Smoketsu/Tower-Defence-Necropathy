@@ -121,8 +121,10 @@ static func heal_enemy(_game: TdGame, e: TdEnemy, amount: float) -> void:
 
 
 ## Deals `amount` damage to blocker body `b`; at 0 HP it falls, lets go of
-## what it held and waits for its free respawn (Blocker behaviour).
-static func damage_body(game: TdGame, b: BlockBody, amount: float) -> void:
+## what it held and waits for its free respawn (Blocker behaviour), and
+## TdGame.body_fallen fires (`by` = the enemy that dealt the blow, or null:
+## act rules raise it hostile through game.spawn_from_body()).
+static func damage_body(game: TdGame, b: BlockBody, amount: float, by: TdEnemy = null) -> void:
 	if not b.alive or amount <= 0.0:
 		return
 	b.hp -= amount
@@ -136,6 +138,7 @@ static func damage_body(game: TdGame, b: BlockBody, amount: float) -> void:
 		if not b.temporary:
 			game.stats["bodies_lost"] = int(game.stats["bodies_lost"]) + 1
 		game.fx.spawn("undead_death", b.pos, 64.0, 0.45)
+		game.body_fallen.emit(b, by)
 
 
 ## Heals blocker body `b` by `amount` HP (Mender auras, lifesteal); returns the HP restored.
@@ -193,3 +196,27 @@ static func suppress_tower(game: TdGame, t: Tower, mult: float, time: float) -> 
 		t.suppress_mult = mult
 	t.suppress_until = maxf(t.suppress_until, game.time + time)
 	t.recompute()
+
+
+## Disables tower `t` for `time` s (shelled, trampled, blinded, stunned: the
+## ONE path for anything that stops a tower): it makes no attack, pulse or
+## block step meanwhile (Tower.step), shows the disabled look (darkened, a
+## pulsing ring in its cause's colour, HostileData.CAUSE_TINT) and a burst now.
+## The longer disable wins. `cause` = a HostileData.CAUSE_TINT key.
+static func disable_tower(game: TdGame, t: Tower, time: float, cause: String) -> void:
+	if time <= 0.0 or not is_instance_valid(t) or not game.towers.has(t):
+		return
+	if game.time >= t.disabled_until or game.time + time > t.disabled_until:
+		t.disabled_until = game.time + time
+		t.disabled_cause = cause
+	EnemyTrait.note(game, "towers_disabled_" + cause)
+	game.hostile.disabled(t)
+
+
+## Raises enemy `e`'s max HP (and HP) by `hp_mult` (>= 1) and its speed by
+## `speed_mult`: the one path for per-wave tiers and escalations applied to a
+## spawned enemy (act rules call it from on_spawn()).
+static func empower_enemy(_game: TdGame, e: TdEnemy, hp_mult: float, speed_mult: float = 1.0) -> void:
+	e.max_hp *= hp_mult
+	e.hp = e.max_hp
+	e.speed *= speed_mult

@@ -36,12 +36,12 @@ func _ready() -> void:
 		if spells.size() < MetaModifiers.spell_slots() and not spells.has(id):
 			spells.append(id)
 	game = TdGame.new()
-	var map_default := String(MapRegistry.get_map(GameState.map_id if MapRegistry.MAPS.has(GameState.map_id) else MapRegistry.DEFAULT_ID)["build_order"])  # The map's own order.
+	var map_default := String(MapRegistry.get_map(GameState.map_id if MapRegistry.has(GameState.map_id) else MapRegistry.DEFAULT_ID)["build_order"])  # The map's own order.
 	_order_id = GameState.autotest_build if GameState.autotest_build != "" else map_default
-	if not BuildOrderData.ORDERS.has(_order_id):
+	if not Acts.orders().has(_order_id):
 		push_error("TdAutotest: unknown build order '%s'" % _order_id)
 		_order_id = map_default
-	order = BuildOrderData.ORDERS[_order_id]
+	order = Acts.orders()[_order_id]
 	if order.has("loadout"):
 		spells.assign(order["loadout"])  # The order's own spells (test orders).
 		for id: String in SpellData.SPELLS:
@@ -205,6 +205,11 @@ func _summary(result: String) -> void:
 	lines.append("events=%s" % _sorted(ev))
 	if game.rule != null:
 		lines.append("rule=%s %s" % [String(game.map["rule"]), game.rule.summary()])
+	if game.act_rule != null:
+		lines.append("act_rule=%s %s" % [String(game.map["act_rule"]), game.act_rule.summary()])
+	var hc: Dictionary = game.hostile.counts  # Hostile fire counts (act framework; printed only when used).
+	if int(hc["fired"]) > 0 or int(hc["shells"]) > 0 or float(game.stats.get("disabled_s", 0.0)) > 0.0:
+		lines.append("hostile=%s disabled_tower_s=%.1f" % [_sorted(hc), float(game.stats.get("disabled_s", 0.0))])
 	lines.append("meta=%s character=%s loadout=%s ash=%d bonuses=%s masteries=%d saved=%s" % [GameState.autotest_meta if GameState.autotest_meta != "" else "save" if GameState.meta_save else "none",
 		CharacterModifiers.current, ",".join(game.caster.loadout), Meta.ash_for(game), _sorted(MetaModifiers.bonuses), MetaModifiers.masteries.size(), str(GameState.meta_save)])
 	lines.append("stuck_enemies=%d alive_at_end=%d" % [int(game.stats["stuck"]), game.enemies.size()])

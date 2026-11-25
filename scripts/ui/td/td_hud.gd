@@ -217,11 +217,11 @@ func _build_preview() -> void:
 		c.queue_free()
 	for pair: Array in game.waves.next_preview():
 		var r := TextureRect.new()  # The kind's sprite.
-		r.texture = SpriteBank.texture(String(TdEnemyData.KINDS[pair[0]]["sprite"]))
+		r.texture = SpriteBank.texture(String(Acts.kinds()[pair[0]]["sprite"]))
 		r.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		r.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		r.custom_minimum_size = Vector2(TdUiData.PREVIEW_ICON, TdUiData.PREVIEW_ICON)
-		r.tooltip_text = String(TdEnemyData.KINDS[pair[0]]["name"])
+		r.tooltip_text = String(Acts.kinds()[pair[0]]["name"])
 		_preview.add_child(r)
 		_preview.add_child(UiTheme.tier_label("x%d" % int(pair[1]), UiTheme.Tier.BODY, UiTheme.TEXT_DIM))
 
@@ -282,10 +282,10 @@ func _announce(n: int) -> void:
 		return
 	for g: Dictionary in game.map["waves"][n - 1]["groups"]:
 		var kind := String(g["kind"])  # The group's kind.
-		if _announced.has(kind) or not TdEnemyData.KINDS.has(kind):
+		if _announced.has(kind) or not Acts.kinds().has(kind):
 			continue
 		_announced[kind] = true
-		var row: Dictionary = TdEnemyData.KINDS[kind]
+		var row: Dictionary = Acts.kinds()[kind]
 		if String(row["rank"]) == "boss":
 			_queue_banner("%s arrives" % String(row["name"]), TdUiData.BANNER_BOSS)
 		elif n > 1:
