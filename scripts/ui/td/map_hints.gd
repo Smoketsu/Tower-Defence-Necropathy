@@ -3,7 +3,8 @@
 ## selected EMPTY spot, the range ring of the tower class under the pointer /
 ## pad focus in the spot menu (SpotMenu.hover_id) and a soul-teal line to
 ## every tower a class buildable there would pair with (only the hovered
-## class's when one is hovered); plus the gamepad cursor ring (SpotCursor).
+## class's when one is hovered); a gold ring on the selected spot; the
+## gamepad cursor ring (SpotCursor).
 ## The selected tower's own ring and links stay TdGame's overlay. Textures
 ## only (range_ring / synergy_link masks), redrawn each frame while shown.
 class_name MapHints
@@ -42,6 +43,11 @@ func _draw() -> void:
 					draw_set_transform(s.position, d.angle(), Vector2.ONE)
 					draw_texture_rect(link, Rect2(Vector2(0, -4), Vector2(d.length(), 8)), true, Color(0.35, 0.95, 0.8, 0.9))
 					draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	if s != null and not game.over:
+		var sel := TdArt.texture("range_ring")  # The selected spot's gold ring (gold = selection).
+		if sel != null:
+			var q := TdRulesData.SPOT_PICK  # Ring radius (px).
+			draw_texture_rect(sel, Rect2(s.position - Vector2(q, q), Vector2(q, q) * 2.0), false, Color(1.0, 0.84, 0.4, 0.7))
 	if hud.cursor.active and not game.over:
 		var ring2 := TdArt.texture("range_ring")
 		if ring2 != null:

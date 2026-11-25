@@ -85,6 +85,11 @@ func _ready() -> void:
 	_refresh()
 
 
+## Size multiplier of the tappable HUD buttons (TdUiData.TOUCH_SCALE on phones / tablets).
+static func _touch() -> float:
+	return TdUiData.TOUCH_SCALE if TouchSupport.is_mobile() else 1.0
+
+
 ## An icon (TdArt role) as a TextureRect.
 func _icon(role: String) -> TextureRect:
 	var r := TextureRect.new()  # The icon.
@@ -101,7 +106,7 @@ func _button(role: String, text: String, cb: Callable) -> Button:
 	b.text = text
 	b.icon = TdArt.texture(role) if role != "" else null
 	b.focus_mode = Control.FOCUS_NONE
-	b.custom_minimum_size = TdUiData.TOP_BUTTON
+	b.custom_minimum_size = TdUiData.TOP_BUTTON * _touch()
 	b.pressed.connect(cb)
 	return b
 
@@ -152,7 +157,7 @@ func _build_spell_bar() -> void:
 		var b := SpellButton.new()  # One spell slot.
 		b.icon_key = String(SpellData.SPELLS[game.caster.loadout[i]]["icon"])
 		b.tooltip_text = String(SpellData.SPELLS[game.caster.loadout[i]]["name"])
-		b.custom_minimum_size = Vector2(TdUiData.SPELL_BUTTON, TdUiData.SPELL_BUTTON)
+		b.custom_minimum_size = Vector2(TdUiData.SPELL_BUTTON, TdUiData.SPELL_BUTTON) * _touch()
 		b.focus_mode = Control.FOCUS_NONE
 		b.pressed.connect(_arm.bind(i))
 		bar.add_child(b)
@@ -161,7 +166,7 @@ func _build_spell_bar() -> void:
 	_ult.icon_key = String(SpellData.ULTIMATE["icon"])
 	_ult.tooltip_text = String(SpellData.ULTIMATE["name"])
 	_ult.is_ultimate = true
-	_ult.custom_minimum_size = Vector2(TdUiData.SPELL_BUTTON, TdUiData.SPELL_BUTTON)
+	_ult.custom_minimum_size = Vector2(TdUiData.SPELL_BUTTON, TdUiData.SPELL_BUTTON) * _touch()
 	_ult.focus_mode = Control.FOCUS_NONE
 	_ult.pressed.connect(func() -> void: game.caster.cast_ultimate())
 	UiTheme.style_button(_ult, "button", "gold")
@@ -270,6 +275,9 @@ func open_pause() -> void:
 	if game.over or root.has_node("PauseMenu"):
 		return
 	game.set_paused(true)
+	game.selected = null  # The spot menu closes under the pause card.
+	game.armed = -1
+	menu.refresh()
 	var p := PauseMenu.new()  # The pause overlay.
 	p.name = "PauseMenu"
 	p.game = game

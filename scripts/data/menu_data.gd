@@ -22,7 +22,7 @@ const NAV_BUTTON := Vector2(140.0, 40.0)  # TUNING (not in GDD)
 const ROW_GAP: int = 10  # TUNING (not in GDD)
 
 ## Map select: size (px) of one map card.
-const MAP_CARD := Vector2(290.0, 300.0)  # TUNING (not in GDD)
+const MAP_CARD := Vector2(290.0, 230.0)  # TUNING (not in GDD)
 ## Size (px) of a skull mark on the map cards and results.
 const SKULL: float = 20.0  # TUNING (not in GDD)
 ## The 16 x 16 skull mark of the skull ratings (bone, tinted gold when earned).
@@ -33,10 +33,10 @@ const SKULL_BIG: float = 40.0  # TUNING (not in GDD)
 ## Pre-map setup: size (px) of a character tile, a spell / ultimate tile.
 const CHAR_TILE := Vector2(150.0, 118.0)  # TUNING (not in GDD)
 ## See CHAR_TILE.
-const SPELL_TILE := Vector2(96.0, 84.0)  # TUNING (not in GDD)
+const SPELL_TILE := Vector2(124.0, 84.0)  # TUNING (not in GDD)
 
 ## Ossuary: size (px) of an upgrade tile and of a mastery badge.
-const OSSUARY_TILE := Vector2(300.0, 104.0)  # TUNING (not in GDD)
+const OSSUARY_TILE := Vector2(300.0, 84.0)  # TUNING (not in GDD)
 ## See OSSUARY_TILE.
 const MASTERY_ICON: float = 40.0  # TUNING (not in GDD)
 
@@ -49,7 +49,7 @@ const CODEX_DETAIL_W: float = 300.0  # TUNING (not in GDD)
 ## Codex: tiles per row of the grid.
 const CODEX_COLUMNS: int = 8  # TUNING (not in GDD)
 ## Modulate of an entry not met yet (a dark silhouette, GDD §8.3).
-const SILHOUETTE: Color = Color(0.0, 0.0, 0.0, 0.8)  # TUNING (not in GDD)
+const SILHOUETTE: Color = Color(0.16, 0.12, 0.22, 1.0)  # TUNING (not in GDD)
 
 ## Settings tabs: [id, word].
 const SETTINGS_TABS: Array = [["audio", "Audio"], ["video", "Video"], ["controls", "Controls"], ["save", "Save"]]  # TUNING (not in GDD)

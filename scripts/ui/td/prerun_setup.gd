@@ -113,6 +113,8 @@ func _char_tile(id: String) -> Button:
 	var t := _tile(SpriteBank.texture(String(row["sprite"])), String(row["name"]) if open else "?", MenuData.CHAR_TILE, not open)
 	t.pressed.connect(_pick_character.bind(id))
 	t.disabled = not open
+	if not open:
+		t.tooltip_text = "Beat the boss of %s" % String(MapRegistry.get_map(String(row["unlock_after"]))["name"])
 	_tiles[id] = t
 	return t
 

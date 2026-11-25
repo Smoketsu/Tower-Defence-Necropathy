@@ -88,8 +88,13 @@ func _tile(id: String) -> Button:
 	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	col.add_theme_constant_override("separation", 0)
 	row.add_child(col)
-	col.add_child(UiTheme.tier_label(String(u["name"]), UiTheme.Tier.NAME, UiTheme.TEXT_GOLD if lv >= mx else UiTheme.TEXT))
-	col.add_child(UiTheme.tier_label("Lv %d / %d" % [lv, mx], UiTheme.Tier.BODY, UiTheme.TEXT_DIM))
+	var head := HBoxContainer.new()  # Name and level.
+	head.add_child(UiTheme.tier_label(String(u["name"]), UiTheme.Tier.NAME, UiTheme.TEXT_GOLD if lv >= mx else UiTheme.TEXT))
+	var lvl := UiTheme.tier_label("%d/%d" % [lv, mx], UiTheme.Tier.BODY, UiTheme.TEXT_DIM)
+	lvl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	lvl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	head.add_child(lvl)
+	col.add_child(head)
 	col.add_child(UiTheme.para(String(u["desc"]), 150.0))
 	var b := Button.new()  # Buy.
 	b.set_meta("upgrade", id)

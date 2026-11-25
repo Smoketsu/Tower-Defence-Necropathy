@@ -41,3 +41,9 @@ const CURSOR: Color = Color(1.0, 0.84, 0.4, 0.9)  # TUNING (not in GDD)
 const BANNER_NEW: String = "violet"  # TUNING (not in GDD)
 ## See BANNER_NEW.
 const BANNER_BOSS: String = "crimson"  # TUNING (not in GDD)
+## Spot menu build tiles per row, and one tile's size (px).
+const MENU_COLUMNS: int = 3  # TUNING (not in GDD)
+## See MENU_COLUMNS.
+const MENU_TILE := Vector2(112.0, 82.0)  # TUNING (not in GDD)
+## Phones and tablets: top-bar and spell buttons are this much bigger (a thumb, GDD §9.3).
+const TOUCH_SCALE: float = 1.35  # TUNING (not in GDD)

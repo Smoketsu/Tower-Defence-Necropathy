@@ -34,7 +34,7 @@ func _build(b: VBoxContainer) -> void:
 		_tabs[t[0]] = button(tabs, String(t[1]), _show.bind(String(t[0])))
 	b.add_child(UiTheme.divider())
 	_page = VBoxContainer.new()
-	_page.custom_minimum_size = Vector2(MenuData.SETTINGS_LABEL_W + MenuData.SLIDER_W + 80.0, 300.0)
+	_page.custom_minimum_size = Vector2(MenuData.SETTINGS_LABEL_W + MenuData.SLIDER_W + 80.0, 260.0)
 	_page.add_theme_constant_override("separation", 8)
 	b.add_child(_page)
 	_show("audio")

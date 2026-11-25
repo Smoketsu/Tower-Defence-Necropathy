@@ -42,4 +42,4 @@ const FONT_LICENCES: Array = [
 ## Pages (tab buttons): [page id, button word].
 const PAGES: Array = [["credits", "Credits"], ["licences", "Licences"]]  # TUNING (not in GDD)
 ## Size (px) of the scrolling text area.
-const AREA := Vector2(700.0, 380.0)  # TUNING (not in GDD)
+const AREA := Vector2(700.0, 340.0)  # TUNING (not in GDD)
