@@ -115,6 +115,10 @@ var units: Node2D = null
 var projectiles: TdProjectiles = null
 ## See world.
 var fx: TdFx = null
+## See world: the combat-effects layer (visual only).
+var vfx: TdVfx = null
+## The world node's fitted position (px; the screen shake draws around it).
+var world_origin: Vector2 = Vector2.ZERO
 ## See world.
 var spell_layer: UnitLayer = null
 ## See world.
@@ -180,6 +184,9 @@ func _ready() -> void:
 	fx = TdFx.new()
 	fx.game = self
 	world.add_child(fx)
+	vfx = TdVfx.new()
+	vfx.game = self
+	world.add_child(vfx)
 	spell_layer = _layer(7, caster.draw)
 	overlay = _layer(8, _draw_overlay)
 	hud = TdHud.new()
@@ -219,7 +226,8 @@ func _fit() -> void:
 	var top := top_inset if vp.x / vp.y > MapView.SIZE.x / MapView.SIZE.y + 0.05 else 0.0  # Reserved strip (px).
 	var k := minf(vp.x / MapView.SIZE.x, (vp.y - top) / MapView.SIZE.y)  # Fit scale.
 	world.scale = Vector2(k, k)
-	world.position = ((vp - Vector2(0.0, top) - MapView.SIZE * k) * 0.5 + Vector2(0.0, top)).round()
+	world_origin = ((vp - Vector2(0.0, top) - MapView.SIZE * k) * 0.5 + Vector2(0.0, top)).round()
+	world.position = world_origin
 
 
 func _physics_process(_delta: float) -> void:

@@ -43,6 +43,7 @@ func _wail(t: Tower, r: float) -> void:
 			TdCombat.weaken_enemy(t.game, e, float(t.stats["weaken"]), float(t.stats["weaken_time"]))
 			if silence > 0.0:
 				TdCombat.silence_enemy(t.game, e, silence)
+	t.game.vfx.wail(t, r)
 	var rings: Array = t.vars.get("rings", [])  # Rings being drawn.
 	rings.append([t.game.time, r])
 	t.vars["rings"] = rings

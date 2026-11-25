@@ -42,6 +42,19 @@ func step(t: Tower, dt: float) -> void:
 	t.vars["up"] = t.block.bodies.map(func(x: BlockBody) -> bool: return x.alive)
 
 
+## The smash: before each stomp the body heaves up over the wind-up, then
+## slams down (drawn only; the stomp itself lands on its normal cadence).
+func body_offset(t: Tower, b: BlockBody) -> Vector2:
+	var off := super(t, b)  # Lunge and flinch.
+	if not t.game.vfx.on or not TdVfx.motion() or b.held.is_empty():
+		return off
+	var w := TdVfxData.SMASH_TIME * 0.7  # Wind-up length (s).
+	var left := b.next_attack - t.game.time  # s until the stomp.
+	if left > 0.0 and left < w:
+		off.y -= SpriteBank.drawn_height(String(t.stats["sprite"])) * TdVfxData.SMASH_RISE * sin((1.0 - left / w) * PI * 0.5)
+	return off.round()
+
+
 ## Bone shrapnel from fallen Colossus body `b`.
 func _shrapnel(t: Tower, b: BlockBody) -> void:
 	var dmg := float(t.stats["damage"]) * float(t.stats["shrapnel_mult"])  # Damage to each enemy.

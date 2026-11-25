@@ -72,7 +72,6 @@ func volley(t: Tower, target: TdEnemy) -> void:
 
 
 func impact(t: Tower, shot: TdProjectiles.Shot, _victims: Array[TdEnemy]) -> void:
-	t.game.fx.spawn("bolt_impact", shot.pos, shot.splash * 2.0, 0.35, Color(0.95, 0.8, 0.6))
 	if shot.is_volley or float(t.stats.get("field_time", 0.0)) <= 0.0:
 		return
 	t.game.projectiles.add_field(shot.pos, float(t.stats["field_radius"]), float(t.stats["field_time"]), float(t.stats["field_tick"]),

@@ -33,6 +33,16 @@ var taunt_by: BlockBody = null
 var taunt_until: float = 0.0
 ## Game time (s) until which it draws a hit flash (visual only).
 var flash_until: float = 0.0
+## Drawing only (TdVfx): game s of its last strike and the lunge direction (unit vector).
+var vis_strike_at: float = -INF
+## See vis_strike_at.
+var vis_dir: Vector2 = Vector2.ZERO
+## Drawing only: game s it was last hit by a held enemy and the blow's direction (unit vector).
+var vis_flinch_at: float = -INF
+## See vis_flinch_at.
+var vis_flinch_dir: Vector2 = Vector2.ZERO
+## Drawing only: game s it last respawned (it climbs out of its bone pile).
+var vis_rise_at: float = -INF
 
 
 ## Lets go of every held enemy (they walk on).

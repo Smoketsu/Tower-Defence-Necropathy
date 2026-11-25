@@ -37,6 +37,10 @@ const ROLES: Dictionary = {
 	"icon_target_strongest": ROOT + "icon_target_strongest.png",
 	"icon_target_nearest": ROOT + "icon_target_nearest.png",
 	"logo": ROOT + "logo_gravewatch.png",  # 250x124 NECROPATHY logo with the Gravewatch subtitle
+	"vfx_slash": ROOT + "vfx_slash.png",  # 6 frames of 48x48 grey sword crescent facing +x, tinted (tools/vfx_art.py)
+	"vfx_streak": ROOT + "vfx_streak.png",  # 32x8 white trail mask, opaque at +x, stretched behind shots
+	"vfx_status": ROOT + "vfx_status.png",  # 6 status icons of 9x9: burning, rot, cursed, slowed, frozen, weakened
+	"vfx_crack": ROOT + "vfx_crack.png",  # 44x20 ground crack (Abomination smash, boulder impact)
 }
 
 ## Lives fraction (0..1) above which the gate draws intact.

@@ -87,6 +87,22 @@ var ward_mult: float = 1.0
 ## See ward_mult.
 var ward_until: float = 0.0
 
+## --- Drawing only (TdVfx; never read by the simulation) ---
+## Game s it was last nudged back by a blow, and the push direction (unit vector).
+var vis_nudge_at: float = -INF
+## See vis_nudge_at.
+var vis_nudge_dir: Vector2 = Vector2.ZERO
+## Game s it last struck its holder, and the lunge direction (unit vector).
+var vis_strike_at: float = -INF
+## See vis_strike_at.
+var vis_strike_dir: Vector2 = Vector2.ZERO
+## Game s it last took a direct hit (the hit squash).
+var vis_hit_at: float = -INF
+## Game s a ground field (burning shards / plague) last ticked on it, and that field's look.
+var vis_field_until: float = -INF
+## See vis_field_until ("flame" or "plague").
+var vis_field_look: String = ""
+
 
 func _ready() -> void:
 	body = UnitLayer.new()
@@ -122,6 +138,11 @@ func activate(p_kind: String, road: Road, d: float, lane: float, hp_mult: float,
 	staggered_until = 0.0
 	ward_mult = 1.0
 	ward_until = 0.0
+	vis_nudge_at = -INF
+	vis_strike_at = -INF
+	vis_hit_at = -INF
+	vis_field_until = -INF
+	body.position = Vector2.ZERO
 	dots.clear()
 	vars.clear()
 	wave = p_wave
@@ -219,6 +240,7 @@ func _fight() -> void:
 	if holder.taunt_by != null and holder.taunt_by.alive and game.time < holder.taunt_until:
 		target = holder.taunt_by
 	TdCombat.damage_body(game, target, float(row["damage"]) * damage_mult() * TdRulesData.BLOCKER_HIT_MULT)
+	game.vfx.enemy_blow(self, target)
 	if traits != null and alive:
 		traits.on_attack(self, game, target)
 
@@ -237,33 +259,103 @@ func _place() -> void:
 			body.queue_redraw()
 
 
-## Redraws the body when its hit flash or frozen look starts or ends (visual only).
+## Statuses shown on it now (TdVfxData.STATUS_ORDER names; drawn only).
+func statuses() -> Array[String]:
+	var out: Array[String] = []  # In priority order.
+	var t := game.time  # Now (game s).
+	for st: String in TdVfxData.STATUS_ORDER:
+		var yes := false  # True when st is on.
+		match st:
+			"frozen": yes = t < freeze_until
+			"burning": yes = t < vis_field_until and vis_field_look == "flame"
+			"rot": yes = t < vis_field_until and vis_field_look == "plague"
+			"cursed": yes = t < curse_until
+			"weakened": yes = t < weaken_until and weaken_mult < 1.0
+			"slowed": yes = t < slow_until and slow_mult < 1.0
+		if yes:
+			out.append(st)
+	return out
+
+
+## True while a boss shows its strike pose after a blow (drawn only).
+func _striking() -> bool:
+	return game.time - vis_strike_at < TdVfxData.BOSS_POSE_TIME and String(row["rank"]) == "boss"
+
+
+## Moves the body layer by its drawn offsets (nudge, lunge), squashes it on a
+## hit, and redraws the body / the node when its look (flash, statuses, boss
+## strike pose) changes. Visual only.
 func _process(_delta: float) -> void:
 	if not alive:
 		return
-	var look := (1 if game.time < flash_until else 0) + (2 if game.time < freeze_until else 0)  # Current look.
+	var look := (1 if game.time < flash_until else 0) + (2 if _striking() else 0)  # Current look.
+	var sts := statuses()  # Statuses on it now.
+	for i in TdVfxData.STATUS_ORDER.size():
+		if sts.has(TdVfxData.STATUS_ORDER[i]):
+			look += 1 << (i + 3)
 	if look != _look:
+		var icons := (look >> 3) != (_look >> 3)  # The status icons changed.
 		_look = look
 		body.queue_redraw()
+		if icons:
+			queue_redraw()
+	if not game.vfx.on:
+		return
+	var off := Vector2.ZERO  # Drawn offset of the body (px).
+	if TdVfx.motion():
+		var nf := (game.time - vis_nudge_at) / TdVfxData.NUDGE_TIME  # 0..1 through the nudge.
+		if nf >= 0.0 and nf < 1.0:
+			off += vis_nudge_dir * TdVfxData.NUDGE_PX * sin(nf * PI)
+		var lf := (game.time - vis_strike_at) / TdVfxData.LUNGE_TIME  # 0..1 through its lunge.
+		if lf >= 0.0 and lf < 1.0:
+			var px := TdVfxData.BOSS_LUNGE_PX if String(row["rank"]) == "boss" else TdVfxData.ENEMY_LUNGE_PX  # Lunge reach.
+			off += vis_strike_dir * px * TdVfx.lunge_curve(lf)
+	body.position = off.round()
+	var sq := 0.0  # Squash amount now.
+	var hf := (game.time - vis_hit_at) / TdVfxData.HIT_SQUASH_TIME  # 0..1 through the hit squash.
+	if hf >= 0.0 and hf < 1.0:
+		sq = TdVfxData.HIT_SQUASH * (1.0 - hf)
+	var sx := -1.0 if body.scale.x < 0.0 else 1.0  # Facing.
+	body.scale = Vector2(sx * (1.0 + sq), 1.0 - sq)
 
 
-## Draws the HP bar and freeze tint on the node (not on the mirrored body).
+## Draws the HP bar and the status icons on the node (not on the mirrored body).
 func _draw() -> void:
+	var h := SpriteBank.drawn_height(String(row["sprite"]))  # Sprite height (px).
 	if hp < max_hp:
-		var h := SpriteBank.drawn_height(String(row["sprite"]))  # Sprite height (px).
 		var w := clampf(radius * 2.2, 18.0, 60.0)  # Bar width (px).
 		var top := Vector2(-w * 0.5, -h * 0.5 - 8.0)  # Bar corner (px).
 		draw_rect(Rect2(top, Vector2(w, 3.0)), Color(0.1, 0.0, 0.0, 0.8))
 		draw_rect(Rect2(top, Vector2(w * hp / max_hp, 3.0)), Color(0.85, 0.15, 0.2))
+	if game == null or not game.vfx.on:
+		return
+	var tex := TdArt.texture("vfx_status")  # Icon strip.
+	var sts := statuses()  # Statuses on it.
+	if tex == null or sts.is_empty():
+		return
+	SpriteBank.apply_sharp(self)
+	var n := mini(sts.size(), TdVfxData.STATUS_ICONS_MAX)  # Icons shown.
+	var px := float(TdVfxData.STATUS_ICON_PX)  # Icon art size (texels).
+	var sz := px * TdVfxData.STATUS_ICON_SCALE  # Drawn size (px).
+	var x0 := -float(n) * (sz + 1.0) * 0.5  # Row start (px).
+	for k in n:
+		var src := Rect2(px * float(TdVfxData.STATUS_ICON[sts[k]]), 0.0, px, px)  # Icon in the strip.
+		draw_texture_rect_region(tex, Rect2(Vector2(x0 + float(k) * (sz + 1.0), -h * 0.5 - 10.0 - sz), Vector2(sz, sz)), src)
 
 
-## Body layer callback: the sprite (walk strip when it has one, boss pose).
+## Body layer callback: the sprite (walk strip when it has one, boss pose),
+## tinted by its first status (TdVfxData.STATUS_TINT).
 func _draw_body(ci: CanvasItem) -> void:
 	var key := String(row.get("sprite", ""))  # Sprite key.
 	var flash := game != null and game.time < flash_until  # Hit flash.
-	var tint := Color(0.6, 0.85, 1.3) if game != null and game.time < freeze_until else Color.WHITE  # Frozen look.
+	var tint := Color.WHITE  # Status look.
+	if game != null:
+		var sts := statuses()  # Statuses on it.
+		if not sts.is_empty():
+			tint = TdVfxData.STATUS_TINT[sts[0]]
 	if row.get("rank", "") == "boss":
-		if not SpriteBank.draw_pose(ci, key, pose, Vector2.ZERO, flash, tint):
+		var p := 3 if pose == 0 and game != null and _striking() else pose  # A blow shows the strike pose.
+		if not SpriteBank.draw_pose(ci, key, p, Vector2.ZERO, flash, tint):
 			ci.draw_rect(Rect2(-radius, -radius, radius * 2.0, radius * 2.0), Color(0.9, 0.8, 0.3))
 		return
 	if not SpriteBank.draw(ci, key, Vector2.ZERO, flash, tint):

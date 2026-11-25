@@ -59,6 +59,8 @@ class Shot:
 	var flight: float = 1.0
 	## Drawn size multiplier (volley boulders are smaller; visual only).
 	var size: float = 1.0
+	## Running number of the shot (fans volley shots apart when drawn; visual only).
+	var vis_id: int = 0
 
 ## One ground field (pooled): ticks damage on enemies inside it.
 class Field:
@@ -93,10 +95,19 @@ var _shots: Array[Shot] = []
 var _fields: Array[Field] = []
 ## Cached textures (a draw command keeps only the RID): telegraph and field puffs.
 var _tex: Dictionary = {}
+## Shots taken from the pool so far (Shot.vis_id; visual only).
+var _taken: int = 0
+## Ground layer under the units: lobbed boulders' shadows (visual only).
+var _shadows: UnitLayer = null
 
 
 func _ready() -> void:
 	z_index = 5
+	_shadows = UnitLayer.new()
+	_shadows.z_as_relative = false
+	_shadows.z_index = -2
+	_shadows.draw_fn = _draw_shadows
+	add_child(_shadows)
 
 
 ## Fires a shot from tower `t` at `target` for `damage`, drawn as `sprite`
@@ -151,6 +162,10 @@ func _take(t: Tower, damage: float, sprite: String, tint: Color, is_volley: bool
 	s.source = t.tower_id
 	s.sprite = sprite
 	s.tint = tint
+	s.from = s.pos
+	_taken += 1
+	s.vis_id = _taken
+	game.vfx.muzzle(t, is_volley)
 	return s
 
 
@@ -192,6 +207,8 @@ func step(dt: float) -> void:
 			var hit := {"source": f.source, "tower": f.tower if is_instance_valid(f.tower) else null, "dot": true}  # TdCombat hit info.
 			for e: TdEnemy in game.foes_near(f.pos, f.radius):
 				TdCombat.damage_enemy(game, e, f.damage, hit)
+				e.vis_field_until = game.time + TdVfxData.FIELD_STATUS_TIME  # Its burning / rot mark (drawn only).
+				e.vis_field_look = f.look
 	for s: Shot in _shots:
 		if not s.active:
 			continue
@@ -219,11 +236,11 @@ func _impact(s: Shot) -> void:
 	var hit := {"source": s.source, "tower": s.tower if is_instance_valid(s.tower) else null,
 		"armour_pierce": s.armour_pierce, "origin": s.pos}  # TdCombat hit info.
 	var victims: Array[TdEnemy] = []  # Enemies hit.
+	game.vfx.impact(s)
 	if s.lob:
 		victims = game.enemies_near(s.pos, s.splash)
 	elif s.splash > 0.0:
 		victims = game.enemies_near(s.pos, s.splash)
-		game.fx.spawn("bolt_impact", s.pos, s.splash * 2.0, 0.3, s.tint)
 	elif TdEnemy.valid(s.target, s.target_gen):
 		victims.append(s.target)
 		if s.pierce > 0:
@@ -244,6 +261,7 @@ func _impact(s: Shot) -> void:
 
 func _process(_delta: float) -> void:
 	queue_redraw()
+	_shadows.queue_redraw()
 
 
 ## Cached texture `key` (SpriteBank key), or null.
@@ -263,18 +281,55 @@ func _draw() -> void:
 				var sz := Vector2(2.0, 2.0 * float(tex.get_height()) / float(tex.get_width())) * f.radius  # Drawn size, aspect kept (px).
 				draw_texture_rect(tex, Rect2(f.pos - sz * 0.5, sz), false, Color(1, 1, 1, 0.75 * fade))
 	var tg := _texture("telegraphs/target")  # Landing telegraph of lobbed shots.
+	var streak := TdArt.texture("vfx_streak")  # Trail mask (alpha 0 -> 1 along +x).
+	var trails := not TdVfx.reduced() and streak != null  # Reduced effects: no trails.
 	for s: Shot in _shots:
 		if not s.active:
 			continue
+		var lk := TdVfx.look(s.source)  # Its tower's shot look (TdVfxData).
+		var k := TdVfx.loud(s.tower)  # Evolved towers draw louder.
+		var key := s.sprite if s.is_volley or String(lk["sprite"]) == "" else String(lk["sprite"])  # Sprite drawn.
+		var sc := (TdVfxData.VOLLEY_SCALE if s.is_volley else float(lk["scale"])) * k * s.size  # Drawn scale.
+		var glow: Color = s.tint if s.is_volley else lk["tint"]  # Trail / halo colour.
 		if s.lob:
 			var p := (game.time - s.t0) / s.flight  # 0..1 through the flight.
 			if tg != null:
 				var r := s.splash * (1.0 - 0.3 * p)  # Telegraph radius closing in (px).
 				draw_texture_rect(tg, Rect2(s.aim - Vector2(r, r), Vector2(r, r) * 2.0), false, Color(1.0, 0.45, 0.3, 0.35 + 0.4 * p))
 			var lift := Vector2(0, -sin(p * PI) * s.from.distance_to(s.aim) * 0.35)  # Height of the arc (px).
-			if not SpriteBank.draw_flat(self, s.sprite, s.pos + lift, p * TAU, s.tint, s.size * (1.0 + 0.4 * sin(p * PI))):
-				SpriteBank.draw_disc(self, s.pos + lift, 4.0, s.tint)
+			if not SpriteBank.draw_flat(self, key, s.pos + lift, p * TAU * TdVfxData.LOB_SPIN, s.tint, sc * (1.0 + 0.4 * sin(p * PI))):
+				SpriteBank.draw_disc(self, s.pos + lift, 4.0 * sc, s.tint)
 			continue
-		var ang := (s.aim - s.pos).angle()  # Flight direction (art points right).
-		if not SpriteBank.draw_flat(self, s.sprite, s.pos, ang, s.tint):
-			SpriteBank.draw_disc(self, s.pos, 3.0, s.tint)
+		var to := s.aim - s.pos  # Remaining flight.
+		var dir := to.normalized() if to != Vector2.ZERO else Vector2.RIGHT  # Flight direction.
+		var flown := s.from.distance_to(s.pos)  # Px flown so far.
+		var pos := s.pos  # Drawn position.
+		if s.is_volley:
+			var travel := flown / maxf(flown + to.length(), 1.0)  # 0..1 of the way.
+			var side := float(s.vis_id % 3 - 1)  # -1, 0 or 1: fanned apart.
+			pos += Vector2(-dir.y, dir.x) * side * TdVfxData.VOLLEY_FAN * sin(travel * PI)  # Bows out, meets the target.
+		var ang := dir.angle()  # Art points right.
+		if trails:
+			var tl := minf((TdVfxData.VOLLEY_TRAIL if s.is_volley else float(lk["trail"])) * k, flown)  # Trail length (px).
+			var tw := (TdVfxData.VOLLEY_TRAIL_W if s.is_volley else float(lk["trail_w"])) * k  # Thickness (px).
+			if tl > 2.0:
+				draw_set_transform(pos, ang, Vector2.ONE)
+				draw_texture_rect(streak, Rect2(-tl, -tw * 0.5, tl, tw), false, Color(glow, TdVfxData.TRAIL_ALPHA))
+				draw_texture_rect(streak, Rect2(-tl * 0.5, -tw * 0.2, tl * 0.5, tw * 0.4), false, Color(1, 1, 1, 0.7))
+				draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+		var halo := float(lk["halo"]) * k if not s.is_volley else 0.0  # Glow radius (px).
+		if halo > 0.0:
+			var hr := halo * (1.0 + TdVfxData.HALO_PULSE * sin(game.time * TAU * TdVfxData.HALO_HZ + float(s.vis_id)))  # Pulsing (px).
+			draw_texture_rect(TdVfx._soft(), Rect2(pos - Vector2(hr, hr), Vector2(hr, hr) * 2.0), false, Color(glow, TdVfxData.HALO_ALPHA))
+		if not SpriteBank.draw_flat(self, key, pos, ang, s.tint, sc):
+			SpriteBank.draw_disc(self, pos, 3.0 * sc, s.tint)
+
+
+## Ground layer: each lobbed boulder's shadow, growing as it comes down.
+func _draw_shadows(ci: CanvasItem) -> void:
+	for s: Shot in _shots:
+		if s.active and s.lob:
+			var p := (game.time - s.t0) / s.flight  # 0..1 through the flight.
+			var r := TdVfxData.LOB_SHADOW_R * s.size * TdVfx.loud(s.tower) * lerpf(1.0, TdVfxData.LOB_SHADOW_LAND, p)  # Radius (px).
+			ci.draw_texture_rect(SpriteBank.disc(), Rect2(s.pos - Vector2(r, r * 0.5), Vector2(r * 2.0, r)), false,
+					Color(0, 0, 0, TdVfxData.LOB_SHADOW_A * (0.5 + 0.5 * p)))

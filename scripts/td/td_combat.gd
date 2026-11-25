@@ -32,6 +32,7 @@ static func damage_enemy(game: TdGame, e: TdEnemy, amount: float, hit: Dictionar
 		var arm := maxf(e.armour - float(hit.get("armour_pierce", 0.0)), 0.0)  # Effective flat armour.
 		dmg = maxf(dmg - arm, dmg * TdRulesData.ARMOUR_MIN_FRACTION)
 		e.flash_until = game.time + TdRulesData.HIT_FLASH
+		e.vis_hit_at = game.time  # Its hit squash (drawn only).
 		e.body.queue_redraw()
 	dmg = minf(dmg, e.hp)
 	e.hp -= dmg
@@ -149,6 +150,7 @@ static func revive_body(game: TdGame, b: BlockBody) -> void:
 	b.alive = true
 	b.hp = b.max_hp
 	game.stats["bodies_respawned"] = int(game.stats.get("bodies_respawned", 0)) + 1
+	b.vis_rise_at = game.time  # It climbs out of its bone pile (drawn only).
 	game.fx.spawn("summon_rise", b.pos, 64.0, 0.4)
 
 

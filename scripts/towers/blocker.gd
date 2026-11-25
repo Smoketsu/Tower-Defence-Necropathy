@@ -60,6 +60,7 @@ func step(t: Tower, _dt: float) -> void:
 		t.shots += 1
 		var first: TdEnemy = b.held[0]  # Its main target (the volley falls back on it).
 		strike(t, b)
+		t.game.vfx.melee(t, b, first)
 		volley(t, first)
 
 
@@ -81,10 +82,38 @@ func on_removed(t: Tower) -> void:
 
 
 func draw_body(t: Tower, ci: CanvasItem, i: int) -> void:
-	if i >= t.block.bodies.size() or not t.block.bodies[i].alive:
+	if i >= t.block.bodies.size():
 		return
-	if not SpriteBank.draw(ci, String(t.stats["sprite"]), Vector2.ZERO, t.game.time < t.block.bodies[i].flash_until):
+	var b: BlockBody = t.block.bodies[i]
+	var key := String(t.stats["sprite"])  # Body sprite.
+	if not b.alive:
+		if t.game.vfx.on:  # A bone pile where it fell (drawn only).
+			SpriteBank.draw_flat(ci, TdVfxData.BONE_PILE, Vector2(0, SpriteBank.drawn_height(key) * 0.3), 0.0, Color(0.9, 0.88, 0.8), TdVfxData.BONE_PILE_SCALE)
+		return
+	var o := body_offset(t, b)  # Drawn lunge / flinch / smash offset (px, layer space).
+	var rise := (t.game.time - b.vis_rise_at) / TdVfxData.RISE_TIME  # 0..1 climbing out of the bone pile.
+	if t.game.vfx.on and rise >= 0.0 and rise < 1.0:
+		SpriteBank.draw_flat(ci, TdVfxData.BONE_PILE, Vector2(0, SpriteBank.drawn_height(key) * 0.3), 0.0, Color(0.9, 0.88, 0.8, 1.0 - rise), TdVfxData.BONE_PILE_SCALE)
+		if SpriteBank.draw_rising(ci, key, o, rise, false):
+			return
+	if not SpriteBank.draw(ci, key, o, t.game.time < b.flash_until):
 		ci.draw_rect(Rect2(-8, -16, 16, 24), Color(0.8, 0.8, 0.7))
+
+
+## Drawn offset (px, in the mirrored body layer's space) of body `b`: its
+## lunge toward what it strikes and its flinch from a blow (drawn only; the
+## Abomination adds its smash wind-up).
+func body_offset(t: Tower, b: BlockBody) -> Vector2:
+	if not t.game.vfx.on or not TdVfx.motion():
+		return Vector2.ZERO
+	var off := Vector2.ZERO  # Map-space offset (px).
+	var lf := (t.game.time - b.vis_strike_at) / TdVfxData.LUNGE_TIME  # 0..1 through its lunge.
+	if lf >= 0.0 and lf < 1.0:
+		off += b.vis_dir * TdVfxData.LUNGE_PX * TdVfx.lunge_curve(lf)
+	var ff := (t.game.time - b.vis_flinch_at) / TdVfxData.NUDGE_TIME  # 0..1 through its flinch.
+	if ff >= 0.0 and ff < 1.0:
+		off += b.vis_flinch_dir * TdVfxData.FLINCH_PX * sin(ff * PI)
+	return Vector2(off.x * signf(t.layers[0].scale.x), off.y).round()
 
 
 func draw_overlay(t: Tower) -> void:

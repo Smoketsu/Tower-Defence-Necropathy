@@ -22,6 +22,7 @@ func step(t: Tower, _dt: float) -> void:
 				continue
 			if b.alive and b.hp < b.max_hp:
 				t.vars["healed"] = float(t.vars.get("healed", 0.0)) + TdCombat.heal_body(t.game, b, float(t.stats["heal"]))
+				t.game.vfx.heal(t, b)
 				acted = true
 			elif not b.alive and haste > 0.0:
 				b.respawn_at -= haste
