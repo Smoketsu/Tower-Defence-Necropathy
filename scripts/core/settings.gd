@@ -57,7 +57,7 @@ var volumes: Dictionary = DEFAULT_VOLUMES.duplicate()
 ## Camera screen shake enabled.
 var screen_shake: bool = true
 ## Floating damage numbers enabled.
-var damage_numbers: bool = true
+var damage_numbers: bool = false
 ## True = UI motion is instant (accessibility "Reduce motion"; UiMotion).
 var reduce_motion: bool = false
 ## Effects quality: an EffectsData.ORDER value ("full" / "reduced"); set in
@@ -92,7 +92,7 @@ func load_settings() -> void:
 		for bus: String in DEFAULT_VOLUMES.keys():
 			volumes[bus] = clampf(float(cfg.get_value("audio", bus.to_lower(), DEFAULT_VOLUMES[bus])), 0.0, 1.0)
 		screen_shake = bool(cfg.get_value("feel", "screen_shake", true))
-		damage_numbers = bool(cfg.get_value("feel", "damage_numbers", true))
+		damage_numbers = bool(cfg.get_value("feel", "damage_numbers", false))
 		reduce_motion = bool(cfg.get_value("feel", "reduce_motion", false))
 		var fx := String(cfg.get_value("video", "effects", _default_effects()))  # Saved effects quality.
 		effects = fx if EffectsData.ORDER.has(fx) else _default_effects()

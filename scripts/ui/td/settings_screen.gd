@@ -89,6 +89,8 @@ func _show(id: String) -> void:
 					_page.add_child(UiTheme.para("Fullscreen: add the page to your Home Screen."))
 			_toggle("Reduced effects", Settings.effects == "reduced", func(on: bool) -> void: Settings.set_effects("reduced" if on else "full"))
 			_toggle("Reduce motion", Settings.reduce_motion, Settings.set_reduce_motion)
+			_toggle("Screen shake", Settings.screen_shake, Settings.set_screen_shake)
+			_toggle("Damage numbers", Settings.damage_numbers, Settings.set_damage_numbers)
 		"controls":
 			var grid := GridContainer.new()  # Two columns of action | key.
 			grid.columns = 4
@@ -104,7 +106,7 @@ func _show(id: String) -> void:
 				k.pressed.connect(_rebind.bind(action))
 				grid.add_child(k)
 				_keys[action] = k
-			_page.add_child(InputHints.strip([["ui_accept", "Select"], [["spell_1", "spell_2", "spell_3"], "Spells"], ["ultimate", "Ultimate"], ["call_wave", "Call"], ["pause", "Pause"]]))
+			_page.add_child(InputHints.strip([["ui_accept", "Select"], [["spell_1", "spell_2", "spell_3", "spell_4"], "Spells"], ["ultimate", "Ultimate"], ["call_wave", "Call"], ["pause", "Pause"]]))
 			_page.add_child(UiTheme.para("Touch: tap a spot to build, tap a spell then its target."))
 			var r := Button.new()  # Reset keys (asks first).
 			r.text = "Reset"

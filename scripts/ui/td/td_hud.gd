@@ -67,7 +67,7 @@ func _ready() -> void:
 	_build_top_bar()
 	_build_spell_bar()
 	_banner = UiTheme.ribbon("gold")
-	_banner_label = UiTheme.tier_label("", UiTheme.Tier.NAME, UiTheme.TEXT_GOLD)
+	_banner_label = UiTheme.tier_label("", UiTheme.Tier.BODY, UiTheme.TEXT_GOLD)  # Compact: it fits in the top bar.
 	_banner.add_child(_banner_label)
 	_banner.visible = false
 	root.add_child(_banner)
@@ -309,7 +309,7 @@ func _step_banner(delta: float) -> void:
 		_banner.reset_size()
 	_banner_left -= delta
 	_banner.modulate.a = clampf(_banner_left / TdUiData.BANNER_FADE, 0.0, 1.0)
-	_banner.position = Vector2((root.size.x - _banner.size.x) * 0.5, TdUiData.BANNER_Y - _banner.size.y * 0.5)
+	_banner.position = Vector2((root.size.x - _banner.size.x) * 0.5, TdUiData.TOP_BAR_H * _touch() * TdUiData.BANNER_BAR_FRAC - _banner.size.y * 0.5)
 
 
 func open_pause() -> void:

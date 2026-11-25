@@ -162,6 +162,10 @@ leak and tower shot gets its look there (DECISIONS V1-V8). Gameplay code only
 calls `game.vfx.<event>()` after resolving the event; visual state on units is
 the `vis_*` fields (TdEnemy, BlockBody), never read by the simulation. Off
 headless; never use `game.rng` for visuals. Same-seed summaries must stay identical.
+Battlefield moods: `MapMood` (`scripts/td/map_mood.gd`) + `TdMoodData` (props,
+glows, fog, light pools, vignette, road wear, spot looks); a new map adds a
+`TdMoodData.MOODS` row. Damage numbers: `game.vfx.number()` from
+`TdCombat.damage_enemy()`, off by default (Settings > Video).
 
 ## Tower kits (gw-towers, Nov 2026)
 

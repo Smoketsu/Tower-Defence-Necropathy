@@ -152,6 +152,14 @@ effects (default on phones) drops trails, wisps, breathing and extra rings;
 Reduce motion drops lunges, shake and breathing. Its new pixel art
 (`assets/sprites/td/vfx_*.png`) is drawn by `tools/vfx_art.py`.
 
+Battlefield dressing (`MapMood`, `TdMoodData`): lanterns and fog on the
+Graveyard, campfires and banners on the Crimson March, candles and stained-glass
+light pools in the Sanctum, worn road edges, pulsing empty plots, marked road
+posts and a soft edge vignette; spell casts flash and land bigger bursts. On
+Reduced effects the props stay and the glows, fog, pools and vignette go.
+Settings > Video has Screen shake and Damage numbers (off by default). The Web
+autotest query also takes `--reduce-motion` and `--damage-numbers`.
+
 ## Known limits
 
 - The spot menu can cover a neighbouring spot (tap elsewhere to close it first).

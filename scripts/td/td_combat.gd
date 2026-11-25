@@ -36,6 +36,8 @@ static func damage_enemy(game: TdGame, e: TdEnemy, amount: float, hit: Dictionar
 		e.body.queue_redraw()
 	dmg = minf(dmg, e.hp)
 	e.hp -= dmg
+	if not bool(hit.get("dot", false)):
+		game.vfx.number(e, dmg)  # Floating number when the setting is on (drawn only).
 	var src := String(hit.get("source", "?"))  # Stats key.
 	game.stats["damage"][src] = float(game.stats["damage"].get(src, 0.0)) + dmg
 	var tower: Tower = hit.get("tower", null)  # Dealer, if a tower.
