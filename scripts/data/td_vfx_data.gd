@@ -22,14 +22,14 @@ extends RefCounted
 ##   ring     — true: an expanding ring at the real splash radius on impact.
 ##   muzzle   — diameter (px) of the muzzle flash at the tower (0 = none).
 const SHOTS: Dictionary = {
-	"archer": {"sprite": "projectiles/bone_spear", "scale": 2.2, "tint": Color(0.5, 1.0, 0.55), "trail": 80.0, "trail_w": 11.0,
-		"halo": 0.0, "impact": "volley_hit", "impact_d": 44.0, "ring": false, "muzzle": 34.0},  # TUNING (not in GDD) long bone arrow, pale green streak, splinter puff
-	"mage": {"sprite": "projectiles/orb", "scale": 1.5, "tint": Color(0.78, 0.5, 1.0), "trail": 46.0, "trail_w": 14.0,
-		"halo": 20.0, "impact": "bolt_impact", "impact_d": 0.0, "ring": true, "muzzle": 40.0},  # TUNING (not in GDD) glowing violet orb, burst = real splash
-	"frost_wraith": {"sprite": "projectiles/frost_bolt", "scale": 2.4, "tint": Color(0.7, 0.9, 1.0), "trail": 64.0, "trail_w": 9.0,
-		"halo": 9.0, "impact": "frost_shatter", "impact_d": 56.0, "ring": true, "muzzle": 34.0},  # TUNING (not in GDD) ice shard, blue-white trail, frost ring
-	"corpse_catapult": {"sprite": "projectiles/corpse_boulder", "scale": 2.4, "tint": Color(0.85, 0.72, 0.55), "trail": 0.0, "trail_w": 0.0,
-		"halo": 0.0, "impact": "bone_wall_burst", "impact_d": 0.0, "ring": true, "muzzle": 40.0},  # TUNING (not in GDD) tumbling boulder, dust ring + bone chips
+	"archer": {"sprite": "projectiles/bone_spear", "scale": 2.0, "tint": Color(0.45, 1.0, 0.5), "trail": 85.0, "trail_w": 14.0,
+		"halo": 7.0, "impact": "volley_hit", "impact_d": 64.0, "ring": false, "muzzle": 48.0},  # TUNING (not in GDD) 52 px bone arrow, bright green additive streak, splinter puff
+	"mage": {"sprite": "projectiles/orb", "scale": 1.6, "tint": Color(0.78, 0.45, 1.0), "trail": 90.0, "trail_w": 18.0,
+		"halo": 22.0, "impact": "bolt_impact", "impact_d": 0.0, "ring": true, "muzzle": 52.0},  # TUNING (not in GDD) glowing violet orb with a long spark trail, burst = real splash
+	"frost_wraith": {"sprite": "projectiles/frost_bolt", "scale": 2.2, "tint": Color(0.5, 0.85, 1.0), "trail": 80.0, "trail_w": 14.0,
+		"halo": 9.0, "impact": "frost_shatter", "impact_d": 80.0, "ring": true, "muzzle": 48.0},  # TUNING (not in GDD) 48 px ice shard, ice-blue streak, frost ring
+	"corpse_catapult": {"sprite": "projectiles/corpse_boulder", "scale": 3.6, "tint": Color(0.95, 0.72, 0.45), "trail": 0.0, "trail_w": 0.0,
+		"halo": 0.0, "impact": "bone_wall_burst", "impact_d": 0.0, "ring": true, "muzzle": 56.0},  # TUNING (not in GDD) 58 px tumbling boulder, dust ring + bone chips
 }
 ## Look of a class missing from SHOTS (same keys).
 const SHOT_DEFAULT: Dictionary = {"sprite": "", "scale": 2.0, "tint": Color(1.0, 1.0, 1.0), "trail": 40.0, "trail_w": 6.0,
@@ -37,18 +37,18 @@ const SHOT_DEFAULT: Dictionary = {"sprite": "", "scale": 2.0, "tint": Color(1.0,
 ## Volley shots (Lv3+ bursts, volleys/<id> masks): drawn size multiplier.
 const VOLLEY_SCALE: float = 1.5  # TUNING (not in GDD)
 ## Volley shots: trail length (px) and thickness (px).
-const VOLLEY_TRAIL: float = 40.0  # TUNING (not in GDD)
+const VOLLEY_TRAIL: float = 60.0  # TUNING (not in GDD)
 ## See VOLLEY_TRAIL.
-const VOLLEY_TRAIL_W: float = 8.0  # TUNING (not in GDD)
+const VOLLEY_TRAIL_W: float = 11.0  # TUNING (not in GDD)
 ## Volley shots: impact burst diameter (px).
-const VOLLEY_IMPACT_D: float = 30.0  # TUNING (not in GDD)
+const VOLLEY_IMPACT_D: float = 44.0  # TUNING (not in GDD)
 ## Volley shots: px a shot is pushed sideways at launch so a burst visibly fans
 ## out (the push fades to 0 by the target; drawn only).
 const VOLLEY_FAN: float = 26.0  # TUNING (not in GDD)
 ## Evolved (tier 6) towers: multiplier on shot size, trail, halo and impact.
 const EVOLVED_MULT: float = 1.35  # TUNING (not in GDD) "a louder version"
 ## Seconds an impact burst plays.
-const IMPACT_TIME: float = 0.32  # TUNING (not in GDD)
+const IMPACT_TIME: float = 0.45  # TUNING (not in GDD)
 ## Seconds a splash ring expands, and its start / end radius as a fraction of the splash.
 const RING_TIME: float = 0.3  # TUNING (not in GDD)
 ## See RING_TIME.
@@ -56,7 +56,7 @@ const RING_FROM: float = 0.35  # TUNING (not in GDD)
 ## See RING_TIME.
 const RING_TO: float = 1.05  # TUNING (not in GDD)
 ## Seconds a muzzle flash plays.
-const MUZZLE_TIME: float = 0.18  # TUNING (not in GDD)
+const MUZZLE_TIME: float = 0.22  # TUNING (not in GDD)
 ## Px above a plot tower's spot centre where its shots leave (TdProjectiles uses 18).
 const MUZZLE_LIFT: float = 18.0  # TUNING (not in GDD) matches TdProjectiles._take()
 ## Halo pulse: cycles per second and amplitude (fraction of the halo radius).
@@ -72,9 +72,9 @@ const TRAIL_ALPHA: float = 1.0  # TUNING (not in GDD)
 
 ## Ground shadow under a lobbed boulder: radius (px) and alpha at launch; it
 ## grows to SHADOW_LAND x as the boulder comes down.
-const LOB_SHADOW_R: float = 9.0  # TUNING (not in GDD)
+const LOB_SHADOW_R: float = 13.0  # TUNING (not in GDD)
 ## See LOB_SHADOW_R.
-const LOB_SHADOW_A: float = 0.45  # TUNING (not in GDD)
+const LOB_SHADOW_A: float = 0.7  # TUNING (not in GDD)
 ## See LOB_SHADOW_R.
 const LOB_SHADOW_LAND: float = 1.6  # TUNING (not in GDD)
 ## Turns a boulder tumbles over its flight.
@@ -99,9 +99,9 @@ const WAIL_TINT: Color = Color(0.85, 0.6, 1.0, 0.95)  # TUNING (not in GDD)
 ## Mender soul-thread: colour, life (s) and thickness (px).
 const THREAD_TINT: Color = Color(0.45, 1.0, 0.7, 0.95)  # TUNING (not in GDD)
 ## See THREAD_TINT.
-const THREAD_TIME: float = 0.45  # TUNING (not in GDD)
+const THREAD_TIME: float = 0.7  # TUNING (not in GDD)
 ## See THREAD_TINT.
-const THREAD_W: float = 6.0  # TUNING (not in GDD)
+const THREAD_W: float = 10.0  # TUNING (not in GDD)
 ## Diameter (px) of the sparkle on a healed body.
 const HEAL_SPARKLE_D: float = 40.0  # TUNING (not in GDD)
 ## Pulse ring colour of the Mender (blockers) and of an enemy-hitting aura.
@@ -110,19 +110,31 @@ const MENDER_TINT: Color = Color(0.5, 1.0, 0.7, 0.8)  # TUNING (not in GDD)
 ## --- Melee (blocker posts) -----------------------------------------------------
 
 ## Body lunge toward its target: px at the peak and total s (out and back).
-const LUNGE_PX: float = 6.0  # TUNING (not in GDD) "lunges a few px"
+const LUNGE_PX: float = 9.0  # TUNING (not in GDD) lead review: 8-10 px
 ## See LUNGE_PX.
-const LUNGE_TIME: float = 0.2  # TUNING (not in GDD)
+const LUNGE_TIME: float = 0.26  # TUNING (not in GDD)
 ## Fraction of LUNGE_TIME spent going out (the rest is the step back).
 const LUNGE_OUT: float = 0.3  # TUNING (not in GDD)
 ## Warrior sword slash: diameter (px), seconds and colour; Death Knight colour.
-const SLASH_D: float = 90.0  # TUNING (not in GDD)
+const SLASH_D: float = 104.0  # TUNING (not in GDD)
 ## See SLASH_D.
-const SLASH_TIME: float = 0.22  # TUNING (not in GDD)
+const SLASH_TIME: float = 0.34  # TUNING (not in GDD)
 ## See SLASH_D.
-const SLASH_TINT: Color = Color(1.0, 0.97, 0.82)  # TUNING (not in GDD) bright bone-white
+const SLASH_TINT: Color = Color(1.0, 0.96, 0.72)  # TUNING (not in GDD) bright white-gold core
 ## See SLASH_D.
 const SLASH_TINT_EVOLVED: Color = Color(0.6, 1.0, 0.75)  # TUNING (not in GDD) Death Knight's soul-green blade
+## Coloured edge of the slash (drawn additively under the core, SLASH_EDGE_SCALE
+## x the core's size); Death Knight edge.
+const SLASH_EDGE: Color = Color(1.0, 0.55, 0.15, 0.95)  # TUNING (not in GDD) gold-orange rim
+## See SLASH_EDGE.
+const SLASH_EDGE_EVOLVED: Color = Color(0.3, 1.0, 0.55, 0.95)  # TUNING (not in GDD)
+## See SLASH_EDGE.
+const SLASH_EDGE_SCALE: float = 1.18  # TUNING (not in GDD)
+## Slash timing: fraction of SLASH_TIME the crescent sweeps in, and the fraction
+## it is held fully drawn (lead review: held ~0.15-0.2 s); the rest fades out.
+const SLASH_SWEEP: float = 0.2  # TUNING (not in GDD)
+## See SLASH_SWEEP.
+const SLASH_HOLD: float = 0.5  # TUNING (not in GDD) 0.17 s of 0.34
 ## Px the struck enemy is nudged back (drawn only) and for how long (s).
 const NUDGE_PX: float = 2.0  # TUNING (not in GDD) "1-2 px"
 ## See NUDGE_PX.
@@ -140,7 +152,7 @@ const SMASH_SHAKE: float = 1.5  # TUNING (not in GDD)
 ## blocker flinch (px) and spark burst diameter (px).
 const ENEMY_LUNGE_PX: float = 5.0  # TUNING (not in GDD)
 ## See ENEMY_LUNGE_PX.
-const ENEMY_SLASH_D: float = 56.0  # TUNING (not in GDD)
+const ENEMY_SLASH_D: float = 66.0  # TUNING (not in GDD)
 ## See ENEMY_LUNGE_PX.
 const ENEMY_SLASH_TINT: Color = Color(1.0, 0.3, 0.25)  # TUNING (not in GDD)
 ## See ENEMY_LUNGE_PX.
@@ -197,7 +209,8 @@ const WISP_ARC: float = 90.0  # TUNING (not in GDD)
 ## Most wisps in flight (more kills skip theirs).
 const WISP_CAP: int = 24  # TUNING (not in GDD)
 
-## Status marks, in priority order (the first present sets the body tint);
+## Status marks, in priority order (the first present sets the body tint;
+## TdEnemy._status_mask() uses the same order for its bits);
 ## each has its tint and its icon index in td/vfx_status.png.
 const STATUS_ORDER: Array[String] = ["frozen", "burning", "rot", "cursed", "weakened", "slowed"]  # TUNING (not in GDD)
 ## Status -> body tint (components above 1 brighten).
@@ -232,13 +245,71 @@ const BREATH_AMP: float = 0.025  # TUNING (not in GDD) "slight idle breathing"
 const BREATH_PERIOD: float = 2.2  # TUNING (not in GDD)
 
 ## Leak: gate red flash s and colour, lives counter shake (px, s, real time).
-const LEAK_FLASH_TIME: float = 0.5  # TUNING (not in GDD)
+const LEAK_FLASH_TIME: float = 0.9  # TUNING (not in GDD)
 ## See LEAK_FLASH_TIME.
 const LEAK_TINT: Color = Color(1.0, 0.25, 0.2)  # TUNING (not in GDD)
 ## See LEAK_FLASH_TIME.
 const LIVES_SHAKE_PX: float = 5.0  # TUNING (not in GDD)
 ## See LEAK_FLASH_TIME.
-const LIVES_SHAKE_TIME: float = 0.4  # TUNING (not in GDD)
+const LIVES_SHAKE_TIME: float = 0.8  # TUNING (not in GDD)
+
+## Trails: the white core streak drawn over the coloured one (fraction of the
+## width and of the length) and its alpha.
+const TRAIL_CORE_W: float = 0.35  # TUNING (not in GDD)
+## See TRAIL_CORE_W.
+const TRAIL_CORE_LEN: float = 0.6  # TUNING (not in GDD)
+## See TRAIL_CORE_W.
+const TRAIL_CORE_A: float = 0.9  # TUNING (not in GDD)
+## Seconds a shot's trail lingers and fades where it landed (so a still frame
+## catches more of them; drawn only).
+const TRAIL_LINGER: float = 0.22  # TUNING (not in GDD)
+## Additive glow at the head of a shot: radius as a multiple of the trail width.
+const HEAD_GLOW: float = 0.9  # TUNING (not in GDD)
+## Effect strips that are grey masks (drawn additively, tinted); the others
+## are coloured art drawn normally.
+const MASK_STRIPS: Array[String] = ["volley_hit", "volley_flash"]  # TUNING (not in GDD)
+
+## --- Spells (TdVfx.cast) ------------------------------------------------------------
+
+## Per spell id: tint, cast flash diameter (px) at the necromancer, target
+## strip (effects/<id>, "" = none) and its diameter (px), target ring end
+## radius (px; 0 = none), shake (px).
+const SPELLS: Dictionary = {
+	"shadow_bolt": {"tint": Color(0.75, 0.45, 1.0), "flash": 96.0, "strip": "", "strip_d": 0.0, "ring": 0.0, "shake": 0.0},  # TUNING (not in GDD)
+	"bone_wall": {"tint": Color(0.95, 0.9, 0.75), "flash": 96.0, "strip": "bone_wall_burst", "strip_d": 140.0, "ring": 70.0, "shake": 2.0},  # TUNING (not in GDD)
+	"corpse_explosion": {"tint": Color(1.0, 0.35, 0.3), "flash": 96.0, "strip": "volley_flash", "strip_d": 120.0, "ring": 90.0, "shake": 3.0},  # TUNING (not in GDD)
+	"plague_cloud": {"tint": Color(0.6, 1.0, 0.35), "flash": 96.0, "strip": "volley_hit", "strip_d": 150.0, "ring": 100.0, "shake": 0.0},  # TUNING (not in GDD)
+	"dread_rally": {"tint": Color(0.5, 1.0, 0.85), "flash": 180.0, "strip": "evolution", "strip_d": 260.0, "ring": 320.0, "shake": 5.0},  # TUNING (not in GDD)
+}
+## Seconds a cast flash and its target ring play.
+const CAST_TIME: float = 0.45  # TUNING (not in GDD)
+## Shadow Bolt in flight: drawn scale, trail length (px) and width (px); its impact burst diameter (px).
+const BOLT_SCALE: float = 2.2  # TUNING (not in GDD)
+## See BOLT_SCALE.
+const BOLT_TRAIL: float = 90.0  # TUNING (not in GDD)
+## See BOLT_SCALE.
+const BOLT_TRAIL_W: float = 16.0  # TUNING (not in GDD)
+## See BOLT_SCALE.
+const BOLT_IMPACT_D: float = 120.0  # TUNING (not in GDD)
+
+## --- Damage numbers (Settings > Damage numbers, off by default) ----------------------
+
+## Most numbers on screen (pooled; the oldest is reused).
+const NUMBERS_MAX: int = 24  # TUNING (not in GDD)
+## Seconds a number floats and px it rises.
+const NUMBER_TIME: float = 0.7  # TUNING (not in GDD)
+## See NUMBER_TIME.
+const NUMBER_RISE: float = 26.0  # TUNING (not in GDD)
+## Font size (px; a UiTheme tier) and colours: normal, big (>= NUMBER_BIG damage).
+const NUMBER_FONT: int = 19  # TUNING (not in GDD) UiTheme BODY tier
+## See NUMBER_FONT.
+const NUMBER_TINT: Color = Color(1.0, 0.95, 0.85)  # TUNING (not in GDD)
+## See NUMBER_FONT.
+const NUMBER_BIG_TINT: Color = Color(1.0, 0.75, 0.3)  # TUNING (not in GDD)
+## See NUMBER_FONT.
+const NUMBER_BIG: float = 40.0  # TUNING (not in GDD)
+## Hits below this damage show no number (chip damage would only clutter).
+const NUMBER_MIN: float = 1.0  # TUNING (not in GDD)
 
 ## --- Budget ------------------------------------------------------------------------
 

@@ -70,6 +70,7 @@ func cast(i: int, pos: Vector2) -> bool:
 	if not s.cast(pos):
 		return false
 	ready_at[i] = game.time + _cooldown(i)
+	game.vfx.cast(s.id, pos)
 	casts[s.id] = int(casts.get(s.id, 0)) + 1
 	changed.emit()
 	return true
@@ -85,6 +86,7 @@ func cast_ultimate() -> bool:
 	if not ultimate_ready() or not ultimate.cast(game.necromancer_pos()):
 		return false
 	meter = 0.0
+	game.vfx.cast(ultimate.id, game.necromancer_pos())
 	casts[ultimate.id] = int(casts.get(ultimate.id, 0)) + 1
 	changed.emit()
 	return true

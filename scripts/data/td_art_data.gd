@@ -41,6 +41,11 @@ const ROLES: Dictionary = {
 	"vfx_streak": ROOT + "vfx_streak.png",  # 32x8 white trail mask, opaque at +x, stretched behind shots
 	"vfx_status": ROOT + "vfx_status.png",  # 6 status icons of 9x9: burning, rot, cursed, slowed, frozen, weakened
 	"vfx_crack": ROOT + "vfx_crack.png",  # 44x20 ground crack (Abomination smash, boulder impact)
+	"mood_lantern": ROOT + "mood_lantern.png",  # 28x40 lit stone lantern (Necropathy obstacles/stone_lantern_lit), Graveyard mood
+	"mood_fire": ROOT + "mood_fire.png",  # 8 frames of 32x32 lit brazier (Necropathy norse/brazier_lit_anim), Crimson March campfires
+	"mood_candles": ROOT + "mood_candles.png",  # 15x11 candle cluster (Necropathy menu/candles), Sanctum mood
+	"mood_candle_flame": ROOT + "mood_candle_flame.png",  # 9x5 flames over the candles (Necropathy menu/candle_flame)
+	"mood_glass": ROOT + "mood_glass.png",  # 72x44 stained-glass light pool, drawn additively (tools/vfx_art.py)
 }
 
 ## Lives fraction (0..1) above which the gate draws intact.

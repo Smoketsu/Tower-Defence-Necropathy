@@ -36,12 +36,16 @@ func step(dt: float) -> void:
 		_bolts.remove_at(i)
 		if TdEnemy.valid(e, int(b[2])):
 			TdCombat.damage_enemy(game, e, float(row["damage"]), {"source": id, "origin": b[0]})
-		game.fx.spawn("bolt_impact", b[3], 64.0, 0.3, Color(0.8, 0.6, 1.0))
+		game.vfx.bolt_hit(b[3])
 
 
 func draw(ci: CanvasItem) -> void:
+	var streak := TdArt.texture("vfx_streak")  # Trail mask.
 	for b: Array in _bolts:
-		SpriteBank.draw_flat(ci, String(row["projectile"]), b[0], (b[3] - b[0]).angle())
+		var ang: float = (b[3] - b[0]).angle()  # Flight direction.
+		if streak != null and not TdVfx.reduced():
+			TdVfx.draw_streak(ci, streak, b[0], ang, TdVfxData.BOLT_TRAIL, TdVfxData.BOLT_TRAIL_W, TdVfxData.SPELLS["shadow_bolt"]["tint"])
+		SpriteBank.draw_flat(ci, String(row["projectile"]), b[0], ang, Color.WHITE, TdVfxData.BOLT_SCALE)
 
 
 func busy() -> bool:

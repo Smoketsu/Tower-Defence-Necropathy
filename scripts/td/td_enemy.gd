@@ -277,6 +277,24 @@ func statuses() -> Array[String]:
 	return out
 
 
+## Statuses on it now as bits in TdVfxData.STATUS_ORDER order (no allocation:
+## checked every frame by _process()).
+func _status_mask() -> int:
+	var t := game.time  # Now (game s).
+	var m := 0  # Bits.
+	if t < freeze_until:
+		m |= 1
+	if t < vis_field_until:
+		m |= 2 if vis_field_look == "flame" else 4
+	if t < curse_until:
+		m |= 8
+	if t < weaken_until and weaken_mult < 1.0:
+		m |= 16
+	if t < slow_until and slow_mult < 1.0:
+		m |= 32
+	return m
+
+
 ## True while a boss shows its strike pose after a blow (drawn only).
 func _striking() -> bool:
 	return game.time - vis_strike_at < TdVfxData.BOSS_POSE_TIME and String(row["rank"]) == "boss"
@@ -289,10 +307,7 @@ func _process(_delta: float) -> void:
 	if not alive:
 		return
 	var look := (1 if game.time < flash_until else 0) + (2 if _striking() else 0)  # Current look.
-	var sts := statuses()  # Statuses on it now.
-	for i in TdVfxData.STATUS_ORDER.size():
-		if sts.has(TdVfxData.STATUS_ORDER[i]):
-			look += 1 << (i + 3)
+	look += _status_mask() << 3
 	if look != _look:
 		var icons := (look >> 3) != (_look >> 3)  # The status icons changed.
 		_look = look

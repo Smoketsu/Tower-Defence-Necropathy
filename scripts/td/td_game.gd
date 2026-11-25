@@ -175,6 +175,10 @@ func _ready() -> void:
 	var necro := _layer(-3, func(ci: CanvasItem) -> void: SpriteBank.draw(ci, TdArtData.NECROMANCER, Vector2.ZERO, false))  # The necromancer beside the gate.
 	necro.position = necromancer_pos()
 	necro.scale = Vector2(-1, 1)  # Faces the road (the art faces right).
+	var mood := MapMood.new()  # Props, glows, fog, light pools (visual only).
+	mood.game = self
+	world.add_child(mood)
+	add_child(MapMood.vignette())
 	units = Node2D.new()
 	units.y_sort_enabled = true
 	world.add_child(units)
@@ -663,7 +667,9 @@ func _draw_overlay(ci: CanvasItem) -> void:
 		var r := float(t.stats["range"])  # Range (px).
 		if ring != null and t.block == null:
 			SpriteBank.apply_sharp(ci)
-			ci.draw_texture_rect(ring, Rect2(t.position - Vector2(r, r), Vector2(r, r) * 2.0), false, Color(0.45, 1.0, 0.85, 0.8))
+			var rc := TdMoodData.RANGE_TINT  # Ring colour.
+			ci.draw_texture_rect(SpriteBank.disc(), Rect2(t.position - Vector2(r, r), Vector2(r, r) * 2.0), false, Color(rc, TdMoodData.RANGE_FILL_A))
+			ci.draw_texture_rect(ring, Rect2(t.position - Vector2(r, r), Vector2(r, r) * 2.0), false, rc)
 		var link := TdArt.texture("synergy_link", true)  # Grey link mask.
 		for pair: Array in t.synergies:
 			var o: Tower = pair[1]

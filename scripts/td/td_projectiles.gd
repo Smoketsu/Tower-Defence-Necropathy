@@ -99,6 +99,8 @@ var _tex: Dictionary = {}
 var _taken: int = 0
 ## Ground layer under the units: lobbed boulders' shadows (visual only).
 var _shadows: UnitLayer = null
+## Additive layer under the shot sprites: trails, halos, head glows (visual only).
+var _glow: UnitLayer = null
 
 
 func _ready() -> void:
@@ -108,6 +110,11 @@ func _ready() -> void:
 	_shadows.z_index = -2
 	_shadows.draw_fn = _draw_shadows
 	add_child(_shadows)
+	_glow = UnitLayer.new()
+	_glow.show_behind_parent = true
+	_glow.material = TdVfx.additive()
+	_glow.draw_fn = func(ci: CanvasItem) -> void: _draw_shots(ci, true)
+	add_child(_glow)
 
 
 ## Fires a shot from tower `t` at `target` for `damage`, drawn as `sprite`
@@ -262,6 +269,7 @@ func _impact(s: Shot) -> void:
 func _process(_delta: float) -> void:
 	queue_redraw()
 	_shadows.queue_redraw()
+	_glow.queue_redraw()
 
 
 ## Cached texture `key` (SpriteBank key), or null.
@@ -280,9 +288,17 @@ func _draw() -> void:
 			if tex != null:
 				var sz := Vector2(2.0, 2.0 * float(tex.get_height()) / float(tex.get_width())) * f.radius  # Drawn size, aspect kept (px).
 				draw_texture_rect(tex, Rect2(f.pos - sz * 0.5, sz), false, Color(1, 1, 1, 0.75 * fade))
+	_draw_shots(self, false)
+
+
+## Draws every shot on `ci`: the sprites and landing telegraphs (`glow` false,
+## this node), or the additive pass under them (`glow` true, the glow layer):
+## trails, halos and head glows. Visual only.
+func _draw_shots(ci: CanvasItem, glow: bool) -> void:
 	var tg := _texture("telegraphs/target")  # Landing telegraph of lobbed shots.
 	var streak := TdArt.texture("vfx_streak")  # Trail mask (alpha 0 -> 1 along +x).
 	var trails := not TdVfx.reduced() and streak != null  # Reduced effects: no trails.
+	var soft := TdVfx._soft()  # Soft glow disc.
 	for s: Shot in _shots:
 		if not s.active:
 			continue
@@ -290,15 +306,19 @@ func _draw() -> void:
 		var k := TdVfx.loud(s.tower)  # Evolved towers draw louder.
 		var key := s.sprite if s.is_volley or String(lk["sprite"]) == "" else String(lk["sprite"])  # Sprite drawn.
 		var sc := (TdVfxData.VOLLEY_SCALE if s.is_volley else float(lk["scale"])) * k * s.size  # Drawn scale.
-		var glow: Color = s.tint if s.is_volley else lk["tint"]  # Trail / halo colour.
+		var col: Color = s.tint if s.is_volley else lk["tint"]  # Trail / halo colour.
 		if s.lob:
 			var p := (game.time - s.t0) / s.flight  # 0..1 through the flight.
+			var lift := Vector2(0, -sin(p * PI) * s.from.distance_to(s.aim) * 0.35)  # Height of the arc (px).
+			if glow:
+				var gr := 10.0 * sc  # Warm glow around the boulder (px).
+				ci.draw_texture_rect(soft, Rect2(s.pos + lift - Vector2(gr, gr), Vector2(gr, gr) * 2.0), false, Color(col, 0.35))
+				continue
 			if tg != null:
 				var r := s.splash * (1.0 - 0.3 * p)  # Telegraph radius closing in (px).
-				draw_texture_rect(tg, Rect2(s.aim - Vector2(r, r), Vector2(r, r) * 2.0), false, Color(1.0, 0.45, 0.3, 0.35 + 0.4 * p))
-			var lift := Vector2(0, -sin(p * PI) * s.from.distance_to(s.aim) * 0.35)  # Height of the arc (px).
-			if not SpriteBank.draw_flat(self, key, s.pos + lift, p * TAU * TdVfxData.LOB_SPIN, s.tint, sc * (1.0 + 0.4 * sin(p * PI))):
-				SpriteBank.draw_disc(self, s.pos + lift, 4.0 * sc, s.tint)
+				ci.draw_texture_rect(tg, Rect2(s.aim - Vector2(r, r), Vector2(r, r) * 2.0), false, Color(1.0, 0.45, 0.3, 0.35 + 0.4 * p))
+			if not SpriteBank.draw_flat(ci, key, s.pos + lift, p * TAU * TdVfxData.LOB_SPIN, s.tint, sc * (1.0 + 0.4 * sin(p * PI))):
+				SpriteBank.draw_disc(ci, s.pos + lift, 4.0 * sc, s.tint)
 			continue
 		var to := s.aim - s.pos  # Remaining flight.
 		var dir := to.normalized() if to != Vector2.ZERO else Vector2.RIGHT  # Flight direction.
@@ -309,20 +329,19 @@ func _draw() -> void:
 			var side := float(s.vis_id % 3 - 1)  # -1, 0 or 1: fanned apart.
 			pos += Vector2(-dir.y, dir.x) * side * TdVfxData.VOLLEY_FAN * sin(travel * PI)  # Bows out, meets the target.
 		var ang := dir.angle()  # Art points right.
+		if not glow:
+			if not SpriteBank.draw_flat(ci, key, pos, ang, s.tint, sc):
+				SpriteBank.draw_disc(ci, pos, 3.0 * sc, s.tint)
+			continue
+		var tw := (TdVfxData.VOLLEY_TRAIL_W if s.is_volley else float(lk["trail_w"])) * k  # Trail thickness (px).
 		if trails:
 			var tl := minf((TdVfxData.VOLLEY_TRAIL if s.is_volley else float(lk["trail"])) * k, flown)  # Trail length (px).
-			var tw := (TdVfxData.VOLLEY_TRAIL_W if s.is_volley else float(lk["trail_w"])) * k  # Thickness (px).
 			if tl > 2.0:
-				draw_set_transform(pos, ang, Vector2.ONE)
-				draw_texture_rect(streak, Rect2(-tl, -tw * 0.5, tl, tw), false, Color(glow, TdVfxData.TRAIL_ALPHA))
-				draw_texture_rect(streak, Rect2(-tl * 0.5, -tw * 0.2, tl * 0.5, tw * 0.4), false, Color(1, 1, 1, 0.7))
-				draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
-		var halo := float(lk["halo"]) * k if not s.is_volley else 0.0  # Glow radius (px).
+				TdVfx.draw_streak(ci, streak, pos, ang, tl, tw, col)
+		var halo := float(lk["halo"]) * k if not s.is_volley else tw * TdVfxData.HEAD_GLOW  # Glow radius (px).
 		if halo > 0.0:
 			var hr := halo * (1.0 + TdVfxData.HALO_PULSE * sin(game.time * TAU * TdVfxData.HALO_HZ + float(s.vis_id)))  # Pulsing (px).
-			draw_texture_rect(TdVfx._soft(), Rect2(pos - Vector2(hr, hr), Vector2(hr, hr) * 2.0), false, Color(glow, TdVfxData.HALO_ALPHA))
-		if not SpriteBank.draw_flat(self, key, pos, ang, s.tint, sc):
-			SpriteBank.draw_disc(self, pos, 3.0 * sc, s.tint)
+			ci.draw_texture_rect(soft, Rect2(pos - Vector2(hr, hr), Vector2(hr, hr) * 2.0), false, Color(col, TdVfxData.HALO_ALPHA))
 
 
 ## Ground layer: each lobbed boulder's shadow, growing as it comes down.

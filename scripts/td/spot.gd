@@ -28,7 +28,23 @@ func set_tower(t: Tower) -> void:
 	queue_redraw()
 
 
+func _ready() -> void:
+	set_process(DisplayServer.get_name() != "headless")
+
+
+## Empty plots pulse gently (real time; visual only); everything else stays plain.
+func _process(_delta: float) -> void:
+	var on := kind == "plot" and tower == null and not TdVfx.reduced() and TdVfx.motion()  # Pulsing now.
+	var k := 1.0 + TdMoodData.PLOT_PULSE * (0.5 + 0.5 * sin(float(Time.get_ticks_msec()) * 0.001 * TAU / TdMoodData.PLOT_PULSE_PERIOD)) if on else 1.0  # Brightness.
+	var c := Color(k, k, k)  # Its modulate.
+	if modulate != c:
+		modulate = c
+
+
 func _draw() -> void:
+	if kind == "post":  # A dark crimson ground mark: posts read apart from plots.
+		var m := TdMoodData.POST_MARK  # Mark size (px).
+		draw_texture_rect(SpriteBank.disc(), Rect2(-m * 0.5 + Vector2(0, 4), m), false, TdMoodData.POST_MARK_TINT)
 	var role := "road_post" if kind == "post" else ("plot_occupied" if tower != null else "plot_empty")  # Art role.
 	if not TdArt.draw(self, role, Vector2.ZERO):
 		draw_rect(Rect2(-22, -14, 44, 28), Color(0.25, 0.2, 0.3) if kind == "plot" else Color(0.6, 0.55, 0.45))

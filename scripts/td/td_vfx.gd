@@ -14,7 +14,7 @@ class_name TdVfx
 extends Node2D
 
 ## Effect kinds.
-enum Kind { ANIM, SLASH, RING, THREAD, WISP, CRACK, FLASH }
+enum Kind { ANIM, SLASH, RING, THREAD, WISP, CRACK, FLASH, NUMBER, STREAK }
 
 ## One live effect.
 class Fx:
@@ -42,6 +42,10 @@ class Fx:
 	var flip: bool = false
 	## True: drawn on the ground layer (under the units).
 	var ground: bool = false
+	## True: drawn on the additive glow layer (grey masks, rings, threads, wisps, flashes).
+	var glow: bool = false
+	## Damage number text (Kind.NUMBER).
+	var text: String = ""
 
 ## The run.
 var game: TdGame = null
@@ -59,6 +63,14 @@ var _shake: float = 0.0
 var _leak_at: float = -INF
 ## Wisps in flight now.
 var _wisps: int = 0
+## Additive glow layer over the effects (see Fx.glow).
+var _add: UnitLayer = null
+## Damage numbers alive now (pooled in _live; capped by TdVfxData.NUMBERS_MAX).
+var _numbers: int = 0
+## The shared additive material (additive()).
+static var _additive: CanvasItemMaterial = null
+## The shared soft glow disc (_soft()).
+static var _soft_tex: GradientTexture2D = null
 
 
 func _ready() -> void:
@@ -68,18 +80,42 @@ func _ready() -> void:
 	_ground = UnitLayer.new()
 	_ground.z_as_relative = false
 	_ground.z_index = -2
-	_ground.draw_fn = func(ci: CanvasItem) -> void: _draw_list(ci, true)
+	_ground.draw_fn = func(ci: CanvasItem) -> void: _draw_list(ci, 0)
 	add_child(_ground)
+	_add = UnitLayer.new()
+	_add.material = additive()
+	_add.draw_fn = func(ci: CanvasItem) -> void: _draw_list(ci, 2)
+	add_child(_add)
+
+
+## The shared additive-blend material (glows read on the dark grass and the grey road alike).
+static func additive() -> CanvasItemMaterial:
+	if _additive == null:
+		_additive = CanvasItemMaterial.new()
+		_additive.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+	return _additive
+
+
+## Draws a trail on `ci` (meant for an additive layer): streak mask `tex`
+## stretched `len` px behind `pos` along angle `ang`, `w` px wide, in `col`,
+## with a white core over its front part; `col.a` fades both.
+static func draw_streak(ci: CanvasItem, tex: Texture2D, pos: Vector2, ang: float, len: float, w: float, col: Color) -> void:
+	ci.draw_set_transform(pos, ang, Vector2.ONE)
+	ci.draw_texture_rect(tex, Rect2(-len, -w * 0.5, len, w), false, Color(col, col.a * TdVfxData.TRAIL_ALPHA))
+	var cl := len * TdVfxData.TRAIL_CORE_LEN  # Core length (px).
+	var cw := w * TdVfxData.TRAIL_CORE_W  # Core width (px).
+	ci.draw_texture_rect(tex, Rect2(-cl, -cw * 0.5, cl, cw), false, Color(1, 1, 1, col.a * TdVfxData.TRAIL_CORE_A))
+	ci.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 
 ## True on the Reduced effects level (trails and ambient extras off).
 static func reduced() -> bool:
-	return Settings.effects == "reduced"
+	return Settings.reduced_effects()
 
 
 ## True when motion effects (shake, lunges, breathing) may play.
 static func motion() -> bool:
-	return not Settings.reduce_motion
+	return not Settings.reduce_motion and not GameState.autotest_reduce_motion
 
 
 ## Adds an effect (see Fx); `delay` s before it starts. Returns it (null when off).
@@ -90,6 +126,8 @@ func add(kind: int, pos: Vector2, size: float, dur: float, tint: Color, id: Stri
 	while _live.size() >= cap:
 		if _live[0].kind == Kind.WISP:
 			_wisps -= 1
+		elif _live[0].kind == Kind.NUMBER:
+			_numbers -= 1
 		_live.pop_front()
 	var f := Fx.new()  # The new effect.
 	f.kind = kind
@@ -100,13 +138,14 @@ func add(kind: int, pos: Vector2, size: float, dur: float, tint: Color, id: Stri
 	f.id = id
 	f.t0 = game.time + delay
 	f.ground = kind == Kind.CRACK
+	f.glow = kind in [Kind.RING, Kind.THREAD, Kind.WISP, Kind.FLASH, Kind.STREAK] or (kind == Kind.ANIM and TdVfxData.MASK_STRIPS.has(id))
 	_live.append(f)
 	return f
 
 
 ## Shakes the map by up to `px` (off under Reduce motion).
 func shake(px: float) -> void:
-	if on and motion():
+	if on and motion() and Settings.screen_shake:
 		_shake = minf(maxf(_shake, px), TdVfxData.SHAKE_MAX)
 
 
@@ -145,6 +184,12 @@ func impact(s: TdProjectiles.Shot) -> void:
 	var lk := look(s.source)  # Its tower's shot look.
 	var k := loud(s.tower)  # Evolved: louder.
 	var tint: Color = s.tint if s.is_volley else lk["tint"]  # Volleys keep their own colour.
+	if not s.lob and not reduced() and s.from != s.pos:  # The trail lingers where it landed.
+		var tl := minf((TdVfxData.VOLLEY_TRAIL if s.is_volley else float(lk["trail"])) * k, s.from.distance_to(s.pos))  # Length (px).
+		var st := add(Kind.STREAK, s.pos, (TdVfxData.VOLLEY_TRAIL_W if s.is_volley else float(lk["trail_w"])) * k, TdVfxData.TRAIL_LINGER, tint)
+		if st != null:
+			st.ang = (s.pos - s.from).angle()
+			st.size0 = tl
 	if s.is_volley:
 		add(Kind.ANIM, s.pos, TdVfxData.VOLLEY_IMPACT_D * k * (1.6 if s.lob else 1.0), TdVfxData.IMPACT_TIME, tint, "volley_hit")
 		if s.lob:
@@ -191,6 +236,7 @@ func melee(t: Tower, b: BlockBody, e: TdEnemy) -> void:
 	if f != null:
 		f.ang = dir.angle()
 		f.flip = _rng.randf() < 0.5
+		f.id = "evolved" if k > 1.0 else ""
 	_nudge(e, dir, game.time + TdVfxData.LUNGE_TIME * TdVfxData.LUNGE_OUT)
 
 
@@ -213,10 +259,13 @@ func enemy_blow(e: TdEnemy, b: BlockBody) -> void:
 	var boss := String(e.row["rank"]) == "boss"  # Bosses swing big.
 	var f := add(Kind.SLASH if not boss else Kind.ANIM, b.pos - dir * (4.0 if not boss else 10.0),
 			TdVfxData.BOSS_SLASH_D if boss else TdVfxData.ENEMY_SLASH_D, TdVfxData.SLASH_TIME * (1.4 if boss else 1.0),
-			TdVfxData.ENEMY_SLASH_TINT if not boss else Color.WHITE, "vael_cleave" if boss else "", 0.04)
+			Color(1.0, 0.78, 0.72) if not boss else Color.WHITE, "vael_cleave" if boss else "enemy", 0.04)
 	if f != null:
 		f.ang = dir.angle()
 		f.flip = _rng.randf() < 0.5
+		if not boss:
+			f.id = "enemy"
+			f.tint = Color(1.0, 0.78, 0.72)
 	add(Kind.ANIM, b.pos + Vector2(0, -10) - dir * 6.0, TdVfxData.SPARK_D, 0.25, TdVfxData.SPARK_TINT, "volley_hit", 0.05)
 	if boss:
 		shake(TdVfxData.BOSS_SHAKE)
@@ -270,6 +319,54 @@ func death(e: TdEnemy) -> void:
 		add(Kind.WISP, e.position + Vector2(0, -10), TdVfxData.WISP_R * (1.0 if rank == "fodder" else 1.6), TdVfxData.WISP_TIME, TdVfxData.WISP_TINT, "", 0.1)
 
 
+## Spell `id` was cast at map px `pos`: a flash at the necromancer, then the
+## spell's burst, ring and shake at its target (TdVfxData.SPELLS).
+func cast(id: String, pos: Vector2) -> void:
+	if not on or not TdVfxData.SPELLS.has(id):
+		return
+	var row: Dictionary = TdVfxData.SPELLS[id]
+	var tint: Color = row["tint"]
+	add(Kind.ANIM, game.necromancer_pos() + Vector2(0, -24), float(row["flash"]), TdVfxData.CAST_TIME, tint, "volley_flash")
+	var at := game.necromancer_pos() if id == "dread_rally" else pos  # Where it lands.
+	if String(row["strip"]) != "":
+		add(Kind.ANIM, at, float(row["strip_d"]), TdVfxData.CAST_TIME * 1.4, tint if TdVfxData.MASK_STRIPS.has(String(row["strip"])) else Color.WHITE, String(row["strip"]), 0.05)
+	if float(row["ring"]) > 0.0:
+		var r := add(Kind.RING, at, float(row["ring"]), TdVfxData.CAST_TIME, tint, "", 0.05)
+		if r != null:
+			r.size0 = 12.0
+	shake(float(row["shake"]))
+
+
+## A Shadow Bolt hit at `pos`: a big violet burst and ring.
+func bolt_hit(pos: Vector2) -> void:
+	if not on:
+		return
+	var tint: Color = TdVfxData.SPELLS["shadow_bolt"]["tint"]
+	add(Kind.ANIM, pos, TdVfxData.BOLT_IMPACT_D, TdVfxData.IMPACT_TIME, Color.WHITE, "bolt_impact")
+	add(Kind.ANIM, pos, TdVfxData.BOLT_IMPACT_D * 0.8, TdVfxData.IMPACT_TIME, tint, "volley_hit")
+	var r := add(Kind.RING, pos, TdVfxData.BOLT_IMPACT_D * 0.5, TdVfxData.RING_TIME, tint)
+	if r != null:
+		r.size0 = 10.0
+
+
+## Enemy `e` took `dmg` (a direct hit): a floating number, when Settings >
+## Damage numbers is on (capped; the oldest goes first).
+func number(e: TdEnemy, dmg: float) -> void:
+	if not on or dmg < TdVfxData.NUMBER_MIN or not (Settings.damage_numbers or GameState.autotest_numbers):
+		return
+	if _numbers >= TdVfxData.NUMBERS_MAX:
+		for i in _live.size():
+			if _live[i].kind == Kind.NUMBER:
+				_live.remove_at(i)
+				_numbers -= 1
+				break
+	var f := add(Kind.NUMBER, e.position + Vector2(_rng.randf_range(-8, 8), -SpriteBank.drawn_height(String(e.row["sprite"])) * 0.5 - 14.0),
+			0.0, TdVfxData.NUMBER_TIME, TdVfxData.NUMBER_BIG_TINT if dmg >= TdVfxData.NUMBER_BIG else TdVfxData.NUMBER_TINT)
+	if f != null:
+		f.text = str(roundi(dmg))
+		_numbers += 1
+
+
 ## An enemy reached the gate: the gate flashes red and the lives counter shakes.
 func leak() -> void:
 	if not on:
@@ -287,6 +384,8 @@ func _process(delta: float) -> void:
 		if game.time - f.t0 >= f.dur:
 			if f.kind == Kind.WISP:
 				_wisps -= 1
+			elif f.kind == Kind.NUMBER:
+				_numbers -= 1
 			_live.remove_at(i)
 	var off := Vector2.ZERO  # Shake offset (px) this frame.
 	if _shake > 0.0:
@@ -297,26 +396,38 @@ func _process(delta: float) -> void:
 	game.gate_layer.modulate = TdVfxData.LEAK_TINT.lerp(Color.WHITE, clampf(lf, 0.0, 1.0)) if lf < 1.0 else Color.WHITE
 	queue_redraw()
 	_ground.queue_redraw()
+	_add.queue_redraw()
 
 
 func _draw() -> void:
-	_draw_list(self, false)
+	_draw_list(self, 1)
 
 
-## Draws every started effect of the ground (`ground` true) or the upper list on `ci`.
-func _draw_list(ci: CanvasItem, ground: bool) -> void:
+## Draws every started effect of list `layer` on `ci`: 0 the ground layer,
+## 1 this node (normal blend), 2 the additive glow layer.
+func _draw_list(ci: CanvasItem, layer: int) -> void:
 	if game == null:
 		return
 	var ring := TdArt.texture("range_ring")  # Grey ring mask.
+	var ground := layer == 0  # Drawing the ground list.
 	for f: Fx in _live:
-		if f.ground != ground or game.time < f.t0:
+		if game.time < f.t0 or f.ground != ground:
+			continue
+		if f.kind == Kind.SLASH and not ground:
+			_draw_slash(ci, f, clampf((game.time - f.t0) / f.dur, 0.0, 1.0), layer == 2)
+			continue
+		if not ground and f.glow != (layer == 2):
 			continue
 		var p := clampf((game.time - f.t0) / f.dur, 0.0, 1.0)  # 0..1 through it.
 		match f.kind:
 			Kind.ANIM:
 				SpriteBank.draw_anim(ci, f.id, f.pos, f.size, p, 1.0, f.tint)
-			Kind.SLASH:
-				_draw_slash(ci, f, p)
+			Kind.NUMBER:
+				_draw_number(ci, f, p)
+			Kind.STREAK:
+				var tex := TdArt.texture("vfx_streak")
+				if tex != null:
+					draw_streak(ci, tex, f.pos, f.ang, f.size0 * (1.0 - p * 0.5), f.size * (1.0 - p * 0.6), Color(f.tint, 1.0 - p))
 			Kind.RING:
 				if ring != null:
 					var r := lerpf(f.size0, f.size, 1.0 - (1.0 - p) * (1.0 - p))  # Eased out (px).
@@ -339,24 +450,59 @@ func _draw_list(ci: CanvasItem, ground: bool) -> void:
 				ci.draw_texture_rect(_soft(), Rect2(f.pos - Vector2(r, r), Vector2(r, r) * 2.0), false, Color(f.tint, f.tint.a * (1.0 - p)))
 
 
-## The soft glow disc texture (holy/soft_disc; the hard disc without art).
+## The soft glow disc texture: white at the centre fading smoothly to clear
+## at the rim (a radial GradientTexture2D, made once and cached).
 static func _soft() -> Texture2D:
-	var t := SpriteBank.texture("holy/soft_disc")  # Soft white disc.
-	return t if t != null else SpriteBank.disc()
+	if _soft_tex == null:
+		var g := Gradient.new()  # Centre -> rim.
+		g.offsets = PackedFloat32Array([0.0, 0.35, 1.0])
+		g.colors = PackedColorArray([Color(1, 1, 1, 1), Color(1, 1, 1, 0.55), Color(1, 1, 1, 0)])
+		var t := GradientTexture2D.new()  # Radial.
+		t.gradient = g
+		t.fill = GradientTexture2D.FILL_RADIAL
+		t.fill_from = Vector2(0.5, 0.5)
+		t.fill_to = Vector2(1.0, 0.5)
+		t.width = 64
+		t.height = 64
+		_soft_tex = t
+	return _soft_tex
 
 
-## A sword crescent (td/vfx_slash strip) swinging along f.ang.
-func _draw_slash(ci: CanvasItem, f: Fx, p: float) -> void:
+## A sword crescent (td/vfx_slash strip) swinging along f.ang: it sweeps in,
+## holds fully drawn, then fades (TdVfxData.SLASH_SWEEP / SLASH_HOLD). The
+## coloured rim is the additive pass (`edge`), the white-gold core the normal one.
+func _draw_slash(ci: CanvasItem, f: Fx, p: float, edge: bool) -> void:
 	var tex := TdArt.texture("vfx_slash")  # 6 frames of 48 x 48.
 	if tex == null:
 		return
 	var fh := tex.get_size().y  # Frame size (texels).
-	var frames := int(tex.get_size().x / fh)  # Frame count.
-	var fr := mini(int(p * float(frames)), frames - 1)  # Frame now.
+	var frames := int(tex.get_size().x / fh)  # Frame count (6: 3 sweep, 3 fade).
+	var sw := TdVfxData.SLASH_SWEEP  # Sweep share.
+	var hold := sw + TdVfxData.SLASH_HOLD  # End of the hold.
+	var fr := 0  # Frame now.
+	if p < sw:
+		fr = mini(int(p / sw * 3.0), 2)
+	elif p < hold:
+		fr = 2
+	else:
+		fr = mini(3 + int((p - hold) / maxf(1.0 - hold, 0.01) * float(frames - 3)), frames - 1)
+	var s := f.size * (TdVfxData.SLASH_EDGE_SCALE if edge else 1.0)  # Drawn size (px).
+	var col: Color = f.tint  # Core colour.
+	if edge:
+		col = TdVfxData.SLASH_EDGE_EVOLVED if f.id == "evolved" else (TdVfxData.SLASH_EDGE if f.id == "" else f.tint)
 	ci.draw_set_transform(f.pos, f.ang, Vector2(1.0, -1.0 if f.flip else 1.0))
-	var s := f.size  # Drawn size (px).
-	ci.draw_texture_rect_region(tex, Rect2(-s * 0.5, -s * 0.5, s, s), Rect2(fh * float(fr), 0.0, fh, fh), f.tint)
+	ci.draw_texture_rect_region(tex, Rect2(-s * 0.5, -s * 0.5, s, s), Rect2(fh * float(fr), 0.0, fh, fh), col)
 	ci.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
+
+## A floating damage number (f.text) rising and fading.
+func _draw_number(ci: CanvasItem, f: Fx, p: float) -> void:
+	var font := UiTheme.font_for(TdVfxData.NUMBER_FONT)  # Jersey 10.
+	var pos := f.pos + Vector2(0, -TdVfxData.NUMBER_RISE * p)  # Rising (px).
+	var w := font.get_string_size(f.text, HORIZONTAL_ALIGNMENT_LEFT, -1, TdVfxData.NUMBER_FONT).x  # Text width (px).
+	var a := 1.0 - p * p  # Fades late.
+	ci.draw_string_outline(font, pos - Vector2(w * 0.5, 0), f.text, HORIZONTAL_ALIGNMENT_LEFT, -1, TdVfxData.NUMBER_FONT, 4, Color(0, 0, 0, 0.8 * a))
+	ci.draw_string(font, pos - Vector2(w * 0.5, 0), f.text, HORIZONTAL_ALIGNMENT_LEFT, -1, TdVfxData.NUMBER_FONT, Color(f.tint, a))
 
 
 ## A Mender soul-thread from f.pos to f.to with a mote running along it.

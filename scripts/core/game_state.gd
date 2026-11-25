@@ -10,6 +10,10 @@ extends Node
 var autotest: bool = false
 ## Effects quality forced for the autotest ("" = full; read by Settings).
 var autotest_effects: String = ""
+## --reduce-motion: Reduce motion forced on for this run (the Web visual check; visual only).
+var autotest_reduce_motion: bool = false
+## --damage-numbers: floating damage numbers forced on for this run (visual only).
+var autotest_numbers: bool = false
 ## Kept for the copied TouchSupport (Necropathy's co-op shot mode); always "".
 var autotest_coop_shots: String = ""
 ## Map id to play (MapRegistry id).
@@ -53,6 +57,8 @@ func _init() -> void:
 			"--build": autotest_build = v
 			"--reckoning": autotest_reckoning = true
 			"--effects": autotest_effects = v
+			"--reduce-motion": autotest_reduce_motion = true
+			"--damage-numbers": autotest_numbers = true
 			"--meta": autotest_meta = v
 			"--meta-save": meta_save = true
 			"--character": character = v

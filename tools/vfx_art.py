@@ -10,6 +10,9 @@ in Necropathy's pixel style, with Pillow, into assets/sprites/td/:
   vfx_status.png  6 icons of 9 x 9 side by side (burning, rot, cursed, slowed,
                   frozen, weakened), in colour with a dark outline.
   vfx_crack.png   44 x 20 ground crack (the Abomination's smash), in colour.
+  mood_glass.png  72 x 44 stained-glass light pool (the Sanctum's floor light,
+                  drawn additively): coloured panes in lead lines, fading out
+                  toward an elliptical rim.
 
 Deterministic (fixed seed). Run: python3 tools/vfx_art.py
 """
@@ -124,12 +127,35 @@ def crack() -> Image.Image:
     return img
 
 
+def glass() -> Image.Image:
+    w, h = 72, 44
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    panes = [(220, 60, 60), (70, 110, 230), (240, 190, 70), (150, 80, 210), (80, 190, 120)]
+    cell = 9
+    for y in range(h):
+        for x in range(w):
+            dx, dy = (x + 0.5 - w / 2) / (w / 2), (y + 0.5 - h / 2) / (h / 2)
+            d = math.hypot(dx, dy)
+            if d >= 1.0:
+                continue
+            # Panes skewed like light falling through a window at an angle.
+            cx, cy = int((x + y * 0.5) // cell), int(y // (cell * 0.6))
+            lead = (x + y * 0.5) % cell < 1 or y % int(cell * 0.6) < 1
+            if lead:
+                continue
+            r, g, b = panes[(cx * 3 + cy * 2) % len(panes)]
+            a = int(255 * (1.0 - d) ** 0.8)
+            img.putpixel((x, y), (r, g, b, a))
+    return img
+
+
 def main() -> None:
     os.makedirs(OUT, exist_ok=True)
     slash().save(os.path.join(OUT, "vfx_slash.png"))
     streak().save(os.path.join(OUT, "vfx_streak.png"))
     status().save(os.path.join(OUT, "vfx_status.png"))
     crack().save(os.path.join(OUT, "vfx_crack.png"))
+    glass().save(os.path.join(OUT, "mood_glass.png"))
 
 
 if __name__ == "__main__":

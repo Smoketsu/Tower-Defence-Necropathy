@@ -58,6 +58,8 @@ func _draw() -> void:
 			var sz := tex.get_size()  # Its size (px).
 			draw_texture_rect(tex, Rect2((Vector2(o[1]) - Vector2(sz.x * 0.5, sz.y * 0.8)).round(), sz), false)
 	for r: Road in roads.values():
+		_draw_shoulder(r, TdArtData.ROAD_WIDTH * 0.5 + TdMoodData.SHOULDER_PX)
+	for r: Road in roads.values():
 		_draw_road(r)
 	for r: Road in roads.values():
 		if r.entrance:
@@ -112,6 +114,7 @@ func _draw_road(r: Road) -> void:
 		var sq := PackedVector2Array([c + Vector2(-hw, -hw), c + Vector2(hw, -hw), c + Vector2(hw, hw), c + Vector2(-hw, hw)])
 		if fill != null:
 			draw_polygon(sq, PackedColorArray([Color.WHITE]), _uv(sq, fill), fill)
+	_draw_wear(r)
 	if edge == null:
 		return
 	var eh := edge.get_size().y  # Kerb thickness (px).
@@ -126,6 +129,34 @@ func _draw_road(r: Road) -> void:
 			var k := PackedVector2Array([a + o + n * eh * 0.5, b + o + n * eh * 0.5, b + o - n * eh * 0.5, a + o - n * eh * 0.5])
 			var u := len / edge.get_size().x  # Tiles along the kerb.
 			draw_polygon(k, PackedColorArray([Color.WHITE]), PackedVector2Array([Vector2(0, 0), Vector2(u, 0), Vector2(u, 1), Vector2(0, 1)]), edge)
+
+
+## The worn shoulder: a dark band reaching past the road edges (half width
+## `w`), drawn under the road (static: this layer is drawn once).
+func _draw_shoulder(r: Road, w: float) -> void:
+	for i in range(r.points.size() - 1):
+		var a := r.points[i]
+		var b := r.points[i + 1]
+		var n := Vector2((b - a).normalized().y, -(b - a).normalized().x) * w  # Half-width normal.
+		draw_colored_polygon(PackedVector2Array([a + n, b + n, b - n, a - n]), TdMoodData.SHOULDER_TINT)
+	for i in range(1, r.points.size() - 1):
+		draw_rect(Rect2(r.points[i] - Vector2(w, w), Vector2(w, w) * 2.0), TdMoodData.SHOULDER_TINT)
+
+
+## Cart ruts along the road and loose cobbles at hashed points (static).
+func _draw_wear(r: Road) -> void:
+	for i in range(r.points.size() - 1):
+		var a := r.points[i]
+		var b := r.points[i + 1]
+		var d := (b - a).normalized()  # Segment direction.
+		var n := Vector2(d.y, -d.x)  # Unit normal.
+		for side: float in [1.0, -1.0]:
+			draw_line(a + n * side * TdMoodData.RUT_OFFSET, b + n * side * TdMoodData.RUT_OFFSET, TdMoodData.RUT_TINT, TdMoodData.RUT_W)
+		var len := a.distance_to(b)  # Segment length (px).
+		for k in int(len * TdMoodData.COBBLE_PER_PX):
+			var h := hash(Vector3i(i, k, r.id.hash()))  # Pure hash.
+			var p := a + d * float(h % maxi(int(len), 1)) + n * (float((h / 97) % 36) - 18.0)  # On the road.
+			draw_rect(Rect2(p.round(), Vector2(TdMoodData.COBBLE_PX, TdMoodData.COBBLE_PX - 1.0)), TdMoodData.COBBLE_TINT)
 
 
 ## Map-space UVs (in tiles of `tex`) for polygon `pts`.
