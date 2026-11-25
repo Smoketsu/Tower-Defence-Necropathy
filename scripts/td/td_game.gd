@@ -21,6 +21,9 @@ signal banner_requested(text: String)
 signal wave_started(n: int)
 ## Emitted once when the map ends (`won` = the last wave is dead).
 signal ended(won: bool)
+## Emitted when an enemy is killed (before it returns to the pool: its
+## position, road and statuses are still readable); `tower` may be null.
+signal enemy_killed(e: TdEnemy, tower: Tower)
 ## Emitted after every fixed step (the autotest bot acts here).
 signal ticked
 ## Emitted when the player asks to replay this map (pause Restart, results Again).
@@ -176,6 +179,7 @@ func _ready() -> void:
 	add_child(hud)
 	if rule != null:
 		rule.setup()
+	Sfx.prepare_pack("td")  # The five Gravewatch sounds (TdSoundData.SOUNDS).
 	get_viewport().size_changed.connect(_fit)
 	_fit()
 

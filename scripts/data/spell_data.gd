@@ -30,10 +30,23 @@ const SPELLS: Dictionary = {
 		"max_snap": 60.0,  # px: a tap farther than this from any road does nothing
 	},
 	"corpse_explosion": {
-		"name": "Corpse Explosion", "icon": "corpse_explosion", "cooldown": 14.0, "target": "point", "ready": false,  # TUNING (not in GDD)
+		"name": "Corpse Explosion", "icon": "corpse_explosion", "cooldown": 14.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"damage": 45.0,  # TUNING (not in GDD) per corpse to each enemy in its blast
+		"blast_radius": 55.0,  # TUNING (not in GDD) px around each corpse
+		"pick_radius": 110.0,  # TUNING (not in GDD) px around the tap searched for corpses
+		"max_detonate": 10,  # TUNING (not in GDD) corpses detonated per cast
+		"max_corpses": 40,  # TUNING (not in GDD) corpse markers kept at once (pool cap; oldest dropped)
+		"corpse_life": 25.0,  # TUNING (not in GDD) s a corpse lies on the road
 	},
 	"plague_cloud": {
-		"name": "Plague Cloud", "icon": "plague_cloud", "cooldown": 16.0, "target": "road", "ready": false,  # TUNING (not in GDD)
+		"name": "Plague Cloud", "icon": "plague_cloud", "cooldown": 16.0, "target": "road", "ready": true,  # TUNING (not in GDD)
+		"length": 192.0,  # TUNING (not in GDD) px of road covered (GDD §5 "a stretch of road")
+		"puffs": 4,  # TUNING (not in GDD) fields along it (spaced length / (puffs - 1) px)
+		"radius": 32.0,  # TUNING (not in GDD) px of each field
+		"duration": 6.0,  # TUNING (not in GDD) s the cloud lasts
+		"tick": 0.5,  # TUNING (not in GDD) s between Rot ticks
+		"rot": 9.0,  # TUNING (not in GDD) Rot damage per tick (damage over time, no armour)
+		"max_snap": 60.0,  # px: a tap farther than this from any road does nothing
 	},
 }
 

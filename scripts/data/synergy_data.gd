@@ -12,13 +12,22 @@ extends RefCounted
 ##   radius  — px; the pair is active while the two towers are this close.
 ##   effects — {"a"|"b": {stat: multiplier}} applied to that partner's stats
 ##             (damage, rate, range, hp, hold_bonus (added, not multiplied)).
+##   hit     — optional conditional hit bonus, read by Synergies.hit_mult() from
+##             TdCombat.damage_enemy(): {side: "a"|"b" (the partner whose hits
+##             gain it), vs: enemy status "frozen"|"staggered"|"weakened",
+##             mult: damage multiplier}. One bonus per hit, the highest.
+##   extend_weaken — optional, s: the Mage's hits lengthen the Dirge (weaken)
+##             already on an enemy by this much (Requiem; read by mage.gd).
+##   aim     — optional: the partner side's boulders aim at enemies with this
+##             status first (Killing Field "staggered"; read by corpse_catapult.gd).
 ##   hint    — one short line shown in the spot menu.
 const SYNERGIES: Dictionary = {
 	"shatterfall": {
 		"name": "Shatterfall", "icon": "syn_shatterfall", "a": "frost_wraith", "b": "corpse_catapult",
 		"radius": 220.0,  # TUNING (not in GDD)
-		"effects": {"b": {"damage": 1.25}},  # TUNING (not in GDD) GDD §4.4 "frozen targets take more boulder damage" (flat until a behaviour reads frozen)
-		"hint": "Frost Wraith near a Catapult: heavier boulders",
+		"effects": {},
+		"hit": {"side": "b", "vs": "frozen", "mult": 1.6},  # TUNING (not in GDD) GDD §4.4 "frozen targets take more boulder damage"
+		"hint": "Frost Wraith near a Catapult: boulders crush frozen foes",
 	},
 	"flesh_rampart": {
 		"name": "Flesh Rampart", "icon": "syn_flesh_rampart", "a": "abomination", "b": "warrior",
@@ -29,13 +38,17 @@ const SYNERGIES: Dictionary = {
 	"killing_field": {
 		"name": "Killing Field", "icon": "syn_killing_field", "a": "abomination", "b": "corpse_catapult",
 		"radius": 300.0,  # TUNING (not in GDD)
-		"effects": {"b": {"rate": 1.15}},  # TUNING (not in GDD) GDD §4.4 aim at stomped packs (later behaviour)
-		"hint": "Abomination in Catapult reach: faster volleys",
+		"effects": {},
+		"aim": "staggered",  # GDD §4.4 "boulders aim at stomped packs"
+		"hit": {"side": "b", "vs": "staggered", "mult": 1.3},  # TUNING (not in GDD)
+		"hint": "Abomination in Catapult reach: boulders aim at stomped packs",
 	},
 	"requiem": {
 		"name": "Requiem", "icon": "syn_requiem", "a": "banshee", "b": "mage",
-		"radius": 180.0,  # TUNING (not in GDD)
-		"effects": {"a": {"range": 1.1}, "b": {"damage": 1.15}},  # TUNING (not in GDD) GDD §4.4 Dirge lasts longer
-		"hint": "Banshee near a Mage: longer Dirge, harder bolts",
+		"radius": 210.0,  # TUNING (not in GDD)
+		"effects": {"a": {"range": 1.1}},  # TUNING (not in GDD)
+		"extend_weaken": 1.5,  # TUNING (not in GDD) GDD §4.4 "the Dirge lasts longer on enemies the Mage hits"
+		"hit": {"side": "b", "vs": "weakened", "mult": 1.15},  # TUNING (not in GDD)
+		"hint": "Banshee near a Mage: Mage hits stretch the Dirge",
 	},
 }

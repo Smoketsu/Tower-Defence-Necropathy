@@ -1,9 +1,12 @@
 ## Blocker behaviour (Skeleton Warrior, Corpse Abomination): the tower's
 ## bodies stand across the road at its post (one RoadBlock registered with
-## the run) and hold enemies; each living body hits what it holds every
-## `interval` s (all of them when `hits_all_held`). A fallen body returns at
-## full HP after `respawn` s, free (GDD §4.3). Level ups change the body
-## count and HP through Tower.recompute() -> on_recompute().
+## the run) and hold enemies; each living body strikes what it holds every
+## `interval` s (strike(): all of them when `hits_all_held`). From level 3,
+## every `volley.every` strikes the post throws its volley at enemies within
+## `volley.reach`. A fallen body returns at full HP after `respawn` s, free
+## (GDD §4.3). Level ups change the body count and HP through
+## Tower.recompute() -> on_recompute(). Class kits (warrior.gd,
+## abomination.gd) extend this and override strike() / step().
 extends TowerBehavior
 
 
@@ -54,11 +57,22 @@ func step(t: Tower, _dt: float) -> void:
 		b.next_attack = t.game.time + float(t.stats["interval"])
 		t.squash_until = t.game.time + TowerData.FIRE_SQUASH_TIME
 		t.game.sound_fire(t.tower_id)
-		var targets: Array[TdEnemy] = [b.held[0]]  # Hit this time: the first held, or all of them (a stomp).
-		if bool(t.stats["hits_all_held"]):
-			targets.assign(b.held)
-		for e: TdEnemy in targets:
-			TdCombat.damage_enemy(t.game, e, float(t.stats["damage"]), {"source": t.tower_id, "tower": t, "origin": b.pos})
+		t.shots += 1
+		var first: TdEnemy = b.held[0]  # Its main target (the volley falls back on it).
+		strike(t, b)
+		volley(t, first)
+
+
+## One strike of body `b` on what it holds: the first held enemy, or all of
+## them when `hits_all_held` (a stomp). Returns the damage dealt.
+func strike(t: Tower, b: BlockBody) -> float:
+	var targets: Array[TdEnemy] = [b.held[0]]  # Hit this time.
+	if bool(t.stats["hits_all_held"]):
+		targets.assign(b.held)
+	var dealt := 0.0  # Damage dealt.
+	for e: TdEnemy in targets:
+		dealt += TdCombat.damage_enemy(t.game, e, float(t.stats["damage"]), {"source": t.tower_id, "tower": t, "origin": b.pos})
+	return dealt
 
 
 func on_removed(t: Tower) -> void:

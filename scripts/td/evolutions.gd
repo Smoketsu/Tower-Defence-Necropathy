@@ -14,6 +14,10 @@ static func recipe_met(t: Tower, game: TdGame) -> bool:
 	match String(rec["type"]):
 		"kills":
 			return t.kills >= int(rec["n"])
+		"damage":
+			return t.damage_done >= float(rec["n"])
+		"healed":
+			return float(t.vars.get("healed", 0.0)) >= float(rec["n"])
 		"near", "near_level":
 			var r2 := float(rec["radius"]) * float(rec["radius"])  # Squared radius.
 			for o: Tower in game.towers:

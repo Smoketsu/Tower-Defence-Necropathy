@@ -80,13 +80,17 @@ per-tower state in `t.vars`; stats only from `t.stats`. Add its sound to `TdSoun
 **Evolution (tier 6)** — a row in `EvolutionData.EVOLUTIONS`: from, name, sprite,
 icon, stats {damage|rate|range|hp: mult}, set {row key: value}, recipe. Recipe
 types in `Evolutions.recipe_met(t: Tower, game: TdGame) -> bool`: `kills` {n},
-`near` {class, radius}, `near_level` {class, level, radius}; a new type is one
+`damage` {n}, `healed` {n}, `near` {class, radius}, `near_level` {class, level,
+radius}; a new type is one
 `match` branch. The base tower row's `evolution` names it. Never hint recipes.
 
 **Synergy** — a row in `SynergyData.SYNERGIES`: name, icon, a, b, radius,
 effects {"a"|"b": {damage|rate|range|hp: mult, hold_bonus: +n}}, hint.
 `Synergies.evaluate()` runs on build / sell / upgrade / evolve; behaviours can
-test `t.synergies` ([id, partner] pairs) for conditional effects.
+test `t.synergies` ([id, partner] pairs) for conditional effects. Optional keys:
+`hit` {side, vs frozen|staggered|weakened, mult} (applied once per hit by
+`Synergies.hit_mult()` from `TdCombat.damage_enemy()`), `extend_weaken`, `aim`
+(read by the class kits through `Synergies.value()`).
 
 **Enemy kind** — a row in `TdEnemyData.KINDS`: name, sprite, rank
 (fodder|elite|miniboss|boss), hp, speed, armour (flat), radius, damage,
@@ -143,3 +147,16 @@ Sister / Sentinel / Inquisitor zone / Confessor / Paladin traits, the pre-map
 setup (spell / character / ultimate pick), Ossuary + meta save, Codex,
 Settings / Credits screens, Reckoning endless mode, skull records, the five new
 sounds (stand-ins in `TdSoundData`), gamepad spot cursor, CI.
+
+## Tower kits (gw-towers, Nov 2026)
+
+All 8 towers have their class kit in `scripts/towers/<class>.gd`; the 8
+evolutions are tier-6 kits whose numbers live in `EvolutionData` "set"; the 4
+synergies have conditional effects; Corpse Explosion and Plague Cloud are built;
+the five GDD §11 sounds are synthesized (`TdSoundData.SOUNDS`, Sfx pack "td").
+Hooks added: `TowerBehavior.impact(t, shot, victims)`, `TdProjectiles.fire_at()`
+(lobbed, telegraphed) and `add_field()` (ground damage fields),
+`TdGame.enemy_killed(e, tower)` signal, `TdCombat.curse_enemy / silence_enemy /
+is_silenced / stagger_enemy`. **Healer traits must skip their heal while
+`TdCombat.is_silenced(game, e)` is true** (Keening Lady). `TdRulesData.BLOCKER_HIT_MULT`
+scales held enemies' hits on blockers. Self-check: `tools/towers_check.tscn`.

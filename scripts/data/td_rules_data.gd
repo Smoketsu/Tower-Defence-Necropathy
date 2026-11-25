@@ -47,3 +47,7 @@ const PIERCE_REACH: float = 40.0  # TUNING (not in GDD)
 const STUCK_TIME: float = 5.0  # TUNING (not in GDD)
 ## Px around a tap within which the nearest spot is picked.
 const SPOT_PICK: float = 34.0  # TUNING (not in GDD) about a fingertip at phone scale
+## Multiplier on every held enemy's attack on its blocker body (TdEnemy._fight):
+## kind rows keep Necropathy-scaled damage, this makes the column a real threat
+## to blockers so the Mender, the free respawn and Dread Rally's revive matter.
+const BLOCKER_HIT_MULT: float = 4.0  # TUNING (not in GDD)

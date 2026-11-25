@@ -85,11 +85,13 @@ $G --headless --fixed-fps 60 --quit-after 40000 -- --autotest [--map=graveyard] 
 | `--seed=` | run seed (default 1) |
 | `--speed=` | fixed steps per physics frame, 1-64 (default 8; the result does not depend on it) |
 | `--difficulty=` | DifficultyData id (default `necromancer`) |
-| `--build=` | BuildOrderData id (default: the map's `build_order`; `weak` = the bad placement order) |
+| `--build=` | BuildOrderData id (default: the map's `build_order`; `weak` = the bad placement order; `towers_a` = the four shooters to Lv 5 + Lich, Winter Revenant, Gravebow; `towers_b` = support / blockers to Lv 5 + Death Knight, Profane Bishop (loses to Alaric); `evolve_all` = test order with bonus souls, seven evolutions in one run) |
 
 It prints a `TDAUTOTEST SUMMARY` (result, skulls, waves cleared, lives, souls
 earned / spent, kills / leaks by kind, damage by source, every tower, wave
-spawn / clear seconds, stuck enemies) and exits 0 when the run completed
+spawn / clear seconds, stuck enemies, evolutions reached and active synergies,
+casts / damage per spell, blockers lost / respawned, Mender healing, Lich
+Risen, Deep Freezes, shatters, Colossus shrapnel, corpses detonated) and exits 0 when the run completed
 (1 on a timeout). It never touches `user://`. Same seed -> identical summary.
 
 ## Web build
@@ -102,8 +104,26 @@ python3 tools/patch_web_audio.py build/web/index.js   # always; also runs the GL
 
 ## Known limits
 
-- Only the Graveyard is built; Corpse Explosion / Plague Cloud, the Ossuary,
+- Only the Graveyard is built; the Ossuary,
   Codex, Settings screen, character pick and saves are not (see CLAUDE.md "Status").
 - The spot menu can cover a neighbouring spot (tap elsewhere to close it first).
 - Balance is a first pass: the default build order clears the Graveyard with
   19-20 lives on seeds 1-2 and the result is sensitive to enemy HP.
+
+## Tower kits, evolutions, synergies, spells (gw-towers)
+
+- Each class has its kit in `scripts/towers/<class>.gd` (extends projectile /
+  aura / blocker): Frost Wraith Deep Freeze (packs), Catapult lobbed boulders
+  on a landing telegraph aimed at the densest pack, Banshee telegraphed Dirge,
+  Mender heals, Abomination stomp stagger, blocker volleys from Lv 3.
+- Evolutions are real tier-6 kits (special numbers in `EvolutionData` "set"):
+  Gravebow split + curse, Lich Risen road blockers, Winter Revenant shatter,
+  Ossuary Engine three boulders + burning fields, Keening Lady three waves +
+  silence, Profane Bishop burn + faster respawns, Death Knight cleave +
+  lifesteal, Bone Colossus taunt + shrapnel.
+- Synergies have conditional effects through `Synergies.hit_mult()` (called
+  from `TdCombat.damage_enemy()`), `extend_weaken` and `aim`.
+- Corpse Explosion (corpse markers from kills) and Plague Cloud (Rot fields
+  along the road) are built; the five GDD §11 sounds are synthesized
+  (`TdSoundData.SOUNDS`, Sfx pack "td").
+- Self-check: `$G --headless tools/towers_check.tscn` (prints `TOWERS CHECK PASS`).

@@ -70,6 +70,15 @@ var last_moved: float = 0.0
 var body: UnitLayer = null
 ## Flash / frozen look the body was last drawn with (redraw when it changes; visual).
 var _look: int = 0
+## Damage-taken multiplier (>= 1) from tower hits while cursed (Gravebow), and its end (game s).
+var curse_mult: float = 1.0
+## See curse_mult.
+var curse_until: float = 0.0
+## Game time (s) until which it is silenced: healer traits must skip their heals
+## (Keening Lady; query TdCombat.is_silenced()).
+var silenced_until: float = 0.0
+## Game time (s) until which it is staggered by a stomp (no attacks; Killing Field reads it).
+var staggered_until: float = 0.0
 ## Pose shown by a boss sprite (BossPoseData: 0 walk, 1 windup, 3 strike); set by its trait.
 var pose: int = 0
 
@@ -102,6 +111,10 @@ func activate(p_kind: String, road: Road, d: float, lane: float, hp_mult: float,
 	haste_mult = 1.0
 	haste_until = 0.0
 	unholdable_until = 0.0
+	curse_mult = 1.0
+	curse_until = 0.0
+	silenced_until = 0.0
+	staggered_until = 0.0
 	dots.clear()
 	vars.clear()
 	wave = p_wave
@@ -195,7 +208,10 @@ func _fight() -> void:
 	if game.time < freeze_until or game.time < next_attack:
 		return
 	next_attack = game.time + float(row["attack_interval"])
-	TdCombat.damage_body(game, holder, float(row["damage"]) * damage_mult())
+	var target := holder  # The body it hits: its holder, or a taunting Bone Colossus body.
+	if holder.taunt_by != null and holder.taunt_by.alive and game.time < holder.taunt_until:
+		target = holder.taunt_by
+	TdCombat.damage_body(game, target, float(row["damage"]) * damage_mult() * TdRulesData.BLOCKER_HIT_MULT)
 
 
 ## Moves the node to the follower and updates facing and walk frame (visual).

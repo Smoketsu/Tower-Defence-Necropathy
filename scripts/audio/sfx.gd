@@ -599,6 +599,8 @@ func prepare_pack(pack: String) -> void:
 		defs = SoundData.TITANS_SOUNDS  # the Age of Titans
 	elif pack == "wild":
 		defs = SoundData.WILD_SOUNDS  # the Turning Year
+	elif pack == "td":
+		defs = TdSoundData.SOUNDS  # Gravewatch: place, upgrade, sell, life lost, wave call
 	var k := 0  # Index of the sound within its pack (its seed).
 	_mutex.lock()  # The worker reads the queue and recipes.
 	for id: String in defs:

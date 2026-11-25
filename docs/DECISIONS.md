@@ -32,3 +32,27 @@ decisions given with the foundation brief are listed first. Append new rows.
 | 23 | Sounds | The five new GDD §11 sounds are stand-ins mapped to existing Necropathy sounds in `TdSoundData` until synthesized. |
 | 24 | Spot menu | Building closes the menu; tapping a built spot opens Upgrade / Target / Sell / Evolve. Blockers have no Target button. |
 | 25 | Stuck check | An enemy that is not held or frozen and has not moved for 5 s counts as stuck in the autotest summary. |
+
+### gw-towers
+
+| # | Area | Decision |
+|---|---|---|
+| T1 | Class kits | One kit script per class (`scripts/towers/<class>.gd`), evolution specials read from the evolution row's "set" keys; a tower keeps its kit when it evolves. |
+| T2 | Frost Wraith | Every 6th bolt is a Deep Freeze: freezes every enemy within 60 px of the impact (Revenant 80 px, every 3rd). |
+| T3 | Catapult | Lobbed boulders land after 1.1 s on a `telegraphs/target` telegraph, aimed at the enemy with the most others within its splash (the targeting mode breaks ties), leading walkers by their speed. Its Lv3 volley is two smaller lobbed boulders. |
+| T4 | Banshee | Dirge: 0.45 s wind-up (closing violet ring) then the wail; it only starts when an enemy is in range. |
+| T5 | Blockers | Lv3 volley for blockers: every 3rd (Warrior) / 2nd (Abomination) strike throws dagger / shard volleys at enemies within 110 / 120 px. Abomination stomp staggers held enemies 0.8 s (no attacks). |
+| T6 | Blockers matter | Body HP Warrior 50, Abomination 200 and `BLOCKER_HIT_MULT` 4 on held enemies' hits (enemy rows untouched): ~8-12 bodies fall per default Graveyard run, which still wins with 20 lives. Default order's Frost Wraith and Mender swapped (plot 8 / plot 9) so the Mender stands by posts 1 and 2. |
+| T7 | Gravebow | Pierce 2; every 4th shot 2 split arrows at 70%; hits curse for 4 s: tower hits on a cursed enemy x1.15. Recipe 90 kills. |
+| T8 | Lich | Every 3rd kill by its (non-volley) bolts rises as a Risen: a temporary road block, 1 body 90 HP, holds 1, hits 12/s, 8 s, max 3. Deterministic (no chance roll). A Risen's fall is not a "blocker lost". Recipe: Frost Wraith within 200 px. |
+| T9 | Winter Revenant | An enemy that dies frozen (any killer, not a boss) shatters: 22% of its max HP to enemies within 56 px + slow 0.6 for 2 s. No chains, one shatter per death. Recipe: Catapult within 220 px. |
+| T10 | Ossuary Engine | 3 boulders spread 36 px; each leaves a burning field 30 px, 3 s, 12% of the boulder damage every 0.5 s. Recipe changed to a damage record (4000): splash rarely lands the killing blow, so 60 kills was out of reach. |
+| T11 | Keening Lady | 3 wails 0.35 s apart, radius x1 / x1.3 / x1.6; each silences 3 s (`TdEnemy.silenced_until`, query `TdCombat.is_silenced()`; healer traits must respect it). Recipe: Mage within 210 px. |
+| T12 | Profane Bishop | Recipe: the Mender's healing record, 1500 HP (GDD wants a Warder, not a launch tower). Bishop pulses also burn enemies in range for 10 and take 2 s off each fallen body's respawn in range. |
+| T13 | Death Knight | Cleave: 50% to every other enemy its post holds; lifesteal 15% of damage dealt heals the striking body. |
+| T14 | Bone Colossus | Taunt: other (non-temporary) blocker bodies within 210 px send their attackers' hits to it (`BlockBody.taunt_by`). Shrapnel when a body falls: 3x its stomp damage within 90 px. |
+| T15 | Synergies | Shatterfall: Catapult hits x1.6 on frozen enemies (flat bonus removed). Killing Field: boulders aim at staggered packs (they count double) and hit staggered enemies x1.3 (rate bonus removed). Requiem: radius 210; Banshee range x1.1 kept; Mage hits keep a Dirge on for at least 1.5 s more and deal x1.15 to weakened enemies (flat Mage damage removed). Flesh Rampart unchanged (+1 hold). One hit bonus per hit, the highest. |
+| T16 | Corpse Explosion | Kills leave corpse markers (max 40, 25 s, not bosses). A cast detonates up to 10 corpses within 110 px of the tap: 45 damage to every enemy within 55 px of each. No corpse = no cast. |
+| T17 | Plague Cloud | 192 px of road around the tap's road point as 4 non-overlapping Rot fields (32 px), 6 s, 9 damage over time every 0.5 s. |
+| T18 | Sounds | Five synthesized recipes in `TdSoundData.SOUNDS` rendered lazily as the Sfx pack "td" (asked for by TdGame); replaces stand-ins (decision 23). |
+| T19 | Autotest | Build orders may name a `loadout` and (test orders only) `bonus_souls`. The bot casts Corpse Explosion and Plague Cloud at the enemy nearest the gate. |

@@ -22,7 +22,11 @@ const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
 ##   spot          — "plot" (beside the road) or "post" (on the road: a blocker).
 ##   cost          — souls to raise it (level 1); upgrades / evolution scale from it.
 ##   behavior      — scripts/towers/<id>.gd loaded by name: "projectile" (shoots
-##                   the target), "aura" (pulses on everything in range), "blocker".
+##                   the target), "aura" (pulses on everything in range), "blocker",
+##                   or the class kit that extends one of them (archer, mage,
+##                   frost_wraith, corpse_catapult, banshee, mender, warrior,
+##                   abomination; each script documents its special and the
+##                   evolution keys it reads from EvolutionData "set").
 ##   range         — px; targeting radius (blockers: their melee reach, unused).
 ##   damage        — damage per shot / pulse / body hit.
 ##   interval      — s between shots / pulses / body hits.
@@ -35,26 +39,32 @@ const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
 ##   freeze_every  — every Nth hit freezes the target for freeze_time s (0 = never).
 ##   pierce        — extra enemies a shot passes through (0 = stops on the first).
 ##   armour_pierce — flat armour ignored by its hits (0+).
+##   freeze_radius — Frost Wraith: px around a Deep Freeze bolt's impact frozen at once.
+##   arc_time      — Catapult: s a lobbed boulder flies (its landing telegraph shows meanwhile).
 ##   volley        — Lv3+ volley (Necropathy's bullet heaven pass): {every: shots
 ##                   between volleys, count: extra shots, damage: fraction of a
-##                   shot's damage, sprite: volleys/<id> key, tint: Color}.
+##                   shot's damage, sprite: volleys/<id> key, tint: Color,
+##                   reach: optional px searched for volley targets (blockers;
+##                   default the tower's range)}.
 ## Aura keys:
 ##   affects       — "enemies" or "blockers".
 ##   slow / slow_time — as above, applied to every enemy in range each pulse.
 ##   weaken        — multiplier (0..1) on the damage those enemies deal; weaken_time s.
 ##   heal          — HP restored to every blocker body in range each pulse.
+##   windup        — Banshee: s it draws breath (the telegraph) before each wail.
 ## Blocker keys:
 ##   bodies        — undead standing on the post at level 1 (LEVELS add more).
 ##   body_hp       — HP of one body.
 ##   hold          — enemies one body holds at once.
 ##   hits_all_held — true: each hit strikes every enemy the body holds (a stomp).
 ##   respawn       — s before a fallen body returns, free (GDD §4.3).
+##   stagger_time  — Abomination: s each stomp staggers what it holds (no attacks).
 ##   evolution     — id of its EvolutionData row (hidden tier 6), "" = none.
 const TOWERS: Dictionary = {
 	"archer": {
 		"name": "Skeleton Archer", "sprite": "summons/archer", "icon": "archer", "spot": "plot",
 		"cost": 70,  # TUNING (not in GDD) GDD §8.1 range 40-140
-		"behavior": "projectile",
+		"behavior": "archer",
 		"range": 165.0,  # TUNING (not in GDD) Necropathy archer 170
 		"damage": 12.0,  # TUNING (not in GDD)
 		"interval": 0.8,  # TUNING (not in GDD)
@@ -68,7 +78,7 @@ const TOWERS: Dictionary = {
 	"mage": {
 		"name": "Bone Mage", "sprite": "summons/mage", "icon": "mage", "spot": "plot",
 		"cost": 100,  # TUNING (not in GDD)
-		"behavior": "projectile",
+		"behavior": "mage",
 		"range": 135.0,  # TUNING (not in GDD) Necropathy mage 145
 		"damage": 20.0,  # TUNING (not in GDD)
 		"interval": 1.6,  # TUNING (not in GDD)
@@ -83,7 +93,7 @@ const TOWERS: Dictionary = {
 	"frost_wraith": {
 		"name": "Frost Wraith", "sprite": "summons/frost_wraith", "icon": "frost_wraith", "spot": "plot",
 		"cost": 90,  # TUNING (not in GDD)
-		"behavior": "projectile",
+		"behavior": "frost_wraith",
 		"range": 125.0,  # TUNING (not in GDD)
 		"damage": 5.0,  # TUNING (not in GDD)
 		"interval": 1.0,  # TUNING (not in GDD)
@@ -92,6 +102,7 @@ const TOWERS: Dictionary = {
 		"splash": 30.0,  # TUNING (not in GDD)
 		"slow": 0.55, "slow_time": 1.8,  # TUNING (not in GDD) GDD §4.1 "slows, then freezes packs"
 		"freeze_every": 6, "freeze_time": 1.2,  # TUNING (not in GDD)
+		"freeze_radius": 60.0,  # TUNING (not in GDD) Necropathy Deep Freeze radius; GDD §4.1 "freezes packs"
 		"pierce": 0, "armour_pierce": 0.0,
 		"volley": {"every": 4, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(0.7, 0.9, 1.0)},  # TUNING (not in GDD)
 		"evolution": "winter_revenant",
@@ -99,12 +110,13 @@ const TOWERS: Dictionary = {
 	"corpse_catapult": {
 		"name": "Corpse Catapult", "sprite": "summons/corpse_catapult", "icon": "corpse_catapult", "spot": "plot",
 		"cost": 140,  # GDD §8.1 dearest tower
-		"behavior": "projectile",
+		"behavior": "corpse_catapult",
 		"range": 270.0,  # TUNING (not in GDD) GDD §4.1 "very long range"
 		"damage": 55.0,  # TUNING (not in GDD)
 		"interval": 3.2,  # TUNING (not in GDD)
 		"target": "strongest",
 		"projectile": "projectiles/corpse_boulder", "projectile_speed": 240.0,  # TUNING (not in GDD)
+		"arc_time": 1.1,  # TUNING (not in GDD) GDD §4.1 "with landing telegraph"
 		"splash": 62.0,  # TUNING (not in GDD)
 		"slow": 1.0, "slow_time": 0.0, "freeze_every": 0, "freeze_time": 0.0,
 		"pierce": 0, "armour_pierce": 4.0,  # TUNING (not in GDD)
@@ -114,20 +126,21 @@ const TOWERS: Dictionary = {
 	"banshee": {
 		"name": "Banshee", "sprite": "summons/banshee", "icon": "banshee", "spot": "plot",
 		"cost": 90,  # TUNING (not in GDD)
-		"behavior": "aura", "affects": "enemies",
+		"behavior": "banshee", "affects": "enemies",
 		"range": 115.0,  # TUNING (not in GDD)
 		"damage": 3.0,  # TUNING (not in GDD) the Dirge's small wail damage per pulse
 		"interval": 1.5,  # TUNING (not in GDD)
 		"target": "first",
 		"slow": 0.75, "slow_time": 1.6,  # TUNING (not in GDD) GDD §4.1 "move slower"
 		"weaken": 0.7, "weaken_time": 1.6,  # TUNING (not in GDD) GDD §4.1 "hit weaker"
+		"windup": 0.45,  # TUNING (not in GDD) GDD §4.1 Dirge telegraph
 		"heal": 0.0,
 		"evolution": "keening_lady",
 	},
 	"mender": {
 		"name": "Grave Mender", "sprite": "summons/mender", "icon": "mender", "spot": "plot",
 		"cost": 80,  # TUNING (not in GDD)
-		"behavior": "aura", "affects": "blockers",
+		"behavior": "mender", "affects": "blockers",
 		"range": 130.0,  # TUNING (not in GDD)
 		"damage": 0.0,
 		"interval": 2.0,  # TUNING (not in GDD)
@@ -139,31 +152,34 @@ const TOWERS: Dictionary = {
 	"warrior": {
 		"name": "Skeleton Warrior", "sprite": "summons/warrior", "icon": "warrior", "spot": "post",
 		"cost": 40,  # GDD §8.1 cheapest tower
-		"behavior": "blocker",
+		"behavior": "warrior",
 		"range": 30.0,  # TUNING (not in GDD)
 		"damage": 9.0,  # TUNING (not in GDD) Necropathy warrior 10
 		"interval": 1.0,  # TUNING (not in GDD)
 		"target": "first",
 		"bodies": 2,  # GDD §4.1 "holds 2 enemies"
-		"body_hp": 110.0,  # TUNING (not in GDD)
+		"body_hp": 50.0,  # TUNING (not in GDD) low enough that the column threatens blockers (Mender, respawn, Dread Rally have a job)
 		"hold": 1,  # TUNING (not in GDD)
 		"hits_all_held": false,
 		"respawn": 8.0,  # TUNING (not in GDD) GDD §4.3 "return after a cooldown"
+		"volley": {"every": 3, "count": 2, "damage": 0.6, "sprite": "volleys/dagger", "tint": Color(0.9, 0.9, 0.8), "reach": 110.0},  # TUNING (not in GDD)
 		"evolution": "death_knight",
 	},
 	"abomination": {
 		"name": "Corpse Abomination", "sprite": "summons/abomination", "icon": "abomination", "spot": "post",
 		"cost": 110,  # TUNING (not in GDD)
-		"behavior": "blocker",
+		"behavior": "abomination",
 		"range": 40.0,  # TUNING (not in GDD)
 		"damage": 14.0,  # TUNING (not in GDD)
 		"interval": 1.4,  # TUNING (not in GDD)
 		"target": "first",
 		"bodies": 1,
-		"body_hp": 420.0,  # TUNING (not in GDD)
+		"body_hp": 200.0,  # TUNING (not in GDD) see the Warrior
 		"hold": 4,  # GDD §4.1 "holds 4"
 		"hits_all_held": true,  # GDD §4.1 stomp
 		"respawn": 12.0,  # TUNING (not in GDD)
+		"stagger_time": 0.8,  # TUNING (not in GDD) GDD §4.1 "stomp staggers"
+		"volley": {"every": 2, "count": 4, "damage": 0.4, "sprite": "volleys/shard", "tint": Color(0.95, 0.8, 0.7), "reach": 120.0},  # TUNING (not in GDD)
 		"evolution": "bone_colossus",
 	},
 }
@@ -239,5 +255,7 @@ const BODY_SPACING: float = 16.0  # TUNING (not in GDD)
 const FIRE_SQUASH_TIME: float = 0.12  # TUNING (not in GDD)
 ## Scale change (fraction) at the peak of that squash (visual only).
 const FIRE_SQUASH: float = 0.08  # TUNING (not in GDD)
+## Seconds a Banshee wail ring expands on screen (visual only).
+const WAIL_RING_TIME: float = 0.35  # TUNING (not in GDD)
 ## Px a plot tower stands above its spot centre (on the open grave; visual only).
 const BODY_LIFT: float = 8.0  # TUNING (not in GDD)

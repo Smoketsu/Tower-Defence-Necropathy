@@ -9,6 +9,8 @@
 ##   on_recompute(t)     — after every Tower.recompute() (stats changed).
 ##   step(t, dt)         — every fixed step.
 ##   volley(t, target)   — the Lv3+ volley burst (default: extra tinted shots, see below).
+##   impact(t, shot, victims) — after one of its shots resolved (TdProjectiles;
+##                         `victims` were hit; dead ones were killed by it).
 ##   on_removed(t)       — the tower is sold (blockers let go of their enemies).
 ##   draw_body(t, ci, i) — draws body layer `i` on `ci` (default: the unit sprite).
 ##   draw_overlay(t)     — draws on the tower node over its layers, unmirrored (HP bars).
@@ -57,11 +59,16 @@ func volley(t: Tower, target: TdEnemy) -> void:
 	var v: Dictionary = t.stats.get("volley", {})  # The class's volley row.
 	if v.is_empty() or t.level < 3 or t.shots % int(v["every"]) != 0:
 		return
-	var others := t.game.enemies_near(t.position, float(t.stats["range"]))  # Candidates.
+	var others := t.game.enemies_near(t.position, float(v.get("reach", t.stats["range"])))  # Candidates (blockers: the volley's own reach).
 	for i in int(v["count"]):
 		var e: TdEnemy = others[i % others.size()] if not others.is_empty() else target  # Its target.
 		t.game.projectiles.fire(t, e, float(t.stats["damage"]) * float(v["damage"]), String(v["sprite"]), v["tint"], true)
 	t.game.fx.spawn("volley_flash", t.position + Vector2(0, -20), 48.0, 0.25, v["tint"])
+
+
+## See the header.
+func impact(_t: Tower, _shot: TdProjectiles.Shot, _victims: Array[TdEnemy]) -> void:
+	pass
 
 
 ## See the header.

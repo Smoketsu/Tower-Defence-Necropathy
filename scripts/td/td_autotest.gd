@@ -25,12 +25,18 @@ var _order_id: String = ""
 
 func _ready() -> void:
 	game = TdGame.new()
-	game.setup(GameState.map_id, GameState.difficulty, GameState.run_seed)
-	_order_id = GameState.autotest_build if GameState.autotest_build != "" else String(game.map["build_order"])
+	var map_default := String(MapRegistry.get_map(GameState.map_id if MapRegistry.MAPS.has(GameState.map_id) else MapRegistry.DEFAULT_ID)["build_order"])  # The map's own order.
+	_order_id = GameState.autotest_build if GameState.autotest_build != "" else map_default
 	if not BuildOrderData.ORDERS.has(_order_id):
 		push_error("TdAutotest: unknown build order '%s'" % _order_id)
-		_order_id = String(game.map["build_order"])
+		_order_id = map_default
 	order = BuildOrderData.ORDERS[_order_id]
+	var loadout: Array[String] = SpellData.DEFAULT_LOADOUT.duplicate()  # Spells brought in (the order may name its own).
+	if order.has("loadout"):
+		loadout.assign(order["loadout"])
+	game.setup(GameState.map_id, GameState.difficulty, GameState.run_seed, loadout)
+	if order.has("bonus_souls"):
+		game.economy.earn(int(order["bonus_souls"]), "test_bonus")
 	game.speed = GameState.autotest_speed
 	game.ticked.connect(_on_tick)
 	game.ended.connect(_on_ended)
@@ -87,7 +93,7 @@ func _try(st: Dictionary) -> bool:
 ## False for recipes the bot cannot wait for (a partner class it never builds).
 func _recipe_reachable(t: Tower) -> bool:
 	var rec: Dictionary = EvolutionData.EVOLUTIONS[String(t.row["evolution"])]["recipe"]  # The recipe.
-	return String(rec["type"]) == "kills"
+	return String(rec["type"]) in ["kills", "healed", "damage"]
 
 
 ## Spell policy: Shadow Bolt the enemy nearest the gate; Bone Wall in front of
@@ -109,6 +115,8 @@ func _cast_spells() -> void:
 			"bone_wall":
 				if -game.progress(lead) < THREAT_DIST and lead.holder == null:
 					game.cast_spell(i, lead.follower.road.point_at(lead.follower.dist + 30.0))
+			"corpse_explosion", "plague_cloud":
+				game.cast_spell(i, lead.position)
 	if game.caster.ultimate_ready():
 		game.caster.cast_ultimate()
 
@@ -147,6 +155,25 @@ func _summary(result: String) -> void:
 		var clear := float(r["cleared"]) - float(r["start"]) if float(r["cleared"]) >= 0.0 else -1.0  # Seconds to clear.
 		wd.append("w%d:%.1f/%.1f%s" % [i + 1, spawn, clear, "L" if bool(r["leaked"]) else ""])
 	lines.append("wave_spawn/clear_s=%s" % " ".join(wd))
+	var evo: Array[String] = []  # Evolved towers (evolution ids).
+	var syn := {}  # Active synergy id -> towers in it.
+	var healed := 0.0  # HP restored by Menders.
+	for t: Tower in game.towers:
+		if t.evolution != "":
+			evo.append(t.evolution)
+		for pair: Array in t.synergies:
+			syn[pair[0]] = int(syn.get(pair[0], 0)) + 1
+		healed += float(t.vars.get("healed", 0.0))
+	evo.sort()
+	lines.append("evolutions=%d %s synergies=%s" % [evo.size(), ",".join(evo), _sorted(syn)])
+	var sd := {}  # Damage by spell (loadout and ultimate).
+	for id: String in game.caster.loadout + [String(SpellData.ULTIMATE["id"])]:
+		sd[id] = "%dc/%dd" % [int(game.caster.casts.get(id, 0)), roundi(float(game.stats["damage"].get(id, 0.0)))]
+	lines.append("spell_casts/damage=%s" % _sorted(sd))
+	lines.append("blockers_lost=%d respawned=%d healed=%d risen=%d deep_freezes=%d shatters=%d shrapnel=%d corpses_detonated=%d" % [
+		int(game.stats["bodies_lost"]), int(game.stats.get("bodies_respawned", 0)), roundi(healed), int(game.stats.get("risen", 0)),
+		int(game.stats.get("deep_freezes", 0)), int(game.stats.get("shatters", 0)), int(game.stats.get("shrapnel", 0)),
+		int(game.stats.get("corpses_detonated", 0))])
 	lines.append("stuck_enemies=%d alive_at_end=%d" % [int(game.stats["stuck"]), game.enemies.size()])
 	for l: String in lines:
 		print(l)

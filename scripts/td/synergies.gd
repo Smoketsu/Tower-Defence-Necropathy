@@ -35,3 +35,37 @@ static func hints_for(tower_id: String) -> Array[String]:
 		if String(syn["a"]) == tower_id or String(syn["b"]) == tower_id:
 			out.append(id)
 	return out
+
+
+## Damage multiplier of tower `t`'s hit on enemy `e` from its active synergies'
+## conditional "hit" bonuses (the highest one only; 1 = none). Called once per
+## hit from TdCombat.damage_enemy().
+static func hit_mult(t: Tower, e: TdEnemy, game: TdGame) -> float:
+	var best := 1.0  # Highest matching bonus.
+	for pair: Array in t.synergies:
+		var syn: Dictionary = SynergyData.SYNERGIES[pair[0]]  # Synergy row.
+		var h: Dictionary = syn.get("hit", {})  # Its conditional bonus.
+		if h.is_empty() or t.tower_id != String(syn[String(h["side"])]):
+			continue
+		if has_status(e, String(h["vs"]), game):
+			best = maxf(best, float(h["mult"]))
+	return best
+
+
+## True when enemy `e` has status `vs` ("frozen" | "staggered" | "weakened") now.
+static func has_status(e: TdEnemy, vs: String, game: TdGame) -> bool:
+	match vs:
+		"frozen": return game.time < e.freeze_until
+		"staggered": return game.time < e.staggered_until
+		"weakened": return game.time < e.weaken_until
+	return false
+
+
+## The value of key `key` of the first active synergy of `t` that
+## has it, or `default` (Requiem's extend_weaken, Killing Field's aim).
+static func value(t: Tower, key: String, default: Variant) -> Variant:
+	for pair: Array in t.synergies:
+		var syn: Dictionary = SynergyData.SYNERGIES[pair[0]]  # Synergy row.
+		if syn.has(key):
+			return syn[key]
+	return default

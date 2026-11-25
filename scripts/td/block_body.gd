@@ -25,6 +25,12 @@ var respawn_time: float = 8.0
 var respawn_at: float = 0.0
 ## Game time (s) of its next attack.
 var next_attack: float = 0.0
+## True for a temporary body (a Lich's Risen): its fall is not counted as a blocker lost.
+var temporary: bool = false
+## A Bone Colossus body that takes the hits meant for this body (its taunt), or null.
+var taunt_by: BlockBody = null
+## Game time (s) the taunt lasts (refreshed by the Colossus every step).
+var taunt_until: float = 0.0
 ## Game time (s) until which it draws a hit flash (visual only).
 var flash_until: float = 0.0
 
