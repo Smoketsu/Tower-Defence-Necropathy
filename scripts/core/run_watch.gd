@@ -34,5 +34,5 @@ func _on_wave(n: int) -> void:
 		return
 	for g: Dictionary in game.map["waves"][n - 1]["groups"]:
 		var kind := String(g["kind"])  # The group's kind.
-		var rank := String(TdEnemyData.KINDS[kind]["rank"]) if TdEnemyData.KINDS.has(kind) else "fodder"
+		var rank := String(Acts.kinds()[kind]["rank"]) if Acts.kinds().has(kind) else "fodder"
 		Meta.see("bosses" if rank == "boss" else "enemies", kind)

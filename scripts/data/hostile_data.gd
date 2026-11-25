@@ -1,0 +1,59 @@
+## HostileData: numbers and looks of enemy fire at the necromancer's side
+## (HostileFire: hostile shots stopped by blockers and Bone Walls, telegraphed
+## shelling of spots) and of the tower disable path (TdCombat.disable_tower).
+## Used by later acts' gimmicks (GDD §7.3: Broadsides, Line of Fire,
+## Stampedes). Data only, no logic.
+class_name HostileData
+extends RefCounted
+
+## --- Hostile shots ---------------------------------------------------------------
+## Default shot speed (px/s) when the firer's args give none.
+const SHOT_SPEED: float = 300.0  # TUNING (not in GDD)
+## Px from a shot's path within which a living blocker / Bone Wall body stops it.
+const BLOCK_RADIUS: float = 16.0  # TUNING (not in GDD)
+## Most hostile shots in flight at once (pool size; extra shots are not fired).
+const SHOT_CAP: int = 96  # TUNING (not in GDD)
+## Shot looks: look id -> {sprite: SpriteData key (drawn flat, rotated), tint:
+## trail / impact Color (enemy fire reads red-orange), scale: drawn size x,
+## trail: trail length px, impact: burst diameter px}.
+const LOOKS: Dictionary = {
+	"arrow": {"sprite": "projectiles/enemy_arrow", "tint": Color(1.0, 0.45, 0.3), "scale": 2.0, "trail": 64.0, "impact": 56.0},  # TUNING (not in GDD)
+	"bolt": {"sprite": "projectiles/radiant_bolt", "tint": Color(1.0, 0.3, 0.25), "scale": 2.2, "trail": 72.0, "impact": 64.0},  # TUNING (not in GDD)
+	"shell": {"sprite": "projectiles/corpse_boulder", "tint": Color(1.0, 0.55, 0.25), "scale": 1.6, "trail": 0.0, "impact": 90.0},  # TUNING (not in GDD)
+}
+## Trail width (px) of hostile shots.
+const TRAIL_W: float = 10.0  # TUNING (not in GDD)
+## Height (px, x the flight distance) of an arcing shot's arc (drawn only).
+const ARC_LIFT: float = 0.3  # TUNING (not in GDD)
+
+## --- Telegraphed shelling --------------------------------------------------------
+## Telegraph tint (the closing target circle on the ground).
+const TELEGRAPH_TINT: Color = Color(1.0, 0.35, 0.25, 0.75)  # TUNING (not in GDD)
+## Screen shake (px) when a shell lands.
+const SHELL_SHAKE: float = 4.0  # TUNING (not in GDD)
+
+## --- Disabled towers -------------------------------------------------------------
+## Body modulate of a disabled tower (darkened).
+const DISABLED_DIM: Color = Color(0.45, 0.42, 0.5)  # TUNING (not in GDD)
+## Ring colour per disable cause (TdCombat.disable_tower `cause`; unknown causes use "shelled").
+const CAUSE_TINT: Dictionary = {
+	"shelled": Color(1.0, 0.45, 0.2),  # TUNING (not in GDD) shells, cannon fire
+	"shot": Color(1.0, 0.3, 0.25),  # TUNING (not in GDD) ranged enemy fire
+	"trampled": Color(0.85, 0.65, 0.35),  # TUNING (not in GDD) stampedes
+	"blinded": Color(0.75, 0.7, 1.0),  # TUNING (not in GDD) light / darkness
+	"stunned": Color(1.0, 0.9, 0.4),  # TUNING (not in GDD) anything else
+}
+## Diameter (px) of the disabled ring around a tower's base, and its pulse period (s).
+const DISABLED_RING: float = 52.0  # TUNING (not in GDD)
+## See DISABLED_RING.
+const DISABLED_PULSE: float = 0.6  # TUNING (not in GDD)
+## Burst diameter (px) when a tower is disabled.
+const DISABLED_BURST: float = 70.0  # TUNING (not in GDD)
+
+## --- Flyers (drawn only) ---------------------------------------------------------
+## Px a flying enemy's body is drawn above its road position (its shadow stays on the road).
+const FLY_LIFT: float = 22.0  # TUNING (not in GDD)
+## Shadow size (px) and alpha under a flyer.
+const FLY_SHADOW: Vector2 = Vector2(26.0, 9.0)  # TUNING (not in GDD)
+## See FLY_SHADOW.
+const FLY_SHADOW_A: float = 0.35  # TUNING (not in GDD)

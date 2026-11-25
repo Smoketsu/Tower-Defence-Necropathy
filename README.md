@@ -96,7 +96,7 @@ $G --headless --fixed-fps 60 --quit-after 60000 -- --autotest [--map=graveyard|c
 
 | Option | Meaning |
 |---|---|
-| `--map=` | MapRegistry id (default `graveyard`) |
+| `--map=` | any registered map id (ActData / MapRegistry; default `graveyard`; `test_grounds` = the hidden framework test map) |
 | `--seed=` | run seed (default 1) |
 | `--speed=` | fixed steps per physics frame, 1-64 (default 8; the result does not depend on it) |
 | `--difficulty=` | DifficultyData id (default `necromancer`) |
@@ -105,6 +105,9 @@ $G --headless --fixed-fps 60 --quit-after 60000 -- --autotest [--map=graveyard|c
 | `--meta=` | `none` (default without a save) or `max` (every Ossuary upgrade and Mastery) |
 | `--meta-save` | read and write the real save (records the run, Codex, masteries) |
 | `--character=` | CharacterData id (default `gravecaller`; its spell goes to slot 1) |
+| `--test-act` | shows the hidden test act on the map select and in the Codex (debug only) |
+
+Every registered map at once: `tools/run_all_maps.sh` (2 at a time, one line per map; `WEAK=1` adds the weak orders, `SEED=N`). Act framework self-check: `tools/acts_check.tscn -- --autotest`. Adding an act: `docs/ACT_TEMPLATE.md`.
 
 The summary's `meta=` line names the meta profile, character, loadout, the Soul
 Ash the run would pay and the active bonuses. `godot --headless tools/meta_check.tscn -- --autotest`

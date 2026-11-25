@@ -125,19 +125,25 @@ static func refund_all() -> void:
 
 # ------------------------------------------------------------------ maps and records
 
-## Position (0-based) of map `id` in MapRegistry order.
+## Position (0-based) of map `id` within its act (ActData): the Soul Ash step
+## restarts with every act (map 1 x1, 2 x1.25, 3 x1.5; Necropathy's per-act rule).
 static func map_index(id: String) -> int:
-	return MapRegistry.MAPS.keys().find(id)
+	return Acts.position_in_act(id)
 
 
-## True when map `id` is open: the first map, or the map named by its
-## "unlock_after" key (default: the previous map) has had its boss beaten.
+## The map whose boss opens map `id`: its "unlock_after" key when that names a
+## registered map ("" = open from the start), else the previous map in the
+## campaign order (Acts.prev_map(): across acts, an act's first map opens with
+## the previous act's last boss). "" = open from the start.
+static func unlock_after(id: String) -> String:
+	var after := String(MapRegistry.get_map(id).get("unlock_after", "?"))  # Its own key ("?" = none).
+	return after if after == "" or MapRegistry.has(after) else Acts.prev_map(id)
+
+
+## True when map `id` is open: its unlock_after() map has had its boss beaten.
 static func map_open(id: String) -> bool:
-	var i := map_index(id)  # Its position.
-	if i <= 0:
-		return true
-	var after := String(MapRegistry.get_map(id).get("unlock_after", MapRegistry.MAPS.keys()[i - 1]))  # Map to clear first.
-	return not MapRegistry.MAPS.has(after) or (data["maps"]["cleared"] as Array).has(after)
+	var after := unlock_after(id)  # Map to clear first.
+	return after == "" or (data["maps"]["cleared"] as Array).has(after)
 
 
 ## True when map `id` has been cleared (its boss beaten) on any difficulty.
@@ -158,7 +164,7 @@ static func best_reckoning(id: String) -> int:
 ## True when character `id` is open (its unlock map cleared, or a map that does not exist yet).
 static func character_open(id: String) -> bool:
 	var after := String(CharacterData.CHARACTERS[id]["unlock_after"])  # Map whose boss opens it.
-	return after == "" or not MapRegistry.MAPS.has(after) or cleared(after)
+	return after == "" or not MapRegistry.has(after) or cleared(after)
 
 
 ## Reckoning waves the run reached (0 when the run has no Reckoning; read

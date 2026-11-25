@@ -1,7 +1,9 @@
 ## MapLoader: turns a map's data (MapRegistry -> const MAP) into run objects:
 ## the Road objects, the Spot nodes (posts snapped onto their road) and a
 ## check of the map rules every map must keep (an entrance road, roads that
-## join existing roads, a boss on the final wave, GDD §3).
+## join existing roads, known enemy kinds and roads in the waves, a boss on the
+## final wave (GDD §3), rule scripts that exist, and a default and a weak build
+## order (MAP "build_order" / "weak_order") whose steps name real spots).
 class_name MapLoader
 extends RefCounted
 
@@ -29,6 +31,8 @@ static func build_spots(map: Dictionary, roads: Dictionary, parent: Node) -> Arr
 		var p: Vector2 = map["posts"][i]  # Authored post position.
 		var best: Road = null  # Nearest road.
 		for r: Road in roads.values():
+			if r.off_road:
+				continue  # Posts stand on real roads only.
 			if best == null or r.distance_to(p) < best.distance_to(p):
 				best = r
 		var s := Spot.new()  # A road post.
@@ -57,8 +61,30 @@ static func validate(map: Dictionary, roads: Dictionary) -> bool:
 	var last: Dictionary = (map["waves"] as Array).back()  # The final wave.
 	var boss := false  # The final wave holds a boss.
 	for g: Dictionary in last["groups"]:
-		boss = boss or String(TdEnemyData.KINDS[g["kind"]]["rank"]) == "boss"
+		boss = boss or String(Acts.kinds()[g["kind"]]["rank"]) == "boss"
 	if not boss:
 		push_error("Map %s: the final wave has no boss (GDD §3)" % map["id"])
 		ok = false
+	for w: Dictionary in map["waves"]:
+		for g: Dictionary in w["groups"]:
+			if not Acts.kinds().has(String(g["kind"])) or (g.has("road") and not roads.has(String(g["road"]))):
+				push_error("Map %s: wave group with unknown kind or road: %s" % [map["id"], str(g)])
+				ok = false
+	for key: String in ["rule", "act_rule"]:
+		var rid := String(map.get(key, ""))  # Rule id ("" = none).
+		if rid != "" and not ResourceLoader.exists("res://scripts/maps/rules/%s.gd" % rid):
+			push_error("Map %s: no script for %s '%s'" % [map["id"], key, rid])
+			ok = false
+	for key: String in ["build_order", "weak_order"]:
+		var oid := String(map.get(key, ""))  # Build order id.
+		if not Acts.orders().has(oid):
+			push_error("Map %s: %s '%s' is not a build order (BuildOrderData / its act's ORDERS)" % [map["id"], key, oid])
+			ok = false
+			continue
+		for st: Dictionary in Acts.orders()[oid]["steps"]:
+			var sp := String(st["spot"]).split(":")  # ["plot"|"post", index].
+			if sp.size() != 2 or not map.has(sp[0] + "s") or int(sp[1]) >= (map[sp[0] + "s"] as Array).size():
+				push_error("Map %s: build order %s names a missing spot %s" % [map["id"], oid, st["spot"]])
+				ok = false
+				break
 	return ok

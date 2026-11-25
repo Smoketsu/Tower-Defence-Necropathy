@@ -24,6 +24,10 @@ signal ended(won: bool)
 ## Emitted when an enemy is killed (before it returns to the pool: its
 ## position, road and statuses are still readable); `tower` may be null.
 signal enemy_killed(e: TdEnemy, tower: Tower)
+## Emitted when an enemy was placed on a road (after its trait's on_spawn).
+signal enemy_spawned(e: TdEnemy)
+## Emitted when a blocker / Bone Wall body falls; `by` = the enemy whose blow felled it, or null.
+signal body_fallen(b: BlockBody, by: TdEnemy)
 ## Emitted after every fixed step (the autotest bot acts here).
 signal ticked
 ## Emitted when the player asks to replay this map (pause Restart, results Again).
@@ -96,6 +100,12 @@ var selected: Spot = null
 var armed: int = -1
 ## Map rule instance (MapRule subclass) or null.
 var rule: MapRule = null
+## The act's rule (MAP "act_rule", default ActData "rule"; a MapRule subclass) or null.
+var act_rule: MapRule = null
+## The live rules, map rule first then act rule (hooks wired in setup()).
+var rules: Array[MapRule] = []
+## Hostile shots and telegraphed shelling (HostileFire; the one path for enemy fire at towers / blockers).
+var hostile: HostileFire = null
 ## True once the optional Reckoning endless mode was started on a cleared map (GDD §6.2).
 var reckoning: bool = false
 ## Reckoning waves reached (0 = not started; the menu stores the best per map).
@@ -131,7 +141,7 @@ var hud: TdHud = null
 
 ## Configures the run before it enters the tree.
 func setup(p_map_id: String, p_difficulty: String, p_seed: int, loadout: Array[String] = SpellData.DEFAULT_LOADOUT) -> void:
-	map_id = p_map_id if MapRegistry.MAPS.has(p_map_id) else MapRegistry.DEFAULT_ID
+	map_id = p_map_id if MapRegistry.has(p_map_id) else MapRegistry.DEFAULT_ID
 	map = MapRegistry.get_map(map_id)
 	difficulty = p_difficulty if DifficultyData.LEVELS.has(p_difficulty) else DifficultyData.DEFAULT_ID
 	run_seed = p_seed
@@ -147,8 +157,25 @@ func setup(p_map_id: String, p_difficulty: String, p_seed: int, loadout: Array[S
 	waves = WaveDirector.new(self, map["waves"])
 	caster = SpellCaster.new(self, loadout)
 	if String(map["rule"]) != "":
-		rule = (load("res://scripts/maps/rules/%s.gd" % map["rule"]) as GDScript).new() as MapRule
-		rule.game = self
+		rule = _load_rule(String(map["rule"]))
+	if String(map.get("act_rule", "")) != "":
+		act_rule = _load_rule(String(map["act_rule"]))
+	for r: MapRule in [rule, act_rule]:
+		if r != null:
+			rules.append(r)
+			wave_started.connect(r.on_wave_start)
+			enemy_spawned.connect(r.on_spawn)
+			enemy_killed.connect(r.on_kill)
+			body_fallen.connect(r.on_body_fallen)
+	hostile = HostileFire.new()
+	hostile.game = self
+
+
+## The rule scripts/maps/rules/<id>.gd (a MapRule) bound to this run.
+func _load_rule(id: String) -> MapRule:
+	var r := (load("res://scripts/maps/rules/%s.gd" % id) as GDScript).new() as MapRule  # The rule.
+	r.game = self
+	return r
 
 
 ## Remaining px from the end of road `id` to the gate.
@@ -191,13 +218,14 @@ func _ready() -> void:
 	vfx = TdVfx.new()
 	vfx.game = self
 	world.add_child(vfx)
+	world.add_child(hostile)
 	spell_layer = _layer(7, caster.draw)
 	overlay = _layer(8, _draw_overlay)
 	hud = TdHud.new()
 	hud.game = self
 	add_child(hud)
-	if rule != null:
-		rule.setup()
+	for r: MapRule in rules:
+		r.setup()
 	Sfx.prepare_pack("td")  # The five Gravewatch sounds (TdSoundData.SOUNDS).
 	get_viewport().size_changed.connect(_fit)
 	_fit()
@@ -255,8 +283,8 @@ func tick(dt: float) -> void:
 	ticks += 1
 	waves.step()
 	caster.step(dt)
-	if rule != null:
-		rule.step(dt)
+	for r: MapRule in rules:
+		r.step(dt)
 	if _rally_on and time >= rally_until:
 		_rally_on = false
 		for t: Tower in towers:
@@ -277,6 +305,7 @@ func tick(dt: float) -> void:
 	for t: Tower in towers:
 		t.step(dt)
 	projectiles.step(dt)
+	hostile.step(dt)
 	if lives <= 0:
 		_end(false)
 	elif waves.all_spawned() and enemies.is_empty():
@@ -326,8 +355,28 @@ func spawn_at(kind: String, road_id: String, w: int, dist: float, lane: float) -
 		units.add_child(e)
 	e.activate(kind, roads[road_id], dist, lane, DifficultyModifiers.hp_mult(difficulty) * extra_hp_mult, w)
 	enemies.append(e)
+	enemy_spawned.emit(e)
 	if String(e.row["rank"]) == "boss" or String(e.row["rank"]) == "miniboss":
 		sound("boss")
+	return e
+
+
+## True when tower `t` may target enemy `e` (every rule's can_target(): visibility limits).
+func can_target(t: Tower, e: TdEnemy) -> bool:
+	for r: MapRule in rules:
+		if not r.can_target(t, e):
+			return false
+	return true
+
+
+## Spawns kind `kind` where blocker body `b` stood, just past its block, as an
+## extra of the latest wave (claims: a fallen blocker rises hostile); returns it.
+func spawn_from_body(kind: String, b: BlockBody) -> TdEnemy:
+	var r: Road = roads[b.block.road_id]  # The block's road.
+	var d := minf(b.block.dist + float(Acts.kinds()[kind]["radius"]) + TdRulesData.HOLD_GAP + 1.0, r.length)  # Just past the block.
+	var dir := r.dir_at(d)  # Road direction there.
+	var e := waves.spawn_extra(kind, r.id, d, (b.pos - r.point_at(b.block.dist)).dot(Vector2(dir.y, -dir.x)))
+	fx.spawn("summon_rise", b.pos, 72.0, 0.45)  # It climbs out where the body fell.
 	return e
 
 
@@ -419,6 +468,8 @@ func nearest_road(pos: Vector2, max_d: float) -> Road:
 	var best: Road = null  # Nearest road.
 	var best_d := max_d  # Its distance.
 	for r: Road in roads.values():
+		if r.off_road:
+			continue  # Trails are not roads (spells, walls).
 		var d := r.distance_to(pos)  # Distance to this road.
 		if d <= best_d:
 			best_d = d

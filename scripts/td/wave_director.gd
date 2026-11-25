@@ -83,7 +83,7 @@ func _start(i: int) -> void:
 		var n := DifficultyModifiers.group_count(game.difficulty, int(g["count"]))  # Enemies in this group.
 		var sp := float(g.get("spacing", TdRulesData.DEFAULT_SPACING))  # Seconds between two.
 		var hp := float(g.get("hp_mult", 1.0)) * ramp  # Extra HP multiplier (wave ramp x Reckoning rows).
-		if String(TdEnemyData.KINDS[String(g["kind"])]["rank"]) == "boss":
+		if String(Acts.kinds()[String(g["kind"])]["rank"]) == "boss":
 			hp = float(g.get("hp_mult", 1.0))  # Bosses keep their row HP (no ramp).
 		for k in n:
 			_queue.append([float(g.get("delay", 0.0)) + sp * float(k), String(g["kind"]), String(g.get("road", first_road)), hp])
@@ -179,7 +179,7 @@ func _append_reckoning_wave() -> void:
 	for i in map_waves:
 		var plain := true  # No boss / miniboss in it.
 		for g: Dictionary in waves[i]["groups"]:
-			var rank := String(TdEnemyData.KINDS[g["kind"]]["rank"])  # Its rank.
+			var rank := String(Acts.kinds()[g["kind"]]["rank"])  # Its rank.
 			if rank == "miniboss":
 				mini = String(g["kind"])
 			if rank == "boss" or rank == "miniboss":

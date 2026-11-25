@@ -524,9 +524,10 @@ func play_music(mode: StringName) -> void:
 ## SoundData.SCORES entry (MUSIC_TIDE on Act II, MUSIC_IRON on Act III, MUSIC_BRONZE on Act IV, MUSIC_SUN on Act V, MUSIC_BRIMSTONE on Act VI, MUSIC_SANGUINE on Act VII, MUSIC_SIREN on Act VIII, MUSIC_STARSONG on Act IX),
 ## MUSIC_RUN otherwise.
 static func run_mode_for(_stage_id: String) -> StringName:
-	# Gravewatch: Act I maps all use the Covenant run loop (no StageRegistry here);
-	# a later act's map returns its SoundData.SCORES id here.
-	return MUSIC_RUN
+	# Gravewatch: the map's "music" key, filled from its act (ActData "music") by
+	# MapRegistry.get_map(); "" (Act I) or an unknown id = the Covenant run loop.
+	var music := String(MapRegistry.get_map(_stage_id).get("music", "")) if MapRegistry.has(_stage_id) else ""  # Score id.
+	return StringName(music) if SoundData.SCORES.has(music) else MUSIC_RUN
 
 
 ## Creates score loop `sid`'s renderer (first call only; never headless): a

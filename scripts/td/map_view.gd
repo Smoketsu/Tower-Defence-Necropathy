@@ -58,11 +58,13 @@ func _draw() -> void:
 			var sz := tex.get_size()  # Its size (px).
 			draw_texture_rect(tex, Rect2((Vector2(o[1]) - Vector2(sz.x * 0.5, sz.y * 0.8)).round(), sz), false)
 	for r: Road in roads.values():
-		_draw_shoulder(r, TdArtData.ROAD_WIDTH * 0.5 + TdMoodData.SHOULDER_PX)
+		# An off-road route is only a trampled trail (its worn shoulder, narrower).
+		_draw_shoulder(r, TdArtData.ROAD_WIDTH * (TdMoodData.OFF_ROAD_TRAIL if r.off_road else 0.5) + TdMoodData.SHOULDER_PX)
 	for r: Road in roads.values():
-		_draw_road(r)
+		if not r.off_road:
+			_draw_road(r)
 	for r: Road in roads.values():
-		if r.entrance:
+		if r.entrance and not r.off_road:
 			var p := r.points[0].lerp(r.points[1], clampf(80.0 / maxf(r.points[0].distance_to(r.points[1]), 1.0), 0.0, 1.0))  # Arch just inside the map.
 			TdArt.draw(self, "entrance", p + Vector2(0, -24))
 

@@ -9,6 +9,18 @@
 ##   tower_damage_mult(t: Tower) -> float — multiplier on tower `t`'s damage
 ##                         (read by Tower.recompute(); the Sanctum's chambers).
 ##   summary() -> String — the rule's line in the autotest summary.
+## Act and per-wave hooks (the act framework; TdGame connects them for both
+## the map's "rule" and its "act_rule", see docs/ACT_TEMPLATE.md):
+##   on_wave_start(n)     — wave n (1-based) started (wave tiers, Blood Moon waves).
+##   on_spawn(e)          — enemy e was just placed (wave tier: TdCombat.empower_enemy()).
+##   on_kill(e, tower)    — enemy e was killed (tower may be null; heal on kill).
+##   on_body_fallen(b, by) — blocker / Bone Wall body b fell; `by` = the enemy whose
+##                         blow felled it or null (claims: game.spawn_from_body()).
+##   can_target(t, e) -> bool — false hides enemy e from tower t's targeting
+##                         (visibility limits: night, fog); read by Tower.pick_target().
+## The tower disable path (shelled, trampled, blinded...) is
+## TdCombat.disable_tower(); hostile shots and telegraphed shelling are
+## game.hostile (HostileFire).
 ## Helper: finish_structures() removes the rule's leftover structures (ward
 ## generators, crystals: enemies with row key "structure") once every wave has
 ## spawned and only structures remain, so the map can end.
@@ -32,6 +44,31 @@ func step(_dt: float) -> void:
 ## See the header.
 func tower_damage_mult(_t: Tower) -> float:
 	return 1.0
+
+
+## See the header.
+func on_wave_start(_n: int) -> void:
+	pass
+
+
+## See the header.
+func on_spawn(_e: TdEnemy) -> void:
+	pass
+
+
+## See the header.
+func on_kill(_e: TdEnemy, _tower: Tower) -> void:
+	pass
+
+
+## See the header.
+func on_body_fallen(_b: BlockBody, _by: TdEnemy) -> void:
+	pass
+
+
+## See the header.
+func can_target(_t: Tower, _e: TdEnemy) -> bool:
+	return true
 
 
 ## See the header.

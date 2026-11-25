@@ -49,6 +49,11 @@ var facing: float = 1.0
 var suppress_mult: float = 1.0
 ## See suppress_mult.
 var suppress_until: float = 0.0
+## Game time (s) until which it is disabled (TdCombat.disable_tower: shelled,
+## trampled, blinded; no attacks, pulses or block steps meanwhile; 0 = never).
+var disabled_until: float = 0.0
+## Why it is disabled (HostileData.CAUSE_TINT key; its look's colour).
+var disabled_cause: String = ""
 ## Body layers (UnitLayer children): one per drawn unit (blockers: one per body),
 ## mirrored and squashed by node scale. Visual only.
 var layers: Array[UnitLayer] = []
@@ -131,6 +136,9 @@ func step(dt: float) -> void:
 			recompute()
 		else:
 			game.stats["suppressed_s"] = float(game.stats.get("suppressed_s", 0.0)) + dt
+	if game.time < disabled_until:
+		game.stats["disabled_s"] = float(game.stats.get("disabled_s", 0.0)) + dt
+		return  # Disabled: no attack, pulse or block step (TdCombat.disable_tower).
 	behavior.step(self, dt)
 
 
@@ -157,11 +165,15 @@ func sell_value() -> int:
 
 
 ## The enemy to attack now among those within its range, by targeting mode
-## (GDD §4.3: first / last / strongest / nearest), or null.
+## (GDD §4.3: first / last / strongest / nearest), or null. Skips flyers when
+## its row says "ground_only", and enemies a rule hides (TdGame.can_target()).
 func pick_target() -> TdEnemy:
 	var best: TdEnemy = null  # Best candidate so far.
 	var best_score := -INF  # Its score (higher = preferred).
+	var ground := bool(stats.get("ground_only", false))  # Cannot hit flyers.
 	for e: TdEnemy in game.enemies_near(position, float(stats["range"])):
+		if (ground and bool(e.row["flying"])) or not game.can_target(self, e):
+			continue
 		var score := 0.0  # This enemy's score.
 		match target_mode:
 			"first": score = game.progress(e)
@@ -207,8 +219,10 @@ func _process(_delta: float) -> void:
 		var br := TdVfxData.BREATH_AMP * sin(game.time * TAU / TdVfxData.BREATH_PERIOD + position.x * 0.013 + position.y * 0.029)  # Idle breathing.
 		sc = Vector2(sc.x * (1.0 - br * 0.5), sc.y * (1.0 + br))
 	var flash := fx and firing_flash()  # The muzzle-side brighten.
+	var dim := HostileData.DISABLED_DIM if game.time < disabled_until else Color.WHITE  # Disabled look (a node modulate).
 	for l: UnitLayer in layers:
 		l.scale = sc  # A node transform: no redraw needed.
+		l.modulate = dim
 		if block != null or flash != _flash_drawn:
 			l.queue_redraw()
 	_flash_drawn = flash

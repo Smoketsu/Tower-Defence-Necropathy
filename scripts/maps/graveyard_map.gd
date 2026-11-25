@@ -24,7 +24,16 @@ extends RefCounted
 ##   lives / souls   — optional overrides of TdRulesData.START_LIVES / EconomyData.START_SOULS (0 = default).
 ##   wave_hp_end     — optional override of TdRulesData.WAVE_HP_END (the last waves' HP multiplier; 0 = default).
 ##   rule            — "" or scripts/maps/rules/<id>.gd (extends MapRule): the map's own rule.
-##   build_order     — BuildOrderData id the autotest plays by default.
+##   build_order     — build order id (BuildOrderData / the act's ORDERS) the autotest plays by default.
+##   weak_order      — build order id of a deliberately weak build (must load and end cleanly;
+##                     CI and tools/run_all_maps.sh run both). MapLoader.validate() checks both.
+##   act_rule        — optional act rule id (scripts/maps/rules/<id>.gd, extends MapRule), run
+##                     beside "rule"; absent = the act's ActData "rule" ("" = none).
+##   music / mood    — optional: run loop (SoundData.SCORES id, "" = Act I loop) and mood row id;
+##                     absent = the act's ActData defaults (floor too).
+##   roads keys      — also: off_road (true: a trail across the map, not a road; nothing holds
+##                     on it, no post or spell uses it) and exit (true: reaching its end leaves
+##                     the map with no lives lost, a crossing herd).
 ##   waves           — wave rows, in order. Each wave: {groups: [...], banner: "" or a
 ##                     line shown when it starts}. Each group: kind (TdEnemyData id),
 ##                     count, spacing (s between two spawns, default
@@ -69,6 +78,7 @@ const MAP: Dictionary = {
 	"wave_hp_end": 2.6,  # TUNING (not in GDD) integration balance: the first map is the gentlest
 	"rule": "",
 	"build_order": "graveyard_default",
+	"weak_order": "weak",
 	"waves": [
 		{"banner": "The Covenant marches on the crypt", "groups": [{"kind": "recruit", "count": 8, "spacing": 1.35}]},
 		{"banner": "", "groups": [{"kind": "recruit", "count": 12, "spacing": 1.08}]},

@@ -39,7 +39,7 @@ func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
 		var field := CovenantField.of(game)  # The death record.
 		for i in range(field.deaths.size() - 1, -1, -1):
 			var d: Array = field.deaths[i]  # [kind, road, dist, lane, time].
-			var row: Dictionary = TdEnemyData.KINDS[d[0]]
+			var row: Dictionary = Acts.kinds()[d[0]]
 			if game.time - float(d[4]) > float(a["revive_age"]) or d[0] == e.kind or not (String(row["rank"]) in ["fodder", "elite"]):
 				continue
 			var road: Road = game.roads[d[1]]
