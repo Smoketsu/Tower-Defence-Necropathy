@@ -200,6 +200,23 @@ character in the menus.
 | IV the Last Line (`city`, T4) | `city_act_data.gd`; `rules/city/escalation.gd` (gangs -> police -> army -> heroes; `EscalationMeter`, `CityStreets`) | skid_row, fort_kessler, liberty_heights | Big Sal, the Mammoth, Atlas / Don Marrow, Harrow, Paragon | Fallen Hero -> Black Paragon, Origin Story | Hearse Run, Bone Mines, Hero's Fist (Undertaker, Fallen Sergeant, Revenant Heroine) |
 | V the Shogunate (`shogunate`, T5) | `shogunate_act_data.gd`; `rules/shogunate/sun_course.gd` (+ `sun_layer`, `sun_dial`: day / dusk / night, lanterns, ambushes) | province, kurogane, sun_road | Shuten-doji, General of the Left, the Kirin / Kage, Shogun Kurogane, Amaterasu | Bound Oni -> Oni Lord, Iron and Bone | Hundred Shadows, Banner of the Dead, Black Sun (Grave Kunoichi, Ronin Revenant, Shrine Maiden) |
 
+### Act VIII, the Olympian Republic (wave 2c, `pantheon`, DECISIONS T8)
+
+`pantheon_act_data.gd` (KINDS, ORDERS incl. `pantheon_kit`, MOODS, RULE, LOOK);
+`rules/pantheon/pantheon_rules.gd` (class `PantheonActRules`: the Wrath of the Gods
+strikes through `game.hostile.shell()` + `TdCombat.damage_enemy()` on both armies,
+`WrathMeter` top-left, `PantheonLayer` shield arcs and Glory auras, Hades' cloak in
+`can_target()` and his claims in `on_body_fallen()`); maps ilion, olympus,
+underworld; Polyphemus, Ares, Cerberus / Achilles, Zeus, Hades; Myrmidon Shades ->
+Legion of Tartarus, Hammer and Anvil; Paris's Arrow, Stolen Thunder, River Styx (the
+Doomed Prophetess, the Oathbreaker, the Ferrywoman). `towers_check` `_pantheon_checks`.
+**New hooks:** `scripts/enemies/traits/pantheon/phalanx.gd` — THE facing test
+(`side(e, hit)` -> FRONT / FLANK / BACK / UNDIRECTED, `origin_of()`), reusable by any
+shielded kind (extend it, as `achilles.gd` does); a hit that should strike from
+behind passes an `origin` behind the foe (Paris's Arrow). HostileData look `gaze` /
+`ghost_arrow`, cause `petrified`; TdArtData role `shield_arc` (`tools/pantheon_art.py`);
+BossPoseData pose 2 for Achilles (rage) and Zeus (true form).
+
 Build orders: `<map>_default`, `<map>_weak`, plus `tide_kit`, `court_kit`,
 `shogunate_kit` (every map of the act). Act runs print `act_rule=` / `hostile=`.
 `towers_check` has `_tide_checks`, `_court_checks`, `_city_checks`,
