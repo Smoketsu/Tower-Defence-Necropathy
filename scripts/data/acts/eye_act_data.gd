@@ -71,7 +71,7 @@ const KINDS: Dictionary = {
 	# Gullhaven miniboss: the Harbourmaster, a hulking Deep Kin with a chained anchor.
 	"eye_harbourmaster": {
 		"name": "The Harbourmaster", "sprite": "eye/harbourmaster", "rank": "miniboss",
-		"hp": 5000.0, "speed": 26.0, "armour": 6.0, "radius": 24.0,  # TUNING (not in GDD) X3: 4000-6000
+		"hp": 4400.0, "speed": 22.0, "armour": 6.0, "radius": 24.0,  # TUNING (not in GDD) X3: 4000-6000
 		"damage": 24.0, "attack_interval": 1.4,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "eye/harbourmaster",
 		"args": {"first": 3.0, "gap": 6.0, "hurl_range": 240.0, "hurl_windup": 0.9, "hurl_disable": 3.0, "hurl_damage": 40.0, "hurl_speed": 340.0,

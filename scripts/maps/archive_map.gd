@@ -43,7 +43,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(600, 140), Vector2(800, 360), Vector2(300, 360), Vector2(160, 470), Vector2(700, 580), Vector2(1050, 580)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 4.6,  # TUNING (not in GDD) Part Three: above the Harbour
+	"wave_hp_end": 5.5,  # TUNING (not in GDD) Part Three: above the Harbour
 	"rule": "",
 	"act_rule": "eye/claims",
 	"build_order": "archive_default",
