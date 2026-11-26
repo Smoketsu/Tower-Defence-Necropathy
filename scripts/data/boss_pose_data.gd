@@ -58,4 +58,7 @@ const POSES: Dictionary = {
 	"wild/green_mother": {1: "cast", 2: "burial"},  # TUNING (not in GDD) arms raised with a season (BossGreenMother: just after the Turning casts) / hands pressed into the earth (just after a burial)
 	# --- Gravewatch Act IV (w2b-city) ---
 	"bosses/harrow": {2: "command"},  # TUNING (not in GDD) Command: the General in his command car (bosses/harrow_command)
+	# --- Act IX: the Palace of Silk and Ash / Pandemonium (w2c-inferno): the second forms as pose 2 ---
+	"bosses/lilith": {2: "demon"},  # TUNING (not in GDD) her true demon form (bosses/lilith_demon), held from the phase change
+	"bosses/morning_star": {2: "beast"},  # TUNING (not in GDD) the Beast (bosses/morning_star_beast), held from the phase change
 }

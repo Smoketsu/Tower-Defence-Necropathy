@@ -131,4 +131,18 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "b", "vs": "frozen", "mult": 1.35},  # TUNING (not in GDD) arrows punish the oni's stunned foes
 		"hint": "Bound Oni near Archers: arrows hit stunned foes harder",
 	},
+	# --- Act IX (w2c-inferno) ---
+	"velvet_chains": {
+		"name": "Velvet Chains", "icon": "velvet_chains", "a": "bound_succubus", "b": "corpse_catapult",
+		"radius": 240.0,  # TUNING (not in GDD)
+		"effects": {"a": {"range": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "b", "vs": "weakened", "mult": 1.3},  # TUNING (not in GDD) boulders punish the kissed
+		"hint": "Bound Succubus near a Catapult: boulders hit weakened foes harder",
+	},
+	"pride": {
+		"name": "Pride", "icon": "pride", "a": "archfiend", "b": "mage",
+		"radius": 220.0,  # TUNING (not in GDD)
+		"effects": {"a": {"damage": 1.15}, "b": {"range": 1.1}},  # TUNING (not in GDD)
+		"hint": "Archfiend near a Mage: both burn brighter",
+	},
 }

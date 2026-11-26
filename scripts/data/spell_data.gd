@@ -244,6 +244,41 @@ const SPELLS: Dictionary = {
 		"tick": 0.8,  # TUNING (not in GDD) s between beams
 		"duration": 8.0,  # TUNING (not in GDD) s it hangs
 	},
+	# --- Act IX spells (w2c-inferno; Necropathy's Inferno rewards) ---
+	"brimstone": {
+		"name": "Brimstone", "icon": "brimstone", "cooldown": 16.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "Burning stones fall on the thickest crowd and leave fire; cast on a portal, it seals it",
+		"unlock": {"map": "burning_gate"},  # Moloch's reward
+		"radius": 140.0,  # TUNING (not in GDD) px around the tap searched for crowds
+		"stones": 3,  # TUNING (not in GDD) stones per cast (Necropathy Lv 4-5: 3)
+		"damage": 60.0,  # TUNING (not in GDD) per stone to each foe in its blast
+		"blast": 42.0,  # TUNING (not in GDD) px (Necropathy Lv 5: 42)
+		"fall_time": 0.6,  # TUNING (not in GDD) s a stone falls (its landing circle shows)
+		"field_radius": 36.0,  # TUNING (not in GDD) px of the fire it leaves
+		"field_life": 3.0,  # TUNING (not in GDD) s it burns
+		"field_dps": 16.0,  # TUNING (not in GDD) damage per s in it
+		"field_tick": 0.5,  # TUNING (not in GDD) s between two burns
+	},
+	"tempt": {
+		"name": "Temptation", "icon": "tempt", "cooldown": 18.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "The strongest foes near the tap are charmed: they turn and fight their own",
+		"unlock": {"map": "silk_palace"},  # Lilith's reward
+		"radius": 150.0,  # TUNING (not in GDD) px around the tap
+		"charms": 2,  # TUNING (not in GDD) foes charmed (the most HP first; never a boss)
+		"charm_time": 6.0,  # Necropathy "fights for you for 6 s"
+		"damage": 30.0,  # TUNING (not in GDD) each thrall's blow
+		"reach": 60.0,  # TUNING (not in GDD) px a thrall reaches
+	},
+	"fall_from_grace": {
+		"name": "Fall from Grace", "short": "Grace", "icon": "fall_from_grace", "cooldown": 14.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "A fallen star crashes down on the strongest foe near the tap",
+		"unlock": {"map": "pandemonium"},  # The Morning Star's reward
+		"radius": 170.0,  # TUNING (not in GDD) px around the tap
+		"damage": 320.0,  # TUNING (not in GDD) to the strongest foe (a single-target finisher)
+		"splash": 0.4,  # Necropathy splash 0.4
+		"crash": 50.0,  # TUNING (not in GDD) px of the splash
+		"fall_time": 0.6,  # Necropathy fall_time 0.6
+	},
 }
 
 ## The ultimate (GDD §5 Dread Rally), cast through SpellCaster like a spell

@@ -224,4 +224,27 @@ const EVOLUTIONS: Dictionary = {
 		},
 		"recipe": {"type": "any", "of": [{"type": "elite_kills", "n": 6}, {"type": "kills", "n": 30}]},  # TUNING (not in GDD) Necropathy Oni's Resolve -> a record of slain foes
 	},
+	# --- Act IX, the Inferno (w2c-inferno) ---
+	"lilim_matriarch": {
+		"from": "bound_succubus", "name": "Lilim Matriarch", "sprite": "summons/lilim_matriarch", "icon": "lilim_matriarch",
+		"stats": {"damage": 1.3, "range": 1.1},  # TUNING (not in GDD)
+		"set": {
+			"charm_count": 2,  # TUNING (not in GDD) two foes charmed at once
+			"charm_time": 5.0,  # TUNING (not in GDD)
+			"charm_every": 6.0,  # TUNING (not in GDD)
+			"weaken": 0.7,  # TUNING (not in GDD)
+		},
+		"recipe": {"type": "kills", "n": 35},  # TUNING (not in GDD) Necropathy Velvet Chains -> a record of foes taken
+	},
+	"prince_of_hell": {
+		"from": "archfiend", "name": "Prince of Hell", "sprite": "summons/prince_of_hell", "icon": "prince_of_hell",
+		"stats": {"damage": 1.4, "hp": 1.4},  # TUNING (not in GDD)
+		"set": {
+			"hold": 4,  # TUNING (not in GDD)
+			"breath_every": 2,  # TUNING (not in GDD)
+			"breath_radius": 95.0,  # TUNING (not in GDD)
+			"burn_dps": 18.0,  # TUNING (not in GDD)
+		},
+		"recipe": {"type": "any", "of": [{"type": "elite_kills", "n": 6}, {"type": "kills", "n": 30}]},  # TUNING (not in GDD) Necropathy Pride -> a record of slain foes
+	},
 }

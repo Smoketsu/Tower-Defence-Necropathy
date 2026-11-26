@@ -12,7 +12,8 @@ extends RefCounted
 ## Build-menu order of the towers.
 const ORDER: Array[String] = ["archer", "mage", "frost_wraith", "corpse_catapult", "banshee", "mender", "warrior", "abomination",
 	"warder", "rogue", "gargoyle", "bone_hound", "fallen_seraph", "bone_golem",
-	"powder_wraith", "blood_spawn", "fallen_hero", "bound_oni"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
+	"powder_wraith", "blood_spawn", "fallen_hero", "bound_oni",
+	"bound_succubus", "archfiend"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
 
 ## Targeting modes (GDD §4.3), in the order the Target button cycles them.
 const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
@@ -424,6 +425,52 @@ const TOWERS: Dictionary = {
 		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(1.0, 0.55, 0.4), "reach": 120.0},  # TUNING (not in GDD)
 		"evolution": "oni_lord",
 	},
+	# --- Act IX, the Inferno (w2c-inferno): the Bound Succubus (Lilith) and the Archfiend (the Morning Star) ---
+	"bound_succubus": {
+		"name": "Bound Succubus", "short": "Succubus", "sprite": "summons/bound_succubus", "icon": "bound_succubus", "spot": "plot",
+		"desc": "Charm-pink kisses weaken; now and then she charms a foe to fight for you",
+		"unlock": {"map": "silk_palace"},  # Necropathy: the Succubus unlocked by Lilith
+		"cost": 120,  # TUNING (not in GDD)
+		"behavior": "bound_succubus",
+		"range": 160.0,  # TUNING (not in GDD)
+		"damage": 12.0,  # TUNING (not in GDD) per kiss
+		"interval": 1.0,  # TUNING (not in GDD)
+		"target": "first",
+		"projectile": "projectiles/priest_bolt", "projectile_speed": 460.0,  # TUNING (not in GDD)
+		"splash": 0.0, "slow": 1.0, "slow_time": 0.0, "freeze_every": 0, "freeze_time": 0.0,
+		"pierce": 0, "armour_pierce": 0.0,
+		"weaken": 0.8, "weaken_time": 3.0,  # TUNING (not in GDD) a kiss: the foe deals x0.8 for 3 s
+		"charm_every": 8.0,  # TUNING (not in GDD) s between two charms (Necropathy Temptation cooldown 7)
+		"charm_count": 1,  # TUNING (not in GDD) foes charmed at once (the strongest in range, never a boss)
+		"charm_time": 4.0,  # TUNING (not in GDD) s a charm lasts
+		"charm_mult": 1.6,  # TUNING (not in GDD) the thrall's blow x this tower's damage
+		"charm_reach": 60.0,  # TUNING (not in GDD) px a thrall reaches its victims
+		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/feather", "tint": Color(1.0, 0.45, 0.8)},  # TUNING (not in GDD)
+		"evolution": "lilim_matriarch",
+	},
+	"archfiend": {
+		"name": "Archfiend", "sprite": "summons/archfiend", "icon": "archfiend", "spot": "post",
+		"desc": "Winged heavy demon: its blows set foes burning, its breath scorches the road",
+		"unlock": {"map": "pandemonium"},  # Necropathy: the finale's Archfiend
+		"cost": 135,  # TUNING (not in GDD)
+		"behavior": "archfiend",
+		"range": 40.0,  # TUNING (not in GDD)
+		"damage": 20.0,  # TUNING (not in GDD)
+		"interval": 1.4,  # TUNING (not in GDD)
+		"target": "first",
+		"bodies": 1,
+		"body_hp": 460.0,  # TUNING (not in GDD) beside the Bound Oni (440)
+		"hold": 3,  # TUNING (not in GDD)
+		"hits_all_held": false,
+		"respawn": 11.0,  # TUNING (not in GDD)
+		"burn_dps": 10.0,  # TUNING (not in GDD) hellfire per s on what it strikes
+		"burn_time": 3.0,  # TUNING (not in GDD) s
+		"breath_every": 3,  # TUNING (not in GDD) every 3rd strike it breathes fire
+		"breath_radius": 70.0,  # TUNING (not in GDD) px of the breath around the body
+		"breath_mult": 0.8,  # TUNING (not in GDD) x its damage to each foe in the breath
+		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(1.0, 0.5, 0.2), "reach": 120.0},  # TUNING (not in GDD)
+		"evolution": "prince_of_hell",
+	},
 }
 
 ## Per-level multipliers, 5 rows (levels 1-5) per tower. Keys:
@@ -555,6 +602,20 @@ const LEVELS: Dictionary = {
 		{"damage": 2.8, "rate": 1.25, "range": 1.2},  # TUNING (not in GDD)
 	],
 	"bound_oni": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.0},
+		{"damage": 1.3, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.4},  # TUNING (not in GDD)
+		{"damage": 1.6, "rate": 1.1, "range": 1.0, "bodies": 1, "hp": 1.8},  # TUNING (not in GDD)
+		{"damage": 2.0, "rate": 1.2, "range": 1.0, "bodies": 1, "hp": 2.4},  # TUNING (not in GDD)
+		{"damage": 2.5, "rate": 1.3, "range": 1.0, "bodies": 1, "hp": 3.0},  # TUNING (not in GDD)
+	],
+	"bound_succubus": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0},
+		{"damage": 1.35, "rate": 1.05, "range": 1.05},  # TUNING (not in GDD)
+		{"damage": 1.75, "rate": 1.1, "range": 1.1},  # TUNING (not in GDD)
+		{"damage": 2.2, "rate": 1.15, "range": 1.15},  # TUNING (not in GDD)
+		{"damage": 2.8, "rate": 1.2, "range": 1.2},  # TUNING (not in GDD)
+	],
+	"archfiend": [
 		{"damage": 1.0, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.0},
 		{"damage": 1.3, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.4},  # TUNING (not in GDD)
 		{"damage": 1.6, "rate": 1.1, "range": 1.0, "bodies": 1, "hp": 1.8},  # TUNING (not in GDD)

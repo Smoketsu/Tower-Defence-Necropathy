@@ -25,7 +25,7 @@ func free_body(e: TdEnemy) -> BlockBody:
 	if bool(e.row["flying"]) or (bool(e.row["ignores_walls"]) and not holds_bosses):
 		return null
 	for b: BlockBody in bodies:
-		if b.alive and b.held.size() < b.capacity + hold_bonus:
+		if b.alive and b.held.size() < b.capacity + hold_bonus and e.game.time >= b.charm_until:  # A charmed body holds nobody (w2c-inferno).
 			return b
 	return null
 

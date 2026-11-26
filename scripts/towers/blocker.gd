@@ -53,6 +53,9 @@ func step(t: Tower, _dt: float) -> void:
 			if t.game.time >= b.respawn_at:
 				TdCombat.revive_body(t.game, b)
 			continue
+		if t.game.time < b.charm_until:
+			_charmed_strike(t, b)  # Tempted (w2c-inferno): it fights its own post.
+			continue
 		if b.held.is_empty() or t.game.time < b.next_attack:
 			continue
 		b.next_attack = t.game.time + float(t.stats["interval"])
@@ -63,6 +66,21 @@ func step(t: Tower, _dt: float) -> void:
 		strike(t, b)
 		t.game.vfx.melee(t, b, first)
 		volley(t, first)
+
+
+## Charmed body `b` (TdCombat.charm_body) strikes another living body of its
+## own post on its cadence, at `charm_mult` x its blow; alone, it just stands.
+func _charmed_strike(t: Tower, b: BlockBody) -> void:
+	if t.game.time < b.next_attack:
+		return
+	for o: BlockBody in t.block.bodies:
+		if o != b and o.alive:
+			b.next_attack = t.game.time + float(t.stats["interval"])
+			b.vis_strike_at = t.game.time
+			b.vis_dir = (o.pos - b.pos).normalized()
+			TdCombat.damage_body(t.game, o, float(t.stats["damage"]) * b.charm_mult)
+			EnemyTrait.note(t.game, "charmed_blows")
+			return
 
 
 ## One strike of body `b` on what it holds: the first held enemy, or all of
@@ -97,7 +115,8 @@ func draw_body(t: Tower, ci: CanvasItem, i: int) -> void:
 		SpriteBank.draw_flat(ci, TdVfxData.BONE_PILE, Vector2(0, SpriteBank.drawn_height(key) * 0.3), 0.0, Color(0.9, 0.88, 0.8, 1.0 - rise), TdVfxData.BONE_PILE_SCALE)
 		if SpriteBank.draw_rising(ci, key, o, rise, false):
 			return
-	if not SpriteBank.draw(ci, key, o, t.game.time < b.flash_until):
+	var tint := TdVfxData.STATUS_TINT["charmed"] if t.game.time < b.charm_until else Color.WHITE  # Charmed: pink (w2c-inferno).
+	if not SpriteBank.draw(ci, key, o, t.game.time < b.flash_until, tint):
 		ci.draw_rect(Rect2(-8, -16, 16, 24), Color(0.8, 0.8, 0.7))
 
 

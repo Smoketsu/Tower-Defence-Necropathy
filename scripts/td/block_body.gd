@@ -36,6 +36,11 @@ var taunt_until: float = 0.0
 var barrier: float = 0.0
 ## See barrier.
 var barrier_until: float = 0.0
+## Game time (s) until which it is charmed (w2c-inferno Temptation, TdCombat.charm_body):
+## it holds nothing and strikes a body of its own post instead; 0 = never.
+var charm_until: float = 0.0
+## Multiplier on its blow while charmed (the charmer's args; 0..1).
+var charm_mult: float = 0.0
 ## Fraction (0..1) of each hit it ignores (Bone Golem planted; 0 = none).
 var damage_cut: float = 0.0
 ## Game time (s) until which it draws a hit flash (visual only).

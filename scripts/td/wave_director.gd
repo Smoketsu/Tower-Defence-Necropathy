@@ -76,9 +76,7 @@ func _start(i: int) -> void:
 	records[i]["start"] = game.time
 	_queue.clear()
 	var first_road := game.first_entrance()  # Default road for groups that name none.
-	var hp_end := float(game.map.get("wave_hp_end", 0.0))  # The map's last-wave HP multiplier (0 = default).
-	var ramp := lerpf(TdRulesData.WAVE_HP_START, hp_end if hp_end > 0.0 else TdRulesData.WAVE_HP_END,
-			minf(float(i) / float(maxi(map_waves - 1, 1)), 1.0))  # Wave HP ramp (TdRulesData).
+	var ramp := hp_ramp(i)  # Wave HP ramp (TdRulesData).
 	for g: Dictionary in waves[i]["groups"]:
 		var n := DifficultyModifiers.group_count(game.difficulty, int(g["count"]))  # Enemies in this group.
 		var sp := float(g.get("spacing", TdRulesData.DEFAULT_SPACING))  # Seconds between two.
@@ -93,6 +91,15 @@ func _start(i: int) -> void:
 	if i >= map_waves:
 		game.reckoning_wave = i - map_waves + 1
 	game.wave_started.emit(i + 1)
+
+
+## HP multiplier of wave index `i` (0-based): lerp(WAVE_HP_START, the map's
+## wave_hp_end or WAVE_HP_END, i / (map waves - 1)), capped at the end value.
+## Read by _start() and by act rules that spawn mid-wave (w2c-inferno portals).
+func hp_ramp(i: int) -> float:
+	var hp_end := float(game.map.get("wave_hp_end", 0.0))  # The map's last-wave HP multiplier (0 = default).
+	return lerpf(TdRulesData.WAVE_HP_START, hp_end if hp_end > 0.0 else TdRulesData.WAVE_HP_END,
+			minf(float(i) / float(maxi(map_waves - 1, 1)), 1.0))
 
 
 ## One fixed step: spawns what is due, starts the next wave when its time comes.

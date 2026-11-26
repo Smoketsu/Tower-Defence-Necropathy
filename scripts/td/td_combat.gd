@@ -154,9 +154,10 @@ static func damage_body(game: TdGame, b: BlockBody, amount: float, by: TdEnemy =
 
 
 ## Heals blocker body `b` by `amount` HP (Mender auras, lifesteal); returns the HP restored.
-static func heal_body(_game: TdGame, b: BlockBody, amount: float) -> float:
+static func heal_body(game: TdGame, b: BlockBody, amount: float) -> float:
 	if not b.alive:
 		return 0.0
+	cleanse_body(game, b)  # A heal breaks a charm (w2c-inferno).
 	var before := b.hp  # HP before the heal.
 	b.hp = minf(b.max_hp, b.hp + amount)
 	return b.hp - before
@@ -239,6 +240,7 @@ static func empower_enemy(_game: TdGame, e: TdEnemy, hp_mult: float, speed_mult:
 static func barrier_body(game: TdGame, b: BlockBody, amount: float, time: float) -> float:
 	if not b.alive:
 		return 0.0
+	cleanse_body(game, b)  # A barrier breaks a charm (w2c-inferno).
 	var before := b.barrier if game.time < b.barrier_until else 0.0  # Barrier still up.
 	b.barrier = maxf(before, amount)
 	b.barrier_until = game.time + time
@@ -286,3 +288,74 @@ static func rally_tower(game: TdGame, t: Tower, rate_mult: float, time: float) -
 		t.vars["k_rally"] = rate_mult
 	t.vars["k_rally_until"] = maxf(float(t.vars.get("k_rally_until", 0.0)), game.time + time)
 	t.recompute()
+
+
+# ------------------------------------------------------------------ w2c-inferno charms
+
+## Charms blocker body `b` for `time` s (the Inferno's Temptation: a
+## succubus's kiss): it lets go of what it holds, holds nobody
+## (RoadBlock.free_body) and strikes a living body of its own post at
+## `hit_mult` x its blow (blocker.gd). The longer charm wins. A heal or a
+## barrier on it (heal_body / barrier_body: Mender, Warder) cleanses it.
+static func charm_body(game: TdGame, b: BlockBody, time: float, hit_mult: float) -> void:
+	if not b.alive or b.temporary or time <= 0.0:
+		return
+	b.charm_until = maxf(b.charm_until, game.time + time)
+	b.charm_mult = hit_mult
+	b.release_all()
+	EnemyTrait.note(game, "bodies_charmed")
+
+
+## Breaks the charm on body `b` (heal_body / barrier_body call it).
+static func cleanse_body(game: TdGame, b: BlockBody) -> void:
+	if game.time < b.charm_until:
+		b.charm_until = 0.0
+		EnemyTrait.note(game, "charms_cleansed")
+
+
+## Charms enemy `e` for `time` s (the Bound Succubus's kiss, Temptation): it
+## stops where it is (its holder lets go), towers ignore it
+## (TdGame.can_target) and every attack interval it strikes the nearest other
+## foe within `reach` px for `damage`, credited to `source` / `tower`
+## (charm_step, called by TdEnemy.step). Bosses, minibosses and structures
+## are never charmed. Returns true when it took.
+static func charm_enemy(game: TdGame, e: TdEnemy, time: float, damage: float, reach: float, source: String, tower: Tower) -> bool:
+	var rank := String(e.row["rank"])  # Its rank.
+	if not e.alive or time <= 0.0 or rank == "boss" or rank == "miniboss" or bool(e.row.get("structure", false)):
+		return false
+	e.vars["k_charm_until"] = maxf(float(e.vars.get("k_charm_until", 0.0)), game.time + time)
+	e.vars["k_charm_dmg"] = damage
+	e.vars["k_charm_reach"] = reach
+	e.vars["k_charm_src"] = source
+	e.vars["k_charm_tower"] = tower
+	if e.holder != null:
+		e.holder.held.erase(e)
+		e.holder = null
+	e.next_attack = game.time + float(e.row["attack_interval"]) * 0.5
+	game.stats["charmed"] = int(game.stats.get("charmed", 0)) + 1
+	e.body.queue_redraw()
+	return true
+
+
+## One step of charmed enemy `e` (see charm_enemy): strike the nearest other
+## foe in reach on its own attack cadence (frozen: no strike).
+static func charm_step(game: TdGame, e: TdEnemy) -> void:
+	if game.time < e.freeze_until or game.time < e.next_attack:
+		return
+	var best: TdEnemy = null  # Nearest other foe that is not charmed.
+	for o: TdEnemy in game.foes_near(e.position, float(e.vars["k_charm_reach"])):
+		if o != e and game.time >= float(o.vars.get("k_charm_until", 0.0)) and \
+				(best == null or o.position.distance_squared_to(e.position) < best.position.distance_squared_to(e.position)):
+			best = o
+	if best == null:
+		return
+	e.next_attack = game.time + float(e.row["attack_interval"])
+	var tw: Tower = e.vars.get("k_charm_tower", null)  # The charmer tower, if it still stands.
+	if tw != null and not (is_instance_valid(tw) and game.towers.has(tw)):
+		tw = null
+	var hit := {"source": String(e.vars["k_charm_src"]), "origin": e.position}  # The thrall's blow.
+	if tw != null:
+		hit["tower"] = tw
+	e.vis_strike_at = game.time
+	e.vis_strike_dir = (best.position - e.position).normalized()
+	damage_enemy(game, best, float(e.vars["k_charm_dmg"]), hit)
