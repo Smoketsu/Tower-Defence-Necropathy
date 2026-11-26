@@ -200,8 +200,23 @@ character in the menus.
 | IV the Last Line (`city`, T4) | `city_act_data.gd`; `rules/city/escalation.gd` (gangs -> police -> army -> heroes; `EscalationMeter`, `CityStreets`) | skid_row, fort_kessler, liberty_heights | Big Sal, the Mammoth, Atlas / Don Marrow, Harrow, Paragon | Fallen Hero -> Black Paragon, Origin Story | Hearse Run, Bone Mines, Hero's Fist (Undertaker, Fallen Sergeant, Revenant Heroine) |
 | V the Shogunate (`shogunate`, T5) | `shogunate_act_data.gd`; `rules/shogunate/sun_course.gd` (+ `sun_layer`, `sun_dial`: day / dusk / night, lanterns, ambushes) | province, kurogane, sun_road | Shuten-doji, General of the Left, the Kirin / Kage, Shogun Kurogane, Amaterasu | Bound Oni -> Oni Lord, Iron and Bone | Hundred Shadows, Banner of the Dead, Black Sun (Grave Kunoichi, Ronin Revenant, Shrine Maiden) |
 
+## Act X, the Celestial Host (wave 2c, `host`, T10; ends Part Two)
+
+`host_act_data.gd`; act rule `rules/host/hallowed_light.gd` (+ `host_layer`, `host_dial`): shafts of
+light sweep the map (telegraphed), angels inside are hasted and regenerate (Grace), towers inside and
+out of the shade (MAP key `clouds`, a Crypt Warder's or Bound Ophan's shade) are weakened through
+`suppress_tower()`; Judgment counts blocker bodies lost and returns them as Judges at the boss.
+Maps silver_stair (switchback + cloud road), wheel_of_thrones (spiral to a hub gate), empyrean (two
+winding roads). Minibosses the Cherub of the Gate, the Dominion of the Spheres, the Herald of the
+Seventh Trumpet; bosses Seraiel, the Throne, the Voice (`scripts/bosses/host/`). Bound Ophan ->
+Throne of Bones, Turning Wheel (with the Warder). Spells Flaming Sword, Wheel of Eyes, Revelation
+(the Fallen Herald, the Blind Saint, the Unveiled). Hooks for later acts: `HallowedLight.of(game)`,
+`add_shaft(at, n, width, life)`, `in_light()`, `shaded()`, `send_judges(n)`, `judges_due(cap)`,
+`boss_width` / `boss_live`; traits `host/lunge.gd` `line()` / `sweep_ring()`, `host/cherub.gd`
+`sweep()`, `host/ophan.gd` `roll_over()`; `towers_check` `_host_checks`; order `host_kit`.
+
 Build orders: `<map>_default`, `<map>_weak`, plus `tide_kit`, `court_kit`,
-`shogunate_kit` (every map of the act). Act runs print `act_rule=` / `hostile=`.
+`shogunate_kit`, `host_kit` (every map of the act). Act runs print `act_rule=` / `hostile=`.
 `towers_check` has `_tide_checks`, `_court_checks`, `_city_checks`,
 `_shogun_checks`.
 

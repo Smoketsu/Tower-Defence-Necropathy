@@ -5,7 +5,9 @@
 ## and the Black Tide's tower, spells, Broadsides and kinds (_tide_checks, w2b-tide).
 ## and Act III's Blood Spawn, its spells and the Blood Moon (_court_checks, w2b-court).
 ## and Act V (_shogun_checks): the Bound Oni smash, the Oni Lord quake, the act
-## spells and the Sun's Course (night visibility, douse / relight, ambush, Kage, the Shogun).
+## spells and the Sun's Course (night visibility, douse / relight, ambush, Kage, the Shogun);
+## Act X (_host_checks): the Bound Ophan roll and Throne of Bones, Turning Wheel, the act
+## spells, the Hallowed Light (weakening, shade, Grace), Judgment, the Ophan, the Throne's rims.
 ## Run: godot --headless tools/towers_check.tscn   (prints PASS / FAIL, exit 0 / 1)
 extends Node
 
@@ -59,6 +61,7 @@ func _ready() -> void:
 	_court_checks()
 	_city_checks()
 	_shogun_checks()
+	_host_checks()
 	print("TOWERS CHECK %s %s" % ["PASS" if _fails.is_empty() else "FAIL", ",".join(_fails)])
 	get_tree().quit(0 if _fails.is_empty() else 1)
 
@@ -438,3 +441,75 @@ func _shogun_checks() -> void:
 	# The Shogun: guarded while his regiments march.
 	var sg := game.spawn_at("shogun", "main", 1, 0.0, 0.0)
 	_check("shogun guarded", TdCombat.damage_enemy(game, sg, 1000.0, {"source": "check", "dot": true}) < 200.0)
+
+
+## Act X (w2c-host): the Bound Ophan and its evolution, the act spells, the
+## Hallowed Light's weakening / shade / Grace, Judgment, the Ophan and the Throne.
+func _host_checks() -> void:
+	var loadout: Array[String] = ["flaming_sword", "wheel_of_eyes", "revelation"]
+	var game := TdGame.new()
+	game.setup("silver_stair", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(game)
+	game.economy.earn(50000, "test_bonus")
+	var light: MapRule = game.act_rule
+	_check("hallowed light loaded", light != null and light.has_method("send_judges"))
+	# The Bound Ophan rolls back along the road through a pack and staggers it.
+	var oph := game.spot_by_id("plot:5")
+	game.build(oph, "bound_ophan")
+	var pack: Array[TdEnemy] = []  # Foes in its reach.
+	for i in 4:
+		var e := _enemy_at(game, "host_virtue", Vector2(520.0 - float(i) * 30.0, 480))
+		e.max_hp = 1.0e6
+		e.hp = e.max_hp
+		pack.append(e)
+	_run(game, 4.0)
+	_check("ophan rolls", int(oph.tower.vars.get("rolls", 0)) > 0)
+	_check("ophan roll hits the pack", pack.filter(func(e: TdEnemy) -> bool: return e.hp < e.max_hp).size() >= 2)
+	_check("ophan roll staggers", pack.any(func(e: TdEnemy) -> bool: return e.staggered_until > 0.0))
+	var throne := _maxed(game, "plot:9", "bound_ophan")
+	_check("throne of bones set", throne.evolution == "throne_of_bones" and int(throne.stats["chain_slams"]) == 1 and float(throne.stats["dive_stun"]) > 0.0)
+	var wd := _maxed(game, "plot:6", "warder")
+	_check("turning wheel active", throne.synergies.any(func(p: Array) -> bool: return p[0] == "turning_wheel") or wd.synergies.any(func(p: Array) -> bool: return p[0] == "turning_wheel"))
+	# The act spells.
+	var foe := pack[0]
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	var hp := foe.hp  # Before the spells.
+	_check("cast flaming_sword", game.cast_spell(0, foe.position))
+	_check("cast wheel_of_eyes", game.cast_spell(1, foe.position))
+	_check("cast revelation", game.cast_spell(2, foe.position))
+	_check("revelation freezes and weakens", foe.freeze_until > game.time and foe.weaken_until > game.time)
+	_run(game, 2.0)
+	_check("sword and wheel strike", int(game.stats.get("sword_sweeps", 0)) > 0 and int(game.stats.get("wheel_hits", 0)) > 0 and foe.hp < hp)
+	for e: TdEnemy in pack:
+		game.remove_enemy(e, false)
+	# The Hallowed Light: a still shaft weakens a tower out of the shade, not one in it; angels in it are graced.
+	light.call("on_wave_start", 1)
+	var arch := game.spot_by_id("plot:0")
+	game.build(arch, "archer")
+	var dmg := float(arch.tower.stats["damage"])  # Before the light.
+	light.call("add_shaft", arch.position, Vector2.RIGHT, 80.0, 10.0)
+	var angel := _enemy_at(game, "host_virtue", Vector2(180, 640))
+	angel.hp = angel.max_hp * 0.5
+	_run(game, 2.5)
+	_check("light weakens", float(arch.tower.stats["damage"]) < dmg)
+	_check("grace heals and hastes", angel.hp > angel.max_hp * 0.5 and angel.haste_until > game.time)
+	var cloud: Array = (light.call("clouds") as Array)[0]
+	_check("cloud shades", bool(light.call("shaded", cloud[0])))
+	# Judgment: fallen bodies are sins; a boss's arrival sends Judges.
+	for i in 25:
+		light.call("on_body_fallen", BlockBody.new(), null)
+	_check("sins counted", int(light.get("sins")) == 25)
+	game.spawn_at("host_seraiel", "main", 1, 0.0, 0.0)
+	_run(game, 8.0)
+	_check("judges sent", int(light.get("counts")["judges_sent"]) == 2)
+	# The Ophan rolls free of a post unless staggered; the Throne's rims turn blows aside.
+	var op := game.spawn_at("host_ophan", "main", 1, 100.0, 0.0)
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	_check("ophan unholdable", op.unholdable_until > game.time)
+	TdCombat.stagger_enemy(game, op, 2.0)
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	_check("staggered ophan holdable", op.unholdable_until <= game.time)
+	var th := game.spawn_at("host_throne", "main", 1, 0.0, 0.0)
+	_check("throne rims", TdCombat.damage_enemy(game, th, 1000.0, {"source": "check", "dot": true}) < 400.0)
+	th.vars["core_until"] = game.time + 5.0
+	_check("throne core", is_equal_approx(TdCombat.damage_enemy(game, th, 1000.0, {"source": "check", "dot": true}), 1000.0))
