@@ -18,6 +18,24 @@ const LOGO_SIZE := Vector2(500.0, 248.0)  # TUNING (not in GDD)
 const PANEL_WIDTH: float = 960.0  # TUNING (not in GDD)
 ## Size (px) of a screen's Back / Start buttons.
 const NAV_BUTTON := Vector2(140.0, 40.0)  # TUNING (not in GDD)
+## --- Shared frame (menu overhaul, DECISIONS M4) ---------------------------------
+## Margin (px) between the screen edge and the header / content / hints.
+const SCREEN_MARGIN: float = 12.0  # TUNING (not in GDD) M4
+## Size (px) of the header's Back button (and of the matching right column).
+const BACK_BUTTON := Vector2(150.0, 48.0)  # TUNING (not in GDD) M4: 48 px = ~31 CSS px tall at 844x390, wide for a thumb
+## Minimum width (px) of the header's title band.
+const TITLE_BAND_W: float = 420.0  # TUNING (not in GDD) M4
+## Size (px) of the Soul Ash icon in the header pill.
+const ASH_ICON: float = 28.0  # TUNING (not in GDD) M4
+## Room (px) kept above the content panel for its skull keystone (it rises 9 px).
+const KEYSTONE_ROOM: float = 12.0  # TUNING (not in GDD) M4
+## Default bottom hint strip of a screen: [[action(s), word], ...].
+const DEFAULT_HINTS: Array = [["ui_accept", "Select"], ["ui_cancel", "Back"]]  # TUNING (not in GDD) M4
+## Size (px) of a tab button (Codex, Settings, Credits, map select parts).
+const TAB_BUTTON := Vector2(150.0, 44.0)  # TUNING (not in GDD) M4
+## Gap (px) between tab buttons.
+const TAB_GAP: int = 6  # TUNING (not in GDD) M4
+
 ## Gap (px) between rows of a screen.
 const ROW_GAP: int = 10  # TUNING (not in GDD)
 

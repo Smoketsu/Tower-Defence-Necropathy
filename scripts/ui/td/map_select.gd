@@ -73,8 +73,8 @@ func _show_act(id: String, opening: bool = false) -> void:
 	_act = id
 	for k: String in _tabs:
 		UiTheme.style_button(_tabs[k], "button", "gold" if k == id else "")
-	if box != null and box.get_child_count() > 0 and box.get_child(0) is Label:
-		(box.get_child(0) as Label).text = _title(id)
+	if title_label != null:
+		title_label.text = _title(id)
 	var row := Acts.row(id)  # Its ActData row.
 	_faction.text = String(row["faction"])
 	for n: Node in _row.get_children():
