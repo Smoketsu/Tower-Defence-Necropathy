@@ -177,4 +177,12 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "a", "vs": "staggered", "mult": 1.3},  # TUNING (not in GDD) the wheel rolls harder over what it already staggered
 		"hint": "Bound Ophan near a Crypt Warder: rolls crush staggered foes",
 	},
+	# --- Act XIII, the Concord of Stars (w2d-concord) ---
+	"crop_circles": {
+		"name": "Crop Circles", "icon": "crop_circles", "a": "ghost_saucer", "b": "frost_wraith",
+		"radius": 220.0,  # TUNING (not in GDD)
+		"effects": {"a": {"rate": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "a", "vs": "frozen", "mult": 1.3},  # TUNING (not in GDD) the beams burn what hangs frozen (the wraith's chill, its own lifts)
+		"hint": "Ghost Saucer near a Frost Wraith: beams burn frozen foes",
+	},
 }

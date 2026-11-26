@@ -20,7 +20,8 @@ const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "p
 	"the_embalmer", "lion_priestess", "pharaohs_shade",
 	"doomed_prophetess", "oathbreaker", "ferrywoman",
 	"furnace_priest", "succubus_queen", "fallen_saint",
-	"fallen_herald", "blind_saint", "the_unveiled"]  # The later spells' characters (gw2-kit), appended
+	"fallen_herald", "blind_saint", "the_unveiled",
+	"broodbound", "blooded", "starborn"]  # The later spells' characters (gw2-kit), appended
 
 ## Character rows. Keys:
 ##   name         — UI name.
@@ -271,6 +272,27 @@ const CHARACTERS: Dictionary = {
 		"boost": {"radius": 1.15, "stun": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
 		"innate": {"name": "Seventh Seal", "desc": "Revelation also strips 3 armour", "reveal_shred": 3.0},  # Necropathy's paired passive name
 		"unlock_after": "empyrean",  # the Voice
+	},
+	# --- Act XIII, the Concord of Stars (w2d-concord) ---
+	# Innate keys (read by the Act XIII spells): beetle_extra (+beetles per Bone Beetles cast),
+	# caster_extra (+foes Soul Caster locks), tractor_extra (+foes Tractor Beam lifts).
+	"broodbound": {
+		"name": "The Broodbound", "short": "Broodbound", "sprite": "player/broodbound", "spell": "bone_beetles",
+		"boost": {"damage": 1.2, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Swarm Bride", "desc": "Bone Beetles release three more beetles", "beetle_extra": 3},  # Necropathy innate (one more a burst: three a cast here)
+		"unlock_after": "crash_site",  # the Hive Mother
+	},
+	"blooded": {
+		"name": "The Blooded", "short": "Blooded", "sprite": "player/blooded", "spell": "soul_caster",
+		"boost": {"damage": 1.2, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "First Blood", "desc": "Soul Caster locks one more foe", "caster_extra": 1},  # Necropathy innate
+		"unlock_after": "proving_moon",  # Vrask'Tal
+	},
+	"starborn": {
+		"name": "The Starborn", "short": "Starborn", "sprite": "player/starborn", "spell": "tractor_lift",
+		"boost": {"slam_damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Deserter's Signal", "desc": "Tractor Beam lifts one more foe", "tractor_extra": 1},  # Necropathy innate
+		"unlock_after": "ark",  # the Harvester
 	},
 }
 

@@ -426,6 +426,37 @@ const SPELLS: Dictionary = {
 		"weaken": 0.6,  # TUNING (not in GDD) damage x of the foes it weakens
 		"weaken_time": 6.0,  # TUNING (not in GDD) s
 	},
+	# --- Act XIII, the Concord of Stars (w2d-concord) ---
+	"bone_beetles": {
+		"name": "Bone Beetles", "short": "Beetles", "icon": "bone_beetles", "cooldown": 15.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "A swarm of bone beetles bursts from the tap and bites the foes near it; each foe they kill bursts into more",
+		"unlock": {"map": "crash_site"},  # the Hive Mother's reward
+		"beetles": 8,  # TUNING (not in GDD) beetles a cast (the Broodbound's innate adds beetle_extra)
+		"radius": 130.0,  # TUNING (not in GDD) px round the tap they hunt in
+		"damage": 30.0,  # TUNING (not in GDD) per bite
+		"speed": 260.0,  # TUNING (not in GDD) px/s a beetle runs (Necropathy 230-260)
+		"chain": 8,  # TUNING (not in GDD) most beetles a cast's kills may add (Necropathy cap)
+	},
+	"soul_caster": {
+		"name": "Soul Caster", "short": "Caster", "icon": "soul_caster", "cooldown": 13.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "A shoulder cannon locks the three strongest foes near the tap, then fires; its locks reveal the cloaked",
+		"unlock": {"map": "proving_moon"},  # Vrask'Tal's reward
+		"radius": 170.0,  # TUNING (not in GDD) px round the tap it locks in
+		"targets": 3,  # TUNING (not in GDD) Necropathy "three red dots" (the Blooded's innate adds caster_extra)
+		"lock_time": 0.7,  # TUNING (not in GDD) s the dots show before it fires
+		"damage": 130.0,  # TUNING (not in GDD) per shot
+		"armour_pierce": 6.0,  # TUNING (not in GDD)
+	},
+	"tractor_lift": {
+		"name": "Tractor Beam", "short": "Tractor", "icon": "tractor_lift", "cooldown": 18.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "Lifts the strongest foe near the tap into the air and slams it down on the foes round it",
+		"unlock": {"map": "ark"},  # the Harvester's reward
+		"radius": 150.0,  # TUNING (not in GDD) px round the tap searched
+		"lifts": 1,  # TUNING (not in GDD) foes lifted (the Starborn's innate adds tractor_extra)
+		"lift_time": 1.8,  # TUNING (not in GDD) s it hangs frozen (rank multipliers apply)
+		"slam_damage": 160.0,  # TUNING (not in GDD) to it and to every foe within slam_radius
+		"slam_radius": 60.0,  # TUNING (not in GDD) px
+	},
 }
 
 ## The ultimate (GDD §5 Dread Rally), cast through SpellCaster like a spell

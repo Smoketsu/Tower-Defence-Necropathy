@@ -17,7 +17,8 @@ const ORDER: Array[String] = ["archer", "mage", "frost_wraith", "corpse_catapult
 	"ushabti_sentinel",
 	"myrmidon_shade",
 	"bound_succubus", "archfiend",
-	"bound_ophan"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
+	"bound_ophan",
+	"ghost_saucer"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
 
 ## Targeting modes (GDD §4.3), in the order the Target button cycles them.
 const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
@@ -576,6 +577,31 @@ const TOWERS: Dictionary = {
 		"volley": {"every": 2, "count": 3, "damage": 0.4, "sprite": "volleys/shard", "tint": Color(0.55, 0.95, 0.9)},  # TUNING (not in GDD) soul-teal bone shards
 		"evolution": "throne_of_bones",
 	},
+	# --- Act XIII, the Concord of Stars (w2d-concord) ---
+	"ghost_saucer": {
+		"name": "Ghost Saucer", "short": "Saucer", "sprite": "summons/ghost_saucer", "icon": "ghost_saucer", "spot": "plot",
+		"desc": "A raised Concord saucer: short beams through every foe in their line, and now and then it lifts a foe and drops it",
+		"unlock": {"map": "ark"},  # DECISIONS K9: the act's summon, unlocked by its finale's boss (the Harvester)
+		"cost": 115,  # TUNING (not in GDD)
+		"behavior": "ghost_saucer",
+		"range": 150.0,  # TUNING (not in GDD)
+		"damage": 22.0,  # TUNING (not in GDD) to each foe the beam crosses
+		"interval": 1.5,  # TUNING (not in GDD)
+		"target": "first",
+		"beam_len": 170.0,  # TUNING (not in GDD) px of one beam from its hull (Necropathy beam_length)
+		"beam_w": 12.0,  # TUNING (not in GDD) px either side of the beam it strikes (plus the foe's radius)
+		"beams": 1, "beam_spread": 0.0,  # TUNING (not in GDD) Black Mothership: 3 beams fanned this many rad apart
+		"lift_every": 4,  # TUNING (not in GDD) beams between two lifts
+		"lifts": 1,  # TUNING (not in GDD) fodder foes lifted at once (Black Mothership 2)
+		"lift_time": 1.6,  # TUNING (not in GDD) s a lifted foe hangs frozen (Necropathy lift_duration)
+		"lift_damage": 45.0,  # TUNING (not in GDD) dealt to it and to the foes round it when dropped
+		"lift_radius": 40.0,  # TUNING (not in GDD) px of the drop's splash
+		"projectile": "projectiles/radiant_bolt", "projectile_speed": 460.0,  # TUNING (not in GDD) its Lv3 volley
+		"splash": 0.0, "slow": 1.0, "slow_time": 0.0, "freeze_every": 0, "freeze_time": 0.0,
+		"pierce": 0, "armour_pierce": 2.0,  # TUNING (not in GDD) plasma burns through a little armour
+		"volley": {"every": 3, "count": 3, "damage": 0.45, "sprite": "volleys/orb", "tint": Color(1.0, 0.92, 0.55)},  # TUNING (not in GDD) tractor-gold soul orbs
+		"evolution": "black_mothership",
+	},
 }
 
 ## Per-level multipliers, 5 rows (levels 1-5) per tower. Keys:
@@ -754,6 +780,14 @@ const LEVELS: Dictionary = {
 		{"damage": 1.7, "rate": 1.1, "range": 1.1},  # TUNING (not in GDD)
 		{"damage": 2.2, "rate": 1.15, "range": 1.15},  # TUNING (not in GDD)
 		{"damage": 2.8, "rate": 1.25, "range": 1.2},  # TUNING (not in GDD)
+	],
+	# --- Act XIII, the Concord of Stars (w2d-concord) ---
+	"ghost_saucer": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0},
+		{"damage": 1.35, "rate": 1.0, "range": 1.05},  # TUNING (not in GDD)
+		{"damage": 1.75, "rate": 1.05, "range": 1.1},  # TUNING (not in GDD)
+		{"damage": 2.2, "rate": 1.1, "range": 1.15},  # TUNING (not in GDD)
+		{"damage": 2.8, "rate": 1.2, "range": 1.2},  # TUNING (not in GDD)
 	],
 }
 
