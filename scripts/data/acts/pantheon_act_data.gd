@@ -146,10 +146,10 @@ const KINDS: Dictionary = {
 	# Ilion: Polyphemus the Cyclops: boulder volleys at three towers, faster in his rage.
 	"polyphemus": {
 		"name": "Polyphemus the Cyclops", "sprite": "pantheon/polyphemus", "rank": "miniboss",
-		"hp": 5000.0, "speed": 22.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD) X3 4000-6000
+		"hp": 4500.0, "speed": 22.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD) X3 4000-6000
 		"damage": 26.0, "attack_interval": 1.6,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "pantheon/cyclops",
-		"args": {"throw_first": 3.0, "throw_every": 8.0, "throw_range": 300.0, "boulders": 3, "radius": 60.0, "delay": 1.5,
+		"args": {"throw_first": 3.0, "throw_every": 10.0, "throw_range": 300.0, "boulders": 2, "radius": 60.0, "delay": 1.5,
 			"disable": 2.0, "body_damage": 45.0, "rage_hp": 0.5, "rage_mult": 0.6},  # TUNING (not in GDD) Necropathy boulder volley
 	},
 	# Olympus: Ares, God of War: the war-cry hastes and wards the column; his spear charges through posts.
@@ -174,10 +174,10 @@ const KINDS: Dictionary = {
 	# Ilion: Achilles, the Unkillable: his front takes almost nothing, his heel everything.
 	"achilles": {
 		"name": "Achilles, the Unkillable", "sprite": "bosses/achilles", "rank": "boss",
-		"hp": 8000.0, "speed": 26.0, "armour": 4.0, "radius": 22.0,  # TUNING (not in GDD)
+		"hp": 7000.0, "speed": 26.0, "armour": 4.0, "radius": 22.0,  # TUNING (not in GDD)
 		"damage": 34.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "pantheon/achilles",
-		"args": {"front_mult": 0.15, "front_cos": 0.35, "ignore": FROM_ABOVE, "roof_mult": 1.0, "roof_n": 0, "roof_radius": 0.0,
+		"args": {"front_mult": 0.2, "front_cos": 0.35, "ignore": FROM_ABOVE, "roof_mult": 1.0, "roof_n": 0, "roof_radius": 0.0,
 			"heel_mult": 1.3, "stagger": 1.0, "stagger_cd": 6.0, "guard_hp": 0.66, "rage_hp": 0.33,
 			"lunge_first": 4.0, "lunge_every": 10.0, "rage_lunge_every": 6.0, "lunge_time": 1.0, "lunge_speed": 2.2, "lunge_damage": 70.0,
 			"guard_every": 16.0, "guard_count": 3, "guard_max": 5, "guard_kind": "myrmidon_guard", "guard_ahead": 70.0, "guard_gap": 16.0,
