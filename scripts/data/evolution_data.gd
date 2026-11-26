@@ -301,7 +301,7 @@ const EVOLUTIONS: Dictionary = {
 			"feathers": 3,  # Necropathy: "the Wraith Drone fires 3"
 			"pierce": 1,  # TUNING (not in GDD) each dart runs through one more foe
 		},
-		"recipe": {"type": "any", "of": [{"type": "kills", "n": 45}, {"type": "damage", "n": 12000}]},  # TUNING (not in GDD) Necropathy Overclock -> a record of the road
+		"recipe": {"type": "any", "of": [{"type": "kills", "n": 30}, {"type": "damage", "n": 8000}]},  # TUNING (not in GDD) Necropathy Overclock -> a record of the road
 	},
 	"deus_revenant": {
 		"from": "iron_revenant", "name": "Deus Revenant", "sprite": "summons/deus_revenant", "icon": "deus_revenant",
@@ -310,8 +310,8 @@ const EVOLUTIONS: Dictionary = {
 			"projectile": "projectiles/deus_missile",  # Necropathy's Deus Revenant missiles
 			"splash": 44.0,  # TUNING (not in GDD) px each missile bursts over
 			"shells": 3,  # TUNING (not in GDD)
-			"hold": 4,  # TUNING (not in GDD)
+			"hold": 5,  # TUNING (not in GDD)
 		},
-		"recipe": {"type": "any", "of": [{"type": "kills", "n": 30}, {"type": "damage", "n": 12000}]},  # TUNING (not in GDD) Necropathy Recoil Frame -> a record of the post
+		"recipe": {"type": "any", "of": [{"type": "kills", "n": 20}, {"type": "damage", "n": 4000}]},  # TUNING (not in GDD) Necropathy Recoil Frame -> a record of the post
 	},
 }

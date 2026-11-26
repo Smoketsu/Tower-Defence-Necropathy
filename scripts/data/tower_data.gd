@@ -585,7 +585,7 @@ const TOWERS: Dictionary = {
 		"cost": 60,  # TUNING (not in GDD) Necropathy: "a cheap ranged swarm"
 		"behavior": "grave_drone",
 		"range": 175.0,  # TUNING (not in GDD) Necropathy: "a little past the archers"
-		"damage": 9.0,  # TUNING (not in GDD) per dart
+		"damage": 10.0,  # TUNING (not in GDD) per dart
 		"interval": 0.75,  # TUNING (not in GDD)
 		"target": "first",
 		"projectile": "projectiles/scrap_bolt", "projectile_speed": 520.0,  # TUNING (not in GDD) bone darts
@@ -607,9 +607,9 @@ const TOWERS: Dictionary = {
 		"interval": 1.4,  # TUNING (not in GDD) s between strikes (the gun scales with it)
 		"target": "first",
 		"bodies": 1,
-		"body_hp": 420.0,  # TUNING (not in GDD) a war walker's frame (Abomination 350, Golem 500)
-		"hold": 3,  # TUNING (not in GDD)
-		"hits_all_held": false,
+		"body_hp": 440.0,  # TUNING (not in GDD) a war walker's frame (Abomination 350, Golem 500)
+		"hold": 4,  # TUNING (not in GDD) DECISIONS Y4: as many as the Abomination
+		"hits_all_held": true,  # TUNING (not in GDD) its steel feet stamp all it holds
 		"respawn": 11.0,  # TUNING (not in GDD)
 		"gun_interval": 1.7,  # TUNING (not in GDD) s between salvos at level 1 (Necropathy 1.7 s bursts)
 		"gun_mult": 0.7,  # TUNING (not in GDD) a shell's share of its strike damage

@@ -48,7 +48,7 @@ func _ready() -> void:
 	for m: String in Acts.map_order():
 		if not bool(Acts.row(Acts.act_of_map(m)).get("hidden", false)):
 			chain.append(m)
-	ok = ok and chain.size() >= 30 and chain[0] == "graveyard" and chain[chain.size() - 1] == "empyrean"
+	ok = ok and chain.size() >= 30 and chain[0] == "graveyard" and chain.has("empyrean")  # w2d: Part Three maps follow the Empyrean
 	for i in range(1, chain.size()):
 		if Meta.unlock_after(chain[i]) != chain[i - 1] or Meta.map_open(chain[i]):
 			push_error("meta_check: %s does not follow %s" % [chain[i], chain[i - 1]])
@@ -62,13 +62,18 @@ func _ready() -> void:
 	var before: Dictionary = (Meta.data["unlocks"] as Dictionary).duplicate(true)
 	Meta.migrate()
 	ok = ok and Meta.data["unlocks"] == before
-	# Every act tower opens with its finale cleared; the Empyrean (the last map) is not cleared yet,
-	# so the Bound Ophan's unlock is met only once it is (w2c-int).
+	# Every act tower opens with its finale cleared; the last campaign map is not cleared yet,
+	# so its act's towers open only once it is (w2c-int; w2d-empire: the Iron Citadel opens
+	# the Grave Drone and the Iron Revenant).
 	for tw: String in ["powder_wraith", "blood_spawn", "fallen_hero", "bound_oni", "draugr_thane", "ushabti_sentinel", "myrmidon_shade", "bound_succubus", "archfiend"]:
 		ok = ok and Unlocks.tower_open(tw) and (Meta.data["unlocks"]["towers"] as Array).has(tw)
-	var ophan: Dictionary = TowerData.TOWERS["bound_ophan"]["unlock"]  # The Empyrean's boss opens it.
-	ok = ok and not Unlocks.met(ophan)
-	(Meta.data["maps"]["cleared"] as Array).append("empyrean")
-	ok = ok and Unlocks.met(ophan)
+	ok = ok and Unlocks.met(TowerData.TOWERS["bound_ophan"]["unlock"])
+	var last := chain[chain.size() - 1]  # The last campaign map (not cleared by the loop).
+	for tw: String in TowerData.ORDER:
+		var u: Dictionary = TowerData.TOWERS[tw].get("unlock", {})
+		if String(u.get("map", "")) == last:
+			ok = ok and not Unlocks.met(u)
+	(Meta.data["maps"]["cleared"] as Array).append(last)
+	ok = ok and Unlocks.met(TowerData.TOWERS["grave_drone"]["unlock"]) and Unlocks.met(TowerData.TOWERS["iron_revenant"]["unlock"])
 	print("META CHECK OK" if ok else "META CHECK FAILED")
 	get_tree().quit(0 if ok else 1)

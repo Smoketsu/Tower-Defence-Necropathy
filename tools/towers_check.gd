@@ -70,6 +70,7 @@ func _ready() -> void:
 	_pantheon_checks()
 	_inferno_checks()
 	_host_checks()
+	_empire_checks()
 	print("TOWERS CHECK %s %s" % ["PASS" if _fails.is_empty() else "FAIL", ",".join(_fails)])
 	get_tree().quit(0 if _fails.is_empty() else 1)
 
@@ -882,3 +883,83 @@ func _host_checks() -> void:
 	_check("throne rims", TdCombat.damage_enemy(game, th, 1000.0, {"source": "check", "dot": true}) < 400.0)
 	th.vars["core_until"] = game.time + 5.0
 	_check("throne core", is_equal_approx(TdCombat.damage_enemy(game, th, 1000.0, {"source": "check", "dot": true}), 1000.0))
+
+
+## Act XII (w2d-empire): the Line of Fire and the Lock-On, the act towers, their
+## evolutions and synergies, the act spells, Deus Ex Machina's shield and Kestrel's charge.
+func _empire_checks() -> void:
+	var loadout: Array[String] = ["death_ray", "hollow_puppet", "scrap_swarm"]
+	var game := TdGame.new()
+	game.setup("wastes", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(game)
+	game.economy.earn(50000, "test_bonus")
+	var lof: MapRule = game.act_rule
+	_check("line of fire loaded", lof != null and lof.has_method("paint"))
+	# Marching fire: a Line Trooper on the road disables the nearest tower.
+	var arch := game.spot_by_id("plot:3")
+	game.build(arch, "archer")
+	var tr := _enemy_at(game, "empire_line_trooper", Vector2(780, 150))
+	tr.freeze_until = 0.0
+	tr.speed = 0.0
+	_run(game, 4.0)
+	_check("rifle disables a tower", int(game.hostile.counts["hit_tower"]) > 0 and arch.tower.disabled_until > 0.0)
+	if tr.alive:
+		game.remove_enemy(tr, false)
+	# Lock-On: a Spotter paints the tower, then the rail slug flies.
+	var a2 := game.spot_by_id("plot:1")
+	game.build(a2, "archer")
+	var sp := _enemy_at(game, "empire_spotter", Vector2(380, 150))
+	sp.freeze_until = 0.0
+	sp.speed = 0.0
+	_run(game, 2.3)
+	_check("lock-on painted", (lof.get("locks") as Array).size() > 0)
+	_run(game, 2.5)
+	_check("lock-on fired", int(lof.get("counts")["fired"]) > 0)
+	if sp.alive:
+		game.remove_enemy(sp, false)
+	# The act towers: the Wraith Drone's darts, the Iron Revenant's slowing shells and its body.
+	var wd := _maxed(game, "plot:5", "grave_drone")
+	_check("wraith drone set", wd.evolution == "wraith_drone" and int(wd.stats["feathers"]) == 3 and int(wd.stats["pierce"]) == 1)
+	var fw := _maxed(game, "plot:6", "frost_wraith")
+	_check("overclock active", wd.synergies.any(func(p: Array) -> bool: return p[0] == "overclock") or fw.synergies.any(func(p: Array) -> bool: return p[0] == "overclock"))
+	var rev_spot := game.spot_by_id("post:4")
+	game.build(rev_spot, "iron_revenant")
+	var rev := rev_spot.tower
+	var foe := _enemy_at(game, "empire_aegis_bot", Vector2(700, 600))
+	foe.max_hp = 1.0e6
+	foe.hp = foe.max_hp
+	_run(game, 3.0)
+	_check("revenant salvos", int(rev.vars.get("salvos", 0)) > 0 and foe.hp < foe.max_hp and foe.slow_until > game.time - 0.5)
+	game.sell(rev_spot)
+	var dr := _maxed(game, "post:4", "iron_revenant")
+	_check("deus revenant set", dr.evolution == "deus_revenant" and float(dr.stats["splash"]) > 0.0 and int(dr.stats["shells"]) == 3)
+	var war := _maxed(game, "post:2", "warrior")
+	_check("recoil frame active", dr.synergies.any(func(p: Array) -> bool: return p[0] == "recoil_frame") or war.synergies.any(func(p: Array) -> bool: return p[0] == "recoil_frame"))
+	# The act spells.
+	var hp := foe.hp  # Before the spells.
+	var pup := _enemy_at(game, "empire_line_trooper", Vector2(640, 600))
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	_check("cast death_ray", game.cast_spell(0, foe.position))
+	_check("cast hollow_puppet", game.cast_spell(1, pup.position))
+	var charmed := foe if foe.hidden_from_towers() else pup  # The strongest foe near the tap.
+	_check("puppet charmed", charmed.hidden_from_towers() and int(game.stats.get("puppets", 0)) == 1)
+	_check("cast scrap_swarm", game.cast_spell(2, foe.position))
+	_run(game, 2.0)
+	_check("ray and swarm strike", int(game.stats.get("ray_hits", 0)) > 0 and int(game.stats.get("swarm_bolts", 0)) > 0 and (foe.hp < hp or not foe.alive))
+	_run(game, 8.0)
+	_check("puppet dies", not charmed.alive)
+	for e: TdEnemy in [foe, pup]:
+		if e.alive:
+			game.remove_enemy(e, false)
+	# Deus Ex Machina: the Siege Core takes nothing while a Shield Drone flies.
+	var deus := game.spawn_at("empire_deus", "main", 1, 0.0, 0.0)
+	deus.hp = deus.max_hp * 0.55
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	_check("siege core drones", int(deus.vars["phase"]) == 2 and deus.speed == 0.0)
+	_check("siege core shielded", TdCombat.damage_enemy(game, deus, 500.0, {"source": "check", "dot": true}) <= 0.0)
+	game.remove_enemy(deus, false)
+	# Kestrel's charge breaks on a heavy body.
+	var k := game.spawn_at("empire_kestrel", "main", 1, 0.0, 0.0)
+	k.hp = k.max_hp * 0.2
+	_run(game, 0.1)  # One phase a step.
+	_check("kestrel blades", int(k.vars["phase"]) == 3 and String(k.vars.get("sprite", "")) == "bosses/kestrel_blades")
