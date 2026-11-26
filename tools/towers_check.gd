@@ -59,6 +59,7 @@ func _ready() -> void:
 	_court_checks()
 	_city_checks()
 	_shogun_checks()
+	_inferno_checks()
 	print("TOWERS CHECK %s %s" % ["PASS" if _fails.is_empty() else "FAIL", ",".join(_fails)])
 	get_tree().quit(0 if _fails.is_empty() else 1)
 
@@ -438,3 +439,82 @@ func _shogun_checks() -> void:
 	# The Shogun: guarded while his regiments march.
 	var sg := game.spawn_at("shogun", "main", 1, 0.0, 0.0)
 	_check("shogun guarded", TdCombat.damage_enemy(game, sg, 1000.0, {"source": "check", "dot": true}) < 200.0)
+
+
+
+## w2c-inferno: the Archfiend's burn and breath, the Bound Succubus's charm and
+## weaken, the evolutions and synergies, the body charm and its cleanse, the
+## Portals rule (open, squads, seal by a body and by Brimstone), the Hell Pits
+## and the act spells.
+func _inferno_checks() -> void:
+	var loadout: Array[String] = ["brimstone", "tempt", "fall_from_grace"]
+	var game := TdGame.new()
+	game.setup("burning_gate", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(game)
+	game.economy.earn(50000, "test_bonus")
+	var rule: MapRule = game.act_rule
+	_check("portals rule loaded", rule != null and rule.has_method("open_pit"))
+	# Archfiend: burns what it strikes, breathes fire every third strike.
+	var af := game.spot_by_id("post:2")
+	game.build(af, "archfiend")
+	var held: Array[TdEnemy] = []  # Enemies walked into it.
+	for i in 2:
+		var e := game.spawn_at("damned_soul", "main", 1, af.road_dist - 50.0 - float(i) * 6.0, 0.0)
+		e.max_hp = 1.0e6
+		e.hp = e.max_hp
+		held.append(e)
+	_run(game, 6.0)
+	_check("archfiend holds", af.tower.block.bodies[0].held.size() >= 1)
+	_check("archfiend burns", held.any(func(e: TdEnemy) -> bool: return not e.dots.is_empty()))
+	_check("archfiend breathes", int(af.tower.vars.get("breaths", 0)) > 0)
+	var prince := _maxed(game, "post:4", "archfiend")
+	_check("prince of hell set", prince.evolution == "prince_of_hell" and int(prince.stats["breath_every"]) == 2)
+	var mage := _maxed(game, "plot:11", "mage")
+	_check("pride active", prince.synergies.any(func(p: Array) -> bool: return p[0] == "pride") or mage.synergies.any(func(p: Array) -> bool: return p[0] == "pride"))
+	# A tempted body: lets go, holds nobody, a heal cleanses it.
+	var b: BlockBody = af.tower.block.bodies[0]
+	TdCombat.charm_body(game, b, 5.0, 0.7)
+	_check("charmed body lets go", b.held.is_empty() and af.tower.block.free_body(held[0]) == null)
+	TdCombat.heal_body(game, b, 1.0)
+	_check("heal cleanses", game.time >= b.charm_until)
+	for e: TdEnemy in held:
+		game.remove_enemy(e, false)
+	# Bound Succubus: kisses weaken, a charm turns a foe on its own.
+	var bs := _maxed(game, "plot:6", "bound_succubus")
+	_check("lilim matriarch set", bs.evolution == "lilim_matriarch" and int(bs.stats["charm_count"]) == 2)
+	var cat := _maxed(game, "plot:5", "corpse_catapult")
+	_check("velvet chains active", bs.synergies.any(func(p: Array) -> bool: return p[0] == "velvet_chains"))
+	var k1 := game.spawn_at("hell_knight", "river", 1, 120.0, 0.0)
+	var k2 := game.spawn_at("damned_soul", "river", 1, 126.0, 0.0)
+	for e: TdEnemy in [k1, k2]:
+		e.max_hp = 1.0e6
+		e.hp = e.max_hp
+	_run(game, 2.0)
+	_check("succubus charms", int(bs.vars.get("charms", 0)) > 0 and not game.can_target(cat, k1))
+	_check("kiss weakens", game.time < k2.weaken_until or game.time < k1.weaken_until)
+	game.remove_enemy(k1, false)
+	game.remove_enemy(k2, false)
+	# Portals: one opened on the road pours squads; a Brimstone on it seals it.
+	var at: Vector2 = (game.roads["main"] as Road).point_at(250.0)
+	_check("portal opens", bool(rule.call("open_portal", at, [["damned_soul", 1]], 1.0, 3)))
+	_run(game, 3.0)
+	_check("portal squads", int(rule.get("counts")["squads"]) > 0)
+	_check("cast brimstone seals", game.cast_spell(0, at) and int(rule.get("counts")["spell_sealed"]) == 1)
+	# A portal opening on a post is barred at once.
+	var post1 := game.spot_by_id("post:1")
+	game.build(post1, "warrior")
+	_check("post bars portal", not bool(rule.call("open_portal", post1.position, [["damned_soul", 1]], 1.0, 3)))
+	# A Hell Pit burns the body standing in it.
+	var dmg := float(rule.get("pit_body_damage"))
+	rule.call("open_pit", post1.position, 40.0, 3.0, 0.1)
+	_run(game, 1.0)
+	_check("pit burns bodies", float(rule.get("pit_body_damage")) > dmg)
+	# The other two act spells.
+	var foe := _enemy_at(game, "hell_knight", Vector2(700, 480))
+	foe.max_hp = 1.0e6
+	foe.hp = foe.max_hp
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	_check("cast tempt", game.cast_spell(1, foe.position) and float(foe.vars.get("k_charm_until", 0.0)) > game.time)
+	_check("cast fall_from_grace", game.cast_spell(2, foe.position))
+	_run(game, 1.5)
+	_check("grace star falls", int(game.stats.get("grace_stars", 0)) > 0 and int(game.stats.get("brimstone_stones", 0)) > 0)
