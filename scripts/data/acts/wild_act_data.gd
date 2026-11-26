@@ -419,7 +419,7 @@ const ORDERS: Dictionary = {
 	},
 	"year_kit": {
 		"spells": true,
-		"loadout": ["wild_hunt", "glamour", "root_and_rot"],
+		"loadout": ["wild_hunt", "root_and_rot", "glamour"],  # the Gravecaller keeps Shadow Bolt in slot 1: Glamour drops out (towers_check casts it)
 		"steps_by_map": {
 			"greenwood": [  # the default order with its first Catapult an Ossuary Oak, evolved after its fifth level (DECISIONS Y5)
 				{"do": "build", "spot": "plot:0", "tower": "archer"},
