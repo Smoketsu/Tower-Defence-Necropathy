@@ -585,11 +585,11 @@ const TOWERS: Dictionary = {
 		"cost": 115,  # TUNING (not in GDD)
 		"behavior": "ghost_saucer",
 		"range": 150.0,  # TUNING (not in GDD)
-		"damage": 22.0,  # TUNING (not in GDD) to each foe the beam crosses
+		"damage": 30.0,  # TUNING (not in GDD) DECISIONS T13.8 (was 22) to each foe the beam crosses
 		"interval": 1.5,  # TUNING (not in GDD)
 		"target": "first",
 		"beam_len": 170.0,  # TUNING (not in GDD) px of one beam from its hull (Necropathy beam_length)
-		"beam_w": 12.0,  # TUNING (not in GDD) px either side of the beam it strikes (plus the foe's radius)
+		"beam_w": 16.0,  # TUNING (not in GDD) px either side of the beam it strikes (plus the foe's radius)
 		"beams": 1, "beam_spread": 0.0,  # TUNING (not in GDD) Black Mothership: 3 beams fanned this many rad apart
 		"lift_every": 4,  # TUNING (not in GDD) beams between two lifts
 		"lifts": 1,  # TUNING (not in GDD) fodder foes lifted at once (Black Mothership 2)
