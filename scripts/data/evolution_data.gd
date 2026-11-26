@@ -234,6 +234,6 @@ const EVOLUTIONS: Dictionary = {
 			"reassemble_radius": 90.0,  # TUNING (not in GDD)
 			"stagger_time": 1.6,  # TUNING (not in GDD)
 		},
-		"recipe": {"type": "any", "of": [{"type": "kills", "n": 35}, {"type": "elite_kills", "n": 8}]},  # TUNING (not in GDD) Necropathy Answering Words -> a record of slain foes
+		"recipe": {"type": "any", "of": [{"type": "kills", "n": 22}, {"type": "elite_kills", "n": 5}]},  # TUNING (not in GDD) Necropathy Answering Words -> a record of slain foes
 	},
 }

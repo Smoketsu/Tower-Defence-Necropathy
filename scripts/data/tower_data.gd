@@ -433,11 +433,11 @@ const TOWERS: Dictionary = {
 		"cost": 120,  # TUNING (not in GDD)
 		"behavior": "ushabti_sentinel",
 		"range": 40.0,  # TUNING (not in GDD)
-		"damage": 15.0,  # TUNING (not in GDD)
+		"damage": 18.0,  # TUNING (not in GDD)
 		"interval": 1.2,  # TUNING (not in GDD)
 		"target": "first",
 		"bodies": 2,
-		"body_hp": 260.0,  # TUNING (not in GDD) lighter than the Warrior pair, but it gets up again
+		"body_hp": 300.0,  # TUNING (not in GDD) lighter than the Warrior pair, but it gets up again
 		"hold": 2,  # TUNING (not in GDD)
 		"hits_all_held": false,
 		"respawn": 12.0,  # TUNING (not in GDD)
