@@ -210,10 +210,11 @@ every later tower / spell / ultimate / character in the menus.
 | VIII the Olympian Republic (`pantheon`, T8) | `pantheon_act_data.gd`; `rules/pantheon/pantheon_rules.gd` (Phalanx shield fronts, Wrath of the Gods on both armies, Glory; meter top-left) | ilion, olympus, underworld | Polyphemus, Ares, Cerberus / Achilles, Zeus, Hades | Myrmidon Shades -> Legion of Tartarus, Hammer and Anvil | Paris's Arrow, Stolen Thunder, River Styx (Doomed Prophetess, Oathbreaker, Ferrywoman) |
 | IX the Inferno (`inferno`, T9) | `inferno_act_data.gd`; `rules/inferno/portals.gd` (portals marked a wave ahead, barred by a post / Bone Wall or sealed by Brimstone; Hell Pits; Temptation; cue top-left) | burning_gate, silk_palace, pandemonium | the Gatekeeper, the Twin Succubi, the Seraph General / Moloch, Lilith, the Morning Star | Bound Succubus -> Lilim Matriarch, Velvet Chains; Archfiend -> Prince of Hell, Pride | Brimstone, Temptation (`tempt`), Fall from Grace (Furnace Priest, Succubus Queen, Fallen Saint) |
 | X the Celestial Host (`host`, T10) | `host_act_data.gd`; `rules/host/hallowed_light.gd` (sweeping shafts weaken towers out of the shade, Grace, Judgment; dial top-left) | silver_stair, wheel_of_thrones, empyrean (map key `clouds`) | Cherub of the Gate, Dominion of the Spheres, Herald of the Seventh Trumpet / Seraiel, the Throne, the Voice | Bound Ophan -> Throne of Bones, Turning Wheel | Flaming Sword, Wheel of Eyes, Revelation (Fallen Herald, Blind Saint, the Unveiled) |
+| XV the Turning Year (`wild`, T15) | `wild_act_data.gd`; `rules/wild/turning_year.gd` (the season turns every few waves: Spring thickets choke towers until tapped, Summer haste, Autumn sprouts, Winter chill; wheel top-right) | greenwood, fae_court (holds Summer), world_tree (twice as fast) | Huntsman of the Wild Hunt, the Winter Prince, the Gardener of Roots / the Stag King, the Summer Queen, the Green Mother (the Last Claim) | Ossuary Oak -> World-Root Warden, Heartwood | Wild Hunt, Glamour, Root and Rot (Horned Herald, Changeling Princess, Gravegardener) |
 
 Build orders: `<map>_default`, `<map>_weak`, and one kit order per act
 (`tide_kit`, `court_kit`, `shogunate_kit`, `norse_kit`, `dynasty_kit`,
-`pantheon_kit`, `inferno_kit`, `host_kit`: every map of the act; a map entry may
+`pantheon_kit`, `inferno_kit`, `host_kit`, `year_kit`: every map of the act; a map entry may
 be `{"base": order, "swap": [from, to]}`, DECISIONS Y5). Act runs print
 `act_rule=` / `hostile=`. `towers_check` has one `_<act>_checks()` per act.
 
@@ -252,8 +253,13 @@ be `{"base": order, "swap": [from, to]}`, DECISIONS Y5). Act runs print
   `judges_due()`, `boss_width` / `boss_live`, `host/lunge.gd` `line()` /
   `sweep_ring()`, `host/cherub.gd` `sweep()`, `host/ophan.gd` `roll_over()`.
 - HUD widgets of the acts sit in corners no road uses: top-left under the bar
-  (Escalation, Wrath, Hell cue, Host dial), top-right (Blood Moon cue, Scales),
-  bottom-left (Sun dial, Winter meter). One act per map, so they never meet.
+  (Escalation, Wrath, Hell cue, Host dial), top-right (Blood Moon cue, Scales,
+  the Turning Year's wheel), bottom-left (Sun dial, Winter meter).
+- Act XV (w2d-year): `rules/wild/turning_year.gd` `of(game)` / `plant(spot, sprout)`
+  (the one way a thicket grows) / `burn(i)` / `set_override(season, until)`;
+  `traits/wild/wild_kit.gd` `call_squad()` (squads at the wave's HP ramp),
+  `start_charge()` / `charge_step(e, game, dmg, posts)`, `stop_towers()`,
+  `plant_near()`; `traits/wild/spores.gd` `burst()`; causes `choked`, `rooted`. One act per map, so they never meet.
 - Autotest: one generic spell branch (any later spell on the leader), deferred
   evolve steps, `minibosses=` line, `--perf-wave=N`, the summary printed once
   (also on a timeout). Tools: `tools/gw_perf.js` (late-map frame time),
