@@ -18,8 +18,9 @@
 ##               swimmers (row args "sprite_sunk": the Bog Croc), which sink out
 ##               of sight there (vars "hidden_until", the one hidden test).
 ##   hole      — the Great Plain (map key "hole": [centre, radius]): herd beasts
-##               wade in and drink (`hole_slow`); a beast hurt THERE does not turn
-##               its herd: the herd BOLTS forward (`bolt_haste`) and never turns.
+##               wade in and drink (`hole_slow`); a herd hurt enough to turn while
+##               one of its beasts drinks THERE does not turn: it BOLTS forward
+##               (`bolt_haste`) and never turns (hit herds before the water).
 ##   meteors   — the Last Day (map key "meteors": true): a meteorite on a
 ##               telegraphed circle every `every` s (RULE "meteor"), on a tower
 ##               half the time (seeded) and on the road ahead of the leading foe
@@ -161,6 +162,8 @@ func herd_hurt(e: TdEnemy, amount: float) -> void:
 	if h.is_empty() or bool(h["turned"]) or bool(h["bolted"]) or bool(e.vars.get("turned", false)):
 		return
 	h["hurt"] = float(h["hurt"]) + amount
+	if float(h["hurt"]) < float(h["hp"]) * float(r()["turn_share"]):
+		return
 	if in_hole(e.position):
 		h["bolted"] = true
 		counts["bolted"] = int(counts["bolted"]) + 1
@@ -169,12 +172,11 @@ func herd_hurt(e: TdEnemy, amount: float) -> void:
 		game.banner("The herd bolts from the watering hole!")
 		EnemyTrait.note(game, "herds_bolted")
 		return
-	if float(h["hurt"]) >= float(h["hp"]) * float(r()["turn_share"]):
-		h["turned"] = true
-		counts["turned"] = int(counts["turned"]) + 1
-		for o: TdEnemy in _beasts(String(e.vars["herd"])):
-			_turn_beast(o)
-		game.banner("The herd turns back from your fire!")
+	h["turned"] = true
+	counts["turned"] = int(counts["turned"]) + 1
+	for o: TdEnemy in _beasts(String(e.vars["herd"])):
+		_turn_beast(o)
+	game.banner("The herd turns back from your fire!")
 
 
 ## Living beasts of herd `key`.

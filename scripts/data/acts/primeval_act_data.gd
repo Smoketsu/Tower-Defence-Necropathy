@@ -28,7 +28,7 @@ const KINDS: Dictionary = {
 	# A hunter: the pack raptor. Held, it LEAPS over the post once and rakes a body (Necropathy "pack leap over the first blocker").
 	"prim_razorclaw": {
 		"name": "Razorclaw", "sprite": "primeval/razorclaw", "rank": "fodder", "souls": 8,  # TUNING (not in GDD) soldier tier (X2, Part Three)
-		"hp": 110.0, "speed": 60.0, "armour": 1.0, "radius": 11.0,  # TUNING (not in GDD)
+		"hp": 110.0, "speed": 52.0, "armour": 1.0, "radius": 11.0,  # TUNING (not in GDD)
 		"damage": 8.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "primeval/pack_leap",
 		"args": {"windup": 1.0, "leap": 60.0, "rake": 16.0, "unhold": 0.5},  # TUNING (not in GDD) one leap a life
@@ -55,7 +55,7 @@ const KINDS: Dictionary = {
 		"hp": 1000.0, "speed": 34.0, "armour": 2.0, "radius": 24.0,  # TUNING (not in GDD)
 		"damage": 0.0, "attack_interval": 1.0,
 		"flying": false, "ignores_walls": true, "trait": "primeval/herd",
-		"args": {"radius": 90.0, "disable": 4.5, "body_radius": 40.0, "body_damage": 80.0},  # TUNING (not in GDD)
+		"args": {"radius": 80.0, "disable": 4.0, "body_radius": 40.0, "body_damage": 80.0},  # TUNING (not in GDD)
 	},
 	# A herd beast: a crested duckbill; smaller and quicker.
 	"prim_duckbill": {
@@ -63,7 +63,7 @@ const KINDS: Dictionary = {
 		"hp": 300.0, "speed": 50.0, "armour": 1.0, "radius": 16.0,  # TUNING (not in GDD)
 		"damage": 0.0, "attack_interval": 1.0,
 		"flying": false, "ignores_walls": true, "trait": "primeval/herd",
-		"args": {"radius": 72.0, "disable": 3.0, "body_radius": 32.0, "body_damage": 45.0},  # TUNING (not in GDD)
+		"args": {"radius": 64.0, "disable": 2.5, "body_radius": 32.0, "body_damage": 45.0},  # TUNING (not in GDD)
 	},
 	# A flier: a pterosaur clutching a stolen crystal; it flies over the posts (Necropathy "Skyraider").
 	"prim_skyraider": {
@@ -92,19 +92,19 @@ const KINDS: Dictionary = {
 	# A titan: a three-horned charger. Its CHARGE breaks through the posts; into a rock it is stunned.
 	"prim_horncharger": {
 		"name": "Horncharger", "sprite": "primeval/horncharger", "rank": "elite",
-		"hp": 720.0, "speed": 38.0, "armour": 3.0, "radius": 18.0,  # TUNING (not in GDD)
+		"hp": 540.0, "speed": 38.0, "armour": 3.0, "radius": 18.0,  # TUNING (not in GDD)
 		"damage": 16.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "primeval/charge",
-		"args": {"first": 3.0, "every": 10.0, "windup": 0.8, "time": 1.4, "speed_mult": 2.4, "gore": 40.0,
+		"args": {"first": 3.0, "every": 12.0, "windup": 0.8, "time": 1.4, "speed_mult": 2.4, "gore": 28.0,
 			"rock_r": 44.0, "rock_stun": 2.5},  # TUNING (not in GDD) Necropathy HornchargerKit: "a charge that runs into a rock leaves it stuck 2 s"
 	},
 	# A titan: an ankylosaur, flat armour 6, whose TAIL SWEEP strikes every body round it.
 	"prim_clubtail": {
 		"name": "Clubtail", "sprite": "primeval/clubtail", "rank": "elite",
-		"hp": 760.0, "speed": 30.0, "armour": 6.0, "radius": 18.0,  # TUNING (not in GDD) Necropathy: flat armour 5
+		"hp": 600.0, "speed": 30.0, "armour": 6.0, "radius": 18.0,  # TUNING (not in GDD) Necropathy: flat armour 5
 		"damage": 14.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "primeval/tail_sweep",
-		"args": {"first": 3.0, "every": 7.0, "windup": 0.8, "reach": 70.0, "body_damage": 34.0, "disable": 0.0},  # TUNING (not in GDD)
+		"args": {"first": 3.0, "every": 7.0, "windup": 0.8, "reach": 70.0, "body_damage": 22.0, "disable": 0.0},  # TUNING (not in GDD)
 	},
 	# A flier elite: a great pterosaur whose WING GUST stops the towers under it, then she lands to peck (hit her then).
 	"prim_stormwing": {
@@ -155,20 +155,20 @@ const KINDS: Dictionary = {
 	# Great Plain miniboss: Mother Clubtail, an armoured matriarch whose tail sweep stuns the towers round her.
 	"prim_mother_clubtail": {
 		"name": "Mother Clubtail", "sprite": "primeval/mother_clubtail", "rank": "miniboss",
-		"hp": 5200.0, "speed": 24.0, "armour": 8.0, "radius": 26.0,  # TUNING (not in GDD) X3
+		"hp": 3600.0, "speed": 20.0, "armour": 8.0, "radius": 26.0,  # TUNING (not in GDD) X3: under 4000, her sweep stuns towers
 		"damage": 24.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "primeval/tail_sweep",
-		"args": {"first": 3.0, "every": 6.5, "windup": 1.0, "reach": 100.0, "body_damage": 52.0, "disable": 1.4},  # TUNING (not in GDD)
+		"args": {"first": 3.0, "every": 6.5, "windup": 1.0, "reach": 100.0, "body_damage": 36.0, "disable": 1.4},  # TUNING (not in GDD)
 	},
 	# Great Plain boss: Old Ironbrow, the Horned Titan. The Charge breaks every post on its line and stuns him
 	# on a rock; every second charge his herd stampedes; the Break snaps a horn and he charges more often.
 	"prim_ironbrow": {
 		"name": "Old Ironbrow, the Horned Titan", "sprite": "primeval/ironbrow", "rank": "boss",
-		"hp": 12500.0, "speed": 24.0, "armour": 6.0, "radius": 30.0,  # TUNING (not in GDD)
+		"hp": 9000.0, "speed": 22.0, "armour": 6.0, "radius": 30.0,  # TUNING (not in GDD) his charges carry him past the posts: under the Voice
 		"damage": 34.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "primeval/ironbrow",
-		"args": {"first": 5.0, "every": 11.0, "every_broken": 7.0, "windup": 1.0, "time": 1.8, "speed_mult": 2.6, "gore": 70.0,
-			"rock_r": 50.0, "rock_stun": 3.0, "stunned_mult": 1.5, "herd_every": 2, "herd": [["prim_duckbill", 4]], "herd_gap": 0.7,
+		"args": {"first": 5.0, "every": 12.0, "every_broken": 8.0, "windup": 1.0, "time": 1.5, "speed_mult": 2.2, "gore": 60.0,
+			"rock_r": 50.0, "rock_stun": 7.5, "stunned_mult": 1.8, "herd_every": 2, "herd": [["prim_duckbill", 4]], "herd_gap": 0.7,
 			"break_hp": 0.4, "pose_time": 0.6},  # TUNING (not in GDD) Necropathy BossIronbrow / IronbrowData
 	},
 	# Last Day miniboss: Thunderwing, the Sky King, a giant pterosaur whose gusts clear a wide ring of towers.
@@ -708,15 +708,15 @@ const RULE: Dictionary = {
 	# comes (the group's delay must be at least that). Every beast tramples the towers it
 	# passes and knocks down the blocker bodies on its trail (traits/primeval/herd.gd).
 	"lead": 4.0,  # TUNING (not in GDD) s the dust line shows ahead of a herd (Necropathy: 2 s; a TD map needs longer to react)
-	"turn_share": 0.25,  # TUNING (not in GDD) share of a herd's spawned HP that, dealt to it, turns the whole herd back (owner rule: "runs away from what hurts it")
-	"mark_r": 90.0,  # TUNING (not in GDD) px from a trail within which a plot is marked as in the herd's path (drawn; the beasts' radius decides)
+	"turn_share": 0.18,  # TUNING (not in GDD) share of a herd's spawned HP that, dealt to it, turns the whole herd back (owner rule: "runs away from what hurts it")
+	"mark_r": 80.0,  # TUNING (not in GDD) px from a trail within which a plot is marked as in the herd's path (drawn; the beasts' radius decides)
 	# The Fern Basin's tar seeps (map key "tar": [[centre px, radius px], ...]): every
 	# ground walker in one is slowed (not the swimmers: Bog Crocs sink out of sight there).
 	"tar_slow": 0.5,  # TUNING (not in GDD) speed x of a walker in a tar seep
 	"tick": 0.25,  # TUNING (not in GDD) s between two applications of the tar / the watering hole
 	# The Great Plain's watering hole (map key "hole": [centre px, radius px]): herd beasts
-	# wade in and drink (slowed hard); a beast HURT there does not turn: the herd BOLTS
-	# forward, hasted, and no longer turns.
+	# wade in and drink (slowed hard); a herd hurt enough to turn while its beast drinks
+	# there BOLTS forward instead, hasted, and no longer turns.
 	"hole_slow": 0.2,  # TUNING (not in GDD) speed x of a herd beast drinking
 	"bolt_haste": 1.8,  # TUNING (not in GDD) speed x of a bolting herd
 	# The Last Day's Fire from the Sky (map key "meteors": true): a meteorite falls on a

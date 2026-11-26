@@ -3,7 +3,7 @@
 ## of red walls in the east and the watering hole in the middle. Two paths
 ## come in from the west, meet in the middle and wind east to the necromancer's
 ## gate at the canyon's mouth. Two herd trails cross the plain (off-road,
-## exits): the long trail east to west past the watering hole, and the canyon
+## exits): the long trail from the east to the watering hole and south, and the canyon
 ## trail north to south. At the WATERING HOLE herd beasts wade in to drink; a
 ## beast hurt there bolts its whole herd forward instead of turning it. Rocks
 ## beside the road stop a charge (MAP "rocks"): a Horncharger or Ironbrow that
@@ -24,7 +24,7 @@ const MAP: Dictionary = {
 		["obstacles/primeval_rock_m", Vector2(1160, 380)], ["obstacles/primeval_canyon_wall_m_v", Vector2(1250, 330)],
 		["obstacles/primeval_canyon_wall_m", Vector2(1010, 120)], ["obstacles/primeval_canyon_wall_m_v", Vector2(1250, 560)],
 		["obstacles/primeval_fossil_m", Vector2(120, 380)], ["obstacles/primeval_rock_m", Vector2(60, 690)],
-		["obstacles/primeval_fossil_m_v", Vector2(660, 690)], ["obstacles/primeval_canyon_wall_m", Vector2(860, 690)],
+		["obstacles/primeval_fossil_m_v", Vector2(660, 690)], ["obstacles/primeval_rock_m", Vector2(900, 662)],
 	],
 	"roads": {
 		"main": {
@@ -38,11 +38,11 @@ const MAP: Dictionary = {
 			"next": "main", "next_at": 809.7, "entrance": true,
 		},
 		"long_trail": {
-			"points": [Vector2(1320, 450), Vector2(980, 450), Vector2(820, 420), Vector2(560, 450), Vector2(300, 430), Vector2(-60, 470)],
+			"points": [Vector2(1320, 450), Vector2(980, 450), Vector2(820, 420), Vector2(560, 450), Vector2(560, 560), Vector2(600, 780)],
 			"next": "", "next_at": 0.0, "entrance": false, "off_road": true, "exit": true,
 		},
 		"long_trail_back": {
-			"points": [Vector2(-60, 470), Vector2(300, 430), Vector2(560, 450), Vector2(820, 420), Vector2(980, 450), Vector2(1320, 450)],
+			"points": [Vector2(600, 780), Vector2(560, 560), Vector2(560, 450), Vector2(820, 420), Vector2(980, 450), Vector2(1320, 450)],
 			"next": "", "next_at": 0.0, "entrance": false, "off_road": true, "exit": true,
 		},
 		"canyon_trail": {
@@ -56,7 +56,7 @@ const MAP: Dictionary = {
 	},
 	"herd_trails": {"long_trail": "long_trail_back", "canyon_trail": "canyon_trail_back"},  # Herd trails and the roads a turned herd runs back along.
 	"hole": [Vector2(560, 450), 56.0],  # TUNING (not in GDD) the watering hole: centre px, radius px
-	"rocks": [Vector2(400, 450), Vector2(800, 470), Vector2(1160, 380)],  # The rocks beside the road a charge breaks on (the obstacles of the same place).
+	"rocks": [Vector2(400, 450), Vector2(800, 470), Vector2(1160, 380), Vector2(900, 662)],  # The rocks beside the road a charge breaks on (the obstacles of the same place).
 	"gate": Vector2(1218, 140),
 	"plots": [
 		Vector2(180, 520), Vector2(260, 260), Vector2(430, 250), Vector2(460, 540), Vector2(640, 250), Vector2(660, 540),
@@ -66,16 +66,16 @@ const MAP: Dictionary = {
 	"posts": [Vector2(160, 600), Vector2(200, 170), Vector2(360, 460), Vector2(760, 470), Vector2(1120, 420)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 3.5,  # TUNING (not in GDD) Part Three, the act's middle map
+	"wave_hp_end": 2.5,  # TUNING (not in GDD) its roster (charges, sweeps, herds) carries the difficulty; 2.7 still wins (cliff check)
 	"rule": "",
 	"act_rule": "primeval/stampedes",
 	"build_order": "great_plain_default",
 	"weak_order": "great_plain_weak",
 	"waves": [
 		{"banner": "The Dust Flats: the plain is alive", "groups": [{"kind": "prim_scuttler", "count": 12, "spacing": 0.5}, {"kind": "prim_razorclaw", "count": 4, "spacing": 1.3, "delay": 2.0, "road": "north"}]},
-		{"banner": "", "groups": [{"kind": "prim_razorclaw", "count": 8, "spacing": 1.0}, {"kind": "prim_frill_spitter", "count": 4, "spacing": 1.4, "delay": 3.0, "road": "north"}]},
-		{"banner": "A herd on the long trail: hurt it before it reaches your plots and it turns back", "groups": [{"kind": "prim_duckbill", "count": 4, "spacing": 1.2, "delay": 5.0, "road": "long_trail"}, {"kind": "prim_scuttler", "count": 14, "spacing": 0.45}, {"kind": "prim_razorclaw", "count": 4, "spacing": 1.2, "delay": 3.0, "road": "north"}]},
-		{"banner": "The watering hole: a beast hurt while it drinks sends its herd bolting on", "groups": [{"kind": "prim_frill_spitter", "count": 6, "spacing": 1.2}, {"kind": "prim_razorclaw", "count": 6, "spacing": 1.0, "delay": 2.0, "road": "north"}, {"kind": "prim_duckbill", "count": 3, "spacing": 1.2, "delay": 6.0, "road": "long_trail"}]},
+		{"banner": "", "groups": [{"kind": "prim_razorclaw", "count": 6, "spacing": 1.0}, {"kind": "prim_frill_spitter", "count": 3, "spacing": 1.4, "delay": 3.0, "road": "north"}]},
+		{"banner": "A herd on the long trail: hurt it before it reaches your plots and it turns back", "groups": [{"kind": "prim_duckbill", "count": 3, "spacing": 1.2, "delay": 5.0, "road": "long_trail"}, {"kind": "prim_scuttler", "count": 12, "spacing": 0.45}, {"kind": "prim_razorclaw", "count": 4, "spacing": 1.2, "delay": 3.0, "road": "north"}]},
+		{"banner": "The watering hole: a beast hurt while it drinks sends its herd bolting on", "groups": [{"kind": "prim_frill_spitter", "count": 6, "spacing": 1.2}, {"kind": "prim_razorclaw", "count": 6, "spacing": 1.0, "delay": 2.0, "road": "north"}]},
 		{"banner": "Hornchargers break through your posts, but a rock stops them cold", "groups": [{"kind": "prim_horncharger", "count": 2, "spacing": 5.0}, {"kind": "prim_scuttler", "count": 14, "spacing": 0.45, "delay": 2.0, "road": "north"}]},
 		{"banner": "", "groups": [{"kind": "prim_skyraider", "count": 8, "spacing": 0.8}, {"kind": "prim_razorclaw", "count": 8, "spacing": 0.9, "delay": 2.0}, {"kind": "prim_duckbill", "count": 4, "spacing": 1.1, "delay": 5.0, "road": "canyon_trail"}]},
 		{"banner": "Clubtails: armour plates and a tail that sweeps your posts", "groups": [{"kind": "prim_clubtail", "count": 2, "spacing": 5.0, "road": "north"}, {"kind": "prim_frill_spitter", "count": 6, "spacing": 1.1, "delay": 2.0}, {"kind": "prim_scuttler", "count": 12, "spacing": 0.4, "delay": 4.0}]},
