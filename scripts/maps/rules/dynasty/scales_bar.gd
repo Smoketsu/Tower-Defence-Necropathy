@@ -2,7 +2,7 @@
 ## (rules/dynasty/rebirth.gd): in the screen's top-right corner, under the top
 ## bar, the great scales sprite over a bar whose needle shows the balance
 ## (left, soul-teal: the player's side; right, gold: the Dynasty's), the two
-## marks past which it tips the run, and a label ("Scales: Dynasty +12").
+## marks past which it tips the run, and a short label ("Dynasty +12", kept right of the roads).
 ## Textures and rects only; redrawn when the rule tips it. Drawing only.
 ## Numbers in the act data's LOOK (scales_*) and RULE (scale_max, scale_mark).
 extends Control
@@ -40,7 +40,6 @@ func _draw() -> void:
 	draw_rect(Rect2(w * 0.5 * (1.0 + mark / mx), y, w * 0.5 * (1.0 - mark / mx), 6), Color(lk["gold"], 0.6))
 	var nx := w * 0.5 * (1.0 + s / mx)  # Needle x (px).
 	draw_rect(Rect2(nx - 2, y - 3, 4, 12), Color.WHITE)
-	var side := "Dynasty" if s > 0.0 else ("Necromancer" if s < 0.0 else "level")
-	_label.text = "Scales: %s %+d" % [side, int(s)] if s != 0.0 else "Scales: level"
+	_label.text = ("Dynasty %+d" if s > 0.0 else "Necro %+d") % int(s) if s != 0.0 else "Level"
 	_label.add_theme_color_override("font_color", lk["gold"] if s > 0.0 else lk["player_side"])
 	_label.position = Vector2(w - _label.size.x, y + 8.0)

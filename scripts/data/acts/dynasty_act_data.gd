@@ -723,6 +723,7 @@ const LOOK: Dictionary = {
 	"link_a": 0.55,  # TUNING (not in GDD) its alpha
 	"timer_w": 20.0,  # TUNING (not in GDD) px of a Name's rise bar
 	"timer_y": 12.0,  # TUNING (not in GDD) px below the Name it hangs
+	"jar_glow": 26.0,  # TUNING (not in GDD) px of the gold glow under every standing jar
 	"mark_r": 30.0,  # TUNING (not in GDD) px of the marked jar's ring
 	"tap_radius": 22.0,  # TUNING (not in GDD) px around a jar a tap picks it
 	"storm_a": 0.42,  # TUNING (not in GDD) the sand band's alpha

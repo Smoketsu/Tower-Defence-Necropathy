@@ -1,7 +1,7 @@
 ## DynastyLayer: the look of Rebirth and the Names (rules/dynasty/rebirth.gd),
 ## a node under game.world drawn UNDER the units (z -2): every Name's fallen
 ## body (a corpse decal), the gold thread from its jar to it and its rise timer
-## (a small bar filling up); the marked jar's pulsing gold ring; the sand band
+## (a small bar filling up); a gold glow under every standing jar; the marked jar's pulsing gold ring; the sand band
 ## of a storm (soft sand textures across the map's height; a faint strip at the
 ## edge while it gathers). It takes taps on a jar (mark / let go). Textures and
 ## rects only, redrawn every frame (a handful of items). Drawing only: it never
@@ -50,6 +50,10 @@ func _draw() -> void:
 		var o := n.position + Vector2(-w * 0.5, float(lk["timer_y"]))  # Bar corner.
 		draw_rect(Rect2(o, Vector2(w, 3.0)), Color(0, 0, 0, 0.7))
 		draw_rect(Rect2(o, Vector2(w * f, 3.0)), gold.lerp(Color(1.0, 0.3, 0.2), f))
+	var jr := float(lk["jar_glow"])  # Glow under every standing jar, so a small jar reads (px).
+	for p: Array in rule.call("live_jars"):
+		var jp: Vector2 = (p[0] as TdEnemy).position
+		draw_texture_rect(_soft, Rect2(jp - Vector2(jr, jr * 0.6), Vector2(jr * 2.0, jr * 1.2)), false, Color(gold, 0.45))
 	var m: TdEnemy = rule.get("marked")
 	if m != null and TdEnemy.valid(m, int(rule.get("marked_gen"))) and _ring != null:
 		var pr := float(lk["mark_r"]) * (1.0 + 0.12 * sin(g.time * 6.0))  # Pulsing radius (px).

@@ -12,7 +12,7 @@ extends RefCounted
 const MAP: Dictionary = {
 	"id": "necropolis",
 	"name": "The Necropolis of Sand",
-	"floor": "tiles/necropolis_tomb_road",
+	"floor": "tiles/necropolis_dunes",
 	"decals": [],
 	"obstacles": [
 		["obstacles/dyn_obelisk_l", Vector2(60, 90)], ["obstacles/dyn_tomb_l", Vector2(840, 80)],
