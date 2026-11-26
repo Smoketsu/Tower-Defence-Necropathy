@@ -50,7 +50,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(600, 130), Vector2(600, 610), Vector2(960, 220), Vector2(960, 520), Vector2(450, 370), Vector2(220, 370)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 2.5,  # TUNING (not in GDD) Part Three: the act's hardest
+	"wave_hp_end": 2.65,  # TUNING (not in GDD) Part Three: the act's hardest
 	"rule": "",
 	"act_rule": "empire/line_of_fire",
 	"build_order": "citadel_default",

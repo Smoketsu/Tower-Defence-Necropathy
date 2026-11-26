@@ -49,7 +49,7 @@ const KINDS: Dictionary = {
 		"damage": 8.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "empire/spotter",
 		"args": {"first": 2.0, "every": 9.0, "range": 260.0,
-			"shot": {"disable": 2.5, "damage": 40.0, "speed": 900.0, "cause": "shot", "look": "rail"}},  # TUNING (not in GDD) Necropathy "heavy rail shot"
+			"shot": {"disable": 2.0, "damage": 40.0, "speed": 900.0, "cause": "shot", "look": "rail"}},  # TUNING (not in GDD) Necropathy "heavy rail shot"
 	},
 	# Elite: a low four-legged walker with a mortar tube; its shells fly OVER the posts onto a telegraphed circle.
 	"empire_mortar_walker": {
@@ -94,7 +94,7 @@ const KINDS: Dictionary = {
 	# Elite flyer: the armoured kill-drone; fires at towers as it passes over the posts.
 	"empire_kill_drone": {
 		"name": "Kill-Drone", "sprite": "empire/kill_drone", "rank": "elite",
-		"hp": 260.0, "speed": 48.0, "armour": 3.0, "radius": 12.0,  # TUNING (not in GDD)
+		"hp": 200.0, "speed": 48.0, "armour": 3.0, "radius": 12.0,  # TUNING (not in GDD)
 		"damage": 6.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": true, "ignores_walls": true, "trait": "empire/rifle",
 		"args": {"range": 150.0, "interval": 4.0, "target": "tower", "damage": 8.0, "disable": 1.0, "cause": "shot", "speed": 460.0, "look": "zap"},  # TUNING (not in GDD)
@@ -133,7 +133,7 @@ const KINDS: Dictionary = {
 	# Scrap Wastes miniboss: the Trojan Horse, a horse-shaped drone tank.
 	"empire_trojan_horse": {
 		"name": "The Trojan Horse", "sprite": "empire/trojan_horse", "rank": "miniboss",
-		"hp": 4600.0, "speed": 24.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD) X3: 4000-6000
+		"hp": 4000.0, "speed": 22.0, "armour": 5.0, "radius": 26.0,  # TUNING (not in GDD) X3: 4000-6000
 		"damage": 22.0, "attack_interval": 1.6,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "empire/trojan",
 		"args": {"volley_first": 3.0, "volley_every": 8.0, "volley_count": 4, "volley_range": 280.0,
@@ -190,7 +190,7 @@ const KINDS: Dictionary = {
 	# Iron Citadel boss: Deus Ex Machina with Varn wired into its core. Walker, Siege Core, the Founder.
 	"empire_deus": {
 		"name": "Deus Ex Machina", "sprite": "bosses/deus_ex_machina", "rank": "boss",
-		"hp": 13000.0, "speed": 18.0, "armour": 7.0, "radius": 34.0,  # TUNING (not in GDD) the act's last boss
+		"hp": 12000.0, "speed": 18.0, "armour": 7.0, "radius": 34.0,  # TUNING (not in GDD) the act's last boss
 		"damage": 40.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "empire/deus",
 		"args": {"siege_hp": 0.6, "founder_hp": 0.3, "pose_time": 0.6,

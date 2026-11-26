@@ -46,7 +46,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(700, 150), Vector2(1060, 310), Vector2(600, 390), Vector2(200, 495), Vector2(560, 600), Vector2(900, 600)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 4.0,  # TUNING (not in GDD) Part Three: a step above the Empyrean
+	"wave_hp_end": 3.9,  # TUNING (not in GDD) Part Three: a step above the Empyrean
 	"rule": "",
 	"act_rule": "empire/line_of_fire",
 	"build_order": "wastes_default",
@@ -55,10 +55,10 @@ const MAP: Dictionary = {
 		{"banner": "Scout drones skim the slag", "groups": [{"kind": "empire_scout_drone", "count": 10, "spacing": 0.6}, {"kind": "empire_line_trooper", "count": 3, "spacing": 1.1, "delay": 2.0}]},
 		{"banner": "Line Troopers: they march and fire at your towers", "groups": [{"kind": "empire_line_trooper", "count": 6, "spacing": 1.1}, {"kind": "empire_scout_drone", "count": 6, "spacing": 0.6, "delay": 2.0, "road": "gully"}]},
 		{"banner": "Aegis Bots: their shields turn frontal hits aside", "groups": [{"kind": "empire_aegis_bot", "count": 5, "spacing": 1.2}, {"kind": "empire_line_trooper", "count": 5, "spacing": 1.1, "delay": 2.0}]},
-		{"banner": "A Spotter paints a tower red: a post in the line takes the shot", "groups": [{"kind": "empire_spotter", "count": 1, "spacing": 1.0}, {"kind": "empire_line_trooper", "count": 8, "spacing": 1.1, "delay": 1.0}, {"kind": "empire_scout_drone", "count": 8, "spacing": 0.6, "delay": 3.0, "road": "gully"}]},
+		{"banner": "A Spotter paints a tower red: a post in the line takes the shot", "groups": [{"kind": "empire_spotter", "count": 1, "spacing": 1.0}, {"kind": "empire_line_trooper", "count": 6, "spacing": 1.1, "delay": 1.0}, {"kind": "empire_scout_drone", "count": 6, "spacing": 0.6, "delay": 3.0, "road": "gully"}]},
 		{"banner": "", "groups": [{"kind": "empire_aegis_bot", "count": 6, "spacing": 1.2}, {"kind": "empire_line_trooper", "count": 6, "spacing": 1.1, "delay": 2.0, "road": "gully"}]},
-		{"banner": "Mortar Walkers: their shells fly over the posts. Kill them", "groups": [{"kind": "empire_mortar_walker", "count": 1, "spacing": 1.0}, {"kind": "empire_line_trooper", "count": 8, "spacing": 1.1, "delay": 1.0}, {"kind": "empire_aegis_bot", "count": 4, "spacing": 1.2, "delay": 3.0}]},
-		{"banner": "", "groups": [{"kind": "empire_scout_drone", "count": 14, "spacing": 0.6, "road": "gully"}, {"kind": "empire_line_trooper", "count": 8, "spacing": 1.1, "delay": 2.0}, {"kind": "empire_spotter", "count": 1, "spacing": 1.0, "delay": 4.0}]},
+		{"banner": "Mortar Walkers: their shells fly over the posts. Kill them", "groups": [{"kind": "empire_mortar_walker", "count": 1, "spacing": 1.0}, {"kind": "empire_line_trooper", "count": 6, "spacing": 1.1, "delay": 1.0}, {"kind": "empire_aegis_bot", "count": 4, "spacing": 1.2, "delay": 3.0}]},
+		{"banner": "", "groups": [{"kind": "empire_scout_drone", "count": 12, "spacing": 0.6, "road": "gully"}, {"kind": "empire_line_trooper", "count": 8, "spacing": 1.1, "delay": 2.0}, {"kind": "empire_spotter", "count": 1, "spacing": 1.0, "delay": 4.0}]},
 		{"banner": "Kill-Drones: armoured, they fire as they fly over", "groups": [{"kind": "empire_kill_drone", "count": 2, "spacing": 3.5}, {"kind": "empire_aegis_bot", "count": 8, "spacing": 1.2, "delay": 1.0}]},
 		{"banner": "", "groups": [{"kind": "empire_line_trooper", "count": 10, "spacing": 1.1}, {"kind": "empire_mortar_walker", "count": 1, "spacing": 1.0, "delay": 2.0, "road": "gully"}, {"kind": "empire_spotter", "count": 1, "spacing": 1.0, "delay": 3.0}]},
 		{"banner": "", "groups": [{"kind": "empire_aegis_bot", "count": 10, "spacing": 1.2}, {"kind": "empire_kill_drone", "count": 2, "spacing": 3.5, "delay": 2.0, "road": "gully"}, {"kind": "empire_scout_drone", "count": 10, "spacing": 0.6, "delay": 3.0}]},

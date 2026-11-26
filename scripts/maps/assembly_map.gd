@@ -39,7 +39,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(800, 170), Vector2(180, 265), Vector2(600, 360), Vector2(1100, 460), Vector2(700, 560), Vector2(320, 560)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 3.15,  # TUNING (not in GDD) Part Three
+	"wave_hp_end": 3.35,  # TUNING (not in GDD) Part Three
 	"rule": "",
 	"act_rule": "empire/line_of_fire",
 	"build_order": "assembly_default",
