@@ -706,7 +706,9 @@ const RULE: Dictionary = {
 const LOOK: Dictionary = {
 	# Phalanx shields.
 	"arc_tint": Color(1.0, 1.0, 1.0, 0.95),  # TUNING (not in GDD) shield arc modulate (the art is bronze)
-	"arc_scale": 1.0,  # TUNING (not in GDD) shield arc drawn size x its art (12 x 30)
+	"arc_scale": 1.3,  # TUNING (not in GDD) shield arc drawn size x its art (12 x 30)
+	"arc_glow": Color(1.0, 0.82, 0.4, 0.4),  # TUNING (not in GDD) soft gold glow behind each shield arc (Full effects), so the shielded side reads against the bronze bodies
+	"arc_glow_r": 15.0,  # TUNING (not in GDD) px of that glow
 	"arc_boss_scale": 1.6,  # TUNING (not in GDD) Achilles' bigger shield
 	"arc_gap": 3.0,  # TUNING (not in GDD) px between the body's edge and its shield
 	"arc_lift": 10.0,  # TUNING (not in GDD) px the shield stands above the feet (at chest height)

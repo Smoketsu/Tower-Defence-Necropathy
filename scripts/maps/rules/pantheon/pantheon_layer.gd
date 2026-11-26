@@ -40,6 +40,9 @@ func _draw() -> void:
 		var dir := e.follower.direction()  # Its facing.
 		var at := e.position + dir * (e.radius + float(lk["arc_gap"])) + Vector2(0, -float(lk["arc_lift"]))  # The shield's face.
 		var sz := arc.get_size() * float(lk["arc_scale"]) * (float(lk["arc_boss_scale"]) if e.row["rank"] == "boss" else 1.0)  # Drawn size (px).
+		if glow:
+			var gr := float(lk["arc_glow_r"])  # Glow radius (px).
+			draw_texture_rect(soft, Rect2(at - Vector2(gr, gr * 1.4), Vector2(gr, gr * 1.4) * 2.0), false, lk["arc_glow"])
 		draw_set_transform(at, dir.angle(), Vector2.ONE)
 		draw_texture_rect(arc, Rect2(-sz * 0.5, sz), false, lk["arc_tint"])
 	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
