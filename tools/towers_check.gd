@@ -6,6 +6,9 @@
 ## and Act III's Blood Spawn, its spells and the Blood Moon (_court_checks, w2b-court).
 ## and Act V (_shogun_checks): the Bound Oni smash, the Oni Lord quake, the act
 ## spells and the Sun's Course (night visibility, douse / relight, ambush, Kage, the Shogun).
+## and Act VIII (_pantheon_checks, w2c-pantheon): the Phalanx facing test and testudo,
+## Achilles' heel, the Wrath of the Gods, Glory, the Gorgon, Hades' cloak and claims,
+## the Myrmidon Shades' wall and spear, the Legion of Tartarus, Hammer and Anvil, the act spells.
 ## Run: godot --headless tools/towers_check.tscn   (prints PASS / FAIL, exit 0 / 1)
 extends Node
 
@@ -59,6 +62,7 @@ func _ready() -> void:
 	_court_checks()
 	_city_checks()
 	_shogun_checks()
+	_pantheon_checks()
 	print("TOWERS CHECK %s %s" % ["PASS" if _fails.is_empty() else "FAIL", ",".join(_fails)])
 	get_tree().quit(0 if _fails.is_empty() else 1)
 
@@ -438,3 +442,130 @@ func _shogun_checks() -> void:
 	# The Shogun: guarded while his regiments march.
 	var sg := game.spawn_at("shogun", "main", 1, 0.0, 0.0)
 	_check("shogun guarded", TdCombat.damage_enemy(game, sg, 1000.0, {"source": "check", "dot": true}) < 200.0)
+
+
+## Act VIII (w2c-pantheon): the Olympian Republic's rule, kinds, bosses, tower and spells.
+func _pantheon_checks() -> void:
+	var loadout: Array[String] = ["paris_arrow", "stolen_thunder", "river_styx"]
+	var game := TdGame.new()
+	game.setup("ilion", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(game)
+	game.economy.earn(50000, "test_bonus")
+	var rule: MapRule = game.act_rule
+	_check("pantheon rule loaded", rule != null and rule.has_method("time_left"))
+	# Phalanx: a hit from ahead takes front_mult, one from behind full damage.
+	var ho := _enemy_at(game, "hoplite", Vector2(600, 430))
+	ho.max_hp = 1.0e6
+	ho.hp = ho.max_hp
+	var dir := ho.follower.direction()  # Its facing.
+	var front := TdCombat.damage_enemy(game, ho, 100.0, {"source": "check", "origin": ho.position + dir * 80.0})
+	var back := TdCombat.damage_enemy(game, ho, 100.0, {"source": "check", "origin": ho.position - dir * 80.0})
+	_check("phalanx front cut", front < back * 0.5)
+	_check("phalanx from above", is_equal_approx(TdCombat.damage_enemy(game, ho, 100.0, {"source": "wrath", "origin": ho.position + dir * 80.0}), back))
+	# Testudo: three legionaries side by side roof their line against hits from above.
+	var legs: Array[TdEnemy] = []  # The line.
+	for i in 3:
+		var l := _enemy_at(game, "legionary", Vector2(420 + i * 20, 430))
+		l.max_hp = 1.0e6
+		l.hp = l.max_hp
+		legs.append(l)
+	_run(game, 0.05)  # The spatial hash sees them.
+	var roofed := TdCombat.damage_enemy(game, legs[1], 100.0, {"source": "corpse_catapult", "origin": legs[1].position + dir * 80.0})
+	_check("testudo roof", roofed < back * 0.8)
+	# Achilles: his heel takes more and staggers him.
+	var ach := _enemy_at(game, "achilles", Vector2(900, 250))
+	var adir := ach.follower.direction()  # His facing.
+	var af := TdCombat.damage_enemy(game, ach, 100.0, {"source": "check", "origin": ach.position + adir * 80.0})
+	var ab := TdCombat.damage_enemy(game, ach, 100.0, {"source": "check", "origin": ach.position - adir * 80.0})
+	_check("achilles heel", ab > af * 3.0 and ach.staggered_until > game.time)
+	for e: TdEnemy in [ho, ach] + legs:
+		game.remove_enemy(e, false)
+	# Wrath of the Gods: a strike lands on both armies.
+	var arch := _maxed(game, "plot:6", "archer")
+	rule.call("on_wave_start", 10)
+	rule.set("next_wrath", game.time)
+	var victims: Array[TdEnemy] = []  # Wolves all along the main road.
+	for i in 40:
+		var rd := "main" if i < 36 else "shore"  # Every road a wave may fall on.
+		var w := game.spawn_at("wolf_of_rome", rd, 1, 80.0 * float(i % 36), 0.0)
+		w.max_hp = 1.0e6
+		w.hp = w.max_hp
+		TdCombat.freeze_enemy(game, w, 30.0)
+		victims.append(w)
+	_run(game, 3.0)
+	var counts: Dictionary = rule.get("counts")
+	_check("wrath strikes", int(counts["strikes"]) > 0 and int(counts["enemy_hits"]) > 0)
+	for e: TdEnemy in victims:
+		game.remove_enemy(e, false)
+	# Myrmidon Shades: a whole wall cuts every blow; the spear runs through the foe behind.
+	var my := game.spot_by_id("post:4")
+	game.build(my, "myrmidon_shade")
+	_run(game, 0.1)
+	_check("myrmidon wall", my.tower.block.bodies.size() == 3 and is_equal_approx(my.tower.block.bodies[0].damage_cut, float(my.tower.stats["wall_cut"])))
+	var pair: Array[TdEnemy] = []  # A foe on the spear and one behind it.
+	for i in 2:
+		var e := game.spawn_at("hoplite", "main", 1, my.road_dist - 40.0 - float(i) * 22.0, 0.0)
+		e.max_hp = 1.0e6
+		e.hp = e.max_hp
+		pair.append(e)
+	_run(game, 4.0)
+	_check("myrmidon pierce", int(my.tower.vars.get("pierced", 0)) > 0)
+	for e: TdEnemy in pair:
+		game.remove_enemy(e, false)
+	game.sell(my)
+	var leg := _maxed(game, "post:4", "myrmidon_shade")
+	_check("legion set", leg.evolution == "legion_of_tartarus" and int(leg.stats["pierce"]) == 2 and float(leg.stats["grip_time"]) > 0.0)
+	_maxed(game, "plot:7", "corpse_catapult")
+	_check("hammer and anvil", leg.synergies.any(func(p: Array) -> bool: return p[0] == "hammer_and_anvil"))
+	# Glory: a Hero that fells a body grows.
+	var hero := game.spawn_at("pan_hero", "main", 1, leg.spot.road_dist - 40.0, 0.0)
+	hero.max_hp = 1.0e6
+	hero.hp = hero.max_hp
+	var hp0 := hero.max_hp  # Before.
+	for b: BlockBody in leg.block.bodies:
+		b.hp = 1.0
+		b.damage_cut = 0.0
+	_run(game, 3.0)
+	_check("glory", int(hero.vars.get("glory", 0)) > 0 and hero.max_hp > hp0)
+	game.remove_enemy(hero, false)
+	# Gorgon: her gaze petrifies a tower.
+	var gor := _enemy_at(game, "gorgon", arch.position + Vector2(0, -90))
+	gor.freeze_until = 0.0
+	gor.max_hp = 1.0e6
+	gor.hp = gor.max_hp
+	_run(game, 4.0)
+	_check("gorgon petrifies", float((game.stats.get("events", {}) as Dictionary).get("towers_disabled_petrified", 0.0)) > 0.0)
+	game.remove_enemy(gor, false)
+	# The act spells.
+	var foe := _enemy_at(game, "hoplite", Vector2(500, 610))
+	foe.max_hp = 1.0e6
+	foe.hp = foe.max_hp
+	_run(game, 0.05)  # The spatial hash sees it.
+	var before := foe.hp  # Before the arrow.
+	_check("cast paris_arrow", game.cast_spell(0, foe.position))
+	_check("paris arrow through the shield", before - foe.hp >= float(SpellData.SPELLS["paris_arrow"]["damage"]) - foe.armour - 1.0)
+	_check("cast stolen_thunder", game.cast_spell(1, foe.position))
+	_check("cast river_styx", game.cast_spell(2, foe.position))
+	_run(game, 3.0)
+	_check("thunder bolts", int(game.stats.get("thunder_bolts", 0)) > 0)
+	_check("styx slows", int(game.stats.get("styx_slowed", 0)) > 0)
+	game.queue_free()
+	# Hades: his cloak hides him from the towers; while he claims, a fallen body rises hostile.
+	var g2 := TdGame.new()
+	g2.setup("underworld", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(g2)
+	g2.economy.earn(50000, "test_bonus")
+	var a2 := _maxed(g2, "plot:7", "archer")
+	var hd := _enemy_at(g2, "hades", a2.position + Vector2(0, 100))
+	hd.vars["cloak_until"] = g2.time + 5.0
+	_check("hades cloaked", not g2.can_target(a2, hd))
+	hd.vars["cloak_until"] = 0.0
+	_check("hades revealed", g2.can_target(a2, hd))
+	hd.vars["claiming"] = true
+	var post := g2.spot_by_id("post:3")
+	g2.build(post, "warrior")
+	var n0 := g2.enemies.size()  # Before the claim.
+	TdCombat.damage_body(g2, post.tower.block.bodies[0], 1.0e6)
+	_check("hades claims", g2.enemies.size() == n0 + 1 and int((g2.act_rule.get("counts") as Dictionary)["claims"]) == 1)
+	g2.queue_free()
+
