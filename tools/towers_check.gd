@@ -489,6 +489,7 @@ func _host_checks() -> void:
 	var dmg := float(arch.tower.stats["damage"])  # Before the light.
 	light.call("add_shaft", arch.position, Vector2.RIGHT, 80.0, 10.0)
 	var angel := _enemy_at(game, "host_virtue", Vector2(180, 640))
+	angel.max_hp = 1.0e6  # Grace far outheals the archer's shots.
 	angel.hp = angel.max_hp * 0.5
 	_run(game, 2.5)
 	_check("light weakens", float(arch.tower.stats["damage"]) < dmg)
