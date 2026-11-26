@@ -49,8 +49,8 @@ const MAP: Dictionary = {
 	"lanterns": [Vector2(140, 240), Vector2(490, 300), Vector2(360, 650), Vector2(700, 490), Vector2(960, 320), Vector2(1120, 290)],
 	"ambush": [["main", 560.0], ["village", 200.0], ["main", 1000.0]],
 	"lives": 0,
-	"souls": 300,  # TUNING (not in GDD) a step above the Sanctum's 250
-	"wave_hp_end": 2.35,  # TUNING (not in GDD) Act V map 1: a little harder than the Sanctum
+	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
+	"wave_hp_end": 2.7,  # TUNING (not in GDD) Act V map 1: a little harder than the Sanctum
 	"rule": "",
 	"act_rule": "shogunate/sun_course",
 	"build_order": "province_default",

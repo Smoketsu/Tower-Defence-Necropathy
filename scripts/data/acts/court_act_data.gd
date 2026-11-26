@@ -18,21 +18,21 @@ const KINDS: Dictionary = {
 	# --- The shared kinds (Necropathy CourtEnemyData) ---
 	# Fodder: a bitten servant, pale and slow, in mobs. Feeds under the Blood Moon (the act rule).
 	"blood_thrall": {
-		"name": "Blood Thrall", "sprite": "court/blood_thrall", "rank": "fodder",
+		"name": "Blood Thrall", "sprite": "court/blood_thrall", "rank": "fodder", "souls": 5,  # TUNING (not in GDD) X2: later acts' fodder pays 5 (income curve)
 		"hp": 52.0, "speed": 46.0, "armour": 0.0, "radius": 10.0,  # TUNING (not in GDD)
 		"damage": 6.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "", "args": {},
 	},
 	# Flying fodder in swarms (GDD §7.3 "bats fly over the road"): blockers and walls never hold it.
 	"vampire_bat": {
-		"name": "Vampire Bat", "sprite": "court/vampire_bat", "rank": "fodder",
+		"name": "Vampire Bat", "sprite": "court/vampire_bat", "rank": "fodder", "souls": 5,  # TUNING (not in GDD) X2: later acts' fodder pays 5 (income curve)
 		"hp": 34.0, "speed": 84.0, "armour": 0.0, "radius": 9.0,  # TUNING (not in GDD)
 		"damage": 3.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": true, "ignores_walls": false, "trait": "", "args": {},
 	},
 	# Ravensmoor's pack fodder: stops to eat a fresh corpse beside it and heals doing it.
 	"ghoul": {
-		"name": "Ghoul", "sprite": "court/ghoul", "rank": "fodder",
+		"name": "Ghoul", "sprite": "court/ghoul", "rank": "fodder", "souls": 5,  # TUNING (not in GDD) X2: later acts' fodder pays 5 (income curve)
 		"hp": 46.0, "speed": 66.0, "armour": 0.0, "radius": 10.0,  # TUNING (not in GDD)
 		"damage": 5.0, "attack_interval": 0.9,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "court/ghoul",
@@ -139,7 +139,7 @@ const KINDS: Dictionary = {
 	# Ravensmoor: Old Greymane, the pack's alpha: howls werewolves into beasts and lunges.
 	"old_greymane": {
 		"name": "Old Greymane", "sprite": "court/old_greymane", "rank": "miniboss",
-		"hp": 2100.0, "speed": 22.0, "armour": 4.0, "radius": 20.0,  # TUNING (not in GDD)
+		"hp": 3400.0, "speed": 22.0, "armour": 4.0, "radius": 20.0,  # TUNING (not in GDD) X3: was 2100.0
 		"damage": 24.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "court/greymane",
 		"args": {"howl_first": 4.0, "howl_every": 13.0, "howl_radius": 280.0, "haste": 1.4, "haste_time": 5.0,  # Necropathy howl; numbers TUNING (not in GDD)
@@ -148,7 +148,7 @@ const KINDS: Dictionary = {
 	# The Witchwood: the Bog Mother drags blocker bodies into the fen and slams the towers.
 	"bog_mother": {
 		"name": "The Bog Mother", "sprite": "court/bog_mother", "rank": "miniboss",
-		"hp": 2000.0, "speed": 18.0, "armour": 4.0, "radius": 22.0,  # TUNING (not in GDD)
+		"hp": 4000.0, "speed": 18.0, "armour": 4.0, "radius": 22.0,  # TUNING (not in GDD) X3: was 2000.0
 		"damage": 22.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "court/bog_mother",
 		"args": {"drag_every": 10.0, "drag_reach": 150.0, "drag_count": 2, "drown_damage": 70.0,  # Necropathy drag_count 2; rest TUNING (not in GDD)
@@ -158,7 +158,7 @@ const KINDS: Dictionary = {
 	# shrieks the towers silent and calls his colony at half health.
 	"chiropteran_king": {
 		"name": "The Chiropteran King", "sprite": "court/chiropteran_king", "rank": "miniboss",
-		"hp": 2200.0, "speed": 24.0, "armour": 3.0, "radius": 20.0,  # TUNING (not in GDD)
+		"hp": 5200.0, "speed": 24.0, "armour": 3.0, "radius": 20.0,  # TUNING (not in GDD) X3: was 2200.0
 		"damage": 18.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": true, "ignores_walls": true, "trait": "court/bat_king",
 		"args": {"shriek_first": 4.0, "shriek_every": 10.0, "shriek_reach": 220.0, "shriek_radius": 110.0, "shriek_delay": 1.0, "shriek_stun": 2.5,  # Necropathy great shriek; TUNING (not in GDD)
@@ -221,7 +221,7 @@ const KINDS: Dictionary = {
 ## Map structures raised by the map rule court_structures at the start of a
 ## map: map id -> [[kind, map px], ...] (beside the nearest road).
 const STRUCTURES: Dictionary = {
-	"ravensmoor": [["court_coffin", Vector2(330, 196)], ["court_coffin", Vector2(1020, 300)], ["court_coffin", Vector2(520, 436)], ["court_coffin", Vector2(1120, 520)]],  # Necropathy "sealed coffins in each zone"
+	"ravensmoor": [["court_coffin", Vector2(330, 196)], ["court_coffin", Vector2(1020, 300)], ["court_coffin", Vector2(520, 436)], ["court_coffin", Vector2(680, 640)]],  # Necropathy "sealed coffins in each zone"
 	"witchwood": [["hex_stone", Vector2(420, 310)], ["hex_stone", Vector2(410, 410)], ["hex_stone", Vector2(990, 520)]],  # Necropathy "standing stones that power the covens' circles"
 	"castle_sanguis": [["blood_fountain", Vector2(560, 280)], ["blood_fountain", Vector2(1100, 430)], ["blood_fountain", Vector2(175, 570)]],  # the Banquet's blood fountains
 }
@@ -271,6 +271,7 @@ const LOOK: Dictionary = {
 	"cue_near": Color(1.0, 0.45, 0.45),  # TUNING (not in GDD) HUD cue text the wave before it
 	"cue_up": Color(1.0, 0.25, 0.25),  # TUNING (not in GDD) HUD cue text while it is up
 	"cue_pos": Vector2(-250, 8),  # TUNING (not in GDD) px from the top-right corner under the HUD bar
+	"cue_box": Vector2(240, 44),  # TUNING (not in GDD) px room of the cue (it moves to the left edge when a road runs under the right spot, X6)
 }
 
 ## Battlefield moods (keys: TdMoodData.MOODS), one per map.

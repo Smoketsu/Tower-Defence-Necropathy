@@ -49,8 +49,8 @@ const MAP: Dictionary = {
 	],
 	"posts": [Vector2(300, 130), Vector2(560, 260), Vector2(900, 390), Vector2(1060, 490), Vector2(700, 580), Vector2(380, 580)],
 	"lives": 0,
-	"souls": 320,  # TUNING (not in GDD)
-	"wave_hp_end": 2.7,  # TUNING (not in GDD)
+	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
+	"wave_hp_end": 2.95,  # TUNING (not in GDD)
 	"rule": "",
 	"act_rule": "corsair/broadsides",
 	"build_order": "galleon_default",

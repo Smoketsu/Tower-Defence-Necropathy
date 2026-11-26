@@ -25,3 +25,11 @@ const UPGRADE_FRACTIONS: Array[float] = [0.6, 0.9, 1.3, 1.8]  # GDD §8.1
 const EVOLUTION_FRACTION: float = 3.0  # GDD §8.1
 ## Fraction (0..1) of all souls spent on a tower returned when it is sold.
 const SELL_REFUND: float = 0.7  # GDD §8.1
+## Income check (DECISIONS X2): every map from Act II on must be able to pay
+## between INCOME_MIN and INCOME_MAX souls with no leaks (MapLoader.income():
+## start + scripted kills + no-leak bonuses). The Sanctum pays ~4240. Act I is
+## outside the check (the Graveyard is the tutorial). tools/map_list fails a map
+## outside the band.
+const INCOME_MIN: int = 3700  # TUNING (not in GDD)
+## See INCOME_MIN.
+const INCOME_MAX: int = 5600  # TUNING (not in GDD)

@@ -13,7 +13,7 @@ extends RefCounted
 const KINDS: Dictionary = {
 	# Spear levies in wide ranks (Necropathy "Ashigaru | Fodder").
 	"ashigaru": {
-		"name": "Ashigaru", "sprite": "shogunate/ashigaru", "rank": "fodder", "souls": 5,  # TUNING (not in GDD) Act V pays a step above Act I
+		"name": "Ashigaru", "sprite": "shogunate/ashigaru", "rank": "fodder", "souls": 6,  # TUNING (not in GDD) Act V pays a step above Act II-IV's 5 (X2)
 		"hp": 72.0, "speed": 50.0, "armour": 1.0, "radius": 10.0,  # TUNING (not in GDD)
 		"damage": 6.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "", "args": {},
@@ -116,7 +116,7 @@ const KINDS: Dictionary = {
 	# Province miniboss: Shuten-dōji, the Oni King: an oni's smash plus sake barrels lobbed at towers.
 	"shuten_doji": {
 		"name": "Shuten-doji, the Oni King", "sprite": "shogunate/shuten_doji", "rank": "miniboss",
-		"hp": 2600.0, "speed": 24.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD)
+		"hp": 5000.0, "speed": 24.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD) X3: was 2600.0
 		"damage": 24.0, "attack_interval": 1.6,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "shogunate/shuten",
 		"args": {"smash_every": 3, "smash_damage": 60.0, "stun": 1.8,
@@ -126,7 +126,7 @@ const KINDS: Dictionary = {
 	# Kurogane miniboss: the General of the Left, a cavalry charge that bowls through a post.
 	"general_left": {
 		"name": "The General of the Left", "sprite": "shogunate/general_left", "rank": "miniboss",
-		"hp": 1500.0, "speed": 30.0, "armour": 5.0, "radius": 26.0,  # TUNING (not in GDD)
+		"hp": 3200.0, "speed": 30.0, "armour": 5.0, "radius": 26.0,  # TUNING (not in GDD) X3: was 1500.0
 		"damage": 22.0, "attack_interval": 1.4,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "shogunate/cavalry",
 		"args": {"charge_first": 3.0, "charge_every": 8.0, "charge_time": 1.2, "speed_mult": 2.0, "charge_damage": 60.0, "charges": 2},  # TUNING (not in GDD)
@@ -134,7 +134,7 @@ const KINDS: Dictionary = {
 	# Road to the Sun miniboss: the Kirin, a holy beast of light that dazzles towers and wards its kin.
 	"kirin": {
 		"name": "The Kirin", "sprite": "shogunate/kirin", "rank": "miniboss",
-		"hp": 2500.0, "speed": 36.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD)
+		"hp": 5800.0, "speed": 36.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD) X3: was 2500.0
 		"damage": 22.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "shogunate/kirin",
 		"args": {"first": 4.0, "every": 7.0, "radius": 140.0, "blind": 2.0, "ward": 0.7, "ward_radius": 110.0, "ward_time": 6.0},  # TUNING (not in GDD)

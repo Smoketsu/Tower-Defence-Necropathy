@@ -20,6 +20,15 @@ const MENU_OFFSET: float = 36.0  # TUNING (not in GDD)
 const MENU_FAR: float = 1.5  # TUNING (not in GDD)
 ## See MENU_FAR.
 const MENU_CLEAR: float = 1.4  # TUNING (not in GDD)
+## Spot menu vs roads (DECISIONS X6): roads are sampled every MENU_ROAD_STEP map
+## px and each sample under a candidate menu costs MENU_ROAD_COST (a covered
+## neighbouring spot costs 1), so the menu opens off the road where it can.
+const MENU_ROAD_STEP: float = 20.0  # TUNING (not in GDD)
+## See MENU_ROAD_STEP.
+const MENU_ROAD_COST: int = 2  # TUNING (not in GDD)
+## Clearance (px) around the spell bar when it picks the slot covering the least
+## road (TdHud._place_spell_bar, DECISIONS X6).
+const SPELL_BAR_CLEAR: float = 12.0  # TUNING (not in GDD)
 ## Size of a tower icon in the spot menu (px).
 const MENU_ICON: float = 32.0  # TUNING (not in GDD)
 ## Seconds a banner stays fully shown (real time), and its fade (s).

@@ -24,14 +24,14 @@ const KINDS: Dictionary = {
 	# ---------------------------------------------------------------- gangs
 	# Necropathy street_thug: gang fodder with a bat.
 	"street_thug": {
-		"name": "Street Thug", "sprite": "city/street_thug", "rank": "fodder", "tier": "gangs",
+		"name": "Street Thug", "sprite": "city/street_thug", "rank": "fodder", "souls": 5, "tier": "gangs",  # TUNING (not in GDD) X2: later acts' fodder pays 5 (income curve)
 		"hp": 42.0, "speed": 54.0, "armour": 0.0, "radius": 10.0,  # TUNING (not in GDD)
 		"damage": 6.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "", "args": {},
 	},
 	# Necropathy gang_gunner: two pistols; on the road it shoots blocker bodies (game.hostile).
 	"gang_gunner": {
-		"name": "Gang Gunner", "sprite": "city/gang_gunner", "rank": "fodder", "tier": "gangs",
+		"name": "Gang Gunner", "sprite": "city/gang_gunner", "rank": "fodder", "souls": 5, "tier": "gangs",  # TUNING (not in GDD) X2: later acts' fodder pays 5 (income curve)
 		"hp": 48.0, "speed": 52.0, "armour": 0.0, "radius": 10.0,  # TUNING (not in GDD)
 		"damage": 4.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "shooter",
@@ -74,7 +74,7 @@ const KINDS: Dictionary = {
 	# ---------------------------------------------------------------- army
 	# Liberty Heights' Conscript: army fodder with a bayonet.
 	"city_conscript": {
-		"name": "Conscript", "sprite": "city/conscript", "rank": "fodder", "tier": "army",
+		"name": "Conscript", "sprite": "city/conscript", "rank": "fodder", "souls": 5, "tier": "army",  # TUNING (not in GDD) X2: later acts' fodder pays 5 (income curve)
 		"hp": 55.0, "speed": 54.0, "armour": 0.0, "radius": 10.0,  # TUNING (not in GDD) Necropathy 22 HP: cheap army fodder
 		"damage": 7.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "", "args": {},
@@ -134,7 +134,7 @@ const KINDS: Dictionary = {
 	# Atlas, the strongman: throws cars at towers; weakness: a shredded hide (Wither, the Fallen Hero).
 	"atlas": {
 		"name": "Atlas", "sprite": "city/atlas", "rank": "miniboss", "tier": "heroes",
-		"hp": 3200.0, "speed": 28.0, "armour": 8.0, "radius": 16.0,  # TUNING (not in GDD)
+		"hp": 5400.0, "speed": 28.0, "armour": 8.0, "radius": 16.0,  # TUNING (not in GDD) X3: was 3200.0
 		"damage": 26.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "city/super",
 		"args": {"power": "throw", "every": 8.0, "range": 240.0, "radius": 52.0, "delay": 1.4, "disable": 3.0, "body_damage": 40.0,  # TUNING (not in GDD) Necropathy: Atlas throws cars
@@ -153,7 +153,7 @@ const KINDS: Dictionary = {
 	# Skid Row's miniboss (Necropathy big_sal): calls his gang, rages when hurt.
 	"big_sal": {
 		"name": "Big Sal", "sprite": "city/big_sal", "rank": "miniboss", "tier": "gangs",
-		"hp": 2200.0, "speed": 28.0, "armour": 4.0, "radius": 16.0,  # TUNING (not in GDD)
+		"hp": 4600.0, "speed": 28.0, "armour": 4.0, "radius": 16.0,  # TUNING (not in GDD) X3: was 2200.0
 		"damage": 22.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "city/big_sal",
 		"args": {"call_first": 3.0, "call_every": 12.0, "squad": "street_thug", "squad_n": 3, "squad_gap": 16.0,  # TUNING (not in GDD)
@@ -170,7 +170,7 @@ const KINDS: Dictionary = {
 	# Fort Kessler's miniboss (Necropathy mammoth): the super-heavy tank, two turrets.
 	"mammoth": {
 		"name": "The Mammoth", "sprite": "city/mammoth", "rank": "miniboss", "tier": "army",
-		"hp": 3400.0, "speed": 20.0, "armour": 8.0, "radius": 24.0,  # TUNING (not in GDD)
+		"hp": 3600.0, "speed": 20.0, "armour": 8.0, "radius": 24.0,  # TUNING (not in GDD) X3: was 3400.0
 		"damage": 30.0, "attack_interval": 1.5,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "city/vehicle",
 		"args": {"crush_hp": 800.0, "crush_damage": 120.0, "pass_time": 1.2,  # TUNING (not in GDD) only a big Golem or Abomination holds it

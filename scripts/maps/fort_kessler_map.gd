@@ -38,8 +38,8 @@ const MAP: Dictionary = {
 	],
 	"posts": [Vector2(130, 600), Vector2(260, 480), Vector2(380, 120), Vector2(640, 500), Vector2(960, 400), Vector2(1080, 200)],
 	"lives": 0,
-	"souls": 450,  # TUNING (not in GDD)
-	"wave_hp_end": 2.75,  # TUNING (not in GDD)
+	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
+	"wave_hp_end": 3.1,  # TUNING (not in GDD)
 	"rule": "",
 	"act_rule": "city/escalation",
 	"escalation": [[1, "gangs"], [4, "police"], [8, "swat"], [12, "army"]],  # Necropathy Fort Kessler: the ladder stops at the army

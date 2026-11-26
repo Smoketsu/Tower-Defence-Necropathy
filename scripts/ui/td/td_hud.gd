@@ -33,6 +33,10 @@ var _speed: Button = null
 var _spells: Array[SpellButton] = []
 ## See _spells.
 var _ult: SpellButton = null
+## The spell bar and its screen rect once placed (DECISIONS X6; the spot menu avoids it).
+var spell_bar: BoxContainer = null
+## See spell_bar (Rect2() before the first placement).
+var spell_bar_rect: Rect2 = Rect2()
 ## The banner ribbon and its label.
 var _banner: PanelContainer = null
 ## See _banner.
@@ -184,6 +188,49 @@ func _build_spell_bar() -> void:
 	_ult.pressed.connect(func() -> void: game.caster.cast_ultimate())
 	UiTheme.style_button(_ult, "button", "gold")
 	bar.add_child(_ult)
+	spell_bar = bar
+	_place_spell_bar.call_deferred(side)
+	get_viewport().size_changed.connect(func() -> void: _place_spell_bar.call_deferred(side))
+
+
+## Moves the spell bar to the screen edge slot that covers the least road and
+## the fewest spots (DECISIONS X6, V-rule 7 "nothing covers a road"): bottom
+## centre / left / right on a desktop, the left / right column on a wide phone;
+## ties keep the first (centre, left). Visual only.
+func _place_spell_bar(side: bool) -> void:
+	var bar := spell_bar
+	var vp := get_viewport().get_visible_rect().size  # Layout size.
+	var sz := bar.get_combined_minimum_size()  # The bar's size.
+	var m := TdUiData.SPELL_BAR_MARGIN
+	var slots: Array[Vector2] = []  # Candidate top-left corners.
+	if side:
+		slots.assign([Vector2(m, (vp.y - sz.y) * 0.5), Vector2(vp.x - sz.x - m, (vp.y - sz.y) * 0.5)])
+	else:
+		slots.assign([Vector2((vp.x - sz.x) * 0.5, vp.y - sz.y - m), Vector2(m, vp.y - sz.y - m), Vector2(vp.x - sz.x - m, vp.y - sz.y - m)])
+	var xf := game.world.get_global_transform_with_canvas()  # Map -> screen.
+	var pts: Array[Vector2] = []  # Road samples on screen.
+	for rd: Road in game.roads.values():
+		var d := 0.0  # Distance along the road.
+		while d <= rd.length:
+			pts.append(xf * rd.point_at(d))
+			d += TdUiData.MENU_ROAD_STEP
+	var best := slots[0]  # Chosen corner.
+	var best_n := 1 << 30  # Its cost.
+	for c: Vector2 in slots:
+		var r := Rect2(c, sz).grow(TdUiData.SPELL_BAR_CLEAR)  # The bar with a little clearance.
+		var n := 0  # Road samples x MENU_ROAD_COST + spots under it.
+		for q: Vector2 in pts:
+			if r.has_point(q):
+				n += TdUiData.MENU_ROAD_COST
+		for o: Spot in game.spots:
+			if r.has_point(xf * o.position):
+				n += 1
+		if n < best_n:
+			best_n = n
+			best = c
+	bar.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	bar.position = best
+	spell_bar_rect = Rect2(best, sz)
 
 
 ## Arms spell slot `i` for targeting (the next map tap casts it); again = disarm.

@@ -40,7 +40,7 @@ const MAP: Dictionary = {
 	],
 	"posts": [Vector2(700, 140), Vector2(200, 380), Vector2(300, 600), Vector2(560, 400), Vector2(420, 540), Vector2(900, 460)],
 	"lives": 0,
-	"souls": 450,  # TUNING (not in GDD)
+	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
 	"wave_hp_end": 2.2,  # TUNING (not in GDD) the act's finale presses hardest
 	"rule": "",
 	"act_rule": "city/escalation",
@@ -69,6 +69,6 @@ const MAP: Dictionary = {
 		{"banner": "", "groups": [{"kind": "city_rifleman", "count": 9, "spacing": 0.8}, {"kind": "city_machine_gunner", "count": 2, "spacing": 4.0, "road": "south"}, {"kind": "city_tank", "count": 2, "spacing": 7.0, "delay": 6.0}, {"kind": "aurora", "count": 1, "spacing": 1.0, "delay": 10.0}]},
 		{"banner": "", "groups": [{"kind": "city_conscript", "count": 30, "spacing": 0.4}, {"kind": "attack_helicopter", "count": 4, "spacing": 3.0, "road": "south"}, {"kind": "city_tank", "count": 2, "spacing": 7.0, "delay": 6.0}, {"kind": "nightjar", "count": 1, "spacing": 1.0, "delay": 10.0, "road": "south"}, {"kind": "blitz", "count": 1, "spacing": 1.0, "delay": 12.0}]},
 		{"banner": "", "groups": [{"kind": "city_tank", "count": 2, "spacing": 6.0}, {"kind": "city_rifleman", "count": 9, "spacing": 0.8, "road": "south"}, {"kind": "city_machine_gunner", "count": 2, "spacing": 4.0, "delay": 6.0}, {"kind": "aurora", "count": 1, "spacing": 1.0, "delay": 10.0}, {"kind": "attack_helicopter", "count": 2, "spacing": 4.0, "delay": 8.0, "road": "south"}]},
-		{"banner": "No more heroes: Paragon comes down!", "groups": [{"kind": "blitz", "count": 1, "spacing": 1.0}, {"kind": "aurora", "count": 1, "spacing": 1.0, "delay": 5.0}, {"kind": "atlas", "count": 1, "spacing": 1.0, "delay": 10.0}, {"kind": "nightjar", "count": 1, "spacing": 1.0, "delay": 15.0, "road": "south"}, {"kind": "paragon", "count": 1, "spacing": 1.0, "delay": 22.0}, {"kind": "city_conscript", "count": 12, "spacing": 0.7, "delay": 2.0, "road": "south"}]},
+		{"banner": "No more heroes: Paragon comes down!", "groups": [{"kind": "blitz", "count": 1, "spacing": 1.0}, {"kind": "aurora", "count": 1, "spacing": 1.0, "delay": 5.0}, {"kind": "city_tank", "count": 1, "spacing": 1.0, "delay": 10.0}, {"kind": "nightjar", "count": 1, "spacing": 1.0, "delay": 15.0, "road": "south"}, {"kind": "paragon", "count": 1, "spacing": 1.0, "delay": 22.0}, {"kind": "city_conscript", "count": 12, "spacing": 0.7, "delay": 2.0, "road": "south"}]},
 	],
 }

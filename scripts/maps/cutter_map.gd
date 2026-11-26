@@ -44,8 +44,8 @@ const MAP: Dictionary = {
 	],
 	"posts": [Vector2(240, 160), Vector2(420, 330), Vector2(560, 480), Vector2(800, 480), Vector2(920, 330), Vector2(1080, 180)],
 	"lives": 0,
-	"souls": 300,  # TUNING (not in GDD)
-	"wave_hp_end": 2.72,  # TUNING (not in GDD) a little harder than the Sanctum through the roster
+	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
+	"wave_hp_end": 4.3,  # TUNING (not in GDD) a little harder than the Sanctum through the roster
 	"rule": "",
 	"act_rule": "corsair/broadsides",
 	"build_order": "cutter_default",

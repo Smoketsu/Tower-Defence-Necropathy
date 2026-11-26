@@ -243,7 +243,7 @@ func _fight() -> void:
 	var target := holder  # The body it hits: its holder, or a taunting Bone Colossus body.
 	if holder.taunt_by != null and holder.taunt_by.alive and game.time < holder.taunt_until:
 		target = holder.taunt_by
-	TdCombat.damage_body(game, target, float(row["damage"]) * damage_mult() * TdRulesData.BLOCKER_HIT_MULT, self)
+	TdCombat.damage_body(game, target, float(row["damage"]) * damage_mult() * TdRulesData.BLOCKER_HIT_MULT * float(TdRulesData.BLOCKER_HIT_RANK.get(row["rank"], 1.0)), self)
 	game.vfx.enemy_blow(self, target)
 	if traits != null and alive:
 		traits.on_attack(self, game, target)

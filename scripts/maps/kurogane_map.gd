@@ -49,8 +49,8 @@ const MAP: Dictionary = {
 	"lanterns": [Vector2(440, 80), Vector2(570, 320), Vector2(250, 670), Vector2(380, 470), Vector2(760, 300), Vector2(950, 560), Vector2(1140, 680)],
 	"ambush": [["north", 520.0], ["south", 500.0], ["keep", 360.0]],
 	"lives": 0,
-	"souls": 280,  # TUNING (not in GDD)
-	"wave_hp_end": 2.5,  # TUNING (not in GDD) rising through the act
+	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
+	"wave_hp_end": 2.8,  # TUNING (not in GDD) rising through the act
 	"rule": "",
 	"act_rule": "shogunate/sun_course",
 	"build_order": "kurogane_default",

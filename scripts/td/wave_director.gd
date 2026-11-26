@@ -83,8 +83,8 @@ func _start(i: int) -> void:
 		var n := DifficultyModifiers.group_count(game.difficulty, int(g["count"]))  # Enemies in this group.
 		var sp := float(g.get("spacing", TdRulesData.DEFAULT_SPACING))  # Seconds between two.
 		var hp := float(g.get("hp_mult", 1.0)) * ramp  # Extra HP multiplier (wave ramp x Reckoning rows).
-		if String(Acts.kinds()[String(g["kind"])]["rank"]) == "boss":
-			hp = float(g.get("hp_mult", 1.0))  # Bosses keep their row HP (no ramp).
+		if String(Acts.kinds()[String(g["kind"])]["rank"]) in ["boss", "miniboss"]:
+			hp = float(g.get("hp_mult", 1.0))  # Bosses and minibosses keep their row HP (no ramp; DECISIONS X3).
 		for k in n:
 			_queue.append([float(g.get("delay", 0.0)) + sp * float(k), String(g["kind"]), String(g.get("road", first_road)), hp])
 	_queue.sort_custom(func(a: Array, b: Array) -> bool: return float(a[0]) < float(b[0]))

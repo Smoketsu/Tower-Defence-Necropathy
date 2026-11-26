@@ -21,6 +21,12 @@ var order: Dictionary = {}
 var _step: int = 0
 ## Build order id played.
 var _order_id: String = ""
+## Minibosses seen (DECISIONS X3): [enemy, generation, kind, spawn s, max HP,
+## held s, outcome ("" alive, "killed", "gone")]; printed as the "minibosses=" line.
+var _minis: Array = []
+## Evolve steps whose recipe was not met yet (DECISIONS X4): skipped by the
+## order and retried every tick until the tower evolves (or is gone).
+var _deferred: Array[Dictionary] = []
 ## Leak curve (balance report, W-rows): lives at the last tick (-1 before the first).
 var _lives_seen: int = -1
 ## Wave number (1-based) of the first life lost (0 = none yet).
@@ -74,6 +80,13 @@ func _ready() -> void:
 		game.economy.earn(int(order["bonus_souls"]), "test_bonus")
 	game.speed = GameState.autotest_speed
 	game.ticked.connect(_on_tick)
+	game.enemy_spawned.connect(func(e: TdEnemy) -> void:
+		if String(e.row["rank"]) == "miniboss":
+			_minis.append([e, e.generation, String(e.kind), game.time, e.max_hp, 0.0, ""]))
+	game.enemy_killed.connect(func(e: TdEnemy, _t: Tower) -> void:
+		for m: Array in _minis:
+			if m[0] == e and int(m[1]) == e.generation and String(m[6]) == "":
+				m[6] = "killed@%.0f" % game.time)
 	game.ended.connect(_on_ended)
 	game.body_fallen.connect(func(b: BlockBody, _by: TdEnemy) -> void:
 		if not b.temporary:
@@ -111,12 +124,25 @@ func _track_lives() -> void:
 
 func _on_tick() -> void:
 	_track_lives()
+	for m: Array in _minis:
+		if String(m[6]) == "":
+			if not TdEnemy.valid(m[0], int(m[1])):
+				m[6] = "gone@%.0f" % game.time
+			elif (m[0] as TdEnemy).holder != null:
+				m[5] = float(m[5]) + 1.0 / float(TdRulesData.TICK_RATE)
 	if game.over:
 		return
+	for st: Dictionary in _deferred.duplicate():
+		var ds := game.spot_by_id(String(st["spot"]))  # The deferred evolve's spot.
+		if ds.tower == null or ds.tower.evolution != "" or (ds.tower.can_evolve() and game.evolve(ds)):
+			_deferred.erase(st)
 	while _step < (order["steps"] as Array).size() and _try(order["steps"][_step]):
 		_step += 1
 	if bool(order["spells"]):
 		_cast_spells()
+	if GameState.autotest_perf_wave > 0 and game.waves.current + 1 >= GameState.autotest_perf_wave and game.ticks % TdRulesData.TICK_RATE == 0:
+		game.speed = 1  # The frame-time probe measures drawing at x1 (tools/gw_perf.js).
+		print("PERF t=%.0f wave=%d enemies=%d" % [game.time, game.waves.current + 1, game.enemies.size()])
 	if game.time > TIMEOUT:
 		print("TDAUTOTEST TIMEOUT at %.1f s" % game.time)
 		_summary("timeout")
@@ -144,7 +170,9 @@ func _try(st: Dictionary) -> bool:
 			if s.tower == null or s.tower.evolution != "":
 				return true
 			if not s.tower.can_evolve():
-				return s.tower.level >= 5 and not _recipe_reachable(s.tower)
+				if _recipe_reachable(s.tower) and not _deferred.has(st):
+					_deferred.append(st)  # Recipe not met yet: the rest of the order goes on (X4).
+				return true
 			return game.evolve(s)
 		"target":
 			game.set_target(s, String(st["mode"]))
@@ -295,6 +323,10 @@ func _summary(result: String) -> void:
 				break
 	lines.append("leak_curve=first_leak_wave:%d end_wave:%d lives_lost:%d body_deaths:%d lives_after_deaths:%d per_death:%.2f" % [
 		_first_leak_wave, game.waves.current + 1, _life_losses.size(), _deaths.size(), charged, float(charged) / maxf(1.0, float(_deaths.size()))])
+	var mb: Array[String] = []  # One entry per miniboss: kind:spawn s:max HP:held s:outcome.
+	for m: Array in _minis:
+		mb.append("%s:%.0f:%d:held%.0f:%s" % [m[2], m[3], roundi(float(m[4])), m[5], m[6] if String(m[6]) != "" else "alive"])
+	lines.append("minibosses=%s" % ",".join(mb))
 	lines.append("stuck_enemies=%d alive_at_end=%d" % [int(game.stats["stuck"]), game.enemies.size()])
 	for l: String in lines:
 		print(l)

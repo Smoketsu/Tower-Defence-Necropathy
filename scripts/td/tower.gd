@@ -182,7 +182,7 @@ func pick_target() -> TdEnemy:
 			continue
 		var score := 0.0  # This enemy's score.
 		match target_mode:
-			"first": score = game.progress(e)
+			"first": score = game.progress(e) + float(TdRulesData.FIRST_RANK_BONUS.get(e.row["rank"], 0.0))  # Minibosses / bosses first (X3).
 			"last": score = -game.progress(e)
 			"strongest": score = e.hp + game.progress(e) * 0.001
 			"nearest": score = -position.distance_squared_to(e.position)

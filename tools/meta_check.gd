@@ -41,5 +41,24 @@ func _ready() -> void:
 	MetaModifiers.set_max()
 	ok = ok and MetaModifiers.spell_slots() == 4 and MetaModifiers.masteries.size() == TowerData.TOWERS.size()
 	ok = ok and is_equal_approx(MetaModifiers.ultimate_charge_mult(), 1.3)
+	# w2b-int: the campaign unlock chain end to end (Sanctum -> Cutter -> ... -> Road to the Sun):
+	# each map opens exactly when the one before it is cleared.
+	Meta.data["maps"]["cleared"] = []
+	var chain: Array[String] = ["graveyard", "crimson_march", "sanctum", "cutter", "galleon", "maelstrom", "ravensmoor", "witchwood",
+		"castle_sanguis", "skid_row", "fort_kessler", "liberty_heights", "province", "kurogane", "sun_road"]
+	for i in range(1, chain.size()):
+		ok = ok and Meta.unlock_after(chain[i]) == chain[i - 1] and not Meta.map_open(chain[i])
+		(Meta.data["maps"]["cleared"] as Array).append(chain[i - 1])
+		ok = ok and Meta.map_open(chain[i])
+	if not ok:
+		push_error("meta_check: unlock chain broken")
+	# A version-2 save (unlocks present) loads through migrate() and a second load changes nothing.
+	Meta.migrate()
+	var before: Dictionary = (Meta.data["unlocks"] as Dictionary).duplicate(true)
+	Meta.migrate()
+	ok = ok and Meta.data["unlocks"] == before
+	for tw: String in ["powder_wraith", "blood_spawn", "fallen_hero"]:  # Act towers open with their finale cleared (Road to the Sun's not cleared yet).
+		ok = ok and (Meta.data["unlocks"]["towers"] as Array).has(tw)
+	ok = ok and not (Meta.data["unlocks"]["towers"] as Array).has("bound_oni")
 	print("META CHECK OK" if ok else "META CHECK FAILED")
 	get_tree().quit(0 if ok else 1)

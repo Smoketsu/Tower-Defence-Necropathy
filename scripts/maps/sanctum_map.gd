@@ -42,7 +42,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(700, 105), Vector2(960, 250), Vector2(640, 410), Vector2(960, 570), Vector2(1120, 570)],
 	"lives": 0,
 	"souls": 250,
-	"wave_hp_end": 3.0,  # TUNING (not in GDD) integration balance: the last map presses hardest
+	"wave_hp_end": 3.15,  # TUNING (not in GDD) integration balance: the last map presses hardest
 	"rule": "sanctified_chambers",
 	"build_order": "sanctum_default",
 	"weak_order": "sanctum_weak",

@@ -189,3 +189,48 @@ $G --headless res://tools/meta_check.tscn -- --autotest  # META CHECK OK
   Playwright at 1280x720 and 844x390, look at the screenshots.
 - Append your decisions to `docs/DECISIONS.md` with your prefix and a status
   line in `CLAUDE.md`.
+
+## 5. Lessons from wave 2b (Acts II-V; DECISIONS X rows): do these from the start
+
+- **Income (X2): one rule.** A kill pays its kind row's `"souls"` if set, else
+  its rank's `EconomyData.KILL_SOULS`. From Act II on every wave-roster fodder
+  kind sets `"souls": 5` (tougher soldier tiers up to 10, illusions / summoned
+  shadows 0); elites 12, minibosses 80 and bosses 0 stay the rank defaults;
+  every map starts with `"souls": 300`. `tools/map_list.tscn` prints an
+  `INCOME <map> start= kills= no_leak= total=` line per map (MapLoader.income():
+  start + scripted kills + no-leak bonuses) and FAILS a map from Act II on
+  outside `EconomyData.INCOME_MIN..INCOME_MAX` (3700-5600; the Sanctum pays
+  ~4240). Tune difficulty with `wave_hp_end`, never with start souls.
+- **Minibosses (X3).** A miniboss's row HP is its real HP (no wave HP ramp, like
+  bosses): aim for 4000-6000 from Act II on. Towers on "first" add
+  `TdRulesData.FIRST_RANK_BONUS` (260 px) to a miniboss's / boss's progress, so
+  one in range is shot before the fodder around it; a held miniboss's blows on
+  its body are x`BLOCKER_HIT_RANK` 0.6, so posts hold it longer. Every run prints
+  `minibosses=kind:spawn s:max HP:held s:killed@t|gone@t`: the default order
+  should kill it in most seeds. A miniboss that is never held (vehicles,
+  chargers) needs less HP. One miniboss spawn per map (each spawn pays a chest:
+  never put a miniboss kind in the boss wave as an escort).
+- **No scripted always-leak.** A structure or spawner that releases a unit near
+  the gate (a coffin beside the last stretch) leaks the same lives on every
+  seed: keep such spawn points upstream of the last two posts.
+- **Build orders (X4).** An `evolve` step whose recipe is not met yet no longer
+  blocks the order: the bot skips it and retries it every tick. Still list it
+  right after the tower's last upgrade.
+- **Layout (X6).** Nothing may sit under the HUD at 1280 x 720 or 844 x 390:
+  keep roads, entrances and plots below y 64 (top bar 44 px + banner). The spell
+  bar (~300 x 80 px) takes the bottom slot (centre, left, right) with the least
+  road under it (`TdHud._place_spell_bar`), so leave at least one of those
+  three free; keep your act's HUD widget in a corner no road uses (Act IV meter
+  top-left, Act V dial bottom-left, the Blood Moon cue picks right or left). An
+  entrance starts off-screen on a side. The spot menu avoids roads by itself
+  (`TdUiData.MENU_ROAD_*`) but needs ~300 px of road-free room beside a spot.
+  Check with `tools/gw_wave_shot.js` at 1280x720 and 844x390t.
+- **Performance (X5).** `node tools/gw_perf.js build/web <map>:<wave> ...`
+  measures the late-map frame time (bot hurries to the wave, then x1); your
+  heaviest map must stay within ~1.3x the Sanctum's. Draw act overlays once
+  into a cached texture or as a few textured rects, never per-frame polygons /
+  circles per unit; cap simultaneous hostile shots; prefer fewer, tougher
+  late-wave enemies over long columns.
+- **Merging.** Append each table row as its own line group and each ORDER id at
+  the END of the list on its own line, so four acts merge without hand work.
+  `acts_check`'s "hidden act open" check already allows later acts.

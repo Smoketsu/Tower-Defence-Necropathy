@@ -86,7 +86,7 @@ const KINDS: Dictionary = {
 	# Graveyard miniboss (GDD §6.3: picked from an existing elite kind): the Inquisitor.
 	"inquisitor": {
 		"name": "Covenant Inquisitor", "sprite": "enemies/inquisitor", "rank": "miniboss",
-		"hp": 2700.0, "speed": 30.0, "armour": 5.0, "radius": 18.0,  # TUNING (not in GDD)
+		"hp": 3200.0, "speed": 30.0, "armour": 5.0, "radius": 18.0,  # TUNING (not in GDD) X3: was 2700.0
 		"damage": 20.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "", "args": {},
 	},
@@ -193,7 +193,7 @@ const KINDS: Dictionary = {
 	# commander whose banner hastens the column around him.
 	"templar_commander": {
 		"name": "Templar Commander", "sprite": "enemies/templar", "rank": "miniboss",
-		"hp": 1500.0, "speed": 30.0, "armour": 5.0, "radius": 18.0,  # TUNING (not in GDD)
+		"hp": 2600.0, "speed": 30.0, "armour": 5.0, "radius": 18.0,  # TUNING (not in GDD) X3: was 1500.0
 		"damage": 20.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "banner_aura",
 		"args": {"radius": 110.0, "speed_mult": 1.25, "refresh": 0.25},  # TUNING (not in GDD)
@@ -201,7 +201,7 @@ const KINDS: Dictionary = {
 	# GDD §6.3 the Sanctum's miniboss (Necropathy cathedral_guardian: slams, sweeping beam).
 	"cathedral_guardian": {
 		"name": "Cathedral Guardian", "sprite": "enemies/cathedral_guardian", "rank": "miniboss",
-		"hp": 3000.0, "speed": 26.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD)
+		"hp": 4000.0, "speed": 26.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD) X3: was 3000.0
 		"damage": 12.0, "attack_interval": 1.6,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "guardian",
 		"args": {

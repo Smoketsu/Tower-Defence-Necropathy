@@ -34,8 +34,15 @@ The design is `docs/GDD.md`; decisions it does not cover are in
   blockers), Grave Rogue (dashes at elites), Crypt Gargoyle (swoops, flyers first), Bone
   Hounds (a pack running the road), Fallen Seraph (three feathers) and Bone Golem (slams,
   plants). The build menu pages when a spot offers more than six towers.
-- **Acts:** the map select has one tab per act (fifteen, Necropathy's act order); Act I
-  is playable, the rest say "Coming soon" until their maps exist (`docs/ACT_TEMPLATE.md`).
+- **Acts:** the map select has one tab per act (fifteen, Necropathy's act order). Acts I-V
+  are playable, fifteen maps in one unlock chain (each boss opens the next map): Act I the
+  Covenant (Graveyard, Crimson March, Sanctum), Act II the Black Tide (Cutter, Galleon,
+  Maelstrom; Broadsides shell plots), Act III the Sanguine Court (Ravensmoor, Witchwood,
+  Castle Sanguis; the Blood Moon), Act IV the Last Line (Skid Row, Fort Kessler, Liberty
+  Heights; Escalation), Act V the Shogunate (Province, Kurogane, Road to the Sun; the Sun's
+  Course: night hides foes outside lantern light). Each later act opens its own tower
+  (Powder Wraith, Blood Spawn, Fallen Hero, Bound Oni), three spells and three characters.
+  Acts VI-XV say "Coming soon" (`docs/ACT_TEMPLATE.md`).
 - **Spells** (bottom bar, or a left column on wide phones; keys 1-4): tap the
   spell, then the target. Shadow Bolt (aimed shot from the necromancer at the
   gate), Bone Wall (blocks the road a few seconds; bosses walk through), Corpse
@@ -98,7 +105,7 @@ clock (60 ticks per game second, `speed` ticks per physics frame), no wall time.
 ```bash
 G=/home/user/tools/godot/Godot_v4.3-stable_linux.x86_64
 $G --headless --import
-$G --headless --fixed-fps 60 --quit-after 60000 -- --autotest [--map=graveyard|crimson_march|sanctum] [--seed=N] [--speed=N] [--difficulty=initiate|necromancer|lich|deathlord] [--build=ID]
+$G --headless --fixed-fps 60 --quit-after 60000 -- --autotest [--map=<any of the 15 map ids>] [--seed=N] [--speed=N] [--difficulty=initiate|necromancer|lich|deathlord] [--build=ID]
 ```
 
 | Option | Meaning |
@@ -116,6 +123,8 @@ $G --headless --fixed-fps 60 --quit-after 60000 -- --autotest [--map=graveyard|c
 | `--build=kit_a` / `kit_b` / `kit_evolve` | gw2-kit orders: any Act I map's default order with the later towers in some slots and the later spells / ultimates; `kit_evolve` (Graveyard) = all six later evolutions. Kit runs add the `tower_value=` and `kit=` lines |
 | `--ultimate=` | SpellData.ULTIMATES id (`sovereigns_decree`, `eclipse`, `grave_tide`; default Dread Rally) |
 | `--swap=from:to` | A/B strength check: the order's first build of `from` builds `to` (e.g. `archer:fallen_seraph`) |
+| `--perf-wave=N` | from wave N the run drops to speed 1 and prints a `PERF` line every game second (the Web frame-time probe `tools/gw_perf.js` and `tools/gw_wave_shot.js` use it) |
+| `--build=<map>_default` / `<map>_weak` / `tide_kit` / `court_kit` / `shogunate_kit` | later acts' orders (in their act data files) |
 | `?gw_flags=--unlock-all` | Web only, no bot: every later tower, spell, ultimate and character shows open in the menus (visual checks) |
 
 Every registered map at once: `tools/run_all_maps.sh` (2 at a time, one line per map; `WEAK=1` adds the weak orders, `SEED=N`). Act framework self-check: `tools/acts_check.tscn -- --autotest`. Adding an act: `docs/ACT_TEMPLATE.md`.
@@ -130,7 +139,7 @@ spawn / clear seconds, stuck enemies, evolutions reached and active synergies,
 casts / damage per spell, blockers lost / respawned, Mender healing, Lich
 Risen, Deep Freezes, shatters, Colossus shrapnel, corpses detonated, the Reckoning
 wave and tower-seconds suppressed, trait / boss `events=`, the map rule's `rule=` line, the act rule's `act_rule=` and
-hostile fire's `hostile=` lines when used, and `leak_curve=`: first leak wave, end wave, lives lost, permanent body
+hostile fire's `hostile=` lines when used, `minibosses=` (each miniboss: spawn s, max HP, seconds held, killed or gone) and `leak_curve=`: first leak wave, end wave, lives lost, permanent body
 deaths, lives lost within 15 s of a body death and per death) and exits 0 when the run completed
 (1 on a timeout). It never touches `user://`. Same seed -> identical summary.
 
@@ -178,7 +187,11 @@ autotest query also takes `--reduce-motion` and `--damage-numbers`.
 
 ## Known limits
 
-- The spot menu can cover a neighbouring spot (tap elsewhere to close it first).
+- The spot menu can cover a neighbouring spot when every side is crowded (it avoids roads and the
+  spell bar first; tap elsewhere to close it). The spell bar moves to the bottom slot (or phone
+  column) with the least road under it.
+- `tools/map_list.tscn` prints each map's `INCOME` (souls it can pay with no leaks) and fails a later
+  map outside 3700-5600.
 - The gamepad cursor is untested on real hardware (no pad in the test browser).
 - Balance (`docs/BALANCE.md`) comes from the autotest bot's fixed build orders;
   the owner's playtests come first. Since the blocker HP fix (wave 2a) Lich wins about one run in four on

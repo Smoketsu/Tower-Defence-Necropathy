@@ -42,8 +42,8 @@ const MAP: Dictionary = {
 	"lanterns": [Vector2(420, 640), Vector2(1000, 640), Vector2(1130, 560), Vector2(660, 400), Vector2(170, 460), Vector2(520, 260), Vector2(860, 260), Vector2(1120, 110)],
 	"ambush": [["main", 700.0], ["main", 1500.0], ["main", 2200.0]],
 	"lives": 0,
-	"souls": 300,  # TUNING (not in GDD)
-	"wave_hp_end": 3.6,  # TUNING (not in GDD) the act's finale presses hardest
+	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
+	"wave_hp_end": 4.2,  # TUNING (not in GDD) the act's finale presses hardest
 	"rule": "",
 	"act_rule": "shogunate/sun_course",
 	"build_order": "sun_road_default",

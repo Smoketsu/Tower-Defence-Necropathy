@@ -88,3 +88,20 @@ static func validate(map: Dictionary, roads: Dictionary) -> bool:
 				ok = false
 				break
 	return ok
+
+
+## Souls a map can pay on Necromancer with no leaks (the income check, DECISIONS
+## X2): {"start", "kills", "no_leak", "total"}; kills = every wave group's count
+## x its kind's souls (row "souls", else its rank's EconomyData.KILL_SOULS).
+## Units a trait or boss spawns mid-map are not counted. Printed by map_list.
+static func income(map: Dictionary) -> Dictionary:
+	var kills := 0  # Souls from the scripted waves' kills.
+	var bonus := 0  # Souls from the no-leak bonuses.
+	var waves: Array = map["waves"]
+	for i in waves.size():
+		bonus += EconomyData.NO_LEAK_BASE + EconomyData.NO_LEAK_PER_WAVE * (i + 1)
+		for g: Dictionary in waves[i]["groups"]:
+			var row: Dictionary = Acts.kinds()[g["kind"]]
+			kills += int(g["count"]) * int(row.get("souls", EconomyData.KILL_SOULS[row["rank"]]))
+	var start := int(map.get("souls", 0)) if int(map.get("souls", 0)) > 0 else EconomyData.START_SOULS  # Start souls.
+	return {"start": start, "kills": kills, "no_leak": bonus, "total": start + kills + bonus}

@@ -47,8 +47,8 @@ const MAP: Dictionary = {
 	],
 	"posts": [Vector2(400, 260), Vector2(400, 460), Vector2(760, 360), Vector2(920, 490), Vector2(1080, 620)],
 	"lives": 0,
-	"souls": 340,  # TUNING (not in GDD)
-	"wave_hp_end": 2.2,  # TUNING (not in GDD) the act's middle map presses a little harder than Ravensmoor
+	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
+	"wave_hp_end": 2.8,  # TUNING (not in GDD) the act's middle map presses a little harder than Ravensmoor
 	"rule": "court/court_structures",
 	"act_rule": "court/blood_moon",
 	"build_order": "witchwood_default",

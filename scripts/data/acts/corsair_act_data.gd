@@ -22,14 +22,14 @@ const KINDS: Dictionary = {
 	# --- The Brotherhood (shared by the three maps) ---
 	# Necropathy deckhand: cutlass fodder off the boats.
 	"tide_deckhand": {
-		"name": "Deckhand", "sprite": "corsair/deckhand", "rank": "fodder",
+		"name": "Deckhand", "sprite": "corsair/deckhand", "rank": "fodder", "souls": 5,  # TUNING (not in GDD) X2: later acts' fodder pays 5 (income curve)
 		"hp": 62.0, "speed": 54.0, "armour": 1.0, "radius": 10.0,  # TUNING (not in GDD)
 		"damage": 6.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "", "args": {},
 	},
 	# Necropathy musketeer: shoots the blockers from range (the ball also stops on the first body in its way).
 	"tide_musketeer": {
-		"name": "Musketeer", "sprite": "corsair/musketeer", "rank": "fodder",
+		"name": "Musketeer", "sprite": "corsair/musketeer", "rank": "fodder", "souls": 5,  # TUNING (not in GDD) X2: later acts' fodder pays 5 (income curve)
 		"hp": 55.0, "speed": 48.0, "armour": 0.0, "radius": 10.0,  # TUNING (not in GDD)
 		"damage": 3.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "shooter",
@@ -37,7 +37,7 @@ const KINDS: Dictionary = {
 	},
 	# Necropathy powder runner: a lit keg; held by a blocker it bursts on both sides.
 	"tide_powder_runner": {
-		"name": "Powder Runner", "sprite": "corsair/powder_runner", "rank": "fodder",
+		"name": "Powder Runner", "sprite": "corsair/powder_runner", "rank": "fodder", "souls": 5,  # TUNING (not in GDD) X2: later acts' fodder pays 5 (income curve)
 		"hp": 50.0, "speed": 78.0, "armour": 0.0, "radius": 10.0,  # TUNING (not in GDD)
 		"damage": 3.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "corsair/powder_runner",
@@ -144,13 +144,13 @@ const KINDS: Dictionary = {
 	},
 	# --- The Maelstrom's ghost crew (Necropathy ghost_deckhand / ghost_gunner, spectral tint) ---
 	"tide_ghost_deckhand": {
-		"name": "Drowned Deckhand", "sprite": "corsair/deckhand", "rank": "fodder", "tint": GHOST_TINT,
+		"name": "Drowned Deckhand", "sprite": "corsair/deckhand", "rank": "fodder", "souls": 5, "tint": GHOST_TINT,  # TUNING (not in GDD) X2: later acts' fodder pays 5 (income curve)
 		"hp": 72.0, "speed": 60.0, "armour": 0.0, "radius": 10.0,  # TUNING (not in GDD)
 		"damage": 7.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "", "args": {},
 	},
 	"tide_ghost_gunner": {
-		"name": "Drowned Gunner", "sprite": "corsair/musketeer", "rank": "fodder", "tint": GHOST_TINT,
+		"name": "Drowned Gunner", "sprite": "corsair/musketeer", "rank": "fodder", "souls": 5, "tint": GHOST_TINT,  # TUNING (not in GDD) X2: later acts' fodder pays 5 (income curve)
 		"hp": 64.0, "speed": 50.0, "armour": 0.0, "radius": 10.0,  # TUNING (not in GDD)
 		"damage": 3.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "shooter",
@@ -184,7 +184,7 @@ const KINDS: Dictionary = {
 	# The Cutter's miniboss: Bosun Gorran's chain sweep and bellow (Necropathy BosunGorranKit).
 	"bosun_gorran": {
 		"name": "Bosun Gorran", "sprite": "corsair/bosun_gorran", "rank": "miniboss",
-		"hp": 2300.0, "speed": 26.0, "armour": 5.0, "radius": 20.0,  # TUNING (not in GDD)
+		"hp": 4200.0, "speed": 26.0, "armour": 5.0, "radius": 20.0,  # TUNING (not in GDD) X3: was 2300.0
 		"damage": 24.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "corsair/gorran",
 		"args": {
@@ -202,7 +202,7 @@ const KINDS: Dictionary = {
 	# The Galleon's miniboss: Old Hollow-Eye, the kraken; its tentacles seize towers (Necropathy OldHollowEyeKit).
 	"old_hollow_eye": {
 		"name": "Old Hollow-Eye", "sprite": "corsair/old_hollow_eye", "rank": "miniboss",
-		"hp": 1450.0, "speed": 22.0, "armour": 4.0, "radius": 26.0,  # TUNING (not in GDD)
+		"hp": 4600.0, "speed": 22.0, "armour": 4.0, "radius": 26.0,  # TUNING (not in GDD) X3: was 1450.0
 		"damage": 28.0, "attack_interval": 1.5,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "corsair/hollow_eye",
 		"args": {
@@ -218,7 +218,7 @@ const KINDS: Dictionary = {
 	# The Maelstrom's miniboss: the Ghost Bosun, whose whistle calls a spectral longboat (Necropathy GhostBosunKit).
 	"ghost_bosun": {
 		"name": "The Ghost Bosun", "sprite": "corsair/ghost_bosun", "rank": "miniboss", "tint": GHOST_TINT,
-		"hp": 1800.0, "speed": 30.0, "armour": 3.0, "radius": 16.0,  # TUNING (not in GDD)
+		"hp": 5000.0, "speed": 30.0, "armour": 3.0, "radius": 16.0,  # TUNING (not in GDD) X3: was 1800.0
 		"damage": 22.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "corsair/ghost_bosun",
 		"args": {

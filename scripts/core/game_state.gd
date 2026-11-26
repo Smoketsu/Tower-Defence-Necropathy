@@ -44,6 +44,9 @@ var autotest_ultimate: String = ""
 ## Autotest A/B swap (--swap=from:to, gw2-kit): the first "build" step of class
 ## `from` in the order builds class `to` instead ("" = none). Tower strength checks.
 var autotest_swap: String = ""
+## Autotest frame-time probe (--perf-wave=N, tools/gw_perf.js): from wave N the run drops
+## to speed 1 and prints a "PERF" line every game second (0 = off).
+var autotest_perf_wave: int = 0
 ## Spells of the run in slot order (empty = SpellData.DEFAULT_LOADOUT).
 var loadout: Array[String] = []
 
@@ -78,4 +81,5 @@ func _init() -> void:
 			"--test-act": test_act = true
 			"--ultimate": autotest_ultimate = v
 			"--swap": autotest_swap = v
+			"--perf-wave": autotest_perf_wave = int(v)
 			"--unlock-all": unlock_all = true

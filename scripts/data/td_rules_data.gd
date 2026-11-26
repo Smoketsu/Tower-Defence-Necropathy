@@ -51,7 +51,16 @@ const SPOT_PICK: float = 34.0  # TUNING (not in GDD) about a fingertip at phone 
 ## kind rows keep Necropathy-scaled damage, this makes the column a real threat
 ## to blockers so the Mender, the free respawn and Dread Rally's revive matter.
 const BLOCKER_HIT_MULT: float = 2.0  # TUNING (not in GDD) 4 before the blocker HP fix (DECISIONS W2)
-## Wave HP ramp (integration balance): every non-boss enemy of map wave i
+## Rank -> extra multiplier on a held enemy's blows on its body (DECISIONS X3):
+## a post holds a miniboss longer, so it is a mid-map fight the towers finish
+## instead of a walk to the gate. Missing ranks = 1.0.
+const BLOCKER_HIT_RANK: Dictionary = {"miniboss": 0.6}  # TUNING (not in GDD)
+## Rank -> px of road a "first"-targeting tower adds to an enemy's progress
+## (DECISIONS X3): a slow miniboss or boss in range is shot before fodder up to
+## this far ahead of it, instead of trailing the column untouched. Missing = 0.
+const FIRST_RANK_BONUS: Dictionary = {"miniboss": 260.0, "boss": 260.0}  # TUNING (not in GDD)
+## Wave HP ramp (integration balance): every non-boss, non-miniboss enemy (X3: a
+## miniboss's row HP is its real HP) of map wave i
 ## (0-based, of n) gets HP x lerp(WAVE_HP_START, WAVE_HP_END, i / (n - 1)), so a
 ## map starts a little softer and its late waves press harder; Reckoning waves
 ## start from WAVE_HP_END and compound ReckoningData.HP_GROWTH on top.

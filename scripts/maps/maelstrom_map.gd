@@ -46,8 +46,8 @@ const MAP: Dictionary = {
 	],
 	"posts": [Vector2(500, 120), Vector2(1160, 300), Vector2(700, 600), Vector2(160, 420), Vector2(700, 240), Vector2(680, 480)],
 	"lives": 0,
-	"souls": 300,  # TUNING (not in GDD)
-	"wave_hp_end": 3.2,  # TUNING (not in GDD) the act's finale presses hardest
+	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
+	"wave_hp_end": 4.0,  # TUNING (not in GDD) the act's finale presses hardest
 	"rule": "",
 	"act_rule": "corsair/broadsides",
 	"build_order": "maelstrom_default",

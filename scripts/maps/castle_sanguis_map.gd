@@ -42,8 +42,8 @@ const MAP: Dictionary = {
 	],
 	"posts": [Vector2(700, 92), Vector2(120, 380), Vector2(640, 618), Vector2(1160, 450), Vector2(700, 222), Vector2(600, 488)],
 	"lives": 0,
-	"souls": 280,  # TUNING (not in GDD)
-	"wave_hp_end": 3.35,  # TUNING (not in GDD) the act's finale presses hardest
+	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
+	"wave_hp_end": 5.3,  # TUNING (not in GDD) the act's finale presses hardest
 	"rule": "court/court_structures",
 	"act_rule": "court/blood_moon",
 	"build_order": "castle_sanguis_default",

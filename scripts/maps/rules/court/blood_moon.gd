@@ -40,6 +40,10 @@ var _sky: Node2D = null
 var _rings: Node2D = null
 ## HUD cue label; null headless.
 var _cue: Label = null
+## The cue's chosen top-left corner and the layout width it was chosen for (_cue_corner()).
+var _cue_at: Vector2 = Vector2.ZERO
+## See _cue_at (-1 = not chosen yet).
+var _cue_w: float = -1.0
 ## Sky strength 0..1 now (drawn only; eased toward the moon state on game time).
 var _sky_a: float = 0.0
 ## Cached edge-band gradient (top -> transparent; per run, so nothing outlives it).
@@ -106,7 +110,7 @@ func setup() -> void:
 	_sky.add_child(disc)
 	_cue = UiTheme.tier_label("", UiTheme.Tier.BODY)
 	_cue.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_cue.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	_cue.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	game.hud.root.add_child(_cue)
 
 
@@ -232,7 +236,7 @@ func _step_look(dt: float) -> void:
 		_sky.get_child(0).queue_redraw()
 	_rings.queue_redraw()
 	var lk := look()
-	_cue.position = Vector2(game.hud.root.size.x, game.top_inset) + lk["cue_pos"]
+	_cue.position = _cue_corner()
 	if moon_up():
 		var left := ceili(moon_until - game.time)  # s left.
 		_cue.text = "BLOOD MOON %d:%02d" % [left / 60, left % 60]
@@ -303,3 +307,30 @@ func _draw_rings() -> void:
 		if e.alive and game.time < float(e.vars.get("shield_until", 0.0)) and game.time < e.ward_until:
 			var d := e.radius * float(lk["shield_scale"])  # Ring diameter (px).
 			_rings.draw_texture_rect(tex, Rect2(e.position - Vector2(d, d * 0.6) * 0.5, Vector2(d, d * 0.6)), false, lk["shield_tint"])
+
+
+
+## Top-left corner of the HUD cue (visual only, DECISIONS X6): under the top bar
+## on the right (`cue_pos` from the top-right corner) unless a road or an
+## entrance runs there and the same spot from the left edge is clearer. Chosen
+## once (the map never moves), re-chosen when the layout width changes.
+func _cue_corner() -> Vector2:
+	var lk := look()
+	var w := game.hud.root.size.x  # Layout width.
+	if w == _cue_w:
+		return _cue_at
+	_cue_w = w
+	var box := Vector2(lk["cue_box"])  # The cue's room.
+	var right := Vector2(w, game.top_inset) + Vector2(lk["cue_pos"])  # The default spot.
+	var left := Vector2(w - right.x - box.x, right.y)  # Mirrored from the left edge.
+	var xf := game.world.get_global_transform_with_canvas()  # Map -> screen.
+	var n := [0, 0]  # Road samples under [right, left].
+	for rd: Road in game.roads.values():
+		var d := 0.0  # Distance along the road.
+		while d <= rd.length:
+			var q := xf * rd.point_at(d)  # A road sample on screen.
+			n[0] += 1 if Rect2(right, box).has_point(q) else 0
+			n[1] += 1 if Rect2(left, box).has_point(q) else 0
+			d += TdUiData.MENU_ROAD_STEP
+	_cue_at = left if n[1] < n[0] else right
+	return _cue_at

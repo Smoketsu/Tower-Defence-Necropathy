@@ -79,7 +79,8 @@ func _rebuild() -> void:
 
 
 ## Puts the menu beside spot `s`, kept on screen, on the side (right, left,
-## below, above, then the diagonals) that covers the fewest other spots
+## below, above, then the diagonals) that covers the fewest other spots and the
+## least road (DECISIONS X6)
 ## (ties: that order).
 func _place(s: Spot) -> void:
 	if not is_instance_valid(s) or game.selected != s:
@@ -96,16 +97,24 @@ func _place(s: Spot) -> void:
 		Vector2(p.x + off, p.y - off - size.y), Vector2(p.x - off - size.x, p.y - off - size.y)]  # Candidate top-left corners: sides, then diagonals.
 	for c: Vector2 in tries.duplicate():  # The same sides one step further out (clear of crowded neighbours).
 		tries.append(c + (c + size * 0.5 - p).normalized() * off * TdUiData.MENU_FAR)
+	var road_pts: Array[Vector2] = []  # Road samples on screen (a menu over a road hides the fight, V-rule 7).
+	for rd: Road in game.roads.values():
+		var d := 0.0  # Distance along the road.
+		while d <= rd.length:
+			road_pts.append(xf * rd.point_at(d))
+			d += TdUiData.MENU_ROAD_STEP
 	var best := Vector2.ZERO  # Chosen corner.
 	var best_n := 1 << 30  # Spots it covers.
 	for c: Vector2 in tries:
 		var r := Rect2(Vector2(clampf(c.x, 4.0, vp.x - size.x - 4.0), clampf(c.y, TdUiData.TOP_BAR_H * TdHud._touch() + 4.0, vp.y - size.y - 4.0)), size)  # On screen.
-		var n := 0  # Covered spots (the spot itself counts heavily), plus the spell bar.
+		var n := 0  # Covered spots (the spot itself counts heavily), road samples, plus the spell bar.
 		for o: Spot in game.spots:
 			if r.grow(pick * TdUiData.MENU_CLEAR).has_point(xf * o.position):
 				n += 1000 if o == s else 1
-		var bar_w := (TdUiData.SPELL_BUTTON + 8.0) * 6.0  # Room of the spell bar (up to five buttons and a gap).
-		if r.intersects(Rect2((vp.x - bar_w) * 0.5, vp.y - TdUiData.SPELL_BUTTON - TdUiData.SPELL_BAR_MARGIN * 2.0, bar_w, vp.y)):
+		for q: Vector2 in road_pts:
+			if r.has_point(q):
+				n += TdUiData.MENU_ROAD_COST
+		if game.hud != null and r.intersects(game.hud.spell_bar_rect):  # The spell bar where it was placed (X6).
 			n += 3
 		if n < best_n:
 			best_n = n
