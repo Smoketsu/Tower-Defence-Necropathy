@@ -168,6 +168,9 @@ Balance: `docs/BALANCE.md` (its first section is the one 30-map table and the
 byte for byte). Decisions: `docs/DECISIONS.md` (I, V, A, K, W, T2-T10, X, Y rows).
 Next: Acts XI-XV through `docs/ACT_TEMPLATE.md` (sections 5 and 6: the wave 2b and 2c
 lessons).
+Wave 2d (w2d-concord, not yet integrated): **Act XIII, the Concord of Stars** (crash_site,
+proving_moon, ark; Abduction; Ghost Saucer; Bone Beetles / Soul Caster / Tractor Beam; the
+Broodbound / Blooded / Starborn; DECISIONS T13, BALANCE.md "Act XIII").
 
 Not built / not verified: boss attack-pose art for the later bosses listed in
 BALANCE.md ("Bosses without attack-pose art": their strike pose shows the still
