@@ -19,21 +19,21 @@ extends RefCounted
 const KINDS: Dictionary = {
 	# Chained wailing souls dragged to the Pit (Necropathy "The Damned"): they burn in the pits.
 	"damned_soul": {
-		"name": "The Damned", "sprite": "inferno/damned", "rank": "fodder", "souls": 6, "damned": true,  # TUNING (not in GDD) X2: Part Two pays a step above Act V
+		"name": "The Damned", "sprite": "inferno/damned", "rank": "fodder", "souls": 8, "damned": true,  # TUNING (not in GDD) X2: Part Two pays above Act V (tougher kinds, the portals' extras unpaid in INCOME)
 		"hp": 90.0, "speed": 46.0, "armour": 0.0, "radius": 10.0,  # TUNING (not in GDD)
 		"damage": 6.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "", "args": {},
 	},
 	# Fast winged imps with pitchforks: fly over the posts and the pits (Necropathy "Imp").
 	"hell_imp": {
-		"name": "Imp", "sprite": "inferno/imp", "rank": "fodder", "souls": 6,  # TUNING (not in GDD)
+		"name": "Imp", "sprite": "inferno/imp", "rank": "fodder", "souls": 8,  # TUNING (not in GDD)
 		"hp": 64.0, "speed": 70.0, "armour": 0.0, "radius": 8.0,  # TUNING (not in GDD)
 		"damage": 3.0, "attack_interval": 0.9,  # TUNING (not in GDD)
 		"flying": true, "ignores_walls": true, "trait": "", "args": {},
 	},
 	# Lava hounds in packs: held, their burning hide opens a small pit under the post (Necropathy "Hellhound").
 	"lava_hound": {
-		"name": "Hellhound", "sprite": "inferno/lava_hound", "rank": "fodder", "souls": 7,  # TUNING (not in GDD)
+		"name": "Hellhound", "sprite": "inferno/lava_hound", "rank": "fodder", "souls": 9,  # TUNING (not in GDD)
 		"hp": 100.0, "speed": 78.0, "armour": 0.0, "radius": 10.0,  # TUNING (not in GDD)
 		"damage": 7.0, "attack_interval": 0.8,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "inferno/lava_hound",
@@ -41,7 +41,7 @@ const KINDS: Dictionary = {
 	},
 	# Hell Knight: ember armour and a burning greatsword; its telegraphed sweep cuts every body of its post.
 	"hell_knight": {
-		"name": "Hell Knight", "sprite": "inferno/hell_knight", "rank": "fodder", "souls": 11,  # TUNING (not in GDD) soldier tier
+		"name": "Hell Knight", "sprite": "inferno/hell_knight", "rank": "fodder", "souls": 14,  # TUNING (not in GDD) soldier tier
 		"hp": 220.0, "speed": 42.0, "armour": 3.0, "radius": 12.0,  # TUNING (not in GDD) Necropathy "ember armour"
 		"damage": 13.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "inferno/sweep",
@@ -49,7 +49,7 @@ const KINDS: Dictionary = {
 	},
 	# Pit Cultist: a living man who chants a rite on the march and tears a portal open where he stands.
 	"pit_cultist": {
-		"name": "Pit Cultist", "sprite": "inferno/pit_cultist", "rank": "fodder", "souls": 10, "damned": true,  # TUNING (not in GDD) a living man burns too
+		"name": "Pit Cultist", "sprite": "inferno/pit_cultist", "rank": "fodder", "souls": 12, "damned": true,  # TUNING (not in GDD) a living man burns too
 		"hp": 150.0, "speed": 44.0, "armour": 0.0, "radius": 10.0,  # TUNING (not in GDD)
 		"damage": 5.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "inferno/cultist",
@@ -57,15 +57,15 @@ const KINDS: Dictionary = {
 	},
 	# Succubus: flies over the posts and blows a kiss at a blocker body: it turns on its own post (Temptation).
 	"succubus": {
-		"name": "Succubus", "sprite": "inferno/succubus", "rank": "elite",
-		"hp": 380.0, "speed": 50.0, "armour": 1.0, "radius": 11.0,  # TUNING (not in GDD)
+		"name": "Succubus", "sprite": "inferno/succubus", "rank": "elite", "souls": 16,
+		"hp": 330.0, "speed": 50.0, "armour": 1.0, "radius": 11.0,  # TUNING (not in GDD)
 		"damage": 8.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": true, "ignores_walls": true, "trait": "inferno/succubus",
 		"args": {"first": 2.0, "every": 9.0, "range": 150.0, "time": 5.0, "hit_mult": 0.7},  # TUNING (not in GDD) Necropathy kiss every 10 s, charm 6 s
 	},
 	# Lilim Witch: opens a pit under the nearest post and heals the demons around a standing portal.
 	"lilim_witch": {
-		"name": "Lilim Witch", "sprite": "inferno/lilim_witch", "rank": "elite",
+		"name": "Lilim Witch", "sprite": "inferno/lilim_witch", "rank": "elite", "souls": 16,
 		"hp": 340.0, "speed": 40.0, "armour": 0.0, "radius": 11.0,  # TUNING (not in GDD)
 		"damage": 7.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "inferno/lilim",
@@ -74,7 +74,7 @@ const KINDS: Dictionary = {
 	},
 	# Demon Brute: four arms, flat armour; every third blow a slam on every body of its post.
 	"demon_brute": {
-		"name": "Demon Brute", "sprite": "inferno/demon_brute", "rank": "elite",
+		"name": "Demon Brute", "sprite": "inferno/demon_brute", "rank": "elite", "souls": 20,
 		"hp": 820.0, "speed": 30.0, "armour": 7.0, "radius": 17.0,  # TUNING (not in GDD) Necropathy "flat armour"
 		"damage": 22.0, "attack_interval": 1.6,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "inferno/brute",
@@ -82,11 +82,11 @@ const KINDS: Dictionary = {
 	},
 	# Fallen Angel: flies; dives from above with a burning spear on the tower or post nearest her.
 	"fallen_angel": {
-		"name": "Fallen Angel", "sprite": "inferno/fallen_angel", "rank": "elite",
-		"hp": 400.0, "speed": 48.0, "armour": 2.0, "radius": 11.0,  # TUNING (not in GDD)
+		"name": "Fallen Angel", "sprite": "inferno/fallen_angel", "rank": "elite", "souls": 16,
+		"hp": 340.0, "speed": 48.0, "armour": 2.0, "radius": 11.0,  # TUNING (not in GDD)
 		"damage": 9.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": true, "ignores_walls": true, "trait": "inferno/dive",
-		"args": {"first": 3.0, "every": 9.0, "range": 230.0, "radius": 56.0, "delay": 1.4, "disable": 2.0, "body_damage": 45.0},  # TUNING (not in GDD) Necropathy dive_rise + dive_fall
+		"args": {"first": 3.0, "every": 12.0, "range": 230.0, "radius": 56.0, "delay": 1.4, "disable": 1.5, "body_damage": 45.0},  # TUNING (not in GDD) Necropathy dive_rise + dive_fall
 	},
 	# --- Structures and summoned bodies (the act rule and the bosses raise them) ---
 	# The demon portal (RULE): pours squads onto the road until broken, sealed or burnt out.
@@ -116,7 +116,7 @@ const KINDS: Dictionary = {
 	# The Palace: Naamah, the elder of the Twin Succubi (the chest); her kisses charm, she rages when her sister falls.
 	"twin_naamah": {
 		"name": "Naamah, the Elder Twin", "sprite": "inferno/twin_naamah", "rank": "miniboss",
-		"hp": 4400.0, "speed": 30.0, "armour": 3.0, "radius": 20.0,  # TUNING (not in GDD)
+		"hp": 4000.0, "speed": 30.0, "armour": 3.0, "radius": 20.0,  # TUNING (not in GDD)
 		"damage": 22.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "inferno/twin",
 		"args": {"sister": "twin_agrat", "first": 3.0, "every": 9.0, "range": 170.0, "bodies": 1, "time": 4.0, "hit_mult": 0.8,
@@ -124,8 +124,8 @@ const KINDS: Dictionary = {
 	},
 	# Agrat, the younger twin: her sister's kit, half her strength (no chest: one miniboss per map, X3).
 	"twin_agrat": {
-		"name": "Agrat, the Younger Twin", "sprite": "inferno/twin_agrat", "rank": "elite",
-		"hp": 1900.0, "speed": 30.0, "armour": 2.0, "radius": 20.0,  # TUNING (not in GDD)
+		"name": "Agrat, the Younger Twin", "sprite": "inferno/twin_agrat", "rank": "elite", "souls": 40,
+		"hp": 1600.0, "speed": 30.0, "armour": 2.0, "radius": 20.0,  # TUNING (not in GDD)
 		"damage": 18.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "inferno/twin",
 		"args": {"sister": "twin_naamah", "first": 7.5, "every": 9.0, "range": 170.0, "bodies": 1, "time": 4.0, "hit_mult": 0.8,
@@ -134,7 +134,7 @@ const KINDS: Dictionary = {
 	# Pandemonium: the Fallen Seraph General: the Judgment Cleave, the Wings of Ruin, and the Fallen Host at half health.
 	"seraph_general": {
 		"name": "The Fallen Seraph General", "sprite": "inferno/seraph_general", "rank": "miniboss",
-		"hp": 5800.0, "speed": 26.0, "armour": 6.0, "radius": 24.0,  # TUNING (not in GDD)
+		"hp": 4600.0, "speed": 26.0, "armour": 6.0, "radius": 24.0,  # TUNING (not in GDD)
 		"damage": 28.0, "attack_interval": 1.4,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "inferno/seraph_general",
 		"args": {"cleave_every": 7.0, "cleave_windup": 0.8, "cleave_damage": 80.0,
@@ -155,7 +155,7 @@ const KINDS: Dictionary = {
 	# The Palace: Lilith, Queen of the Night: charm waves, the kiss of ruin, a brood from her wings, then her true demon form.
 	"lilith": {
 		"name": "Lilith, Queen of the Night", "sprite": "bosses/lilith", "rank": "boss",
-		"hp": 13000.0, "speed": 24.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD)
+		"hp": 11500.0, "speed": 24.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD)
 		"damage": 28.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "inferno/lilith",
 		"args": {"wave_first": 4.0, "wave_every": 11.0, "wave_radius": 190.0, "wave_time": 4.0, "wave_mult": 0.8,
@@ -167,7 +167,7 @@ const KINDS: Dictionary = {
 	# (the throne-skull form: slams, the ground turns to pits, every portal opens).
 	"morning_star": {
 		"name": "The Morning Star", "sprite": "bosses/morning_star", "rank": "boss",
-		"hp": 17500.0, "speed": 22.0, "armour": 5.0, "radius": 28.0,  # TUNING (not in GDD) a step above Amaterasu (14500)
+		"hp": 15000.0, "speed": 22.0, "armour": 5.0, "radius": 28.0,  # TUNING (not in GDD) Amaterasu's (14500) and a second phase
 		"damage": 34.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "inferno/morning_star",
 		"args": {"beam_first": 3.0, "beam_every": 8.0, "beam_ahead": 220.0, "beam_radius": 120.0, "beam_mult": 0.5, "beam_time": 5.0, "dark_disable": 2.5,

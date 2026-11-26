@@ -1,7 +1,8 @@
 ## Lilith, Queen of the Night (the Palace's boss; Necropathy BossLilith):
 ##   CHARM WAVE — every `wave_every` s (first after `wave_first`) every living
-##     blocker body within `wave_radius` px of her is charmed `wave_time` s and
-##     fights its own post at `wave_mult` (TdCombat.charm_body).
+##     blocker body within `wave_radius` px of her but the one holding her is
+##     charmed `wave_time` s and fights its own post at `wave_mult`
+##     (TdCombat.charm_body).
 ##   KISS OF RUIN — every `kiss_every` s (first after `kiss_first`) she blows a
 ##     kiss at the tower that has dealt the most damage: suppressed to
 ##     `kiss_mult` of its damage for `kiss_time` s (TdCombat.suppress_tower).
@@ -44,7 +45,7 @@ func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
 		e.vars["next_wave"] = game.time + float(a["wave_every"]) * rate
 		var n := 0  # Bodies charmed.
 		for b: BlockBody in game.bodies_near(e.position, float(a["wave_radius"])):
-			if not b.temporary and b.max_hp != INF:
+			if not b.temporary and b.max_hp != INF and b != e.holder:  # The body holding her keeps her.
 				TdCombat.charm_body(game, b, float(a["wave_time"]), float(a["wave_mult"]))
 				n += 1
 		if game.vfx.on:
