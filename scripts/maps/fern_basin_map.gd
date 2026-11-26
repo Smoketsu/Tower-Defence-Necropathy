@@ -55,7 +55,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(170, 240), Vector2(520, 530), Vector2(760, 360), Vector2(940, 190), Vector2(1120, 330)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 2.6,  # TUNING (not in GDD) Part Three: a step above the Empyrean
+	"wave_hp_end": 2.8,  # TUNING (not in GDD) Part Three: its roster carries the step up (DECISIONS T14.7)
 	"rule": "",
 	"act_rule": "primeval/stampedes",
 	"build_order": "fern_basin_default",
