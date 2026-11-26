@@ -757,7 +757,7 @@ const LOOK: Dictionary = {
 	"gust_tint": Color(0.85, 0.95, 1.0, 0.9),  # TUNING (not in GDD) a wing gust's ring
 	"sweep_tint": Color(0.95, 0.85, 0.6, 0.95),  # TUNING (not in GDD) a tail sweep's ring
 	"gore_tint": Color(1.0, 0.6, 0.35),  # TUNING (not in GDD) a charge's goring burst
-	"gore_d": 90.0,  # TUNING (not in GDD) px of that burst
+	"gore_d": 70.0,  # TUNING (not in GDD) px of that burst
 	"ward_tint": Color(0.95, 0.9, 0.7, 0.7),  # TUNING (not in GDD) the thread from Ironjaw to her nest
 	"stun_tint": Color(1.0, 0.9, 0.4),  # TUNING (not in GDD) the stars over a charger stunned on a rock
 	# --- The act spells and tower ---

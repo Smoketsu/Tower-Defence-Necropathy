@@ -1,7 +1,7 @@
 ## PrimevalCue: the HUD cue of the Stampedes (rules/primeval/stampedes.gd): the
 ## Stampede icon (icons/stampede) in the screen's top-left corner, under the
 ## top bar (game.top_inset), with a label: "Stampede in 3 s!" (hot) while a herd
-## is marked, else "Herds turned 2/5" (and "Meteor!" while one falls on the
+## is marked, "Stampede!" while it runs, else "Herds turned 2/5" (and "Meteor!" while one falls on the
 ## Last Day). Textures only. Drawing only. Numbers in the act data's RULE (cue_*).
 extends Control
 
@@ -24,7 +24,9 @@ func _process(_delta: float) -> void:
 	var nh: Array = rule.call("next_herd")
 	var c: Dictionary = rule.get("counts")
 	var hot := float(nh[0]) < INF
-	var txt := "Stampede in %d s!" % ceili(float(nh[0])) if hot else "Herds turned %d/%d" % [int(c["turned"]), int(c["herds"])]
+	var txt := "Herds turned %d/%d" % [int(c["turned"]), int(c["herds"])]
+	if hot:
+		txt = "Stampede in %d s!" % ceili(float(nh[0])) if float(nh[0]) > 0.0 else "Stampede!"
 	if not (rule.get("meteors") as Array).is_empty():
 		txt += "  Meteor!"
 		hot = true

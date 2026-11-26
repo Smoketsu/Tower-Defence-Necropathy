@@ -66,7 +66,7 @@ static func charge_step(e: TdEnemy, game: TdGame, gore: float, rock_r: float, ro
 			if b.alive:
 				TdCombat.damage_body(game, b, gore * e.damage_mult(), e)
 		EnemyTrait.note(game, "charge_gores")
-		game.fx.spawn("vael_cleave", e.position, float(lk()["gore_d"]), 0.4, lk()["gore_tint"])
+		game.fx.spawn("volley_hit", e.position, float(lk()["gore_d"]), 0.4, lk()["gore_tint"])
 	e.vars["gored"] = done
 	for rk: Vector2 in game.map.get("rocks", []):
 		if e.position.distance_to(rk) <= rock_r:
@@ -103,7 +103,7 @@ static func swallow(e: TdEnemy, game: TdGame) -> bool:
 		return false
 	var b := e.holder
 	TdCombat.damage_body(game, b, (b.hp + b.barrier + 1.0) / maxf(1.0 - b.damage_cut, 0.05), e)
-	game.fx.spawn("vael_cleave", b.pos, 70.0, 0.4, lk()["gore_tint"])
+	game.fx.spawn("volley_hit", b.pos, 70.0, 0.4, lk()["gore_tint"])
 	EnemyTrait.note(game, "swallowed")
 	Sfx.play("boss_impact")
 	return true
