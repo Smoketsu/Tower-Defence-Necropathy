@@ -77,10 +77,10 @@ const KINDS: Dictionary = {
 	# Jackal Warrior (Necropathy "jackal_warrior"): an elite in pairs; a spear lunge through the post; returns.
 	"jackal_warrior": {
 		"name": "Jackal Warrior", "sprite": "dynasty/jackal_warrior", "rank": "elite",
-		"hp": 400.0, "speed": 54.0, "armour": 2.0, "radius": 12.0,  # TUNING (not in GDD)
+		"hp": 320.0, "speed": 54.0, "armour": 2.0, "radius": 12.0,  # TUNING (not in GDD)
 		"damage": 14.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "corsair/lunge",
-		"args": {"every": 9.0, "windup": 0.5, "damage": 30.0, "time": 0.6, "speed_mult": 1.8}, "rebirth": true,  # TUNING (not in GDD) Necropathy "a telegraphed lunge"
+		"args": {"every": 11.0, "windup": 0.5, "damage": 30.0, "time": 0.6, "speed_mult": 1.8}, "rebirth": true,  # TUNING (not in GDD) Necropathy "a telegraphed lunge"
 	},
 	# Bastet Hunter (Necropathy "bastet_hunter"): dives into the sand, slipping the posts; spells reveal her.
 	"bastet_hunter": {
@@ -88,12 +88,12 @@ const KINDS: Dictionary = {
 		"hp": 330.0, "speed": 58.0, "armour": 1.0, "radius": 11.0,  # TUNING (not in GDD)
 		"damage": 13.0, "attack_interval": 0.9,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "dynasty/sand_dive",
-		"args": {"first": 2.5, "every": 10.0, "time": 2.5, "speed_mult": 1.5, "hidden_mult": 0.4},  # TUNING (not in GDD) Necropathy "area damage reveals her"
+		"args": {"first": 2.5, "every": 10.0, "time": 2.5, "speed_mult": 1.5, "hidden_mult": 0.5},  # TUNING (not in GDD) Necropathy "area damage reveals her"
 	},
 	# Crocodile Warden (Necropathy "crocodile_warden"): a heavy that seizes the body holding it; returns.
 	"crocodile_warden": {
 		"name": "Crocodile Warden", "sprite": "dynasty/crocodile_warden", "rank": "elite",
-		"hp": 720.0, "speed": 32.0, "armour": 4.0, "radius": 15.0,  # TUNING (not in GDD)
+		"hp": 560.0, "speed": 32.0, "armour": 4.0, "radius": 15.0,  # TUNING (not in GDD)
 		"damage": 20.0, "attack_interval": 1.5,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "shogunate/kappa",
 		"args": {"grapple_every": 3, "grapple": 1.8}, "rebirth": true,  # TUNING (not in GDD) Necropathy "drags a summon in"
@@ -148,7 +148,7 @@ const KINDS: Dictionary = {
 	# Hall miniboss: the Devourer's Whelp. It eats the Names it passes and grows stronger.
 	"devourers_whelp": {
 		"name": "The Devourer's Whelp", "sprite": "dynasty/devourers_whelp", "rank": "miniboss",
-		"hp": 5200.0, "speed": 30.0, "armour": 4.0, "radius": 22.0,  # TUNING (not in GDD)
+		"hp": 4600.0, "speed": 30.0, "armour": 4.0, "radius": 22.0,  # TUNING (not in GDD)
 		"damage": 26.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "dynasty/devour",
 		"args": {"reach": 90.0, "every": 1.5, "heal": 0.04, "haste": 1.08, "haste_max": 1.5, "haste_time": 30.0},  # TUNING (not in GDD) Necropathy "eats corpses"
@@ -168,13 +168,13 @@ const KINDS: Dictionary = {
 	# Temple boss: Sekhmet, the Lioness of Retribution. The Hunt, the Red Wind, the Feast.
 	"sekhmet": {
 		"name": "Sekhmet, the Lioness of Retribution", "sprite": "dynasty/sekhmet", "rank": "boss",
-		"hp": 16500.0, "speed": 26.0, "armour": 3.0, "radius": 22.0,  # TUNING (not in GDD)
+		"hp": 15000.0, "speed": 24.0, "armour": 3.0, "radius": 22.0,  # TUNING (not in GDD)
 		"damage": 32.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "dynasty/sekhmet",
 		"args": {"wind_hp": 0.66, "feast_hp": 0.33,
-			"leap_first": 4.0, "leap_every": 9.0, "leap_px": 150.0, "leap_radius": 90.0, "leap_delay": 0.9, "leap_disable": 1.6, "leap_damage": 60.0,
-			"wind_haste": 1.3, "feast_kind": "wine_jar", "feast_ahead": [120.0, 240.0, 360.0], "feast_side": 50.0,
-			"feast_mult": 0.15, "drink_every": 4.0, "drink_heal": 0.02, "stumble_time": 5.0, "stumble_mult": 1.5, "feast_cap": 45.0, "pose_time": 0.7},  # TUNING (not in GDD) Necropathy's three phases
+			"leap_first": 5.0, "leap_every": 11.0, "leap_px": 110.0, "leap_radius": 90.0, "leap_delay": 0.9, "leap_disable": 1.6, "leap_damage": 60.0,
+			"wind_haste": 1.3, "feast_kind": "wine_jar", "feast_ahead": [-70.0, 40.0, 130.0], "feast_side": 50.0,
+			"feast_mult": 0.25, "drink_every": 4.0, "drink_heal": 0.02, "stumble_time": 5.0, "stumble_mult": 1.5, "feast_cap": 45.0, "pose_time": 0.7},  # TUNING (not in GDD) Necropathy's three phases
 	},
 	# Hall boss: Osiris, Lord of the Dead, and Ammit the Devourer: one body, one health bar.
 	"osiris": {
@@ -273,71 +273,71 @@ const ORDERS: Dictionary = {
 	"lioness_temple_default": {
 		"spells": true,
 		"steps": [
-			{"do": "build", "spot": "plot:2", "tower": "archer"},
+			{"do": "build", "spot": "plot:4", "tower": "archer"},
 			{"do": "build", "spot": "post:2", "tower": "warrior"},
-			{"do": "build", "spot": "plot:3", "tower": "archer"},
-			{"do": "build", "spot": "plot:4", "tower": "mage"},
-			{"do": "upgrade", "spot": "plot:2"},
-			{"do": "upgrade", "spot": "plot:3"},
-			{"do": "build", "spot": "plot:5", "tower": "corpse_catapult"},
-			{"do": "target", "spot": "plot:5", "mode": "strongest"},
+			{"do": "build", "spot": "plot:10", "tower": "archer"},
+			{"do": "build", "spot": "plot:5", "tower": "mage"},
+			{"do": "upgrade", "spot": "plot:4"},
+			{"do": "upgrade", "spot": "plot:10"},
+			{"do": "build", "spot": "plot:11", "tower": "corpse_catapult"},
+			{"do": "target", "spot": "plot:11", "mode": "strongest"},
 			{"do": "build", "spot": "post:3", "tower": "warrior"},
-			{"do": "upgrade", "spot": "plot:4"},
-			{"do": "upgrade", "spot": "plot:2"},
-			{"do": "upgrade", "spot": "plot:3"},
-			{"do": "build", "spot": "plot:10", "tower": "mage"},
-			{"do": "build", "spot": "plot:11", "tower": "archer"},
 			{"do": "upgrade", "spot": "plot:5"},
-			{"do": "build", "spot": "plot:9", "tower": "banshee"},
 			{"do": "upgrade", "spot": "plot:4"},
 			{"do": "upgrade", "spot": "plot:10"},
+			{"do": "build", "spot": "plot:9", "tower": "mage"},
+			{"do": "build", "spot": "plot:12", "tower": "archer"},
+			{"do": "upgrade", "spot": "plot:11"},
+			{"do": "build", "spot": "plot:15", "tower": "banshee"},
+			{"do": "upgrade", "spot": "plot:5"},
+			{"do": "upgrade", "spot": "plot:9"},
 			{"do": "build", "spot": "post:4", "tower": "abomination"},
-			{"do": "upgrade", "spot": "plot:2"},
-			{"do": "upgrade", "spot": "plot:3"},
-			{"do": "upgrade", "spot": "plot:11"},
-			{"do": "upgrade", "spot": "plot:5"},
-			{"do": "build", "spot": "plot:6", "tower": "frost_wraith"},
-			{"do": "upgrade", "spot": "plot:9"},
-			{"do": "upgrade", "spot": "plot:10"},
 			{"do": "upgrade", "spot": "plot:4"},
+			{"do": "upgrade", "spot": "plot:10"},
+			{"do": "upgrade", "spot": "plot:12"},
+			{"do": "upgrade", "spot": "plot:11"},
+			{"do": "build", "spot": "plot:14", "tower": "frost_wraith"},
+			{"do": "upgrade", "spot": "plot:15"},
+			{"do": "upgrade", "spot": "plot:9"},
+			{"do": "upgrade", "spot": "plot:5"},
 			{"do": "upgrade", "spot": "post:2"},
-			{"do": "upgrade", "spot": "plot:11"},
-			{"do": "upgrade", "spot": "plot:2"},
-			{"do": "upgrade", "spot": "plot:3"},
-			{"do": "build", "spot": "plot:12", "tower": "corpse_catapult"},
-			{"do": "target", "spot": "plot:12", "mode": "strongest"},
-			{"do": "upgrade", "spot": "plot:5"},
-			{"do": "upgrade", "spot": "plot:6"},
-			{"do": "upgrade", "spot": "plot:10"},
-			{"do": "upgrade", "spot": "plot:9"},
-			{"do": "upgrade", "spot": "plot:11"},
 			{"do": "upgrade", "spot": "plot:12"},
 			{"do": "upgrade", "spot": "plot:4"},
-			{"do": "upgrade", "spot": "plot:2"},
-			{"do": "upgrade", "spot": "plot:3"},
-			{"do": "upgrade", "spot": "plot:5"},
-			{"do": "build", "spot": "plot:15", "tower": "mage"},
-			{"do": "upgrade", "spot": "post:3"},
-			{"do": "upgrade", "spot": "plot:6"},
-			{"do": "upgrade", "spot": "plot:12"},
-			{"do": "upgrade", "spot": "plot:9"},
 			{"do": "upgrade", "spot": "plot:10"},
-			{"do": "upgrade", "spot": "plot:15"},
+			{"do": "build", "spot": "plot:2", "tower": "corpse_catapult"},
+			{"do": "target", "spot": "plot:2", "mode": "strongest"},
 			{"do": "upgrade", "spot": "plot:11"},
-			{"do": "upgrade", "spot": "plot:5"},
-			{"do": "upgrade", "spot": "plot:6"},
+			{"do": "upgrade", "spot": "plot:14"},
+			{"do": "upgrade", "spot": "plot:9"},
+			{"do": "upgrade", "spot": "plot:15"},
 			{"do": "upgrade", "spot": "plot:12"},
+			{"do": "upgrade", "spot": "plot:2"},
+			{"do": "upgrade", "spot": "plot:5"},
+			{"do": "upgrade", "spot": "plot:4"},
+			{"do": "upgrade", "spot": "plot:10"},
+			{"do": "upgrade", "spot": "plot:11"},
+			{"do": "build", "spot": "plot:13", "tower": "mage"},
+			{"do": "upgrade", "spot": "post:3"},
+			{"do": "upgrade", "spot": "plot:14"},
+			{"do": "upgrade", "spot": "plot:2"},
 			{"do": "upgrade", "spot": "plot:15"},
-			{"do": "upgrade", "spot": "plot:15"},
+			{"do": "upgrade", "spot": "plot:9"},
+			{"do": "upgrade", "spot": "plot:13"},
+			{"do": "upgrade", "spot": "plot:12"},
+			{"do": "upgrade", "spot": "plot:11"},
+			{"do": "upgrade", "spot": "plot:14"},
+			{"do": "upgrade", "spot": "plot:2"},
+			{"do": "upgrade", "spot": "plot:13"},
+			{"do": "upgrade", "spot": "plot:13"},
 			{"do": "upgrade", "spot": "post:4"},
 			{"do": "upgrade", "spot": "post:2"},
 			{"do": "build", "spot": "post:0", "tower": "warrior"},
 			{"do": "build", "spot": "post:1", "tower": "warrior"},
-			{"do": "build", "spot": "plot:7", "tower": "archer"},
-			{"do": "upgrade", "spot": "plot:7"},
-			{"do": "upgrade", "spot": "plot:7"},
-			{"do": "upgrade", "spot": "plot:7"},
-			{"do": "upgrade", "spot": "plot:7"},
+			{"do": "build", "spot": "plot:3", "tower": "archer"},
+			{"do": "upgrade", "spot": "plot:3"},
+			{"do": "upgrade", "spot": "plot:3"},
+			{"do": "upgrade", "spot": "plot:3"},
+			{"do": "upgrade", "spot": "plot:3"},
 		],
 	},
 	"lioness_temple_weak": {
@@ -681,7 +681,7 @@ const JARS: Dictionary = {
 ## (scripts/maps/rules/dynasty/rebirth.gd). Simulation first, then the look.
 const RULE: Dictionary = {
 	"jar_radius": 230.0,  # TUNING (not in GDD) px around a jar whose fallen leave a Name (Necropathy 300 on its larger stage)
-	"rise_time": 6.0,  # TUNING (not in GDD) s a Name waits before its body rises (Necropathy 6 s)
+	"rise_time": 7.0,  # TUNING (not in GDD) s a Name waits before its body rises (Necropathy 6 s)
 	"return_hp": 0.7,  # Necropathy: "the body returns at 70% HP"
 	"max_names": 40,  # TUNING (not in GDD) Names alive at once (more fallen simply stay dead)
 	"embalm_radius": 100.0,  # TUNING (not in GDD) px around an Embalmer whose Names hasten
@@ -703,9 +703,9 @@ const RULE: Dictionary = {
 	"scales_maps": ["two_truths"],  # maps whose run keeps the Scales
 	"scale_max": 30.0,  # TUNING (not in GDD) its ends
 	"scale_mark": 12.0,  # TUNING (not in GDD) past this either way it tips the run
-	"tip_return": 2.0,  # TUNING (not in GDD) toward the Dynasty per return
-	"tip_smash": 1.0,  # TUNING (not in GDD) toward the necromancer per smashed Name
-	"tip_jar": 4.0,  # TUNING (not in GDD) toward the necromancer per broken jar
+	"tip_return": 1.0,  # TUNING (not in GDD) toward the Dynasty per return
+	"tip_smash": 0.5,  # TUNING (not in GDD) toward the necromancer per smashed Name
+	"tip_jar": 5.0,  # TUNING (not in GDD) toward the necromancer per broken jar
 	"scale_hp_dynasty": 1.15,  # TUNING (not in GDD) x HP of every new spawn on the Dynasty's side (Necropathy +-15%)
 	"scale_hp_player": 0.9,  # TUNING (not in GDD) x HP on the necromancer's side
 	"scale_rise_dynasty": 0.7,  # TUNING (not in GDD) x the Names' wait on the Dynasty's side (Necropathy "2 s sooner")

@@ -1,18 +1,21 @@
 ## Sekhmet, the Lioness of Retribution (Temple boss; Necropathy's BossSekhmet).
 ## Three phases by her HP, every attack telegraphed:
-##   * THE HUNT — every `leap_every` s (first after `leap_first`) a landing
+##   * THE HUNT — every `leap_every` s (first after `leap_first`), while a post
+##     holds her, a landing
 ##     circle opens `leap_px` px ahead of her on her road (the one shelling
 ##     path: towers inside stunned `leap_disable` s, bodies inside take
 ##     `leap_damage`); when it lands she is there, over any post between.
 ##   * THE RED WIND (below `wind_hp`) — she keeps a Sandstorm blowing (the act
 ##     rule's force_storm()) and runs at `wind_haste`; the leaps go on.
 ##   * THE FEAST (below `feast_hp`) — she sets three red-wine jars (kind
-##     `feast_kind`, structures) beside her road `feast_ahead` px ahead,
-##     `feast_side` px off it. While any stands she takes only `feast_mult` of a
+##     `feast_kind`, structures) beside her road at `feast_ahead` px from her (negative: behind),
+##     `feast_side` px off it, and stands among them to drink (speed 0). While
+##     any stands she takes only `feast_mult` of a
 ##     hit and every `drink_every` s heals `drink_heal` of her max HP per jar.
 ##     When all three are broken she STUMBLES: x `stumble_mult` damage for
 ##     `stumble_time` s, then a new set. Mark a jar (tap) to aim the towers at
-##     it. Failsafe: `feast_cap` s into the Feast every hit lands in full.
+##     it. Failsafe: `feast_cap` s into the Feast every hit lands in full,
+##     she drinks no more and walks on.
 ## Args in her row. vars: "next_leap", "leap_at", "leap_to", "next_drink",
 ## "stumble_until", "feast_at", "pose_until", "phase", "jars".
 extends EnemyTrait
@@ -59,7 +62,13 @@ func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
 		_land(e, game)
 	if ph == 2:
 		var live := _jars(e)
-		if live.is_empty() and game.time >= float(e.vars["stumble_until"]):
+		var capped := game.time - float(e.vars["feast_at"]) >= float(a["feast_cap"])  # The failsafe: the Feast is over.
+		if capped:
+			live = []
+		e.speed = 0.0 if not live.is_empty() else float(e.row["speed"])  # She stands among her jars and drinks.
+		if capped:
+			pass
+		elif live.is_empty() and game.time >= float(e.vars["stumble_until"]):
 			if float(e.vars.get("stumbled", 0.0)) == 0.0:
 				e.vars["stumbled"] = 1.0
 				e.vars["stumble_until"] = game.time + float(a["stumble_time"])
@@ -74,7 +83,7 @@ func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
 			e.vars["next_drink"] = game.time + float(a["drink_every"])
 			TdCombat.heal_enemy(game, e, e.max_hp * float(a["drink_heal"]) * float(live.size()))
 			EnemyTrait.note(game, "sekhmet_drinks")
-	if game.time < e.freeze_until or e.vars.has("leap_at") or game.time < float(e.vars["next_leap"]):
+	if game.time < e.freeze_until or e.vars.has("leap_at") or game.time < float(e.vars["next_leap"]) or e.holder == null:
 		return
 	e.vars["next_leap"] = game.time + float(a["leap_every"])
 	var road := e.follower.road  # Her road (she leaps along it, never off its end).
@@ -110,7 +119,7 @@ func _set_jars(e: TdEnemy, game: TdGame, a: Dictionary) -> void:
 	var live: Array = []
 	var k := 0
 	for ahead: float in a["feast_ahead"]:
-		var d := minf(e.follower.dist + ahead, road.length - 30.0)
+		var d := clampf(e.follower.dist + ahead, 0.0, road.length - 30.0)
 		var dir := road.dir_at(d)
 		var side := float(k % 2 * 2 - 1) * float(a["feast_side"])
 		var j := Structures.raise(game, String(a["feast_kind"]), road.point_at(d) + Vector2(dir.y, -dir.x) * side)

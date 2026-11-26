@@ -253,15 +253,19 @@ func markables() -> Array[TdEnemy]:
 
 
 ## The autotest bot's tap policy (TdAutotest calls it each tick): marks a wine
-## jar while one stands, else the jar holding the most Names once it holds RULE
+## jar while one stands (dropping a Canopic Jar's mark), else the jar holding the most Names once it holds RULE
 ## bot_names and no boss or miniboss walks.
 func autotest_tap() -> void:
-	if marked != null and TdEnemy.valid(marked, marked_gen):
+	var held := marked != null and TdEnemy.valid(marked, marked_gen)  # A mark stands.
+	if held and bool(marked.row.get("markable", false)):
 		return
 	for e: TdEnemy in game.enemies:
 		if bool(e.row.get("markable", false)):
+			marked = null
 			toggle_mark(e)
 			return
+	if held:
+		return
 	for e: TdEnemy in game.enemies:
 		if String(e.row["rank"]) in ["boss", "miniboss"]:
 			return
