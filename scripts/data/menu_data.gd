@@ -30,14 +30,24 @@ const SKULL_ICON: String = "res://assets/sprites/td/icon_skull.png"
 ## Results: size (px) of a skull of the rating.
 const SKULL_BIG: float = 40.0  # TUNING (not in GDD)
 
-## Pre-map setup: size (px) of a character tile, a spell / ultimate tile.
-const CHAR_TILE := Vector2(118.0, 112.0)  # TUNING (not in GDD) gw2-kit: eight characters in one row (150 x 118 before)
+## Pre-map setup: size (px) of a character tile, a spell / ultimate tile. The
+## characters and the spells each sit in ONE horizontally scrolling strip
+## (DECISIONS Z8), so the tiles keep this size however many entries there are:
+## on an 844 x 390 phone (about 1.54 layout px per CSS px) a character tile is
+## about 80 x 73 CSS px with a 47 px portrait, a spell tile 95 x 60 with a 34 px icon.
+const CHAR_TILE := Vector2(124.0, 112.0)  # TUNING (not in GDD) Z8 (118 x 112 in a shrinking grid before); fits "Plague Scholar"
 ## See CHAR_TILE.
-const SPELL_TILE := Vector2(146.0, 84.0)  # TUNING (not in GDD) wide enough for "Corpse Explosion" (W4)
-## Pre-map grid columns: characters (one row of eight) and spells (two rows of four; gw2-kit).
-const CHAR_COLUMNS: int = 8  # TUNING (not in GDD)
-## See CHAR_COLUMNS.
-const SPELL_COLUMNS: int = 4  # TUNING (not in GDD)
+const SPELL_TILE := Vector2(146.0, 92.0)  # TUNING (not in GDD) wide enough for "Corpse Explosion" (W4); Z8: 84 -> 92 tall
+## Pre-map strips: width (px) of the scrolling window of a strip (between its arrows).
+const STRIP_WIDTH: float = 880.0  # TUNING (not in GDD) Z8
+## Height (px) added under a strip's tiles for its horizontal scroll bar.
+const STRIP_BAR: float = 14.0  # TUNING (not in GDD) Z8
+## Size (px) of a strip's scroll arrow button (beside the window, tile height).
+const STRIP_ARROW_W: float = 36.0  # TUNING (not in GDD) Z8
+## Fraction of the window one arrow press scrolls by.
+const STRIP_PAGE: float = 0.8  # TUNING (not in GDD) Z8
+## Gap (px) between two tiles of a strip.
+const STRIP_GAP: int = 8  # TUNING (not in GDD) Z8
 ## Size (px) of a pre-map ultimate tile (four beside the difficulties; gw2-kit).
 const ULT_TILE := Vector2(104.0, 84.0)  # TUNING (not in GDD)
 

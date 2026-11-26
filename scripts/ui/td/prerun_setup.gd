@@ -4,7 +4,11 @@
 ## is not "ready" are shown but not offered), the ultimate (CharacterData.
 ## ULTIMATES) and the difficulty with its Soul Ash multiplier. Remembers the
 ## choices in Meta's prerun section. Built from the data tables, so new
-## characters / spells appear by themselves.
+## characters / spells appear by themselves. The characters and the spells
+## each sit in one horizontally scrolling strip of fixed-size tiles
+## (DECISIONS Z8): a finger drags it (TouchSupport.pass_drags: a drag never
+## selects, a tap does), the wheel and the arrow buttons scroll it, and pad /
+## key focus scrolls the focused tile into view (follow_focus).
 class_name PreRunSetup
 extends MenuScreen
 
@@ -27,6 +31,10 @@ var _tiles: Dictionary = {}
 var _innate: Label = null
 ## The total Soul Ash multiplier line.
 var _mult: Label = null
+## The character strip and the spell strip (opened on the selection).
+var _char_strip: ScrollContainer = null
+## See _char_strip.
+var _spell_strip: ScrollContainer = null
 
 
 func _init() -> void:
@@ -45,16 +53,18 @@ func _build(b: VBoxContainer) -> void:
 	_ultimate = u if CharacterData.ULTIMATES.has(u) and _ult_open(u) else "dread_rally"
 	b.add_child(UiTheme.tier_label(String(MapRegistry.get_map(map_id)["name"]), UiTheme.Tier.NAME, UiTheme.TEXT_DIM))
 	(b.get_child(b.get_child_count() - 1) as Label).horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	var chars := _grid(b, MenuData.CHAR_COLUMNS)  # Character tiles (gw2-kit: eight in a row).
+	_char_strip = _strip(b, MenuData.CHAR_TILE)  # Character tiles.
 	for id: String in CharacterData.ORDER:
-		chars.add_child(_char_tile(id))
+		_char_strip.get_child(0).add_child(_char_tile(id))
 	_innate = UiTheme.para("", MenuData.PANEL_WIDTH, UiTheme.TEXT)
 	_innate.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	b.add_child(_innate)
 	b.add_child(section("Spells"))
-	var spells := _grid(b, MenuData.SPELL_COLUMNS)  # Spell tiles (gw2-kit: eight in two rows).
+	_spell_strip = _strip(b, MenuData.SPELL_TILE)  # Spell tiles.
 	for id: String in SpellData.SPELLS:
-		spells.add_child(_spell_tile(id))
+		_spell_strip.get_child(0).add_child(_spell_tile(id))
+	TouchSupport.pass_drags(_char_strip)
+	TouchSupport.pass_drags(_spell_strip)
 	var low := _row(b)  # Ultimate and difficulty.
 	for id: String in CharacterData.ULTIMATES:
 		var ur := SpellCaster.ult_row(id)  # Its row.
@@ -80,6 +90,7 @@ func _build(b: VBoxContainer) -> void:
 		_tiles["d:" + id] = db
 	_fix_spells()
 	_mark()
+	_open_on_selection.call_deferred()
 
 
 func _after_nav() -> void:
@@ -99,16 +110,52 @@ func _row(b: VBoxContainer) -> HBoxContainer:
 	return r
 
 
-## A centred grid of `cols` columns in `b` (gw2-kit: eight characters / spells).
-func _grid(b: VBoxContainer, cols: int) -> GridContainer:
-	var c := CenterContainer.new()  # Centres the grid.
-	b.add_child(c)
-	var g := GridContainer.new()  # The tiles.
-	g.columns = cols
-	g.add_theme_constant_override("h_separation", 8)
-	g.add_theme_constant_override("v_separation", 6)
-	c.add_child(g)
-	return g
+## A scrolling strip in `b` for tiles of `tile` px: [<] window [>]. Returns
+## the ScrollContainer; its child 0 is the HBoxContainer the tiles go in.
+func _strip(b: VBoxContainer, tile: Vector2) -> ScrollContainer:
+	var r := _row(b)  # Arrows around the window.
+	var sc := ScrollContainer.new()  # The window.
+	sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_ALWAYS  # The bar shows it scrolls.
+	sc.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	sc.follow_focus = true
+	sc.custom_minimum_size = Vector2(MenuData.STRIP_WIDTH, tile.y + MenuData.STRIP_BAR)
+	sc.get_h_scroll_bar().custom_minimum_size.y = MenuData.STRIP_BAR - 4.0  # The kit's scroll style is cut for vertical bars (no top / bottom margin).
+	var tiles := HBoxContainer.new()  # The tiles.
+	tiles.add_theme_constant_override("separation", MenuData.STRIP_GAP)
+	sc.add_child(tiles)
+	r.add_child(_arrow(sc, -1))
+	r.add_child(sc)
+	r.add_child(_arrow(sc, 1))
+	return sc
+
+
+## A scroll arrow for strip `sc` (`dir` -1 left, 1 right): pages the window,
+## disabled at that end (follows the scroll bar's value, no per-frame work).
+func _arrow(sc: ScrollContainer, dir: int) -> Button:
+	var a := Button.new()  # The arrow.
+	a.text = "<" if dir < 0 else ">"
+	a.focus_mode = Control.FOCUS_NONE  # Pad / keys move between tiles instead.
+	a.custom_minimum_size = Vector2(MenuData.STRIP_ARROW_W, 0.0)
+	a.pressed.connect(func() -> void:
+		sc.scroll_horizontal += int(dir * sc.size.x * MenuData.STRIP_PAGE))
+	var bar := sc.get_h_scroll_bar()  # Its value says where the window is.
+	var upd := func(_v: float = 0.0) -> void:
+		a.disabled = bar.value <= 0.5 if dir < 0 else bar.value >= bar.max_value - bar.page - 0.5
+	bar.value_changed.connect(upd)
+	bar.changed.connect(upd)
+	return a
+
+
+## Scrolls each strip so its selection is in the middle of the window (after layout).
+func _open_on_selection() -> void:
+	await get_tree().process_frame
+	_centre(_char_strip, _tiles[_character] as Control)
+	_centre(_spell_strip, _tiles["s:" + (_spells[_spells.size() - 1] if not _spells.is_empty() else _own())] as Control)
+
+
+## Centres tile `t` in strip `sc`.
+func _centre(sc: ScrollContainer, t: Control) -> void:
+	sc.scroll_horizontal = int(t.position.x + t.size.x * 0.5 - sc.size.x * 0.5)
 
 
 ## True when ultimate `id` can be brought (Dread Rally always; Unlocks).
@@ -130,7 +177,7 @@ func _tile(tex: Texture2D, text: String, px: Vector2, dark: bool = false) -> But
 	col.add_child(ic)
 	var l := UiTheme.tier_label(text, UiTheme.Tier.BODY)
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	l.clip_text = true
+	l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	col.add_child(l)
 	return t
 
@@ -173,6 +220,7 @@ func _pick_character(id: String) -> void:
 	_character = id
 	_fix_spells()
 	_mark()
+	_centre(_spell_strip, _tiles["s:" + _own()] as Control)  # Its own spell comes along: show it.
 
 
 ## Taps a spell: adds it (replacing the last pick when full) or removes it.
