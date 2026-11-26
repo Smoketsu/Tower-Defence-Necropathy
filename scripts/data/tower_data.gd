@@ -433,8 +433,8 @@ const TOWERS: Dictionary = {
 		"cost": 120,  # TUNING (not in GDD)
 		"behavior": "bound_succubus",
 		"range": 160.0,  # TUNING (not in GDD)
-		"damage": 12.0,  # TUNING (not in GDD) per kiss
-		"interval": 1.0,  # TUNING (not in GDD)
+		"damage": 16.0,  # TUNING (not in GDD) per kiss
+		"interval": 0.9,  # TUNING (not in GDD)
 		"target": "first",
 		"projectile": "projectiles/priest_bolt", "projectile_speed": 460.0,  # TUNING (not in GDD)
 		"splash": 0.0, "slow": 1.0, "slow_time": 0.0, "freeze_every": 0, "freeze_time": 0.0,
@@ -455,11 +455,11 @@ const TOWERS: Dictionary = {
 		"cost": 135,  # TUNING (not in GDD)
 		"behavior": "archfiend",
 		"range": 40.0,  # TUNING (not in GDD)
-		"damage": 20.0,  # TUNING (not in GDD)
+		"damage": 24.0,  # TUNING (not in GDD)
 		"interval": 1.4,  # TUNING (not in GDD)
 		"target": "first",
 		"bodies": 1,
-		"body_hp": 460.0,  # TUNING (not in GDD) beside the Bound Oni (440)
+		"body_hp": 500.0,  # TUNING (not in GDD) beside the Bound Oni (440)
 		"hold": 3,  # TUNING (not in GDD)
 		"hits_all_held": false,
 		"respawn": 11.0,  # TUNING (not in GDD)
