@@ -120,7 +120,7 @@ const CHAR_TILE := Vector2(124.0, 112.0)  # TUNING (not in GDD) Z8 (118 x 112 in
 ## See CHAR_TILE.
 const SPELL_TILE := Vector2(146.0, 92.0)  # TUNING (not in GDD) wide enough for "Corpse Explosion" (W4); Z8: 84 -> 92 tall
 ## Pre-map strips: width (px) of the scrolling window of a strip (between its arrows).
-const STRIP_WIDTH: float = 880.0  # TUNING (not in GDD) Z8
+const STRIP_WIDTH: float = 812.0  # TUNING (not in GDD) Z8; M9 880 -> 812 (beside the hero column)
 ## Height (px) added under a strip's tiles for its horizontal scroll bar.
 const STRIP_BAR: float = 14.0  # TUNING (not in GDD) Z8
 ## Size (px) of a strip's scroll arrow button (beside the window, tile height).
@@ -131,6 +131,20 @@ const STRIP_PAGE: float = 0.8  # TUNING (not in GDD) Z8
 const STRIP_GAP: int = 8  # TUNING (not in GDD) Z8
 ## Size (px) of a pre-map ultimate tile (four beside the difficulties; gw2-kit).
 const ULT_TILE := Vector2(104.0, 84.0)  # TUNING (not in GDD)
+
+## Pre-map setup (M9): gap (px) between the hero column and the choices; the hero
+## column's width, portrait (px), spell icon (px); a difficulty icon's scale; Start's size.
+const PRERUN_GAP: int = 14  # TUNING (not in GDD) M9
+## See PRERUN_GAP.
+const HERO_W: float = 280.0  # TUNING (not in GDD) M9
+## See PRERUN_GAP.
+const HERO_PORTRAIT: float = 168.0  # TUNING (not in GDD) M9
+## See PRERUN_GAP.
+const HERO_SPELL_ICON: float = 28.0  # TUNING (not in GDD) M9
+## See PRERUN_GAP.
+const PRERUN_DIFF_SCALE: int = 2  # TUNING (not in GDD) M9
+## See PRERUN_GAP.
+const START_BUTTON := Vector2(190.0, 48.0)  # TUNING (not in GDD) M9
 
 ## Ossuary: size (px) of an upgrade tile and of a mastery badge.
 const OSSUARY_TILE := Vector2(300.0, 84.0)  # TUNING (not in GDD)
