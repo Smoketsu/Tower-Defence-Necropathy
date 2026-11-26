@@ -59,8 +59,51 @@ const TAB_GAP: int = 6  # TUNING (not in GDD) M4
 ## Gap (px) between rows of a screen.
 const ROW_GAP: int = 10  # TUNING (not in GDD)
 
-## Map select: size (px) of one map card.
-const MAP_CARD := Vector2(290.0, 230.0)  # TUNING (not in GDD)
+## Map select: size (px) of one map card (three in a row; M6: was 290 x 230 text only).
+const MAP_CARD := Vector2(372.0, 300.0)  # TUNING (not in GDD) M6
+## Map select: inner padding (px) of a card and the gap (px) between cards.
+const MAP_CARD_PAD: int = 10  # TUNING (not in GDD) M6
+## See MAP_CARD_PAD.
+const MAP_CARD_GAP: int = 14  # TUNING (not in GDD) M6
+## Map select: size (px) of a card's picture (the thumbnail is cropped to cover it).
+const THUMB_SIZE := Vector2(344.0, 168.0)  # TUNING (not in GDD) M6
+## Path of a map's pre-rendered picture ("%s" = map id; tools/gw_map_thumbs.sh, lossy WebP in the pack).
+const THUMB_PATH: String = "res://assets/thumbs/%s.jpg"
+## Modulate of a locked map's picture, and the colour shown when a map has no picture yet.
+const THUMB_LOCKED: Color = Color(0.34, 0.31, 0.42)  # TUNING (not in GDD) M6
+## See THUMB_LOCKED.
+const THUMB_EMPTY: Color = Color(0.07, 0.05, 0.11)  # TUNING (not in GDD) M6
+## Boss on a card: the box (px) its sprite is scaled into (whole steps when it grows),
+## its feet's inset (px) from the picture's right and bottom edges, and its shadow's tint.
+const BOSS_MAX := Vector2(130.0, 120.0)  # TUNING (not in GDD) M6
+## See BOSS_MAX.
+const BOSS_RIGHT: float = 70.0  # TUNING (not in GDD) M6
+## See BOSS_MAX.
+const BOSS_BOTTOM: float = 10.0  # TUNING (not in GDD) M6
+## See BOSS_MAX.
+const BOSS_SHADOW: Color = Color(0.0, 0.0, 0.0, 0.75)  # TUNING (not in GDD) M6
+## Modulate of a locked map's boss (a black silhouette: not met yet).
+const BOSS_LOCKED: Color = Color(0.03, 0.02, 0.05, 0.9)  # TUNING (not in GDD) M6
+## Ribbon words of a map's place in its act ("%d" = 1-based), the last map's word.
+const MAP_PLACE: String = "Map %d"  # TUNING (not in GDD) M6
+## See MAP_PLACE.
+const MAP_PLACE_FINALE: String = "Finale"  # TUNING (not in GDD) M6
+## Scale (layout px per art px) of the padlock on a locked card.
+const LOCK_SCALE: int = 4  # TUNING (not in GDD) M6
+## Map cards: MaskIconData icon per difficulty, its scale, the skull size (px), the gap (px) between groups.
+const DIFF_ICONS: Dictionary = {"initiate": "candle", "necromancer": "skull", "lich": "lich", "deathlord": "deathlord"}  # TUNING (not in GDD) M6 (Necropathy's difficulty icons)
+## See DIFF_ICONS.
+const DIFF_ICON_SCALE: int = 2  # TUNING (not in GDD) M6
+## See DIFF_ICONS.
+const SKULL_SMALL: float = 14.0  # TUNING (not in GDD) M6
+## See DIFF_ICONS.
+const SKULL_GROUP_GAP: int = 12  # TUNING (not in GDD) M6
+## Map select: size (px) of a Part tab, its word ("%s" = numeral) and an act tab's numeral line.
+const PART_TAB := Vector2(150.0, 44.0)  # TUNING (not in GDD) M6
+## See PART_TAB.
+const PART_WORD: String = "Part %s"  # TUNING (not in GDD) M6
+## See PART_TAB.
+const ACT_WORD: String = "Act %s"  # TUNING (not in GDD) M6
 ## Size (px) of a skull mark on the map cards and results.
 const SKULL: float = 20.0  # TUNING (not in GDD)
 ## The 16 x 16 skull mark of the skull ratings (bone, tinted gold when earned).
@@ -118,10 +161,10 @@ const CRIMSON: Color = Color(0.95, 0.35, 0.35)  # TUNING (not in GDD)
 const TEAL: Color = Color(0.35, 0.95, 0.8)  # TUNING (not in GDD)
 
 ## --- Act framework (gw2-acts) ---------------------------------------------------
-## Map select: size (px) of one act tab (its numeral; 15 acts fit one row of the panel).
-const ACT_TAB := Vector2(52.0, 38.0)  # TUNING (not in GDD)
+## Map select: size (px) of one act tab (numeral over name; one part's five acts in a row; M6: was 52 x 38, numeral only).
+const ACT_TAB := Vector2(218.0, 58.0)  # TUNING (not in GDD) M6
 ## Map select: gap (px) between act tabs.
-const ACT_TAB_GAP: int = 4  # TUNING (not in GDD)
+const ACT_TAB_GAP: int = 6  # TUNING (not in GDD) M6
 ## Map select: modulate of a locked act's tab (its first map not open yet).
 const ACT_LOCKED: Color = Color(0.55, 0.5, 0.62, 0.8)  # TUNING (not in GDD)
 ## Map select: size (px) of the "Coming soon" panel of an act with no playable map.

@@ -29,8 +29,8 @@ const MENU_ROAD_COST: int = 2  # TUNING (not in GDD)
 ## Clearance (px) around the spell bar when it picks the slot covering the least
 ## road (TdHud._place_spell_bar, DECISIONS X6).
 const SPELL_BAR_CLEAR: float = 12.0  # TUNING (not in GDD)
-## Size of a tower icon in the spot menu (px).
-const MENU_ICON: float = 32.0  # TUNING (not in GDD)
+## Size of a tower icon on a spot-menu build tile (px).
+const MENU_ICON: float = 40.0  # TUNING (not in GDD) M7 (was 32)
 ## Seconds a banner stays fully shown (real time), and its fade (s).
 const BANNER_HOLD: float = 1.8  # TUNING (not in GDD)
 ## Most banners waiting behind the one showing; older ones are dropped so a
@@ -46,7 +46,7 @@ const SWEEP: Color = Color(0.0, 0.0, 0.0, 0.62)  # TUNING (not in GDD)
 ## Colour of the ultimate meter fill (soul-teal, GDD §9 colour meaning).
 const METER: Color = Color(0.35, 0.95, 0.8, 0.45)  # TUNING (not in GDD)
 ## Minimum height (px) of a spot-menu button (a fingertip at phone scale).
-const MENU_BUTTON_H: float = 40.0  # TUNING (not in GDD)
+const MENU_BUTTON_H: float = 60.0  # TUNING (not in GDD) M7 (was 40): ~39 CSS px tall at 844 x 390
 ## Minimum size (px) of a top-bar button (a fingertip at phone scale).
 const TOP_BUTTON := Vector2(64.0, 40.0)  # TUNING (not in GDD)
 ## Speed (px/s, map px) of the gamepad cursor while a spell is aimed.
@@ -59,11 +59,34 @@ const CURSOR: Color = Color(1.0, 0.84, 0.4, 0.9)  # TUNING (not in GDD)
 const BANNER_NEW: String = "violet"  # TUNING (not in GDD)
 ## See BANNER_NEW.
 const BANNER_BOSS: String = "crimson"  # TUNING (not in GDD)
-## Spot menu build tiles per row, and one tile's size (px): icon over one line
-## "name cost" (DECISIONS Y8: the compact menu fits the gaps beside the roads).
+## Spot menu build tiles per row, and one tile's size (px): icon, name, cost
+## (DECISIONS Y8: one strip fits the gaps beside the roads; M7: roomier tiles,
+## about 73 x 62 CSS px on an 844 x 390 phone).
 const MENU_COLUMNS: int = 6  # TUNING (not in GDD) was 3: one strip
 ## See MENU_COLUMNS.
-const MENU_TILE := Vector2(92.0, 58.0)  # TUNING (not in GDD) was 140 x 82
+const MENU_TILE := Vector2(112.0, 96.0)  # TUNING (not in GDD) M7 (was 92 x 58; before Y8 140 x 82)
+## Gap (px) between spot-menu tiles, pagers and button rows.
+const MENU_GAP: int = 6  # TUNING (not in GDD) M7
+## Spot menu page dots: size (px), gap (px), colour of a dot not shown (the shown one is gold).
+const MENU_DOT := Vector2(14.0, 6.0)  # TUNING (not in GDD) M7
+## See MENU_DOT.
+const MENU_DOT_GAP: int = 6  # TUNING (not in GDD) M7
+## See MENU_DOT.
+const MENU_DOT_OFF: Color = Color(0.3, 0.26, 0.38)  # TUNING (not in GDD) M7
+## Modulate of an unaffordable tile's icon.
+const MENU_DIM: Color = Color(0.45, 0.45, 0.5)  # TUNING (not in GDD) M7
+## Size (px) of the souls icon on a build tile's cost line.
+const MENU_COST_ICON: float = 16.0  # TUNING (not in GDD) M7
+## Built tower panel: its width (px), the header icon (px), a two-line button's icon (px), a level pip (px).
+const MENU_TOWER_W: float = 320.0  # TUNING (not in GDD) M7
+## See MENU_TOWER_W.
+const MENU_HEAD_ICON: float = 44.0  # TUNING (not in GDD) M7
+## See MENU_TOWER_W.
+const MENU_ROW_ICON: float = 28.0  # TUNING (not in GDD) M7
+## See MENU_TOWER_W.
+const MENU_PIP := Vector2(12.0, 8.0)  # TUNING (not in GDD) M7
+## Upgrade gains shown from TowerData.LEVELS: multiplier key -> word.
+const MENU_GAIN_WORDS: Dictionary = {"damage": "dmg", "rate": "rate", "range": "range", "hp": "hp"}  # TUNING (not in GDD) M7
 ## Phones and tablets: top-bar and spell buttons are this much bigger (a thumb, GDD §9.3).
 const TOUCH_SCALE: float = 1.35  # TUNING (not in GDD)
 ## Phones in landscape at least this wide (width / height) put the spell bar in a
@@ -75,7 +98,7 @@ const TOUCH_TOP_SCALE: float = 1.7  # TUNING (not in GDD)
 ## (one strip of MENU_COLUMNS, phone landscape included).
 const MENU_PAGE: int = 6  # TUNING (not in GDD)
 ## Size (px) of a build-menu page button at each end of the strip (a full tile tall).
-const MENU_PAGER := Vector2(34.0, 58.0)  # TUNING (not in GDD) was 56 x 36
+const MENU_PAGER := Vector2(60.0, 96.0)  # TUNING (not in GDD) M7 (was 34 x 58): ~39 CSS px wide on a phone
 ## Z index of the map frame (TdGame._draw_frame: covers the screen beyond the
 ## map; above every world layer, under the HUD canvas layer), and how far (map
 ## px) it reaches past the map's edge.

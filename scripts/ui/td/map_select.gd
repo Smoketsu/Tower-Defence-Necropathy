@@ -1,11 +1,14 @@
-## MapSelect: the map pick (GDD §9.3, §8.3), grouped by act (ActData, the
-## one ordered act list): a row of act tabs (numerals; a locked act's tab is
-## dimmed), the act's title, then one card per playable map of that act with
-## its lock state (a map opens when the previous map's boss is beaten, across
-## acts: Meta.unlock_after()), its best skulls per difficulty and its best
-## Reckoning wave; an act with no playable map shows "Coming soon". Picking an
-## open card goes on to the pre-map setup (Main). Built from the tables, so new
-## acts and maps appear by themselves; hidden acts only with --test-act.
+## MapSelect: the map pick (GDD §9.3, §8.3; menu overhaul, DECISIONS M6),
+## grouped by act (ActData, the one ordered act list): Part tabs (I / II /
+## III, from the rows' "part"), the part's acts as named tabs (numeral and
+## name; a locked act's tab is dimmed with a padlock), the act's faction and
+## how many of its maps are cleared, then one illustrated MapCard per
+## playable map of the act (picture, boss, skulls, Reckoning, or its lock
+## line: a map opens when the previous map's boss is beaten, across acts,
+## Meta.unlock_after()); an act with no playable map shows "Coming soon". The
+## header title is the act's ("Act N: name"). Picking an open card goes on to
+## the pre-map setup (Main). Built from the tables, so new acts and maps
+## appear by themselves; hidden acts only with --test-act.
 class_name MapSelect
 extends MenuScreen
 
@@ -14,9 +17,15 @@ signal picked(map_id: String)
 
 ## Act shown now (ActData id).
 var _act: String = ""
-## Act id -> its tab button.
+## Part shown now (ActData "part").
+var _part: int = 1
+## Part number (as a String) -> its tab button.
+var _part_tabs: Dictionary = {}
+## The act tab row (rebuilt per part) and act id -> its tab.
+var _act_row: HBoxContainer = null
+## See _act_row.
 var _tabs: Dictionary = {}
-## The act's subtitle line (its faction) and the cards row.
+## The act's subtitle line (its faction and progress) and the cards row.
 var _faction: Label = null
 ## See _faction.
 var _row: HBoxContainer = null
@@ -26,7 +35,9 @@ func _init() -> void:
 	_act = Acts.act_of_map(String(Meta.prerun("map", MapRegistry.DEFAULT_ID)))
 	if _act == "" or not Acts.shown(Acts.row(_act)):
 		_act = String(ActData.ACTS[0]["id"])
+	_part = int(Acts.row(_act).get("part", 1))
 	title_text = _title(_act)
+	show_ash = true
 
 
 ## "Act N: name" of act `id`.
@@ -41,30 +52,80 @@ static func act_open(id: String) -> bool:
 
 
 func _build(b: VBoxContainer) -> void:
-	var tabs := HBoxContainer.new()  # Act tabs.
-	tabs.alignment = BoxContainer.ALIGNMENT_CENTER
-	tabs.add_theme_constant_override("separation", MenuData.ACT_TAB_GAP)
-	b.add_child(tabs)
+	var parts: Array = []  # [[part as String, word], ...] of the parts with visible acts.
 	for r: Dictionary in Acts.visible_acts():
-		var id := String(r["id"])  # The act.
-		var t := Button.new()  # Its tab.
-		t.text = Acts.numeral(id)
-		t.custom_minimum_size = MenuData.ACT_TAB
-		t.tooltip_text = "%s (%s)" % [_title(id), String(r["faction"])]
-		if not act_open(id):
-			t.modulate = MenuData.ACT_LOCKED
-		t.pressed.connect(_show_act.bind(id))
-		tabs.add_child(t)
-		_tabs[id] = t
+		var p := str(int(r.get("part", 1)))  # Its part.
+		if not parts.any(func(e: Array) -> bool: return e[0] == p):
+			parts.append([p, MenuData.PART_WORD % ActData.NUMERALS[clampi(int(p) - 1, 0, ActData.NUMERALS.size() - 1)]])
+	_part_tabs = tab_row(b, parts, _show_part, MenuData.PART_TAB)
+	_act_row = HBoxContainer.new()
+	_act_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	_act_row.add_theme_constant_override("separation", MenuData.ACT_TAB_GAP)
+	b.add_child(_act_row)
 	_faction = UiTheme.tier_label("", UiTheme.Tier.BODY, UiTheme.TEXT_DIM)
 	_faction.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	b.add_child(_faction)
 	_row = HBoxContainer.new()
 	_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	_row.add_theme_constant_override("separation", 14)
-	_row.custom_minimum_size.y = MenuData.MAP_CARD.y
+	_row.add_theme_constant_override("separation", MenuData.MAP_CARD_GAP)
+	_row.custom_minimum_size = Vector2(MenuData.MAP_CARD.x * 3.0 + MenuData.MAP_CARD_GAP * 2.0, MenuData.MAP_CARD.y)
 	b.add_child(_row)
+	_fill_acts()
 	_show_act(_act, true)
+
+
+## A Part tab: shows that part's acts and its first act (the open one nearest the end, if any).
+func _show_part(p: String) -> void:
+	_part = int(p)
+	_fill_acts()
+	var pick := ""  # Act to show.
+	for id: String in _tabs:
+		if pick == "" or act_open(id):
+			pick = id
+	_show_act(pick)
+
+
+## (Re)builds the act tabs of the current part.
+func _fill_acts() -> void:
+	mark_tabs(_part_tabs, str(_part))
+	for n: Node in _act_row.get_children():
+		_act_row.remove_child(n)
+		n.queue_free()
+	_tabs.clear()
+	for r: Dictionary in Acts.visible_acts():
+		if int(r.get("part", 1)) != _part:
+			continue
+		var id := String(r["id"])  # The act.
+		var open := act_open(id)  # Playable now.
+		var t := Button.new()  # Its tab: numeral over name.
+		t.custom_minimum_size = MenuData.ACT_TAB
+		t.tooltip_text = "%s (%s)" % [_title(id), String(r["faction"])]
+		t.set_meta("ui_lift", false)
+		t.pressed.connect(_show_act.bind(id))
+		var col := VBoxContainer.new()  # Numeral, name.
+		col.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, 4)
+		col.alignment = BoxContainer.ALIGNMENT_CENTER
+		col.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		col.add_theme_constant_override("separation", 0)
+		t.add_child(col)
+		var top := HBoxContainer.new()  # Numeral (and padlock while locked).
+		top.alignment = BoxContainer.ALIGNMENT_CENTER
+		top.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		top.add_theme_constant_override("separation", 4)
+		col.add_child(top)
+		if not open:
+			var lk := MaskIcon.new("padlock", 1)  # Locked.
+			lk.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			top.add_child(lk)
+		top.add_child(UiTheme.tier_label(MenuData.ACT_WORD % Acts.numeral(id), UiTheme.Tier.LABEL, UiTheme.TEXT_GOLD if open else UiTheme.TEXT_DIM))
+		var nm := UiTheme.tier_label(String(r["name"]), UiTheme.Tier.BODY, UiTheme.TEXT if open else UiTheme.TEXT_DIM)
+		nm.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		nm.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		col.add_child(nm)
+		if not open:
+			t.modulate = MenuData.ACT_LOCKED
+		_act_row.add_child(t)
+		_tabs[id] = t
 
 
 ## Shows act `id`: highlights its tab, sets the title and builds its cards
@@ -76,17 +137,20 @@ func _show_act(id: String, opening: bool = false) -> void:
 	if title_label != null:
 		title_label.text = _title(id)
 	var row := Acts.row(id)  # Its ActData row.
-	_faction.text = String(row["faction"])
+	var maps := Acts.maps_of(id)  # Its playable maps.
+	var won := maps.filter(func(m: String) -> bool: return Meta.cleared(m)).size()  # Maps beaten.
+	_faction.text = "%s   %d / %d cleared" % [String(row["faction"]), won, maps.size()] if not maps.is_empty() else String(row["faction"])
 	for n: Node in _row.get_children():
 		_row.remove_child(n)
 		n.queue_free()
-	var maps := Acts.maps_of(id)  # Its playable maps.
 	var first: Button = null  # Card to focus.
 	var last := String(Meta.prerun("map", MapRegistry.DEFAULT_ID))  # Map picked last time.
 	for m: String in maps:
-		var card := _card(m)  # The map's card.
+		var open := GameState.autotest or Meta.map_open(m)  # Playable now.
+		var card := MapCard.new(m, open, "Beat the boss of %s" % String(MapRegistry.get_map(Meta.unlock_after(m))["name"]))  # The map's card.
+		card.pressed.connect(func() -> void: picked.emit(m))
 		_row.add_child(card)
-		if not card.disabled and (first == null or m == last):
+		if open and (first == null or m == last):
 			first = card
 	if maps.is_empty():
 		var p := PanelContainer.new()  # "Coming soon".
@@ -100,47 +164,3 @@ func _show_act(id: String, opening: bool = false) -> void:
 	UiMotion.stagger(_row.get_children())
 	if opening:
 		UiTheme.focus_deferred(first if first != null else _tabs[id])
-
-
-## The card of map `id`: name, records, or the lock line.
-func _card(id: String) -> Button:
-	var m := MapRegistry.get_map(id)  # Its data.
-	var open := GameState.autotest or Meta.map_open(id)  # Playable now.
-	var c := Button.new()  # The card (a button holding a column).
-	c.custom_minimum_size = MenuData.MAP_CARD
-	c.disabled = not open
-	UiTheme.style_button(c, "card", "gold" if Meta.cleared(id) else "violet")
-	c.pressed.connect(func() -> void: picked.emit(id))
-	var col := VBoxContainer.new()  # Card content.
-	col.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, 12)
-	col.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	col.add_theme_constant_override("separation", 6)
-	c.add_child(col)
-	var nm := UiTheme.tier_label(String(m["name"]), UiTheme.Tier.NAME, UiTheme.TEXT_GOLD if Meta.cleared(id) else UiTheme.TEXT)
-	nm.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	nm.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	col.add_child(nm)
-	col.add_child(UiTheme.divider("gold" if Meta.cleared(id) else "violet"))
-	if not open:
-		var lock := UiTheme.para("Beat the boss of %s" % String(MapRegistry.get_map(_unlock_after(id))["name"]), 0.0, MenuData.CRIMSON)
-		lock.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		col.add_child(lock)
-		return c
-	for d: String in DifficultyData.ORDER:
-		var line := HBoxContainer.new()  # Difficulty name and its best skulls.
-		line.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		var l := UiTheme.tier_label(String(DifficultyData.LEVELS[d]["name"]), UiTheme.Tier.BODY, UiTheme.TEXT_DIM)
-		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		line.add_child(l)
-		line.add_child(MenuScreen.skull_row(Meta.skulls(id, d), MenuData.SKULL))
-		col.add_child(line)
-	var rk := Meta.best_reckoning(id)  # Best Reckoning wave.
-	var r := UiTheme.tier_label("Reckoning %s" % (str(rk) if rk > 0 else "-"), UiTheme.Tier.BODY, MenuData.CRIMSON if rk > 0 else UiTheme.TEXT_DIM)
-	r.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	col.add_child(r)
-	return c
-
-
-## Map whose boss opens map `id` (Meta.unlock_after(); the previous map, across acts).
-func _unlock_after(id: String) -> String:
-	return Meta.unlock_after(id)
