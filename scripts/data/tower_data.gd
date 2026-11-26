@@ -433,8 +433,8 @@ const TOWERS: Dictionary = {
 		"cost": 135,  # TUNING (not in GDD)
 		"behavior": "draugr_thane",
 		"range": 40.0,  # TUNING (not in GDD)
-		"damage": 24.0,  # TUNING (not in GDD) per blow on the first held enemy
-		"interval": 1.4,  # TUNING (not in GDD)
+		"damage": 30.0,  # TUNING (not in GDD) per blow on the first held enemy
+		"interval": 1.3,  # TUNING (not in GDD)
 		"target": "first",
 		"bodies": 1,
 		"body_hp": 470.0,  # TUNING (not in GDD) between the Bound Oni (440) and the Golem (500)
@@ -443,7 +443,7 @@ const TOWERS: Dictionary = {
 		"respawn": 11.0,  # TUNING (not in GDD)
 		"chill_mult": 0.6,  # TUNING (not in GDD) speed share left on a foe its axe strikes (Necropathy axe_slow)
 		"chill_time": 2.0,  # TUNING (not in GDD) s of that chill
-		"cleave_every": 3,  # TUNING (not in GDD) every 3rd blow is the frost cleave
+		"cleave_every": 2,  # TUNING (not in GDD) every 2nd blow is the frost cleave
 		"cleave_radius": 70.0,  # TUNING (not in GDD) px round the body the cleave reaches (Necropathy cleave_radius)
 		"cleave_mult": 0.8,  # TUNING (not in GDD) share of its damage each foe in the cleave takes
 		"cleave_freeze": 0.0,  # Barrow King only (EvolutionData "barrow_king"): s the cleave freezes what it strikes
