@@ -166,7 +166,7 @@ layout, synthesized sounds, CI with a map matrix (30 jobs from
 Balance: `docs/BALANCE.md` (its first section is the one 30-map table and the
 **Act I baseline summaries**: a change that must not touch Act I reproduces them
 byte for byte). Decisions: `docs/DECISIONS.md` (I, V, A, K, W, T2-T10, X, Y rows).
-Next: Acts XI-XV through `docs/ACT_TEMPLATE.md` (section 5: the wave 2b and 2c
+Next: Acts XI-XV through `docs/ACT_TEMPLATE.md` (sections 5 and 6: the wave 2b and 2c
 lessons).
 
 Not built / not verified: boss attack-pose art for the later bosses listed in
