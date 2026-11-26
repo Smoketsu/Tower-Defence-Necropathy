@@ -244,6 +244,38 @@ const SPELLS: Dictionary = {
 		"tick": 0.8,  # TUNING (not in GDD) s between beams
 		"duration": 8.0,  # TUNING (not in GDD) s it hangs
 	},
+	# --- Act VI spells (w2c-norse; Necropathy's Hall of the Slain rewards) ---
+	"barrow_grasp": {
+		"name": "Barrow Grasp", "short": "Grasp", "icon": "barrow_grasp", "cooldown": 20.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "Cold hands burst from the ground in a ring and hold what they grab",
+		"unlock": {"map": "barrow_fields"},  # Hrimgar's reward
+		"hands": 5,  # TUNING (not in GDD) hands per cast (Necropathy hands)
+		"ring": 55.0,  # TUNING (not in GDD) px from the tap the hands burst
+		"radius": 40.0,  # TUNING (not in GDD) px each hand grabs
+		"damage": 40.0,  # TUNING (not in GDD) per grab
+		"hold": 1.8,  # TUNING (not in GDD) s each grab freezes (TdCombat.freeze_enemy, by rank)
+	},
+	"valkyrie_spear": {
+		"name": "Valkyrie Spear", "short": "Valkyrie", "icon": "valkyrie_spear", "cooldown": 14.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "A spectral spear dives on the strongest foe near the tap and leaps to the next",
+		"unlock": {"map": "valgard"},  # Sigrun's reward
+		"range": 160.0,  # TUNING (not in GDD) px from the tap it seeks the strongest foe
+		"damage": 120.0,  # TUNING (not in GDD) first strike
+		"jumps": 3,  # TUNING (not in GDD) leaps after the first strike (Necropathy jumps)
+		"chain": 130.0,  # TUNING (not in GDD) px a leap reaches
+		"falloff": 0.8,  # TUNING (not in GDD) each strike x this of the last
+		"gap": 0.15,  # TUNING (not in GDD) s between two strikes
+	},
+	"gungnir": {
+		"name": "Gungnir", "icon": "gungnir", "cooldown": 22.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "The All-Father's spear flies through the strongest foe near the tap and everything in its line",
+		"unlock": {"map": "vigrid"},  # Odin's reward
+		"aim": 180.0,  # TUNING (not in GDD) px from the tap it seeks the strongest foe
+		"spears": 1,  # TUNING (not in GDD) spears per cast (the next strongest for each more)
+		"length": 900.0,  # TUNING (not in GDD) px the spear flies from the necromancer's gate
+		"width": 26.0,  # TUNING (not in GDD) px each side of its line it strikes (Necropathy spear_width)
+		"damage": 160.0,  # TUNING (not in GDD) per foe struck
+	},
 }
 
 ## The ultimate (GDD §5 Dread Rally), cast through SpellCaster like a spell

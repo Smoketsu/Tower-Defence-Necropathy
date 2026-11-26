@@ -131,4 +131,12 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "b", "vs": "frozen", "mult": 1.35},  # TUNING (not in GDD) arrows punish the oni's stunned foes
 		"hint": "Bound Oni near Archers: arrows hit stunned foes harder",
 	},
+	# --- Act VI (w2c-norse) ---
+	"cold_iron": {
+		"name": "Cold Iron", "icon": "grave_frost", "a": "draugr_thane", "b": "frost_wraith",
+		"radius": 220.0,  # TUNING (not in GDD)
+		"effects": {"a": {"hp": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "a", "vs": "slowed", "mult": 1.3},  # TUNING (not in GDD) Necropathy Cold Iron: blows on slowed foes hit harder
+		"hint": "Draugr Thane near a Frost Wraith: its axe bites slowed foes harder",
+	},
 }

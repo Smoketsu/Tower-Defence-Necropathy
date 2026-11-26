@@ -378,6 +378,7 @@ func _draw_body(ci: CanvasItem) -> void:
 		var sts := statuses()  # Statuses on it.
 		if not sts.is_empty():
 			tint *= TdVfxData.STATUS_TINT[sts[0]]
+	tint.a *= float(vars.get("vis_alpha", 1.0))  # A trait's fade (drawn only: Hrimgar sunk in his barrow, Act VI).
 	if row.get("rank", "") == "boss":
 		var p := 3 if pose == 0 and game != null and _striking() else pose  # A blow shows the strike pose.
 		if not SpriteBank.draw_pose(ci, key, p, Vector2.ZERO, flash, tint):

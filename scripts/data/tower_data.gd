@@ -12,7 +12,8 @@ extends RefCounted
 ## Build-menu order of the towers.
 const ORDER: Array[String] = ["archer", "mage", "frost_wraith", "corpse_catapult", "banshee", "mender", "warrior", "abomination",
 	"warder", "rogue", "gargoyle", "bone_hound", "fallen_seraph", "bone_golem",
-	"powder_wraith", "blood_spawn", "fallen_hero", "bound_oni"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
+	"powder_wraith", "blood_spawn", "fallen_hero", "bound_oni",
+	"draugr_thane"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
 
 ## Targeting modes (GDD §4.3), in the order the Target button cycles them.
 const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
@@ -424,6 +425,31 @@ const TOWERS: Dictionary = {
 		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(1.0, 0.55, 0.4), "reach": 120.0},  # TUNING (not in GDD)
 		"evolution": "oni_lord",
 	},
+	# --- Act VI, the Hall of the Slain (w2c-norse): unlocked by Odin ---
+	"draugr_thane": {
+		"name": "Draugr Thane", "short": "Thane", "sprite": "summons/draugr_thane", "icon": "draugr_thane", "spot": "post",
+		"desc": "Heavy undead jarl: every axe blow chills, every few blows a frost cleave round it",
+		"unlock": {"map": "vigrid"},  # Act VI's finale boss (DECISIONS K9)
+		"cost": 135,  # TUNING (not in GDD)
+		"behavior": "draugr_thane",
+		"range": 40.0,  # TUNING (not in GDD)
+		"damage": 24.0,  # TUNING (not in GDD) per blow on the first held enemy
+		"interval": 1.4,  # TUNING (not in GDD)
+		"target": "first",
+		"bodies": 1,
+		"body_hp": 470.0,  # TUNING (not in GDD) between the Bound Oni (440) and the Golem (500)
+		"hold": 3,  # TUNING (not in GDD)
+		"hits_all_held": false,
+		"respawn": 11.0,  # TUNING (not in GDD)
+		"chill_mult": 0.6,  # TUNING (not in GDD) speed share left on a foe its axe strikes (Necropathy axe_slow)
+		"chill_time": 2.0,  # TUNING (not in GDD) s of that chill
+		"cleave_every": 3,  # TUNING (not in GDD) every 3rd blow is the frost cleave
+		"cleave_radius": 70.0,  # TUNING (not in GDD) px round the body the cleave reaches (Necropathy cleave_radius)
+		"cleave_mult": 0.8,  # TUNING (not in GDD) share of its damage each foe in the cleave takes
+		"cleave_freeze": 0.0,  # Barrow King only (EvolutionData "barrow_king"): s the cleave freezes what it strikes
+		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(0.6, 0.85, 1.0), "reach": 120.0},  # TUNING (not in GDD)
+		"evolution": "barrow_king",
+	},
 }
 
 ## Per-level multipliers, 5 rows (levels 1-5) per tower. Keys:
@@ -555,6 +581,13 @@ const LEVELS: Dictionary = {
 		{"damage": 2.8, "rate": 1.25, "range": 1.2},  # TUNING (not in GDD)
 	],
 	"bound_oni": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.0},
+		{"damage": 1.3, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.4},  # TUNING (not in GDD)
+		{"damage": 1.6, "rate": 1.1, "range": 1.0, "bodies": 1, "hp": 1.8},  # TUNING (not in GDD)
+		{"damage": 2.0, "rate": 1.2, "range": 1.0, "bodies": 1, "hp": 2.4},  # TUNING (not in GDD)
+		{"damage": 2.5, "rate": 1.3, "range": 1.0, "bodies": 1, "hp": 3.0},  # TUNING (not in GDD)
+	],
+	"draugr_thane": [
 		{"damage": 1.0, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.0},
 		{"damage": 1.3, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.4},  # TUNING (not in GDD)
 		{"damage": 1.6, "rate": 1.1, "range": 1.0, "bodies": 1, "hp": 1.8},  # TUNING (not in GDD)

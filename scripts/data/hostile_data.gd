@@ -30,6 +30,8 @@ const LOOKS: Dictionary = {
 	"bullet": {"sprite": "projectiles/priest_bolt", "tint": Color(0.91, 0.64, 0.23), "scale": 1.4, "trail": 60.0, "impact": 44.0},  # TUNING (not in GDD) Act IV gunfire, sodium yellow
 	"flashbang": {"sprite": "projectiles/mortar_shell", "tint": Color(0.85, 0.85, 1.0), "scale": 2.0, "trail": 0.0, "impact": 110.0},  # TUNING (not in GDD) Act IV SWAT flashbang, a white pop
 	"teppo": {"sprite": "projectiles/priest_bolt", "tint": Color(1.0, 0.85, 0.55), "scale": 1.6, "trail": 80.0, "impact": 48.0},  # TUNING (not in GDD) Act V arquebus ball, a powder-white streak
+	"boulder": {"sprite": "projectiles/corpse_boulder", "tint": Color(0.75, 0.9, 1.0), "scale": 1.9, "trail": 0.0, "impact": 96.0},  # TUNING (not in GDD) Act VI frost giant's ice-crusted boulder
+	"gungnir": {"sprite": "projectiles/bone_spear", "tint": Color(0.8, 0.95, 1.0), "scale": 2.6, "trail": 90.0, "impact": 80.0},  # TUNING (not in GDD) Act VI Odin's spear of soul-light
 }
 ## Trail width (px) of hostile shots.
 const TRAIL_W: float = 10.0  # TUNING (not in GDD)
@@ -54,6 +56,7 @@ const CAUSE_TINT: Dictionary = {
 	"stunned": Color(1.0, 0.9, 0.4),  # TUNING (not in GDD) anything else
 	"hooked": Color(0.85, 0.7, 0.45),  # TUNING (not in GDD) w2b-tide: a Grappler's hook (rope tan)
 	"grabbed": Color(0.7, 0.45, 0.9),  # TUNING (not in GDD) w2b-tide: a tentacle from the deep (kraken purple)
+	"frozen": Color(0.6, 0.85, 1.0),  # TUNING (not in GDD) w2c-norse: frost mist, boulders of ice, the Barrow-Wight's howl (ice blue)
 }
 ## Diameter (px) of the disabled ring around a tower's base, and its pulse period (s).
 const DISABLED_RING: float = 52.0  # TUNING (not in GDD)
