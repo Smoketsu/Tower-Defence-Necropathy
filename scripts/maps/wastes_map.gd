@@ -46,7 +46,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(700, 150), Vector2(1060, 310), Vector2(600, 390), Vector2(200, 495), Vector2(560, 600), Vector2(900, 600)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 3.2,  # TUNING (not in GDD) Part Three: a step above the Empyrean
+	"wave_hp_end": 4.0,  # TUNING (not in GDD) Part Three: a step above the Empyrean
 	"rule": "",
 	"act_rule": "empire/line_of_fire",
 	"build_order": "wastes_default",

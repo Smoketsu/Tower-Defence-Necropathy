@@ -41,10 +41,11 @@ func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
 		return
 	if e.holder != null and game.time >= float(e.vars["next_swipe"]):
 		e.vars["next_swipe"] = game.time + float(a["swipe_every"])
-		for b: BlockBody in e.holder.block.bodies:
+		var post := e.holder  # The body holding it (it may fall below).
+		for b: BlockBody in post.block.bodies:
 			if b.alive:
 				TdCombat.damage_body(game, b, float(a["swipe_damage"]) * e.damage_mult(), e)
-		game.vfx.add(TdVfx.Kind.ANIM, e.holder.pos, float(lk["stomp_d"]), 0.4, lk["flame_tint"], "sentinel_sweep")
+		game.vfx.add(TdVfx.Kind.ANIM, post.pos, float(lk["stomp_d"]), 0.4, lk["flame_tint"], "sentinel_sweep")
 		EnemyTrait.note(game, "beta_swipes")
 	var at := float(e.vars["rivets_at"])  # When the charged spray fires.
 	if at > 0.0 and game.time >= at:

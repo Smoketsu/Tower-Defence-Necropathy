@@ -95,10 +95,11 @@ func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
 		return
 	if game.time >= float(e.vars["next_slash"]):
 		e.vars["next_slash"] = game.time + float(a["slash_every"])
-		for b: BlockBody in e.holder.block.bodies:
+		var post := e.holder  # The body holding it (it may fall below).
+		for b: BlockBody in post.block.bodies:
 			if b.alive:
 				TdCombat.damage_body(game, b, float(a["slash_damage"]) * e.damage_mult(), e)
-		game.vfx.add(TdVfx.Kind.ANIM, e.holder.pos, 80.0, 0.35, Acts.data("empire")["LOOK"]["cut_tint"], "sentinel_sweep")
+		game.vfx.add(TdVfx.Kind.ANIM, post.pos, 80.0, 0.35, Acts.data("empire")["LOOK"]["cut_tint"], "sentinel_sweep")
 
 
 func on_death(_e: TdEnemy, game: TdGame) -> void:

@@ -1,11 +1,11 @@
 ## Sentry Turret (Act XII; Necropathy's SentryKit, "a fixed gun emplacement,
 ## the one exception to 'enemies always advance'"): it is carried down the road
 ## until `stand` px along it, then PLANTS there (speed 0 for good) and keeps
-## firing at towers like a shooter (the generic shooter.gd, its args) until it
+## firing at the nearest tower (empire/rifle.gd, its args) until it
 ## is destroyed. Also the Motherboard's turrets (stand 0: they plant where they
-## are built). Args: stand (px along its road), plus every shooter arg.
-## vars: "planted" (bool), plus the shooter's.
-extends "res://scripts/enemies/traits/shooter.gd"
+## are built). Args: stand (px along its road), plus every rifle arg.
+## vars: "planted" (bool), plus the rifle's.
+extends "res://scripts/enemies/traits/empire/rifle.gd"
 
 
 func on_spawn(e: TdEnemy, game: TdGame) -> void:

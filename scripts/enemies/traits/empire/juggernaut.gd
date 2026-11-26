@@ -24,14 +24,15 @@ func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
 		e.vars["next"] = game.time + float(a["every"])
 		if e.holder == null or game.time < e.freeze_until or game.time < e.staggered_until:
 			return
-		for b: BlockBody in e.holder.block.bodies:
+		var post := e.holder  # The body holding it (it may fall below).
+		for b: BlockBody in post.block.bodies:
 			if b.alive:
 				TdCombat.damage_body(game, b, float(a["damage"]) * e.damage_mult(), e)
 		e.vis_strike_at = game.time
-		e.vis_strike_dir = (e.holder.pos - e.position).normalized()
+		e.vis_strike_dir = (post.pos - e.position).normalized()
 		EnemyTrait.note(game, "juggernaut_flames")
 		Sfx.play("flamethrower")
-		game.vfx.add(TdVfx.Kind.ANIM, e.holder.pos + Vector2(0, -10), float(lk["flame_d"]), 0.5, lk["flame_tint"], "empire_blast_red")
+		game.vfx.add(TdVfx.Kind.ANIM, post.pos + Vector2(0, -10), float(lk["flame_d"]), 0.5, lk["flame_tint"], "empire_blast_red")
 		return
 	if e.holder != null and game.time >= float(e.vars["next"]) and game.time >= e.freeze_until:
 		e.vars["at"] = game.time + float(a["windup"])

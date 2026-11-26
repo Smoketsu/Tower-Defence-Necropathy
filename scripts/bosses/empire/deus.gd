@@ -118,10 +118,11 @@ func _chaingun(e: TdEnemy, game: TdGame, a: Dictionary) -> void:
 func _walker(e: TdEnemy, game: TdGame, a: Dictionary) -> void:
 	if e.holder != null and game.time >= float(e.vars["next_stomp"]):
 		e.vars["next_stomp"] = game.time + float(a["stomp_every"])
-		for b: BlockBody in e.holder.block.bodies:
+		var post := e.holder  # The body holding it (it may fall below).
+		for b: BlockBody in post.block.bodies:
 			if b.alive:
 				TdCombat.damage_body(game, b, float(a["stomp_damage"]) * e.damage_mult(), e)
-		game.vfx.add(TdVfx.Kind.ANIM, e.holder.pos, 110.0, 0.45, Color(1.0, 0.75, 0.4), "golem_slam")
+		game.vfx.add(TdVfx.Kind.ANIM, post.pos, 110.0, 0.45, Color(1.0, 0.75, 0.4), "golem_slam")
 		game.vfx.shake(3.0)
 	if game.time < e.staggered_until:
 		return

@@ -13,7 +13,7 @@ extends RefCounted
 
 ## Enemy kinds of the Electronic Empire (keys: TdEnemyData.KINDS). Traits live
 ## in scripts/enemies/traits/empire/ and scripts/bosses/empire/ (each script
-## documents its args); the generic shooter (scripts/enemies/traits/shooter.gd)
+## documents its args); empire/rifle.gd (marching fire at the nearest tower)
 ## arms the riflemen and drones. About 60% of the roster shoots towers (GDD
 ## §7.3): Line Trooper, Scout Drone, Kill-Drone, Spotter, Mortar Walker, Sentry
 ## Turret (and the Arc Engineer's jam).
@@ -23,21 +23,21 @@ const KINDS: Dictionary = {
 		"name": "Scout Drone", "sprite": "empire/scout_drone", "rank": "fodder", "souls": 4,  # TUNING (not in GDD) a swarm pays a little under the soldiers (X2)
 		"hp": 34.0, "speed": 60.0, "armour": 0.0, "radius": 8.0,  # TUNING (not in GDD)
 		"damage": 3.0, "attack_interval": 1.0,  # TUNING (not in GDD)
-		"flying": true, "ignores_walls": true, "trait": "shooter",
+		"flying": true, "ignores_walls": true, "trait": "empire/rifle",
 		"args": {"range": 90.0, "interval": 5.0, "target": "tower", "damage": 4.0, "disable": 0.4, "cause": "shot", "speed": 420.0, "look": "zap"},  # TUNING (not in GDD) Necropathy "short-range zaps"
 	},
 	# Soldier: the Empire's rifleman; it keeps marching and firing at the towers ("marching fire").
 	"empire_line_trooper": {
 		"name": "Line Trooper", "sprite": "empire/line_trooper", "rank": "fodder", "souls": 8,  # TUNING (not in GDD) soldier tier (X2: up to 10)
-		"hp": 125.0, "speed": 46.0, "armour": 2.0, "radius": 11.0,  # TUNING (not in GDD)
+		"hp": 110.0, "speed": 46.0, "armour": 2.0, "radius": 11.0,  # TUNING (not in GDD)
 		"damage": 7.0, "attack_interval": 1.2,  # TUNING (not in GDD)
-		"flying": false, "ignores_walls": false, "trait": "shooter",
+		"flying": false, "ignores_walls": false, "trait": "empire/rifle",
 		"args": {"range": 170.0, "interval": 5.0, "target": "tower", "damage": 8.0, "disable": 0.7, "cause": "shot", "speed": 380.0, "look": "rifle"},  # TUNING (not in GDD) Necropathy rifle bursts from 400 px (a TD map is one screen)
 	},
 	# Soldier: a squat walker behind a tower shield; frontal hits barely scratch it (Act I shield_front).
 	"empire_aegis_bot": {
 		"name": "Aegis Bot", "sprite": "empire/aegis_bot", "rank": "fodder", "souls": 8,  # TUNING (not in GDD)
-		"hp": 150.0, "speed": 40.0, "armour": 3.0, "radius": 12.0,  # TUNING (not in GDD)
+		"hp": 135.0, "speed": 40.0, "armour": 3.0, "radius": 12.0,  # TUNING (not in GDD)
 		"damage": 8.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "shield_front",
 		"args": {"front_mult": 0.5, "ignore": ["corpse_catapult", "iron_revenant"]},  # TUNING (not in GDD) arcing boulders and shells go over the shield
@@ -65,7 +65,7 @@ const KINDS: Dictionary = {
 		"hp": 300.0, "speed": 42.0, "armour": 1.0, "radius": 11.0,  # TUNING (not in GDD)
 		"damage": 6.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "empire/arc_engineer",
-		"args": {"heal": 24.0, "heal_every": 2.4, "heal_radius": 140.0, "jam_first": 3.0, "jam_every": 9.0, "jam_range": 140.0, "jam_time": 1.8},  # TUNING (not in GDD) Necropathy: repairs, jams 2 s
+		"args": {"heal": 14.0, "heal_every": 3.0, "heal_radius": 120.0, "jam_first": 3.0, "jam_every": 10.0, "jam_range": 140.0, "jam_time": 1.5},  # TUNING (not in GDD) Necropathy: repairs, jams 2 s
 	},
 	# Heavy: an armoured flamethrower walker; held at a post its flame washes over every body there.
 	"empire_juggernaut": {
@@ -81,7 +81,7 @@ const KINDS: Dictionary = {
 		"hp": 360.0, "speed": 50.0, "armour": 3.0, "radius": 11.0,  # TUNING (not in GDD)
 		"damage": 10.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "empire/duelist",
-		"args": {"windup": 0.6, "damage": 30.0, "targets": 2, "cooldown": 8.0, "dash_time": 0.9, "dash_mult": 2.2},  # TUNING (not in GDD) Necropathy "a blocker in the lane stops it": here a freeze or stagger does
+		"args": {"windup": 0.7, "damage": 26.0, "targets": 2, "cooldown": 11.0, "dash_time": 0.6, "dash_mult": 2.0},  # TUNING (not in GDD) Necropathy "a blocker in the lane stops it": here a freeze or stagger does
 	},
 	# Structure-like: a domed gun emplacement carried down the road; it PLANTS at its stand point and keeps firing.
 	"empire_sentry_turret": {
@@ -96,7 +96,7 @@ const KINDS: Dictionary = {
 		"name": "Kill-Drone", "sprite": "empire/kill_drone", "rank": "elite",
 		"hp": 260.0, "speed": 48.0, "armour": 3.0, "radius": 12.0,  # TUNING (not in GDD)
 		"damage": 6.0, "attack_interval": 1.2,  # TUNING (not in GDD)
-		"flying": true, "ignores_walls": true, "trait": "shooter",
+		"flying": true, "ignores_walls": true, "trait": "empire/rifle",
 		"args": {"range": 150.0, "interval": 4.0, "target": "tower", "damage": 8.0, "disable": 1.0, "cause": "shot", "speed": 460.0, "look": "zap"},  # TUNING (not in GDD)
 	},
 	# A crawling factory: it builds Scout Drones ahead of itself until smashed (the Beta Build patches from it).
@@ -105,7 +105,7 @@ const KINDS: Dictionary = {
 		"hp": 480.0, "speed": 22.0, "armour": 4.0, "radius": 14.0,  # TUNING (not in GDD)
 		"damage": 6.0, "attack_interval": 1.6,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "empire/fabricator",
-		"args": {"first": 3.0, "every": 6.0, "kind": "empire_scout_drone", "max": 5, "ahead": 26.0},  # TUNING (not in GDD) Necropathy "builds a new enemy every few seconds"
+		"args": {"first": 4.0, "every": 8.0, "kind": "empire_scout_drone", "max": 3, "ahead": 26.0},  # TUNING (not in GDD) Necropathy "builds a new enemy every few seconds"
 	},
 	# Kestrel's hologram decoy: walks ahead of her and draws the towers' fire.
 	"empire_kestrel_decoy": {
@@ -144,10 +144,10 @@ const KINDS: Dictionary = {
 	# Assembly Halls miniboss: the Beta Build, an unfinished mech patching itself from the fabricators.
 	"empire_beta_build": {
 		"name": "The Beta Build", "sprite": "empire/beta_build", "rank": "miniboss",
-		"hp": 4400.0, "speed": 26.0, "armour": 5.0, "radius": 26.0,  # TUNING (not in GDD) X3
+		"hp": 4000.0, "speed": 20.0, "armour": 4.0, "radius": 26.0,  # TUNING (not in GDD) X3
 		"damage": 22.0, "attack_interval": 1.5,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "empire/beta_build",
-		"args": {"patch_tick": 0.5, "patch_rate": 0.012, "patch_max": 3, "patch_kind": "empire_fabricator",
+		"args": {"patch_tick": 0.5, "patch_rate": 0.0025, "patch_max": 2, "patch_kind": "empire_fabricator",
 			"rivets_first": 3.0, "rivets_every": 8.0, "rivets_windup": 0.7, "rivets_count": 5, "rivets_range": 260.0,
 			"rivet": {"disable": 1.4, "damage": 16.0, "speed": 520.0, "cause": "shot", "look": "rivet"},
 			"swipe_every": 6.0, "swipe_damage": 36.0},  # TUNING (not in GDD) Necropathy BetaBuildKit
@@ -155,12 +155,12 @@ const KINDS: Dictionary = {
 	# Iron Citadel miniboss: Valkyrie 2.0, jet pack, tower shield and arm blade.
 	"empire_valkyrie_prime": {
 		"name": "Valkyrie 2.0", "sprite": "empire/valkyrie_prime", "rank": "miniboss",
-		"hp": 4200.0, "speed": 34.0, "armour": 5.0, "radius": 22.0,  # TUNING (not in GDD) X3: her shield and dash make her tougher than her HP
+		"hp": 3400.0, "speed": 28.0, "armour": 4.0, "radius": 22.0,  # TUNING (not in GDD) X3: her shield and dash make her tougher than her HP
 		"damage": 24.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "empire/valkyrie",
-		"args": {"dash_every": 9.0, "dash_windup": 0.7, "dash_targets": 3, "dash_damage": 50.0, "dash_time": 0.8, "dash_mult": 2.4,
-			"front_mult": 0.6, "ignore": ["corpse_catapult", "iron_revenant"],
-			"storm_first": 4.0, "storm_every": 7.0, "storm_radius": 70.0, "storm_damage": 40.0},  # TUNING (not in GDD) Necropathy ValkyrieKit
+		"args": {"dash_every": 12.0, "dash_windup": 0.8, "dash_targets": 2, "dash_damage": 50.0, "dash_time": 0.6, "dash_mult": 2.2,
+			"front_mult": 0.85, "ignore": ["corpse_catapult", "iron_revenant"],
+			"storm_first": 4.0, "storm_every": 8.0, "storm_radius": 60.0, "storm_damage": 26.0},  # TUNING (not in GDD) Necropathy ValkyrieKit
 	},
 	# Scrap Wastes boss: Kestrel, the Dead Pixel. Triple Lock-On, decoys, then twin blades and a charge.
 	"empire_kestrel": {
@@ -190,7 +190,7 @@ const KINDS: Dictionary = {
 	# Iron Citadel boss: Deus Ex Machina with Varn wired into its core. Walker, Siege Core, the Founder.
 	"empire_deus": {
 		"name": "Deus Ex Machina", "sprite": "bosses/deus_ex_machina", "rank": "boss",
-		"hp": 15000.0, "speed": 18.0, "armour": 7.0, "radius": 34.0,  # TUNING (not in GDD) the act's last boss
+		"hp": 13000.0, "speed": 18.0, "armour": 7.0, "radius": 34.0,  # TUNING (not in GDD) the act's last boss
 		"damage": 40.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "empire/deus",
 		"args": {"siege_hp": 0.6, "founder_hp": 0.3, "pose_time": 0.6,
@@ -356,71 +356,71 @@ const ORDERS: Dictionary = {
 	"citadel_default": {
 		"spells": true,
 		"steps": [
-			{"do": "build", "spot": "plot:3", "tower": "archer"},
-			{"do": "build", "spot": "post:0", "tower": "warrior"},
-			{"do": "build", "spot": "plot:7", "tower": "archer"},
+			{"do": "build", "spot": "plot:16", "tower": "archer"},
+			{"do": "build", "spot": "post:4", "tower": "warrior"},
+			{"do": "build", "spot": "plot:17", "tower": "archer"},
 			{"do": "build", "spot": "plot:11", "tower": "mage"},
-			{"do": "upgrade", "spot": "plot:3"},
-			{"do": "upgrade", "spot": "plot:7"},
-			{"do": "build", "spot": "post:1", "tower": "warrior"},
-			{"do": "build", "spot": "plot:9", "tower": "corpse_catapult"},
-			{"do": "target", "spot": "plot:9", "mode": "strongest"},
+			{"do": "upgrade", "spot": "plot:16"},
+			{"do": "upgrade", "spot": "plot:17"},
+			{"do": "build", "spot": "post:0", "tower": "warrior"},
+			{"do": "build", "spot": "plot:14", "tower": "corpse_catapult"},
+			{"do": "target", "spot": "plot:14", "mode": "strongest"},
 			{"do": "upgrade", "spot": "plot:11"},
-			{"do": "build", "spot": "plot:10", "tower": "warder"},
-			{"do": "upgrade", "spot": "plot:3"},
-			{"do": "upgrade", "spot": "plot:7"},
-			{"do": "build", "spot": "post:2", "tower": "abomination"},
-			{"do": "build", "spot": "plot:6", "tower": "mage"},
-			{"do": "upgrade", "spot": "plot:9"},
+			{"do": "build", "spot": "plot:15", "tower": "warder"},
+			{"do": "upgrade", "spot": "plot:16"},
+			{"do": "upgrade", "spot": "plot:17"},
+			{"do": "build", "spot": "post:5", "tower": "abomination"},
+			{"do": "build", "spot": "plot:5", "tower": "mage"},
+			{"do": "upgrade", "spot": "plot:14"},
 			{"do": "build", "spot": "plot:2", "tower": "archer"},
 			{"do": "upgrade", "spot": "plot:11"},
-			{"do": "upgrade", "spot": "plot:6"},
-			{"do": "build", "spot": "plot:0", "tower": "frost_wraith"},
-			{"do": "upgrade", "spot": "plot:3"},
-			{"do": "upgrade", "spot": "plot:7"},
-			{"do": "upgrade", "spot": "plot:2"},
-			{"do": "upgrade", "spot": "plot:9"},
-			{"do": "build", "spot": "post:4", "tower": "warrior"},
-			{"do": "upgrade", "spot": "plot:10"},
-			{"do": "upgrade", "spot": "plot:11"},
-			{"do": "upgrade", "spot": "plot:6"},
-			{"do": "build", "spot": "plot:5", "tower": "corpse_catapult"},
-			{"do": "target", "spot": "plot:5", "mode": "strongest"},
-			{"do": "upgrade", "spot": "plot:0"},
-			{"do": "upgrade", "spot": "plot:3"},
-			{"do": "upgrade", "spot": "plot:7"},
-			{"do": "upgrade", "spot": "plot:2"},
-			{"do": "upgrade", "spot": "plot:9"},
-			{"do": "upgrade", "spot": "post:0"},
 			{"do": "upgrade", "spot": "plot:5"},
+			{"do": "build", "spot": "plot:4", "tower": "frost_wraith"},
+			{"do": "upgrade", "spot": "plot:16"},
+			{"do": "upgrade", "spot": "plot:17"},
+			{"do": "upgrade", "spot": "plot:2"},
+			{"do": "upgrade", "spot": "plot:14"},
+			{"do": "build", "spot": "post:1", "tower": "warrior"},
+			{"do": "upgrade", "spot": "plot:15"},
 			{"do": "upgrade", "spot": "plot:11"},
-			{"do": "upgrade", "spot": "plot:6"},
+			{"do": "upgrade", "spot": "plot:5"},
+			{"do": "build", "spot": "plot:9", "tower": "corpse_catapult"},
+			{"do": "target", "spot": "plot:9", "mode": "strongest"},
+			{"do": "upgrade", "spot": "plot:4"},
+			{"do": "upgrade", "spot": "plot:16"},
+			{"do": "upgrade", "spot": "plot:17"},
+			{"do": "upgrade", "spot": "plot:2"},
+			{"do": "upgrade", "spot": "plot:14"},
+			{"do": "upgrade", "spot": "post:4"},
+			{"do": "upgrade", "spot": "plot:9"},
+			{"do": "upgrade", "spot": "plot:11"},
+			{"do": "upgrade", "spot": "plot:5"},
 			{"do": "build", "spot": "plot:1", "tower": "mage"},
-			{"do": "upgrade", "spot": "plot:0"},
+			{"do": "upgrade", "spot": "plot:4"},
 			{"do": "upgrade", "spot": "plot:2"},
+			{"do": "upgrade", "spot": "plot:14"},
 			{"do": "upgrade", "spot": "plot:9"},
-			{"do": "upgrade", "spot": "plot:5"},
 			{"do": "upgrade", "spot": "plot:1"},
-			{"do": "upgrade", "spot": "plot:3"},
-			{"do": "upgrade", "spot": "plot:7"},
+			{"do": "upgrade", "spot": "plot:16"},
+			{"do": "upgrade", "spot": "plot:17"},
 			{"do": "upgrade", "spot": "plot:11"},
-			{"do": "upgrade", "spot": "plot:6"},
-			{"do": "upgrade", "spot": "plot:10"},
-			{"do": "upgrade", "spot": "plot:0"},
 			{"do": "upgrade", "spot": "plot:5"},
+			{"do": "upgrade", "spot": "plot:15"},
+			{"do": "upgrade", "spot": "plot:4"},
+			{"do": "upgrade", "spot": "plot:9"},
 			{"do": "upgrade", "spot": "plot:1"},
 			{"do": "upgrade", "spot": "plot:2"},
 			{"do": "upgrade", "spot": "plot:1"},
-			{"do": "upgrade", "spot": "post:1"},
-			{"do": "upgrade", "spot": "post:2"},
-			{"do": "upgrade", "spot": "plot:0"},
+			{"do": "upgrade", "spot": "post:0"},
+			{"do": "upgrade", "spot": "post:5"},
+			{"do": "upgrade", "spot": "plot:4"},
 			{"do": "upgrade", "spot": "plot:1"},
 		],
 	},
 	"citadel_weak": {
 		"spells": false,
 		"steps": [
-			{"do": "build", "spot": "plot:3", "tower": "archer"},
+			{"do": "build", "spot": "plot:16", "tower": "archer"},
 		],
 	},
 	"empire_kit": {
@@ -560,70 +560,70 @@ const ORDERS: Dictionary = {
 				{"do": "evolve", "spot": "post:3"},
 			],
 			"citadel": [
-				{"do": "build", "spot": "plot:3", "tower": "archer"},
-				{"do": "build", "spot": "post:0", "tower": "warrior"},
-				{"do": "build", "spot": "plot:7", "tower": "grave_drone"},
+				{"do": "build", "spot": "plot:16", "tower": "archer"},
+				{"do": "build", "spot": "post:4", "tower": "warrior"},
+				{"do": "build", "spot": "plot:17", "tower": "grave_drone"},
 				{"do": "build", "spot": "plot:11", "tower": "mage"},
-				{"do": "upgrade", "spot": "plot:3"},
-				{"do": "upgrade", "spot": "plot:7"},
-				{"do": "build", "spot": "post:1", "tower": "warrior"},
-				{"do": "build", "spot": "plot:9", "tower": "corpse_catapult"},
-				{"do": "target", "spot": "plot:9", "mode": "strongest"},
+				{"do": "upgrade", "spot": "plot:16"},
+				{"do": "upgrade", "spot": "plot:17"},
+				{"do": "build", "spot": "post:0", "tower": "warrior"},
+				{"do": "build", "spot": "plot:14", "tower": "corpse_catapult"},
+				{"do": "target", "spot": "plot:14", "mode": "strongest"},
 				{"do": "upgrade", "spot": "plot:11"},
-				{"do": "build", "spot": "plot:10", "tower": "warder"},
-				{"do": "upgrade", "spot": "plot:3"},
-				{"do": "upgrade", "spot": "plot:7"},
-				{"do": "build", "spot": "post:2", "tower": "iron_revenant"},
-				{"do": "build", "spot": "plot:6", "tower": "mage"},
-				{"do": "upgrade", "spot": "plot:9"},
+				{"do": "build", "spot": "plot:15", "tower": "warder"},
+				{"do": "upgrade", "spot": "plot:16"},
+				{"do": "upgrade", "spot": "plot:17"},
+				{"do": "build", "spot": "post:5", "tower": "iron_revenant"},
+				{"do": "build", "spot": "plot:5", "tower": "mage"},
+				{"do": "upgrade", "spot": "plot:14"},
 				{"do": "build", "spot": "plot:2", "tower": "archer"},
 				{"do": "upgrade", "spot": "plot:11"},
-				{"do": "upgrade", "spot": "plot:6"},
-				{"do": "build", "spot": "plot:0", "tower": "frost_wraith"},
-				{"do": "upgrade", "spot": "plot:3"},
-				{"do": "upgrade", "spot": "plot:7"},
-				{"do": "upgrade", "spot": "plot:2"},
-				{"do": "upgrade", "spot": "plot:9"},
-				{"do": "build", "spot": "post:4", "tower": "warrior"},
-				{"do": "upgrade", "spot": "plot:10"},
-				{"do": "upgrade", "spot": "plot:11"},
-				{"do": "upgrade", "spot": "plot:6"},
-				{"do": "build", "spot": "plot:5", "tower": "corpse_catapult"},
-				{"do": "target", "spot": "plot:5", "mode": "strongest"},
-				{"do": "upgrade", "spot": "plot:0"},
-				{"do": "upgrade", "spot": "plot:3"},
-				{"do": "upgrade", "spot": "plot:7"},
-				{"do": "evolve", "spot": "plot:7"},
-				{"do": "upgrade", "spot": "plot:2"},
-				{"do": "upgrade", "spot": "plot:9"},
-				{"do": "upgrade", "spot": "post:0"},
 				{"do": "upgrade", "spot": "plot:5"},
+				{"do": "build", "spot": "plot:4", "tower": "frost_wraith"},
+				{"do": "upgrade", "spot": "plot:16"},
+				{"do": "upgrade", "spot": "plot:17"},
+				{"do": "upgrade", "spot": "plot:2"},
+				{"do": "upgrade", "spot": "plot:14"},
+				{"do": "build", "spot": "post:1", "tower": "warrior"},
+				{"do": "upgrade", "spot": "plot:15"},
 				{"do": "upgrade", "spot": "plot:11"},
-				{"do": "upgrade", "spot": "plot:6"},
+				{"do": "upgrade", "spot": "plot:5"},
+				{"do": "build", "spot": "plot:9", "tower": "corpse_catapult"},
+				{"do": "target", "spot": "plot:9", "mode": "strongest"},
+				{"do": "upgrade", "spot": "plot:4"},
+				{"do": "upgrade", "spot": "plot:16"},
+				{"do": "upgrade", "spot": "plot:17"},
+				{"do": "evolve", "spot": "plot:17"},
+				{"do": "upgrade", "spot": "plot:2"},
+				{"do": "upgrade", "spot": "plot:14"},
+				{"do": "upgrade", "spot": "post:4"},
+				{"do": "upgrade", "spot": "plot:9"},
+				{"do": "upgrade", "spot": "plot:11"},
+				{"do": "upgrade", "spot": "plot:5"},
 				{"do": "build", "spot": "plot:1", "tower": "mage"},
-				{"do": "upgrade", "spot": "plot:0"},
+				{"do": "upgrade", "spot": "plot:4"},
 				{"do": "upgrade", "spot": "plot:2"},
+				{"do": "upgrade", "spot": "plot:14"},
 				{"do": "upgrade", "spot": "plot:9"},
-				{"do": "upgrade", "spot": "plot:5"},
 				{"do": "upgrade", "spot": "plot:1"},
-				{"do": "upgrade", "spot": "plot:3"},
-				{"do": "upgrade", "spot": "plot:7"},
+				{"do": "upgrade", "spot": "plot:16"},
+				{"do": "upgrade", "spot": "plot:17"},
 				{"do": "upgrade", "spot": "plot:11"},
-				{"do": "upgrade", "spot": "plot:6"},
-				{"do": "upgrade", "spot": "plot:10"},
-				{"do": "upgrade", "spot": "plot:0"},
 				{"do": "upgrade", "spot": "plot:5"},
+				{"do": "upgrade", "spot": "plot:15"},
+				{"do": "upgrade", "spot": "plot:4"},
+				{"do": "upgrade", "spot": "plot:9"},
 				{"do": "upgrade", "spot": "plot:1"},
 				{"do": "upgrade", "spot": "plot:2"},
 				{"do": "upgrade", "spot": "plot:1"},
-				{"do": "upgrade", "spot": "post:1"},
-				{"do": "upgrade", "spot": "post:2"},
-				{"do": "upgrade", "spot": "plot:0"},
+				{"do": "upgrade", "spot": "post:0"},
+				{"do": "upgrade", "spot": "post:5"},
+				{"do": "upgrade", "spot": "plot:4"},
 				{"do": "upgrade", "spot": "plot:1"},
-				{"do": "upgrade", "spot": "post:2"},
-				{"do": "upgrade", "spot": "post:2"},
-				{"do": "upgrade", "spot": "post:2"},
-				{"do": "evolve", "spot": "post:2"},
+				{"do": "upgrade", "spot": "post:5"},
+				{"do": "upgrade", "spot": "post:5"},
+				{"do": "upgrade", "spot": "post:5"},
+				{"do": "evolve", "spot": "post:5"},
 			],
 		},
 	},

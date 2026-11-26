@@ -45,11 +45,12 @@ func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
 		return
 	if e.holder != null and game.time >= float(e.vars["next_stomp"]):
 		e.vars["next_stomp"] = game.time + float(a["stomp_every"])
-		for b: BlockBody in e.holder.block.bodies:
+		var post := e.holder  # The body holding it (it may fall below).
+		for b: BlockBody in post.block.bodies:
 			if b.alive:
 				TdCombat.damage_body(game, b, float(a["stomp_damage"]) * e.damage_mult(), e)
-		game.vfx.add(TdVfx.Kind.ANIM, e.holder.pos, float(lk["stomp_d"]), 0.45, lk["stomp_tint"], "golem_slam")
-		game.vfx.add(TdVfx.Kind.CRACK, e.holder.pos, 1.2, TdVfxData.CRACK_TIME, Color.WHITE)
+		game.vfx.add(TdVfx.Kind.ANIM, post.pos, float(lk["stomp_d"]), 0.45, lk["stomp_tint"], "golem_slam")
+		game.vfx.add(TdVfx.Kind.CRACK, post.pos, 1.2, TdVfxData.CRACK_TIME, Color.WHITE)
 		EnemyTrait.note(game, "trojan_stomps")
 	if game.time < float(e.vars["next_volley"]) or game.time < e.staggered_until:
 		return
