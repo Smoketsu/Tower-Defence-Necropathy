@@ -58,6 +58,10 @@ const SHOTS: Dictionary = {
 		"halo": 0.0, "impact": "volley_hit", "impact_d": 52.0, "ring": false, "muzzle": 0.0},  # TUNING (not in GDD) Act VII: its Lv3 sandstone shards
 	"myrmidon_shade": {"sprite": "projectiles/bone_spear", "scale": 1.7, "tint": Color(0.55, 0.95, 0.85), "trail": 66.0, "trail_w": 10.0,
 		"halo": 0.0, "impact": "volley_hit", "impact_d": 50.0, "ring": false, "muzzle": 0.0},  # TUNING (not in GDD) Act VIII: soul-teal spears (its Lv3 volley and the spear run-through streak)
+	"bound_succubus": {"sprite": "projectiles/priest_bolt", "scale": 1.8, "tint": Color(1.0, 0.45, 0.8), "trail": 70.0, "trail_w": 10.0,
+		"halo": 8.0, "impact": "volley_flash", "impact_d": 52.0, "ring": false, "muzzle": 44.0},  # TUNING (not in GDD) Act IX: charm-pink kisses
+	"archfiend": {"sprite": "projectiles/bone_spear", "scale": 1.6, "tint": Color(1.0, 0.5, 0.2), "trail": 62.0, "trail_w": 11.0,
+		"halo": 0.0, "impact": "volley_hit", "impact_d": 52.0, "ring": false, "muzzle": 0.0},  # TUNING (not in GDD) Act IX: its Lv3 hellfire shards
 }
 ## Look of a class missing from SHOTS (same keys).
 const SHOT_DEFAULT: Dictionary = {"sprite": "", "scale": 2.0, "tint": Color(1.0, 1.0, 1.0), "trail": 40.0, "trail_w": 6.0,
@@ -240,7 +244,7 @@ const WISP_CAP: int = 24  # TUNING (not in GDD)
 ## Status marks, in priority order (the first present sets the body tint;
 ## TdEnemy._status_mask() uses the same order for its bits);
 ## each has its tint and its icon index in td/vfx_status.png.
-const STATUS_ORDER: Array[String] = ["frozen", "burning", "rot", "cursed", "weakened", "slowed"]  # TUNING (not in GDD)
+const STATUS_ORDER: Array[String] = ["frozen", "burning", "rot", "cursed", "weakened", "slowed", "charmed"]  # TUNING (not in GDD)
 ## Status -> body tint (components above 1 brighten).
 const STATUS_TINT: Dictionary = {
 	"frozen": Color(0.55, 0.85, 1.6),  # TUNING (not in GDD) clearly iced
@@ -249,9 +253,10 @@ const STATUS_TINT: Dictionary = {
 	"cursed": Color(1.05, 0.75, 1.25),  # TUNING (not in GDD)
 	"weakened": Color(1.0, 0.82, 1.15),  # TUNING (not in GDD)
 	"slowed": Color(0.75, 0.92, 1.2),  # TUNING (not in GDD) chilled blue
+	"charmed": Color(1.45, 0.7, 1.25),  # TUNING (not in GDD) w2c-inferno: charm pink (enemies and tempted blocker bodies)
 }
 ## Status -> icon index (0..5) in td/vfx_status.png.
-const STATUS_ICON: Dictionary = {"burning": 0, "rot": 1, "cursed": 2, "slowed": 3, "frozen": 4, "weakened": 5}  # TUNING (not in GDD)
+const STATUS_ICON: Dictionary = {"burning": 0, "rot": 1, "cursed": 2, "slowed": 3, "frozen": 4, "weakened": 5, "charmed": 6}  # TUNING (not in GDD)
 ## Icon size (px) and drawn scale; most icons shown over one enemy.
 const STATUS_ICON_PX: int = 9  # TUNING (not in GDD) art size
 ## See STATUS_ICON_PX.
@@ -344,6 +349,10 @@ const SPELLS: Dictionary = {
 	"paris_arrow": {"tint": Color(1.0, 0.85, 0.45), "flash": 80.0, "strip": "volley_flash", "strip_d": 90.0, "ring": 90.0, "shake": 1.0},  # TUNING (not in GDD) gold fated arrow; ring = its pick reach
 	"stolen_thunder": {"tint": Color(0.75, 0.85, 1.0), "flash": 120.0, "strip": "soul_lightning", "strip_d": 160.0, "ring": 150.0, "shake": 2.5},  # TUNING (not in GDD) ring = its real reach
 	"river_styx": {"tint": Color(0.35, 0.75, 0.85), "flash": 90.0, "strip": "tide_splash", "strip_d": 160.0, "ring": 60.0, "shake": 0.0},  # TUNING (not in GDD) Styx teal
+	# --- Act IX spells (w2c-inferno) ---
+	"brimstone": {"tint": Color(1.0, 0.5, 0.15), "flash": 110.0, "strip": "corpse_explosion", "strip_d": 140.0, "ring": 140.0, "shake": 2.0},  # TUNING (not in GDD) ring = its real reach
+	"tempt": {"tint": Color(1.0, 0.45, 0.8), "flash": 96.0, "strip": "volley_flash", "strip_d": 120.0, "ring": 150.0, "shake": 0.0},  # TUNING (not in GDD) charm pink, ring = its real reach
+	"fall_from_grace": {"tint": Color(1.0, 0.9, 0.55), "flash": 120.0, "strip": "holy_impact", "strip_d": 140.0, "ring": 170.0, "shake": 1.5},  # TUNING (not in GDD) fallen gold, ring = its real reach
 }
 ## Act III spells' own looks (w2b-court; drawn only): Moonfang's jaw strip
 ## diameter as a multiple of its bite radius; Hex Circle's disc alpha and pulse

@@ -194,6 +194,10 @@ func step(dt: float) -> void:
 		TdCombat.damage_enemy(game, self, float(dot[0]) * dt, {"source": String(dot[2]), "dot": true})
 		if not alive:
 			return
+	if game.time < float(vars.get("k_charm_until", 0.0)):
+		TdCombat.charm_step(game, self)  # Charmed (w2c-inferno): it stands and fights for the necromancer.
+		last_moved = game.time
+		return
 	if traits != null:
 		traits.step(self, game, dt)
 		if not alive:
@@ -276,6 +280,7 @@ func statuses() -> Array[String]:
 			"cursed": yes = t < curse_until
 			"weakened": yes = t < weaken_until and weaken_mult < 1.0
 			"slowed": yes = t < slow_until and slow_mult < 1.0
+			"charmed": yes = t < float(vars.get("k_charm_until", 0.0))
 		if yes:
 			out.append(st)
 	return out
@@ -296,6 +301,8 @@ func _status_mask() -> int:
 		m |= 16
 	if t < slow_until and slow_mult < 1.0:
 		m |= 32
+	if t < float(vars.get("k_charm_until", 0.0)):
+		m |= 64  # Charmed (w2c-inferno).
 	return m
 
 

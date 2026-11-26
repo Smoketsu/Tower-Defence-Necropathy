@@ -1,5 +1,30 @@
 # Balance
 
+## Wave 2c: Act IX, the Inferno (w2c-inferno, DECISIONS T9)
+
+Necromancer, default orders, seeds 1-4 (lives kept of 20; 0 script errors,
+`stuck_enemies=0` in every run). Income from `tools/map_list.tscn`. Measured on
+a shared 4-core machine (frame times not measured here; the integration
+re-measures them).
+
+| Act | Map | wave_hp_end | Income | s1 | s2 | s3 | s4 | Runs losing lives | Miniboss killed | Leaks (4 seeds) | Weak |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| IX | burning_gate | 5.3 | 4686 | 20 | 12 | 11 | 20 | 2/4 | 2/4 | damned_soul 6, gatekeeper 2, hell_imp 1 | lost w4 |
+| IX | silk_palace | 4.0 | 4850 | 14 | 20 | 20 | 20 | 1/4 | 4/4 | succubus 1, twin_agrat 1 | lost w5 |
+| IX | pandemonium | 3.4 | 4756 | 20 | 16 | 13 | 20 | 2/4 | 4/4 | damned_soul 2, hell_knight 1, lava_hound 2, succubus 2 | lost w5 |
+
+The `wave_hp_end` values do not rise through the act because the rosters do:
+the Palace adds succubi (body charms) and Lilim pits, Pandemonium adds diving
+Fallen Angels, the Seraph General and four portals; the Burning Gate's two
+roads meet under most of its plots, so it needs the steepest ramp. The
+binaries to watch: a boss that reaches the gate costs every life (Lilith at
+13000 / 11500 / 10000 HP lost 2 of 4 seeds; 9000 loses none), and the
+Gatekeeper is never held long enough above ~5.5 (he then walks on every seed).
+`inferno_kit` (Archfiends on the posts, the Bound Succubus and its Lilim
+Matriarch, Brimstone / Corpse Explosion / Fall from Grace) wins the Burning
+Gate (11) and Pandemonium (20) and loses the Palace at wave 18, like
+`tide_kit` / `court_kit` on their acts.
+
 ## Wave 2b integration: all 15 maps (Nov 2026; DECISIONS X1-X9)
 
 The four act branches measured their maps against different incomes and had

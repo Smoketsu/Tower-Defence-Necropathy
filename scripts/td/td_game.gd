@@ -363,6 +363,8 @@ func spawn_at(kind: String, road_id: String, w: int, dist: float, lane: float) -
 
 ## True when tower `t` may target enemy `e` (every rule's can_target(): visibility limits).
 func can_target(t: Tower, e: TdEnemy) -> bool:
+	if time < float(e.vars.get("k_charm_until", 0.0)):
+		return false  # A charmed enemy fights for the necromancer (TdCombat.charm_enemy, w2c-inferno).
 	for r: MapRule in rules:
 		if not r.can_target(t, e):
 			return false

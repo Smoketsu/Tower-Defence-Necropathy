@@ -34,6 +34,7 @@ const LOOKS: Dictionary = {
 	"teppo": {"sprite": "projectiles/priest_bolt", "tint": Color(1.0, 0.85, 0.55), "scale": 1.6, "trail": 80.0, "impact": 48.0},  # TUNING (not in GDD) Act V arquebus ball, a powder-white streak
 	"boulder": {"sprite": "projectiles/corpse_boulder", "tint": Color(0.75, 0.9, 1.0), "scale": 1.9, "trail": 0.0, "impact": 96.0},  # TUNING (not in GDD) Act VI frost giant's ice-crusted boulder
 	"gungnir": {"sprite": "projectiles/bone_spear", "tint": Color(0.8, 0.95, 1.0), "scale": 2.6, "trail": 90.0, "impact": 80.0},  # TUNING (not in GDD) Act VI Odin's spear of soul-light
+	"feather": {"sprite": "projectiles/seraph_feather", "tint": Color(1.0, 0.55, 0.25), "scale": 1.6, "trail": 70.0, "impact": 52.0},  # TUNING (not in GDD) w2c-inferno: the Seraph General's burnt feathers
 }
 ## Trail width (px) of hostile shots.
 const TRAIL_W: float = 10.0  # TUNING (not in GDD)
@@ -60,6 +61,7 @@ const CAUSE_TINT: Dictionary = {
 	"grabbed": Color(0.7, 0.45, 0.9),  # TUNING (not in GDD) w2b-tide: a tentacle from the deep (kraken purple)
 	"frozen": Color(0.6, 0.85, 1.0),  # TUNING (not in GDD) w2c-norse: frost mist, boulders of ice, the Barrow-Wight's howl (ice blue)
 	"petrified": Color(0.6, 0.85, 0.5),  # TUNING (not in GDD) w2c-pantheon: the Gorgon's gaze (stone green)
+	"chained": Color(0.75, 0.6, 0.45),  # TUNING (not in GDD) w2c-inferno: the Gatekeeper's chains (iron)
 }
 ## Diameter (px) of the disabled ring around a tower's base, and its pulse period (s).
 const DISABLED_RING: float = 52.0  # TUNING (not in GDD)

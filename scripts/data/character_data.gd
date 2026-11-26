@@ -18,7 +18,8 @@ const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "p
 	"marooned_quartermaster", "corsair_queen", "ghost_helmsman", "moon_huntress", "hedge_witch", "dhampir", "undertaker", "fallen_sergeant", "revenant_heroine", "grave_kunoichi", "ronin_revenant", "shrine_maiden",
 	"rune_seer", "shield_maiden_hero", "berserker_hero",
 	"the_embalmer", "lion_priestess", "pharaohs_shade",
-	"doomed_prophetess", "oathbreaker", "ferrywoman"]  # The later spells' characters (gw2-kit), appended
+	"doomed_prophetess", "oathbreaker", "ferrywoman",
+	"furnace_priest", "succubus_queen", "fallen_saint"]  # The later spells' characters (gw2-kit), appended
 
 ## Character rows. Keys:
 ##   name         — UI name.
@@ -37,6 +38,9 @@ const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "p
 ##                  swarm_bats (+bats in Night Swarm), read by those spells; w2c-dynasty:
 ##                  linen_life (+s of Linen Bind's Mummies), eye_reach (x Burning Eye's beam
 ##                  length), verdict_line (+share of max HP Feather's Verdict executes). {} = none.
+##                  swarm_bats (+bats in Night Swarm), read by those spells; w2c-inferno:
+##                  brimstone_stones (+stones per Brimstone), tempt_time (x Temptation's
+##                  charm time), grace_second (share of a second Fall from Grace star). {} = none.
 ##   unlock_after — map id whose boss opens it ("" = open from the start).
 const CHARACTERS: Dictionary = {
 	"gravecaller": {
@@ -227,6 +231,25 @@ const CHARACTERS: Dictionary = {
 		"boost": {"damage": 1.25, "duration": 1.2, "cooldown": 0.85},  # TUNING (not in GDD)
 		"innate": {"name": "Ferry of Souls", "desc": "A foe slain in her river rises as a Risen", "ferry_risen": true, "styx_length": 0.0},  # Necropathy "a foe slain in your river rises as a Risen for a few seconds"
 		"unlock_after": "underworld",  # Hades
+	},
+	# --- Act IX's characters (w2c-inferno; Necropathy's Inferno characters) ---
+	"furnace_priest": {
+		"name": "The Furnace Priest", "short": "Furnace Priest", "sprite": "player/furnace_priest", "spell": "brimstone",
+		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Stoker", "desc": "Brimstone drops one more burning stone", "brimstone_stones": 1},  # Necropathy "Stoker"
+		"unlock_after": "burning_gate",  # Moloch
+	},
+	"succubus_queen": {
+		"name": "The Succubus Queen", "short": "Succubus Queen", "sprite": "player/succubus_queen", "spell": "tempt",
+		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Heartbreaker", "desc": "Temptation's charms last 30% longer", "tempt_time": 1.3},  # TUNING (not in GDD) Necropathy's Heartbreaker, as a longer charm
+		"unlock_after": "silk_palace",  # Lilith
+	},
+	"fallen_saint": {
+		"name": "The Fallen Saint", "short": "Fallen Saint", "sprite": "player/fallen_saint", "spell": "fall_from_grace",
+		"boost": {"damage": 1.2, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Second Fall", "desc": "Fall from Grace drops a second star on the next-strongest foe", "grace_second": 0.5},  # Necropathy "Second Fall" share 0.5
+		"unlock_after": "pandemonium",  # the Morning Star
 	},
 }
 

@@ -7,8 +7,8 @@ in Necropathy's pixel style, with Pillow, into assets/sprites/td/:
                   Warrior, red for an enemy's blow). The arc faces +x.
   vfx_streak.png  32 x 8 white streak, transparent at x = 0, opaque at x = 31:
                   stretched and tinted behind a shot as its trail.
-  vfx_status.png  6 icons of 9 x 9 side by side (burning, rot, cursed, slowed,
-                  frozen, weakened), in colour with a dark outline.
+  vfx_status.png  7 icons of 9 x 9 side by side (burning, rot, cursed, slowed,
+                  frozen, weakened, charmed), in colour with a dark outline.
   vfx_crack.png   44 x 20 ground crack (the Abomination's smash), in colour.
   mood_glass.png  72 x 44 stained-glass light pool (the Sanctum's floor light,
                   drawn additively): coloured panes in lead lines, fading out
@@ -83,11 +83,14 @@ ICONS = [
     ("....o....", ".o.oco.o.", "..ocwco..", ".ocwwwco.", "ocwwcwwco", ".ocwwwco.", "..ocwco..", ".o.oco.o.", "....o...."),
     # weakened: a broken purple blade
     ("......oo.", ".....opo.", "....opo..", "...opo...", "..o.o....", ".opo.....", "oppo.....", "oyo......", ".o......."),
+    # charmed: a pink heart (w2c-inferno Temptation)
+    (".........", ".oo...oo.", "ohhoohhho", "ohwhhhhho", "ohhhhhhho", ".ohhhhho.", "..ohhho..", "...oho...", "....o...."),
 ]
 COLOURS = {
     "o": (24, 14, 28, 255), "y": (255, 214, 90, 255), "r": (236, 96, 40, 255), "w": (255, 255, 240, 255),
     "g": (120, 200, 70, 255), "G": (180, 240, 120, 255), "k": (40, 70, 30, 255), "v": (170, 90, 230, 255),
     "b": (120, 190, 255, 255), "c": (150, 215, 255, 255), "p": (200, 140, 255, 255),
+    "h": (255, 110, 190, 255),
 }
 
 

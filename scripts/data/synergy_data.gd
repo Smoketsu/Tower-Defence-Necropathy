@@ -155,4 +155,18 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "b", "vs": "staggered", "mult": 1.3},  # TUNING (not in GDD) boulders crush the foes the spears pinned
 		"hint": "Myrmidon Shades near a Catapult: boulders hit the foes their spears stagger harder",
 	},
+	# --- Act IX (w2c-inferno) ---
+	"velvet_chains": {
+		"name": "Velvet Chains", "icon": "velvet_chains", "a": "bound_succubus", "b": "corpse_catapult",
+		"radius": 240.0,  # TUNING (not in GDD)
+		"effects": {"a": {"range": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "b", "vs": "weakened", "mult": 1.3},  # TUNING (not in GDD) boulders punish the kissed
+		"hint": "Bound Succubus near a Catapult: boulders hit weakened foes harder",
+	},
+	"pride": {
+		"name": "Pride", "icon": "pride", "a": "archfiend", "b": "mage",
+		"radius": 220.0,  # TUNING (not in GDD)
+		"effects": {"a": {"damage": 1.15}, "b": {"range": 1.1}},  # TUNING (not in GDD)
+		"hint": "Archfiend near a Mage: both burn brighter",
+	},
 }

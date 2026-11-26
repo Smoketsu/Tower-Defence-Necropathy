@@ -20,7 +20,7 @@ func step(t: Tower, _dt: float) -> void:
 		for b: BlockBody in blk.bodies:
 			if b.temporary or b.pos.distance_squared_to(t.position) > r * r:
 				continue
-			if b.alive and b.hp < b.max_hp:
+			if b.alive and (b.hp < b.max_hp or t.game.time < b.charm_until):  # A charmed body is tended too (its heal cleanses, w2c-inferno).
 				t.vars["healed"] = float(t.vars.get("healed", 0.0)) + TdCombat.heal_body(t.game, b, float(t.stats["heal"]))
 				t.game.vfx.heal(t, b)
 				acted = true

@@ -368,7 +368,7 @@ func _kit_summary(lines: Array[String]) -> void:
 	lines.append("tower_value=%s" % _sorted(tv))
 	var c := {}  # Kit counters.
 	for t: Tower in game.towers:
-		for k: String in ["warded", "dashes", "swoops", "bites", "ruins", "slams", "fed", "spilled", "reassembled", "pierced"]:
+		for k: String in ["warded", "dashes", "swoops", "bites", "ruins", "slams", "fed", "spilled", "reassembled", "pierced", "charms", "breaths"]:
 			if t.vars.has(k):
 				c[k] = roundi(float(c.get(k, 0)) + float(t.vars[k]))
 	for k: String in ["barrier_absorbed", "rogue_resets", "brand_risen", "chained", "withered", "eclipsed", "risen", "moonfang_bites", "hex_healed", "swarm_bites", "linen_wraps", "eye_beams", "verdict_executions", "fated_arrows", "thunder_bolts", "styx_slowed"]:
