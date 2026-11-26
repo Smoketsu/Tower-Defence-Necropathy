@@ -15,7 +15,8 @@ const DEFAULT_ID: String = "gravecaller"
 ## Picker order.
 const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "plague_scholar",
 	"doomsayer", "soulbinder", "wither_witch", "grave_herald",
-	"marooned_quartermaster", "corsair_queen", "ghost_helmsman", "moon_huntress", "hedge_witch", "dhampir", "undertaker", "fallen_sergeant", "revenant_heroine", "grave_kunoichi", "ronin_revenant", "shrine_maiden"]  # The later spells' characters (gw2-kit), appended
+	"marooned_quartermaster", "corsair_queen", "ghost_helmsman", "moon_huntress", "hedge_witch", "dhampir", "undertaker", "fallen_sergeant", "revenant_heroine", "grave_kunoichi", "ronin_revenant", "shrine_maiden",
+	"fallen_herald", "blind_saint", "the_unveiled"]  # The later spells' characters (gw2-kit), appended
 
 ## Character rows. Keys:
 ##   name         — UI name.
@@ -31,7 +32,9 @@ const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "p
 ##                  Chains), wither_rot (Wither's aura adds this Rot damage per s),
 ##                  temp_time (x every temporary Risen's lifetime); w2b-court: moonfang_jaws
 ##                  (+jaws per Moonfang cast), circle_radius (+share of Hex Circle's radius),
-##                  swarm_bats (+bats in Night Swarm), read by those spells. {} = none.
+##                  swarm_bats (+bats in Night Swarm), read by those spells; w2c-host: light_cut
+##                  (share of the Hallowed Light's weakening removed, read by the act rule),
+##                  wheel_rebounds (+passes of Wheel of Eyes), reveal_shred (armour Revelation strips). {} = none.
 ##   unlock_after — map id whose boss opens it ("" = open from the start).
 const CHARACTERS: Dictionary = {
 	"gravecaller": {
@@ -160,6 +163,25 @@ const CHARACTERS: Dictionary = {
 		"boost": {"damage": 1.25, "duration": 1.2, "cooldown": 0.85},  # TUNING (not in GDD)
 		"innate": {"name": "Stolen Dawn", "desc": "All spell cooldowns 10% shorter", "cooldown": 0.9},  # TUNING (not in GDD)
 		"unlock_after": "sun_road",  # Amaterasu
+	},
+	# --- Act X's characters (w2c-host; Necropathy's Celestial Host characters) ---
+	"fallen_herald": {
+		"name": "The Fallen Herald", "short": "Fallen Herald", "sprite": "player/fallen_herald", "spell": "flaming_sword",
+		"boost": {"damage": 1.2, "sweeps": 2.0, "cooldown": 0.9},  # TUNING (not in GDD) two sweeps
+		"innate": {"name": "Fallen Light", "desc": "The Hallowed Light weakens towers half as much", "light_cut": 0.5},  # Necropathy's paired passive name
+		"unlock_after": "silver_stair",  # Seraiel
+	},
+	"blind_saint": {
+		"name": "The Blind Saint", "short": "Blind Saint", "sprite": "player/blind_saint", "spell": "wheel_of_eyes",
+		"boost": {"damage": 1.25, "length": 1.2, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "All-Seeing", "desc": "Wheel of Eyes rebounds once more", "wheel_rebounds": 1},  # Necropathy's paired passive name
+		"unlock_after": "wheel_of_thrones",  # the Throne
+	},
+	"the_unveiled": {
+		"name": "The Unveiled", "short": "Unveiled", "sprite": "player/the_unveiled", "spell": "revelation",
+		"boost": {"radius": 1.15, "stun": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Seventh Seal", "desc": "Revelation also strips 3 armour", "reveal_shred": 3.0},  # Necropathy's paired passive name
+		"unlock_after": "empyrean",  # the Voice
 	},
 }
 

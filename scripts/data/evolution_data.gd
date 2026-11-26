@@ -224,4 +224,16 @@ const EVOLUTIONS: Dictionary = {
 		},
 		"recipe": {"type": "any", "of": [{"type": "elite_kills", "n": 6}, {"type": "kills", "n": 30}]},  # TUNING (not in GDD) Necropathy Oni's Resolve -> a record of slain foes
 	},
+	"throne_of_bones": {
+		"from": "bound_ophan", "name": "Throne of Bones", "sprite": "summons/throne_of_bones", "icon": "throne_of_bones",
+		"stats": {"damage": 1.35, "range": 1.1},  # TUNING (not in GDD)
+		"set": {
+			"roll_len": 210.0,  # TUNING (not in GDD) a longer roll
+			"roll_w": 32.0,  # TUNING (not in GDD) a double wheel
+			"dive_stun": 0.5,  # TUNING (not in GDD) s rolled foes freeze (rank multipliers apply)
+			"chain_slams": 1,  # TUNING (not in GDD) one more roll on the next pack
+			"chain_range": 160.0,  # TUNING (not in GDD)
+		},
+		"recipe": {"type": "any", "of": [{"type": "kills", "n": 40}, {"type": "damage", "n": 14000}]},  # TUNING (not in GDD) Necropathy Turning Bones -> a record of the road
+	},
 }

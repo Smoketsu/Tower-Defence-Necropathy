@@ -244,6 +244,38 @@ const SPELLS: Dictionary = {
 		"tick": 0.8,  # TUNING (not in GDD) s between beams
 		"duration": 8.0,  # TUNING (not in GDD) s it hangs
 	},
+	# --- Act X spells (w2c-host; Necropathy's Celestial Host rewards) ---
+	"flaming_sword": {
+		"name": "Flaming Sword", "short": "Sword", "icon": "flaming_sword", "cooldown": 14.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "A sword of white fire sweeps round the tap and sets the foes there burning",
+		"unlock": {"map": "silver_stair"},  # Seraiel's reward
+		"radius": 90.0,  # TUNING (not in GDD) px the sweep reaches
+		"damage": 70.0,  # TUNING (not in GDD) per sweep to each foe in it
+		"burn_dps": 12.0,  # TUNING (not in GDD) damage per s of the burn
+		"burn_time": 4.0,  # TUNING (not in GDD) s
+		"sweeps": 1,  # TUNING (not in GDD) per cast (the Fallen Herald's boost adds one)
+		"sweep_gap": 0.5,  # TUNING (not in GDD) s between two sweeps
+	},
+	"wheel_of_eyes": {
+		"name": "Wheel of Eyes", "short": "Wheel", "icon": "wheel_of_eyes", "cooldown": 16.0, "target": "road", "ready": true,  # TUNING (not in GDD)
+		"desc": "A burning wheel rolls back down the road and rebounds, striking all it passes",
+		"unlock": {"map": "wheel_of_thrones"},  # the Throne's reward
+		"max_snap": 60.0,  # px: a tap farther than this from any road does nothing
+		"speed": 260.0,  # TUNING (not in GDD) px/s it rolls
+		"length": 260.0,  # TUNING (not in GDD) px of one pass
+		"width": 26.0,  # TUNING (not in GDD) px it strikes round its centre
+		"damage": 55.0,  # TUNING (not in GDD) per foe per pass
+		"rebounds": 1,  # TUNING (not in GDD) passes back after the first
+	},
+	"revelation": {
+		"name": "Revelation", "icon": "revelation", "cooldown": 24.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "A flash of unbearable light: the foes near the tap freeze and are weakened",
+		"unlock": {"map": "empyrean"},  # the Voice's reward
+		"radius": 170.0,  # TUNING (not in GDD) px of the flash (Necropathy: the whole screen; a TD map is one screen)
+		"stun": 1.2,  # TUNING (not in GDD) s frozen (Necropathy 1 s; rank multipliers apply)
+		"weaken": 0.6,  # TUNING (not in GDD) damage x of the foes it weakens
+		"weaken_time": 6.0,  # TUNING (not in GDD) s
+	},
 }
 
 ## The ultimate (GDD §5 Dread Rally), cast through SpellCaster like a spell

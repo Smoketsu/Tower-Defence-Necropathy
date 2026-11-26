@@ -131,4 +131,12 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "b", "vs": "frozen", "mult": 1.35},  # TUNING (not in GDD) arrows punish the oni's stunned foes
 		"hint": "Bound Oni near Archers: arrows hit stunned foes harder",
 	},
+	# --- Act X (w2c-host) ---
+	"turning_wheel": {
+		"name": "Turning Wheel", "icon": "turning_bones", "a": "bound_ophan", "b": "warder",
+		"radius": 220.0,  # TUNING (not in GDD)
+		"effects": {"a": {"rate": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "a", "vs": "staggered", "mult": 1.3},  # TUNING (not in GDD) the wheel rolls harder over what it already staggered
+		"hint": "Bound Ophan near a Crypt Warder: rolls crush staggered foes",
+	},
 }
