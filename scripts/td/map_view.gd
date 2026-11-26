@@ -184,9 +184,9 @@ func _draw_fill(path: PackedVector2Array) -> void:
 	for i in range(path.size() - 1):
 		var quad := PackedVector2Array([l[i], l[i + 1], rr[i + 1], rr[i]])  # One piece.
 		if fill != null:
-			draw_primitive(quad, PackedColorArray([Color.WHITE]), _uv(quad, fill), fill)
+			piece(self, quad, _uv(quad, fill), fill)
 		else:
-			draw_primitive(quad, PackedColorArray([Color(0.35, 0.33, 0.3)]), PackedVector2Array())
+			draw_colored_polygon(quad, Color(0.35, 0.33, 0.3))
 
 
 ## Both road_edge kerbs along drawn path `path`, bent round its bends with the strip's
@@ -207,9 +207,25 @@ func _draw_kerbs(path: PackedVector2Array, others: Array) -> void:
 		for i in range(path.size() - 1):
 			var u1 := u + c[i].distance_to(c[i + 1]) / edge.get_size().x  # u at the piece end.
 			if not _under(c[i].lerp(c[i + 1], 0.5), others, hw - eh):
-				draw_primitive(PackedVector2Array([top[i], top[i + 1], bot[i + 1], bot[i]]), PackedColorArray([Color.WHITE]),
+				piece(self, PackedVector2Array([top[i], top[i + 1], bot[i + 1], bot[i]]),
 						PackedVector2Array([Vector2(u, 0), Vector2(u1, 0), Vector2(u1, 1), Vector2(u, 1)]), edge)
 			u = u1
+
+
+## Draws one textured road piece `pts` (uvs `uv`) on `ci` with draw_polygon, first
+## dropping a corner within 0.5 px of the previous one: where a bend's inner edge
+## shrinks to a point the quad has two near-equal corners, which draw_polygon cannot
+## triangulate (draw_primitive was tried instead: on the Web build the city asphalt
+## and its lane dashes vanished with it).
+static func piece(ci: CanvasItem, pts: PackedVector2Array, uv: PackedVector2Array, tex: Texture2D) -> void:
+	var p := PackedVector2Array()  # Kept corners.
+	var u := PackedVector2Array()  # Their uvs.
+	for i in pts.size():
+		if p.is_empty() or (pts[i].distance_to(p[p.size() - 1]) >= 0.5 and (i < pts.size() - 1 or pts[i].distance_to(p[0]) >= 0.5)):
+			p.append(pts[i])
+			u.append(uv[i])
+	if p.size() >= 3:
+		ci.draw_polygon(p, PackedColorArray([Color.WHITE]), u, tex)
 
 
 ## True when `p` lies within `r` px of any of the polylines `lines`.

@@ -56,7 +56,7 @@ func _strip(r: Road, tex: Texture2D, from: float, to: float, both: bool) -> void
 		var u := 0.0  # Tiles along so far.
 		for i in range(path.size() - 1):
 			var u1 := u + path[i].distance_to(path[i + 1]) / sz.x  # u at the piece end.
-			draw_primitive(PackedVector2Array([p0[i], p0[i + 1], p1[i + 1], p1[i]]), PackedColorArray([Color.WHITE]),
+			MapView.piece(self, PackedVector2Array([p0[i], p0[i + 1], p1[i + 1], p1[i]]),
 					PackedVector2Array([Vector2(u, v0), Vector2(u1, v0), Vector2(u1, v1), Vector2(u, v1)]), tex)
 			u = u1
 
