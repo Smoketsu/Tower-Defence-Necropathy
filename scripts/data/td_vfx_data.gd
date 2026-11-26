@@ -52,6 +52,8 @@ const SHOTS: Dictionary = {
 		"halo": 8.0, "impact": "volley_hit", "impact_d": 60.0, "ring": false, "muzzle": 48.0},  # TUNING (not in GDD) hero-blue shockwaves (its slam draws golem_slam + a ring at the real radius)
 	"bound_oni": {"sprite": "projectiles/bone_spear", "scale": 1.6, "tint": Color(1.0, 0.55, 0.4), "trail": 62.0, "trail_w": 11.0,
 		"halo": 0.0, "impact": "volley_hit", "impact_d": 52.0, "ring": false, "muzzle": 0.0},  # TUNING (not in GDD) Act V: its Lv3 iron-red shards
+	"myrmidon_shade": {"sprite": "projectiles/bone_spear", "scale": 1.7, "tint": Color(0.55, 0.95, 0.85), "trail": 66.0, "trail_w": 10.0,
+		"halo": 0.0, "impact": "volley_hit", "impact_d": 50.0, "ring": false, "muzzle": 0.0},  # TUNING (not in GDD) Act VIII: soul-teal spears (its Lv3 volley and the spear run-through streak)
 }
 ## Look of a class missing from SHOTS (same keys).
 const SHOT_DEFAULT: Dictionary = {"sprite": "", "scale": 2.0, "tint": Color(1.0, 1.0, 1.0), "trail": 40.0, "trail_w": 6.0,
@@ -326,6 +328,10 @@ const SPELLS: Dictionary = {
 	"hundred_shadows": {"tint": Color(0.7, 0.45, 1.0), "flash": 96.0, "strip": "spore_cloud", "strip_d": 120.0, "ring": 60.0, "shake": 0.0},  # TUNING (not in GDD) violet shadow strikes
 	"banner_of_the_dead": {"tint": Color(1.0, 0.35, 0.3), "flash": 96.0, "strip": "volley_flash", "strip_d": 120.0, "ring": 170.0, "shake": 1.5},  # TUNING (not in GDD) ring = its real reach
 	"black_sun": {"tint": Color(0.75, 0.35, 1.0), "flash": 120.0, "strip": "eclipse", "strip_d": 160.0, "ring": 150.0, "shake": 2.0},  # TUNING (not in GDD) ring = its real reach
+	# --- Act VIII spells (w2c-pantheon) ---
+	"paris_arrow": {"tint": Color(1.0, 0.85, 0.45), "flash": 80.0, "strip": "volley_flash", "strip_d": 90.0, "ring": 90.0, "shake": 1.0},  # TUNING (not in GDD) gold fated arrow; ring = its pick reach
+	"stolen_thunder": {"tint": Color(0.75, 0.85, 1.0), "flash": 120.0, "strip": "soul_lightning", "strip_d": 160.0, "ring": 150.0, "shake": 2.5},  # TUNING (not in GDD) ring = its real reach
+	"river_styx": {"tint": Color(0.35, 0.75, 0.85), "flash": 90.0, "strip": "tide_splash", "strip_d": 160.0, "ring": 60.0, "shake": 0.0},  # TUNING (not in GDD) Styx teal
 }
 ## Act III spells' own looks (w2b-court; drawn only): Moonfang's jaw strip
 ## diameter as a multiple of its bite radius; Hex Circle's disc alpha and pulse

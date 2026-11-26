@@ -224,4 +224,16 @@ const EVOLUTIONS: Dictionary = {
 		},
 		"recipe": {"type": "any", "of": [{"type": "elite_kills", "n": 6}, {"type": "kills", "n": 30}]},  # TUNING (not in GDD) Necropathy Oni's Resolve -> a record of slain foes
 	},
+	# --- Act VIII (w2c-pantheon) ---
+	"legion_of_tartarus": {
+		"from": "myrmidon_shade", "name": "Legion of Tartarus", "sprite": "summons/legion_of_tartarus", "icon": "legion_of_tartarus",
+		"stats": {"damage": 1.3, "hp": 1.4},  # Necropathy legion_of_tartarus mult (max_hp 1.4, damage 1.3)
+		"set": {
+			"wall_cut": 0.45,  # Necropathy special_set wall_cut
+			"pierce": 2,  # Necropathy special_set pierce_count
+			"grip_slow": 0.7,  # TUNING (not in GDD) Necropathy grip_slow 0.3 = 30% slower
+			"grip_time": 1.0,  # Necropathy special_set grip_time (s)
+		},
+		"recipe": {"type": "any", "of": [{"type": "elite_kills", "n": 6}, {"type": "kills", "n": 35}]},  # TUNING (not in GDD) Necropathy Myrmidon Oath -> a record of foes held and slain
+	},
 }

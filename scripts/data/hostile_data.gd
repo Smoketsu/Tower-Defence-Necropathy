@@ -29,6 +29,8 @@ const LOOKS: Dictionary = {
 	"spectral": {"sprite": "projectiles/radiant_bolt", "scale": 2.0, "tint": Color(0.45, 1.0, 0.8), "trail": 72.0, "impact": 60.0},  # TUNING (not in GDD) the ghost crew's and Vandermere's lantern shots
 	"bullet": {"sprite": "projectiles/priest_bolt", "tint": Color(0.91, 0.64, 0.23), "scale": 1.4, "trail": 60.0, "impact": 44.0},  # TUNING (not in GDD) Act IV gunfire, sodium yellow
 	"flashbang": {"sprite": "projectiles/mortar_shell", "tint": Color(0.85, 0.85, 1.0), "scale": 2.0, "trail": 0.0, "impact": 110.0},  # TUNING (not in GDD) Act IV SWAT flashbang, a white pop
+	"gaze": {"sprite": "projectiles/radiant_bolt", "tint": Color(0.55, 0.95, 0.45), "scale": 2.0, "trail": 80.0, "impact": 60.0},  # TUNING (not in GDD) Act VIII: the Gorgon's gaze, a venom-green streak
+	"ghost_arrow": {"sprite": "projectiles/enemy_arrow", "tint": Color(0.55, 0.85, 1.0), "scale": 2.0, "trail": 70.0, "impact": 52.0},  # TUNING (not in GDD) Act VIII: the Shade Archer's pale arrow
 	"teppo": {"sprite": "projectiles/priest_bolt", "tint": Color(1.0, 0.85, 0.55), "scale": 1.6, "trail": 80.0, "impact": 48.0},  # TUNING (not in GDD) Act V arquebus ball, a powder-white streak
 }
 ## Trail width (px) of hostile shots.
@@ -54,6 +56,7 @@ const CAUSE_TINT: Dictionary = {
 	"stunned": Color(1.0, 0.9, 0.4),  # TUNING (not in GDD) anything else
 	"hooked": Color(0.85, 0.7, 0.45),  # TUNING (not in GDD) w2b-tide: a Grappler's hook (rope tan)
 	"grabbed": Color(0.7, 0.45, 0.9),  # TUNING (not in GDD) w2b-tide: a tentacle from the deep (kraken purple)
+	"petrified": Color(0.6, 0.85, 0.5),  # TUNING (not in GDD) w2c-pantheon: the Gorgon's gaze (stone green)
 }
 ## Diameter (px) of the disabled ring around a tower's base, and its pulse period (s).
 const DISABLED_RING: float = 52.0  # TUNING (not in GDD)

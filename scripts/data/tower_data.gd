@@ -12,7 +12,8 @@ extends RefCounted
 ## Build-menu order of the towers.
 const ORDER: Array[String] = ["archer", "mage", "frost_wraith", "corpse_catapult", "banshee", "mender", "warrior", "abomination",
 	"warder", "rogue", "gargoyle", "bone_hound", "fallen_seraph", "bone_golem",
-	"powder_wraith", "blood_spawn", "fallen_hero", "bound_oni"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
+	"powder_wraith", "blood_spawn", "fallen_hero", "bound_oni",
+	"myrmidon_shade"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
 
 ## Targeting modes (GDD §4.3), in the order the Target button cycles them.
 const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
@@ -424,6 +425,31 @@ const TOWERS: Dictionary = {
 		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(1.0, 0.55, 0.4), "reach": 120.0},  # TUNING (not in GDD)
 		"evolution": "oni_lord",
 	},
+	# --- Act VIII, the Olympian Republic (w2c-pantheon): unlocked by Hades ---
+	"myrmidon_shade": {
+		"name": "Myrmidon Shades", "short": "Myrmidons", "sprite": "summons/myrmidon_shade", "icon": "myrmidon_shade", "spot": "post",
+		"desc": "Three shields wide: a locked wall takes less, the spear runs through the foe behind",
+		"unlock": {"map": "underworld"},  # DECISIONS K9: the act's summon, unlocked by its finale boss (Hades)
+		"cost": 125,  # TUNING (not in GDD)
+		"behavior": "myrmidon_shade",
+		"range": 40.0,  # TUNING (not in GDD)
+		"damage": 13.0,  # TUNING (not in GDD) per spear thrust (Warrior 10 x Necropathy 9/10 + reach)
+		"interval": 1.25,  # TUNING (not in GDD) Necropathy 1.25 s
+		"target": "first",
+		"bodies": 3,  # Necropathy "three to a card, three shields wide"
+		"body_hp": 150.0,  # TUNING (not in GDD) each; three of them, a little sturdier than a Warrior's
+		"hold": 1,  # TUNING (not in GDD) each body holds one foe
+		"hits_all_held": false,
+		"respawn": 9.0,  # TUNING (not in GDD)
+		"wall_cut": 0.3,  # TUNING (not in GDD) Necropathy wall_cut 0.3: share of every blow a body of a whole wall no longer takes
+		"pierce": 1,  # TUNING (not in GDD) Necropathy pierce_count 1: foes behind the struck one the spear runs through
+		"pierce_reach": 46.0,  # TUNING (not in GDD) px behind the struck foe the spear reaches
+		"pierce_mult": 0.7,  # TUNING (not in GDD) fraction of its damage to each foe run through
+		"stagger": 0.5,  # TUNING (not in GDD) s a foe run through makes no attack (TdCombat.stagger_enemy)
+		"grip_slow": 1.0, "grip_time": 0.0,  # Legion of Tartarus only (EvolutionData "legion_of_tartarus"): slow multiplier, s
+		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(0.55, 0.95, 0.85), "reach": 120.0},  # TUNING (not in GDD) Necropathy fan of spears
+		"evolution": "legion_of_tartarus",
+	},
 }
 
 ## Per-level multipliers, 5 rows (levels 1-5) per tower. Keys:
@@ -560,6 +586,13 @@ const LEVELS: Dictionary = {
 		{"damage": 1.6, "rate": 1.1, "range": 1.0, "bodies": 1, "hp": 1.8},  # TUNING (not in GDD)
 		{"damage": 2.0, "rate": 1.2, "range": 1.0, "bodies": 1, "hp": 2.4},  # TUNING (not in GDD)
 		{"damage": 2.5, "rate": 1.3, "range": 1.0, "bodies": 1, "hp": 3.0},  # TUNING (not in GDD)
+	],
+	"myrmidon_shade": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0, "bodies": 3, "hp": 1.0},
+		{"damage": 1.3, "rate": 1.0, "range": 1.0, "bodies": 3, "hp": 1.4},  # TUNING (not in GDD)
+		{"damage": 1.6, "rate": 1.1, "range": 1.0, "bodies": 3, "hp": 1.8},  # TUNING (not in GDD)
+		{"damage": 2.0, "rate": 1.2, "range": 1.0, "bodies": 3, "hp": 2.4},  # TUNING (not in GDD)
+		{"damage": 2.5, "rate": 1.3, "range": 1.0, "bodies": 3, "hp": 3.0},  # TUNING (not in GDD)
 	],
 }
 
