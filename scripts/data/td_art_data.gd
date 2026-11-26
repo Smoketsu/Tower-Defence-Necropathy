@@ -55,6 +55,15 @@ const GATE_DAMAGED_FRAC: float = 0.66  # TUNING (not in GDD)
 const GATE_BROKEN_FRAC: float = 0.25  # TUNING (not in GDD)
 ## Width (px) of a drawn road; the road_fill tile size, so one tile spans it.
 const ROAD_WIDTH: float = 48.0  # TUNING (not in GDD) matches the 48 px road tiles
+## Centre-line radius (px) of the drawn bend at each road joint (MapView.rounded(); drawing
+## only, enemies walk the sharp polyline). Above half ROAD_WIDTH so the inner kerb never
+## folds; a 90 degree bend then leaves the corner by 13 px, well inside the road.
+const ROAD_TURN_RADIUS: float = 32.0  # TUNING (not in GDD)
+## Max angle (degrees) per straight piece of a drawn bend (smaller = rounder, more polygons).
+const ROAD_TURN_STEP_DEG: float = 7.5  # TUNING (not in GDD)
+## Max length (px) of one drawn road piece: kerbs are cut there, so a kerb under another
+## road's fill (a merge or crossing) is skipped piece by piece.
+const ROAD_PIECE_PX: float = 8.0  # TUNING (not in GDD)
 ## Sprite key (SpriteData) of the necromancer drawn beside the gate.
 const NECROMANCER: String = "player/necromancer"
 ## Offset (px) of the necromancer from the gate centre.

@@ -41,34 +41,24 @@ func _draw() -> void:
 
 
 ## Textured quads along road `r` between offsets `from` and `to` px across it
-## (both sides mirrored when `both`), plus a square at each joint. Sidewalks
-## map v 0 -> 1 from the outer edge to the kerb; asphalt uses its plain rows.
+## (both sides mirrored when `both`), round MapView's rounded bends (radius
+## `to`, so the inner sidewalk never folds). Sidewalks map v 0 -> 1 from the
+## outer edge to the kerb; asphalt uses its plain rows.
 func _strip(r: Road, tex: Texture2D, from: float, to: float, both: bool) -> void:
 	var sz := tex.get_size()  # Tile size (px).
+	var rad := maxf(TdArtData.ROAD_TURN_RADIUS, float(rule["sidewalk_px"]) + TdArtData.ROAD_WIDTH * 0.5 + float(rule["street_extra"]) * 0.5)  # Bend radius (px): the whole street's half width.
+	var path := MapView.cut(MapView.rounded(r.points, rad))  # The drawn centre line.
+	var v0 := 1.0 if both else float(rule["asphalt_v"])  # v at `from`.
+	var v1 := 0.0 if both else float(rule["asphalt_v"]) + (to - from) / sz.y  # v at `to`.
 	for side: float in ([1.0, -1.0] if both else [1.0]):
-		for i in range(r.points.size() - 1):
-			var a := r.points[i]
-			var b := r.points[i + 1]
-			var d := (b - a).normalized()  # Along.
-			var n := Vector2(d.y, -d.x) * side  # Across (this side).
-			var ext := d * (to if both else 0.0)  # Sidewalks run on past the corners to close them.
-			var q := PackedVector2Array([a - ext + n * from, b + ext + n * from, b + ext + n * to, a - ext + n * to])
-			var len := (b - a).length() + ext.length() * 2.0  # Along (px).
-			var uv: PackedVector2Array
-			if both:
-				uv = PackedVector2Array([Vector2(0, 1), Vector2(len / sz.x, 1), Vector2(len / sz.x, 0), Vector2(0, 0)])
-			else:
-				var v0 := float(rule["asphalt_v"])  # Plain asphalt rows only.
-				var v1 := float(rule["asphalt_v"]) + (to - from) / sz.y
-				uv = PackedVector2Array([Vector2(0, v0), Vector2(len / sz.x, v0), Vector2(len / sz.x, v1), Vector2(0, v1)])
-			draw_polygon(q, PackedColorArray([Color.WHITE]), uv, tex)
-	if both:
-		return
-	for i in range(1, r.points.size() - 1):
-		var c := r.points[i]  # Joint: a square of asphalt.
-		var sq := PackedVector2Array([c + Vector2(from, from), c + Vector2(to, from), c + Vector2(to, to), c + Vector2(from, to)])
-		var v1 := float(rule["asphalt_v"]) + (to - from) / sz.y
-		draw_polygon(sq, PackedColorArray([Color.WHITE]), PackedVector2Array([Vector2(0, float(rule["asphalt_v"])), Vector2((to - from) / sz.x, float(rule["asphalt_v"])), Vector2((to - from) / sz.x, v1), Vector2(0, v1)]), tex)
+		var p0 := MapView.offset(path, from * side)  # The `from` edge.
+		var p1 := MapView.offset(path, to * side)  # The `to` edge.
+		var u := 0.0  # Tiles along so far.
+		for i in range(path.size() - 1):
+			var u1 := u + path[i].distance_to(path[i + 1]) / sz.x  # u at the piece end.
+			MapView.piece(self, PackedVector2Array([p0[i], p0[i + 1], p1[i + 1], p1[i]]),
+					PackedVector2Array([Vector2(u, v0), Vector2(u1, v0), Vector2(u1, v1), Vector2(u, v1)]), tex)
+			u = u1
 
 
 ## The dashed centre line of road `r` (skips the corners).
