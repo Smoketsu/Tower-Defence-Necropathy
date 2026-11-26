@@ -43,7 +43,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(240, 400), Vector2(640, 160), Vector2(1040, 330), Vector2(400, 400), Vector2(1000, 620), Vector2(560, 500)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 3.7,  # TUNING (not in GDD) Part Three: the act's finale presses hardest
+	"wave_hp_end": 3.6,  # TUNING (not in GDD) DECISIONS Z4: 3.7 -> 3.6, three-Spawn waves cut to two; Part Three: the act's finale presses hardest
 	"rule": "",
 	"act_rule": "eye/claims",
 	"build_order": "spire_default",
@@ -64,13 +64,13 @@ const MAP: Dictionary = {
 		{"banner": "", "groups": [{"kind": "eye_chanter", "count": 2, "spacing": 4.0}, {"kind": "eye_spawn", "count": 2, "spacing": 4.0, "delay": 1.0}, {"kind": "eye_initiate", "count": 14, "spacing": 0.4, "delay": 3.0, "road": "east"}]},
 		{"banner": "", "groups": [{"kind": "eye_siren", "count": 3, "spacing": 3.0}, {"kind": "eye_deep_kin", "count": 8, "spacing": 1.0, "delay": 1.0, "road": "east"}, {"kind": "eye_scribe", "count": 3, "spacing": 2.5, "delay": 3.0}]},
 		{"banner": "", "groups": [{"kind": "eye_hierophant", "count": 2, "spacing": 4.0, "road": "east"}, {"kind": "eye_tide_caller", "count": 4, "spacing": 2.0, "delay": 1.0}, {"kind": "eye_initiate", "count": 16, "spacing": 0.4, "delay": 3.0}]},
-		{"banner": "The Dream Gate: the god's light pours through", "groups": [{"kind": "eye_spawn", "count": 3, "spacing": 3.0}, {"kind": "eye_siren", "count": 2, "spacing": 3.5, "delay": 2.0}, {"kind": "eye_initiate", "count": 16, "spacing": 0.4, "delay": 3.0, "road": "east"}]},
+		{"banner": "The Dream Gate: the god's light pours through", "groups": [{"kind": "eye_spawn", "count": 2, "spacing": 3.0}, {"kind": "eye_siren", "count": 2, "spacing": 3.5, "delay": 2.0}, {"kind": "eye_initiate", "count": 16, "spacing": 0.4, "delay": 3.0, "road": "east"}]},
 		{"banner": "", "groups": [{"kind": "eye_chanter", "count": 2, "spacing": 4.0, "road": "east"}, {"kind": "eye_deep_kin", "count": 10, "spacing": 0.9, "delay": 1.0}, {"kind": "eye_hierophant", "count": 1, "spacing": 1.0, "delay": 4.0}]},
 		{"banner": "", "groups": [{"kind": "eye_siren", "count": 3, "spacing": 3.0}, {"kind": "eye_spawn", "count": 2, "spacing": 4.0, "delay": 2.0, "road": "east"}, {"kind": "eye_scribe", "count": 4, "spacing": 2.0, "delay": 3.0}]},
 		{"banner": "", "groups": [{"kind": "eye_initiate", "count": 22, "spacing": 0.3}, {"kind": "eye_hierophant", "count": 2, "spacing": 4.0, "delay": 2.0, "road": "east"}, {"kind": "eye_tide_caller", "count": 4, "spacing": 2.0, "delay": 4.0}]},
-		{"banner": "", "groups": [{"kind": "eye_spawn", "count": 3, "spacing": 3.0, "road": "east"}, {"kind": "eye_siren", "count": 2, "spacing": 3.5, "delay": 1.0}, {"kind": "eye_deep_kin", "count": 10, "spacing": 0.9, "delay": 3.0}]},
+		{"banner": "", "groups": [{"kind": "eye_spawn", "count": 2, "spacing": 3.0, "road": "east"}, {"kind": "eye_siren", "count": 2, "spacing": 3.5, "delay": 1.0}, {"kind": "eye_deep_kin", "count": 10, "spacing": 0.9, "delay": 3.0}]},
 		{"banner": "The last stone above the sea: the island holds its breath", "groups": [{"kind": "eye_hierophant", "count": 2, "spacing": 4.0}, {"kind": "eye_chanter", "count": 2, "spacing": 4.0, "delay": 1.0, "road": "east"}, {"kind": "eye_initiate", "count": 18, "spacing": 0.3, "delay": 2.0}, {"kind": "eye_spawn", "count": 2, "spacing": 4.0, "delay": 5.0}]},
-		{"banner": "", "groups": [{"kind": "eye_siren", "count": 3, "spacing": 3.0, "road": "east"}, {"kind": "eye_spawn", "count": 3, "spacing": 3.0, "delay": 2.0}, {"kind": "eye_deep_kin", "count": 8, "spacing": 1.0, "delay": 4.0, "road": "east"}, {"kind": "eye_scribe", "count": 3, "spacing": 2.5, "delay": 6.0}]},
+		{"banner": "", "groups": [{"kind": "eye_siren", "count": 3, "spacing": 3.0, "road": "east"}, {"kind": "eye_spawn", "count": 2, "spacing": 3.0, "delay": 2.0}, {"kind": "eye_deep_kin", "count": 8, "spacing": 1.0, "delay": 4.0, "road": "east"}, {"kind": "eye_scribe", "count": 3, "spacing": 2.5, "delay": 6.0}]},
 		{"banner": "Vhal'Neth, the Dreaming Mother, rises beside the spire!", "groups": [{"kind": "eye_vhalneth", "count": 1, "spacing": 1.0}, {"kind": "eye_initiate", "count": 10, "spacing": 0.6, "delay": 6.0, "road": "east"}, {"kind": "eye_deep_kin", "count": 6, "spacing": 1.2, "delay": 12.0}, {"kind": "eye_siren", "count": 1, "spacing": 1.0, "delay": 18.0, "road": "east"}]},
 	],
 }

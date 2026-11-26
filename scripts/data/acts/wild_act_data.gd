@@ -142,7 +142,7 @@ const KINDS: Dictionary = {
 	# thickets on their spots in any season.
 	"wild_gardener": {
 		"name": "The Gardener of Roots", "sprite": "wild/gardener_of_roots", "rank": "miniboss",
-		"hp": 4500.0, "speed": 24.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD) X3
+		"hp": 4000.0, "speed": 24.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD) DECISIONS Z4: 4500 -> 4000 (leaked past +0.2); X3
 		"damage": 28.0, "attack_interval": 1.4,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "wild/gardener",
 		"args": {"first": 4.0, "every": 11.0, "windup": 1.2, "radius": 100.0, "root": 1.4, "seeds": 1, "plant_radius": 200.0},  # TUNING (not in GDD) Necropathy GardenerOfRootsKit
@@ -183,7 +183,7 @@ const KINDS: Dictionary = {
 		"flying": false, "ignores_walls": true, "trait": "wild/green_mother",
 		"args": {"phase_hp": [0.66, 0.33], "turn_time": 30.0,
 			"burial_first": 5.0, "burial_every": 12.0, "burial_windup": 1.2, "burial_radius": 130.0, "burial_time": 3.0, "burial_damage": 40.0,
-			"call_every": 15.0, "call": [["wild_treant", 1], ["wild_thornling", 5]], "gap": 14.0,
+			"call_every": 20.0, "call": [["wild_treant", 1], ["wild_thornling", 5]], "gap": 14.0,  # DECISIONS Z4: call_every 15 -> 20 s (twelve called Treants leaked on every seed)
 			"claim_every": 13.0, "claim_time": 8.0, "claim_mult": 0.5,
 			"shells": 3, "shell_radius": 70.0, "shell_delay": 1.4, "shell_disable": 2.0, "shell_damage": 30.0,
 			"charms": 3, "charm_time": 6.0, "charm_mult": 1.0, "claim_kind": "claimed_shade",

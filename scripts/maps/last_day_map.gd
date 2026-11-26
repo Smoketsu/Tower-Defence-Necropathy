@@ -60,7 +60,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(160, 620), Vector2(360, 460), Vector2(920, 460), Vector2(1120, 620), Vector2(640, 250)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 2.4,  # TUNING (not in GDD) the act's finale presses hardest
+	"wave_hp_end": 2.3,  # TUNING (not in GDD) DECISIONS Z4: 2.4 -> 2.3 (skyraiders 64 -> 54 px/s); the act's finale presses hardest
 	"rule": "",
 	"act_rule": "primeval/stampedes",
 	"build_order": "last_day_default",

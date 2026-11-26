@@ -98,6 +98,8 @@ func _start(i: int) -> void:
 ## Read by _start() and by act rules that spawn mid-wave (w2c-inferno portals).
 func hp_ramp(i: int) -> float:
 	var hp_end := float(game.map.get("wave_hp_end", 0.0))  # The map's last-wave HP multiplier (0 = default).
+	if GameState.autotest and GameState.autotest_hp_end > 0.0:
+		hp_end = GameState.autotest_hp_end  # --hp-end= probe (autotest only).
 	return lerpf(TdRulesData.WAVE_HP_START, hp_end if hp_end > 0.0 else TdRulesData.WAVE_HP_END,
 			minf(float(i) / float(maxi(map_waves - 1, 1)), 1.0))
 

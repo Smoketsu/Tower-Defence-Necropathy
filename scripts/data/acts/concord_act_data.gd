@@ -53,7 +53,7 @@ const KINDS: Dictionary = {
 	# The Ark's freed beasts: six-legged runners loosed from the specimen tanks.
 	"concord_vault_beast": {
 		"name": "Vault Beast", "sprite": "concord/vault_beast", "rank": "fodder", "souls": 6,  # TUNING (not in GDD) a runner
-		"hp": 115.0, "speed": 56.0, "armour": 1.0, "radius": 10.0,  # TUNING (not in GDD) fast
+		"hp": 115.0, "speed": 44.0, "armour": 1.0, "radius": 10.0,  # TUNING (not in GDD) fast; DECISIONS Z4: 56 -> 44 (swarms of 12-14 leaked on every seed)
 		"damage": 8.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "", "args": {},
 	},
@@ -129,7 +129,7 @@ const KINDS: Dictionary = {
 	# beam blinds every tower along its line.
 	"concord_luminous_archon": {
 		"name": "The Luminous Archon", "sprite": "concord/luminous_archon", "rank": "miniboss",
-		"hp": 4000.0, "speed": 24.0, "armour": 6.0, "radius": 22.0,  # TUNING (not in GDD) X3 (its shield adds a quarter)
+		"hp": 3400.0, "speed": 24.0, "armour": 6.0, "radius": 22.0,  # TUNING (not in GDD) DECISIONS Z4: 4000 -> 3400; X3 (its shield adds a quarter)
 		"damage": 24.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "concord/archon",
 		"args": {"shield": 0.25, "first": 4.0, "every": 8.0, "windup": 1.2, "range": 240.0, "width": 34.0, "disable": 2.0},  # TUNING (not in GDD) Necropathy LuminousArchonKit: the sweep
@@ -162,7 +162,7 @@ const KINDS: Dictionary = {
 	# the Reaping (immune while its reap emitters lift the posts and towers round them), the Gardener (its true form).
 	"concord_harvester": {
 		"name": "The Harvester", "sprite": "bosses/harvester", "rank": "boss",
-		"hp": 10500.0, "speed": 18.0, "armour": 6.0, "radius": 28.0,  # TUNING (not in GDD) the act's last boss (immune through the Reaping)
+		"hp": 8000.0, "speed": 18.0, "armour": 6.0, "radius": 28.0,  # TUNING (not in GDD) DECISIONS Z4: 10500 -> 8000 (leaked in 3 of 4 seeds); the act's last boss (immune through the Reaping)
 		"damage": 36.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "concord/harvester",
 		"args": {"reaping_hp": 0.5, "council_first": 4.0, "council_turn": 8.0, "swarm": 6, "swarm_kind": "concord_broodling",

@@ -126,7 +126,7 @@ const KINDS: Dictionary = {
 	# The first split (same art, smaller).
 	"eye_gibbering_lesser": {
 		"name": "Lesser Mass", "sprite": "eye/gibbering_lesser", "rank": "fodder", "souls": 3,  # TUNING (not in GDD) a split pays little (X2)
-		"hp": 180.0, "speed": 38.0, "armour": 2.0, "radius": 11.0,  # TUNING (not in GDD)
+		"hp": 180.0, "speed": 32.0, "armour": 2.0, "radius": 11.0,  # TUNING (not in GDD) DECISIONS Z4: 38 -> 32 (splits born late outran the towers: a cliff)
 		"damage": 7.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "eye/gibbering",
 		"args": {"into": "eye_gibbering_least", "count": 2, "gap": 10.0},  # TUNING (not in GDD)
@@ -134,7 +134,7 @@ const KINDS: Dictionary = {
 	# The last split.
 	"eye_gibbering_least": {
 		"name": "Least Mass", "sprite": "eye/gibbering_least", "rank": "fodder", "souls": 1,  # TUNING (not in GDD)
-		"hp": 60.0, "speed": 46.0, "armour": 0.0, "radius": 8.0,  # TUNING (not in GDD)
+		"hp": 60.0, "speed": 34.0, "armour": 0.0, "radius": 8.0,  # TUNING (not in GDD) DECISIONS Z4: 46 -> 34
 		"damage": 4.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "", "args": {},
 	},

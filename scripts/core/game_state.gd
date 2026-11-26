@@ -47,6 +47,9 @@ var autotest_swap: String = ""
 ## Autotest frame-time probe (--perf-wave=N, tools/gw_perf.js): from wave N the run drops
 ## to speed 1 and prints a "PERF" line every game second (0 = off).
 var autotest_perf_wave: int = 0
+## Autotest balance probe (--hp-end=X, w2d-int): overrides the map's wave_hp_end (last-wave
+## HP multiplier, ~1.5-6) for cliff checks without editing the map (0 = the map's own).
+var autotest_hp_end: float = 0.0
 ## Spells of the run in slot order (empty = SpellData.DEFAULT_LOADOUT).
 var loadout: Array[String] = []
 
@@ -82,4 +85,5 @@ func _init() -> void:
 			"--ultimate": autotest_ultimate = v
 			"--swap": autotest_swap = v
 			"--perf-wave": autotest_perf_wave = int(v)
+			"--hp-end": autotest_hp_end = float(v)
 			"--unlock-all": unlock_all = true

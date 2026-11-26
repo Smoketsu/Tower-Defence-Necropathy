@@ -32,7 +32,7 @@ const KINDS: Dictionary = {
 		"hp": 110.0, "speed": 46.0, "armour": 2.0, "radius": 11.0,  # TUNING (not in GDD)
 		"damage": 7.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "empire/rifle",
-		"args": {"range": 170.0, "interval": 5.0, "target": "tower", "damage": 8.0, "disable": 0.7, "cause": "shot", "speed": 380.0, "look": "rifle"},  # TUNING (not in GDD) Necropathy rifle bursts from 400 px (a TD map is one screen)
+		"args": {"range": 170.0, "interval": 5.0, "target": "tower", "damage": 8.0, "disable": 0.5, "cause": "shot", "speed": 380.0, "look": "rifle"},  # TUNING (not in GDD) DECISIONS Z4: 0.7 -> 0.5 (ten troopers on one tower fed a cliff); Necropathy rifle bursts from 400 px (a TD map is one screen)
 	},
 	# Soldier: a squat walker behind a tower shield; frontal hits barely scratch it (Act I shield_front).
 	"empire_aegis_bot": {
@@ -155,7 +155,7 @@ const KINDS: Dictionary = {
 	# Iron Citadel miniboss: Valkyrie 2.0, jet pack, tower shield and arm blade.
 	"empire_valkyrie_prime": {
 		"name": "Valkyrie 2.0", "sprite": "empire/valkyrie_prime", "rank": "miniboss",
-		"hp": 3400.0, "speed": 28.0, "armour": 4.0, "radius": 22.0,  # TUNING (not in GDD) X3: her shield and dash make her tougher than her HP
+		"hp": 2800.0, "speed": 28.0, "armour": 4.0, "radius": 22.0,  # TUNING (not in GDD) Z4: 3400 -> 2800 (leaked in 3 of 4 seeds); X3: her shield and dash make her tougher than her HP
 		"damage": 24.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "empire/valkyrie",
 		"args": {"dash_every": 12.0, "dash_windup": 0.8, "dash_targets": 2, "dash_damage": 50.0, "dash_time": 0.6, "dash_mult": 2.2,

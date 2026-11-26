@@ -68,7 +68,7 @@ const KINDS: Dictionary = {
 	# A flier: a pterosaur clutching a stolen crystal; it flies over the posts (Necropathy "Skyraider").
 	"prim_skyraider": {
 		"name": "Skyraider", "sprite": "primeval/skyraider", "rank": "fodder", "souls": 6,  # TUNING (not in GDD)
-		"hp": 95.0, "speed": 64.0, "armour": 0.0, "radius": 10.0,  # TUNING (not in GDD)
+		"hp": 95.0, "speed": 54.0, "armour": 0.0, "radius": 10.0,  # TUNING (not in GDD) DECISIONS Z4: speed 64 -> 54 (a flock outran every tower on one seed)
 		"damage": 4.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": true, "ignores_walls": true, "trait": "", "args": {},
 	},
