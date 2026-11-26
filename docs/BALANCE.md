@@ -147,14 +147,14 @@ faster than in wave 2c on this machine, so compare ratios, not ms.)
 
 ### Bosses without attack-pose art
 
-Their strike pose (3) shows the still sprite: Seraphine (cast pose only), Captain
-Crow, Admiral Marrec, Captain Vandermere, Vargr, Isolde Vane, Queen Carmilla, Don
-Marrow, General Harrow, Paragon, Kage, Amaterasu, Hrimgar, Sigrun, Odin, Fenrir,
-Anubis, Sekhmet, Osiris and Ammit, Zeus, Hades, Moloch, Lilith, the Morning Star,
-Seraiel, the Throne, the Voice, Abbot Merrow (his changed form has one), Vhal'Neth,
-Kestrel, Deus Ex Machina, Vrask'Tal, the Harvester, Scarmaw, Old Ironbrow, Old
-Gravejaw, the Stag King, the Summer Queen, the Green Mother (39; Alaric, Vael,
-Achilles, the Shogun, the Archivist, the Motherboard and the Hive Mother have one).
+Strike poses (pose 3) were generated for 28 bosses in the boss-poses pass (DECISIONS Z10): Captain
+Crow, Admiral Marrec, Captain Vandermere, Vargr, Isolde Vane, Queen Carmilla, Don Marrow, General Harrow,
+Paragon, Kage, Hrimgar, Sigrun, Odin, Fenrir, Anubis, Sekhmet, Osiris (and Ammit's sprite), Moloch, Lilith,
+the Morning Star, the Throne, the Voice, Vhal'Neth, Vrask'Tal, the Harvester, Old Ironbrow, the Stag King,
+the Summer Queen. Still without a strike pose (their strike shows the still): Seraphine (cast pose only),
+Amaterasu, Zeus, Hades, Seraiel, Kestrel, Deus Ex Machina, Scarmaw, Old Gravejaw, the Green Mother, Abbot
+Merrow (his changed form has one), and the second forms drawn as pose 2 (Lilith's demon, the Morning Star's
+Beast, Harrow's command car, Carmilla / the Elder's forms, the Throne's core, the Voice's unveiled form).
 
 
 ## Wave 2c integration: all 30 maps (Nov 2026; DECISIONS Y1-Y9)
@@ -308,11 +308,14 @@ Web build: `index.pck` 17.3 MB, `index.wasm` 35.4 MB (the engine), `index.js`
 
 ### Bosses without attack-pose art
 
-Their strike pose (3) shows the still sprite: Seraphine (cast pose only), Captain
-Crow, Admiral Marrec, Captain Vandermere, Vargr, Isolde Vane, Queen Carmilla, Don
-Marrow, General Harrow, Paragon, Kage, Amaterasu, Hrimgar, Sigrun, Odin, Fenrir,
-Anubis, Sekhmet, Osiris and Ammit, Zeus, Hades, Moloch, Lilith, the Morning Star,
-Seraiel, the Throne, the Voice, Vrask'Tal, the Harvester (29; Alaric, Vael, Achilles, the Shogun and the Hive Mother have one).
+Strike poses (pose 3) were generated for 28 bosses in the boss-poses pass (DECISIONS Z10): Captain
+Crow, Admiral Marrec, Captain Vandermere, Vargr, Isolde Vane, Queen Carmilla, Don Marrow, General Harrow,
+Paragon, Kage, Hrimgar, Sigrun, Odin, Fenrir, Anubis, Sekhmet, Osiris (and Ammit's sprite), Moloch, Lilith,
+the Morning Star, the Throne, the Voice, Vhal'Neth, Vrask'Tal, the Harvester, Old Ironbrow, the Stag King,
+the Summer Queen. Still without a strike pose (their strike shows the still): Seraphine (cast pose only),
+Amaterasu, Zeus, Hades, Seraiel, Kestrel, Deus Ex Machina, Scarmaw, Old Gravejaw, the Green Mother, Abbot
+Merrow (his changed form has one), and the second forms drawn as pose 2 (Lilith's demon, the Morning Star's
+Beast, Harrow's command car, Carmilla / the Elder's forms, the Throne's core, the Voice's unveiled form).
 
 
 ## Wave 2d: Act XIV, the Age of Titans (w2d-titans, DECISIONS T14)
