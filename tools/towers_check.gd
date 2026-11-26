@@ -15,6 +15,13 @@
 ## Act XI (_eye_checks, w2d-eye): the Spawn of the Deep's Grasp and the Leviathan's sweep, Salt
 ## of the Deep, Claims (the risen Thrall wears the body, pays back), the Scribe's curse, the
 ## Ink Wraith's dive, the Gibbering split, the Footnote, Vhal'Neth's dream and arms, the act spells.
+## Act XII (_empire_checks): Line of Fire, Lock-On, the Grave Drone / Wraith Drone, the Iron
+## Revenant / Deus Revenant, Overclock, Recoil Frame, the act spells, Deus' shield, Kestrel.
+## Act XIII (_concord_checks): Abduction, the Ghost Saucer, its evolution and synergy, the act spells and kinds.
+## Act XIV (_titans_checks): the Bonehorn charge and Fossil Tyrant, Thundering Herd, the act
+## spells, the Stampedes (trample, turning, the tar, the watering hole), a rock stun, meteors.
+## Act XV (_year_checks): the Turning Year's seasons, the Ossuary Oak and World-Root Warden,
+## Heartwood, the act spells, the Great Stag's charge, the Green Mother's Last Claim.
 ## Run: godot --headless tools/towers_check.tscn   (prints PASS / FAIL, exit 0 / 1)
 extends Node
 
