@@ -646,7 +646,7 @@ const MOODS: Dictionary = {
 			{"sprite": "obstacles/emitter_pylon_s", "frames": 1, "count": 3, "scale": 1.0, "glow": Color(1.0, 0.68, 0.1, 0.45), "glow_r": 40.0,
 			"glow_at": Vector2(0, -44), "flicker": 0.1, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD) amber line lamps
 		"fog": 2,  # TUNING (not in GDD) furnace smoke
-		"pools": 3,  # TUNING (not in GDD) pools of furnace light
+		"pools": 0,  # TUNING (not in GDD) no stained glass in a factory
 	},
 	"citadel": {
 		"props": [{"sprite": "obstacles/gate_pylon_m", "frames": 1, "count": 5, "scale": 1.0, "glow": Color(0.55, 0.8, 1.0, 0.5), "glow_r": 46.0,
@@ -654,7 +654,7 @@ const MOODS: Dictionary = {
 			{"sprite": "obstacles/emitter_pylon_m", "frames": 1, "count": 3, "scale": 1.0, "glow": Color(1.0, 0.25, 0.15, 0.5), "glow_r": 44.0,
 			"glow_at": Vector2(0, -62), "flicker": 0.2, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD) red warning beacons
 		"fog": 0,
-		"pools": 4,  # TUNING (not in GDD) floodlight pools
+		"pools": 0,  # TUNING (not in GDD) no stained glass in the fortress
 	},
 }
 
