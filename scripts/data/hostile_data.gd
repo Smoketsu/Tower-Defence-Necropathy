@@ -35,6 +35,10 @@ const LOOKS: Dictionary = {
 	"boulder": {"sprite": "projectiles/corpse_boulder", "tint": Color(0.75, 0.9, 1.0), "scale": 1.9, "trail": 0.0, "impact": 96.0},  # TUNING (not in GDD) Act VI frost giant's ice-crusted boulder
 	"gungnir": {"sprite": "projectiles/bone_spear", "tint": Color(0.8, 0.95, 1.0), "scale": 2.6, "trail": 90.0, "impact": 80.0},  # TUNING (not in GDD) Act VI Odin's spear of soul-light
 	"feather": {"sprite": "projectiles/seraph_feather", "tint": Color(1.0, 0.55, 0.25), "scale": 1.6, "trail": 70.0, "impact": 52.0},  # TUNING (not in GDD) w2c-inferno: the Seraph General's burnt feathers
+	# --- Act XI, the Ancient Eye (w2d-eye) ---
+	"anchor": {"sprite": "projectiles/harbour_anchor", "tint": Color(0.55, 0.9, 0.85), "scale": 1.6, "trail": 80.0, "impact": 80.0},  # TUNING (not in GDD) the Harbourmaster's chained anchor (drowned teal)
+	"net": {"sprite": "overlays/harbour_net", "tint": Color(0.6, 0.95, 0.85), "scale": 1.0, "trail": 50.0, "impact": 60.0},  # TUNING (not in GDD) a Netcaster's net
+	"page": {"sprite": "projectiles/archive_page", "tint": Color(0.75, 0.45, 1.0), "scale": 1.8, "trail": 64.0, "impact": 56.0},  # TUNING (not in GDD) the Archivist's flying pages (ink violet)
 }
 ## Trail width (px) of hostile shots.
 const TRAIL_W: float = 10.0  # TUNING (not in GDD)
@@ -62,6 +66,10 @@ const CAUSE_TINT: Dictionary = {
 	"frozen": Color(0.6, 0.85, 1.0),  # TUNING (not in GDD) w2c-norse: frost mist, boulders of ice, the Barrow-Wight's howl (ice blue)
 	"petrified": Color(0.6, 0.85, 0.5),  # TUNING (not in GDD) w2c-pantheon: the Gorgon's gaze (stone green)
 	"chained": Color(0.75, 0.6, 0.45),  # TUNING (not in GDD) w2c-inferno: the Gatekeeper's chains (iron)
+	# --- Act XI, the Ancient Eye (w2d-eye) ---
+	"soaked": Color(0.35, 0.85, 0.9),  # TUNING (not in GDD) a Tide Caller's water line, Merrow's Brine Wave (sea teal)
+	"netted": Color(0.6, 0.9, 0.75),  # TUNING (not in GDD) a Netcaster's net (rope green)
+	"inked": Color(0.6, 0.4, 0.95),  # TUNING (not in GDD) the Librarian's Index, the Archivist's pages and Erasure (ink violet)
 }
 ## Diameter (px) of the disabled ring around a tower's base, and its pulse period (s).
 const DISABLED_RING: float = 52.0  # TUNING (not in GDD)

@@ -17,7 +17,8 @@ const ORDER: Array[String] = ["archer", "mage", "frost_wraith", "corpse_catapult
 	"ushabti_sentinel",
 	"myrmidon_shade",
 	"bound_succubus", "archfiend",
-	"bound_ophan"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
+	"bound_ophan",
+	"spawn_of_the_deep"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
 
 ## Targeting modes (GDD §4.3), in the order the Target button cycles them.
 const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
@@ -576,6 +577,32 @@ const TOWERS: Dictionary = {
 		"volley": {"every": 2, "count": 3, "damage": 0.4, "sprite": "volleys/shard", "tint": Color(0.55, 0.95, 0.9)},  # TUNING (not in GDD) soul-teal bone shards
 		"evolution": "throne_of_bones",
 	},
+	# --- Act XI, the Ancient Eye (w2d-eye): unlocked by Vhal'Neth ---
+	"spawn_of_the_deep": {
+		"name": "Spawn of the Deep", "short": "Spawn", "sprite": "summons/spawn_of_the_deep", "icon": "spawn_of_the_deep", "spot": "post",
+		"desc": "Tentacled blocker: its Grasp seizes the strongest foe near its post and squeezes it",
+		"unlock": {"map": "spire"},  # DECISIONS K9: the act's summon, unlocked by its finale's boss (Vhal'Neth)
+		"cost": 120,  # TUNING (not in GDD)
+		"behavior": "spawn_of_the_deep",
+		"range": 40.0,  # TUNING (not in GDD)
+		"damage": 18.0,  # TUNING (not in GDD) per blow on the first held enemy (and per squeeze tick)
+		"interval": 1.4,  # TUNING (not in GDD) Necropathy attack_interval 1.4
+		"target": "first",
+		"bodies": 1,
+		"body_hp": 380.0,  # TUNING (not in GDD) a heavy, a little over the Abomination (350)
+		"hold": 4,  # TUNING (not in GDD) DECISIONS Y4: as the Abomination
+		"hits_all_held": false,
+		"respawn": 11.0,  # TUNING (not in GDD)
+		"grasp_every": 5.0,  # TUNING (not in GDD) s between grasps (Necropathy grasp_cooldown 7)
+		"grasp_range": 110.0,  # TUNING (not in GDD) px round the post a tentacle reaches (Necropathy grasp_range 90 edge to edge)
+		"grasp_time": 2.4,  # TUNING (not in GDD) s a seized foe is held frozen (rank multipliers apply; Necropathy grasp_duration)
+		"grasp_tick": 0.5,  # TUNING (not in GDD) s between squeezes
+		"grasp_mult": 0.5,  # TUNING (not in GDD) share of its damage each squeeze deals (Necropathy grasp_damage 7 of 14)
+		"grasp_targets": 1,  # Leviathan: 2
+		"sweep_radius": 0.0, "sweep_mult": 0.0, "sweep_knock": 0.0,  # Leviathan only: px round the body its tentacles sweep with each grasp, damage share, px thrown back
+		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(0.4, 0.9, 0.8), "reach": 120.0},  # TUNING (not in GDD) drowned-teal barbs
+		"evolution": "leviathan",
+	},
 }
 
 ## Per-level multipliers, 5 rows (levels 1-5) per tower. Keys:
@@ -754,6 +781,14 @@ const LEVELS: Dictionary = {
 		{"damage": 1.7, "rate": 1.1, "range": 1.1},  # TUNING (not in GDD)
 		{"damage": 2.2, "rate": 1.15, "range": 1.15},  # TUNING (not in GDD)
 		{"damage": 2.8, "rate": 1.25, "range": 1.2},  # TUNING (not in GDD)
+	],
+	# --- Act XI (w2d-eye) ---
+	"spawn_of_the_deep": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.0},
+		{"damage": 1.3, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.4},  # TUNING (not in GDD)
+		{"damage": 1.6, "rate": 1.1, "range": 1.0, "bodies": 1, "hp": 1.8},  # TUNING (not in GDD)
+		{"damage": 2.0, "rate": 1.2, "range": 1.0, "bodies": 1, "hp": 2.4},  # TUNING (not in GDD)
+		{"damage": 2.5, "rate": 1.3, "range": 1.0, "bodies": 1, "hp": 3.0},  # TUNING (not in GDD)
 	],
 }
 

@@ -64,6 +64,9 @@ const SHOTS: Dictionary = {
 		"halo": 0.0, "impact": "volley_hit", "impact_d": 52.0, "ring": false, "muzzle": 0.0},  # TUNING (not in GDD) Act IX: its Lv3 hellfire shards
 	"bound_ophan": {"sprite": "volleys/shard", "scale": 1.8, "tint": Color(0.55, 0.95, 0.9), "trail": 66.0, "trail_w": 11.0,
 		"halo": 6.0, "impact": "volley_hit", "impact_d": 54.0, "ring": false, "muzzle": 44.0},  # TUNING (not in GDD) Act X: soul-teal (its roll draws a streak, golem_slam and a ring at the real width)
+	# --- Act XI (w2d-eye) ---
+	"spawn_of_the_deep": {"sprite": "volleys/shard", "scale": 1.7, "tint": Color(0.4, 0.9, 0.8), "trail": 64.0, "trail_w": 11.0,
+		"halo": 0.0, "impact": "volley_hit", "impact_d": 52.0, "ring": false, "muzzle": 0.0},  # TUNING (not in GDD) drowned-teal barbs (its Grasp draws a tentacle streak and drowned_tendrils)
 }
 ## Look of a class missing from SHOTS (same keys).
 const SHOT_DEFAULT: Dictionary = {"sprite": "", "scale": 2.0, "tint": Color(1.0, 1.0, 1.0), "trail": 40.0, "trail_w": 6.0,
@@ -359,6 +362,10 @@ const SPELLS: Dictionary = {
 	"flaming_sword": {"tint": Color(0.92, 0.96, 1.0), "flash": 96.0, "strip": "", "strip_d": 0.0, "ring": 90.0, "shake": 1.0},  # TUNING (not in GDD) white fire; ring = its real reach (the sweep draws itself)
 	"wheel_of_eyes": {"tint": Color(0.55, 0.8, 1.0), "flash": 96.0, "strip": "volley_flash", "strip_d": 70.0, "ring": 0.0, "shake": 0.0},  # TUNING (not in GDD) cerulean fire (the wheel draws itself)
 	"revelation": {"tint": Color(1.0, 1.0, 0.95), "flash": 120.0, "strip": "holy_impact", "strip_d": 200.0, "ring": 170.0, "shake": 2.0},  # TUNING (not in GDD) ring = its real reach
+	# --- Act XI spells (w2d-eye) ---
+	"undertow": {"tint": Color(0.4, 0.9, 0.95), "flash": 96.0, "strip": "tide_splash", "strip_d": 90.0, "ring": 0.0, "shake": 1.0},  # TUNING (not in GDD) sea teal (the crest draws itself)
+	"forbidden_verse": {"tint": Color(0.75, 0.45, 1.0), "flash": 96.0, "strip": "ink_burst", "strip_d": 120.0, "ring": 110.0, "shake": 0.0},  # TUNING (not in GDD) ink violet; ring = its real reach
+	"call_of_the_drowned": {"tint": Color(0.35, 0.95, 0.8), "flash": 96.0, "strip": "drowned_tendrils", "strip_d": 100.0, "ring": 150.0, "shake": 1.5},  # TUNING (not in GDD) drowned teal; ring = its real reach
 }
 ## Act III spells' own looks (w2b-court; drawn only): Moonfang's jaw strip
 ## diameter as a multiple of its bite radius; Hex Circle's disc alpha and pulse

@@ -20,7 +20,8 @@ const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "p
 	"the_embalmer", "lion_priestess", "pharaohs_shade",
 	"doomed_prophetess", "oathbreaker", "ferrywoman",
 	"furnace_priest", "succubus_queen", "fallen_saint",
-	"fallen_herald", "blind_saint", "the_unveiled"]  # The later spells' characters (gw2-kit), appended
+	"fallen_herald", "blind_saint", "the_unveiled",
+	"brine_widow", "heretic_scribe", "tide_widow"]  # The later spells' characters (gw2-kit), appended
 
 ## Character rows. Keys:
 ##   name         — UI name.
@@ -42,7 +43,9 @@ const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "p
 ##                  brimstone_stones (+stones per Brimstone), tempt_time (x Temptation's
 ##                  charm time), grace_second (share of a second Fall from Grace star); w2c-host: light_cut
 ##                  (share of the Hallowed Light's weakening removed, read by the act rule),
-##                  wheel_rebounds (+passes of Wheel of Eyes), reveal_shred (armour Revelation strips). {} = none.
+##                  wheel_rebounds (+passes of Wheel of Eyes), reveal_shred (armour Revelation strips); w2d-eye:
+##                  shallows_time (x Undertow's shallows), verse_burst_radius (+px of every ink burst),
+##                  thrall_hp_mult (x Call of the Drowned's Thrall HP), thrall_cap_bonus (+Thralls at once). {} = none.
 ##   unlock_after — map id whose boss opens it ("" = open from the start).
 const CHARACTERS: Dictionary = {
 	"gravecaller": {
@@ -271,6 +274,25 @@ const CHARACTERS: Dictionary = {
 		"boost": {"radius": 1.15, "stun": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
 		"innate": {"name": "Seventh Seal", "desc": "Revelation also strips 3 armour", "reveal_shred": 3.0},  # Necropathy's paired passive name
 		"unlock_after": "empyrean",  # the Voice
+	},
+	# --- Act XI's characters (w2d-eye; Necropathy's Ancient Eye characters) ---
+	"brine_widow": {
+		"name": "The Brine Widow", "short": "Brine Widow", "sprite": "player/brine_widow", "spell": "undertow",
+		"boost": {"damage": 1.2, "push": 1.3, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Riptide", "desc": "Undertow's shallows last twice as long", "shallows_time": 2.0},  # Necropathy's Riptide innate
+		"unlock_after": "harbour",  # Abbot Merrow
+	},
+	"heretic_scribe": {
+		"name": "The Heretic Scribe", "short": "Heretic Scribe", "sprite": "player/heretic_scribe", "spell": "forbidden_verse",
+		"boost": {"damage": 1.2, "radius": 1.15, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Illuminated Margins", "desc": "Every ink burst reaches 25 px farther", "verse_burst_radius": 25.0},  # Necropathy's Illuminated Margins innate
+		"unlock_after": "archive",  # the Archivist
+	},
+	"tide_widow": {
+		"name": "The Tide Widow", "short": "Tide Widow", "sprite": "player/tide_widow", "spell": "call_of_the_drowned",
+		"boost": {"damage": 1.2, "targets": 1.34, "cooldown": 0.85},  # TUNING (not in GDD) one more target (3 -> 4)
+		"innate": {"name": "Drowned Court", "desc": "Your Drowned Thralls are sturdier and one more may stand", "thrall_hp_mult": 1.4, "thrall_cap_bonus": 1},  # Necropathy's thrall_hp_bonus / thrall_cap_bonus innate
+		"unlock_after": "spire",  # Vhal'Neth
 	},
 }
 
