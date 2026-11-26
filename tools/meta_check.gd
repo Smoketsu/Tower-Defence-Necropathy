@@ -48,7 +48,7 @@ func _ready() -> void:
 	for m: String in Acts.map_order():
 		if not bool(Acts.row(Acts.act_of_map(m)).get("hidden", false)):
 			chain.append(m)
-	ok = ok and chain.size() >= 30 and chain[0] == "graveyard" and chain[chain.size() - 1] == "empyrean"
+	ok = ok and chain.size() >= 33 and chain[0] == "graveyard" and chain[chain.size() - 1] == "world_tree"  # w2d-year: the World-Tree ends the campaign
 	for i in range(1, chain.size()):
 		if Meta.unlock_after(chain[i]) != chain[i - 1] or Meta.map_open(chain[i]):
 			push_error("meta_check: %s does not follow %s" % [chain[i], chain[i - 1]])
@@ -62,13 +62,13 @@ func _ready() -> void:
 	var before: Dictionary = (Meta.data["unlocks"] as Dictionary).duplicate(true)
 	Meta.migrate()
 	ok = ok and Meta.data["unlocks"] == before
-	# Every act tower opens with its finale cleared; the Empyrean (the last map) is not cleared yet,
-	# so the Bound Ophan's unlock is met only once it is (w2c-int).
-	for tw: String in ["powder_wraith", "blood_spawn", "fallen_hero", "bound_oni", "draugr_thane", "ushabti_sentinel", "myrmidon_shade", "bound_succubus", "archfiend"]:
+	# Every act tower opens with its finale cleared; the World-Tree (the last map) is not cleared yet,
+	# so the Ossuary Oak's unlock is met only once it is (w2c-int, w2d-year).
+	for tw: String in ["powder_wraith", "blood_spawn", "fallen_hero", "bound_oni", "draugr_thane", "ushabti_sentinel", "myrmidon_shade", "bound_succubus", "archfiend", "bound_ophan"]:
 		ok = ok and Unlocks.tower_open(tw) and (Meta.data["unlocks"]["towers"] as Array).has(tw)
-	var ophan: Dictionary = TowerData.TOWERS["bound_ophan"]["unlock"]  # The Empyrean's boss opens it.
-	ok = ok and not Unlocks.met(ophan)
-	(Meta.data["maps"]["cleared"] as Array).append("empyrean")
-	ok = ok and Unlocks.met(ophan)
+	var oak: Dictionary = TowerData.TOWERS["ossuary_oak"]["unlock"]  # The Green Mother opens it.
+	ok = ok and not Unlocks.met(oak)
+	(Meta.data["maps"]["cleared"] as Array).append("world_tree")
+	ok = ok and Unlocks.met(oak)
 	print("META CHECK OK" if ok else "META CHECK FAILED")
 	get_tree().quit(0 if ok else 1)

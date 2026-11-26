@@ -12,6 +12,8 @@
 ## spells and the Sun's Course (night visibility, douse / relight, ambush, Kage, the Shogun);
 ## Act X (_host_checks): the Bound Ophan roll and Throne of Bones, Turning Wheel, the act
 ## spells, the Hallowed Light (weakening, shade, Grace), Judgment, the Ophan, the Throne's rims.
+## Act XV (_year_checks): the Turning Year's seasons, the Ossuary Oak and World-Root Warden,
+## Heartwood, the act spells, the Great Stag's charge, the Green Mother's Last Claim.
 ## Run: godot --headless tools/towers_check.tscn   (prints PASS / FAIL, exit 0 / 1)
 extends Node
 
@@ -70,6 +72,7 @@ func _ready() -> void:
 	_pantheon_checks()
 	_inferno_checks()
 	_host_checks()
+	_year_checks()
 	print("TOWERS CHECK %s %s" % ["PASS" if _fails.is_empty() else "FAIL", ",".join(_fails)])
 	get_tree().quit(0 if _fails.is_empty() else 1)
 
@@ -882,3 +885,95 @@ func _host_checks() -> void:
 	_check("throne rims", TdCombat.damage_enemy(game, th, 1000.0, {"source": "check", "dot": true}) < 400.0)
 	th.vars["core_until"] = game.time + 5.0
 	_check("throne core", is_equal_approx(TdCombat.damage_enemy(game, th, 1000.0, {"source": "check", "dot": true}), 1000.0))
+
+
+## Act XV (w2d-year): the Turning Year's four seasons (thickets choke and burn,
+## Summer haste, Autumn sprouts, Winter chill), the Ossuary Oak's roots and the
+## World-Root Warden, Heartwood, the act spells, the Great Stag's charge ending at
+## one post and the Green Mother's Last Claim halving damage.
+func _year_checks() -> void:
+	var loadout: Array[String] = ["wild_hunt", "glamour", "root_and_rot"]
+	var game := TdGame.new()
+	game.setup("greenwood", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(game)
+	game.economy.earn(50000, "test_bonus")
+	var year: MapRule = game.act_rule
+	_check("turning year loaded", year != null and year.has_method("plant"))
+	var arch := game.spot_by_id("plot:0")
+	game.build(arch, "archer")
+	year.call("on_wave_start", 1)
+	_check("year starts in autumn", int(year.get("season")) == 2)
+	# Spring: a thicket sprouts on the built spot, then chokes it; a burn clears it.
+	year.call("set_override", 0, game.time + 60.0)
+	_check("spring plants", (year.get("thickets") as Array).size() == 1)
+	_run(game, float(Acts.data("wild")["RULE"]["sprout"]) + 1.0)
+	_check("thicket chokes", arch.tower.disabled_until > game.time and arch.tower.disabled_cause == "choked")
+	_check("thicket burns", bool(year.call("burn", 0)) and (year.get("thickets") as Array).is_empty())
+	_run(game, 1.0)
+	_check("choke lapses", arch.tower.disabled_until <= game.time)
+	# Summer: a spawn is faster.
+	year.call("set_override", 1, game.time + 60.0)
+	var fast := game.spawn_at("wild_fae_knight", "main", 1, 0.0, 0.0)
+	_check("summer haste", is_equal_approx(fast.speed, float(Acts.kinds()["wild_fae_knight"]["speed"]) * float(Acts.data("wild")["RULE"]["summer_speed"])))
+	game.remove_enemy(fast, false)
+	# Winter: every tower attacks slower.
+	year.call("set_override", 3, game.time + 60.0)
+	_run(game, 1.0)
+	_check("winter chills", is_equal_approx(float(arch.tower.vars.get("k_cold", 1.0)), float(Acts.data("wild")["RULE"]["winter_rate"])))
+	# Autumn: every third fodder kill sprouts.
+	year.call("set_override", 2, game.time + 60.0)
+	_run(game, 0.5)
+	_check("autumn thaws", not arch.tower.vars.has("k_cold"))
+	var before := game.enemies.size()
+	for i in 3:
+		var t := game.spawn_at("wild_thornling", "main", 1, 200.0, 0.0)
+		TdCombat.kill_enemy(game, t, null)
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	_check("autumn sprouts", game.enemies.size() == before + 1 and game.enemies[game.enemies.size() - 1].kind == "wild_sprout")
+	for e: TdEnemy in game.enemies.duplicate():
+		game.remove_enemy(e, false)
+	# The Ossuary Oak roots what walks under its lash, never a flyer.
+	var oak := game.spot_by_id("plot:2")
+	game.build(oak, "ossuary_oak")
+	_check("oak ground only", bool(oak.tower.row.get("ground_only", false)))
+	var walker := game.spawn_at("wild_treant", "main", 1, game.roads["main"].project(Vector2(560, 490)), 0.0)
+	walker.max_hp = 1.0e6
+	walker.hp = walker.max_hp
+	walker.speed = 0.0
+	_run(game, 4.0)
+	_check("oak roots", walker.freeze_until > 0.0 and int(oak.tower.vars.get("roots", 0)) > 0 and walker.hp < walker.max_hp)
+	game.remove_enemy(walker, false)
+	game.sell(oak)
+	var warden := _maxed(game, "plot:2", "ossuary_oak")
+	_check("world-root warden set", warden.evolution == "world_root_warden" and float(warden.stats["field_time"]) > 0.0 and float(warden.stats["root_time"]) > 1.0)
+	var wr := _maxed(game, "post:0", "warrior")
+	_check("heartwood active", warden.synergies.any(func(p: Array) -> bool: return p[0] == "heartwood") or wr.synergies.any(func(p: Array) -> bool: return p[0] == "heartwood"))
+	# The act spells.
+	var foe := _enemy_at(game, "wild_fae_knight", Vector2(800, 490))
+	foe.max_hp = 1.0e6
+	foe.hp = foe.max_hp
+	var pal := _enemy_at(game, "wild_fae_knight", Vector2(820, 490))
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	_check("cast wild_hunt", game.cast_spell(0, foe.position))
+	_check("cast glamour", game.cast_spell(1, foe.position))
+	_check("cast root_and_rot", game.cast_spell(2, foe.position))
+	_check("glamour charms", float(pal.vars.get("k_charm_until", 0.0)) > game.time)
+	_run(game, 2.0)
+	_check("hunt, glamour and rot strike", int(game.stats.get("wheel_hits", 0)) > 0 and int(game.stats.get("rotted", 0)) > 0 and foe.hp < foe.max_hp)
+	for e: TdEnemy in game.enemies.duplicate():
+		game.remove_enemy(e, false)
+	# The Great Stag's charge breaks one post, then a post can hold it.
+	var stag := game.spawn_at("wild_great_stag", "main", 1, 100.0, 0.0)
+	var Kit := load("res://scripts/enemies/traits/wild/wild_kit.gd")
+	Kit.call("start_charge", stag, game, 2.0, 5.0)
+	stag.vars["broke"] = 1
+	Kit.call("charge_step", stag, game, 10.0, 1)
+	_check("stag charge spent at one post", stag.unholdable_until <= game.time)
+	game.remove_enemy(stag, false)
+	# The Green Mother: half damage while a claim holds; her Turning forces a season.
+	var gm := game.spawn_at("wild_green_mother", "main", 1, 0.0, 0.0)
+	_check("mother turning", int(year.get("override")) >= 0 and int(year.get("counts")["overrides"]) >= 5)
+	_check("mother full damage", is_equal_approx(TdCombat.damage_enemy(game, gm, 1000.0, {"source": "check", "dot": true}), 1000.0))
+	gm.vars["claim_until"] = game.time + 5.0
+	_check("mother claim halves", is_equal_approx(TdCombat.damage_enemy(game, gm, 1000.0, {"source": "check", "dot": true}), 500.0))
+	game.queue_free()
