@@ -39,6 +39,15 @@ const LOOKS: Dictionary = {
 	"anchor": {"sprite": "projectiles/harbour_anchor", "tint": Color(0.55, 0.9, 0.85), "scale": 1.6, "trail": 80.0, "impact": 80.0},  # TUNING (not in GDD) the Harbourmaster's chained anchor (drowned teal)
 	"net": {"sprite": "overlays/harbour_net", "tint": Color(0.6, 0.95, 0.85), "scale": 1.0, "trail": 50.0, "impact": 60.0},  # TUNING (not in GDD) a Netcaster's net
 	"page": {"sprite": "projectiles/archive_page", "tint": Color(0.75, 0.45, 1.0), "scale": 1.8, "trail": 64.0, "impact": 56.0},  # TUNING (not in GDD) the Archivist's flying pages (ink violet)
+	# --- Act XII, the Electronic Empire (w2d-empire): signal amber, the Lock-On slugs red ---
+	"zap": {"sprite": "projectiles/radiant_bolt", "tint": Color(1.0, 0.78, 0.25), "scale": 1.4, "trail": 50.0, "impact": 40.0},  # TUNING (not in GDD) a drone's zap
+	"rifle": {"sprite": "projectiles/priest_bolt", "tint": Color(1.0, 0.68, 0.1), "scale": 1.6, "trail": 70.0, "impact": 44.0},  # TUNING (not in GDD) a Line Trooper's round
+	"bolt_amber": {"sprite": "projectiles/radiant_bolt", "tint": Color(1.0, 0.6, 0.15), "scale": 2.0, "trail": 70.0, "impact": 56.0},  # TUNING (not in GDD) a turret bolt
+	"rail": {"sprite": "projectiles/empire_rail", "tint": Color(1.0, 0.25, 0.15), "scale": 1.4, "trail": 110.0, "impact": 72.0},  # TUNING (not in GDD) the Lock-On rail slug
+	"rocket": {"sprite": "projectiles/trojan_rocket", "tint": Color(1.0, 0.55, 0.2), "scale": 1.6, "trail": 60.0, "impact": 80.0},  # TUNING (not in GDD) the Trojan Horse's Swarm Rocket
+	"rivet": {"sprite": "projectiles/iron_shell", "tint": Color(1.0, 0.7, 0.4), "scale": 0.9, "trail": 60.0, "impact": 44.0},  # TUNING (not in GDD) the Beta Build's rivet
+	"missile": {"sprite": "projectiles/empire_missile", "tint": Color(1.0, 0.4, 0.2), "scale": 1.6, "trail": 80.0, "impact": 90.0},  # TUNING (not in GDD) Deus Ex Machina's missile
+	"lance": {"sprite": "projectiles/empire_rail", "tint": Color(1.0, 0.85, 0.5), "scale": 2.8, "trail": 160.0, "impact": 120.0},  # TUNING (not in GDD) the Judgment Lance
 }
 ## Trail width (px) of hostile shots.
 const TRAIL_W: float = 10.0  # TUNING (not in GDD)
@@ -70,6 +79,8 @@ const CAUSE_TINT: Dictionary = {
 	"soaked": Color(0.35, 0.85, 0.9),  # TUNING (not in GDD) a Tide Caller's water line, Merrow's Brine Wave (sea teal)
 	"netted": Color(0.6, 0.9, 0.75),  # TUNING (not in GDD) a Netcaster's net (rope green)
 	"inked": Color(0.6, 0.4, 0.95),  # TUNING (not in GDD) the Librarian's Index, the Archivist's pages and Erasure (ink violet)
+	# --- Act XII (w2d-empire) ---
+	"jammed": Color(0.55, 0.8, 1.0),  # TUNING (not in GDD) an Arc Engineer's static, Varn's overload pulse (arc blue)
 }
 ## Diameter (px) of the disabled ring around a tower's base, and its pulse period (s).
 const DISABLED_RING: float = 52.0  # TUNING (not in GDD)

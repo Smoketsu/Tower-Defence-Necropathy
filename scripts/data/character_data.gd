@@ -21,7 +21,8 @@ const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "p
 	"doomed_prophetess", "oathbreaker", "ferrywoman",
 	"furnace_priest", "succubus_queen", "fallen_saint",
 	"fallen_herald", "blind_saint", "the_unveiled",
-	"brine_widow", "heretic_scribe", "tide_widow"]  # The later spells' characters (gw2-kit), appended
+	"brine_widow", "heretic_scribe", "tide_widow",
+	"lightning_abbess", "marionette", "rust_prophet"]  # The later spells' characters (gw2-kit), appended
 
 ## Character rows. Keys:
 ##   name         — UI name.
@@ -45,7 +46,9 @@ const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "p
 ##                  (share of the Hallowed Light's weakening removed, read by the act rule),
 ##                  wheel_rebounds (+passes of Wheel of Eyes), reveal_shred (armour Revelation strips); w2d-eye:
 ##                  shallows_time (x Undertow's shallows), verse_burst_radius (+px of every ink burst),
-##                  thrall_hp_mult (x Call of the Drowned's Thrall HP), thrall_cap_bonus (+Thralls at once). {} = none.
+##                  thrall_hp_mult (x Call of the Drowned's Thrall HP), thrall_cap_bonus (+Thralls at once);
+##                  w2d-empire: ray_sparks (+foes a Death Ray kill sparks to), puppet_time /
+##                  puppet_damage (x Hollow Puppet's life / blow), swarm_drones (+Scrap Swarm drones). {} = none.
 ##   unlock_after — map id whose boss opens it ("" = open from the start).
 const CHARACTERS: Dictionary = {
 	"gravecaller": {
@@ -293,6 +296,25 @@ const CHARACTERS: Dictionary = {
 		"boost": {"damage": 1.2, "targets": 1.34, "cooldown": 0.85},  # TUNING (not in GDD) one more target (3 -> 4)
 		"innate": {"name": "Drowned Court", "desc": "Your Drowned Thralls are sturdier and one more may stand", "thrall_hp_mult": 1.4, "thrall_cap_bonus": 1},  # Necropathy's thrall_hp_bonus / thrall_cap_bonus innate
 		"unlock_after": "spire",  # Vhal'Neth
+	},
+	# --- Act XII's characters (w2d-empire; Necropathy's Electronic Empire characters) ---
+	"lightning_abbess": {
+		"name": "The Lightning Abbess", "short": "Abbess", "sprite": "player/lightning_abbess", "spell": "death_ray",
+		"boost": {"damage": 1.2, "length": 1.1, "cooldown": 0.9},  # TUNING (not in GDD)
+		"innate": {"name": "Storm Litany", "desc": "Every Death Ray kill sparks lightning to one more foe", "ray_sparks": 1},  # Necropathy's innate: "Beam kills spark lightning to one more enemy"
+		"unlock_after": "wastes",  # Kestrel
+	},
+	"marionette": {
+		"name": "The Marionette", "short": "Marionette", "sprite": "player/marionette", "spell": "hollow_puppet",
+		"boost": {"radius": 1.2, "cooldown": 0.9},  # TUNING (not in GDD)
+		"innate": {"name": "Puppeteer", "desc": "Your puppets last 25% longer and hit 25% harder", "puppet_time": 1.25, "puppet_damage": 1.25},  # Necropathy's innate
+		"unlock_after": "assembly",  # the Motherboard
+	},
+	"rust_prophet": {
+		"name": "The Rust Prophet", "short": "Rust Prophet", "sprite": "player/rust_prophet", "spell": "scrap_swarm",
+		"boost": {"damage": 1.15, "duration": 1.2, "cooldown": 0.9},  # TUNING (not in GDD)
+		"innate": {"name": "Scrap Prophecy", "desc": "Scrap Swarm sends two more drones", "swarm_drones": 2},  # Necropathy: Scrap Prophecy (his Risen fire scrap bolts); here more drones
+		"unlock_after": "citadel",  # Deus Ex Machina
 	},
 }
 

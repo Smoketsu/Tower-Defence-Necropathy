@@ -468,6 +468,38 @@ const SPELLS: Dictionary = {
 		"thrall_life": 10.0,  # TUNING (not in GDD) s a Thrall stands (Restless lengthens it)
 		"thrall_max": 4,  # TUNING (not in GDD) Thralls standing at once (Necropathy THRALL_MAX)
 	},
+	# --- Act XII spells (w2d-empire; Necropathy's Electronic Empire rewards) ---
+	"death_ray": {
+		"name": "Death Ray", "short": "Ray", "icon": "death_ray", "cooldown": 15.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "A soul laser sweeps a full circle round the tap; its kills spark lightning",
+		"unlock": {"map": "wastes"},  # Kestrel's reward
+		"length": 150.0,  # TUNING (not in GDD) px of the beam (Necropathy ~420 round the necromancer; a TD tap is a smaller circle)
+		"sweep_time": 1.2,  # TUNING (not in GDD) s per full circle
+		"damage": 70.0,  # TUNING (not in GDD) to each foe the beam crosses
+		"spark": 0.5,  # TUNING (not in GDD) share of the beam damage a spark deals
+		"spark_range": 110.0,  # TUNING (not in GDD) px a spark jumps
+	},
+	"hollow_puppet": {
+		"name": "Hollow Puppet", "short": "Puppet", "icon": "hollow_puppet", "cooldown": 16.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "Soul strings seize the strongest foe near the tap: it fights for you, then dies",
+		"unlock": {"map": "assembly"},  # the Motherboard's reward
+		"radius": 130.0,  # TUNING (not in GDD) px around the tap
+		"puppet_life": 8.0,  # Necropathy "for 8 s it fights for you, then dies"
+		"damage": 34.0,  # TUNING (not in GDD) the puppet's blow
+		"reach": 70.0,  # TUNING (not in GDD) px the puppet reaches
+	},
+	"scrap_swarm": {
+		"name": "Scrap Swarm", "short": "Swarm", "icon": "scrap_swarm", "cooldown": 18.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "Drones of bone and scrap circle the tap and shoot the foes near them",
+		"unlock": {"map": "citadel"},  # Deus Ex Machina's reward
+		"drones": 4,  # TUNING (not in GDD) Necropathy 3-5
+		"orbit": 70.0,  # TUNING (not in GDD) px from the tap
+		"orbit_speed": 1.2,  # TUNING (not in GDD) rad/s
+		"duration": 10.0,  # TUNING (not in GDD) s they circle
+		"fire_every": 1.0,  # TUNING (not in GDD) s between two bolts of one drone
+		"range": 150.0,  # TUNING (not in GDD) px a drone shoots
+		"damage": 14.0,  # TUNING (not in GDD) per bolt
+	},
 }
 
 ## The ultimate (GDD §5 Dread Rally), cast through SpellCaster like a spell
