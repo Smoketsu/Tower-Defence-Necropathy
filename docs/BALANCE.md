@@ -167,9 +167,9 @@ re-measures them).
 
 | Act | Map | wave_hp_end | Income | s1 | s2 | s3 | s4 | Runs losing lives | Miniboss killed | Leaks (4 seeds) | Weak s1 |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| XIV | fern_basin | 2.8 | 4185 | 20 | 10 | 17 | 4 | 3/4 | 4/4 | prim_scarmaw 2, prim_tyrant 2, prim_skyraider 2, prim_razorclaw 1 | lost w4 |
-| XIV | great_plain | 2.5 | 3935 | 20 | 14 | 14 | 20 | 2/4 | 4/4 | prim_clubtail 2, prim_horncharger 2 | lost w5 |
-| XIV | last_day | 2.4 | 4228 | 14 | 9 | 11 | 11 | 4/4 | 4/4 | prim_skyraider 9, prim_tyrant 3, prim_horncharger 3, prim_razorclaw_alpha 2, prim_razorclaw 2 | lost w4 |
+| XIV | fern_basin | 2.8 | 4081 | 20 | 10 | 17 | 4 | 3/4 | 4/4 | prim_scarmaw 2, prim_tyrant 2, prim_skyraider 2, prim_razorclaw 1 | lost w4 |
+| XIV | great_plain | 2.5 | 3893 | 20 | 14 | 14 | 20 | 2/4 | 4/4 | prim_clubtail 2, prim_horncharger 2 | lost w5 |
+| XIV | last_day | 2.4 | 3980 | 14 | 9 | 11 | 11 | 4/4 | 4/4 | prim_skyraider 9, prim_tyrant 3, prim_horncharger 3, prim_razorclaw_alpha 2, prim_razorclaw 2 | lost w4 |
 
 Cliff checks (`wave_hp_end` +0.2, seeds 1-2): the Fern Basin at 3.0 won 19 / 17,
 the Great Plain at 2.6 won 11 / 17 (measured before the last herd nerf, T14.7). Before the boss kits were reworked the Fern
