@@ -58,4 +58,6 @@ const POSES: Dictionary = {
 	"wild/green_mother": {1: "cast", 2: "burial"},  # TUNING (not in GDD) arms raised with a season (BossGreenMother: just after the Turning casts) / hands pressed into the earth (just after a burial)
 	# --- Gravewatch Act IV (w2b-city) ---
 	"bosses/harrow": {2: "command"},  # TUNING (not in GDD) Command: the General in his command car (bosses/harrow_command)
+	# --- Gravewatch Act X (w2c-host) ---
+	"host/voice": {1: "unveiled"},  # TUNING (not in GDD) the face wings lowered (Be Not Afraid: host/voice_unveiled)
 }
