@@ -58,7 +58,7 @@ const KINDS: Dictionary = {
 	# Growth: a walking oak; every few blows its roots seize the post holding it (Necropathy TreantKit "roots the summon it hits").
 	"wild_treant": {
 		"name": "Treant", "sprite": "wild/treant", "rank": "elite",
-		"hp": 980.0, "speed": 30.0, "armour": 6.0, "radius": 16.0,  # TUNING (not in GDD)
+		"hp": 860.0, "speed": 30.0, "armour": 6.0, "radius": 16.0,  # TUNING (not in GDD)
 		"damage": 18.0, "attack_interval": 1.5,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "wild/root_blow",
 		"args": {"every": 3, "root": 1.6, "body_damage": 20.0},  # TUNING (not in GDD) every 3rd blow: the post rooted 1.6 s
@@ -142,10 +142,10 @@ const KINDS: Dictionary = {
 	# thickets on their spots in any season.
 	"wild_gardener": {
 		"name": "The Gardener of Roots", "sprite": "wild/gardener_of_roots", "rank": "miniboss",
-		"hp": 5200.0, "speed": 24.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD) X3
+		"hp": 4500.0, "speed": 24.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD) X3
 		"damage": 28.0, "attack_interval": 1.4,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "wild/gardener",
-		"args": {"first": 4.0, "every": 10.0, "windup": 1.2, "radius": 120.0, "root": 1.8, "seeds": 1, "plant_radius": 200.0},  # TUNING (not in GDD) Necropathy GardenerOfRootsKit
+		"args": {"first": 4.0, "every": 11.0, "windup": 1.2, "radius": 100.0, "root": 1.4, "seeds": 1, "plant_radius": 200.0},  # TUNING (not in GDD) Necropathy GardenerOfRootsKit
 	},
 	# Greenwood boss: the Stag King. The Hunt calls riders and hounds; from two thirds the Rut carries him
 	# through the posts; from a third the Antler Crown chokes the towers round him with thickets.
@@ -178,7 +178,7 @@ const KINDS: Dictionary = {
 	# claimed dead), each for a few seconds, while she takes half damage.
 	"wild_green_mother": {
 		"name": "The Green Mother", "sprite": "wild/green_mother", "rank": "boss",
-		"hp": 16500.0, "speed": 16.0, "armour": 6.0, "radius": 34.0,  # TUNING (not in GDD) the campaign's last and hardest boss (the Voice 12000)
+		"hp": 14500.0, "speed": 16.0, "armour": 6.0, "radius": 34.0,  # TUNING (not in GDD) the campaign's last and hardest boss (the Voice 12000)
 		"damage": 44.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "wild/green_mother",
 		"args": {"phase_hp": [0.66, 0.33], "turn_time": 30.0,
