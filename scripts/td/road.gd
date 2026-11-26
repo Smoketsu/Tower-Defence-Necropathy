@@ -24,6 +24,9 @@ var off_road: bool = false
 ## True when an enemy reaching its end leaves the map without costing lives
 ## (map road key "exit"; a crossing herd) instead of reaching the gate.
 var exit: bool = false
+## True for a sky lane (map road key "sky", with off_road and exit; Act XIII's
+## saucers fly it): not drawn at all by MapView (the act's layer draws its lane).
+var sky: bool = false
 
 
 func _init(p_id: String, row: Dictionary) -> void:
@@ -35,6 +38,7 @@ func _init(p_id: String, row: Dictionary) -> void:
 	entrance = bool(row.get("entrance", false))
 	off_road = bool(row.get("off_road", false))
 	exit = bool(row.get("exit", false))
+	sky = bool(row.get("sky", false))
 	cum.append(0.0)
 	for i in range(1, points.size()):
 		length += points[i - 1].distance_to(points[i])

@@ -188,6 +188,8 @@ func pick_target() -> TdEnemy:
 			"last": score = -game.progress(e)
 			"strongest": score = e.hp + game.progress(e) * 0.001
 			"nearest": score = -position.distance_squared_to(e.position)
+		if target_mode == "first" and game.time < float(e.vars.get("priority_until", 0.0)):
+			score += TdRulesData.PRIORITY_BONUS  # The threat of the moment (Act XIII: a beaming saucer).
 		if bool(e.row.get("structure", false)):
 			score -= 1.0e7  # Structures (ward generators, crystals) only when nothing else is in range.
 		if score > best_score:
