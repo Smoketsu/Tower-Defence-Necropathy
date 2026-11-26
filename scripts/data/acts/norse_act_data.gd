@@ -146,7 +146,7 @@ const KINDS: Dictionary = {
 	# Valgard miniboss: the Einherjar Champion; the hero's sweep cuts every body round him, his horn wakes the hall.
 	"einherjar_champion": {
 		"name": "The Einherjar Champion", "sprite": "norse/einherjar_champion", "rank": "miniboss",
-		"hp": 3100.0, "speed": 24.0, "armour": 5.0, "radius": 22.0,  # TUNING (not in GDD) X3 band
+		"hp": 3100.0, "speed": 22.0, "armour": 5.0, "radius": 22.0,  # TUNING (not in GDD) X3 band
 		"damage": 28.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "norse/champion",
 		"args": {"sweep_first": 3.0, "sweep_every": 6.0, "sweep_radius": 75.0, "sweep_windup": 0.8, "sweep_damage": 50.0,
@@ -176,12 +176,12 @@ const KINDS: Dictionary = {
 	# Valgard boss: Sigrun the Shield-Queen. The Charge, the Holmgang (a duel with one post), the Doors of the Hall.
 	"sigrun": {
 		"name": "Sigrun, the Shield-Queen", "sprite": "norse/sigrun", "rank": "boss",
-		"hp": 12000.0, "speed": 26.0, "armour": 5.0, "radius": 24.0,  # TUNING (not in GDD)
+		"hp": 7000.0, "speed": 22.0, "armour": 5.0, "radius": 24.0,  # TUNING (not in GDD)
 		"damage": 34.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "norse/sigrun",
-		"args": {"charge_first": 5.0, "charge_every": 12.0, "charge_windup": 0.8, "charge_time": 1.6, "charge_speed": 2.6, "charge_radius": 34.0, "charge_damage": 90.0,
-			"duel_at": [0.7, 0.35], "duel_time": 15.0, "duel_mult": 0.25, "duel_range": 520.0,
-			"doors_at": 0.5, "doors_kind": "norse_einherjar", "doors_count": 6, "doors_gap": 30.0, "pose_time": 0.7},  # TUNING (not in GDD) Necropathy SigrunData
+		"args": {"charge_first": 6.0, "charge_every": 14.0, "charge_windup": 0.8, "charge_time": 1.6, "charge_speed": 2.6, "charge_radius": 34.0, "charge_damage": 90.0,
+			"duel_at": [0.7, 0.35], "duel_time": 10.0, "duel_mult": 0.5, "duel_range": 520.0,
+			"doors_at": 0.5, "doors_kind": "norse_einherjar", "doors_count": 4, "doors_gap": 30.0, "pose_time": 0.7},  # TUNING (not in GDD) Necropathy SigrunData
 	},
 	# Vigrid boss: Odin the All-Father. The Wolf (he watches, out of reach), the All-Father (Gungnir, ravens), Ragnarok.
 	"odin": {
