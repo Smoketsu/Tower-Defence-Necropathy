@@ -684,15 +684,15 @@ const RULE: Dictionary = {
 	"winter_rate": 0.8,  # TUNING (not in GDD) attack speed x
 	"check_every": 0.5,  # TUNING (not in GDD) s between two winter checks
 	# --- The look (drawing only) ---
-	"tints": [Color(0.55, 1.0, 0.45, 0.32), Color(1.0, 0.8, 0.35, 0.3), Color(1.0, 0.5, 0.2, 0.32), Color(0.75, 0.9, 1.0, 0.38)],  # TUNING (not in GDD) edge band colour per season
-	"band_depth": 0.12,  # TUNING (not in GDD) edge band depth as a share of the map's height
+	"tints": [Color(0.55, 1.0, 0.45, 0.5), Color(1.0, 0.8, 0.35, 0.45), Color(1.0, 0.5, 0.2, 0.5), Color(0.75, 0.9, 1.0, 0.55)],  # TUNING (not in GDD) edge band colour per season
+	"band_depth": 0.15,  # TUNING (not in GDD) edge band depth as a share of the map's height
 	"ambient": ["", "", "wild_leaves", "wild_snowfall"],  # TUNING (not in GDD) effects/ strip drifting over the map per season ("" = none)
 	"ambient_n": 6,  # TUNING (not in GDD) ambient pieces drawn at once (Full effects only)
 	"ambient_d": 150.0,  # TUNING (not in GDD) px of one piece
 	"ambient_period": 4.0,  # TUNING (not in GDD) s of one piece's loop
 	"thicket_px": 52.0,  # TUNING (not in GDD) px of a grown thicket drawn on its spot
 	"sprout_px": 32.0,  # TUNING (not in GDD) px of the sprout telegraph at full size
-	"chill_tint": Color(0.7, 0.88, 1.0, 0.5),  # TUNING (not in GDD) the frost disc under a chilled tower
+	"chill_tint": Color(0.7, 0.88, 1.0, 0.75),  # TUNING (not in GDD) the frost disc under a chilled tower
 	"chill_r": 26.0,  # TUNING (not in GDD) px of that disc
 	"dial_px": 34.0,  # TUNING (not in GDD) HUD season wheel size (px)
 	"dial_margin": Vector2(10.0, 10.0),  # TUNING (not in GDD) px from the screen's left edge / under the top bar

@@ -1,7 +1,8 @@
 ## YearLayer: the look of the Turning Year (rules/wild/turning_year.gd), a node
 ## under game.world drawn UNDER the units (z -2): a frost disc under every tower
-## Winter chills, each thicket's sprout growing on its spot (markers/wild_sprout)
-## and each grown thicket (obstacles/wild_thicket_m) choking it; its additive
+## Winter chills; its child Over (drawn over the towers) shows each thicket's
+## sprout growing on its spot (markers/wild_sprout) and each grown thicket
+## (obstacles/wild_thicket_m) choking the tower there; its additive
 ## child Glow draws the season's colour as soft bands on the four map edges
 ## (never a full-screen overlay) and, on Full effects, a few drifting pieces of
 ## the season's ambient strip (gold leaves in Autumn, snow in Winter). A tap on
@@ -19,8 +20,19 @@ class Glow:
 	func _draw() -> void:
 		owner_layer.call("draw_glow", self)
 
+## Child drawn over the towers: draws back through its YearLayer.
+class Over:
+	extends Node2D
+	## The layer drawing through it.
+	var owner_layer: Node2D = null
+
+	func _draw() -> void:
+		owner_layer.call("draw_thickets", self)
+
 ## The act rule (a turning_year.gd instance).
 var rule: MapRule = null
+## The child drawing the thickets over the towers.
+var _over: Over = null
 ## The additive glow child.
 var _glow: Glow = null
 ## Cached edge-band gradient (opaque at the edge, clear inward).
@@ -34,11 +46,16 @@ func _ready() -> void:
 	_glow.z_index = 1
 	_glow.material = TdVfx.additive()
 	add_child(_glow)
+	_over = Over.new()
+	_over.owner_layer = self
+	_over.z_index = 60  # Relative: over the towers and units on the spots.
+	add_child(_over)
 
 
 func _process(_delta: float) -> void:
 	queue_redraw()
 	_glow.queue_redraw()
+	_over.queue_redraw()
 
 
 func _draw() -> void:
@@ -49,6 +66,13 @@ func _draw() -> void:
 		var cr := float(rr["chill_r"])  # Px.
 		for t: Tower in g.towers:
 			draw_texture_rect(soft, Rect2(t.position - Vector2(cr, cr * 0.6), Vector2(cr, cr * 0.6) * 2.0), false, rr["chill_tint"])
+
+
+## Over child callback: the sprouts and thickets on their spots (over the towers).
+func draw_thickets(ci: CanvasItem) -> void:
+	var rr: Dictionary = Acts.data("wild")["RULE"]
+	var g: TdGame = rule.game
+	var soft := TdVfx._soft()  # Soft round mask.
 	var sprout := SpriteBank.texture("markers/wild_sprout")
 	var thicket := SpriteBank.texture("obstacles/wild_thicket_m")
 	for th: Dictionary in rule.get("thickets"):
@@ -58,12 +82,12 @@ func _draw() -> void:
 			var k := 1.0 - clampf(left / float(rr["sprout"]), 0.0, 1.0)  # Growth 0..1.
 			var px := float(rr["sprout_px"]) * (0.4 + 0.6 * k)
 			var pulse := 0.6 + 0.4 * sin(g.time * 8.0)
-			draw_texture_rect(soft, Rect2(p - Vector2(px, px * 0.5), Vector2(px, px)), false, Color(0.5, 1.0, 0.4, 0.35 * pulse))
+			ci.draw_texture_rect(soft, Rect2(p - Vector2(px, px * 0.5), Vector2(px, px)), false, Color(0.5, 1.0, 0.4, 0.35 * pulse))
 			if sprout != null:
-				draw_texture_rect(sprout, Rect2(p - Vector2(px * 0.5, px * 0.8), Vector2(px, px)), false)
+				ci.draw_texture_rect(sprout, Rect2(p - Vector2(px * 0.5, px * 0.8), Vector2(px, px)), false)
 		elif thicket != null:
 			var tp := float(rr["thicket_px"])
-			draw_texture_rect(thicket, Rect2(p - Vector2(tp * 0.5, tp * 0.75), Vector2(tp, tp)), false)
+			ci.draw_texture_rect(thicket, Rect2(p - Vector2(tp * 0.5, tp * 0.75), Vector2(tp, tp)), false)
 
 
 ## Glow child callback: the season's edge bands and ambient drift (additive).

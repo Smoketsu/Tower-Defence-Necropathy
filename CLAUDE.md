@@ -167,7 +167,8 @@ Balance: `docs/BALANCE.md` (its first section is the one 30-map table and the
 **Act I baseline summaries**: a change that must not touch Act I reproduces them
 byte for byte). Decisions: `docs/DECISIONS.md` (I, V, A, K, W, T2-T10, X, Y rows).
 Next: Acts XI-XV through `docs/ACT_TEMPLATE.md` (sections 5 and 6: the wave 2b and 2c
-lessons).
+lessons). Act XV, the Turning Year, is built on branch `w2d-year` (DECISIONS T15,
+BALANCE.md "Act XV"; the World-Tree ends the campaign).
 
 Not built / not verified: boss attack-pose art for the later bosses listed in
 BALANCE.md ("Bosses without attack-pose art": their strike pose shows the still
@@ -254,12 +255,13 @@ be `{"base": order, "swap": [from, to]}`, DECISIONS Y5). Act runs print
   `sweep_ring()`, `host/cherub.gd` `sweep()`, `host/ophan.gd` `roll_over()`.
 - HUD widgets of the acts sit in corners no road uses: top-left under the bar
   (Escalation, Wrath, Hell cue, Host dial), top-right (Blood Moon cue, Scales,
-  the Turning Year's wheel), bottom-left (Sun dial, Winter meter).
+  the Turning Year's wheel), bottom-left (Sun dial, Winter meter). One act per
+  map, so they never meet.
 - Act XV (w2d-year): `rules/wild/turning_year.gd` `of(game)` / `plant(spot, sprout)`
   (the one way a thicket grows) / `burn(i)` / `set_override(season, until)`;
   `traits/wild/wild_kit.gd` `call_squad()` (squads at the wave's HP ramp),
   `start_charge()` / `charge_step(e, game, dmg, posts)`, `stop_towers()`,
-  `plant_near()`; `traits/wild/spores.gd` `burst()`; causes `choked`, `rooted`. One act per map, so they never meet.
+  `plant_near()`; `traits/wild/spores.gd` `burst()`; causes `choked`, `rooted`.
 - Autotest: one generic spell branch (any later spell on the leader), deferred
   evolve steps, `minibosses=` line, `--perf-wave=N`, the summary printed once
   (also on a timeout). Tools: `tools/gw_perf.js` (late-map frame time),
