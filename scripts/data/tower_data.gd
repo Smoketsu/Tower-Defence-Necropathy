@@ -16,7 +16,8 @@ const ORDER: Array[String] = ["archer", "mage", "frost_wraith", "corpse_catapult
 	"draugr_thane",
 	"ushabti_sentinel",
 	"myrmidon_shade",
-	"bound_succubus", "archfiend"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
+	"bound_succubus", "archfiend",
+	"bound_ophan"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
 
 ## Targeting modes (GDD §4.3), in the order the Target button cycles them.
 const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
@@ -548,6 +549,32 @@ const TOWERS: Dictionary = {
 		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(1.0, 0.5, 0.2), "reach": 120.0},  # TUNING (not in GDD)
 		"evolution": "prince_of_hell",
 	},
+	# --- Act X, the Celestial Host (w2c-host): unlocked by the Voice ---
+	"bound_ophan": {
+		"name": "Bound Ophan", "sprite": "summons/bound_ophan", "icon": "bound_ophan", "spot": "plot",
+		"desc": "A wheel of bone and eyes: circles its plot, then rolls down the road through the densest pack",
+		"unlock": {"map": "empyrean"},  # DECISIONS K9: the act's summon, unlocked by its finale's boss (the Voice)
+		"cost": 130,  # TUNING (not in GDD)
+		"behavior": "bound_ophan",
+		"range": 170.0,  # TUNING (not in GDD)
+		"damage": 28.0,  # TUNING (not in GDD) to each foe the roll passes
+		"interval": 3.0,  # TUNING (not in GDD)
+		"target": "first",
+		"splash": 48.0,  # TUNING (not in GDD) the pack radius its pick scores (fallen_hero.gd)
+		"roll_len": 150.0,  # TUNING (not in GDD) px it rolls back along the road
+		"roll_w": 26.0,  # TUNING (not in GDD) px either side of the road it strikes
+		"patrol_r": 22.0, "patrol_speed": 1.6,  # TUNING (not in GDD) Necropathy: it circles the ring
+		"dive_time": 0.3,  # TUNING (not in GDD)
+		"swoop_mark": 0.0, "air_bonus": 0.0, "air_mult": 1.0,  # not the Gargoyle's
+		"dive_stun": 0.0, "stone_time": 0.0,  # Throne of Bones sets dive_stun
+		"slam_stagger": 0.9,  # TUNING (not in GDD) s rolled foes make no attack (and an Ophan can be held)
+		"slam_shred": 0.0, "shred_time": 0.0,  # not the hero's armour crack
+		"elite_weight": 2.0,  # TUNING (not in GDD) a non-fodder foe counts as this many in the pack score
+		"chain_slams": 0, "chain_range": 0.0,  # Throne of Bones: rolls after the first, px between them
+		"projectile_speed": 440.0,  # TUNING (not in GDD) its Lv3 volley
+		"volley": {"every": 2, "count": 3, "damage": 0.4, "sprite": "volleys/shard", "tint": Color(0.55, 0.95, 0.9)},  # TUNING (not in GDD) soul-teal bone shards
+		"evolution": "throne_of_bones",
+	},
 }
 
 ## Per-level multipliers, 5 rows (levels 1-5) per tower. Keys:
@@ -719,6 +746,13 @@ const LEVELS: Dictionary = {
 		{"damage": 1.6, "rate": 1.1, "range": 1.0, "bodies": 1, "hp": 1.8},  # TUNING (not in GDD)
 		{"damage": 2.0, "rate": 1.2, "range": 1.0, "bodies": 1, "hp": 2.4},  # TUNING (not in GDD)
 		{"damage": 2.5, "rate": 1.3, "range": 1.0, "bodies": 1, "hp": 3.0},  # TUNING (not in GDD)
+	],
+	"bound_ophan": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0},
+		{"damage": 1.35, "rate": 1.0, "range": 1.05},  # TUNING (not in GDD)
+		{"damage": 1.7, "rate": 1.1, "range": 1.1},  # TUNING (not in GDD)
+		{"damage": 2.2, "rate": 1.15, "range": 1.15},  # TUNING (not in GDD)
+		{"damage": 2.8, "rate": 1.25, "range": 1.2},  # TUNING (not in GDD)
 	],
 }
 

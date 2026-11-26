@@ -61,4 +61,6 @@ const POSES: Dictionary = {
 	# --- Act IX: the Palace of Silk and Ash / Pandemonium (w2c-inferno): the second forms as pose 2 ---
 	"bosses/lilith": {2: "demon"},  # TUNING (not in GDD) her true demon form (bosses/lilith_demon), held from the phase change
 	"bosses/morning_star": {2: "beast"},  # TUNING (not in GDD) the Beast (bosses/morning_star_beast), held from the phase change
+	# --- Gravewatch Act X (w2c-host) ---
+	"host/voice": {1: "unveiled"},  # TUNING (not in GDD) the face wings lowered (Be Not Afraid: host/voice_unveiled)
 }

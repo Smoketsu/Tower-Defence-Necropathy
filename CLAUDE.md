@@ -220,8 +220,24 @@ behind passes an `origin` behind the foe (Paris's Arrow). HostileData look `gaze
 BossPoseData pose 2 for Achilles (rage) and Zeus (true form).
 | IX the Inferno (`inferno`, T9; wave 2c) | `inferno_act_data.gd`; `rules/inferno/portals.gd` (+ `inferno_layer`, `hell_cue`: portals marked a wave ahead on the road, barred by a post / Bone Wall on the mark or sealed by Brimstone; Hell Pits; Temptation) | burning_gate, silk_palace, pandemonium | the Gatekeeper, the Twin Succubi, the Fallen Seraph General / Moloch, Lilith, the Morning Star (pose 2 = second form) | Bound Succubus -> Lilim Matriarch, Velvet Chains; Archfiend -> Prince of Hell, Pride | Brimstone, Temptation (`tempt`), Fall from Grace (Furnace Priest, Succubus Queen, Fallen Saint) |
 
+## Act X, the Celestial Host (wave 2c, `host`, T10; ends Part Two)
+
+`host_act_data.gd`; act rule `rules/host/hallowed_light.gd` (+ `host_layer`, `host_dial`): shafts of
+light sweep the map (telegraphed), angels inside are hasted and regenerate (Grace), towers inside and
+out of the shade (MAP key `clouds`, a Crypt Warder's or Bound Ophan's shade) are weakened through
+`suppress_tower()`; Judgment counts blocker bodies lost and returns them as Judges at the boss.
+Maps silver_stair (switchback + cloud road), wheel_of_thrones (spiral to a hub gate), empyrean (two
+winding roads). Minibosses the Cherub of the Gate, the Dominion of the Spheres, the Herald of the
+Seventh Trumpet; bosses Seraiel, the Throne, the Voice (`scripts/bosses/host/`). Bound Ophan ->
+Throne of Bones, Turning Wheel (with the Warder). Spells Flaming Sword, Wheel of Eyes, Revelation
+(the Fallen Herald, the Blind Saint, the Unveiled). Hooks for later acts: `HallowedLight.of(game)`,
+`add_shaft(at, n, width, life)`, `in_light()`, `shaded()`, `send_judges(n)`, `judges_due(cap)`,
+`boss_width` / `boss_live`; traits `host/lunge.gd` `line()` / `sweep_ring()`, `host/cherub.gd`
+`sweep()`, `host/ophan.gd` `roll_over()`; `towers_check` `_host_checks`; order `host_kit`.
+
 Build orders: `<map>_default`, `<map>_weak`, plus `tide_kit`, `court_kit`,
 `shogunate_kit`, `norse_kit` (every map of the act). Act runs print `act_rule=` / `hostile=`.
+`shogunate_kit`, `host_kit` (every map of the act). Act runs print `act_rule=` / `hostile=`.
 `towers_check` has `_tide_checks`, `_court_checks`, `_city_checks`,
 `_shogun_checks`, `_norse_checks`.
 `_shogun_checks`, `_inferno_checks`; Act IX adds `inferno_kit`.

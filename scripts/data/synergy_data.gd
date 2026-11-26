@@ -169,4 +169,12 @@ const SYNERGIES: Dictionary = {
 		"effects": {"a": {"damage": 1.15}, "b": {"range": 1.1}},  # TUNING (not in GDD)
 		"hint": "Archfiend near a Mage: both burn brighter",
 	},
+	# --- Act X (w2c-host) ---
+	"turning_wheel": {
+		"name": "Turning Wheel", "icon": "turning_bones", "a": "bound_ophan", "b": "warder",
+		"radius": 220.0,  # TUNING (not in GDD)
+		"effects": {"a": {"rate": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "a", "vs": "staggered", "mult": 1.3},  # TUNING (not in GDD) the wheel rolls harder over what it already staggered
+		"hint": "Bound Ophan near a Crypt Warder: rolls crush staggered foes",
+	},
 }

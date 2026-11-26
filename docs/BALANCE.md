@@ -556,3 +556,30 @@ lives on every map: the Myrmidons out-block the Warriors the default orders use
 Frame time (`tools/gw_perf.js`, shared machine, five agents running: unreliable):
 Sanctum w20 112 ms (74 enemies), Underworld w22 91 ms (33 enemies), 0.81x.
 Screenshots: `/home/user/gw_shots/w2c_pantheon_*.png` (1280x720 and 844x390 touch).
+## Act X, the Celestial Host (wave 2c, w2c-host; DECISIONS T10)
+
+Necromancer, default orders, seeds 1-4 (lives kept of 20; every run 0 script
+errors, `stuck_enemies=0`; Income = `MapLoader.income()`). Frame times not
+measured on a quiet machine (five act agents share the cores): the integration
+re-measures.
+
+| Act | Map | wave_hp_end | Income | s1 | s2 | s3 | s4 | Runs losing lives | Miniboss killed | Leaks (4 seeds) | Weak s1 / s2 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| X | silver_stair | 3.2 | 4548 | 17 | 17 | 14 | 17 | 4/4 | 4/4 | dominion 3, cherub 1, judge 1 | lost w7 / w7 |
+| X | wheel_of_thrones | 3.6 | 4754 | 6 | 20 | 20 | 20 | 1/4 | 3/4 | dominion 2, cherub 1, dominion_of_the_spheres 1 | lost w8 / w8 |
+| X | empyrean | 3.2 | 5016 | 13 | 13 | 18 | 20 | 3/4 | 2/4 | virtue 4, power 2, seventh_herald 2 | lost w4 / w4 |
+
+Act X's waves carry less raw HP than the Road to the Sun's (sun_road 4.2 on
+tougher rows): the step up is the Hallowed Light (haste, Grace, weakened
+towers), the swords and trumpets that stun towers and posts, the unholdable
+Ophans and Judgment's Judges at the bosses. First tries at 4.4-5.0 with the
+first road layouts lost by wave 5-13: the first Silver Stair and Empyrean
+roads were short (1200-1300 px), so both were re-laid as long switchbacks
+(T10.7). Boss HP: Seraiel 9500, the Throne 5500 behind x0.25 rims (Core 8 s
+of every 14), the Voice 12000 (it never moves; a fight of about 160 s).
+
+`host_kit` (seed 1; the first catapult a Bound Ophan, evolved early): Silver
+Stair won 20/20 (Throne of Bones), Empyrean won 12/20 (Throne of Bones),
+Wheel of Thrones lost at wave 21 (its first catapult stands at the hub, where
+the Ophan's 170 px reach covers less). Seed 1 twice gives the same summary;
+Act I's six baseline summaries are byte-identical.
