@@ -66,6 +66,10 @@ const BLOCKER_HIT_RANK: Dictionary = {"miniboss": 0.6}  # TUNING (not in GDD)
 ## (DECISIONS X3): a slow miniboss or boss in range is shot before fodder up to
 ## this far ahead of it, instead of trailing the column untouched. Missing = 0.
 const FIRST_RANK_BONUS: Dictionary = {"miniboss": 260.0, "boss": 260.0}  # TUNING (not in GDD)
+## Px of progress a "first"-targeting tower adds to an enemy marked as the threat
+## of the moment (enemy vars "priority_until", game s: Act XIII's beaming saucer),
+## so the towers in reach turn on it (w2d-concord, DECISIONS T13).
+const PRIORITY_BONUS: float = 2000.0  # TUNING (not in GDD)
 ## Wave HP ramp (integration balance): every non-boss, non-miniboss enemy (X3: a
 ## miniboss's row HP is its real HP) of map wave i
 ## (0-based, of n) gets HP x lerp(WAVE_HP_START, WAVE_HP_END, i / (n - 1)), so a

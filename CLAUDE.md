@@ -169,6 +169,10 @@ byte for byte). Decisions: `docs/DECISIONS.md` (I, V, A, K, W, T2-T10, X, Y rows
 Next: Acts XI-XV through `docs/ACT_TEMPLATE.md` (sections 5 and 6: the wave 2b and 2c
 lessons). Act XI (the Ancient Eye: harbour, archive, spire; the Spawn of the Deep, three
 spells and characters; DECISIONS T11, BALANCE "Wave 2d: Act XI") is built on `w2d-eye`.
+lessons).
+Wave 2d (w2d-concord, not yet integrated): **Act XIII, the Concord of Stars** (crash_site,
+proving_moon, ark; Abduction; Ghost Saucer; Bone Beetles / Soul Caster / Tractor Beam; the
+Broodbound / Blooded / Starborn; DECISIONS T13, BALANCE.md "Act XIII").
 
 Not built / not verified: boss attack-pose art for the later bosses listed in
 BALANCE.md ("Bosses without attack-pose art": their strike pose shows the still
@@ -222,6 +226,11 @@ branch (three maps, row below, DECISIONS T12, BALANCE.md "Act XII"); kit order
 Build orders: `<map>_default`, `<map>_weak`, and one kit order per act
 (`tide_kit`, `court_kit`, `shogunate_kit`, `norse_kit`, `dynasty_kit`,
 `pantheon_kit`, `inferno_kit`, `host_kit`, `eye_kit`: every map of the act; a map entry may
+| XIII the Concord of Stars (`concord`, T13) | `concord_act_data.gd`; `rules/concord/abduction.gd` (saucers fly sky lanes, map roads with `sky`; each stops over the strongest post / plot in reach, grows a tractor cone 3 s and lifts it: a body taken or a tower disabled "abducted"; cue top-right) | crash_site, proving_moon, ark | Brood Matriarch, Warbeast, Luminous Archon / Hive Mother, Vrask'Tal, the Harvester | Ghost Saucer -> Black Mothership, Crop Circles | Bone Beetles, Soul Caster, Tractor Beam (Broodbound, Blooded, Starborn) |
+
+Build orders: `<map>_default`, `<map>_weak`, and one kit order per act
+(`tide_kit`, `court_kit`, `shogunate_kit`, `norse_kit`, `dynasty_kit`,
+`pantheon_kit`, `inferno_kit`, `host_kit`, `concord_kit`: every map of the act; a map entry may
 be `{"base": order, "swap": [from, to]}`, DECISIONS Y5). Act runs print
 `act_rule=` / `hostile=`. `towers_check` has one `_<act>_checks()` per act.
 
@@ -271,6 +280,13 @@ be `{"base": order, "swap": [from, to]}`, DECISIONS Y5). Act runs print
   `empire/duelist.gd` `lunge()` / `line()` (a jet lunge through a post), `empire/sentry.gd`
   (`stand`: plants on the road and fires); `HostileData` cause `jammed`, looks `zap`, `rifle`,
   `bolt_amber`, `rail`, `rocket`, `rivet`, `missile`, `lance`.
+- Act XIII (w2d-concord): road key `sky` (`Road.sky`: an off-road exit lane MapView never
+  draws; the act's layer draws it), enemy var `priority_until` (game s: "first" towers add
+  `TdRulesData.PRIORITY_BONUS`, the beaming saucer), `HostileData` cause `abducted`, looks
+  `plasma` / `acid` / `lumen`; helpers `concord/concord_kit.gd` `warn()` / `burst()` /
+  `hatch()` / `line()`, `concord/burrower.gd` `dig()`, `concord/cloak.gd` `cloaked()` /
+  `reveal_on_spell()`, `concord/lumen.gd` `soak()`, `concord/archon.gd` `sweep()`,
+  Abduction `call_saucers()` / `of(game)`.
 - HUD widgets of the acts sit in corners no road uses: top-left under the bar
   (Escalation, Wrath, Hell cue, Host dial), top-right (Blood Moon cue, Scales),
   bottom-left (Sun dial, Winter meter). One act per map, so they never meet.

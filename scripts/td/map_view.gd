@@ -58,6 +58,8 @@ func _draw() -> void:
 			var sz := tex.get_size()  # Its size (px).
 			draw_texture_rect(tex, Rect2((Vector2(o[1]) - Vector2(sz.x * 0.5, sz.y * 0.8)).round(), sz), false)
 	for r: Road in roads.values():
+		if r.sky:
+			continue  # A sky lane (Act XIII) leaves no trail.
 		# An off-road route is only a trampled trail (its worn shoulder, narrower).
 		_draw_shoulder(r, TdArtData.ROAD_WIDTH * (TdMoodData.OFF_ROAD_TRAIL if r.off_road else 0.5) + TdMoodData.SHOULDER_PX)
 	for r: Road in roads.values():

@@ -155,7 +155,7 @@ Their strike pose (3) shows the still sprite: Seraphine (cast pose only), Captai
 Crow, Admiral Marrec, Captain Vandermere, Vargr, Isolde Vane, Queen Carmilla, Don
 Marrow, General Harrow, Paragon, Kage, Amaterasu, Hrimgar, Sigrun, Odin, Fenrir,
 Anubis, Sekhmet, Osiris and Ammit, Zeus, Hades, Moloch, Lilith, the Morning Star,
-Seraiel, the Throne, the Voice (27; Alaric, Vael, Achilles and the Shogun have one).
+Seraiel, the Throne, the Voice, Vrask'Tal, the Harvester (29; Alaric, Vael, Achilles, the Shogun and the Hive Mother have one).
 
 
 ## Wave 2c: Act IX, the Inferno (w2c-inferno, DECISIONS T9)
@@ -812,3 +812,41 @@ Stair won 20/20 (Throne of Bones), Empyrean won 12/20 (Throne of Bones),
 Wheel of Thrones lost at wave 21 (its first catapult stands at the hub, where
 the Ophan's 170 px reach covers less). Seed 1 twice gives the same summary;
 Act I's six baseline summaries are byte-identical.
+
+## Act XIII, the Concord of Stars (wave 2d, w2d-concord; DECISIONS T13)
+
+Necromancer, default orders, seeds 1-4 (lives kept of 20; every run 0 script
+errors, `stuck_enemies=0`; Income = `MapLoader.income()`). Frame times not
+measured on a quiet machine (five act agents share the cores): the integration
+re-measures.
+
+| Act | Map | wave_hp_end | Income | s1 | s2 | s3 | s4 | Runs losing lives | Miniboss killed | Leaks (4 seeds) | Weak s1 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| XIII | crash_site | 2.65 | 4030 | 19 | 20 | 8 | 10 | 3/4 | 4/4 | concord_broodling 3, concord_hive_mother 2 | lost w4 |
+| XIII | proving_moon | 3.0 | 3769 | 7 | 20 | 17 | 17 | 3/4 | 4/4 | concord_vrask_hunter 4, concord_vrask_tal 1 | lost w4 |
+| XIII | ark | 2.2 | 4282 | 9 | 7 | 17 | 3 | 4/4 | 4/4 | concord_harvester 3, concord_vault_beast 7, concord_grey_overseer 2, concord_burrower 1 | lost w4 |
+
+Cliff check at `wave_hp_end` + 0.2 (seeds 1-2): Crash Site 18 / 10, Proving
+Moon 17 / 4, Ark 15 / 1: every run still won, losses grow gradually (no cliff).
+The Ark is the act's hardest map (4/4 runs lose lives, one more than the 1-3
+target: the Harvester's Reaping and the Ark's three saucers a flight).
+
+Raw HP per wave sits under the Empyrean's 3.2 multiplier, but the rows are
+tougher (Burrower 150 / armour 3 against the Virtue's 115 / 2; Lumen Sentinel
+480 + a 35 % shield; Vrask Hunters cloaked) and the act rule takes towers and
+bodies out of the fight: the step up over Part Two is Abduction (20-33 saucers
+a run, 10-27 lifts), the Grey Drones' and Luminous beams' stuns, the Burrowers
+that dig under the posts and the cloaked Vrask. First tries at 2.9-3.3 lost by
+wave 9-17 (Ark, Proving Moon); the Proving Moon was re-laid from a forked road
+(posts on overlapping roads hold only one road) into a spiral (T13.7). Boss HP:
+the Hive Mother 11000 (Flight unholdable from 30 %), Vrask'Tal 9000, the
+Harvester 10500 (immune through the Reaping).
+
+Ghost Saucer against the Mage (`--swap=mage:ghost_saucer` vs `--swap=mage:mage`,
+seeds 1-2; lives, then damage per soul at the swapped spot): Crash Site 20, 16 /
+19, 20 (34.6 / 33.1); Proving Moon 17, 17 / 7, 20 (23.7 / 23.1); Ark 14, 8 / 9, 7
+(44.3 / 46.6). `concord_kit` (Ghost Saucer raised to Lv 5 early, Black
+Mothership, Bone Beetles and Soul Caster): won 6/6, lives 17, 18 / 20, 20 / 20,
+20. Seed 1 twice gives the same summary; Act I's six baseline summaries are
+byte-identical. Vrask'Tal and the Harvester have no attack-pose art (the Hive
+Mother has `cast` / `strike`).

@@ -72,6 +72,9 @@ const SHOTS: Dictionary = {
 		"halo": 5.0, "impact": "volley_hit", "impact_d": 44.0, "ring": false, "muzzle": 40.0},  # TUNING (not in GDD) pale bone-green darts
 	"iron_revenant": {"sprite": "projectiles/iron_shell", "scale": 2.2, "tint": Color(0.45, 1.0, 0.9), "trail": 80.0, "trail_w": 11.0,
 		"halo": 7.0, "impact": "volley_hit", "impact_d": 60.0, "ring": false, "muzzle": 52.0},  # TUNING (not in GDD) soul-teal shells (Necropathy: "a soul-teal trail")
+	# --- Act XIII, the Concord of Stars (w2d-concord) ---
+	"ghost_saucer": {"sprite": "projectiles/radiant_bolt", "scale": 1.8, "tint": Color(1.0, 0.92, 0.55), "trail": 70.0, "trail_w": 11.0,
+		"halo": 6.0, "impact": "beam_hit", "impact_d": 48.0, "ring": false, "muzzle": 46.0},  # TUNING (not in GDD) Act XIII: tractor gold (its beams draw a streak their real length, beam_hit on each foe)
 }
 ## Look of a class missing from SHOTS (same keys).
 const SHOT_DEFAULT: Dictionary = {"sprite": "", "scale": 2.0, "tint": Color(1.0, 1.0, 1.0), "trail": 40.0, "trail_w": 6.0,
@@ -375,6 +378,10 @@ const SPELLS: Dictionary = {
 	"death_ray": {"tint": Color(0.75, 0.55, 1.0), "flash": 96.0, "strip": "beam_hit", "strip_d": 90.0, "ring": 150.0, "shake": 1.0},  # TUNING (not in GDD) violet soul laser; ring = its real reach (the beam draws itself)
 	"hollow_puppet": {"tint": Color(0.74, 0.46, 0.96), "flash": 80.0, "strip": "volley_flash", "strip_d": 90.0, "ring": 130.0, "shake": 0.0},  # TUNING (not in GDD) soul-string violet; ring = its real reach
 	"scrap_swarm": {"tint": Color(0.8, 0.6, 1.0), "flash": 80.0, "strip": "empire_blast_chrome", "strip_d": 90.0, "ring": 70.0, "shake": 0.0},  # TUNING (not in GDD) the drones' orbit ring
+	# --- Act XIII, the Concord of Stars (w2d-concord) ---
+	"bone_beetles": {"tint": Color(0.85, 0.95, 0.7), "flash": 80.0, "strip": "spore_cloud", "strip_d": 90.0, "ring": 0.0, "shake": 0.0},  # TUNING (not in GDD) bone-white beetles (they draw themselves)
+	"soul_caster": {"tint": Color(0.45, 1.0, 0.9), "flash": 90.0, "strip": "beam_hit", "strip_d": 70.0, "ring": 0.0, "shake": 1.0},  # TUNING (not in GDD) soul-teal locks and shots
+	"tractor_lift": {"tint": Color(0.75, 1.0, 0.85), "flash": 100.0, "strip": "golem_slam", "strip_d": 120.0, "ring": 60.0, "shake": 2.0},  # TUNING (not in GDD) ring = the slam's real reach
 }
 ## Act III spells' own looks (w2b-court; drawn only): Moonfang's jaw strip
 ## diameter as a multiple of its bite radius; Hex Circle's disc alpha and pulse

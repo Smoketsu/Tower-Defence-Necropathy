@@ -326,4 +326,16 @@ const EVOLUTIONS: Dictionary = {
 		},
 		"recipe": {"type": "any", "of": [{"type": "kills", "n": 20}, {"type": "damage", "n": 4000}]},  # TUNING (not in GDD) Necropathy Recoil Frame -> a record of the post
 	},
+	# --- Act XIII, the Concord of Stars (w2d-concord) ---
+	"black_mothership": {
+		"from": "ghost_saucer", "name": "Black Mothership", "sprite": "summons/black_mothership", "icon": "black_mothership",
+		"stats": {"damage": 1.3, "range": 1.1},  # TUNING (not in GDD) Necropathy mult damage 1.3
+		"set": {
+			"beams": 3,  # TUNING (not in GDD) Necropathy special_set beams 3
+			"beam_spread": 0.35,  # TUNING (not in GDD) rad between two beams
+			"lifts": 2,  # TUNING (not in GDD) two foes at a time (Necropathy)
+			"lift_radius": 52.0,  # TUNING (not in GDD) Necropathy lift_radius x1.3
+		},
+		"recipe": {"type": "any", "of": [{"type": "kills", "n": 35}, {"type": "damage", "n": 9000}]},  # TUNING (not in GDD) Necropathy Crop Circles -> a record of the sky
+	},
 }

@@ -48,6 +48,10 @@ const LOOKS: Dictionary = {
 	"rivet": {"sprite": "projectiles/iron_shell", "tint": Color(1.0, 0.7, 0.4), "scale": 0.9, "trail": 60.0, "impact": 44.0},  # TUNING (not in GDD) the Beta Build's rivet
 	"missile": {"sprite": "projectiles/empire_missile", "tint": Color(1.0, 0.4, 0.2), "scale": 1.6, "trail": 80.0, "impact": 90.0},  # TUNING (not in GDD) Deus Ex Machina's missile
 	"lance": {"sprite": "projectiles/empire_rail", "tint": Color(1.0, 0.85, 0.5), "scale": 2.8, "trail": 160.0, "impact": 120.0},  # TUNING (not in GDD) the Judgment Lance
+	# --- Act XIII, the Concord of Stars (w2d-concord) ---
+	"plasma": {"sprite": "projectiles/radiant_bolt", "tint": Color(0.45, 1.0, 0.55), "scale": 1.8, "trail": 80.0, "impact": 52.0},  # TUNING (not in GDD) a Grey Drone's probe beam (plasma green)
+	"acid": {"sprite": "projectiles/mortar_shell", "tint": Color(0.6, 1.0, 0.3), "scale": 1.3, "trail": 0.0, "impact": 64.0},  # TUNING (not in GDD) an Acid Spitter's glob, arcing
+	"lumen": {"sprite": "projectiles/radiant_bolt", "tint": Color(1.0, 0.95, 0.75), "scale": 2.2, "trail": 90.0, "impact": 60.0},  # TUNING (not in GDD) a Luminous beam (white-gold)
 }
 ## Trail width (px) of hostile shots.
 const TRAIL_W: float = 10.0  # TUNING (not in GDD)
@@ -81,6 +85,8 @@ const CAUSE_TINT: Dictionary = {
 	"inked": Color(0.6, 0.4, 0.95),  # TUNING (not in GDD) the Librarian's Index, the Archivist's pages and Erasure (ink violet)
 	# --- Act XII (w2d-empire) ---
 	"jammed": Color(0.55, 0.8, 1.0),  # TUNING (not in GDD) an Arc Engineer's static, Varn's overload pulse (arc blue)
+	# --- Act XIII, the Concord of Stars (w2d-concord) ---
+	"abducted": Color(0.6, 1.0, 0.65),  # TUNING (not in GDD) lifted by a saucer's tractor beam (plasma green)
 }
 ## Diameter (px) of the disabled ring around a tower's base, and its pulse period (s).
 const DISABLED_RING: float = 52.0  # TUNING (not in GDD)
