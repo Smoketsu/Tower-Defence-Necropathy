@@ -303,6 +303,6 @@ const EVOLUTIONS: Dictionary = {
 			"sweep_mult": 1.0,  # TUNING (not in GDD) share of its damage each foe in the sweep takes (Necropathy sweep_fraction 2 x a squeeze)
 			"sweep_knock": 30.0,  # TUNING (not in GDD) px a swept foe is thrown back along the road (TdCombat.knock_enemy)
 		},
-		"recipe": {"type": "any", "of": [{"type": "kills", "n": 35}, {"type": "damage", "n": 9000}]},  # TUNING (not in GDD) Necropathy Crushing Depths -> a record of the deep's work
+		"recipe": {"type": "any", "of": [{"type": "kills", "n": 25}, {"type": "damage", "n": 6000}]},  # TUNING (not in GDD) Necropathy Crushing Depths -> a record of the deep's work
 	},
 }
