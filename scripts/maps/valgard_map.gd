@@ -51,7 +51,7 @@ const MAP: Dictionary = {
 	"rune_stones": [Vector2(140, 300), Vector2(140, 450)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 3.8,  # TUNING (not in GDD) Part Two
+	"wave_hp_end": 2.3,  # TUNING (not in GDD) Part Two
 	"rule": "",
 	"act_rule": "norse/long_winter",
 	"build_order": "valgard_default",
@@ -67,18 +67,18 @@ const MAP: Dictionary = {
 		{"banner": "Valkyries ride over the tables", "groups": [{"kind": "norse_valkyrie", "count": 2, "spacing": 4.0, "road": "north"}, {"kind": "norse_shield_maiden", "count": 6, "spacing": 1.5, "delay": 2.0, "road": "south"}]},
 		{"banner": "", "groups": [{"kind": "norse_berserker", "count": 2, "spacing": 4.0, "road": "north"}, {"kind": "norse_seer", "count": 3, "spacing": 2.2, "delay": 2.0, "road": "south"}, {"kind": "norse_raider", "count": 10, "spacing": 0.8, "delay": 3.0, "road": "south"}]},
 		{"banner": "", "groups": [{"kind": "norse_einherjar", "count": 6, "spacing": 1.5, "road": "south"}, {"kind": "norse_shield_maiden", "count": 6, "spacing": 1.5, "delay": 2.0, "road": "north"}]},
-		{"banner": "A frost giant breaks through the eastern doors", "groups": [{"kind": "norse_frost_giant", "count": 1, "spacing": 1.0, "road": "north"}, {"kind": "norse_skald", "count": 2, "spacing": 3.0, "delay": 2.0, "road": "south"}, {"kind": "norse_raider", "count": 12, "spacing": 0.7, "delay": 3.0, "road": "south"}]},
+		{"banner": "A frost giant breaks through the eastern doors", "groups": [{"kind": "norse_frost_giant", "count": 1, "spacing": 1.0, "road": "north"}, {"kind": "norse_skald", "count": 2, "spacing": 3.0, "delay": 2.0, "road": "north"}, {"kind": "norse_raider", "count": 12, "spacing": 0.7, "delay": 3.0, "road": "north"}]},
 		{"banner": "The Einherjar Champion: his horn wakes the feast!", "groups": [{"kind": "einherjar_champion", "count": 1, "spacing": 1.0, "road": "south"}, {"kind": "norse_einherjar", "count": 4, "spacing": 1.8, "delay": 4.0, "road": "north"}]},
-		{"banner": "", "groups": [{"kind": "norse_valkyrie", "count": 3, "spacing": 3.0, "road": "south"}, {"kind": "norse_berserker", "count": 2, "spacing": 4.0, "delay": 2.0, "road": "north"}, {"kind": "norse_raider", "count": 10, "spacing": 0.7, "delay": 3.0, "road": "north"}]},
+		{"banner": "", "groups": [{"kind": "norse_valkyrie", "count": 2, "spacing": 3.0, "road": "south"}, {"kind": "norse_berserker", "count": 2, "spacing": 4.0, "delay": 2.0, "road": "north"}, {"kind": "norse_raider", "count": 10, "spacing": 0.7, "delay": 3.0, "road": "north"}]},
 		{"banner": "", "groups": [{"kind": "norse_seer", "count": 4, "spacing": 2.0, "road": "north"}, {"kind": "norse_einherjar", "count": 6, "spacing": 1.4, "delay": 2.0, "road": "south"}, {"kind": "norse_shield_maiden", "count": 5, "spacing": 1.5, "delay": 3.0, "road": "north"}]},
 		{"banner": "", "groups": [{"kind": "norse_frost_giant", "count": 2, "spacing": 6.0, "road": "south"}, {"kind": "norse_skald", "count": 3, "spacing": 2.5, "delay": 2.0, "road": "north"}, {"kind": "norse_raider", "count": 12, "spacing": 0.7, "delay": 3.0, "road": "north"}]},
-		{"banner": "", "groups": [{"kind": "norse_berserker", "count": 3, "spacing": 3.0, "road": "south"}, {"kind": "norse_valkyrie", "count": 3, "spacing": 3.0, "delay": 2.0, "road": "north"}, {"kind": "norse_shield_maiden", "count": 6, "spacing": 1.4, "delay": 3.0, "road": "south"}]},
+		{"banner": "", "groups": [{"kind": "norse_berserker", "count": 3, "spacing": 3.0, "road": "south"}, {"kind": "norse_valkyrie", "count": 2, "spacing": 3.0, "delay": 2.0, "road": "north"}, {"kind": "norse_shield_maiden", "count": 6, "spacing": 1.4, "delay": 3.0, "road": "south"}]},
 		{"banner": "", "groups": [{"kind": "norse_einherjar", "count": 8, "spacing": 1.2, "road": "north"}, {"kind": "norse_seer", "count": 4, "spacing": 2.0, "delay": 2.0, "road": "south"}]},
 		{"banner": "", "groups": [{"kind": "norse_frost_giant", "count": 2, "spacing": 6.0, "road": "north"}, {"kind": "norse_raider", "count": 14, "spacing": 0.6, "delay": 2.0, "road": "south"}, {"kind": "norse_berserker", "count": 2, "spacing": 4.0, "delay": 4.0, "road": "south"}]},
-		{"banner": "", "groups": [{"kind": "norse_valkyrie", "count": 4, "spacing": 2.5, "road": "south"}, {"kind": "norse_shield_maiden", "count": 8, "spacing": 1.2, "delay": 2.0, "road": "north"}, {"kind": "norse_skald", "count": 2, "spacing": 3.0, "delay": 3.0, "road": "north"}]},
+		{"banner": "", "groups": [{"kind": "norse_valkyrie", "count": 3, "spacing": 2.5, "road": "south"}, {"kind": "norse_shield_maiden", "count": 8, "spacing": 1.2, "delay": 2.0, "road": "north"}, {"kind": "norse_skald", "count": 2, "spacing": 3.0, "delay": 3.0, "road": "north"}]},
 		{"banner": "", "groups": [{"kind": "norse_einherjar", "count": 8, "spacing": 1.2, "road": "south"}, {"kind": "norse_berserker", "count": 3, "spacing": 3.0, "delay": 2.0, "road": "north"}, {"kind": "norse_seer", "count": 3, "spacing": 2.2, "delay": 4.0, "road": "north"}]},
-		{"banner": "", "groups": [{"kind": "norse_frost_giant", "count": 3, "spacing": 5.0, "road": "south"}, {"kind": "norse_valkyrie", "count": 3, "spacing": 3.0, "delay": 2.0, "road": "north"}, {"kind": "norse_raider", "count": 14, "spacing": 0.6, "delay": 3.0, "road": "north"}]},
+		{"banner": "", "groups": [{"kind": "norse_frost_giant", "count": 3, "spacing": 5.0, "road": "south"}, {"kind": "norse_valkyrie", "count": 2, "spacing": 3.0, "delay": 2.0, "road": "north"}, {"kind": "norse_raider", "count": 14, "spacing": 0.6, "delay": 3.0, "road": "north"}]},
 		{"banner": "Every bench of the hall empties", "groups": [{"kind": "norse_berserker", "count": 4, "spacing": 3.0, "road": "north"}, {"kind": "norse_einherjar", "count": 8, "spacing": 1.1, "delay": 2.0, "road": "south"}, {"kind": "norse_shield_maiden", "count": 6, "spacing": 1.3, "delay": 4.0, "road": "north"}]},
-		{"banner": "Sigrun the Shield-Queen rides out with her valkyries!", "groups": [{"kind": "sigrun", "count": 1, "spacing": 1.0, "road": "north"}, {"kind": "norse_valkyrie", "count": 3, "spacing": 3.0, "delay": 3.0, "road": "south"}, {"kind": "norse_shield_maiden", "count": 8, "spacing": 1.3, "delay": 8.0, "road": "south"}]},
+		{"banner": "Sigrun the Shield-Queen rides out with her valkyries!", "groups": [{"kind": "sigrun", "count": 1, "spacing": 1.0, "road": "north"}, {"kind": "norse_valkyrie", "count": 2, "spacing": 3.0, "delay": 3.0, "road": "south"}, {"kind": "norse_shield_maiden", "count": 8, "spacing": 1.3, "delay": 8.0, "road": "south"}]},
 	],
 }

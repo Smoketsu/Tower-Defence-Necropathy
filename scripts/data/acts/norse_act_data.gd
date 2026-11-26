@@ -30,13 +30,13 @@ const KINDS: Dictionary = {
 		"args": {"front_mult": 0.7, "ignore": ["corpse_catapult"], "at": 0.5, "speed_mult": 1.3, "damage_mult": 1.4, "shrug_slow": false,
 			"bash_every": 3, "bash_stagger": 1.2},  # TUNING (not in GDD) Necropathy bash: "throws one summon back"
 	},
-	# Berserker: bear pelt, two axes, in the fury from the first step; shrugs off slows while raging.
+	# Berserker: bear pelt, two axes, in the fury from the first step (shrug_slow kept off: Frost Wraiths must still answer him).
 	"norse_berserker": {
 		"name": "Berserker", "sprite": "norse/berserker", "rank": "elite",
 		"hp": 460.0, "speed": 50.0, "armour": 2.0, "radius": 13.0,  # TUNING (not in GDD)
 		"damage": 18.0, "attack_interval": 0.9,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "norse/berserk",
-		"args": {"at": 1.01, "speed_mult": 1.12, "damage_mult": 1.4, "shrug_slow": true},  # TUNING (not in GDD) Necropathy berserk_always
+		"args": {"at": 1.01, "speed_mult": 1.12, "damage_mult": 1.4, "shrug_slow": false},  # TUNING (not in GDD) Necropathy berserk_always
 	},
 	# Skald: a war-song; warriors near him march faster (Act I banner_aura).
 	"norse_skald": {
@@ -49,7 +49,7 @@ const KINDS: Dictionary = {
 	# Valkyrie: flies over the posts; her spear dive lands on a telegraphed circle and stuns the towers there.
 	"norse_valkyrie": {
 		"name": "Valkyrie", "sprite": "norse/valkyrie", "rank": "elite",
-		"hp": 290.0, "speed": 56.0, "armour": 1.0, "radius": 12.0,  # TUNING (not in GDD)
+		"hp": 270.0, "speed": 48.0, "armour": 1.0, "radius": 12.0,  # TUNING (not in GDD)
 		"damage": 8.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": true, "ignores_walls": true, "trait": "norse/valkyrie",
 		"args": {"first": 3.0, "every": 11.0, "range": 230.0, "radius": 60.0, "delay": 1.2, "stun": 1.5, "body_damage": 40.0},  # TUNING (not in GDD) Necropathy spear dive
@@ -89,7 +89,7 @@ const KINDS: Dictionary = {
 	# Frost giant: hurls a boulder over the posts at a tower and douses the braziers it passes.
 	"norse_frost_giant": {
 		"name": "Frost Giant", "sprite": "norse/frost_giant", "rank": "elite",
-		"hp": 950.0, "speed": 26.0, "armour": 5.0, "radius": 18.0,  # TUNING (not in GDD)
+		"hp": 800.0, "speed": 26.0, "armour": 5.0, "radius": 18.0,  # TUNING (not in GDD)
 		"damage": 26.0, "attack_interval": 1.6,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "norse/frost_giant",
 		"args": {"range": 260.0, "interval": 10.0, "target": "tower", "damage": 30.0, "disable": 1.8, "cause": "frozen", "speed": 260.0, "arc": true,
@@ -98,7 +98,7 @@ const KINDS: Dictionary = {
 	# Einherjar: gold-lit heroes of the hall who rise once more when they fall.
 	"norse_einherjar": {
 		"name": "Einherjar", "sprite": "norse/einherjar", "rank": "fodder", "souls": 13,  # TUNING (not in GDD) soldier tier
-		"hp": 250.0, "speed": 44.0, "armour": 4.0, "radius": 11.0,  # TUNING (not in GDD)
+		"hp": 190.0, "speed": 44.0, "armour": 3.0, "radius": 11.0,  # TUNING (not in GDD)
 		"damage": 12.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "norse/einherjar",
 		"args": {"rise_hp": 0.5},  # TUNING (not in GDD) share of max HP it rises with (once)
@@ -106,10 +106,10 @@ const KINDS: Dictionary = {
 	# Fire-giant of Muspelheim: a telegraphed stomp that cracks the posts and stuns the towers round it.
 	"norse_fire_giant": {
 		"name": "Fire Giant", "sprite": "norse/fire_giant", "rank": "elite",
-		"hp": 1150.0, "speed": 24.0, "armour": 5.0, "radius": 20.0,  # TUNING (not in GDD)
+		"hp": 950.0, "speed": 24.0, "armour": 5.0, "radius": 20.0,  # TUNING (not in GDD)
 		"damage": 28.0, "attack_interval": 1.6,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "norse/fire_giant",
-		"args": {"stomp_first": 4.0, "stomp_every": 8.0, "radius": 90.0, "delay": 1.0, "disable": 1.6, "body_damage": 45.0,
+		"args": {"stomp_first": 4.0, "stomp_every": 9.0, "radius": 90.0, "delay": 1.0, "disable": 1.2, "body_damage": 45.0,
 			"track_every": 0.0, "track_radius": 0.0, "track_disable": 0.0},  # TUNING (not in GDD) Necropathy fire-giant stomp
 	},
 	# Raven: Odin's birds, small flyers over the posts.
@@ -137,7 +137,7 @@ const KINDS: Dictionary = {
 	# Barrow Fields miniboss: the Barrow-Wight, a draugr chieftain whose howl stuns the posts and towers round him.
 	"barrow_wight": {
 		"name": "The Barrow-Wight", "sprite": "norse/barrow_wight", "rank": "miniboss",
-		"hp": 4300.0, "speed": 26.0, "armour": 5.0, "radius": 22.0,  # TUNING (not in GDD) X3 band
+		"hp": 3900.0, "speed": 26.0, "armour": 5.0, "radius": 22.0,  # TUNING (not in GDD) X3 band
 		"damage": 26.0, "attack_interval": 1.4,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "norse/barrow_wight",
 		"args": {"howl_first": 4.0, "howl_every": 11.0, "windup": 1.0, "radius": 125.0, "stun": 1.0,
@@ -146,20 +146,20 @@ const KINDS: Dictionary = {
 	# Valgard miniboss: the Einherjar Champion; the hero's sweep cuts every body round him, his horn wakes the hall.
 	"einherjar_champion": {
 		"name": "The Einherjar Champion", "sprite": "norse/einherjar_champion", "rank": "miniboss",
-		"hp": 5400.0, "speed": 30.0, "armour": 6.0, "radius": 22.0,  # TUNING (not in GDD) X3 band
+		"hp": 3100.0, "speed": 24.0, "armour": 5.0, "radius": 22.0,  # TUNING (not in GDD) X3 band
 		"damage": 28.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "norse/champion",
-		"args": {"sweep_first": 3.0, "sweep_every": 6.0, "sweep_radius": 75.0, "sweep_windup": 0.8, "sweep_damage": 70.0,
-			"horn_first": 6.0, "horn_every": 16.0, "horn_count": 3, "horn_kind": "norse_einherjar", "horn_gap": 26.0, "pose_time": 0.6},  # TUNING (not in GDD) Necropathy sweep / horn
+		"args": {"sweep_first": 3.0, "sweep_every": 6.0, "sweep_radius": 75.0, "sweep_windup": 0.8, "sweep_damage": 50.0,
+			"horn_first": 6.0, "horn_every": 18.0, "horn_count": 2, "horn_kind": "norse_einherjar", "horn_gap": 26.0, "pose_time": 0.6},  # TUNING (not in GDD) Necropathy sweep / horn
 	},
 	# Vigrid miniboss: the Fire-Giant of the South, a fire-giant's stomp plus burning tracks behind him.
 	"muspel_giant": {
 		"name": "The Fire-Giant of the South", "sprite": "norse/fire_giant", "rank": "miniboss",
-		"hp": 5600.0, "speed": 22.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD) X3 band
+		"hp": 3600.0, "speed": 22.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD) X3 band
 		"damage": 30.0, "attack_interval": 1.5,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "norse/fire_giant",
-		"args": {"stomp_first": 3.0, "stomp_every": 7.0, "radius": 110.0, "delay": 1.0, "disable": 1.8, "body_damage": 55.0,
-			"track_every": 3.0, "track_radius": 70.0, "track_disable": 1.2},  # TUNING (not in GDD) Necropathy burning tracks
+		"args": {"stomp_first": 3.0, "stomp_every": 8.0, "radius": 110.0, "delay": 1.0, "disable": 1.4, "body_damage": 35.0,
+			"track_every": 4.0, "track_radius": 70.0, "track_disable": 1.2},  # TUNING (not in GDD) Necropathy burning tracks
 	},
 	# Barrow Fields boss: Hrimgar the Draugr-King. He rises three times; his barrow can be broken while he lies in it.
 	"hrimgar": {
@@ -176,7 +176,7 @@ const KINDS: Dictionary = {
 	# Valgard boss: Sigrun the Shield-Queen. The Charge, the Holmgang (a duel with one post), the Doors of the Hall.
 	"sigrun": {
 		"name": "Sigrun, the Shield-Queen", "sprite": "norse/sigrun", "rank": "boss",
-		"hp": 15000.0, "speed": 28.0, "armour": 5.0, "radius": 24.0,  # TUNING (not in GDD)
+		"hp": 12000.0, "speed": 26.0, "armour": 5.0, "radius": 24.0,  # TUNING (not in GDD)
 		"damage": 34.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "norse/sigrun",
 		"args": {"charge_first": 5.0, "charge_every": 12.0, "charge_windup": 0.8, "charge_time": 1.6, "charge_speed": 2.6, "charge_radius": 34.0, "charge_damage": 90.0,
@@ -186,10 +186,10 @@ const KINDS: Dictionary = {
 	# Vigrid boss: Odin the All-Father. The Wolf (he watches, out of reach), the All-Father (Gungnir, ravens), Ragnarok.
 	"odin": {
 		"name": "Odin the All-Father", "sprite": "norse/odin", "rank": "boss",
-		"hp": 11000.0, "speed": 24.0, "armour": 5.0, "radius": 22.0,  # TUNING (not in GDD)
+		"hp": 9500.0, "speed": 24.0, "armour": 5.0, "radius": 22.0,  # TUNING (not in GDD)
 		"damage": 32.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "norse/odin",
-		"args": {"wolf_kind": "fenrir", "wolf_gap": 70.0, "stand_dist": 90.0, "chain_hp": 0.55, "ragnarok_hp": 0.5, "doom_time": 6.0,
+		"args": {"wolf_kind": "fenrir", "wolf_gap": 70.0, "stand_dist": 90.0, "chain_hp": 0.55, "ragnarok_hp": 0.35, "doom_time": 6.0,
 			"spear_first": 3.0, "spear_every": 7.0, "spear_range": 380.0, "spear_disable": 4.0, "spear_damage": 120.0, "spear_speed": 520.0,
 			"raven_every": 9.0, "raven_kind": "norse_raven", "raven_count": 3,
 			"fire_every": 6.0, "fire_count": 2, "fire_radius": 70.0, "fire_delay": 1.4, "fire_disable": 2.0, "fire_damage": 40.0, "pose_time": 0.7},  # TUNING (not in GDD) Necropathy OdinData
@@ -197,11 +197,11 @@ const KINDS: Dictionary = {
 	# Fenrir, the great wolf at Odin's side: he swallows the post that holds him and breaks free.
 	"fenrir": {
 		"name": "Fenrir", "sprite": "norse/fenrir", "rank": "boss",
-		"hp": 9000.0, "speed": 34.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD)
+		"hp": 5500.0, "speed": 32.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD)
 		"damage": 30.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "norse/fenrir",
-		"args": {"swallow_first": 3.0, "swallow_every": 9.0, "swallow_damage": 600.0, "free_time": 1.2, "speed_mult": 1.5,
-			"rage_speed": 1.3},  # TUNING (not in GDD) Necropathy FenrirKit swallow
+		"args": {"swallow_first": 3.0, "swallow_every": 11.0, "swallow_damage": 320.0, "free_time": 0.8, "speed_mult": 1.5,
+			"rage_speed": 1.1},  # TUNING (not in GDD) Necropathy FenrirKit swallow
 	},
 }
 
@@ -282,62 +282,63 @@ const ORDERS: Dictionary = {
 	"valgard_default": {
 		"spells": true,
 		"steps": [
-			{"do": "build", "spot": "plot:1", "tower": "archer"},
+			{"do": "build", "spot": "plot:8", "tower": "archer"},
 			{"do": "build", "spot": "post:0", "tower": "warrior"},
+			{"do": "build", "spot": "plot:10", "tower": "archer"},
+			{"do": "build", "spot": "plot:11", "tower": "mage"},
+			{"do": "upgrade", "spot": "plot:8"},
+			{"do": "upgrade", "spot": "plot:10"},
+			{"do": "build", "spot": "plot:7", "tower": "corpse_catapult"},
+			{"do": "target", "spot": "plot:7", "mode": "strongest"},
+			{"do": "build", "spot": "post:1", "tower": "warrior"},
+			{"do": "upgrade", "spot": "plot:11"},
+			{"do": "upgrade", "spot": "plot:8"},
+			{"do": "upgrade", "spot": "plot:10"},
+			{"do": "build", "spot": "plot:12", "tower": "mage"},
 			{"do": "build", "spot": "plot:2", "tower": "archer"},
-			{"do": "build", "spot": "plot:4", "tower": "mage"},
-			{"do": "upgrade", "spot": "plot:1"},
+			{"do": "upgrade", "spot": "plot:7"},
+			{"do": "build", "spot": "plot:5", "tower": "banshee"},
+			{"do": "upgrade", "spot": "plot:11"},
+			{"do": "upgrade", "spot": "plot:12"},
+			{"do": "build", "spot": "post:2", "tower": "abomination"},
+			{"do": "build", "spot": "post:3", "tower": "warrior"},
+			{"do": "upgrade", "spot": "plot:8"},
+			{"do": "upgrade", "spot": "plot:10"},
 			{"do": "upgrade", "spot": "plot:2"},
+			{"do": "upgrade", "spot": "plot:7"},
+			{"do": "build", "spot": "plot:1", "tower": "frost_wraith"},
+			{"do": "upgrade", "spot": "plot:5"},
+			{"do": "upgrade", "spot": "plot:12"},
+			{"do": "upgrade", "spot": "plot:11"},
+			{"do": "upgrade", "spot": "post:0"},
+			{"do": "upgrade", "spot": "plot:2"},
+			{"do": "upgrade", "spot": "plot:8"},
+			{"do": "upgrade", "spot": "plot:10"},
 			{"do": "build", "spot": "plot:6", "tower": "corpse_catapult"},
 			{"do": "target", "spot": "plot:6", "mode": "strongest"},
-			{"do": "build", "spot": "post:1", "tower": "warrior"},
-			{"do": "upgrade", "spot": "plot:4"},
-			{"do": "upgrade", "spot": "plot:1"},
-			{"do": "upgrade", "spot": "plot:2"},
-			{"do": "build", "spot": "plot:7", "tower": "mage"},
-			{"do": "build", "spot": "plot:8", "tower": "archer"},
-			{"do": "upgrade", "spot": "plot:6"},
-			{"do": "build", "spot": "plot:3", "tower": "banshee"},
-			{"do": "upgrade", "spot": "plot:4"},
 			{"do": "upgrade", "spot": "plot:7"},
-			{"do": "build", "spot": "post:2", "tower": "abomination"},
 			{"do": "upgrade", "spot": "plot:1"},
+			{"do": "upgrade", "spot": "plot:12"},
+			{"do": "upgrade", "spot": "plot:5"},
 			{"do": "upgrade", "spot": "plot:2"},
-			{"do": "upgrade", "spot": "plot:8"},
 			{"do": "upgrade", "spot": "plot:6"},
-			{"do": "build", "spot": "plot:9", "tower": "frost_wraith"},
-			{"do": "upgrade", "spot": "plot:3"},
-			{"do": "upgrade", "spot": "plot:7"},
-			{"do": "upgrade", "spot": "plot:4"},
-			{"do": "upgrade", "spot": "post:0"},
-			{"do": "upgrade", "spot": "plot:8"},
-			{"do": "upgrade", "spot": "plot:1"},
-			{"do": "upgrade", "spot": "plot:2"},
-			{"do": "build", "spot": "plot:10", "tower": "corpse_catapult"},
-			{"do": "target", "spot": "plot:10", "mode": "strongest"},
-			{"do": "upgrade", "spot": "plot:6"},
-			{"do": "upgrade", "spot": "plot:9"},
-			{"do": "upgrade", "spot": "plot:7"},
-			{"do": "upgrade", "spot": "plot:3"},
+			{"do": "upgrade", "spot": "plot:11"},
 			{"do": "upgrade", "spot": "plot:8"},
 			{"do": "upgrade", "spot": "plot:10"},
-			{"do": "upgrade", "spot": "plot:4"},
-			{"do": "upgrade", "spot": "plot:1"},
-			{"do": "upgrade", "spot": "plot:2"},
-			{"do": "upgrade", "spot": "plot:6"},
-			{"do": "build", "spot": "plot:11", "tower": "mage"},
+			{"do": "upgrade", "spot": "plot:7"},
+			{"do": "build", "spot": "plot:4", "tower": "mage"},
 			{"do": "upgrade", "spot": "post:1"},
-			{"do": "upgrade", "spot": "plot:9"},
-			{"do": "upgrade", "spot": "plot:10"},
-			{"do": "upgrade", "spot": "plot:3"},
-			{"do": "upgrade", "spot": "plot:7"},
-			{"do": "upgrade", "spot": "plot:11"},
-			{"do": "upgrade", "spot": "plot:8"},
+			{"do": "upgrade", "spot": "plot:1"},
 			{"do": "upgrade", "spot": "plot:6"},
-			{"do": "upgrade", "spot": "plot:9"},
-			{"do": "upgrade", "spot": "plot:10"},
-			{"do": "upgrade", "spot": "plot:11"},
-			{"do": "upgrade", "spot": "plot:11"},
+			{"do": "upgrade", "spot": "plot:5"},
+			{"do": "upgrade", "spot": "plot:12"},
+			{"do": "upgrade", "spot": "plot:4"},
+			{"do": "upgrade", "spot": "plot:2"},
+			{"do": "upgrade", "spot": "plot:7"},
+			{"do": "upgrade", "spot": "plot:1"},
+			{"do": "upgrade", "spot": "plot:6"},
+			{"do": "upgrade", "spot": "plot:4"},
+			{"do": "upgrade", "spot": "plot:4"},
 			{"do": "upgrade", "spot": "post:2"},
 			{"do": "upgrade", "spot": "post:0"},
 		],
@@ -428,16 +429,14 @@ const MOODS: Dictionary = {
 		"pools": 0,
 	},
 	"valgard": {
-		"props": [{"art": "mood_fire", "frames": 8, "count": 4, "scale": 1.0, "glow": Color(1.0, 0.62, 0.28, 0.6), "glow_r": 70.0,
-			"glow_at": Vector2(0, -6), "flicker": 0.25, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0},  # TUNING (not in GDD) the hall's long fires
-			{"sprite": "obstacles/standing_shield_s", "frames": 1, "count": 4, "scale": 1.0, "glow": Color(0, 0, 0, 0), "glow_r": 0.0,
-			"glow_at": Vector2.ZERO, "flicker": 0.0, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD) shields hung on the pillars
+		"props": [{"sprite": "obstacles/standing_shield_s", "frames": 1, "count": 6, "scale": 1.0, "glow": Color(1.0, 0.8, 0.45, 0.3), "glow_r": 34.0,
+			"glow_at": Vector2(0, -8), "flicker": 0.1, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD) gilded shields hung on the pillars (no open flame: every fire on the map is a Long Winter brazier)
 		"fog": 0,
 		"pools": 0,
 	},
 	"vigrid": {
-		"props": [{"art": "mood_fire", "frames": 8, "count": 5, "scale": 1.0, "glow": Color(1.0, 0.4, 0.15, 0.65), "glow_r": 76.0,
-			"glow_at": Vector2(0, -6), "flicker": 0.3, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD) Muspel's embers on the last field
+		"props": [{"sprite": "obstacles/mound_s", "frames": 1, "count": 5, "scale": 1.0, "glow": Color(1.0, 0.35, 0.12, 0.45), "glow_r": 44.0,
+			"glow_at": Vector2(0, -2), "flicker": 0.3, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD) smouldering mounds of the last field (embers, no flame)
 		"fog": 2,  # TUNING (not in GDD) ash drifting
 		"pools": 0,
 	},
