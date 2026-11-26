@@ -6,11 +6,29 @@
 class_name MenuData
 extends RefCounted
 
-## Title menu items, top to bottom: [id, button word]. "quit" is hidden on the Web.
-const TITLE_ITEMS: Array = [["play", "Play"], ["codex", "Codex"], ["ossuary", "Ossuary"],
-	["settings", "Settings"], ["credits", "Credits"], ["quit", "Quit"]]  # GDD §9.3
+## Title menu items, top to bottom: [id, button word, MaskIconData icon]. "quit" is hidden on the Web.
+const TITLE_ITEMS: Array = [["play", "Play", "skull_crown"], ["codex", "Codex", "quill"], ["ossuary", "Ossuary", "icons/soul_ash"],
+	["settings", "Settings", "candle"], ["credits", "Credits", "trophy"], ["quit", "Quit", "tomb"]]  # GDD §9.3; icons M5
 ## Size (px) of a title menu button.
-const TITLE_BUTTON := Vector2(220.0, 40.0)  # TUNING (not in GDD)
+const TITLE_BUTTON := Vector2(260.0, 44.0)  # TUNING (not in GDD) M5 (was 220 x 40)
+## Size (px) of the title's Play button (first, larger, gold).
+const TITLE_PLAY := Vector2(300.0, 56.0)  # TUNING (not in GDD) M5
+## Layout px per art px of a title button's icon, and its inset (px) from the button's left edge.
+const TITLE_ICON_SCALE: int = 2  # TUNING (not in GDD) M5
+## See TITLE_ICON_SCALE.
+const TITLE_ICON_INSET: float = 14.0  # TUNING (not in GDD) M5
+## Size (px) of a title button's icon when it is a sprite icon ("icons/..." in TITLE_ITEMS).
+const TITLE_SPRITE_ICON: float = 30.0  # TUNING (not in GDD) M5
+## Gap (px) between the title column's rows.
+const TITLE_GAP: int = 8  # TUNING (not in GDD) M5
+## Width (design px) and alpha (0-1) of the dark band the backdrop draws behind the title column.
+const TITLE_BAND_DARK_W: float = 420.0  # TUNING (not in GDD) M5
+## See TITLE_BAND_DARK_W.
+const TITLE_BAND_ALPHA: float = 0.6  # TUNING (not in GDD) M5
+## Title progress plaque: icon scale (layout px per art px) and the gap (px) between stats.
+const PLAQUE_ICON_SCALE: int = 2  # TUNING (not in GDD) M5
+## See PLAQUE_ICON_SCALE.
+const PLAQUE_GAP: int = 28  # TUNING (not in GDD) M5
 ## Size (px) the logo is drawn at (the 250 x 124 art at 2x).
 const LOGO_SIZE := Vector2(500.0, 248.0)  # TUNING (not in GDD)
 
@@ -27,6 +45,8 @@ const BACK_BUTTON := Vector2(150.0, 48.0)  # TUNING (not in GDD) M4: 48 px = ~31
 const TITLE_BAND_W: float = 420.0  # TUNING (not in GDD) M4
 ## Size (px) of the Soul Ash icon in the header pill.
 const ASH_ICON: float = 28.0  # TUNING (not in GDD) M4
+## Minimum width (px) of the Soul Ash pill.
+const ASH_PILL_W: float = 110.0  # TUNING (not in GDD) M4
 ## Room (px) kept above the content panel for its skull keystone (it rises 9 px).
 const KEYSTONE_ROOM: float = 12.0  # TUNING (not in GDD) M4
 ## Default bottom hint strip of a screen: [[action(s), word], ...].

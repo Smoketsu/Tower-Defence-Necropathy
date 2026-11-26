@@ -124,23 +124,28 @@ func _header() -> HBoxContainer:
 	right.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(right)
 	if show_ash:
-		right.add_child(ash_pill())
+		var pill := ash_pill()  # Soul Ash held.
+		ash_label = pill.get_meta("label") as Label
+		right.add_child(pill)
 	return row
 
 
-## A Soul Ash pill (icon + amount held) in a dim kit panel; sets ash_label.
-func ash_pill() -> PanelContainer:
+## A Soul Ash pill (icon + amount held) in a dim kit panel; its number Label is meta "label".
+static func ash_pill() -> PanelContainer:
 	var p := PanelContainer.new()  # The pill.
 	p.add_theme_stylebox_override("panel", UiTheme.style("panel", "dim"))
 	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	p.custom_minimum_size = Vector2(MenuData.ASH_PILL_W, MenuData.BACK_BUTTON.y)
 	var r := HBoxContainer.new()  # Icon and number.
+	r.alignment = BoxContainer.ALIGNMENT_CENTER
 	r.add_theme_constant_override("separation", 6)
 	r.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	p.add_child(r)
 	r.add_child(icon_rect(SpriteBank.texture("icons/soul_ash"), MenuData.ASH_ICON))
-	ash_label = UiTheme.tier_label(str(Meta.ash()), UiTheme.Tier.NAME, UiTheme.TEXT_GOLD)
-	ash_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	r.add_child(ash_label)
+	var l := UiTheme.tier_label(str(Meta.ash()), UiTheme.Tier.NAME, UiTheme.TEXT_GOLD)  # The amount.
+	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	r.add_child(l)
+	p.set_meta("label", l)
 	return p
 
 
