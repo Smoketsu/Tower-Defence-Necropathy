@@ -43,6 +43,7 @@ static func call_squad(e: TdEnemy, game: TdGame, squad: Array, gap: float) -> in
 static func start_charge(e: TdEnemy, game: TdGame, speed_mult: float, time: float) -> void:
 	e.vars["charge_until"] = game.time + time
 	e.vars["charged"] = []
+	e.vars["broke"] = 0
 	e.unholdable_until = game.time + time
 	if e.holder != null:
 		e.holder.held.erase(e)
@@ -51,8 +52,9 @@ static func start_charge(e: TdEnemy, game: TdGame, speed_mult: float, time: floa
 
 
 ## While `e` charges, strikes the living bodies of each post it passes for `dmg`
-## (x its weaken), once per post per charge. Returns the bodies struck.
-static func charge_step(e: TdEnemy, game: TdGame, dmg: float) -> int:
+## (x its weaken), once per post per charge; the charge ends after it has broken
+## through `posts` posts with living bodies (0 = never). Returns the bodies struck.
+static func charge_step(e: TdEnemy, game: TdGame, dmg: float, posts: int = 0) -> int:
 	if game.time >= float(e.vars.get("charge_until", 0.0)):
 		return 0
 	var n := 0  # Bodies struck.
@@ -67,7 +69,13 @@ static func charge_step(e: TdEnemy, game: TdGame, dmg: float) -> int:
 				n += 1
 		game.fx.spawn("vael_cleave", e.position, 90.0, 0.4, lk()["charge_tint"])
 		game.vfx.shake(1.0)
+		if n > 0:
+			e.vars["broke"] = int(e.vars.get("broke", 0)) + 1
 	e.vars["charged"] = done
+	if posts > 0 and int(e.vars.get("broke", 0)) >= posts:
+		e.vars["charge_until"] = game.time  # Spent: the next post can hold it.
+		e.unholdable_until = game.time
+		e.haste_until = game.time
 	return n
 
 

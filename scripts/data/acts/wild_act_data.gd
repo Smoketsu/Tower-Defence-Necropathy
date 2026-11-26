@@ -45,7 +45,7 @@ const KINDS: Dictionary = {
 		"hp": 125.0, "speed": 48.0, "armour": 3.0, "radius": 11.0,  # TUNING (not in GDD)
 		"damage": 8.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "corsair/lunge",
-		"args": {"every": 8.0, "windup": 0.6, "damage": 16.0, "time": 0.9, "speed_mult": 1.5},  # TUNING (not in GDD) Necropathy "short blinks through the ring"
+		"args": {"every": 10.0, "windup": 0.6, "damage": 16.0, "time": 0.8, "speed_mult": 1.4},  # TUNING (not in GDD) Necropathy "short blinks through the ring"
 	},
 	# Growth: a tree spirit in a leaf gown whose song heals the Wild round her (Act I healer; Necropathy "heals the Wild").
 	"wild_dryad": {
@@ -86,7 +86,7 @@ const KINDS: Dictionary = {
 		"hp": 660.0, "speed": 40.0, "armour": 4.0, "radius": 15.0,  # TUNING (not in GDD)
 		"damage": 16.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "wild/charge",
-		"args": {"first": 4.0, "every": 10.0, "windup": 0.9, "time": 1.4, "speed_mult": 2.2, "body_damage": 30.0},  # TUNING (not in GDD)
+		"args": {"first": 4.0, "every": 10.0, "windup": 0.9, "time": 1.4, "speed_mult": 2.2, "body_damage": 30.0, "posts": 1},  # TUNING (not in GDD)
 	},
 	# The hunt: a spectral horseman; his horn calls hounds behind him (Necropathy WildRiderKit, "two hounds").
 	"wild_wild_rider": {
@@ -156,7 +156,7 @@ const KINDS: Dictionary = {
 		"flying": false, "ignores_walls": true, "trait": "wild/stag_king",
 		"args": {"phase_hp": [0.66, 0.33],
 			"hunt_first": 4.0, "hunt_every": 14.0, "hunt": [["wild_hunt_hound", 3], ["wild_wild_rider", 1]], "gap": 16.0,
-			"rut_first": 3.0, "rut_every": 11.0, "rut_windup": 1.0, "rut_time": 1.6, "rut_speed": 2.4, "rut_damage": 50.0,
+			"rut_first": 3.0, "rut_every": 11.0, "rut_windup": 1.0, "rut_time": 1.6, "rut_speed": 2.4, "rut_damage": 50.0, "rut_posts": 2,
 			"crown_first": 2.0, "crown_every": 13.0, "crown_windup": 1.2, "crown_radius": 150.0, "crown_choke": 2.0, "crown_seeds": 1,
 			"pose_time": 0.8},  # TUNING (not in GDD) Necropathy BossStagKing: the Hunt, the Rut, the Antler Crown
 	},

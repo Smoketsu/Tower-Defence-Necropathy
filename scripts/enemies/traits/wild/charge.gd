@@ -3,9 +3,10 @@
 ## `first` s after it arrives) it lowers its antlers for `windup` s (a line
 ## along its road), then charges: `speed_mult` x its speed for `time` s, held by
 ## no post, striking the living bodies of each post it passes for
-## `body_damage` (WildKit.start_charge / charge_step). Not while frozen or
-## staggered: a freeze or a stun answers it.
-## Args: first, every, windup, time (s), speed_mult, body_damage.
+## `body_damage` (WildKit.start_charge / charge_step) until it has broken
+## through `posts` posts. Not while frozen or staggered: a freeze or a stun
+## answers it.
+## Args: first, every, windup, time (s), speed_mult, body_damage, posts.
 ## vars: "next", "at" (game s the charge starts; 0 = none), WildKit's.
 extends EnemyTrait
 
@@ -19,7 +20,7 @@ func on_spawn(e: TdEnemy, game: TdGame) -> void:
 
 func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
 	var a: Dictionary = e.row["args"]  # Its numbers.
-	Kit.charge_step(e, game, float(a["body_damage"]))
+	Kit.charge_step(e, game, float(a["body_damage"]), int(a["posts"]))
 	var at := float(e.vars["at"])
 	if at > 0.0:
 		if game.time >= at:

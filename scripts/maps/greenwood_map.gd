@@ -44,7 +44,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(600, 490), Vector2(950, 490), Vector2(640, 330), Vector2(1100, 250), Vector2(180, 620), Vector2(400, 170)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 3.3,  # TUNING (not in GDD) Part Three: a step above the Empyrean
+	"wave_hp_end": 2.8,  # TUNING (not in GDD) Part Three: a step above the Empyrean
 	"rule": "",
 	"act_rule": "wild/turning_year",
 	"build_order": "greenwood_default",

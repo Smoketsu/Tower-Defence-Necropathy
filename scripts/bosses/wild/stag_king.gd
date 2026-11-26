@@ -9,7 +9,8 @@
 ##                     the phase) he lowers his antlers for `rut_windup` s (a
 ##                     line along the road), then charges `rut_speed` x for
 ##                     `rut_time` s through the posts, striking each post's
-##                     bodies for `rut_damage` (WildKit's charge).
+##                     bodies for `rut_damage`, until `rut_posts` posts are
+##                     broken (WildKit's charge).
 ##   the Antler Crown — phase 3: every `crown_every` s (first `crown_first` s
 ##                     into the phase) a crown of thorns rises round him after
 ##                     `crown_windup` s: every tower within `crown_radius` px is
@@ -39,7 +40,7 @@ func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
 	if e.pose != 0 and game.time >= float(e.vars["pose_until"]):
 		e.pose = 0
 		e.body.queue_redraw()
-	Kit.charge_step(e, game, float(a["rut_damage"]))
+	Kit.charge_step(e, game, float(a["rut_damage"]), int(a["rut_posts"]))
 	var f := e.hp / e.max_hp  # HP share.
 	var ph := 1 + (1 if f <= float(a["phase_hp"][0]) else 0) + (1 if f <= float(a["phase_hp"][1]) else 0)  # Phase now.
 	if ph > int(e.vars["phase"]):
