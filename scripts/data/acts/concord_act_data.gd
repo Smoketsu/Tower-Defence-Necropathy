@@ -139,7 +139,7 @@ const KINDS: Dictionary = {
 	# under a post), the Flight (she takes to the air: no post holds her, acid rains on the towers).
 	"concord_hive_mother": {
 		"name": "The Hive Mother", "sprite": "bosses/hive_mother", "rank": "boss",
-		"hp": 11000.0, "speed": 20.0, "armour": 5.0, "radius": 28.0,  # TUNING (not in GDD) a step over the Voice's act
+		"hp": 9000.0, "speed": 20.0, "armour": 5.0, "radius": 28.0,  # TUNING (not in GDD) DECISIONS Z4: 11000 -> 9000 (leaked in 2 of 4 seeds); a step over the Voice's act
 		"damage": 30.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "concord/hive_mother",
 		"args": {"phase_hp": [0.66, 0.3], "egg_first": 4.0, "egg_every": 9.0, "eggs": 5, "egg_spread": [50.0, 170.0], "egg_kind": "concord_broodling",
@@ -151,7 +151,7 @@ const KINDS: Dictionary = {
 	# the Duel (he leaps over the posts), the Last Trophy (a wrist bomb: kill him before it counts down).
 	"concord_vrask_tal": {
 		"name": "Vrask'Tal, the Hunt-Lord", "sprite": "bosses/vrask_tal", "rank": "boss",
-		"hp": 9000.0, "speed": 22.0, "armour": 5.0, "radius": 26.0,  # TUNING (not in GDD)
+		"hp": 8000.0, "speed": 22.0, "armour": 5.0, "radius": 26.0,  # TUNING (not in GDD) DECISIONS Z4: 9000 -> 8000 (leaked on seed 1)
 		"damage": 34.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "concord/vrask_tal",
 		"args": {"phase_hp": [0.6, 0.25], "alpha": 0.3, "reveal": 3.0, "skull_step": 0.08, "skull_cap": 8,
