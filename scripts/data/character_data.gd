@@ -17,7 +17,8 @@ const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "p
 	"doomsayer", "soulbinder", "wither_witch", "grave_herald",
 	"marooned_quartermaster", "corsair_queen", "ghost_helmsman", "moon_huntress", "hedge_witch", "dhampir", "undertaker", "fallen_sergeant", "revenant_heroine", "grave_kunoichi", "ronin_revenant", "shrine_maiden",
 	"rune_seer", "shield_maiden_hero", "berserker_hero",
-	"the_embalmer", "lion_priestess", "pharaohs_shade"]  # The later spells' characters (gw2-kit), appended
+	"the_embalmer", "lion_priestess", "pharaohs_shade",
+	"doomed_prophetess", "oathbreaker", "ferrywoman"]  # The later spells' characters (gw2-kit), appended
 
 ## Character rows. Keys:
 ##   name         — UI name.
@@ -204,6 +205,28 @@ const CHARACTERS: Dictionary = {
 		"boost": {"damage": 1.25, "ring": 1.15, "cooldown": 0.85},  # TUNING (not in GDD)
 		"innate": {"name": "Crook and Flail", "desc": "Feather's Verdict executes foes 5% healthier", "verdict_line": 0.05},  # Necropathy's innate
 		"unlock_after": "two_truths",  # Osiris and Ammit
+	},
+	# --- Act VIII's characters (w2c-pantheon; Necropathy character_data.gd innates). Innate keys
+	# read by their spells through CharacterModifiers.innate(): arrow_extra (+arrows a Paris's Arrow),
+	# fated_mult (x Paris's Arrow on non-fodder), kin_mult (x Stolen Thunder on non-fodder),
+	# styx_length (+share of River Styx's length), ferry_risen (River Styx kills rise as Risen). ---
+	"doomed_prophetess": {
+		"name": "The Doomed Prophetess", "short": "Prophetess", "sprite": "player/doomed_prophetess", "spell": "paris_arrow",
+		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Foretold Fall", "desc": "Paris's Arrow strikes elites and bosses 30% harder", "fated_mult": 1.3},  # Necropathy "strike elites, champions and bosses harder"
+		"unlock_after": "ilion",  # Achilles
+	},
+	"oathbreaker": {
+		"name": "The Oathbreaker", "short": "Oathbreaker", "sprite": "player/oathbreaker", "spell": "stolen_thunder",
+		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Kinslayer", "desc": "Stolen Thunder strikes elites and bosses 30% harder", "kin_mult": 1.3},  # Necropathy "strikes bosses, gods and Heroes harder"
+		"unlock_after": "olympus",  # Zeus
+	},
+	"ferrywoman": {
+		"name": "The Ferrywoman", "short": "Ferrywoman", "sprite": "player/ferrywoman", "spell": "river_styx",
+		"boost": {"damage": 1.25, "duration": 1.2, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Ferry of Souls", "desc": "A foe slain in her river rises as a Risen", "ferry_risen": true, "styx_length": 0.0},  # Necropathy "a foe slain in your river rises as a Risen for a few seconds"
+		"unlock_after": "underworld",  # Hades
 	},
 }
 

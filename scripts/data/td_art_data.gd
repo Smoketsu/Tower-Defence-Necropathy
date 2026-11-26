@@ -46,6 +46,7 @@ const ROLES: Dictionary = {
 	"mood_candles": ROOT + "mood_candles.png",  # 20x30 lit candle cluster with flames (generated, V17), Sanctum mood, drawn 1:1
 	"mood_candle_flame": ROOT + "mood_candle_flame.png",  # 9x5 flames over the candles (Necropathy menu/candle_flame)
 	"mood_glass": ROOT + "mood_glass.png",  # 72x44 stained-glass light pool, drawn additively (tools/vfx_art.py)
+	"shield_arc": ROOT + "shield_arc.png",  # 12x30 bronze shield arc facing +x, drawn turned in front of every phalanx body (Act VIII, tools/pantheon_art.py)
 }
 
 ## Lives fraction (0..1) above which the gate draws intact.

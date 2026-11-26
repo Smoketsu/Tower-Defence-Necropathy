@@ -246,4 +246,16 @@ const EVOLUTIONS: Dictionary = {
 		},
 		"recipe": {"type": "any", "of": [{"type": "kills", "n": 22}, {"type": "elite_kills", "n": 5}]},  # TUNING (not in GDD) Necropathy Answering Words -> a record of slain foes
 	},
+	# --- Act VIII (w2c-pantheon) ---
+	"legion_of_tartarus": {
+		"from": "myrmidon_shade", "name": "Legion of Tartarus", "sprite": "summons/legion_of_tartarus", "icon": "legion_of_tartarus",
+		"stats": {"damage": 1.3, "hp": 1.4},  # Necropathy legion_of_tartarus mult (max_hp 1.4, damage 1.3)
+		"set": {
+			"wall_cut": 0.45,  # Necropathy special_set wall_cut
+			"pierce": 2,  # Necropathy special_set pierce_count
+			"grip_slow": 0.7,  # TUNING (not in GDD) Necropathy grip_slow 0.3 = 30% slower
+			"grip_time": 1.0,  # Necropathy special_set grip_time (s)
+		},
+		"recipe": {"type": "any", "of": [{"type": "kills", "n": 20}, {"type": "near_level", "class": "corpse_catapult", "level": 4, "radius": 240.0}]},  # TUNING (not in GDD) Necropathy Myrmidon Oath -> foes slain on the spear, or the hammer to its anvil (a Catapult Lv4 beside it)
+	},
 }

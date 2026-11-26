@@ -202,6 +202,23 @@ character in the menus.
 | VI the Hall of the Slain (`norse`, T6, wave 2c) | `norse_act_data.gd`; `rules/norse/long_winter.gd` (+ `winter_layer`, `winter_meter`: cold by wave slows towers away from lit braziers, dousers, tap to relight, Rune-Stone structures) | barrow_fields, valgard (split aisles), vigrid (flank road) | Barrow-Wight, Einherjar Champion, Fire-Giant of the South / Hrimgar (three lives, his barrow), Sigrun (Charge, Holmgang, Doors), Odin with Fenrir | Draugr Thane -> Barrow King, Cold Iron | Barrow Grasp, Valkyrie Spear, Gungnir (Rune-Seer, Shield-Maiden, Berserker) |
 | VII the Necropolis Dynasty (`dynasty`, T7; w2c) | `dynasty_act_data.gd` (+ `JARS`); `rules/dynasty/rebirth.gd` (+ `dynasty_layer`, `scales_bar`: jars, Names that rise again, the jar mark by tap, the Sandstorm band, the Scales on the Hall) | necropolis, lioness_temple, two_truths | Sand Colossus, Lion Warden, Devourer's Whelp / Anubis, Sekhmet, Osiris and Ammit | Ushabti Sentinel -> Eternal Guard, Answering Words | Linen Bind, Burning Eye, Feather's Verdict (the Embalmer, the Lion-Priestess, the Pharaoh's Shade) |
 
+### Act VIII, the Olympian Republic (wave 2c, `pantheon`, DECISIONS T8)
+
+`pantheon_act_data.gd` (KINDS, ORDERS incl. `pantheon_kit`, MOODS, RULE, LOOK);
+`rules/pantheon/pantheon_rules.gd` (class `PantheonActRules`: the Wrath of the Gods
+strikes through `game.hostile.shell()` + `TdCombat.damage_enemy()` on both armies,
+`WrathMeter` top-left, `PantheonLayer` shield arcs and Glory auras, Hades' cloak in
+`can_target()` and his claims in `on_body_fallen()`); maps ilion, olympus,
+underworld; Polyphemus, Ares, Cerberus / Achilles, Zeus, Hades; Myrmidon Shades ->
+Legion of Tartarus, Hammer and Anvil; Paris's Arrow, Stolen Thunder, River Styx (the
+Doomed Prophetess, the Oathbreaker, the Ferrywoman). `towers_check` `_pantheon_checks`.
+**New hooks:** `scripts/enemies/traits/pantheon/phalanx.gd` — THE facing test
+(`side(e, hit)` -> FRONT / FLANK / BACK / UNDIRECTED, `origin_of()`), reusable by any
+shielded kind (extend it, as `achilles.gd` does); a hit that should strike from
+behind passes an `origin` behind the foe (Paris's Arrow). HostileData look `gaze` /
+`ghost_arrow`, cause `petrified`; TdArtData role `shield_arc` (`tools/pantheon_art.py`);
+BossPoseData pose 2 for Achilles (rage) and Zeus (true form).
+
 Build orders: `<map>_default`, `<map>_weak`, plus `tide_kit`, `court_kit`,
 `shogunate_kit`, `norse_kit` (every map of the act). Act runs print `act_rule=` / `hostile=`.
 `towers_check` has `_tide_checks`, `_court_checks`, `_city_checks`,

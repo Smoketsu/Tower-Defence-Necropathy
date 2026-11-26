@@ -314,6 +314,51 @@ const SPELLS: Dictionary = {
 		"ring": 110.0,  # TUNING (not in GDD) px of the execution ring
 		"execute": 0.3,  # TUNING (not in GDD) share of max HP at or under which a foe is executed
 	},
+	# --- Act VIII spells (w2c-pantheon; Necropathy's Olympian Republic rewards) ---
+	"paris_arrow": {
+		"name": "Paris's Arrow", "short": "Paris's Arrow", "icon": "paris_arrow", "cooldown": 14.0, "target": "enemy", "ready": true,  # TUNING (not in GDD)
+		"desc": "A ghost arrow from behind: through any shield, and it finds a hero's heel",
+		"unlock": {"map": "ilion"},  # Achilles' reward
+		"pick_radius": 90.0,  # px around the tap searched for targets
+		"arrows": 1,  # TUNING (not in GDD) arrows per cast (each at the next strongest foe)
+		"damage": 320.0,  # TUNING (not in GDD) per arrow
+		"fated_mult": 1.8,  # TUNING (not in GDD) x on bosses and minibosses
+		"behind": 120.0,  # px behind the foe its origin lies (the arrow's flight drawn from there)
+		"streak_w": 10.0,  # px wide streak (drawn only)
+		"impact_d": 70.0,  # px impact burst (drawn only)
+	},
+	"stolen_thunder": {
+		"name": "Stolen Thunder", "short": "Thunder", "icon": "stolen_thunder", "cooldown": 20.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "A stolen storm strikes the toughest foe and chains to the next",
+		"unlock": {"map": "olympus"},  # Zeus's reward
+		"radius": 150.0,  # TUNING (not in GDD) px the storm reaches
+		"duration": 4.0,  # TUNING (not in GDD) s it hangs
+		"tick": 0.8,  # TUNING (not in GDD) s between bolts
+		"damage": 75.0,  # TUNING (not in GDD) first strike of a bolt
+		"armour_bonus": 1.3,  # TUNING (not in GDD) Necropathy: armoured foes take more
+		"chains": 2,  # TUNING (not in GDD) hops after the first strike
+		"chain_range": 90.0,  # TUNING (not in GDD) px a hop reaches
+		"chain_falloff": 0.7,  # TUNING (not in GDD) x per hop
+		"cloud_lift": 70.0,  # px the cloud hangs above the tap (drawn only)
+		"cloud_d": 70.0,  # px the cloud is wide (drawn only)
+		"bolt_w": 9.0,  # px wide bolt streak (drawn only)
+		"impact_d": 64.0,  # px strike burst (drawn only)
+	},
+	"river_styx": {
+		"name": "River Styx", "short": "Styx", "icon": "river_styx", "cooldown": 22.0, "target": "road", "ready": true,  # TUNING (not in GDD)
+		"desc": "Black water floods the road: it hurts and slows all that wade through",
+		"unlock": {"map": "underworld"},  # Hades' reward
+		"max_snap": 60.0,  # px: a tap farther than this from any road does nothing
+		"length": 180.0,  # TUNING (not in GDD) px of road it covers
+		"radius": 30.0,  # TUNING (not in GDD) px from its course a foe is in the water
+		"duration": 7.0,  # TUNING (not in GDD) s it flows
+		"tick": 0.5,  # TUNING (not in GDD) s between ticks
+		"damage": 11.0,  # TUNING (not in GDD) per tick (damage over time: no armour, no shield)
+		"slow": 0.5,  # TUNING (not in GDD) speed x in the water
+		"slow_time": 0.8,  # TUNING (not in GDD) s the slow lasts after a tick
+		"risen_hp": 90.0, "risen_damage": 10.0, "risen_interval": 1.0, "risen_time": 5.0,  # TUNING (not in GDD) the Ferrywoman's Ferry of Souls Risen
+		"blob_step": 22.0,  # px between drawn water blobs (drawn only)
+	},
 }
 
 ## The ultimate (GDD §5 Dread Rally), cast through SpellCaster like a spell

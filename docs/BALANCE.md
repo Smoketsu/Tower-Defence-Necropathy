@@ -507,3 +507,27 @@ The `wave_hp_end` numbers are not comparable with Act V's: the Dynasty's
 fodder returns at 70% HP near a jar, and the Temple's bottom avenue runs 900 px
 to a west gate with few plots. `dynasty_kit` (Ushabti posts, the three act
 spells): Temple won 20/20, Hall won 20/20 (seed 1), Necropolis lost (w22).
+## Act VIII, the Olympian Republic (w2c-pantheon, wave 2c)
+
+Necromancer, default orders, `--autotest`, seeds 1-4 (lives kept / 20; the leaks;
+`leak_curve` first leak wave). Income (`map_list`): Ilion 3828, Olympus 3992,
+Underworld 4436. Wave HP ramp end: Ilion 2.5, Olympus 3.6, Underworld 2.3
+(DECISIONS T8-11: the shields, Glory and the wrath make the kinds far tougher than
+their row HP; at 4.4-4.8 every default order lost by wave 7-16).
+
+| Map | Seed 1 | Seed 2 | Seed 3 | Seed 4 | Miniboss killed | Weak (s1, s2) | Kit order (s1) |
+|---|---|---|---|---|---|---|---|
+| ilion | won 12 (Polyphemus, hero; w12) | won 19 (w13) | won 20 | won 15 (Polyphemus; w19) | 2/4 | lost w5-6, 0 stuck | won 20, Legion of Tartarus |
+| olympus | won 20 | won 14 (amazon, hero; w18) | won 20 | won 5 (amazon x2, hoplite x3, hero x2; w8) | 4/4 | lost w6, 0 stuck | won 20, Legion of Tartarus |
+| underworld | won 17 (titan; w18) | won 4 (titans, Cerberus, shade hoplites; w6) | won 3 (titans, Cerberus, heroes; w17) | won 20 | 2/4 | lost w5, 0 stuck | won 20, no evolution (ran out of souls for it) |
+
+Every default order wins every seed; lives are lost in 3/4, 2/4 and 3/4 runs; the
+weak orders lose; no cliff (`per_death` 0.00-0.18). Same seed twice: identical
+(Ilion s1). Act I summaries: byte-identical to the baseline (seeds 1-2, three maps).
+Known: Polyphemus walks through when the posts on his road are full (5 lives,
+2/4 seeds); the kit order (Myrmidon Shades instead of Warriors) keeps all 20
+lives on every map: the Myrmidons out-block the Warriors the default orders use
+(their wall and spear are the act's reward; watch them in the integration).
+Frame time (`tools/gw_perf.js`, shared machine, five agents running: unreliable):
+Sanctum w20 112 ms (74 enemies), Underworld w22 91 ms (33 enemies), 0.81x.
+Screenshots: `/home/user/gw_shots/w2c_pantheon_*.png` (1280x720 and 844x390 touch).

@@ -147,4 +147,12 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "b", "vs": "staggered", "mult": 1.35},  # TUNING (not in GDD) the mage's fire on what the sentinel's sand staggered
 		"hint": "Ushabti Sentinel near a Mage: fire hits staggered foes harder",
 	},
+	# --- Act VIII (w2c-pantheon) ---
+	"hammer_and_anvil": {
+		"name": "Hammer and Anvil", "icon": "myrmidon_oath", "a": "myrmidon_shade", "b": "corpse_catapult",
+		"radius": 240.0,  # TUNING (not in GDD)
+		"effects": {"a": {"hp": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "b", "vs": "staggered", "mult": 1.3},  # TUNING (not in GDD) boulders crush the foes the spears pinned
+		"hint": "Myrmidon Shades near a Catapult: boulders hit the foes their spears stagger harder",
+	},
 }
