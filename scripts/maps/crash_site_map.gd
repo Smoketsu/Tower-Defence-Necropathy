@@ -53,7 +53,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(300, 620), Vector2(580, 440), Vector2(860, 260), Vector2(400, 170), Vector2(1060, 370)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 2.7,  # TUNING (not in GDD) DECISIONS Z4: 2.65 -> 2.7; Part Three: a step above the Empyrean
+	"wave_hp_end": 2.65,  # TUNING (not in GDD) Part Three: a step above the Empyrean
 	"rule": "",
 	"act_rule": "concord/abduction",
 	"build_order": "crash_site_default",

@@ -279,3 +279,26 @@ $G --headless res://tools/meta_check.tscn -- --autotest  # META CHECK OK
   one row group at the very end; `LEVELS` and `towers_check` were mis-merged by
   git (similar rows aligned). Keep each act's check in its own function at the
   end of `towers_check.gd`, and give your table rows a leading comment line.
+
+## 7. Lessons from wave 2d (Acts XI-XV; DECISIONS Z rows)
+
+- **Self-feeding mechanics make cliffs.** Every narrow band in Part Three came
+  from a unit whose effect grows with how long it lives: ten Line Troopers all
+  firing at the front tower (each 0.7 s disable), Gibbering splits born late and
+  faster than their parent, a boss calling a Treant every 15 s, a flock of
+  fast flyers. Cap the uptime (shorter disables, slower splits, rarer calls),
+  never just lower `wave_hp_end`. Check `--hp-end=<value + 0.2>` on 4 seeds: no
+  map may be lost there (the `--hp-end` autotest probe needs no file edit).
+- **Bosses leak 10 lives.** A boss or miniboss that leaks in half the seeds is
+  the loss pattern, not the map's difficulty: lower its row HP first (the
+  Harvester, the Hive Mother, Vrask'Tal, Scarmaw, the Archon, the Beta Build,
+  Valkyrie 2.0, the Gardener all lost HP at the integration).
+- **One helper per job across acts.** Before writing `nearest_tower()`,
+  `line()` or a charge, look in the earlier acts' kits (CLAUDE.md "Shared hooks");
+  the Eye's `nearest_tower()` now calls the Black Tide's.
+- **Moods.** Every map needs a mood row (the Concord shipped without any), and
+  `pools` stay 0 outside a stained-glass interior (the pool art is coloured glass).
+- **Autotest phone shots are blind.** Under `?gw_autotest=` the page keeps the
+  desktop layout (`TouchSupport._autotest_blind()`), so a spell bar over a road in
+  an 844 x 390 autotest shot is not what a phone shows (the phone puts the spells
+  in a left column); check the real phone layout without the autotest.

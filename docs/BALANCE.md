@@ -1,5 +1,162 @@
 # Balance
 
+## Wave 2d integration: all 45 maps (Nov 2026; DECISIONS Z1-Z7)
+
+The five Part Three act branches were merged and checked against their own
+reports first (identical; Act I's six summaries byte-identical, every Act II-X
+map's lives per seed as in the 30-map table below). Then the cliffs were traced
+to their causes with the new `--hp-end=X` autotest probe (no file edit) and
+fixed with roster data, and every new map re-tuned (DECISIONS Z4):
+
+| Map | Cause found | Change | wave_hp_end |
+|---|---|---|---|
+| citadel | the Line of Fire feeding itself: ten Line Troopers on the front tower; Valkyrie 2.0 leaked | trooper disable 0.7 -> 0.5 s; Valkyrie 2.0 3400 -> 2800 | 2.65 -> 2.95 (no map lost up to 3.15) |
+| archive | Gibbering splits born late, faster than their parent | lesser 38 -> 32, least 46 -> 34 px/s | 5.5 -> 5.6 (no map lost up to 5.9) |
+| spire | three-Spawn waves (their grabs empty the posts) | those waves bring two | 3.7 -> 3.5 |
+| ark | the Harvester leaked 10 lives in 3 of 4 seeds; Vault Beast swarms leaked every seed | Harvester 10500 -> 8000, Archon 4000 -> 3400, Vault Beast 56 -> 44 px/s | 2.2 (kept) |
+| crash_site / proving_moon | the Hive Mother and Vrask'Tal leaked | 11000 -> 9000, 9000 -> 8000 | 2.65 / 3.0 (kept) |
+| last_day (and the Titan maps) | skyraider flocks outran the towers | skyraider 64 -> 54 px/s | 2.4 -> 2.3 |
+| fern_basin | Scarmaw's leak ended seed 2 at +0.2 | Scarmaw 7000 -> 6200 | 2.8 (kept) |
+| world_tree | the Green Mother called a Treant every 15 s (twelve a fight, leaked every seed) | calls every 20 s, the Gardener 4500 -> 4000 | 2.9 -> 3.2 |
+| wastes / assembly | easier after the trooper change; the Beta Build leaked | Beta Build 4000 -> 3400 | 3.9 -> 4.1 / 3.35 -> 3.6 |
+
+Bands at +0.2 (seeds 1-4, `--hp-end`): no map lost on the Citadel, Archive,
+Spire, Ark, Fern Basin, Great Plain, Last Day, Harbour, Wastes, Fae Court,
+Greenwood, Proving Moon and Crash Site; still narrow: the Assembly (3.8 loses 2
+of 4: the run starves its economy after an early leak) and the World-Tree (3.4
+loses seed 3; seed 3 keeps 1 life at 3.2). The World-Tree loses the second most
+lives of the 45 maps (7.5 a run, after the Wheel of Thrones' 8.0) against the
+heaviest roster.
+
+### Act towers against their Act I equivalents (Z5)
+
+`--swap=<from>:<to>` against `--swap=<from>:<from>`, seeds 1-2 (lives; damage per soul spent):
+
+| Act tower | vs | Map 1 | Map 2 | Map 3 | Change |
+|---|---|---|---|---|---|
+| Spawn of the Deep (XI) | Abomination | harbour 20, 16; 18-22 vs 20, 16; 22-28 | archive 11, 20; 4-8 vs 16, 20; 5-9 | spire 20, 19; 20-22 vs 17, 20; 18-23 | none |
+| Grave Drone (XII) | Archer | wastes 20, 20; 36-39 vs 20, 20; 27 | assembly 9, 12; 37 vs 20, 13; 31 | citadel 14, 20; 40 vs 20, 8; 34-37 | none |
+| Iron Revenant (XII) | Abomination | wastes 20, 2; 58 vs 20, 20; 32-36 | assembly 11, 20; 21-26 vs 20, 13; 11-13 | citadel 17, 20; 9-11 vs 20, 8; 4-7 | none (mixed, not behind) |
+| Ghost Saucer (XIII) | Mage | crash_site 20, 20; 34 vs 19, 11; 17-18 | proving_moon 17, 17; 24 vs 17, 20; 18-19 | ark 19, 16; 46-47 vs 11, 19; 28-30 | none |
+| Bonehorn (XIV) | Catapult | fern_basin 20, 20; 26 vs 20, 20; 34-35 | great_plain 20, 20; 41-44 vs 20, 17; 32-37 | last_day 20, 5; 14-22 vs 11, 15; 37 | damage 52 -> 58: now 29-30 / 38-41 / 15-16 per soul (last_day 17, 13 lives) |
+| Ossuary Oak (XV) | Catapult | greenwood 20, 20; 51 vs 20, 19; 54-63 | fae_court 15, 17; 130-136 vs 17, 17; 88-89 | world_tree 20, 20; 47-53 vs 17, 12; 48-49 | none |
+
+The Bonehorn stays under the Catapult on the Last Day: its spot there sits near
+the start of the road it charges back along, so its charge is short.
+
+### Kit orders (seeds 1-2, lives kept; 30/30 won, 0 errors)
+
+| Order | Map 1 | Map 2 | Map 3 |
+|---|---|---|---|
+| eye_kit | harbour 20, 20 | archive 20, 20 | spire 20, 20 |
+| empire_kit | wastes 20, 20 | assembly 20, 20 | citadel 20, 20 |
+| concord_kit | crash_site 19, 20 | proving_moon 20, 20 | ark 20, 20 |
+| titans_kit | fern_basin 20, 20 | great_plain 20, 20 | last_day 20, 20 |
+| year_kit | greenwood 20, 20 | fae_court 20, 20 | world_tree 20, 20 |
+
+(Measured before the final Ark / Crash Site values 2.2 / 2.65, at 2.4 / 2.7: both maps are easier now.)
+
+### Necromancer, default orders, seeds 1-4 (lives kept of 20)
+
+Every run 0 script errors, `stuck_enemies=0`, the summary printed once; the same
+seed twice gives the same summary on all 45 maps; every weak order loses.
+
+| Act | Map | wave_hp_end | Income | s1 | s2 | s3 | s4 | Runs losing lives | Miniboss killed | Leaks (4 seeds) | Weak s1 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| I | graveyard | 2.6 | 3014 | 20 | 13 | 20 | 20 | 1/4 | 3/4 | footman 2, inquisitor 1 | lost w7 |
+| I | crimson_march | 2.4 | 4503 | 9 | 20 | 20 | 17 | 2/4 | 3/4 | halberdier 3, templar_commander 1 | lost w7 |
+| I | sanctum | 3.15 | 4242 | 9 | 20 | 20 | 20 | 1/4 | 3/4 | cathedral_guardian 1, radiant_inquisitor 1, sun_paladin 1 | lost w7 |
+| II | cutter | 4.3 | 4026 | 15 | 15 | 20 | 20 | 2/4 | 2/4 | bosun_gorran 2 | lost w4 |
+| II | galleon | 2.95 | 3950 | 12 | 17 | 12 | 20 | 3/4 | 2/4 | old_hollow_eye 2, tide_grappler 1, tide_swashbuckler 2 | lost w4 |
+| II | maelstrom | 4.0 | 4730 | 20 | 20 | 14 | 11 | 2/4 | 4/4 | tide_hull_crab 5 | lost w7 |
+| III | ravensmoor | 4.2 | 4114 | 20 | 20 | 15 | 14 | 2/4 | 3/4 | blood_knight 1, old_greymane 1, werewolf 1 | lost w5 |
+| III | witchwood | 2.8 | 3954 | 14 | 14 | 20 | 20 | 2/4 | 4/4 | blood_knight 3, werewolf 1 | lost w3 |
+| III | castle_sanguis | 5.3 | 5010 | 14 | 20 | 20 | 17 | 2/4 | 4/4 | vampire_noble 3 | lost w7 |
+| IV | skid_row | 3.2 | 3904 | 20 | 15 | 20 | 19 | 2/4 | 3/4 | big_sal 1, street_thug 1 | lost w4 |
+| IV | fort_kessler | 3.1 | 4548 | 20 | 17 | 17 | 17 | 3/4 | 4/4 | attack_helicopter 2, city_tank 1 | lost w5 |
+| IV | liberty_heights | 2.2 | 4336 | 11 | 20 | 11 | 11 | 3/4 | 4/4 | aurora 2, blitz 3, city_tank 4 | lost w4 |
+| V | province | 2.7 | 3875 | 15 | 14 | 20 | 11 | 3/4 | 3/4 | kunoichi 4, ninja 2, samurai 1, shuten_doji 1 | lost w4 |
+| V | kurogane | 2.8 | 4808 | 15 | 14 | 20 | 20 | 2/4 | 2/4 | general_left 2, ninja 1 | lost w4 |
+| V | sun_road | 4.2 | 5396 | 17 | 20 | 20 | 20 | 1/4 | 4/4 | kunoichi 1 | lost w6 |
+| VI | barrow_fields | 2.5 | 3876 | 18 | 20 | 10 | 19 | 3/4 | 3/4 | barrow_wight 1, norse_draugr 3, norse_frost_giant 1, norse_wolf 2 | lost w5 |
+| VI | valgard | 1.9 | 4056 | 17 | 20 | 14 | 20 | 2/4 | 4/4 | norse_berserker 3 | lost w5 |
+| VI | vigrid | 3.2 | 4079 | 19 | 17 | 20 | 15 | 3/4 | 3/4 | muspel_giant 1, norse_berserker 1, norse_einherjar 1 | lost w5 |
+| VII | necropolis | 4.65 | 3910 | 17 | 14 | 20 | 20 | 2/4 | 4/4 | jackal_warrior 3 | lost w6 |
+| VII | lioness_temple | 2.8 | 3902 | 13 | 20 | 11 | 20 | 2/4 | 4/4 | bastet_hunter 3, jackal_warrior 2, nile_archer 1 | lost w5 |
+| VII | two_truths | 3.55 | 4129 | 15 | 20 | 20 | 17 | 2/4 | 3/4 | devourers_whelp 1, jackal_warrior 1 | lost w8 |
+| VIII | ilion | 2.5 | 3828 | 12 | 19 | 20 | 20 | 2/4 | 3/4 | pan_hero 1, polyphemus 1, shade_of_dead 1 | lost w6 |
+| VIII | olympus | 3.6 | 3992 | 20 | 14 | 20 | 5 | 2/4 | 4/4 | amazon 3, hoplite 3, pan_hero 3 | lost w6 |
+| VIII | underworld | 2.2 | 4436 | 17 | 6 | 20 | 20 | 2/4 | 3/4 | bronze_titan 2, cerberus 1, claimed_shade 1, shade_hoplite 3, tartarus_warden 1, wolf_of_rome 1 | lost w5 |
+| IX | burning_gate | 5.3 | 4686 | 20 | 17 | 12 | 20 | 2/4 | 3/4 | damned_soul 3, gatekeeper 1, hell_imp 1, lava_hound 2 | lost w4 |
+| IX | silk_palace | 4.0 | 4850 | 20 | 17 | 15 | 20 | 2/4 | 4/4 | hell_imp 2, twin_agrat 2 | lost w5 |
+| IX | pandemonium | 3.4 | 4756 | 20 | 16 | 13 | 20 | 2/4 | 4/4 | damned_soul 2, hell_knight 1, lava_hound 2, succubus 2 | lost w5 |
+| X | silver_stair | 3.0 | 4548 | 15 | 20 | 19 | 20 | 2/4 | 4/4 | host_judge 1, host_power 3 | lost w7 |
+| X | wheel_of_thrones | 3.6 | 4754 | 8 | 11 | 20 | 9 | 3/4 | 3/4 | host_cherub 2, host_dominion 3, host_dominion_of_the_spheres 1, host_ophan 4 | lost w8 |
+| X | empyrean | 3.2 | 5016 | 12 | 18 | 18 | 20 | 3/4 | 3/4 | host_power 2, host_seventh_herald 1, host_virtue 5 | lost w4 |
+| XI | harbour | 3.8 | 3972 | 20 | 16 | 20 | 20 | 1/4 | 4/4 | eye_chanter 1, eye_deep_kin 1 | lost w5 |
+| XI | archive | 5.6 | 3762 | 16 | 20 | 18 | 19 | 3/4 | 4/4 | eye_gibbering_least 3, eye_gibbering_lesser 3, eye_ink_wraith 1 | lost w7 |
+| XI | spire | 3.5 | 3876 | 17 | 17 | 20 | 20 | 2/4 | 4/4 | eye_spawn 2 | lost w6 |
+| XII | wastes | 4.1 | 3870 | 20 | 20 | 17 | 20 | 1/4 | 4/4 | empire_mortar_walker 1 | lost w7 |
+| XII | assembly | 3.6 | 3850 | 20 | 18 | 20 | 20 | 1/4 | 4/4 | empire_line_trooper 2 | lost w8 |
+| XII | citadel | 2.95 | 4124 | 20 | 8 | 12 | 20 | 2/4 | 3/4 | empire_juggernaut 3, empire_kill_drone 1, empire_valkyrie_duelist 1, empire_valkyrie_prime 1 | lost w6 |
+| XIII | crash_site | 2.65 | 4030 | 19 | 20 | 18 | 20 | 2/4 | 4/4 | concord_broodling 3 | lost w4 |
+| XIII | proving_moon | 3.0 | 3769 | 17 | 20 | 17 | 17 | 3/4 | 4/4 | concord_vrask_hunter 3 | lost w4 |
+| XIII | ark | 2.2 | 4282 | 20 | 14 | 15 | 17 | 3/4 | 2/4 | concord_grey_overseer 1, concord_luminous_archon 2, concord_vault_beast 1 | lost w4 |
+| XIV | fern_basin | 2.8 | 4081 | 20 | 20 | 17 | 20 | 1/4 | 4/4 | prim_razorclaw_alpha 1 | lost w4 |
+| XIV | great_plain | 2.5 | 3893 | 20 | 17 | 20 | 17 | 2/4 | 4/4 | prim_horncharger 1, prim_tyrant 1 | lost w5 |
+| XIV | last_day | 2.3 | 3980 | 11 | 15 | 20 | 20 | 2/4 | 4/4 | prim_horncharger 1, prim_razorclaw 2, prim_razorclaw_alpha 1, prim_tyrant 2 | lost w4 |
+| XV | greenwood | 2.8 | 4396 | 20 | 19 | 15 | 17 | 3/4 | 4/4 | wild_fae_knight 7, wild_hunt_hound 2 | lost w4 |
+| XV | fae_court | 4.2 | 4358 | 17 | 17 | 20 | 14 | 3/4 | 3/4 | wild_fae_knight 1, wild_great_stag 2, wild_winter_prince 1 | lost w3 |
+| XV | world_tree | 3.2 | 4472 | 17 | 12 | 1 | 20 | 3/4 | 3/4 | wild_dryad 1, wild_fae_knight 2, wild_gardener 1, wild_great_stag 2, wild_hunt_hound 3, wild_sprout 1, wild_treant 2, wild_wild_rider 1, wild_will_o_wisp 1 | lost w4 |
+
+Each map loses lives in 1-3 of 4 runs (97 of 180 runs). Acts I-X are unchanged
+from the wave 2c table (identical lives per seed). Within each new act map 3
+loses the most lives on average (the Spire's 1.5 against the Archive's 1.75 is
+within the noise; the Citadel 5.0, the Ark 3.5, the Last Day 3.5, the World-Tree 7.5).
+
+### Wave 2d checks
+
+- `--reckoning` ends cleanly (the gate falls at Reckoning wave 29-32) and
+  `--meta=max` keeps 26/26 lives on the Harbour, Wastes, Crash Site, Fern Basin,
+  Greenwood and World-Tree.
+- Initiate (seeds 1-2; Spire, Citadel, Ark, Last Day, World-Tree): 10/10 won (16-20 lives).
+- Lich (seeds 1-2, same maps, before the final Ark value): 8/10 won (the Ark 11,
+  14; the Last Day 5, 3; the Spire 8, 6; the World-Tree 17, 20); the Citadel loses
+  both (waves 9 and 15: the Line of Fire with Lich's extra troopers). Not chased.
+- The 15 new characters, one run each on their act's maps: 15/15 won with 20 lives, 0 errors.
+- `towers_check` / `meta_check` (the chain through the World-Tree, every act
+  tower's unlock, v1 -> v2 migration) / `acts_check` pass.
+
+Frame time (`tools/gw_perf.js`, headless software-GL Chromium at 1280 x 720, the
+late map at x1, quiet machine): Sanctum 81.8 / 79.8 ms (two passes, mean 80.8).
+
+| Map | ms | x Sanctum | Enemies | Map | ms | x Sanctum | Enemies |
+|---|---|---|---|---|---|---|---|
+| harbour | 77.5 | 0.96 | 24 | proving_moon | 68.6 | 0.85 | 39 |
+| archive | 102.3 | 1.27 | 67 | ark | 67.5 | 0.84 | 20 |
+| spire | 86.1 | 1.07 | 43 | fern_basin | 78.8 | 0.98 | 26 |
+| wastes | 74.4 | 0.92 | 17 | great_plain | 74.4 | 0.92 | 29 |
+| assembly | 72.4 | 0.90 | 36 | last_day | 71.1 | 0.88 | 26 |
+| citadel | 72.8 | 0.90 | 23 | greenwood | 72.5 | 0.90 | 13 |
+| crash_site | 72.4 | 0.90 | 27 | fae_court | 75.0 | 0.93 | 15 |
+| | | | | world_tree | 79.1 | 0.98 | 29 |
+
+Every new map is within the 1.3x budget; the Archive (1.27x, 67 enemies: Gibbering
+splits and ink) is the closest; nothing was changed. (The Sanctum measured ~30%
+faster than in wave 2c on this machine, so compare ratios, not ms.)
+
+### Bosses without attack-pose art
+
+Their strike pose (3) shows the still sprite: Seraphine (cast pose only), Captain
+Crow, Admiral Marrec, Captain Vandermere, Vargr, Isolde Vane, Queen Carmilla, Don
+Marrow, General Harrow, Paragon, Kage, Amaterasu, Hrimgar, Sigrun, Odin, Fenrir,
+Anubis, Sekhmet, Osiris and Ammit, Zeus, Hades, Moloch, Lilith, the Morning Star,
+Seraiel, the Throne, the Voice, Abbot Merrow (his changed form has one), Vhal'Neth,
+Kestrel, Deus Ex Machina, Vrask'Tal, the Harvester, Scarmaw, Old Ironbrow, Old
+Gravejaw, the Stag King, the Summer Queen, the Green Mother (39; Alaric, Vael,
+Achilles, the Shogun, the Archivist, the Motherboard and the Hive Mother have one).
+
+
 ## Wave 2c integration: all 30 maps (Nov 2026; DECISIONS Y1-Y9)
 
 The five Part Two act branches were merged and checked against their own

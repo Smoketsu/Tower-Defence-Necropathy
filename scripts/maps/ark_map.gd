@@ -53,7 +53,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(200, 200), Vector2(360, 420), Vector2(1080, 200), Vector2(920, 420), Vector2(640, 460), Vector2(500, 620)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 2.4,  # TUNING (not in GDD) DECISIONS Z4: 2.2 -> 2.4 with the Z4 roster changes; the act's finale presses hardest
+	"wave_hp_end": 2.2,  # TUNING (not in GDD) DECISIONS Z4: kept with the Z4 roster changes (2.4 lost lives on 4 seeds); the act's finale presses hardest
 	"rule": "",
 	"act_rule": "concord/abduction",
 	"build_order": "ark_default",
