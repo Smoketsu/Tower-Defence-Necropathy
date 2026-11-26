@@ -612,6 +612,8 @@ const HEIGHTS: Dictionary = {
 	"obstacles/deck_hatch_l": 35.0,  # TUNING (not in GDD) a grating hatch (44 x 35)
 	"obstacles/deck_hatch_l_v": 44.0,  # TUNING (not in GDD) the hatch turned 90 degrees
 	"corsair/cursed_coin": 12.0,  # TUNING (not in GDD) Marrec's cursed coin, 12 x 12 (Pillow, the act's brass ramp)
+	# --- Gravewatch Act XI (w2d-eye) ---
+	"eye/grand_hierophant": 128.0,  # TUNING (not in GDD) the Spire miniboss: the Hierophant's art doubled (nearest, 76 x 128), miniboss tier
 }
 
 ## Height (world px) used for a key missing from HEIGHTS.

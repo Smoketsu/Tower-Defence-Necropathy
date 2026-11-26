@@ -426,6 +426,48 @@ const SPELLS: Dictionary = {
 		"weaken": 0.6,  # TUNING (not in GDD) damage x of the foes it weakens
 		"weaken_time": 6.0,  # TUNING (not in GDD) s
 	},
+	# --- Act XI spells (w2d-eye; Necropathy's Ancient Eye rewards) ---
+	"undertow": {
+		"name": "Undertow", "short": "Undertow", "icon": "undertow", "cooldown": 15.0, "target": "road", "ready": true,  # TUNING (not in GDD)
+		"desc": "A wave rolls back down the road, shoving the foes back and leaving shallows that slow",
+		"unlock": {"map": "harbour"},  # Abbot Merrow's reward
+		"max_snap": 60.0,  # px: a tap farther than this from any road does nothing
+		"speed": 320.0,  # TUNING (not in GDD) px/s the wave rolls toward the entrance
+		"length": 220.0,  # TUNING (not in GDD) px it rolls
+		"width": 30.0,  # TUNING (not in GDD) px it strikes round its crest
+		"damage": 50.0,  # TUNING (not in GDD) to each foe it passes (once)
+		"push": 60.0,  # TUNING (not in GDD) px each foe it passes is shoved back (TdCombat.knock_enemy; not bosses / minibosses)
+		"slow": 0.55,  # TUNING (not in GDD) speed share left in the shallows (Necropathy slow)
+		"shallows": 5.0,  # TUNING (not in GDD) s the shallows stay on the stretch it rolled
+	},
+	"forbidden_verse": {
+		"name": "Forbidden Verse", "short": "Verse", "icon": "forbidden_verse", "cooldown": 16.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "Pages cut the foes near the tap and inscribe them: an inscribed foe bursts into ink when it dies",
+		"unlock": {"map": "archive"},  # the Archivist's reward
+		"radius": 110.0,  # TUNING (not in GDD) px the pages sweep
+		"damage": 40.0,  # TUNING (not in GDD) per foe cut
+		"inscribe": 8.0,  # TUNING (not in GDD) s a foe stays inscribed
+		"burst": 1.5,  # TUNING (not in GDD) burst damage = this x `damage` (Necropathy burst)
+		"burst_radius": 60.0,  # TUNING (not in GDD) px of an ink burst
+	},
+	"call_of_the_drowned": {
+		"name": "Call of the Drowned", "short": "Drowned", "icon": "call_of_the_drowned", "cooldown": 20.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "Tendrils burst under the strongest foes near the tap; the ones they kill rise as your Drowned Thralls",
+		"unlock": {"map": "spire"},  # Vhal'Neth's reward
+		"range": 150.0,  # TUNING (not in GDD) px round the tap searched for the strongest foes
+		"targets": 3,  # TUNING (not in GDD) foes marked (most HP first)
+		"delay": 0.6,  # TUNING (not in GDD) s from the mark to the burst
+		"radius": 50.0,  # TUNING (not in GDD) px of each burst
+		"damage": 70.0,  # TUNING (not in GDD) to each foe in a burst
+		"slow": 0.5,  # TUNING (not in GDD) speed share left after a burst
+		"slow_time": 2.0,  # TUNING (not in GDD) s
+		"thrall_hp": 120.0,  # TUNING (not in GDD) a risen Thrall's HP (Necropathy: a Skeleton Warrior's)
+		"thrall_hold": 2,  # TUNING (not in GDD) foes one Thrall holds
+		"thrall_damage": 14.0,  # TUNING (not in GDD) per blow
+		"thrall_interval": 1.1,  # TUNING (not in GDD) s between blows
+		"thrall_life": 10.0,  # TUNING (not in GDD) s a Thrall stands (Restless lengthens it)
+		"thrall_max": 4,  # TUNING (not in GDD) Thralls standing at once (Necropathy THRALL_MAX)
+	},
 }
 
 ## The ultimate (GDD §5 Dread Rally), cast through SpellCaster like a spell

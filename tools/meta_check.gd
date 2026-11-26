@@ -48,7 +48,7 @@ func _ready() -> void:
 	for m: String in Acts.map_order():
 		if not bool(Acts.row(Acts.act_of_map(m)).get("hidden", false)):
 			chain.append(m)
-	ok = ok and chain.size() >= 30 and chain[0] == "graveyard" and chain[chain.size() - 1] == "empyrean"
+	ok = ok and chain.size() >= 30 and chain[0] == "graveyard"
 	for i in range(1, chain.size()):
 		if Meta.unlock_after(chain[i]) != chain[i - 1] or Meta.map_open(chain[i]):
 			push_error("meta_check: %s does not follow %s" % [chain[i], chain[i - 1]])
@@ -62,13 +62,18 @@ func _ready() -> void:
 	var before: Dictionary = (Meta.data["unlocks"] as Dictionary).duplicate(true)
 	Meta.migrate()
 	ok = ok and Meta.data["unlocks"] == before
-	# Every act tower opens with its finale cleared; the Empyrean (the last map) is not cleared yet,
-	# so the Bound Ophan's unlock is met only once it is (w2c-int).
-	for tw: String in ["powder_wraith", "blood_spawn", "fallen_hero", "bound_oni", "draugr_thane", "ushabti_sentinel", "myrmidon_shade", "bound_succubus", "archfiend"]:
-		ok = ok and Unlocks.tower_open(tw) and (Meta.data["unlocks"]["towers"] as Array).has(tw)
-	var ophan: Dictionary = TowerData.TOWERS["bound_ophan"]["unlock"]  # The Empyrean's boss opens it.
-	ok = ok and not Unlocks.met(ophan)
-	(Meta.data["maps"]["cleared"] as Array).append("empyrean")
-	ok = ok and Unlocks.met(ophan)
+	# Every act tower opens with its finale cleared; the last campaign map is not cleared yet,
+	# so the act tower it unlocks is met only once it is (w2c-int; w2d-eye: whichever map is last).
+	var last := chain[chain.size() - 1]  # The campaign's last map.
+	for tw: String in TowerData.ORDER:
+		var un: Dictionary = TowerData.TOWERS[tw].get("unlock", {})  # Its unlock spec.
+		if not un.has("map") or not chain.has(String(un["map"])) or Acts.position_in_act(String(un["map"])) != 2:
+			continue
+		if String(un["map"]) == last:
+			ok = ok and not Unlocks.met(un)
+			(Meta.data["maps"]["cleared"] as Array).append(last)
+			ok = ok and Unlocks.met(un)
+		else:
+			ok = ok and Unlocks.tower_open(tw) and (Meta.data["unlocks"]["towers"] as Array).has(tw)
 	print("META CHECK OK" if ok else "META CHECK FAILED")
 	get_tree().quit(0 if ok else 1)

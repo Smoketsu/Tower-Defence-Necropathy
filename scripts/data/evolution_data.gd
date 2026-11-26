@@ -293,4 +293,16 @@ const EVOLUTIONS: Dictionary = {
 		},
 		"recipe": {"type": "any", "of": [{"type": "kills", "n": 40}, {"type": "damage", "n": 14000}]},  # TUNING (not in GDD) Necropathy Turning Bones -> a record of the road
 	},
+	# --- Act XI (w2d-eye) ---
+	"leviathan": {
+		"from": "spawn_of_the_deep", "name": "Leviathan", "sprite": "summons/leviathan", "icon": "leviathan",
+		"stats": {"damage": 1.25, "hp": 1.4},  # TUNING (not in GDD) Necropathy Leviathan mult max_hp 1.4, damage 1.25
+		"set": {
+			"grasp_targets": 2,  # TUNING (not in GDD) Necropathy grasp_targets 2
+			"sweep_radius": 80.0,  # TUNING (not in GDD) px round the body (Necropathy sweep_radius)
+			"sweep_mult": 1.0,  # TUNING (not in GDD) share of its damage each foe in the sweep takes (Necropathy sweep_fraction 2 x a squeeze)
+			"sweep_knock": 30.0,  # TUNING (not in GDD) px a swept foe is thrown back along the road (TdCombat.knock_enemy)
+		},
+		"recipe": {"type": "any", "of": [{"type": "kills", "n": 25}, {"type": "damage", "n": 6000}]},  # TUNING (not in GDD) Necropathy Crushing Depths -> a record of the deep's work
+	},
 }

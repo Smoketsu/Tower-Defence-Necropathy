@@ -12,6 +12,9 @@
 ## spells and the Sun's Course (night visibility, douse / relight, ambush, Kage, the Shogun);
 ## Act X (_host_checks): the Bound Ophan roll and Throne of Bones, Turning Wheel, the act
 ## spells, the Hallowed Light (weakening, shade, Grace), Judgment, the Ophan, the Throne's rims.
+## Act XI (_eye_checks, w2d-eye): the Spawn of the Deep's Grasp and the Leviathan's sweep, Salt
+## of the Deep, Claims (the risen Thrall wears the body, pays back), the Scribe's curse, the
+## Ink Wraith's dive, the Gibbering split, the Footnote, Vhal'Neth's dream and arms, the act spells.
 ## Run: godot --headless tools/towers_check.tscn   (prints PASS / FAIL, exit 0 / 1)
 extends Node
 
@@ -70,6 +73,7 @@ func _ready() -> void:
 	_pantheon_checks()
 	_inferno_checks()
 	_host_checks()
+	_eye_checks()
 	print("TOWERS CHECK %s %s" % ["PASS" if _fails.is_empty() else "FAIL", ",".join(_fails)])
 	get_tree().quit(0 if _fails.is_empty() else 1)
 
@@ -882,3 +886,92 @@ func _host_checks() -> void:
 	_check("throne rims", TdCombat.damage_enemy(game, th, 1000.0, {"source": "check", "dot": true}) < 400.0)
 	th.vars["core_until"] = game.time + 5.0
 	_check("throne core", is_equal_approx(TdCombat.damage_enemy(game, th, 1000.0, {"source": "check", "dot": true}), 1000.0))
+
+
+## Act XI (w2d-eye): the Ancient Eye's tower, Claims, kinds, bosses and spells.
+func _eye_checks() -> void:
+	var loadout: Array[String] = ["undertow", "forbidden_verse", "call_of_the_drowned"]
+	var game := TdGame.new()
+	game.setup("harbour", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(game)
+	game.economy.earn(50000, "test_bonus")
+	var claims: MapRule = game.act_rule
+	_check("claims loaded", claims != null and claims.has_method("add_cloud"))
+	# The Spawn of the Deep seizes the strongest foe near its post and squeezes it.
+	var sp := game.spot_by_id("post:1")
+	game.build(sp, "spawn_of_the_deep")
+	var foe := game.spawn_at("eye_deep_kin", "main", 1, game.roads["main"].project(Vector2(360, 330)), 0.0)
+	foe.max_hp = 1.0e6
+	foe.hp = foe.max_hp
+	_run(game, 1.5)
+	_check("spawn grasps", int(sp.tower.vars.get("grasps", 0)) > 0 and foe.freeze_until > game.time)
+	_check("spawn squeezes", foe.hp < foe.max_hp)
+	var mg := game.spot_by_id("plot:3")
+	game.build(mg, "mage")
+	_check("salt of the deep active", sp.tower.synergies.any(func(p: Array) -> bool: return p[0] == "salt_of_the_deep"))
+	var lev := _maxed(game, "post:2", "spawn_of_the_deep")
+	_check("leviathan set", lev.evolution == "leviathan" and int(lev.stats["grasp_targets"]) == 2 and float(lev.stats["sweep_radius"]) > 0.0)
+	game.remove_enemy(foe, false)
+	# Claims: a body felled near a Chanter rises as a Thrall wearing the body; killed, it pays back.
+	var post := game.spot_by_id("post:3")
+	game.build(post, "warrior")
+	var body: BlockBody = post.tower.block.bodies[0]
+	var ch := _enemy_at(game, "eye_chanter", body.pos + Vector2(0, -20))
+	TdCombat.damage_body(game, body, INF, ch)
+	var th: TdEnemy = null
+	for e: TdEnemy in game.enemies:
+		if e.kind == "eye_thrall":
+			th = e
+	_check("claim raises a thrall", th != null and int(claims.get("counts")["claims"]) == 1)
+	_check("thrall wears the body", th != null and String(th.vars.get("sprite", "")) == "summons/warrior")
+	var meter := game.caster.meter  # Before the kill.
+	if th != null:
+		TdCombat.kill_enemy(game, th, null)
+	_check("thrall pays back", game.caster.meter > meter and float((game.stats["events"] as Dictionary).get("thralls_freed", 0.0)) == 1.0)
+	game.remove_enemy(ch, false)
+	# The Scribe curses a cultist (a claimer for a while).
+	var sc := game.spawn_at("eye_scribe", "main", 1, 300.0, 0.0)
+	var ini := game.spawn_at("eye_initiate", "main", 1, 320.0, 0.0)
+	TdCombat.freeze_enemy(game, ini, 30.0)
+	_run(game, 3.5)
+	_check("scribe curses", game.time < float(ini.vars.get("claimer_until", 0.0)) and float(claims.call("claim_reach", ini)) > 0.0)
+	game.remove_enemy(sc, false)
+	game.remove_enemy(ini, false)
+	# The Ink Wraith dives out of the towers' sight; the Gibbering Mass splits; a Footnote takes nothing.
+	var iw := game.spawn_at("eye_ink_wraith", "main", 1, 50.0, 0.0)
+	_run(game, 5.5)
+	_check("ink wraith dives", iw.hidden_from_towers())
+	game.remove_enemy(iw, false)
+	var gm := game.spawn_at("eye_gibbering_mass", "main", 1, 200.0, 0.0)
+	var before := game.enemies.size()
+	TdCombat.kill_enemy(game, gm, null)
+	_check("gibbering splits", game.enemies.size() == before - 1 + 2)
+	for e: TdEnemy in game.enemies.duplicate():
+		game.remove_enemy(e, false)
+	var fn := game.spawn_at("eye_archivist_copy", "main", 1, 200.0, 0.0)
+	_check("footnote takes nothing", TdCombat.damage_enemy(game, fn, 500.0, {"source": "check"}) == 0.0)
+	game.remove_enemy(fn, false)
+	# The act spells.
+	var tgt := _enemy_at(game, "eye_deep_kin", Vector2(600, 240))
+	tgt.max_hp = 1.0e6
+	tgt.hp = tgt.max_hp
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	_check("cast undertow", game.cast_spell(0, tgt.position))
+	_check("cast forbidden_verse", game.cast_spell(1, tgt.position))
+	_check("cast call_of_the_drowned", game.cast_spell(2, tgt.position))
+	_check("verse inscribes", game.time < float(tgt.vars.get("k_inscribed_until", 0.0)))
+	_run(game, 1.5)
+	_check("undertow and call strike", int(game.stats.get("undertow_hits", 0)) > 0 and int(game.stats.get("drowned_bursts", 0)) > 0 and tgt.hp < tgt.max_hp)
+	game.remove_enemy(tgt, false)
+	# Vhal'Neth dreams out of reach while her arms stand; severing them wakes her.
+	var vh := game.spawn_at("eye_vhalneth", "main", 1, 0.0, 0.0)
+	_check("vhalneth dreams", vh.hidden_from_towers() and TdCombat.damage_enemy(game, vh, 500.0, {"source": "check", "dot": true}) == 0.0)
+	var arms: Array[TdEnemy] = []
+	for e: TdEnemy in game.enemies:
+		if e.kind == "eye_vhalneth_arm":
+			arms.append(e)
+	_check("vhalneth arms", arms.size() == 3)
+	for e: TdEnemy in arms:
+		TdCombat.kill_enemy(game, e, null)
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	_check("vhalneth wounded and stirring", vh.hp < vh.max_hp and not vh.hidden_from_towers() and int(vh.vars["form"]) == 1)

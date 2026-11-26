@@ -177,4 +177,12 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "a", "vs": "staggered", "mult": 1.3},  # TUNING (not in GDD) the wheel rolls harder over what it already staggered
 		"hint": "Bound Ophan near a Crypt Warder: rolls crush staggered foes",
 	},
+	# --- Act XI (w2d-eye) ---
+	"salt_of_the_deep": {
+		"name": "Salt of the Deep", "icon": "salt_of_the_deep", "a": "spawn_of_the_deep", "b": "mage",
+		"radius": 220.0,  # TUNING (not in GDD)
+		"effects": {"a": {"hp": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "b", "vs": "frozen", "mult": 1.3},  # TUNING (not in GDD) Necropathy Salt of the Deep: more damage to held (frozen) foes
+		"hint": "Spawn of the Deep near a Mage: bolts burn seized foes harder",
+	},
 }

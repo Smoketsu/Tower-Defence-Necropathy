@@ -14,6 +14,8 @@ var game: TdGame = null
 var raised: Array = []
 ## Raises made so far (summary).
 var count: int = 0
+## SpriteData key every Risen of this owner is drawn with (w2d-eye: Call of the Drowned's Thralls).
+var sprite: String = "summons/risen"
 
 
 func _init(p_game: TdGame) -> void:
@@ -99,9 +101,9 @@ func draw(ci: CanvasItem) -> void:
 			if TdVfx.motion() and lf >= 0.0 and lf < 1.0:
 				off = (b.vis_dir * TdVfxData.LUNGE_PX * TdVfx.lunge_curve(lf)).round()
 			var rise := (game.time - b.vis_rise_at) / TdVfxData.RISE_TIME  # 0..1 climbing out.
-			if rise >= 0.0 and rise < 1.0 and SpriteBank.draw_rising(ci, "summons/risen", b.pos + off, rise, false):
+			if rise >= 0.0 and rise < 1.0 and SpriteBank.draw_rising(ci, sprite, b.pos + off, rise, false):
 				continue
-			if not SpriteBank.draw(ci, "summons/risen", b.pos + off, game.time < b.flash_until, TdVfxData.KIT_RISEN_BODY):
+			if not SpriteBank.draw(ci, sprite, b.pos + off, game.time < b.flash_until, TdVfxData.KIT_RISEN_BODY):
 				ci.draw_rect(Rect2(b.pos - Vector2(6, 14), Vector2(12, 20)), Color(0.8, 0.8, 0.7))
 
 

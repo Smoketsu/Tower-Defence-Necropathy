@@ -149,7 +149,7 @@ that cannot hit flyers says `"ground_only": true`. Spells use the same `unlock` 
 **Art** (regenerated with the image API for roads and candles, DECISIONS V17; `tools/gw_gen.sh`, `gw_tile.py`, `gw_art.py`, originals in `art_source/td_pillow/`) — Gravewatch-only roles in `TdArtData.ROLES` (drawn with `TdArt.draw /
 texture`); Necropathy sprites by their `SpriteData` key via `SpriteBank`.
 
-## Status (wave 2c integrated, Nov 2026)
+## Status (wave 2c integrated, Nov 2026; wave 2d: Act XI on branch w2d-eye)
 
 Built and live: **Acts I-X, thirty maps** in campaign order (Part One: the
 Covenant, the Black Tide, the Sanguine Court, the Last Line, the Shogunate;
@@ -167,7 +167,8 @@ Balance: `docs/BALANCE.md` (its first section is the one 30-map table and the
 **Act I baseline summaries**: a change that must not touch Act I reproduces them
 byte for byte). Decisions: `docs/DECISIONS.md` (I, V, A, K, W, T2-T10, X, Y rows).
 Next: Acts XI-XV through `docs/ACT_TEMPLATE.md` (sections 5 and 6: the wave 2b and 2c
-lessons).
+lessons). Act XI (the Ancient Eye: harbour, archive, spire; the Spawn of the Deep, three
+spells and characters; DECISIONS T11, BALANCE "Wave 2d: Act XI") is built on `w2d-eye`.
 
 Not built / not verified: boss attack-pose art for the later bosses listed in
 BALANCE.md ("Bosses without attack-pose art": their strike pose shows the still
@@ -197,7 +198,7 @@ bot on screen (add `,--perf-wave=N` to jump to wave N then play at x1, and
 `,--build=<order>` for another order) and `?gw_flags=--unlock-all` to open
 every later tower / spell / ultimate / character in the menus.
 
-## Acts II-X (one data file each in `scripts/data/acts/`)
+## Acts II-XI (one data file each in `scripts/data/acts/`)
 
 | Act | Data / rule (HUD widget) | Maps | Miniboss / boss | Tower -> evolution, synergy | Spells (characters) |
 |---|---|---|---|---|---|
@@ -210,10 +211,11 @@ every later tower / spell / ultimate / character in the menus.
 | VIII the Olympian Republic (`pantheon`, T8) | `pantheon_act_data.gd`; `rules/pantheon/pantheon_rules.gd` (Phalanx shield fronts, Wrath of the Gods on both armies, Glory; meter top-left) | ilion, olympus, underworld | Polyphemus, Ares, Cerberus / Achilles, Zeus, Hades | Myrmidon Shades -> Legion of Tartarus, Hammer and Anvil | Paris's Arrow, Stolen Thunder, River Styx (Doomed Prophetess, Oathbreaker, Ferrywoman) |
 | IX the Inferno (`inferno`, T9) | `inferno_act_data.gd`; `rules/inferno/portals.gd` (portals marked a wave ahead, barred by a post / Bone Wall or sealed by Brimstone; Hell Pits; Temptation; cue top-left) | burning_gate, silk_palace, pandemonium | the Gatekeeper, the Twin Succubi, the Seraph General / Moloch, Lilith, the Morning Star | Bound Succubus -> Lilim Matriarch, Velvet Chains; Archfiend -> Prince of Hell, Pride | Brimstone, Temptation (`tempt`), Fall from Grace (Furnace Priest, Succubus Queen, Fallen Saint) |
 | X the Celestial Host (`host`, T10) | `host_act_data.gd`; `rules/host/hallowed_light.gd` (sweeping shafts weaken towers out of the shade, Grace, Judgment; dial top-left) | silver_stair, wheel_of_thrones, empyrean (map key `clouds`) | Cherub of the Gate, Dominion of the Spheres, Herald of the Seventh Trumpet / Seraiel, the Throne, the Voice | Bound Ophan -> Throne of Bones, Turning Wheel | Flaming Sword, Wheel of Eyes, Revelation (Fallen Herald, Blind Saint, the Unveiled) |
+| XI the Ancient Eye (`eye`, T11) | `eye_act_data.gd`; `rules/eye/claims.gd` (a blocker body felled near a claimer rises as a Drowned Thrall wearing the body; killed it pays souls and ultimate charge back; spore clouds; cue top-left) | harbour, archive, spire | the Harbourmaster, the Librarian, the Grand Hierophant / Abbot Merrow, the Archivist, Vhal'Neth and her arms | Spawn of the Deep -> Leviathan, Salt of the Deep | Undertow, Forbidden Verse, Call of the Drowned (Brine Widow, Heretic Scribe, Tide Widow) |
 
 Build orders: `<map>_default`, `<map>_weak`, and one kit order per act
 (`tide_kit`, `court_kit`, `shogunate_kit`, `norse_kit`, `dynasty_kit`,
-`pantheon_kit`, `inferno_kit`, `host_kit`: every map of the act; a map entry may
+`pantheon_kit`, `inferno_kit`, `host_kit`, `eye_kit`: every map of the act; a map entry may
 be `{"base": order, "swap": [from, to]}`, DECISIONS Y5). Act runs print
 `act_rule=` / `hostile=`. `towers_check` has one `_<act>_checks()` per act.
 
@@ -250,7 +252,12 @@ be `{"base": order, "swap": [from, to]}`, DECISIONS Y5). Act runs print
   Portals `open_portal()` / `open_pit()` / `seal_near()` (`inferno/inferno_kit.gd`);
   Hallowed Light `add_shaft()`, `in_light()`, `shaded()`, `send_judges()`,
   `judges_due()`, `boss_width` / `boss_live`, `host/lunge.gd` `line()` /
-  `sweep_ring()`, `host/cherub.gd` `sweep()`, `host/ophan.gd` `roll_over()`.
+  `sweep_ring()`, `host/cherub.gd` `sweep()`, `host/ophan.gd` `roll_over()`;
+  Claims `Claims.of(game)`, `claim_reach(e)` (row args `claim_radius` or vars
+  `claimer_until`), `add_cloud()`, `live_thralls()`; `eye/eye_kit.gd` `line()` /
+  `ring()` / `block_ahead()` / `nearest_tower()` / `stand()` / `walk()` (a windup
+  stops an enemy by its speed, restored after); `TempBlockers.sprite` (a spell's
+  own Risen look).
 - HUD widgets of the acts sit in corners no road uses: top-left under the bar
   (Escalation, Wrath, Hell cue, Host dial), top-right (Blood Moon cue, Scales),
   bottom-left (Sun dial, Winter meter). One act per map, so they never meet.
