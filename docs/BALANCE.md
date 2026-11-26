@@ -462,3 +462,24 @@ Kirin 2500) and Kage 6000 / speed 26. The Road to the Sun was re-laid after the 
 its last two waves (a late lump, not an early cliff); the minibosses are the
 swing factor on Kurogane and the Road (5 lives when one walks through).
 Act I summaries: byte-identical to the baseline (seeds 1-2, three maps).
+
+
+## Act VII, the Necropolis Dynasty (w2c-dynasty, wave 2c)
+
+Necromancer, default order, seeds 1-4 (lives left), weak order seeds 1-2:
+
+| Map | wave_hp_end | INCOME | s1 | s2 | s3 | s4 | Miniboss killed | Weak |
+|---|---|---|---|---|---|---|---|---|
+| necropolis | 4.55 | 3910 | 9 | 20 | 17 | 20 | sand_colossus 3/4 | lost w6 |
+| lioness_temple | 2.8 | 3902 | 13 | 20 | 17 | 20 | lion_warden 4/4 | lost w5 |
+| two_truths | 3.55 | 4129 | 15 | 14 | 20 | 17 | devourers_whelp 3/4 | lost w8 |
+
+Every default order wins 4/4, lives lost in 2/4, 2/4, 3/4 runs; weak orders
+lose. Leaks are Jackal Warriors (3 lives each), a Bastet Hunter, the odd
+miniboss; no scripted leak (the Whelp at 3800 and the Colossus at 4600 walked
+to the gate on 3-4 seeds and were cut). Rebirth per run: 100-145 Names laid,
+35-55 returns, all 5 jars broken on the Necropolis and Hall (4 on the Temple).
+The `wave_hp_end` numbers are not comparable with Act V's: the Dynasty's
+fodder returns at 70% HP near a jar, and the Temple's bottom avenue runs 900 px
+to a west gate with few plots. `dynasty_kit` (Ushabti posts, the three act
+spells): Temple won 20/20, Hall won 20/20 (seed 1), Necropolis lost (w22).
