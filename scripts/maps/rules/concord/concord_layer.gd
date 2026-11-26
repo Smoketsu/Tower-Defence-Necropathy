@@ -66,7 +66,7 @@ func draw_lanes(ci: CanvasItem) -> void:
 		while d < rd.length:
 			var p := rd.point_at(d + dash)
 			ci.draw_set_transform(p, rd.dir_at(d).angle(), Vector2.ONE)
-			ci.draw_texture_rect(tex, Rect2(-dash, -3.0, dash, 6.0), false, rr["lane_tint"])
+			ci.draw_texture_rect(tex, Rect2(-dash, -float(rr["lane_w"]) * 0.5, dash, float(rr["lane_w"])), false, rr["lane_tint"])
 			d += dash * 2.0
 		ci.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 

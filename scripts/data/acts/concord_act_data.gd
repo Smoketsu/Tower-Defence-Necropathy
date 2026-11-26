@@ -646,8 +646,9 @@ const RULE: Dictionary = {
 	"spot_tint": Color(0.6, 1.0, 0.65, 0.8),  # TUNING (not in GDD) the light disc on the ground under the target
 	"lifted_tint": Color(0.7, 1.0, 0.75, 0.45),  # TUNING (not in GDD) the column over a tower lifted out of the fight
 	"lifted_w": 46.0,  # TUNING (not in GDD) px of that column
-	"lane_tint": Color(0.55, 1.0, 0.6, 0.3),  # TUNING (not in GDD) the faint flight lane drawn over the map
+	"lane_tint": Color(0.55, 1.0, 0.6, 0.6),  # TUNING (not in GDD) the flight lane drawn over the map (DECISIONS Z6: alpha 0.3 -> 0.6, it did not read)
 	"lane_dash": 26.0,  # TUNING (not in GDD) px of one dash of the lane (gaps as long)
+	"lane_w": 10.0,  # TUNING (not in GDD) px thickness of a lane dash (DECISIONS Z6: was 6)
 	"mound_px": 28.0,  # TUNING (not in GDD) px of a burrow mound drawn over a burrowed enemy
 	"cue_px": 30.0,  # TUNING (not in GDD) HUD cue icon size (px)
 	"cue_margin": Vector2(10.0, 10.0),  # TUNING (not in GDD) px from the screen's right edge / under the top bar
@@ -672,6 +673,6 @@ const LOOK: Dictionary = {
 	"lock_tint": Color(0.45, 1.0, 0.9),  # TUNING (not in GDD) Soul Caster's lock dots and shots (soul-teal: the spell's own colour)
 	"lock_px": 10.0,  # TUNING (not in GDD) px of a lock dot
 	"tractor_tint": Color(0.75, 1.0, 0.85),  # TUNING (not in GDD) Tractor Beam's column
-	"saucer_beam_w": 10.0,  # TUNING (not in GDD) px of the Ghost Saucer's beam
-	"saucer_beam_time": 0.25,  # TUNING (not in GDD) s it shows
+	"saucer_beam_w": 20.0,  # TUNING (not in GDD) px of the Ghost Saucer's beam (DECISIONS Z6: was 10, too thin)
+	"saucer_beam_time": 0.4,  # TUNING (not in GDD) s it shows (DECISIONS Z6: was 0.25)
 }

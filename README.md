@@ -49,11 +49,18 @@ The design is `docs/GDD.md`; decisions it does not cover are in
   the Phalanx's shield fronts and the Wrath of the Gods), Act IX the Inferno (Burning Gate,
   Palace of Silk and Ash, Pandemonium; Portals to bar or seal, Hell Pits, Temptation) and Act
   X the Celestial Host (Silver Stair, Wheel of Thrones, Empyrean; the Hallowed Light weakens
-  towers out of the shade, Judgment returns lost bodies as Judges). Thirty maps in one unlock
-  chain. Each later act opens its own tower (Powder Wraith, Blood Spawn, Fallen Hero, Bound
-  Oni, Draugr Thane, Ushabti Sentinel, Myrmidon Shades, Bound Succubus and Archfiend, Bound
-  Ophan), three spells and three characters. Acts XI-XV say "Coming soon"
-  (`docs/ACT_TEMPLATE.md`).
+  towers out of the shade, Judgment returns lost bodies as Judges); Part Three: Act XI the
+  Ancient Eye (Gullhaven Harbour, the Hollow Archive, Ul-Thalos; Claims: a body felled near a
+  claimer rises as a Drowned Thrall), Act XII the Electronic Empire (Scrap Wastes, Assembly
+  Halls, Iron Citadel; the Line of Fire: Empire guns disable towers, posts in the line stop the
+  shots), Act XIII the Concord of Stars (Crash Site, Proving Moon, Ark of the Concord;
+  Abduction: saucers on sky lanes lift posts and towers), Act XIV the Age of Titans (Fern
+  Basin, Great Plain, the Last Day; Stampedes trample plots and turn back when hurt) and Act
+  XV the Turning Year (Greenwood, Fae Court, the World-Tree, the campaign's last map; the
+  seasons turn). Forty-five maps in one unlock chain. Each later act opens its own tower
+  (Powder Wraith, Blood Spawn, Fallen Hero, Bound Oni, Draugr Thane, Ushabti Sentinel,
+  Myrmidon Shades, Bound Succubus and Archfiend, Bound Ophan, Spawn of the Deep, Grave Drone
+  and Iron Revenant, Ghost Saucer, Bonehorn, Ossuary Oak), three spells and three characters.
 - **Spells** (bottom bar, or a left column on wide phones; keys 1-4): tap the
   spell, then the target. Shadow Bolt (aimed shot from the necromancer at the
   gate), Bone Wall (blocks the road a few seconds; bosses walk through), Corpse
@@ -117,7 +124,7 @@ clock (60 ticks per game second, `speed` ticks per physics frame), no wall time.
 ```bash
 G=/home/user/tools/godot/Godot_v4.3-stable_linux.x86_64
 $G --headless --import
-$G --headless --fixed-fps 60 --quit-after 60000 -- --autotest [--map=<any of the 15 map ids>] [--seed=N] [--speed=N] [--difficulty=initiate|necromancer|lich|deathlord] [--build=ID]
+$G --headless --fixed-fps 60 --quit-after 60000 -- --autotest [--map=<any of the 45 map ids>] [--seed=N] [--speed=N] [--difficulty=initiate|necromancer|lich|deathlord] [--build=ID]
 ```
 
 | Option | Meaning |
@@ -127,6 +134,7 @@ $G --headless --fixed-fps 60 --quit-after 60000 -- --autotest [--map=<any of the
 | `--speed=` | fixed steps per physics frame, 1-64 (default 8; the result does not depend on it) |
 | `--difficulty=` | DifficultyData id (default `necromancer`) |
 | `--build=` | BuildOrderData id (default: the map's `build_order`; `weak` = the bad placement order; `towers_a` = the four shooters to Lv 5 + Lich, Winter Revenant, Gravebow; `towers_b` = support / blockers to Lv 5 + Death Knight, Profane Bishop (loses to Alaric); `evolve_all` = test order with bonus souls, seven evolutions in one run; `weak` / `march_weak` / `sanctum_weak` = the losing orders) |
+| `--hp-end=X` | balance probe: overrides the map's `wave_hp_end` (cliff checks; 0 = the map's own) |
 | `--reckoning` | after a cleared map, start the Reckoning endless mode and run until the gate falls |
 | `--meta=` | `none` (default without a save) or `max` (every Ossuary upgrade and Mastery) |
 | `--meta-save` | read and write the real save (records the run, Codex, masteries) |
