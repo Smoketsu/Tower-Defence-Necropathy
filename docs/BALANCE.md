@@ -467,7 +467,7 @@ Act I summaries: byte-identical to the baseline (seeds 1-2, three maps).
 
 Necromancer, default orders, `--autotest`, seeds 1-4 (lives kept / 20; the leaks;
 `leak_curve` first leak wave). Income (`map_list`): Ilion 3828, Olympus 3992,
-Underworld 4436. Wave HP ramp end: Ilion 2.5, Olympus 3.6, Underworld 2.5
+Underworld 4436. Wave HP ramp end: Ilion 2.5, Olympus 3.6, Underworld 2.3
 (DECISIONS T8-11: the shields, Glory and the wrath make the kinds far tougher than
 their row HP; at 4.4-4.8 every default order lost by wave 7-16).
 
@@ -475,9 +475,9 @@ their row HP; at 4.4-4.8 every default order lost by wave 7-16).
 |---|---|---|---|---|---|---|---|
 | ilion | won 12 (Polyphemus, hero; w12) | won 19 (w13) | won 20 | won 15 (Polyphemus; w19) | 2/4 | lost w5-6, 0 stuck | won 20, Legion of Tartarus |
 | olympus | won 20 | won 14 (amazon, hero; w18) | won 20 | won 5 (amazon x2, hoplite x3, hero x2; w8) | 4/4 | lost w6, 0 stuck | won 20, Legion of Tartarus |
-| underworld | won 8 (titan, Cerberus, gorgon, warden; w18) | won 16 (w6) | won 14 (w18) | won 17 (w16) | 3/4 | lost w5, 0 stuck | won 20, no evolution (ran out of souls for it) |
+| underworld | won 17 (titan; w18) | won 4 (titans, Cerberus, shade hoplites; w6) | won 3 (titans, Cerberus, heroes; w17) | won 20 | 2/4 | lost w5, 0 stuck | won 20, no evolution (ran out of souls for it) |
 
-Every default order wins every seed; lives are lost in 3/4, 2/4 and 4/4 runs; the
+Every default order wins every seed; lives are lost in 3/4, 2/4 and 3/4 runs; the
 weak orders lose; no cliff (`per_death` 0.00-0.18). Same seed twice: identical
 (Ilion s1). Act I summaries: byte-identical to the baseline (seeds 1-2, three maps).
 Known: Polyphemus walks through when the posts on his road are full (5 lives,

@@ -18,18 +18,18 @@ const MAP: Dictionary = {
 	"obstacles": [
 		["obstacles/styx_rock_l", Vector2(850, 320)],
 		["obstacles/styx_rock_m", Vector2(75, 250)],
-		["obstacles/styx_rock_s", Vector2(490, 600)],
+		["obstacles/styx_rock_s", Vector2(670, 600)],
 		["obstacles/judges_column_l", Vector2(975, 110)],
 		["obstacles/judgement_bench_l", Vector2(345, 390)],
-		["obstacles/judges_column_s", Vector2(1245, 390)],
-		["obstacles/cypress_l", Vector2(975, 390)],
-		["obstacles/styx_rock_m", Vector2(75, 530)],
-		["obstacles/judges_column_m", Vector2(975, 250)],
-		["obstacles/cypress_s", Vector2(1245, 250)],
-		["obstacles/styx_rock_s", Vector2(1245, 110)],
-		["obstacles/judgement_bench_s", Vector2(310, 600)],
-		["obstacles/cypress_m", Vector2(435, 250)],
-		["obstacles/styx_rock_l", Vector2(760, 180)],
+		["obstacles/judges_column_s", Vector2(310, 600)],
+		["obstacles/cypress_l", Vector2(1245, 390)],
+		["obstacles/styx_rock_m", Vector2(975, 390)],
+		["obstacles/judges_column_m", Vector2(75, 530)],
+		["obstacles/cypress_s", Vector2(975, 250)],
+		["obstacles/styx_rock_s", Vector2(1245, 250)],
+		["obstacles/judgement_bench_s", Vector2(1245, 110)],
+		["obstacles/cypress_m", Vector2(490, 600)],
+		["obstacles/styx_rock_l", Vector2(435, 250)],
 	],
 	"roads": {
 		"main": {
@@ -42,11 +42,11 @@ const MAP: Dictionary = {
 		},
 	},
 	"gate": Vector2(1222, 160),
-	"plots": [Vector2(380, 300), Vector2(530, 300), Vector2(380, 450), Vector2(530, 450), Vector2(760, 330), Vector2(940, 330), Vector2(850, 235), Vector2(850, 440), Vector2(120, 420), Vector2(120, 300), Vector2(1160, 320), Vector2(1160, 470), Vector2(450, 90), Vector2(1210, 560), Vector2(440, 640), Vector2(780, 640)],
+	"plots": [Vector2(380, 300), Vector2(530, 300), Vector2(380, 450), Vector2(530, 450), Vector2(760, 330), Vector2(940, 330), Vector2(850, 235), Vector2(850, 440), Vector2(120, 420), Vector2(120, 300), Vector2(1160, 320), Vector2(1160, 470), Vector2(450, 90), Vector2(1210, 560), Vector2(440, 560), Vector2(560, 600)],
 	"posts": [Vector2(240, 400), Vector2(450, 160), Vector2(660, 350), Vector2(1040, 350), Vector2(1125, 160), Vector2(1100, 640)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 2.5,  # TUNING (not in GDD) the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
+	"wave_hp_end": 2.3,  # TUNING (not in GDD) the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
 	"rule": "",
 	"act_rule": "pantheon/pantheon_rules",
 	"build_order": "underworld_default",
