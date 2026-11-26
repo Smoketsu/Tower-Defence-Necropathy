@@ -365,6 +365,37 @@ The autotest's `leak_curve=` line (first leak wave, end wave, lives lost,
 permanent body deaths, lives lost within 15 s of a death, per death) reports
 this on every run.
 
+## Wave 2d: Act XI, the Ancient Eye (w2d-eye; DECISIONS T11)
+
+Necromancer, default orders, seeds 1-4 (lives kept of 20); 0 script errors,
+`stuck_enemies=0`, same seed twice identical (Harbour seed 1).
+
+| Act | Map | wave_hp_end | Income | s1 | s2 | s3 | s4 | Runs losing lives | Miniboss killed | Leaks (4 seeds) | Weak s1 / s2 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| XI | harbour | 3.8 | 3972 | 20 | 16 | 20 | 20 | 1/4 | 4/4 | eye_chanter 1, eye_deep_kin 1 | lost w5 / w5 |
+| XI | archive | 5.5 | 3762 | 20 | 20 | 13 | 16 | 2/4 | 4/4 | eye_chanter 1, eye_gibbering_mass 1, eye_spore_pilgrim 1, eye_gibbering_least 3, eye_gibbering_lesser 1 | lost w7 / w7 |
+| XI | spire | 3.7 | 3912 | 11 | 17 | 12 | 14 | 4/4 | 4/4 | eye_spawn 8, eye_deep_kin 2 | lost w6 / w6 |
+
+Cliff checks (+0.2): the Harbour at 4.0 kept 12 / 19 / 12 / 20 (the Harbourmaster
+at 4400 HP, speed 22, killed 4/4); the Archive at 5.7 kept 9 / 19 / 13 / 14 (6.0:
+15 / 1, the split masses' late waves: the band ends there); Ul-Thalos at 3.8
+kept 14 / 14 / lost (wave 13) / 20: its early economy is the thin spot (a slow
+first ten waves; an early Spawn leak costs 3). Ul-Thalos at 3.6 kept 17 / 20 /
+20 / 16. The archive's road is 3449 px (the others ~1900-2760), hence its higher
+`wave_hp_end`.
+
+`--swap=abomination:spawn_of_the_deep` against `--swap=abomination:abomination`
+(seeds 1-2, lives / damage per soul): Harbour 13 / 21.7 vs 12 / 28.5 and 19 /
+21.7 vs 19 / 24.5; Archive 20 / 1.8 vs 20 / 1.8 and 17 / 3.5 vs 20 / 3.1 (its
+post sits by the gate, little reaches it); Ul-Thalos 20 / 21.8 vs 17 / 25.1 and
+15 / 21.1 vs 10 / 23.9 (measured at `wave_hp_end` 4.0 / 5.5 / 3.4). The Spawn
+holds as well as the Abomination per soul; its damage goes into freezes.
+
+Kit order `eye_kit` (seeds 1-2): harbour 20, 20 (Leviathan both); archive 20,
+20; spire 20, 20 (default + Spawn of the Deep). Characters (seed 1): the Brine
+Widow on the Harbour 20, the Heretic Scribe on the Archive 20, the Tide Widow on
+Ul-Thalos 20 (measured before the final Harbour / Ul-Thalos HP).
+
 ### Act I baseline summaries (the same-seed gate; re-recorded by the wave 2c integration, DECISIONS Y3 / Y6)
 
 Default build, Necromancer, `--autotest --map=<id> --seed=<n>`; the lines from
