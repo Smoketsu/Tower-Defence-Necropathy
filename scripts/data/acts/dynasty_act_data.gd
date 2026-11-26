@@ -131,7 +131,7 @@ const KINDS: Dictionary = {
 	# Necropolis miniboss: the Sand Colossus. His ground slam stuns the post and blinds the towers near him.
 	"sand_colossus": {
 		"name": "The Sand Colossus", "sprite": "dynasty/sand_colossus", "rank": "miniboss",
-		"hp": 4600.0, "speed": 24.0, "armour": 6.0, "radius": 24.0,  # TUNING (not in GDD)
+		"hp": 4000.0, "speed": 24.0, "armour": 6.0, "radius": 24.0,  # TUNING (not in GDD)
 		"damage": 26.0, "attack_interval": 1.6,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "dynasty/slam",
 		"args": {"first": 4.0, "every": 8.0, "radius": 110.0, "windup": 1.3, "disable": 1.6, "body_damage": 55.0},  # TUNING (not in GDD) Necropathy "a ground slam"

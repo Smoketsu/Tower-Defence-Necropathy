@@ -43,7 +43,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(600, 150), Vector2(120, 290), Vector2(650, 390), Vector2(720, 600), Vector2(1080, 600)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 3.8,  # TUNING (not in GDD) Part Two: a step above the Road to the Sun
+	"wave_hp_end": 4.55,  # TUNING (not in GDD) Part Two: a step above the Road to the Sun
 	"rule": "",
 	"act_rule": "dynasty/rebirth",
 	"build_order": "necropolis_default",
