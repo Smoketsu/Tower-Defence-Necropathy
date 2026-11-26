@@ -164,12 +164,12 @@ const KINDS: Dictionary = {
 	# the Masque hides her among courtiers wearing her face until they fall.
 	"wild_summer_queen": {
 		"name": "The Summer Queen", "sprite": "wild/summer_queen", "rank": "boss",
-		"hp": 12500.0, "speed": 20.0, "armour": 5.0, "radius": 26.0,  # TUNING (not in GDD)
+		"hp": 11000.0, "speed": 16.0, "armour": 5.0, "radius": 26.0,  # TUNING (not in GDD)
 		"damage": 34.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "wild/summer_queen",
 		"args": {"phase_hp": [0.66, 0.33],
-			"petal_first": 4.0, "petal_every": 9.0, "petal_windup": 1.0, "petal_radius": 150.0, "petal_mult": 0.55, "petal_time": 5.0,
-			"masque_time": 14.0, "masks": 4, "masks_p3": 6, "mask_gap": 34.0, "heal": 0.04,
+			"petal_first": 4.0, "petal_every": 9.0, "petal_windup": 1.0, "petal_radius": 140.0, "petal_mult": 0.7, "petal_time": 4.0,
+			"masque_time": 10.0, "masks": 4, "masks_p3": 5, "mask_gap": 34.0, "heal": 0.02,
 			"pose_time": 0.8},  # TUNING (not in GDD) Necropathy BossSummerQueen: petals and the Masque (the Bargain is left out, DECISIONS T15)
 	},
 	# World-Tree boss, the last boss of the campaign: the Green Mother. The Turning casts a season at each

@@ -43,7 +43,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(220, 130), Vector2(220, 600), Vector2(620, 390), Vector2(820, 260), Vector2(1140, 330)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 3.4,  # TUNING (not in GDD) Part Three: a step above the Empyrean
+	"wave_hp_end": 4.2,  # TUNING (not in GDD) Part Three: a step above the Empyrean
 	"rule": "",
 	"act_rule": "wild/turning_year",
 	"build_order": "fae_court_default",
