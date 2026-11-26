@@ -5,6 +5,8 @@
 ## game.vfx (off headless); nothing here touches the run.
 extends RefCounted
 
+const SeaMark = preload("res://scripts/enemies/traits/corsair/sea_mark.gd")  # The Black Tide's nearest-tower helper, shared.
+
 
 ## The act's line from `a` to `b`: a faint telegraph lasting `dur` s, or the
 ## bright strike (`bright`, `tint` overrides its colour when not transparent).
@@ -53,16 +55,10 @@ static func block_ahead(e: TdEnemy, game: TdGame, near: float, far: float) -> Ro
 	return best
 
 
-## The nearest tower within `r` px of `pos` not disabled now, or null.
+## The nearest tower within `r` px of `pos` not disabled now, or null: the Black
+## Tide's one helper (corsair/sea_mark.gd), shared (DECISIONS Z2).
 static func nearest_tower(game: TdGame, pos: Vector2, r: float) -> Tower:
-	var best: Tower = null  # Nearest so far.
-	var bd := r * r  # Its squared distance.
-	for t: Tower in game.towers:
-		var d := t.position.distance_squared_to(pos)
-		if d <= bd and game.time >= t.disabled_until:
-			bd = d
-			best = t
-	return best
+	return SeaMark.nearest_tower(game, pos, r)
 
 
 ## Stops `e` where it stands (a windup, a sermon, a channel): its walking speed

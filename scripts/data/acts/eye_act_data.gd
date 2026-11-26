@@ -523,7 +523,7 @@ const MOODS: Dictionary = {
 			{"art": "mood_candles", "frames": 1, "count": 4, "scale": 1.0, "glow": Color(1.0, 0.75, 0.45, 0.45), "glow_r": 40.0,
 			"glow_at": Vector2(0, -18), "flicker": 0.15, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD) the town's last lamps
 		"fog": 3,  # TUNING (not in GDD) sea mist off the mudflats
-		"pools": 2,  # TUNING (not in GDD) tide pools catching the moon
+		"pools": 0,  # DECISIONS Z3: no stained-glass pools outside the Sanctum (the art is coloured glass)
 	},
 	"archive": {
 		"props": [{"sprite": "structures/forbidden_lectern", "frames": 1, "count": 3, "scale": 1.0, "glow": Color(0.75, 0.45, 1.0, 0.5), "glow_r": 48.0,
@@ -531,13 +531,13 @@ const MOODS: Dictionary = {
 			{"art": "mood_candles", "frames": 1, "count": 5, "scale": 1.0, "glow": Color(1.0, 0.8, 0.5, 0.45), "glow_r": 38.0,
 			"glow_at": Vector2(0, -18), "flicker": 0.15, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD) reading candles
 		"fog": 1,  # TUNING (not in GDD) dust in the stacks
-		"pools": 3,  # TUNING (not in GDD) pools of black ink
+		"pools": 0,  # DECISIONS Z3: no stained-glass pools outside the Sanctum (the art is coloured glass)
 	},
 	"spire": {
 		"props": [{"sprite": "eye/dream_pillar", "frames": 1, "count": 3, "scale": 1.0, "glow": Color(0.75, 0.35, 0.95, 0.55), "glow_r": 60.0,
 			"glow_at": Vector2(0, -40), "flicker": 0.1, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD) the dream pillars, veined with the god's light
 		"fog": 3,  # TUNING (not in GDD) the sea rising round the island
-		"pools": 2,  # TUNING (not in GDD)
+		"pools": 0,  # DECISIONS Z3: no stained-glass pools outside the Sanctum (the art is coloured glass)
 	},
 }
 

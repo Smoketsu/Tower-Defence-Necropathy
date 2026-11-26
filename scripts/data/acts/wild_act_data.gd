@@ -632,7 +632,7 @@ const MOODS: Dictionary = {
 			{"art": "mood_candles", "frames": 1, "count": 3, "scale": 1.0, "glow": Color(1.0, 0.85, 0.45, 0.45), "glow_r": 38.0,
 			"glow_at": Vector2(0, -18), "flicker": 0.15, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD) hunters' lights, warm gold
 		"fog": 2,  # TUNING (not in GDD) mist between the trees
-		"pools": 2,  # TUNING (not in GDD) shafts of green light through the canopy
+		"pools": 0,  # DECISIONS Z3: no stained-glass pools outside the Sanctum (the art is coloured glass)
 	},
 	"fae_court": {
 		"props": [{"sprite": "obstacles/wild_rose_hedge_m", "frames": 1, "count": 4, "scale": 1.0, "glow": Color(1.0, 0.55, 0.75, 0.45), "glow_r": 52.0,
@@ -640,7 +640,7 @@ const MOODS: Dictionary = {
 			{"art": "mood_candles", "frames": 1, "count": 5, "scale": 1.0, "glow": Color(1.0, 0.8, 0.6, 0.45), "glow_r": 40.0,
 			"glow_at": Vector2(0, -18), "flicker": 0.12, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD) the revel's lanterns
 		"fog": 1,  # TUNING (not in GDD) summer haze
-		"pools": 4,  # TUNING (not in GDD) pools of warm summer light
+		"pools": 0,  # DECISIONS Z3: no stained-glass pools outside the Sanctum (the art is coloured glass)
 	},
 	"world_tree": {
 		"props": [{"sprite": "obstacles/wild_oak_l", "frames": 1, "count": 5, "scale": 1.0, "glow": Color(0.75, 1.0, 0.8, 0.45), "glow_r": 48.0,
@@ -648,7 +648,7 @@ const MOODS: Dictionary = {
 			{"sprite": "obstacles/wild_great_root_m", "frames": 1, "count": 3, "scale": 1.0, "glow": Color(0.55, 0.9, 0.6, 0.35), "glow_r": 56.0,
 			"glow_at": Vector2(0, -6), "flicker": 0.05, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD) great roots lit from below
 		"fog": 3,  # TUNING (not in GDD) the breath of the tree
-		"pools": 3,  # TUNING (not in GDD)
+		"pools": 0,  # DECISIONS Z3: no stained-glass pools outside the Sanctum (the art is coloured glass)
 	},
 }
 

@@ -594,6 +594,35 @@ const ORDERS: Dictionary = {
 	},
 }
 
+## Battlefield moods of the three maps (keys: TdMoodData.MOODS; DECISIONS Z3:
+## the act shipped without any). Plasma green and lumen violet over dark hulls.
+const MOODS: Dictionary = {
+	"crash_site": {
+		"props": [{"sprite": "obstacles/crash_hull_shard_s", "frames": 1, "count": 4, "scale": 1.0, "glow": Color(0.45, 1.0, 0.55, 0.45), "glow_r": 44.0,
+			"glow_at": Vector2(0, -14), "flicker": 0.3, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0},  # TUNING (not in GDD) burning hull shards
+			{"sprite": "obstacles/wreck_plate_s", "frames": 1, "count": 3, "scale": 1.0, "glow": Color(1.0, 0.55, 0.2, 0.35), "glow_r": 36.0,
+			"glow_at": Vector2(0, -10), "flicker": 0.2, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD) smouldering plates
+		"fog": 2,  # TUNING (not in GDD) crash smoke
+		"pools": 0,  # no stained glass
+	},
+	"proving_moon": {
+		"props": [{"sprite": "obstacles/moon_shrine_s", "frames": 1, "count": 3, "scale": 1.0, "glow": Color(0.75, 0.55, 1.0, 0.45), "glow_r": 46.0,
+			"glow_at": Vector2(0, -24), "flicker": 0.15, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0},  # TUNING (not in GDD) hunters' trophy shrines
+			{"sprite": "obstacles/moon_boulder_s", "frames": 1, "count": 4, "scale": 1.0, "glow": Color(0.6, 0.8, 1.0, 0.2), "glow_r": 30.0,
+			"glow_at": Vector2(0, -8), "flicker": 0.0, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD) moonlit rocks
+		"fog": 0,  # no air on the moon
+		"pools": 0,  # no stained glass
+	},
+	"ark": {
+		"props": [{"sprite": "obstacles/ark_pillar_s", "frames": 1, "count": 4, "scale": 1.0, "glow": Color(0.45, 1.0, 0.65, 0.5), "glow_r": 46.0,
+			"glow_at": Vector2(0, -40), "flicker": 0.1, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0},  # TUNING (not in GDD) humming ark pillars
+			{"sprite": "obstacles/ark_console_s", "frames": 1, "count": 3, "scale": 1.0, "glow": Color(0.75, 0.55, 1.0, 0.45), "glow_r": 38.0,
+			"glow_at": Vector2(0, -16), "flicker": 0.25, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD) lumen consoles
+		"fog": 0,
+		"pools": 0,  # no stained glass
+	},
+}
+
 ## Abduction (scripts/maps/rules/concord/abduction.gd; Necropathy's Abduction):
 ## saucers cross the map on its sky lanes and lift what they stop over.
 ## Numbers of the simulation first, then the look.
