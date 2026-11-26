@@ -39,7 +39,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(600, 130), Vector2(1100, 340), Vector2(640, 560), Vector2(180, 420), Vector2(600, 280), Vector2(700, 420)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 3.5,  # TUNING (not in GDD) the act's finale presses hardest
+	"wave_hp_end": 3.55,  # TUNING (not in GDD) the act's finale presses hardest
 	"rule": "",
 	"act_rule": "dynasty/rebirth",
 	"build_order": "two_truths_default",

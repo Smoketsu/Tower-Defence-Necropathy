@@ -148,10 +148,10 @@ const KINDS: Dictionary = {
 	# Hall miniboss: the Devourer's Whelp. It eats the Names it passes and grows stronger.
 	"devourers_whelp": {
 		"name": "The Devourer's Whelp", "sprite": "dynasty/devourers_whelp", "rank": "miniboss",
-		"hp": 4600.0, "speed": 30.0, "armour": 4.0, "radius": 22.0,  # TUNING (not in GDD)
+		"hp": 3200.0, "speed": 30.0, "armour": 4.0, "radius": 22.0,  # TUNING (not in GDD)
 		"damage": 26.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "dynasty/devour",
-		"args": {"reach": 90.0, "every": 1.5, "heal": 0.04, "haste": 1.08, "haste_max": 1.5, "haste_time": 30.0},  # TUNING (not in GDD) Necropathy "eats corpses"
+		"args": {"reach": 90.0, "every": 1.5, "heal": 0.025, "haste": 1.08, "haste_max": 1.5, "haste_time": 30.0},  # TUNING (not in GDD) Necropathy "eats corpses"
 	},
 	# --- Bosses ---
 	# Necropolis boss: Anubis, Opener of the Way. The Procession, the Embalmer, the Jackal.
