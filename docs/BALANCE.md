@@ -891,3 +891,44 @@ Mothership, Bone Beetles and Soul Caster): won 6/6, lives 17, 18 / 20, 20 / 20,
 20. Seed 1 twice gives the same summary; Act I's six baseline summaries are
 byte-identical. Vrask'Tal and the Harvester have no attack-pose art (the Hive
 Mother has `cast` / `strike`).
+## Act XV, the Turning Year (w2d-year, Nov 2026; DECISIONS T15)
+
+Necromancer, default orders, seeds 1-4 (lives kept of 20); 0 script errors,
+`stuck_enemies=0`, the same seed twice identical (World-Tree seed 1). Act I's
+six baseline summaries above are byte-identical after the act.
+
+| Act | Map | wave_hp_end | Income | s1 | s2 | s3 | s4 | Runs losing lives | Miniboss killed | Leaks (4 seeds) | Weak s1 / s2 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| XV | greenwood | 2.8 | 4396 | 20 | 19 | 15 | 17 | 3/4 | 4/4 | wild_fae_knight 7, wild_hunt_hound 2 | lost w4 / w4 |
+| XV | fae_court | 4.2 | 4358 | 17 | 17 | 20 | 14 | 3/4 | 3/4 | wild_great_stag 2, wild_fae_knight 1, wild_winter_prince 1 | lost w3 / w3 |
+| XV | world_tree | 2.9 | 4472 | 17 | 11 | 10 | 17 | 4/4 | 4/4 | wild_treant 4, wild_fae_knight 3, wild_will_o_wisp 3, wild_dryad 2, claimed_shade 1 | lost w4 / w4 |
+
+Cliff check at `wave_hp_end` +0.2 (seeds 1-4): the Greenwood at 3.0 won 4/4
+(19, 2, 8, 15); the Fae Court at 4.4 won 4/4 (20, 20, 14, 20); the World-Tree
+at 3.1 won 3/4 (14, 12, lost, 9). No boss leaks at the chosen values; at a
+first draft the Summer Queen (speed 20) and the Green Mother (16500 HP) leaked
+on most seeds (DECISIONS T15.3). The World-Tree, the campaign's last map, is
+the act's hardest on lives lost (5.25 a run against the Greenwood's 2.25 and the
+Fae Court's 3); the Fae Court carries the most raw HP because its endless
+Summer never brings thickets.
+
+### Act tower: Ossuary Oak against the Corpse Catapult (Y4)
+
+`--swap=corpse_catapult:ossuary_oak` against `--swap=corpse_catapult:corpse_catapult`
+(the same default order), seeds 1-2; damage per soul of the swapped tower
+against the control's catapults:
+
+| Map | Oak lives | Control lives | Oak dmg / soul | Catapult dmg / soul (control) |
+|---|---|---|---|---|
+| greenwood | 20, 20 | 20, 19 | 51.1, 51.1 | 54.0, 62.9 |
+| fae_court | 15, 17 | 17, 17 | 135.7, 130.1 | 89.2, 87.5 |
+| world_tree | 20, 8 | 17, 11 | 49.7, 51.7 | 49.4, 46.6 |
+
+The Oak deals about the Catapult's damage per soul (more on the Fae Court's
+long winding road) and roots what it hits; no change made.
+
+### Kit order `year_kit` (seeds 1-2, lives kept; Oak evolved to the World-Root Warden, Wild Hunt and Root and Rot cast)
+
+| Order | greenwood | fae_court | world_tree |
+|---|---|---|---|
+| year_kit | 20, 20 | 20, 20 | 20, 20 |

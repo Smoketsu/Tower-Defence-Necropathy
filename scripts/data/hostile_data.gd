@@ -52,6 +52,8 @@ const LOOKS: Dictionary = {
 	"plasma": {"sprite": "projectiles/radiant_bolt", "tint": Color(0.45, 1.0, 0.55), "scale": 1.8, "trail": 80.0, "impact": 52.0},  # TUNING (not in GDD) a Grey Drone's probe beam (plasma green)
 	"acid": {"sprite": "projectiles/mortar_shell", "tint": Color(0.6, 1.0, 0.3), "scale": 1.3, "trail": 0.0, "impact": 64.0},  # TUNING (not in GDD) an Acid Spitter's glob, arcing
 	"lumen": {"sprite": "projectiles/radiant_bolt", "tint": Color(1.0, 0.95, 0.75), "scale": 2.2, "trail": 90.0, "impact": 60.0},  # TUNING (not in GDD) a Luminous beam (white-gold)
+	# --- Act XV (w2d-year) ---
+	"wild_frost": {"sprite": "projectiles/frost_bolt", "tint": Color(0.7, 0.92, 1.0), "scale": 2.0, "trail": 70.0, "impact": 60.0},  # TUNING (not in GDD) w2d-year: the Winter Fae's frost bolt (frost white)
 }
 ## Trail width (px) of hostile shots.
 const TRAIL_W: float = 10.0  # TUNING (not in GDD)
@@ -87,6 +89,9 @@ const CAUSE_TINT: Dictionary = {
 	"jammed": Color(0.55, 0.8, 1.0),  # TUNING (not in GDD) an Arc Engineer's static, Varn's overload pulse (arc blue)
 	# --- Act XIII, the Concord of Stars (w2d-concord) ---
 	"abducted": Color(0.6, 1.0, 0.65),  # TUNING (not in GDD) lifted by a saucer's tractor beam (plasma green)
+	# --- Act XV (w2d-year) ---
+	"choked": Color(0.5, 0.95, 0.35),  # TUNING (not in GDD) w2d-year: a thicket choking the spot, the Antler Crown (thorn green)
+	"rooted": Color(0.75, 0.55, 0.3),  # TUNING (not in GDD) w2d-year: roots seizing a post or tower, the Burial (bark brown)
 }
 ## Diameter (px) of the disabled ring around a tower's base, and its pulse period (s).
 const DISABLED_RING: float = 52.0  # TUNING (not in GDD)

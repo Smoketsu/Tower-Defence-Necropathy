@@ -173,6 +173,8 @@ lessons).
 Wave 2d (w2d-concord, not yet integrated): **Act XIII, the Concord of Stars** (crash_site,
 proving_moon, ark; Abduction; Ghost Saucer; Bone Beetles / Soul Caster / Tractor Beam; the
 Broodbound / Blooded / Starborn; DECISIONS T13, BALANCE.md "Act XIII").
+lessons). Act XV, the Turning Year, is built on branch `w2d-year` (DECISIONS T15,
+BALANCE.md "Act XV"; the World-Tree ends the campaign).
 
 Not built / not verified: boss attack-pose art for the later bosses listed in
 BALANCE.md ("Bosses without attack-pose art": their strike pose shows the still
@@ -236,6 +238,11 @@ Build orders: `<map>_default`, `<map>_weak`, and one kit order per act
 Build orders: `<map>_default`, `<map>_weak`, and one kit order per act
 (`tide_kit`, `court_kit`, `shogunate_kit`, `norse_kit`, `dynasty_kit`,
 `pantheon_kit`, `inferno_kit`, `host_kit`, `titans_kit`: every map of the act; a map entry may
+| XV the Turning Year (`wild`, T15) | `wild_act_data.gd`; `rules/wild/turning_year.gd` (the season turns every few waves: Spring thickets choke towers until tapped, Summer haste, Autumn sprouts, Winter chill; wheel top-right) | greenwood, fae_court (holds Summer), world_tree (twice as fast) | Huntsman of the Wild Hunt, the Winter Prince, the Gardener of Roots / the Stag King, the Summer Queen, the Green Mother (the Last Claim) | Ossuary Oak -> World-Root Warden, Heartwood | Wild Hunt, Glamour, Root and Rot (Horned Herald, Changeling Princess, Gravegardener) |
+
+Build orders: `<map>_default`, `<map>_weak`, and one kit order per act
+(`tide_kit`, `court_kit`, `shogunate_kit`, `norse_kit`, `dynasty_kit`,
+`pantheon_kit`, `inferno_kit`, `host_kit`, `year_kit`: every map of the act; a map entry may
 be `{"base": order, "swap": [from, to]}`, DECISIONS Y5). Act runs print
 `act_rule=` / `hostile=`. `towers_check` has one `_<act>_checks()` per act.
 
@@ -297,8 +304,14 @@ be `{"base": order, "swap": [from, to]}`, DECISIONS Y5). Act runs print
   `charge_step()` (the one charge, rock stuns from map key `rocks`), `roar()`,
   `swallow()`, `line()` / `ring()`; `primeval/pack_leap.gd` `leap()`.
 - HUD widgets of the acts sit in corners no road uses: top-left under the bar
-  (Escalation, Wrath, Hell cue, Host dial), top-right (Blood Moon cue, Scales),
-  bottom-left (Sun dial, Winter meter). One act per map, so they never meet.
+  (Escalation, Wrath, Hell cue, Host dial), top-right (Blood Moon cue, Scales,
+  the Turning Year's wheel), bottom-left (Sun dial, Winter meter). One act per
+  map, so they never meet.
+- Act XV (w2d-year): `rules/wild/turning_year.gd` `of(game)` / `plant(spot, sprout)`
+  (the one way a thicket grows) / `burn(i)` / `set_override(season, until)`;
+  `traits/wild/wild_kit.gd` `call_squad()` (squads at the wave's HP ramp),
+  `start_charge()` / `charge_step(e, game, dmg, posts)`, `stop_towers()`,
+  `plant_near()`; `traits/wild/spores.gd` `burst()`; causes `choked`, `rooted`.
 - Autotest: one generic spell branch (any later spell on the leader), deferred
   evolve steps, `minibosses=` line, `--perf-wave=N`, the summary printed once
   (also on a timeout). Tools: `tools/gw_perf.js` (late-map frame time),

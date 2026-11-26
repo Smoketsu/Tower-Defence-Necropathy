@@ -386,7 +386,7 @@ func _kit_summary(lines: Array[String]) -> void:
 		for k: String in ["warded", "dashes", "swoops", "bites", "ruins", "slams", "fed", "spilled", "reassembled", "pierced", "charms", "breaths"]:
 			if t.vars.has(k):
 				c[k] = roundi(float(c.get(k, 0)) + float(t.vars[k]))
-	for k: String in ["barrier_absorbed", "rogue_resets", "brand_risen", "chained", "withered", "eclipsed", "risen", "moonfang_bites", "hex_healed", "swarm_bites", "linen_wraps", "eye_beams", "verdict_executions", "fated_arrows", "thunder_bolts", "styx_slowed"]:
+	for k: String in ["barrier_absorbed", "rogue_resets", "brand_risen", "chained", "withered", "eclipsed", "risen", "moonfang_bites", "hex_healed", "swarm_bites", "linen_wraps", "eye_beams", "verdict_executions", "fated_arrows", "thunder_bolts", "styx_slowed", "rotted"]:
 		if game.stats.has(k):
 			c[k] = roundi(float(game.stats[k]))
 	lines.append("kit=%s ultimate=%s" % [_sorted(c), game.caster.ultimate.id if game.caster.ultimate != null else "-"])

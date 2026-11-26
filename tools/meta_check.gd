@@ -48,7 +48,7 @@ func _ready() -> void:
 	for m: String in Acts.map_order():
 		if not bool(Acts.row(Acts.act_of_map(m)).get("hidden", false)):
 			chain.append(m)
-	ok = ok and chain.size() >= 30 and chain[0] == "graveyard"
+	ok = ok and chain.size() == 45 and chain[0] == "graveyard" and chain[chain.size() - 1] == "world_tree"  # w2d-int: the World-Tree ends the 45-map campaign
 	for i in range(1, chain.size()):
 		if Meta.unlock_after(chain[i]) != chain[i - 1] or Meta.map_open(chain[i]):
 			push_error("meta_check: %s does not follow %s" % [chain[i], chain[i - 1]])

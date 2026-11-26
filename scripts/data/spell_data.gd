@@ -563,6 +563,37 @@ const SPELLS: Dictionary = {
 		"damage": 160.0,  # TUNING (not in GDD) to each foe inside
 		"stun": 1.0,  # TUNING (not in GDD) s frozen (rank multipliers apply)
 	},
+	# --- Act XV spells (w2d-year; Necropathy's Turning Year rewards) ---
+	"wild_hunt": {
+		"name": "Wild Hunt", "short": "Hunt", "icon": "wild_hunt", "cooldown": 15.0, "target": "road", "ready": true,  # TUNING (not in GDD)
+		"desc": "Spectral riders of the Wild Hunt gallop back down the road, trampling all they pass",
+		"unlock": {"map": "greenwood"},  # the Stag King's reward
+		"max_snap": 60.0,  # px: a tap farther than this from any road does nothing
+		"speed": 300.0,  # TUNING (not in GDD) px/s they gallop
+		"length": 300.0,  # TUNING (not in GDD) px of one ride
+		"width": 30.0,  # TUNING (not in GDD) px they trample round their centre
+		"damage": 60.0,  # TUNING (not in GDD) per foe per ride
+		"rebounds": 0,  # TUNING (not in GDD) rides back after the first (the Horned Herald's innate adds one)
+	},
+	"glamour": {
+		"name": "Glamour", "icon": "glamour", "cooldown": 18.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "A fae glamour: the strongest foes near the tap see friends in each other and fight among themselves",
+		"unlock": {"map": "fae_court"},  # the Summer Queen's reward
+		"radius": 140.0,  # TUNING (not in GDD) px around the tap
+		"charms": 3,  # TUNING (not in GDD) foes glamoured (the most HP first; never a boss)
+		"charm_time": 5.0,  # TUNING (not in GDD) s
+		"damage": 24.0,  # TUNING (not in GDD) each glamoured foe's blow
+		"reach": 60.0,  # TUNING (not in GDD) px a glamoured foe reaches
+	},
+	"root_and_rot": {
+		"name": "Root and Rot", "short": "Rot", "icon": "root_and_rot", "cooldown": 16.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "Roots burst from the earth round the tap: the foes there are held fast and rot",
+		"unlock": {"map": "world_tree"},  # the Green Mother's reward
+		"radius": 100.0,  # TUNING (not in GDD) px around the tap
+		"root": 1.4,  # TUNING (not in GDD) s held (TdCombat.freeze_enemy; rank multipliers apply)
+		"rot_dps": 16.0,  # TUNING (not in GDD) damage per s of the rot
+		"rot_time": 5.0,  # TUNING (not in GDD) s
+	},
 }
 
 ## The ultimate (GDD §5 Dread Rally), cast through SpellCaster like a spell

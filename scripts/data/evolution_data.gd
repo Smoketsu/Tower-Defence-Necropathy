@@ -352,4 +352,18 @@ const EVOLUTIONS: Dictionary = {
 		},
 		"recipe": {"type": "any", "of": [{"type": "kills", "n": 40}, {"type": "damage", "n": 14000}]},  # TUNING (not in GDD) Necropathy Petrified Horns -> a record of the road
 	},
+	# --- Act XV (w2d-year) ---
+	"world_root_warden": {
+		"from": "ossuary_oak", "name": "World-Root Warden", "sprite": "summons/world_root_warden", "icon": "world_root_warden",
+		"stats": {"damage": 1.35, "range": 1.1},  # TUNING (not in GDD)
+		"set": {
+			"splash": 74.0,  # TUNING (not in GDD) a wider lash
+			"root_time": 1.3,  # TUNING (not in GDD) longer roots
+			"field_radius": 44.0,  # TUNING (not in GDD) px of the living roots left behind
+			"field_time": 3.0,  # TUNING (not in GDD) s they grip
+			"field_tick": 0.5,  # TUNING (not in GDD) s between their damage ticks
+			"field_fraction": 0.12,  # TUNING (not in GDD) of the lash's damage per tick
+		},
+		"recipe": {"type": "any", "of": [{"type": "kills", "n": 40}, {"type": "damage", "n": 14000}]},  # TUNING (not in GDD) Necropathy Heartwood -> a record of the road
+	},
 }

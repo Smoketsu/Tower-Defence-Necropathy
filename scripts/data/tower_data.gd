@@ -21,7 +21,8 @@ const ORDER: Array[String] = ["archer", "mage", "frost_wraith", "corpse_catapult
 	"spawn_of_the_deep",
 	"grave_drone", "iron_revenant",
 	"ghost_saucer",
-	"bonehorn"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
+	"bonehorn",
+	"ossuary_oak"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
 
 ## Targeting modes (GDD §4.3), in the order the Target button cycles them.
 const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
@@ -701,6 +702,28 @@ const TOWERS: Dictionary = {
 		"volley": {"every": 2, "count": 3, "damage": 0.4, "sprite": "volleys/shard", "tint": Color(0.95, 0.9, 0.75)},  # TUNING (not in GDD) bone-white horn shards
 		"evolution": "fossil_tyrant",
 	},
+	# --- Act XV, the Turning Year (w2d-year): unlocked by the Green Mother ---
+	"ossuary_oak": {
+		"name": "Ossuary Oak", "short": "Oak", "sprite": "summons/ossuary_oak", "icon": "ossuary_oak", "spot": "plot",
+		"desc": "An oak grown from a grave: its roots lash up under the densest pack, rooting what walks there",
+		"unlock": {"map": "world_tree"},  # DECISIONS K9: the act's summon, unlocked by its finale's boss (the Green Mother)
+		"ground_only": true,  # roots never reach a flyer
+		"cost": 130,  # TUNING (not in GDD)
+		"behavior": "ossuary_oak",
+		"range": 230.0,  # TUNING (not in GDD) long, under the Catapult's 270
+		"damage": 42.0,  # TUNING (not in GDD)
+		"interval": 2.8,  # TUNING (not in GDD)
+		"target": "first",
+		"projectile": "volleys/shard", "projectile_speed": 260.0,  # TUNING (not in GDD) a knot of bone and root (tinted by TdVfxData)
+		"arc_time": 0.7,  # TUNING (not in GDD) s from the lash's telegraph to the roots breaking out
+		"splash": 56.0,  # TUNING (not in GDD) px of the lash
+		"slow": 1.0, "slow_time": 0.0, "freeze_every": 0, "freeze_time": 0.0,
+		"pierce": 0, "armour_pierce": 2.0,  # TUNING (not in GDD)
+		"root_time": 0.8,  # TUNING (not in GDD) s each foe hit is rooted (TdCombat.freeze_enemy; rank multipliers apply)
+		"field_radius": 0.0, "field_time": 0.0, "field_tick": 0.5, "field_fraction": 0.0,  # the World-Root Warden's living roots
+		"volley": {"every": 2, "count": 2, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(0.6, 0.9, 0.4)},  # TUNING (not in GDD) bone seeds
+		"evolution": "world_root_warden",
+	},
 }
 
 ## Per-level multipliers, 5 rows (levels 1-5) per tower. Keys:
@@ -918,6 +941,14 @@ const LEVELS: Dictionary = {
 		{"damage": 1.7, "rate": 1.1, "range": 1.1},  # TUNING (not in GDD)
 		{"damage": 2.2, "rate": 1.15, "range": 1.15},  # TUNING (not in GDD)
 		{"damage": 2.8, "rate": 1.25, "range": 1.2},  # TUNING (not in GDD)
+	],
+	# --- Act XV (w2d-year): the Ossuary Oak ---
+	"ossuary_oak": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0},
+		{"damage": 1.35, "rate": 1.0, "range": 1.05},  # TUNING (not in GDD) w2d-year oak level 2
+		{"damage": 1.75, "rate": 1.05, "range": 1.1},  # TUNING (not in GDD) w2d-year oak level 3
+		{"damage": 2.2, "rate": 1.15, "range": 1.15},  # TUNING (not in GDD) w2d-year oak level 4
+		{"damage": 2.8, "rate": 1.25, "range": 1.2},  # TUNING (not in GDD) w2d-year oak level 5
 	],
 }
 
