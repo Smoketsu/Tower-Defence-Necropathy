@@ -129,10 +129,10 @@ const KINDS: Dictionary = {
 	# beam blinds every tower along its line.
 	"concord_luminous_archon": {
 		"name": "The Luminous Archon", "sprite": "concord/luminous_archon", "rank": "miniboss",
-		"hp": 4800.0, "speed": 24.0, "armour": 6.0, "radius": 22.0,  # TUNING (not in GDD) X3
+		"hp": 4000.0, "speed": 24.0, "armour": 6.0, "radius": 22.0,  # TUNING (not in GDD) X3 (its shield adds a quarter)
 		"damage": 24.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "concord/archon",
-		"args": {"shield": 0.3, "first": 4.0, "every": 8.0, "windup": 1.2, "range": 240.0, "width": 34.0, "disable": 2.0},  # TUNING (not in GDD) Necropathy LuminousArchonKit: the sweep
+		"args": {"shield": 0.25, "first": 4.0, "every": 8.0, "windup": 1.2, "range": 240.0, "width": 34.0, "disable": 2.0},  # TUNING (not in GDD) Necropathy LuminousArchonKit: the sweep
 	},
 	# --- Act XIII: the bosses ---
 	# Crash Site boss: the Hive Mother. The Brood (eggs hatch round her), the Burrow (she dives unseen and erupts
@@ -162,13 +162,13 @@ const KINDS: Dictionary = {
 	# the Reaping (immune while its reap emitters lift the posts and towers round them), the Gardener (its true form).
 	"concord_harvester": {
 		"name": "The Harvester", "sprite": "bosses/harvester", "rank": "boss",
-		"hp": 13000.0, "speed": 18.0, "armour": 6.0, "radius": 28.0,  # TUNING (not in GDD) the act's last boss
+		"hp": 10500.0, "speed": 18.0, "armour": 6.0, "radius": 28.0,  # TUNING (not in GDD) the act's last boss (immune through the Reaping)
 		"damage": 36.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "concord/harvester",
 		"args": {"reaping_hp": 0.5, "council_first": 4.0, "council_turn": 8.0, "swarm": 6, "swarm_kind": "concord_broodling",
 			"cloak_time": 4.0, "cloak_alpha": 0.3, "cloak_speed": 1.5, "beams": 3, "beam_range": 230.0, "beam_disable": 2.0,
 			"emitters": 3, "emitter_ahead": [70.0, 150.0, 230.0], "emitter_lane": 46.0, "reaping_max": 30.0,
-			"true_sprite": "bosses/harvester_true", "gardener_speed": 1.3, "gardener_saucers": 2, "gardener_every": 18.0, "pose_time": 0.8},  # TUNING (not in GDD) Necropathy BossHarvester / HarvesterData
+			"true_sprite": "bosses/harvester_true", "gardener_speed": 1.1, "gardener_saucers": 2, "gardener_every": 18.0, "pose_time": 0.8},  # TUNING (not in GDD) Necropathy BossHarvester / HarvesterData
 	},
 }
 

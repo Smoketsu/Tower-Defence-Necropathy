@@ -210,10 +210,11 @@ every later tower / spell / ultimate / character in the menus.
 | VIII the Olympian Republic (`pantheon`, T8) | `pantheon_act_data.gd`; `rules/pantheon/pantheon_rules.gd` (Phalanx shield fronts, Wrath of the Gods on both armies, Glory; meter top-left) | ilion, olympus, underworld | Polyphemus, Ares, Cerberus / Achilles, Zeus, Hades | Myrmidon Shades -> Legion of Tartarus, Hammer and Anvil | Paris's Arrow, Stolen Thunder, River Styx (Doomed Prophetess, Oathbreaker, Ferrywoman) |
 | IX the Inferno (`inferno`, T9) | `inferno_act_data.gd`; `rules/inferno/portals.gd` (portals marked a wave ahead, barred by a post / Bone Wall or sealed by Brimstone; Hell Pits; Temptation; cue top-left) | burning_gate, silk_palace, pandemonium | the Gatekeeper, the Twin Succubi, the Seraph General / Moloch, Lilith, the Morning Star | Bound Succubus -> Lilim Matriarch, Velvet Chains; Archfiend -> Prince of Hell, Pride | Brimstone, Temptation (`tempt`), Fall from Grace (Furnace Priest, Succubus Queen, Fallen Saint) |
 | X the Celestial Host (`host`, T10) | `host_act_data.gd`; `rules/host/hallowed_light.gd` (sweeping shafts weaken towers out of the shade, Grace, Judgment; dial top-left) | silver_stair, wheel_of_thrones, empyrean (map key `clouds`) | Cherub of the Gate, Dominion of the Spheres, Herald of the Seventh Trumpet / Seraiel, the Throne, the Voice | Bound Ophan -> Throne of Bones, Turning Wheel | Flaming Sword, Wheel of Eyes, Revelation (Fallen Herald, Blind Saint, the Unveiled) |
+| XIII the Concord of Stars (`concord`, T13) | `concord_act_data.gd`; `rules/concord/abduction.gd` (saucers fly sky lanes, map roads with `sky`; each stops over the strongest post / plot in reach, grows a tractor cone 3 s and lifts it: a body taken or a tower disabled "abducted"; cue top-right) | crash_site, proving_moon, ark | Brood Matriarch, Warbeast, Luminous Archon / Hive Mother, Vrask'Tal, the Harvester | Ghost Saucer -> Black Mothership, Crop Circles | Bone Beetles, Soul Caster, Tractor Beam (Broodbound, Blooded, Starborn) |
 
 Build orders: `<map>_default`, `<map>_weak`, and one kit order per act
 (`tide_kit`, `court_kit`, `shogunate_kit`, `norse_kit`, `dynasty_kit`,
-`pantheon_kit`, `inferno_kit`, `host_kit`: every map of the act; a map entry may
+`pantheon_kit`, `inferno_kit`, `host_kit`, `concord_kit`: every map of the act; a map entry may
 be `{"base": order, "swap": [from, to]}`, DECISIONS Y5). Act runs print
 `act_rule=` / `hostile=`. `towers_check` has one `_<act>_checks()` per act.
 
@@ -251,6 +252,13 @@ be `{"base": order, "swap": [from, to]}`, DECISIONS Y5). Act runs print
   Hallowed Light `add_shaft()`, `in_light()`, `shaded()`, `send_judges()`,
   `judges_due()`, `boss_width` / `boss_live`, `host/lunge.gd` `line()` /
   `sweep_ring()`, `host/cherub.gd` `sweep()`, `host/ophan.gd` `roll_over()`.
+- Act XIII (w2d-concord): road key `sky` (`Road.sky`: an off-road exit lane MapView never
+  draws; the act's layer draws it), enemy var `priority_until` (game s: "first" towers add
+  `TdRulesData.PRIORITY_BONUS`, the beaming saucer), `HostileData` cause `abducted`, looks
+  `plasma` / `acid` / `lumen`; helpers `concord/concord_kit.gd` `warn()` / `burst()` /
+  `hatch()` / `line()`, `concord/burrower.gd` `dig()`, `concord/cloak.gd` `cloaked()` /
+  `reveal_on_spell()`, `concord/lumen.gd` `soak()`, `concord/archon.gd` `sweep()`,
+  Abduction `call_saucers()` / `of(game)`.
 - HUD widgets of the acts sit in corners no road uses: top-left under the bar
   (Escalation, Wrath, Hell cue, Host dial), top-right (Blood Moon cue, Scales),
   bottom-left (Sun dial, Winter meter). One act per map, so they never meet.

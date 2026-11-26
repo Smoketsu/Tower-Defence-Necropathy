@@ -53,7 +53,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(200, 620), Vector2(360, 380), Vector2(640, 140), Vector2(920, 300), Vector2(720, 520), Vector2(1150, 640)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 2.5,  # TUNING (not in GDD) rising through the act
+	"wave_hp_end": 3.0,  # TUNING (not in GDD) rising through the act
 	"rule": "",
 	"act_rule": "concord/abduction",
 	"build_order": "proving_moon_default",
