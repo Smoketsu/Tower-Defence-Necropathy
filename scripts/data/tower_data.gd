@@ -683,7 +683,7 @@ const TOWERS: Dictionary = {
 		"cost": 130,  # TUNING (not in GDD)
 		"behavior": "bonehorn",
 		"range": 170.0,  # TUNING (not in GDD)
-		"damage": 52.0,  # TUNING (not in GDD) DECISIONS T14.5 (was 38) to each foe the charge passes
+		"damage": 58.0,  # TUNING (not in GDD) DECISIONS Z5 (was 52; T14.5: 38) to each foe the charge passes
 		"interval": 2.3,  # TUNING (not in GDD) DECISIONS T14.5 (was 2.6)
 		"target": "first",
 		"splash": 48.0,  # TUNING (not in GDD) the pack radius its pick scores (fallen_hero.gd)
