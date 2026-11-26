@@ -585,12 +585,12 @@ const TOWERS: Dictionary = {
 		"cost": 130,  # TUNING (not in GDD)
 		"behavior": "bonehorn",
 		"range": 170.0,  # TUNING (not in GDD)
-		"damage": 38.0,  # TUNING (not in GDD) to each foe the charge passes
+		"damage": 52.0,  # TUNING (not in GDD) DECISIONS T14.5 (was 38) to each foe the charge passes
 		"interval": 2.6,  # TUNING (not in GDD)
 		"target": "first",
 		"splash": 48.0,  # TUNING (not in GDD) the pack radius its pick scores (fallen_hero.gd)
 		"roll_len": 150.0,  # TUNING (not in GDD) px it charges back along the road
-		"roll_w": 26.0,  # TUNING (not in GDD) px either side of the road it strikes
+		"roll_w": 30.0,  # TUNING (not in GDD) DECISIONS T14.5 (was 26) px either side of the road it strikes
 		"knock": 40.0,  # TUNING (not in GDD) px each foe it gores is thrown back (TdCombat.knock_enemy)
 		"patrol_r": 20.0, "patrol_speed": 1.4,  # TUNING (not in GDD) it paws round its plot
 		"dive_time": 0.3,  # TUNING (not in GDD)

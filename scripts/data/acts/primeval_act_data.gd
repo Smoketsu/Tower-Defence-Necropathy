@@ -439,7 +439,7 @@ const ORDERS: Dictionary = {
 	},
 	"titans_kit": {
 		"spells": true,
-		"loadout": ["pack_leap", "stampede", "meteor_call"],
+		"loadout": ["meteor_call", "stampede", "pack_leap"],  # The Gravecaller's Shadow Bolt takes the last slot (CharacterModifiers.loadout)
 		"steps_by_map": {
 			"fern_basin": [
 				{"do": "build", "spot": "plot:3", "tower": "archer"},

@@ -433,8 +433,8 @@ const SPELLS: Dictionary = {
 		"unlock": {"map": "fern_basin"},  # Scarmaw's reward
 		"radius": 130.0,  # TUNING (not in GDD) px round the tap the raptors pick their prey in
 		"raptors": 3,  # TUNING (not in GDD) raptors per cast (the Fern Huntress's innate adds leap_extra)
-		"damage": 60.0,  # TUNING (not in GDD) each raptor's bite
-		"bleed_dps": 14.0,  # TUNING (not in GDD) damage per s of the bleed
+		"damage": 45.0,  # TUNING (not in GDD) each raptor's bite
+		"bleed_dps": 10.0,  # TUNING (not in GDD) damage per s of the bleed
 		"bleed_time": 4.0,  # TUNING (not in GDD) s
 		"leap_time": 0.35,  # TUNING (not in GDD) s a raptor flies before it bites
 	},
@@ -455,7 +455,7 @@ const SPELLS: Dictionary = {
 		"unlock": {"map": "last_day"},  # Old Gravejaw's reward
 		"radius": 80.0,  # TUNING (not in GDD) px of the circle (the Skywatcher's innate widens it by meteor_radius)
 		"delay": 1.0,  # TUNING (not in GDD) s the circle shows before it lands (Necropathy 0.9 s)
-		"damage": 220.0,  # TUNING (not in GDD) to each foe inside
+		"damage": 160.0,  # TUNING (not in GDD) to each foe inside
 		"stun": 1.0,  # TUNING (not in GDD) s frozen (rank multipliers apply)
 	},
 }

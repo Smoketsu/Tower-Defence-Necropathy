@@ -12,6 +12,8 @@
 ## spells and the Sun's Course (night visibility, douse / relight, ambush, Kage, the Shogun);
 ## Act X (_host_checks): the Bound Ophan roll and Throne of Bones, Turning Wheel, the act
 ## spells, the Hallowed Light (weakening, shade, Grace), Judgment, the Ophan, the Throne's rims.
+## Act XIV (_titans_checks): the Bonehorn charge and Fossil Tyrant, Thundering Herd, the act
+## spells, the Stampedes (trample, turning, the tar, the watering hole), a rock stun, meteors.
 ## Run: godot --headless tools/towers_check.tscn   (prints PASS / FAIL, exit 0 / 1)
 extends Node
 
@@ -70,6 +72,7 @@ func _ready() -> void:
 	_pantheon_checks()
 	_inferno_checks()
 	_host_checks()
+	_titans_checks()
 	print("TOWERS CHECK %s %s" % ["PASS" if _fails.is_empty() else "FAIL", ",".join(_fails)])
 	get_tree().quit(0 if _fails.is_empty() else 1)
 
@@ -882,3 +885,101 @@ func _host_checks() -> void:
 	_check("throne rims", TdCombat.damage_enemy(game, th, 1000.0, {"source": "check", "dot": true}) < 400.0)
 	th.vars["core_until"] = game.time + 5.0
 	_check("throne core", is_equal_approx(TdCombat.damage_enemy(game, th, 1000.0, {"source": "check", "dot": true}), 1000.0))
+
+
+## Act XIV (w2d-titans): the Bonehorn, its evolution and synergy, the act spells and the Stampedes.
+func _titans_checks() -> void:
+	var loadout: Array[String] = ["pack_leap", "stampede", "meteor_call"]
+	var game := TdGame.new()
+	game.setup("fern_basin", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(game)
+	game.economy.earn(50000, "test_bonus")
+	var rule: MapRule = game.act_rule
+	_check("stampedes loaded", rule != null and rule.has_method("herd_hurt"))
+	# The Bonehorn charges back down the road through a pack: damage, stagger, knockback.
+	var bh := game.spot_by_id("plot:3")
+	game.build(bh, "bonehorn")
+	var pack: Array[TdEnemy] = []  # Foes in its reach.
+	var d0: Array[float] = []  # Their distances along the road before.
+	for i in 4:
+		var e := _enemy_at(game, "prim_razorclaw", Vector2(380.0 + float(i) * 30.0, 530))
+		e.max_hp = 1.0e6
+		e.hp = e.max_hp
+		pack.append(e)
+		d0.append(e.follower.dist)
+	_run(game, 4.0)
+	_check("bonehorn charges", int(bh.tower.vars.get("rolls", 0)) > 0)
+	_check("bonehorn hits the pack", pack.filter(func(e: TdEnemy) -> bool: return e.hp < e.max_hp).size() >= 2)
+	var thrown := false  # Some foe was thrown back.
+	for i in pack.size():
+		thrown = thrown or pack[i].follower.dist < d0[i] - 1.0
+	_check("bonehorn throws back", thrown and pack.any(func(e: TdEnemy) -> bool: return e.staggered_until > 0.0))
+	var ft := _maxed(game, "plot:8", "bonehorn")
+	_check("fossil tyrant set", ft.evolution == "fossil_tyrant" and int(ft.stats["chain_slams"]) == 1 and float(ft.stats["dive_stun"]) > 0.0)
+	var ab := _maxed(game, "post:1", "abomination")
+	_check("thundering herd active", ft.synergies.any(func(p: Array) -> bool: return p[0] == "thundering_herd") or ab.synergies.any(func(p: Array) -> bool: return p[0] == "thundering_herd"))
+	# The act spells.
+	var foe := pack[0]
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	var hp := foe.hp  # Before the spells.
+	_check("cast pack_leap", game.cast_spell(0, foe.position))
+	_check("cast stampede", game.cast_spell(1, foe.position))
+	_check("cast meteor_call", game.cast_spell(2, foe.position))
+	_run(game, 2.0)
+	_check("act spells strike", int(game.stats.get("pack_leap_bites", 0)) > 0 and int(game.stats.get("stampede_hits", 0)) > 0 \
+			and int(game.stats.get("meteor_call_hits", 0)) > 0 and foe.hp < hp)
+	for e: TdEnemy in pack:
+		if e.alive:
+			game.remove_enemy(e, false)
+	# The tar: a walker in a seep is slowed, a Bog Croc sinks out of sight.
+	var sc := _enemy_at(game, "prim_scuttler", Vector2(560, 660))
+	var croc := _enemy_at(game, "prim_bog_croc", Vector2(560, 665))
+	for o: TdEnemy in [sc, croc]:
+		o.max_hp = 1.0e6  # The Bonehorns nearby keep charging.
+		o.hp = o.max_hp
+	_run(game, 0.5)
+	_check("tar slows", sc.slow_until > game.time and sc.slow_mult < 1.0)
+	_check("bog croc sinks", croc.hidden_from_towers())
+	game.remove_enemy(sc, false)
+	game.remove_enemy(croc, false)
+	# A herd beast tramples the tower beside its trail; hurt enough, the herd turns back.
+	var arch := game.spot_by_id("plot:9")
+	game.build(arch, "archer")
+	var trail: Road = game.roads["fern_trail"]
+	var beast := game.spawn_at("prim_longneck", "fern_trail", 1, trail.project(arch.position) - 10.0, 0.0)
+	beast.max_hp = 1.0e5  # Towers shooting it must not turn it before the check.
+	beast.hp = beast.max_hp
+	_run(game, 1.0)
+	_check("herd tramples", arch.tower.disabled_until > game.time and arch.tower.disabled_cause == "trampled")
+	TdCombat.damage_enemy(game, beast, beast.max_hp * 0.5, {"source": "check", "dot": true})
+	_check("herd turns back", beast.alive and beast.follower.road.id == "fern_trail_back" and int((rule.get("counts") as Dictionary)["turned"]) == 1)
+	# The Great Plain: a herd hurt while it drinks bolts; a charger into a rock is stunned.
+	var gp := TdGame.new()
+	gp.setup("great_plain", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(gp)
+	var hole: Array = gp.map["hole"]
+	var lt: Road = gp.roads["long_trail"]
+	var drinker := gp.spawn_at("prim_duckbill", "long_trail", 1, lt.project(hole[0]), 0.0)
+	_run(gp, 0.3)
+	_check("herd drinks", drinker.slow_until > gp.time and drinker.slow_mult < 0.5)
+	TdCombat.damage_enemy(gp, drinker, drinker.max_hp * 0.5, {"source": "check", "dot": true})
+	_check("herd bolts", int((gp.act_rule.get("counts") as Dictionary)["bolted"]) == 1 and drinker.haste_until > gp.time)
+	var rock: Vector2 = (gp.map["rocks"] as Array)[0]
+	var hc := gp.spawn_at("prim_horncharger", "main", 1, gp.roads["main"].project(rock) - 30.0, 0.0)
+	hc.vars["next"] = 0.0
+	_run(gp, 3.0)
+	_check("rock stuns a charger", hc.freeze_until > gp.time - 3.0 and float(gp.stats.get("events", {}).get("rock_stuns", 0.0)) >= 1.0)
+	# The Last Day: meteors fall on both armies.
+	var ld := TdGame.new()
+	ld.setup("last_day", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(ld)
+	var lr: MapRule = ld.act_rule
+	var victim := ld.spawn_at("prim_scuttler", "main", 1, 400.0, 0.0)
+	TdCombat.freeze_enemy(ld, victim, 30.0)
+	victim.max_hp = 1.0e6
+	victim.hp = victim.max_hp
+	(lr.get("meteors") as Array).append([victim.position, ld.time + 0.5, ld.time])
+	_run(ld, 1.0)
+	_check("meteor strikes foes", victim.hp < victim.max_hp and int((lr.get("counts") as Dictionary)["meteor_foes"]) == 1)
+	_check("meteors scheduled", float(lr.get("next_meteor")) < INF)
+
