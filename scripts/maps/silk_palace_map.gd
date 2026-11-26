@@ -57,7 +57,7 @@ const MAP: Dictionary = {
 	"pits_from": 7,  # TUNING (not in GDD)
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 3.2,  # TUNING (not in GDD) rising through the act
+	"wave_hp_end": 4.0,  # TUNING (not in GDD) rising through the act
 	"rule": "",
 	"act_rule": "inferno/portals",
 	"build_order": "silk_palace_default",

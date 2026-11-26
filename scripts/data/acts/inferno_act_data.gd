@@ -107,7 +107,7 @@ const KINDS: Dictionary = {
 	# The Burning Gate: the Gatekeeper, a chained giant: chains fling out and bind towers; he hauls in a coffle of the damned.
 	"gatekeeper": {
 		"name": "The Gatekeeper", "sprite": "inferno/gatekeeper", "rank": "miniboss",
-		"hp": 5200.0, "speed": 24.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD) X3 band 4000-6000
+		"hp": 4800.0, "speed": 24.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD) X3 band 4000-6000
 		"damage": 26.0, "attack_interval": 1.6,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "inferno/gatekeeper",
 		"args": {"chain_first": 4.0, "chain_every": 9.0, "chain_range": 240.0, "chain_towers": 2, "chain_disable": 2.5,
@@ -125,7 +125,7 @@ const KINDS: Dictionary = {
 	# Agrat, the younger twin: her sister's kit, half her strength (no chest: one miniboss per map, X3).
 	"twin_agrat": {
 		"name": "Agrat, the Younger Twin", "sprite": "inferno/twin_agrat", "rank": "elite", "souls": 40,
-		"hp": 1600.0, "speed": 30.0, "armour": 2.0, "radius": 20.0,  # TUNING (not in GDD)
+		"hp": 1200.0, "speed": 26.0, "armour": 2.0, "radius": 20.0,  # TUNING (not in GDD)
 		"damage": 18.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "inferno/twin",
 		"args": {"sister": "twin_naamah", "first": 7.5, "every": 9.0, "range": 170.0, "bodies": 1, "time": 4.0, "hit_mult": 0.8,
@@ -155,12 +155,12 @@ const KINDS: Dictionary = {
 	# The Palace: Lilith, Queen of the Night: charm waves, the kiss of ruin, a brood from her wings, then her true demon form.
 	"lilith": {
 		"name": "Lilith, Queen of the Night", "sprite": "bosses/lilith", "rank": "boss",
-		"hp": 11500.0, "speed": 24.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD)
+		"hp": 9000.0, "speed": 24.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD)
 		"damage": 28.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "inferno/lilith",
 		"args": {"wave_first": 4.0, "wave_every": 11.0, "wave_radius": 190.0, "wave_time": 4.0, "wave_mult": 0.8,
 			"kiss_first": 6.0, "kiss_every": 10.0, "kiss_mult": 0.5, "kiss_time": 6.0,
-			"brood_every": 12.0, "brood_kind": "hell_imp", "brood_count": 3, "brood_lane": 12.0,
+			"brood_every": 15.0, "brood_kind": "hell_imp", "brood_count": 3, "brood_lane": 12.0,
 			"demon_hp": 0.35, "demon_armour": 4.0, "demon_haste": 1.25, "demon_rate": 0.7, "pose_time": 0.7},  # TUNING (not in GDD) Necropathy charm waves, the kiss, demon children, the true form
 	},
 	# Pandemonium: the Morning Star. The Angel (beams of light and dark, the burning sword), then at half health the Beast

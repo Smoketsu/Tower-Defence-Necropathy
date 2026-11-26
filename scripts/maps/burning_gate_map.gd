@@ -56,7 +56,7 @@ const MAP: Dictionary = {
 	"pits_from": 8,  # TUNING (not in GDD)
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 3.6,  # TUNING (not in GDD) Part Two map 1: a step above the Road to the Sun's roster
+	"wave_hp_end": 5.3,  # TUNING (not in GDD) Part Two map 1: a step above the Road to the Sun's roster
 	"rule": "",
 	"act_rule": "inferno/portals",
 	"build_order": "burning_gate_default",

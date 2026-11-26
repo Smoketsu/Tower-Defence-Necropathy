@@ -199,11 +199,12 @@ character in the menus.
 | III the Sanguine Court (`court`, T3) | `court_act_data.gd`; `rules/court/blood_moon.gd` (every 5 waves from 6) + map rule `court_structures` (coffins, hex stones, fountains) | ravensmoor, witchwood, castle_sanguis | Old Greymane, Bog Mother, Chiropteran King / Vargr, Isolde, Carmilla and the Elder | Blood Spawn -> Nosferatu, The Red Waltz | Moonfang, Hex Circle, Night Swarm (Huntress, Hedge Witch, Dhampir) |
 | IV the Last Line (`city`, T4) | `city_act_data.gd`; `rules/city/escalation.gd` (gangs -> police -> army -> heroes; `EscalationMeter`, `CityStreets`) | skid_row, fort_kessler, liberty_heights | Big Sal, the Mammoth, Atlas / Don Marrow, Harrow, Paragon | Fallen Hero -> Black Paragon, Origin Story | Hearse Run, Bone Mines, Hero's Fist (Undertaker, Fallen Sergeant, Revenant Heroine) |
 | V the Shogunate (`shogunate`, T5) | `shogunate_act_data.gd`; `rules/shogunate/sun_course.gd` (+ `sun_layer`, `sun_dial`: day / dusk / night, lanterns, ambushes) | province, kurogane, sun_road | Shuten-doji, General of the Left, the Kirin / Kage, Shogun Kurogane, Amaterasu | Bound Oni -> Oni Lord, Iron and Bone | Hundred Shadows, Banner of the Dead, Black Sun (Grave Kunoichi, Ronin Revenant, Shrine Maiden) |
+| IX the Inferno (`inferno`, T9; wave 2c) | `inferno_act_data.gd`; `rules/inferno/portals.gd` (+ `inferno_layer`, `hell_cue`: portals marked a wave ahead on the road, barred by a post / Bone Wall on the mark or sealed by Brimstone; Hell Pits; Temptation) | burning_gate, silk_palace, pandemonium | the Gatekeeper, the Twin Succubi, the Fallen Seraph General / Moloch, Lilith, the Morning Star (pose 2 = second form) | Bound Succubus -> Lilim Matriarch, Velvet Chains; Archfiend -> Prince of Hell, Pride | Brimstone, Temptation (`tempt`), Fall from Grace (Furnace Priest, Succubus Queen, Fallen Saint) |
 
 Build orders: `<map>_default`, `<map>_weak`, plus `tide_kit`, `court_kit`,
 `shogunate_kit` (every map of the act). Act runs print `act_rule=` / `hostile=`.
 `towers_check` has `_tide_checks`, `_court_checks`, `_city_checks`,
-`_shogun_checks`.
+`_shogun_checks`, `_inferno_checks`; Act IX adds `inferno_kit`.
 
 **Shared hooks the acts added (use them, do not write a second path):**
 - `TdCombat.knock_enemy(game, e, px)` (the one knockback path),
@@ -222,6 +223,12 @@ Build orders: `<map>_default`, `<map>_weak`, plus `tide_kit`, `court_kit`,
   `CityTactics.squad()` / `road_line()`; `shogunate/draw.gd` `line()` / `cut()`
   (telegraphed line strike); Sun's Course `in_light()`, `douse_near()`,
   `relight()`, `set_override()`.
+- Act IX (w2c-inferno): `TdCombat.charm_body()` / `cleanse_body()` (a tempted
+  blocker body fights its own post; heal / barrier cleanse it) and
+  `TdCombat.charm_enemy()` / `charm_step()` (a foe fights for you; status
+  "charmed"); `WaveDirector.hp_ramp(i)` (mid-wave spawns at the wave's HP);
+  Portals rule `open_portal()` / `open_pit()` / `seal_near()`
+  (`traits/inferno/inferno_kit.gd` wraps them); enemy row key `damned`.
 - Autotest: one generic spell branch (any later spell on the leader), deferred
   evolve steps, `minibosses=` line, `--perf-wave=N`. Tools: `tools/gw_perf.js`
   (late-map frame time), `tools/gw_wave_shot.js` (screenshots at a wave, any
