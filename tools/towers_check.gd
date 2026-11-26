@@ -70,6 +70,7 @@ func _ready() -> void:
 	_pantheon_checks()
 	_inferno_checks()
 	_host_checks()
+	_concord_checks()
 	print("TOWERS CHECK %s %s" % ["PASS" if _fails.is_empty() else "FAIL", ",".join(_fails)])
 	get_tree().quit(0 if _fails.is_empty() else 1)
 
@@ -882,3 +883,98 @@ func _host_checks() -> void:
 	_check("throne rims", TdCombat.damage_enemy(game, th, 1000.0, {"source": "check", "dot": true}) < 400.0)
 	th.vars["core_until"] = game.time + 5.0
 	_check("throne core", is_equal_approx(TdCombat.damage_enemy(game, th, 1000.0, {"source": "check", "dot": true}), 1000.0))
+
+
+## Act XIII (w2d-concord): Abduction, the Ghost Saucer, its evolution and synergy, the act spells and kinds.
+func _concord_checks() -> void:
+	var loadout: Array[String] = ["bone_beetles", "soul_caster", "tractor_lift"]
+	var game := TdGame.new()
+	game.setup("crash_site", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(game)
+	game.economy.earn(50000, "test_bonus")
+	var rule: MapRule = game.act_rule
+	_check("abduction loaded", rule != null and rule.has_method("call_saucers"))
+	# The Ghost Saucer's beam strikes the foes in its line; every few beams it lifts a fodder foe.
+	var gs := game.spot_by_id("plot:3")
+	game.build(gs, "ghost_saucer")
+	var pack: Array[TdEnemy] = []
+	for i in 4:
+		var e := _enemy_at(game, "concord_burrower", Vector2(580, 400.0 + float(i) * 24.0))
+		e.max_hp = 1.0e6
+		e.hp = e.max_hp
+		e.freeze_until = 0.0
+		e.speed = 0.0
+		pack.append(e)
+	_run(game, 8.0)
+	_check("ghost saucer beams", int(gs.tower.vars.get("beams", 0)) >= 4)
+	_check("ghost saucer beam hits a line", pack.filter(func(e: TdEnemy) -> bool: return e.hp < e.max_hp).size() >= 2)
+	_check("ghost saucer lifts", int(gs.tower.vars.get("lifted", 0)) >= 1)
+	var bm := _maxed(game, "plot:4", "ghost_saucer")
+	_check("black mothership set", bm.evolution == "black_mothership" and int(bm.stats["beams"]) == 3 and int(bm.stats["lifts"]) == 2)
+	_maxed(game, "plot:2", "frost_wraith")
+	_check("crop circles active", bm.synergies.any(func(p: Array) -> bool: return p[0] == "crop_circles"))
+	# The act spells.
+	var foe := pack[0]
+	var hp := foe.hp
+	_check("cast bone_beetles", game.cast_spell(0, foe.position))
+	_check("cast soul_caster", game.cast_spell(1, foe.position))
+	_check("cast tractor_lift", game.cast_spell(2, foe.position))
+	_check("tractor lifts", pack.any(func(e: TdEnemy) -> bool: return e.freeze_until > game.time))
+	_run(game, 3.0)
+	_check("beetles, caster and slam strike", int(game.stats.get("beetle_bites", 0)) > 0 and int(game.stats.get("caster_shots", 0)) > 0 and int(game.stats.get("tractor_slams", 0)) > 0 and foe.hp < hp)
+	for e: TdEnemy in pack:
+		game.remove_enemy(e, false)
+	for s: Spot in game.spots:
+		if s.tower != null:
+			game.sell(s)
+	# A saucer stops over a tower and lifts it after its cone; one shot down mid-beam lifts nothing.
+	var arch := game.spot_by_id("plot:3")
+	game.build(arch, "archer")
+	var sc := game.spawn_at("concord_saucer", "sky_a", 1, 555.0, 0.0)
+	sc.max_hp = 1.0e6
+	sc.hp = sc.max_hp
+	_run(game, 0.5)
+	_check("saucer beams", float(sc.vars.get("beam_at", 0.0)) > 0.0 and sc.speed == 0.0)
+	_check("saucer priority", float(sc.vars.get("priority_until", 0.0)) > game.time)
+	_run(game, 3.5)
+	_check("saucer lifts a tower", arch.tower.disabled_cause == "abducted" and arch.tower.disabled_until > game.time)
+	_run(game, 1.5)
+	_check("saucer flies on", sc.speed > 0.0)
+	game.remove_enemy(sc, false)
+	var post := game.spot_by_id("post:1")
+	game.build(post, "warrior")
+	var bodies := post.tower.block.bodies.filter(func(b: BlockBody) -> bool: return b.alive).size()
+	var s2 := game.spawn_at("concord_saucer", "sky_a", 1, 640.0, 0.0)
+	s2.max_hp = 1.0e6
+	s2.hp = s2.max_hp
+	_run(game, 4.0)
+	_check("saucer takes a body", post.tower.block.bodies.filter(func(b: BlockBody) -> bool: return b.alive).size() < bodies)
+	game.remove_enemy(s2, false)
+	_run(game, 8.0)
+	var s3 := game.spawn_at("concord_saucer", "sky_a", 1, 640.0, 0.0)
+	_run(game, 0.5)
+	var before := post.tower.block.bodies.filter(func(b: BlockBody) -> bool: return b.alive).size()
+	TdCombat.damage_enemy(game, s3, 1.0e6, {"source": "check"})
+	_run(game, 3.0)
+	_check("saucer downed mid-beam", int(rule.get("counts")["downed_beaming"]) == 1 and post.tower.block.bodies.filter(func(b: BlockBody) -> bool: return b.alive).size() == before)
+	# The Burrower digs under the post holding it; the Vrask Hunter is cloaked while it walks, a spell reveals it.
+	var bur := game.spawn_at("concord_burrower", "main", 1, 700.0, 0.0)
+	bur.max_hp = 1.0e6
+	bur.hp = bur.max_hp
+	_run(game, 6.0)
+	_check("burrower digs", int(bur.vars.get("dug", 0)) == 1)
+	var vh := game.spawn_at("concord_vrask_hunter", "ridge", 1, 50.0, 0.0)
+	_run(game, 0.2)
+	_check("vrask cloaked", vh.hidden_from_towers())
+	TdCombat.damage_enemy(game, vh, 1.0, {"source": "soul_caster"})
+	_run(game, 0.2)
+	_check("spell reveals the vrask", not vh.hidden_from_towers())
+	# The Star-Seer wards the Concord near her; the Harvester's Reaping is immune and lands its emitters.
+	var pr := game.spawn_at("concord_prism", "ridge", 1, 300.0, 0.0)
+	_run(game, 0.5)
+	_check("prism wards", pr.ward_until > game.time and pr.ward_mult < 1.0)
+	var hv := game.spawn_at("concord_harvester", "main", 1, 100.0, 0.0)
+	hv.hp = hv.max_hp * 0.45
+	_run(game, 0.2)
+	_check("harvester reaping", int(hv.vars["phase"]) == 2 and (hv.vars["emitters"] as Array).size() == 3)
+	_check("harvester immune", TdCombat.damage_enemy(game, hv, 500.0, {"source": "check"}) == 0.0)
