@@ -105,7 +105,7 @@ const KINDS: Dictionary = {
 	# Empyrean miniboss: the Herald of the Seventh Trumpet; each blast calls the squad of an earlier zone, seven in all.
 	"host_seventh_herald": {
 		"name": "The Herald of the Seventh Trumpet", "sprite": "host/herald_of_the_seventh_trumpet", "rank": "miniboss",
-		"hp": 3500.0, "speed": 28.0, "armour": 5.0, "radius": 24.0,  # TUNING (not in GDD) X3
+		"hp": 3000.0, "speed": 28.0, "armour": 5.0, "radius": 24.0,  # TUNING (not in GDD) X3
 		"damage": 22.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "host/herald",
 		"args": {"first": 3.0, "every": 7.0, "windup": 1.0, "calls": 7, "radius": 150.0, "stun": 1.6, "gap": 18.0,
