@@ -81,7 +81,7 @@ const KINDS: Dictionary = {
 	# The guardians: a burning wheel within a wheel; it ROLLS down the road and no post holds it unless it is staggered or frozen.
 	"host_ophan": {
 		"name": "Ophan", "sprite": "host/ophan", "rank": "elite",
-		"hp": 560.0, "speed": 46.0, "armour": 6.0, "radius": 15.0,  # TUNING (not in GDD)
+		"hp": 380.0, "speed": 44.0, "armour": 4.0, "radius": 15.0,  # TUNING (not in GDD)
 		"damage": 18.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "host/ophan",
 		"args": {"roll_damage": 34.0, "roll_first": 4.0, "roll_every": 9.0, "roll_time": 1.6, "speed_mult": 1.8},  # TUNING (not in GDD) Necropathy "rolls straight through the ring, then turns"
@@ -97,7 +97,7 @@ const KINDS: Dictionary = {
 	# Wheel of Thrones miniboss: the Dominion of the Spheres keeps every angel near him quick and whole.
 	"host_dominion_of_the_spheres": {
 		"name": "The Dominion of the Spheres", "sprite": "host/dominion_of_the_spheres", "rank": "miniboss",
-		"hp": 5400.0, "speed": 28.0, "armour": 6.0, "radius": 24.0,  # TUNING (not in GDD) X3
+		"hp": 3800.0, "speed": 28.0, "armour": 5.0, "radius": 24.0,  # TUNING (not in GDD) X3: a little under, his aura keeps the column alive
 		"damage": 24.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "host/spheres",
 		"args": {"radius": 170.0, "speed_mult": 1.3, "regen": 0.025, "refresh": 0.25, "tick": 0.25},  # TUNING (not in GDD) Necropathy "keeps halos returning across the whole zone"
@@ -105,7 +105,7 @@ const KINDS: Dictionary = {
 	# Empyrean miniboss: the Herald of the Seventh Trumpet; each blast calls the squad of an earlier zone, seven in all.
 	"host_seventh_herald": {
 		"name": "The Herald of the Seventh Trumpet", "sprite": "host/herald_of_the_seventh_trumpet", "rank": "miniboss",
-		"hp": 5600.0, "speed": 28.0, "armour": 5.0, "radius": 24.0,  # TUNING (not in GDD) X3
+		"hp": 4200.0, "speed": 28.0, "armour": 5.0, "radius": 24.0,  # TUNING (not in GDD) X3
 		"damage": 22.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "host/herald",
 		"args": {"first": 3.0, "every": 7.0, "windup": 1.0, "calls": 7, "radius": 150.0, "stun": 1.6, "gap": 18.0,
@@ -128,10 +128,10 @@ const KINDS: Dictionary = {
 	# the burning Core can be hurt; it rolls through the posts and its Gaze lays shafts over the towers near it.
 	"host_throne": {
 		"name": "The Throne", "sprite": "host/throne", "rank": "boss",
-		"hp": 9000.0, "speed": 22.0, "armour": 6.0, "radius": 30.0,  # TUNING (not in GDD) its rims (x0.2) make it the act's toughest wall
+		"hp": 5500.0, "speed": 20.0, "armour": 6.0, "radius": 30.0,  # TUNING (not in GDD) its rims (x0.2) make it the act's toughest wall
 		"damage": 32.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "host/throne",
-		"args": {"rim_mult": 0.2, "core_first": 8.0, "core_every": 18.0, "core_time": 8.0,
+		"args": {"rim_mult": 0.25, "core_first": 6.0, "core_every": 14.0, "core_time": 8.0,
 			"roll_first": 5.0, "roll_every": 12.0, "roll_time": 2.0, "speed_mult": 2.0, "roll_damage": 60.0,
 			"gaze_every": 10.0, "gaze_width": 110.0, "gaze_life": 7.0, "gazes": 2, "pose_time": 0.6},  # TUNING (not in GDD) Necropathy BossThrone: Core 10 s at a time
 	},
@@ -139,7 +139,7 @@ const KINDS: Dictionary = {
 	# Be Not Afraid stops every tower in the open, and the Last Word sends the run's sins back as Judges.
 	"host_voice": {
 		"name": "The Voice", "sprite": "host/voice", "rank": "boss",
-		"hp": 21000.0, "speed": 0.0, "armour": 5.0, "radius": 30.0,  # TUNING (not in GDD) the act's (and Part Two's) last boss
+		"hp": 12000.0, "speed": 0.0, "armour": 5.0, "radius": 30.0,  # TUNING (not in GDD) the act's (and Part Two's) last boss
 		"damage": 40.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "host/voice",
 		"args": {"stand_dist": 1440.0, "holy_width": 1.35, "holy_live": 1,

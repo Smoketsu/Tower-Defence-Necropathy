@@ -41,7 +41,7 @@ const MAP: Dictionary = {
 	"clouds": [[Vector2(640, 350), 84.0], [Vector2(300, 330), 70.0]],  # TUNING (not in GDD) shade over the hub
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 4.7,  # TUNING (not in GDD) rising through the act
+	"wave_hp_end": 3.6,  # TUNING (not in GDD) rising through the act
 	"rule": "",
 	"act_rule": "host/hallowed_light",
 	"build_order": "wheel_of_thrones_default",
