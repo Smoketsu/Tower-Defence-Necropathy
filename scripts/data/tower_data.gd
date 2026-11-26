@@ -433,7 +433,7 @@ const TOWERS: Dictionary = {
 		"cost": 130,  # TUNING (not in GDD)
 		"behavior": "bound_ophan",
 		"range": 170.0,  # TUNING (not in GDD)
-		"damage": 24.0,  # TUNING (not in GDD) to each foe the roll passes
+		"damage": 28.0,  # TUNING (not in GDD) to each foe the roll passes
 		"interval": 3.0,  # TUNING (not in GDD)
 		"target": "first",
 		"splash": 48.0,  # TUNING (not in GDD) the pack radius its pick scores (fallen_hero.gd)
