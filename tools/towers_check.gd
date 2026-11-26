@@ -484,6 +484,7 @@ func _norse_checks() -> void:
 	_check("spear strikes", int(game.stats.get("valkyrie_strikes", 0)) > 0)
 	_check("gungnir hits", int(game.stats.get("gungnir_hits", 0)) > 0)
 	# The Long Winter: cold slows towers away from the fires; douse and relight.
+	game.build(game.spot_by_id("plot:12"), "archer")  # 225 px from the nearest brazier: out in the cold.
 	w.call("on_wave_start", 20)
 	_run(game, 0.5)
 	var br: Dictionary = (w.get("braziers") as Array)[0]
