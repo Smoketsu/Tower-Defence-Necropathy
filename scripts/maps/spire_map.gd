@@ -43,7 +43,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(240, 400), Vector2(640, 160), Vector2(1040, 330), Vector2(400, 400), Vector2(1000, 620), Vector2(560, 500)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 3.6,  # TUNING (not in GDD) DECISIONS Z4: 3.7 -> 3.6, three-Spawn waves cut to two; Part Three: the act's finale presses hardest
+	"wave_hp_end": 3.5,  # TUNING (not in GDD) DECISIONS Z4: 3.7 -> 3.5, three-Spawn waves cut to two; Part Three: the act's finale presses hardest
 	"rule": "",
 	"act_rule": "eye/claims",
 	"build_order": "spire_default",

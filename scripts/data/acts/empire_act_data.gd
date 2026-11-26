@@ -144,7 +144,7 @@ const KINDS: Dictionary = {
 	# Assembly Halls miniboss: the Beta Build, an unfinished mech patching itself from the fabricators.
 	"empire_beta_build": {
 		"name": "The Beta Build", "sprite": "empire/beta_build", "rank": "miniboss",
-		"hp": 4000.0, "speed": 20.0, "armour": 4.0, "radius": 26.0,  # TUNING (not in GDD) X3
+		"hp": 3400.0, "speed": 20.0, "armour": 4.0, "radius": 26.0,  # TUNING (not in GDD) DECISIONS Z4: 4000 -> 3400 (leaked at +0.2); X3
 		"damage": 22.0, "attack_interval": 1.5,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "empire/beta_build",
 		"args": {"patch_tick": 0.5, "patch_rate": 0.0025, "patch_max": 2, "patch_kind": "empire_fabricator",

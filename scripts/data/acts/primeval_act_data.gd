@@ -144,7 +144,7 @@ const KINDS: Dictionary = {
 	# the Ambush hides her in the ferns; Blood Up brings her alpha-guard.
 	"prim_scarmaw": {
 		"name": "Scarmaw, the Great Raptor", "sprite": "primeval/scarmaw", "rank": "boss",
-		"hp": 7000.0, "speed": 30.0, "armour": 4.0, "radius": 26.0,  # TUNING (not in GDD) she walks and leaps: under the Voice (12000, who stands still)
+		"hp": 6200.0, "speed": 30.0, "armour": 4.0, "radius": 26.0,  # TUNING (not in GDD) DECISIONS Z4: 7000 -> 6200 (her leak ended seed 2 at +0.2); she walks and leaps: under the Voice (12000, who stands still)
 		"damage": 30.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "primeval/scarmaw",
 		"args": {"hunt_first": 4.0, "hunt_every": 15.0, "hunt": [["prim_razorclaw", 3], ["prim_razorclaw_alpha", 1]], "hunt_gap": 0.8,
