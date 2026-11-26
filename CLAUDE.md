@@ -149,7 +149,7 @@ that cannot hit flyers says `"ground_only": true`. Spells use the same `unlock` 
 **Art** (regenerated with the image API for roads and candles, DECISIONS V17; `tools/gw_gen.sh`, `gw_tile.py`, `gw_art.py`, originals in `art_source/td_pillow/`) — Gravewatch-only roles in `TdArtData.ROLES` (drawn with `TdArt.draw /
 texture`); Necropathy sprites by their `SpriteData` key via `SpriteBank`.
 
-## Status (wave 2c integrated, Nov 2026)
+## Status (wave 2c integrated, Nov 2026; wave 2d: Act XI on branch w2d-eye)
 
 Built and live: **Acts I-X, thirty maps** in campaign order (Part One: the
 Covenant, the Black Tide, the Sanguine Court, the Last Line, the Shogunate;
@@ -167,7 +167,8 @@ Balance: `docs/BALANCE.md` (its first section is the one 30-map table and the
 **Act I baseline summaries**: a change that must not touch Act I reproduces them
 byte for byte). Decisions: `docs/DECISIONS.md` (I, V, A, K, W, T2-T10, X, Y rows).
 Next: Acts XI-XV through `docs/ACT_TEMPLATE.md` (sections 5 and 6: the wave 2b and 2c
-lessons).
+lessons). Act XI (the Ancient Eye: harbour, archive, spire; the Spawn of the Deep, three
+spells and characters; DECISIONS T11, BALANCE "Wave 2d: Act XI") is built on `w2d-eye`.
 
 Not built / not verified: boss attack-pose art for the later bosses listed in
 BALANCE.md ("Bosses without attack-pose art": their strike pose shows the still
