@@ -147,14 +147,13 @@ faster than in wave 2c on this machine, so compare ratios, not ms.)
 
 ### Bosses without attack-pose art
 
-Their strike pose (3) shows the still sprite: Seraphine (cast pose only), Captain
-Crow, Admiral Marrec, Captain Vandermere, Vargr, Isolde Vane, Queen Carmilla, Don
-Marrow, General Harrow, Paragon, Kage, Amaterasu, Hrimgar, Sigrun, Odin, Fenrir,
-Anubis, Sekhmet, Osiris and Ammit, Zeus, Hades, Moloch, Lilith, the Morning Star,
-Seraiel, the Throne, the Voice, Abbot Merrow (his changed form has one), Vhal'Neth,
-Kestrel, Deus Ex Machina, Vrask'Tal, the Harvester, Scarmaw, Old Ironbrow, Old
-Gravejaw, the Stag King, the Summer Queen, the Green Mother (39; Alaric, Vael,
-Achilles, the Shogun, the Archivist, the Motherboard and the Hive Mother have one).
+Their strike pose (3) shows the still sprite (no attack art exists for them in
+Necropathy either): Captain Crow, Admiral Marrec, Captain Vandermere, Vargr,
+Isolde Vane, Queen Carmilla, Don Marrow, General Harrow, Paragon, Kage, Hrimgar,
+Sigrun, Odin, Fenrir, Anubis, Sekhmet, Osiris and Ammit, Moloch, Lilith, the
+Morning Star, the Throne, the Voice, Vhal'Neth, Vrask'Tal, the Harvester, Old
+Ironbrow, the Stag King, the Summer Queen (28). DECISIONS Z9 wired the existing
+cast / attack art of twelve more to the strike pose.
 
 
 ## Wave 2c integration: all 30 maps (Nov 2026; DECISIONS Y1-Y9)
