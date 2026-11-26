@@ -39,6 +39,7 @@ const FIRE: Dictionary = {
 	"myrmidon_shade": "warrior_bash",  # Act VIII (w2c-pantheon): the Warrior's blow (a bank sound: heard on every map)
 	"bound_succubus": "charm_kiss", "archfiend": "brute_slam",  # Act IX (w2c-inferno): the inferno pack
 	"bound_ophan": "td_blood_bite",  # Act X (w2c-host): the td pack's crunch (always prepared)
+	"ossuary_oak": "roots_grab",  # Act XV (w2d-year): the Turning Year pack's roots
 }  # TUNING (not in GDD)
 ## Spell / ultimate id -> Sfx id played on its cast (gw2-kit: the later spells; the
 ## launch spells keep their own sounds). Ultimates use their row's "sound".
@@ -54,6 +55,7 @@ const CAST: Dictionary = {
 
 	"brimstone": "pit_open", "tempt": "charm_kiss", "fall_from_grace": "bolt_cast",  # Act IX (w2c-inferno)
 	"flaming_sword": "power_lunge", "wheel_of_eyes": "light_burn", "revelation": "verdict",  # Act X (w2c-host): the Host pack
+	"wild_hunt": "spring_horn", "glamour": "charm_kiss", "root_and_rot": "roots_grab",  # Act XV (w2d-year): the Turning Year pack (glamour: a bank sound)
 }  # TUNING (not in GDD)
 
 ## The five Gravewatch sounds (GDD §11), id -> recipe; keys exactly as

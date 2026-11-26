@@ -35,6 +35,8 @@ const LOOKS: Dictionary = {
 	"boulder": {"sprite": "projectiles/corpse_boulder", "tint": Color(0.75, 0.9, 1.0), "scale": 1.9, "trail": 0.0, "impact": 96.0},  # TUNING (not in GDD) Act VI frost giant's ice-crusted boulder
 	"gungnir": {"sprite": "projectiles/bone_spear", "tint": Color(0.8, 0.95, 1.0), "scale": 2.6, "trail": 90.0, "impact": 80.0},  # TUNING (not in GDD) Act VI Odin's spear of soul-light
 	"feather": {"sprite": "projectiles/seraph_feather", "tint": Color(1.0, 0.55, 0.25), "scale": 1.6, "trail": 70.0, "impact": 52.0},  # TUNING (not in GDD) w2c-inferno: the Seraph General's burnt feathers
+	# --- Act XV (w2d-year) ---
+	"wild_frost": {"sprite": "projectiles/frost_bolt", "tint": Color(0.7, 0.92, 1.0), "scale": 2.0, "trail": 70.0, "impact": 60.0},  # TUNING (not in GDD) w2d-year: the Winter Fae's frost bolt (frost white)
 }
 ## Trail width (px) of hostile shots.
 const TRAIL_W: float = 10.0  # TUNING (not in GDD)
@@ -62,6 +64,9 @@ const CAUSE_TINT: Dictionary = {
 	"frozen": Color(0.6, 0.85, 1.0),  # TUNING (not in GDD) w2c-norse: frost mist, boulders of ice, the Barrow-Wight's howl (ice blue)
 	"petrified": Color(0.6, 0.85, 0.5),  # TUNING (not in GDD) w2c-pantheon: the Gorgon's gaze (stone green)
 	"chained": Color(0.75, 0.6, 0.45),  # TUNING (not in GDD) w2c-inferno: the Gatekeeper's chains (iron)
+	# --- Act XV (w2d-year) ---
+	"choked": Color(0.5, 0.95, 0.35),  # TUNING (not in GDD) w2d-year: a thicket choking the spot, the Antler Crown (thorn green)
+	"rooted": Color(0.75, 0.55, 0.3),  # TUNING (not in GDD) w2d-year: roots seizing a post or tower, the Burial (bark brown)
 }
 ## Diameter (px) of the disabled ring around a tower's base, and its pulse period (s).
 const DISABLED_RING: float = 52.0  # TUNING (not in GDD)

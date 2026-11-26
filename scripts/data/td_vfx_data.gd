@@ -64,6 +64,9 @@ const SHOTS: Dictionary = {
 		"halo": 0.0, "impact": "volley_hit", "impact_d": 52.0, "ring": false, "muzzle": 0.0},  # TUNING (not in GDD) Act IX: its Lv3 hellfire shards
 	"bound_ophan": {"sprite": "volleys/shard", "scale": 1.8, "tint": Color(0.55, 0.95, 0.9), "trail": 66.0, "trail_w": 11.0,
 		"halo": 6.0, "impact": "volley_hit", "impact_d": 54.0, "ring": false, "muzzle": 44.0},  # TUNING (not in GDD) Act X: soul-teal (its roll draws a streak, golem_slam and a ring at the real width)
+	# --- Act XV (w2d-year) ---
+	"ossuary_oak": {"sprite": "volleys/shard", "scale": 2.6, "tint": Color(0.55, 0.95, 0.35), "trail": 0.0, "trail_w": 0.0,
+		"halo": 8.0, "impact": "golem_slam", "impact_d": 0.0, "ring": true, "muzzle": 46.0},  # TUNING (not in GDD) moss green: a lobbed knot of bone and root, the ring at the lash's real radius (roots draw wild_bury)
 }
 ## Look of a class missing from SHOTS (same keys).
 const SHOT_DEFAULT: Dictionary = {"sprite": "", "scale": 2.0, "tint": Color(1.0, 1.0, 1.0), "trail": 40.0, "trail_w": 6.0,
@@ -359,6 +362,10 @@ const SPELLS: Dictionary = {
 	"flaming_sword": {"tint": Color(0.92, 0.96, 1.0), "flash": 96.0, "strip": "", "strip_d": 0.0, "ring": 90.0, "shake": 1.0},  # TUNING (not in GDD) white fire; ring = its real reach (the sweep draws itself)
 	"wheel_of_eyes": {"tint": Color(0.55, 0.8, 1.0), "flash": 96.0, "strip": "volley_flash", "strip_d": 70.0, "ring": 0.0, "shake": 0.0},  # TUNING (not in GDD) cerulean fire (the wheel draws itself)
 	"revelation": {"tint": Color(1.0, 1.0, 0.95), "flash": 120.0, "strip": "holy_impact", "strip_d": 200.0, "ring": 170.0, "shake": 2.0},  # TUNING (not in GDD) ring = its real reach
+	# --- Act XV spells (w2d-year) ---
+	"wild_hunt": {"tint": Color(0.6, 1.0, 0.75), "flash": 96.0, "strip": "volley_flash", "strip_d": 90.0, "ring": 0.0, "shake": 1.0},  # TUNING (not in GDD) spectral green (the riders draw themselves)
+	"glamour": {"tint": Color(1.0, 0.6, 0.85), "flash": 96.0, "strip": "volley_flash", "strip_d": 120.0, "ring": 140.0, "shake": 0.0},  # TUNING (not in GDD) fae pink; ring = its real reach
+	"root_and_rot": {"tint": Color(0.7, 0.85, 0.35), "flash": 100.0, "strip": "wild_bury", "strip_d": 200.0, "ring": 100.0, "shake": 1.5},  # TUNING (not in GDD) moss and rot; ring = its real reach
 }
 ## Act III spells' own looks (w2b-court; drawn only): Moonfang's jaw strip
 ## diameter as a multiple of its bite radius; Hex Circle's disc alpha and pulse

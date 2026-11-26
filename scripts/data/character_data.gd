@@ -20,7 +20,8 @@ const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "p
 	"the_embalmer", "lion_priestess", "pharaohs_shade",
 	"doomed_prophetess", "oathbreaker", "ferrywoman",
 	"furnace_priest", "succubus_queen", "fallen_saint",
-	"fallen_herald", "blind_saint", "the_unveiled"]  # The later spells' characters (gw2-kit), appended
+	"fallen_herald", "blind_saint", "the_unveiled",
+	"horned_herald", "changeling_princess", "gravegardener"]  # The later spells' characters (gw2-kit), appended
 
 ## Character rows. Keys:
 ##   name         — UI name.
@@ -271,6 +272,25 @@ const CHARACTERS: Dictionary = {
 		"boost": {"radius": 1.15, "stun": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
 		"innate": {"name": "Seventh Seal", "desc": "Revelation also strips 3 armour", "reveal_shred": 3.0},  # Necropathy's paired passive name
 		"unlock_after": "empyrean",  # the Voice
+	},
+	# --- Act XV's characters (w2d-year; Necropathy's Turning Year characters) ---
+	"horned_herald": {
+		"name": "The Horned Herald", "short": "Horned Herald", "sprite": "player/horned_herald", "spell": "wild_hunt",
+		"boost": {"damage": 1.2, "length": 1.15, "cooldown": 0.9},  # TUNING (not in GDD)
+		"innate": {"name": "Horn of the Hunt", "desc": "The Wild Hunt rides back once more", "wheel_rebounds": 1},  # Necropathy's paired passive name
+		"unlock_after": "greenwood",  # the Stag King
+	},
+	"changeling_princess": {
+		"name": "The Changeling Princess", "short": "Changeling", "sprite": "player/changeling_princess", "spell": "glamour",
+		"boost": {"charms": 1.34, "cooldown": 0.85},  # TUNING (not in GDD) one more foe glamoured
+		"innate": {"name": "Changeling", "desc": "Glamour lasts a third longer", "tempt_time": 1.33},  # Necropathy's paired passive name
+		"unlock_after": "fae_court",  # the Summer Queen
+	},
+	"gravegardener": {
+		"name": "The Gravegardener", "short": "Gravegardener", "sprite": "player/gravegardener", "spell": "root_and_rot",
+		"boost": {"radius": 1.15, "root": 1.2, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Compost Heart", "desc": "Root and Rot rots half again as fast", "rot_mult": 1.5},  # Necropathy's paired passive name
+		"unlock_after": "world_tree",  # the Green Mother
 	},
 }
 

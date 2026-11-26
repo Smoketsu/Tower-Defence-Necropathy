@@ -177,4 +177,12 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "a", "vs": "staggered", "mult": 1.3},  # TUNING (not in GDD) the wheel rolls harder over what it already staggered
 		"hint": "Bound Ophan near a Crypt Warder: rolls crush staggered foes",
 	},
+	# --- Act XV (w2d-year) ---
+	"heartwood": {
+		"name": "Heartwood", "icon": "heartwood", "a": "ossuary_oak", "b": "warrior",
+		"radius": 220.0,  # TUNING (not in GDD)
+		"effects": {"a": {"rate": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "b", "vs": "frozen", "mult": 1.3},  # TUNING (not in GDD) the blade finds what the roots hold
+		"hint": "Ossuary Oak near a Skeleton Warrior: warriors cut rooted foes harder",
+	},
 }
