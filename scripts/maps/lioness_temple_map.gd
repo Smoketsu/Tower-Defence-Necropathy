@@ -43,15 +43,15 @@ const MAP: Dictionary = {
 	"posts": [Vector2(300, 190), Vector2(1000, 190), Vector2(640, 320), Vector2(850, 420), Vector2(500, 600)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 3.0,  # TUNING (not in GDD)
+	"wave_hp_end": 2.8,  # TUNING (not in GDD)
 	"rule": "",
 	"act_rule": "dynasty/rebirth",
 	"build_order": "lioness_temple_default",
 	"weak_order": "lioness_temple_weak",
 	"waves": [
 		{"banner": "Pilgrims of the dead climb the avenue of statues", "groups": [{"kind": "dyn_mummy", "count": 8, "spacing": 1.1}, {"kind": "dyn_mummy", "count": 6, "spacing": 1.1, "road": "east"}]},
-		{"banner": "", "groups": [{"kind": "dyn_mummy_runner", "count": 10, "spacing": 0.9, "road": "east"}, {"kind": "nile_archer", "count": 5, "spacing": 1.3, "delay": 3.0}]},
-		{"banner": "", "groups": [{"kind": "khopesh_guard", "count": 5, "spacing": 1.6}, {"kind": "scarab_swarm", "count": 12, "spacing": 0.5, "delay": 2.0, "road": "east"}]},
+		{"banner": "", "groups": [{"kind": "dyn_mummy_runner", "count": 8, "spacing": 1.0, "road": "east"}, {"kind": "nile_archer", "count": 4, "spacing": 1.3, "delay": 3.0}]},
+		{"banner": "", "groups": [{"kind": "khopesh_guard", "count": 4, "spacing": 1.8}, {"kind": "scarab_swarm", "count": 10, "spacing": 0.5, "delay": 2.0, "road": "east"}]},
 		{"banner": "Bastet Hunters dive into the sand and slip past the posts", "groups": [{"kind": "bastet_hunter", "count": 2, "spacing": 3.0}, {"kind": "dyn_mummy", "count": 14, "spacing": 0.8, "delay": 2.0, "road": "east"}]},
 		{"banner": "", "groups": [{"kind": "embalmer", "count": 3, "spacing": 2.5}, {"kind": "dyn_mummy_runner", "count": 14, "spacing": 0.7, "delay": 2.0}]},
 		{"banner": "Awakening Statues: stone servants, flat armour", "groups": [{"kind": "awakening_statue", "count": 3, "spacing": 3.0, "road": "east"}, {"kind": "nile_archer", "count": 8, "spacing": 1.0, "delay": 3.0}]},

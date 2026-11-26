@@ -45,7 +45,7 @@ const KINDS: Dictionary = {
 	# Khopesh Guard (Necropathy "khopesh_guard"): the spinning slash cuts every body on the post.
 	"khopesh_guard": {
 		"name": "Khopesh Guard", "sprite": "dynasty/khopesh_guard", "rank": "fodder", "souls": 8,  # TUNING (not in GDD) soldier tier
-		"hp": 170.0, "speed": 44.0, "armour": 3.0, "radius": 11.0,  # TUNING (not in GDD)
+		"hp": 150.0, "speed": 44.0, "armour": 3.0, "radius": 11.0,  # TUNING (not in GDD)
 		"damage": 12.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "court/cleave",
 		"args": {"cleave": 0.6}, "rebirth": true,  # TUNING (not in GDD) Necropathy "a spinning slash"
@@ -168,7 +168,7 @@ const KINDS: Dictionary = {
 	# Temple boss: Sekhmet, the Lioness of Retribution. The Hunt, the Red Wind, the Feast.
 	"sekhmet": {
 		"name": "Sekhmet, the Lioness of Retribution", "sprite": "dynasty/sekhmet", "rank": "boss",
-		"hp": 11000.0, "speed": 22.0, "armour": 3.0, "radius": 22.0,  # TUNING (not in GDD)
+		"hp": 10000.0, "speed": 22.0, "armour": 3.0, "radius": 22.0,  # TUNING (not in GDD)
 		"damage": 32.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "dynasty/sekhmet",
 		"args": {"wind_hp": 0.66, "feast_hp": 0.33,
