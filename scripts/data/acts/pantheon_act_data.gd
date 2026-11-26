@@ -155,7 +155,7 @@ const KINDS: Dictionary = {
 	# Olympus: Ares, God of War: the war-cry hastes and wards the column; his spear charges through posts.
 	"ares": {
 		"name": "Ares, God of War", "sprite": "pantheon/ares", "rank": "miniboss",
-		"hp": 4800.0, "speed": 30.0, "armour": 5.0, "radius": 24.0,  # TUNING (not in GDD) X3; a charger, held less
+		"hp": 4000.0, "speed": 26.0, "armour": 5.0, "radius": 24.0,  # TUNING (not in GDD) X3; a charger, held less
 		"damage": 26.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "pantheon/ares",
 		"args": {"cry_first": 3.0, "cry_every": 10.0, "cry_radius": 170.0, "cry_speed": 1.3, "cry_ward": 0.8, "cry_time": 5.0,
@@ -164,8 +164,8 @@ const KINDS: Dictionary = {
 	# Underworld: Cerberus: three bites a blow, fire breath on as many towers as he has heads.
 	"cerberus": {
 		"name": "Cerberus, Hound of the Gates", "sprite": "pantheon/cerberus", "rank": "miniboss",
-		"hp": 4800.0, "speed": 30.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD) X3
-		"damage": 20.0, "attack_interval": 1.2,  # TUNING (not in GDD)
+		"hp": 4200.0, "speed": 30.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD) X3: his three bites break posts fast, so less HP
+		"damage": 16.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "pantheon/cerberus",
 		"args": {"breath_first": 4.0, "breath_every": 9.0, "breath_range": 260.0, "breath_radius": 55.0, "breath_delay": 1.3,
 			"breath_disable": 2.0, "breath_damage": 30.0},  # TUNING (not in GDD) Necropathy "three heads, three attacks"
@@ -174,13 +174,13 @@ const KINDS: Dictionary = {
 	# Ilion: Achilles, the Unkillable: his front takes almost nothing, his heel everything.
 	"achilles": {
 		"name": "Achilles, the Unkillable", "sprite": "bosses/achilles", "rank": "boss",
-		"hp": 9500.0, "speed": 26.0, "armour": 4.0, "radius": 22.0,  # TUNING (not in GDD)
+		"hp": 8000.0, "speed": 26.0, "armour": 4.0, "radius": 22.0,  # TUNING (not in GDD)
 		"damage": 34.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "pantheon/achilles",
 		"args": {"front_mult": 0.15, "front_cos": 0.35, "ignore": FROM_ABOVE, "roof_mult": 1.0, "roof_n": 0, "roof_radius": 0.0,
 			"heel_mult": 1.3, "stagger": 1.0, "stagger_cd": 6.0, "guard_hp": 0.66, "rage_hp": 0.33,
-			"lunge_first": 4.0, "lunge_every": 9.0, "rage_lunge_every": 6.0, "lunge_time": 1.0, "lunge_speed": 2.2, "lunge_damage": 70.0,
-			"guard_every": 14.0, "guard_count": 4, "guard_max": 6, "guard_kind": "myrmidon_guard", "guard_ahead": 70.0, "guard_gap": 16.0,
+			"lunge_first": 4.0, "lunge_every": 10.0, "rage_lunge_every": 6.0, "lunge_time": 1.0, "lunge_speed": 2.2, "lunge_damage": 70.0,
+			"guard_every": 16.0, "guard_count": 3, "guard_max": 5, "guard_kind": "myrmidon_guard", "guard_ahead": 70.0, "guard_gap": 16.0,
 			"rage_front_mult": 0.5, "rage_speed": 1.4},  # TUNING (not in GDD) Necropathy: front 10%, the heel full and a stagger
 	},
 	# Olympus: Zeus, King of the Gods: storms on the towers, the thunderbolt down the road, his true form.
@@ -197,10 +197,10 @@ const KINDS: Dictionary = {
 	# Underworld: Hades, Lord of the Dead: the Helm of Darkness, the Reclaiming, his ring of wardens.
 	"hades": {
 		"name": "Hades, Lord of the Dead", "sprite": "bosses/hades", "rank": "boss",
-		"hp": 14000.0, "speed": 22.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD)
+		"hp": 11000.0, "speed": 22.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD)
 		"damage": 32.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "pantheon/hades",
-		"args": {"reclaim_hp": 0.66, "lord_hp": 0.33, "cloak_first": 4.0, "cloak_every": 11.0, "cloak_time": 3.5, "claim_kind": "claimed_shade",
+		"args": {"reclaim_hp": 0.66, "lord_hp": 0.33, "cloak_first": 4.0, "cloak_every": 13.0, "cloak_time": 2.5, "claim_kind": "claimed_shade",
 			"ring_kind": "tartarus_warden", "ring_count": 4, "ring_every": 12.0, "ring_hold": 2, "ring_mult": 0.5, "ring_refresh": 0.3,
 			"ring_back": 60.0, "ring_ahead": 90.0, "ring_gap": 18.0,
 			"fissure_every": 10.0, "fissure_ahead": 120.0, "fissure_count": 3, "fissure_gap": 40.0, "fissure_radius": 40.0, "fissure_delay": 1.4,
