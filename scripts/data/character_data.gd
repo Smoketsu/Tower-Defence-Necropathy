@@ -15,7 +15,8 @@ const DEFAULT_ID: String = "gravecaller"
 ## Picker order.
 const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "plague_scholar",
 	"doomsayer", "soulbinder", "wither_witch", "grave_herald",
-	"marooned_quartermaster", "corsair_queen", "ghost_helmsman", "moon_huntress", "hedge_witch", "dhampir", "undertaker", "fallen_sergeant", "revenant_heroine", "grave_kunoichi", "ronin_revenant", "shrine_maiden"]  # The later spells' characters (gw2-kit), appended
+	"marooned_quartermaster", "corsair_queen", "ghost_helmsman", "moon_huntress", "hedge_witch", "dhampir", "undertaker", "fallen_sergeant", "revenant_heroine", "grave_kunoichi", "ronin_revenant", "shrine_maiden",
+	"rune_seer", "shield_maiden_hero", "berserker_hero"]  # The later spells' characters (gw2-kit), appended
 
 ## Character rows. Keys:
 ##   name         — UI name.
@@ -160,6 +161,27 @@ const CHARACTERS: Dictionary = {
 		"boost": {"damage": 1.25, "duration": 1.2, "cooldown": 0.85},  # TUNING (not in GDD)
 		"innate": {"name": "Stolen Dawn", "desc": "All spell cooldowns 10% shorter", "cooldown": 0.9},  # TUNING (not in GDD)
 		"unlock_after": "sun_road",  # Amaterasu
+	},
+	# --- Act VI, the Hall of the Slain (w2c-norse; Necropathy character_data.gd innates). Innate keys
+	# read by their spells through CharacterModifiers.innate(): grasp_hands (+hands a Barrow Grasp
+	# cast), spear_jumps (+leaps a Valkyrie Spear cast), gungnir_spears (+spears a Gungnir cast). ---
+	"rune_seer": {
+		"name": "The Rune-Seer", "short": "Rune-Seer", "sprite": "player/rune_seer", "spell": "barrow_grasp",
+		"boost": {"damage": 1.25, "hold": 1.2, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Rune of Binding", "desc": "Barrow Grasp raises two more hands", "grasp_hands": 2},  # Necropathy "two more hands in every ring"
+		"unlock_after": "barrow_fields",  # Hrimgar
+	},
+	"shield_maiden_hero": {
+		"name": "The Shield-Maiden", "short": "Shield-Maiden", "sprite": "player/shield_maiden_hero", "spell": "valkyrie_spear",
+		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Shield-Sister", "desc": "Valkyrie Spear leaps to one more foe", "spear_jumps": 1},  # Necropathy "leaps to one more foe"
+		"unlock_after": "valgard",  # Sigrun
+	},
+	"berserker_hero": {
+		"name": "The Berserker", "short": "Berserker", "sprite": "player/berserker_hero", "spell": "gungnir",
+		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Bear-Shirt", "desc": "Gungnir throws one more spear", "gungnir_spears": 1},  # Necropathy "throws one more spear"
+		"unlock_after": "vigrid",  # Odin
 	},
 }
 

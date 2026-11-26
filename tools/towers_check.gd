@@ -59,6 +59,7 @@ func _ready() -> void:
 	_court_checks()
 	_city_checks()
 	_shogun_checks()
+	_norse_checks()
 	print("TOWERS CHECK %s %s" % ["PASS" if _fails.is_empty() else "FAIL", ",".join(_fails)])
 	get_tree().quit(0 if _fails.is_empty() else 1)
 
@@ -438,3 +439,86 @@ func _shogun_checks() -> void:
 	# The Shogun: guarded while his regiments march.
 	var sg := game.spawn_at("shogun", "main", 1, 0.0, 0.0)
 	_check("shogun guarded", TdCombat.damage_enemy(game, sg, 1000.0, {"source": "check", "dot": true}) < 200.0)
+
+
+## w2c-norse: Act VI. The Draugr Thane's chill and frost cleave, the Barrow
+## King's freeze, Cold Iron, the act spells, the Long Winter (cold, douse,
+## relight, warmth), the Einherjar's second rising, Hrimgar's barrow and Odin
+## out of reach while Fenrir runs.
+func _norse_checks() -> void:
+	var loadout: Array[String] = ["barrow_grasp", "valkyrie_spear", "gungnir"]
+	var game := TdGame.new()
+	game.setup("barrow_fields", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(game)
+	game.economy.earn(50000, "test_bonus")
+	var w: MapRule = game.act_rule
+	_check("long winter loaded", w != null and w.has_method("warm_at"))
+	# Draugr Thane: every blow chills, the third blow cleaves.
+	var th := game.spot_by_id("post:2")
+	game.build(th, "draugr_thane")
+	var held: Array[TdEnemy] = []  # Enemies walked into the thane.
+	for i in 3:
+		var e := game.spawn_at("norse_raider", "trunk", 1, th.road_dist - 60.0 - float(i) * 6.0, 0.0)
+		e.max_hp = 1.0e6
+		e.hp = e.max_hp
+		held.append(e)
+	_run(game, 6.0)
+	_check("thane chills", held.any(func(e: TdEnemy) -> bool: return e.slow_until > game.time))
+	_check("thane cleaves", int(th.tower.vars.get("slams", 0)) > 0)
+	var king := _maxed(game, "post:1", "draugr_thane")
+	_check("barrow king freeze set", king.evolution == "barrow_king" and float(king.stats["cleave_freeze"]) > 0.0)
+	var fw := _maxed(game, "plot:9", "frost_wraith")  # 206 px from the thane on post:2.
+	_check("cold iron active", game.towers.any(func(t: Tower) -> bool: return t.synergies.any(func(p: Array) -> bool: return p[0] == "cold_iron")))
+	for e: TdEnemy in held:
+		game.remove_enemy(e, false)
+	# The act spells.
+	var foe := _enemy_at(game, "norse_draugr", Vector2(700, 580))
+	foe.max_hp = 1.0e6
+	foe.hp = foe.max_hp
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	_check("cast barrow_grasp", game.cast_spell(0, foe.position + Vector2(55, 0)))
+	_check("grasp holds", int(game.stats.get("barrow_grasps", 0)) > 0)
+	_check("cast valkyrie_spear", game.cast_spell(1, foe.position))
+	_check("cast gungnir", game.cast_spell(2, foe.position))
+	_run(game, 1.0)
+	_check("spear strikes", int(game.stats.get("valkyrie_strikes", 0)) > 0)
+	_check("gungnir hits", int(game.stats.get("gungnir_hits", 0)) > 0)
+	# The Long Winter: cold slows towers away from the fires; douse and relight.
+	game.build(game.spot_by_id("plot:12"), "archer")  # 225 px from the nearest brazier: out in the cold.
+	w.call("on_wave_start", 20)
+	_run(game, 0.5)
+	var br: Dictionary = (w.get("braziers") as Array)[0]
+	var cold_t: Tower = null  # A tower out of every brazier's warmth.
+	var warm_t: Tower = null  # A tower in one.
+	for t: Tower in game.towers:
+		if bool(w.call("warm_at", t.position)):
+			warm_t = t
+		else:
+			cold_t = t
+	_check("cold chills a far tower", cold_t != null and float(cold_t.vars.get("k_cold", 1.0)) < 1.0)
+	_check("warm tower unchilled", warm_t == null or not warm_t.vars.has("k_cold"))
+	_check("douse", int(w.call("douse_near", br["pos"], 10.0)) == 1 and not bool(br["lit"]))
+	var souls := game.economy.souls  # Before the relight.
+	_check("relight costs souls", bool(w.call("relight", 0)) and game.economy.souls < souls and bool(br["lit"]))
+	# The Einherjar rise once.
+	var ein := _enemy_at(game, "norse_einherjar", Vector2(700, 380))
+	TdCombat.damage_enemy(game, ein, 1.0e5, {"source": "check", "dot": true})
+	_check("einherjar rises", ein.alive and ein.vars.has("risen"))
+	TdCombat.damage_enemy(game, ein, 1.0e5, {"source": "check", "dot": true})
+	_check("einherjar falls for good", not ein.alive)
+	# Hrimgar: a lethal blow sinks him; his barrow broken, he stays down.
+	var hr := game.spawn_at("hrimgar", "trunk", 1, 300.0, 0.0)
+	TdCombat.damage_enemy(game, hr, 1.0e6, {"source": "check", "dot": true})
+	_check("hrimgar sinks", hr.alive and bool(hr.vars.get("untargetable", false)) and not game.can_target(fw, hr))
+	var bp: Array = hr.vars["barrow"]
+	TdCombat.damage_enemy(game, bp[0], 1.0e6, {"source": "check", "dot": true})
+	_run(game, 0.2)
+	_check("broken barrow ends him", not hr.alive)
+	# Odin: out of reach while Fenrir runs; the wolf chained, he walks.
+	var od := game.spawn_at("odin", "trunk", 1, 0.0, 0.0)
+	_check("odin out of reach", is_zero_approx(TdCombat.damage_enemy(game, od, 1000.0, {"source": "check", "dot": true})))
+	var wolf: TdEnemy = (od.vars["wolf"] as Array)[0]
+	TdCombat.damage_enemy(game, wolf, wolf.max_hp * 0.6, {"source": "check", "dot": true})
+	_run(game, 0.2)
+	_check("fenrir chained", bool(wolf.vars.get("chained", false)) and TdCombat.damage_enemy(game, od, 100.0, {"source": "check", "dot": true}) > 0.0)
+	game.queue_free()

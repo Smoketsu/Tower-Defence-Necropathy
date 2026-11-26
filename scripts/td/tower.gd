@@ -112,6 +112,8 @@ func recompute() -> void:
 		mult["rate"] = float(mult["rate"]) * float(SpellData.ULTIMATE["rate_mult"])
 	if game.time < float(vars.get("k_rally_until", 0.0)):
 		mult["rate"] = float(mult["rate"]) * float(vars["k_rally"])  # Banner of the Dead (TdCombat.rally_tower).
+	if vars.has("k_cold"):
+		mult["rate"] = float(mult["rate"]) * float(vars["k_cold"])  # The Long Winter's cold (TdCombat.chill_tower, Act VI).
 	s["damage"] = float(s["damage"]) * float(mult["damage"])
 	s["interval"] = float(s["interval"]) / float(mult["rate"])
 	s["range"] = float(s["range"]) * float(mult["range"])

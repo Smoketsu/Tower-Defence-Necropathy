@@ -199,11 +199,12 @@ character in the menus.
 | III the Sanguine Court (`court`, T3) | `court_act_data.gd`; `rules/court/blood_moon.gd` (every 5 waves from 6) + map rule `court_structures` (coffins, hex stones, fountains) | ravensmoor, witchwood, castle_sanguis | Old Greymane, Bog Mother, Chiropteran King / Vargr, Isolde, Carmilla and the Elder | Blood Spawn -> Nosferatu, The Red Waltz | Moonfang, Hex Circle, Night Swarm (Huntress, Hedge Witch, Dhampir) |
 | IV the Last Line (`city`, T4) | `city_act_data.gd`; `rules/city/escalation.gd` (gangs -> police -> army -> heroes; `EscalationMeter`, `CityStreets`) | skid_row, fort_kessler, liberty_heights | Big Sal, the Mammoth, Atlas / Don Marrow, Harrow, Paragon | Fallen Hero -> Black Paragon, Origin Story | Hearse Run, Bone Mines, Hero's Fist (Undertaker, Fallen Sergeant, Revenant Heroine) |
 | V the Shogunate (`shogunate`, T5) | `shogunate_act_data.gd`; `rules/shogunate/sun_course.gd` (+ `sun_layer`, `sun_dial`: day / dusk / night, lanterns, ambushes) | province, kurogane, sun_road | Shuten-doji, General of the Left, the Kirin / Kage, Shogun Kurogane, Amaterasu | Bound Oni -> Oni Lord, Iron and Bone | Hundred Shadows, Banner of the Dead, Black Sun (Grave Kunoichi, Ronin Revenant, Shrine Maiden) |
+| VI the Hall of the Slain (`norse`, T6, wave 2c) | `norse_act_data.gd`; `rules/norse/long_winter.gd` (+ `winter_layer`, `winter_meter`: cold by wave slows towers away from lit braziers, dousers, tap to relight, Rune-Stone structures) | barrow_fields, valgard (split aisles), vigrid (flank road) | Barrow-Wight, Einherjar Champion, Fire-Giant of the South / Hrimgar (three lives, his barrow), Sigrun (Charge, Holmgang, Doors), Odin with Fenrir | Draugr Thane -> Barrow King, Cold Iron | Barrow Grasp, Valkyrie Spear, Gungnir (Rune-Seer, Shield-Maiden, Berserker) |
 
 Build orders: `<map>_default`, `<map>_weak`, plus `tide_kit`, `court_kit`,
-`shogunate_kit` (every map of the act). Act runs print `act_rule=` / `hostile=`.
+`shogunate_kit`, `norse_kit` (every map of the act). Act runs print `act_rule=` / `hostile=`.
 `towers_check` has `_tide_checks`, `_court_checks`, `_city_checks`,
-`_shogun_checks`.
+`_shogun_checks`, `_norse_checks`.
 
 **Shared hooks the acts added (use them, do not write a second path):**
 - `TdCombat.knock_enemy(game, e, px)` (the one knockback path),
@@ -222,6 +223,14 @@ Build orders: `<map>_default`, `<map>_weak`, plus `tide_kit`, `court_kit`,
   `CityTactics.squad()` / `road_line()`; `shogunate/draw.gd` `line()` / `cut()`
   (telegraphed line strike); Sun's Course `in_light()`, `douse_near()`,
   `relight()`, `set_override()`.
+- Act VI (w2c-norse) added: `TdCombat.chill_tower(game, t, rate_mult)` (the one
+  attack-speed chill, `Tower.vars.k_cold` read in `Tower.recompute()`), the
+  drawn-only enemy fade `vars.vis_alpha` (TdEnemy._draw_body), enemy vars
+  `untargetable` hidden by the Long Winter's `can_target()` (a boss out of
+  reach), `HostileData` cause `frozen` and looks `boulder` / `gungnir`;
+  reusable `norse/berserk.gd` statics `rage_step()` / `rage_blow()`,
+  `norse/seer.gd` `douse_step()`, `norse/barrow_wight.gd` `howl()`; Long Winter
+  `warm_at()`, `douse_near()`, `relight()`, `set_duel()`, `LongWinter.of(game)`.
 - Autotest: one generic spell branch (any later spell on the leader), deferred
   evolve steps, `minibosses=` line, `--perf-wave=N`. Tools: `tools/gw_perf.js`
   (late-map frame time), `tools/gw_wave_shot.js` (screenshots at a wave, any

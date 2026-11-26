@@ -286,3 +286,16 @@ static func rally_tower(game: TdGame, t: Tower, rate_mult: float, time: float) -
 		t.vars["k_rally"] = rate_mult
 	t.vars["k_rally_until"] = maxf(float(t.vars.get("k_rally_until", 0.0)), game.time + time)
 	t.recompute()
+
+
+## Chills tower `t` (the Long Winter, Act VI): its attack speed x `rate_mult`
+## (0..1; 1 = warm, the chill removed) through Tower.recompute(); recomputes
+## only when the value changes (the act rule calls it every warmth check).
+static func chill_tower(_game: TdGame, t: Tower, rate_mult: float) -> void:
+	if is_equal_approx(float(t.vars.get("k_cold", 1.0)), rate_mult):
+		return
+	if rate_mult >= 1.0:
+		t.vars.erase("k_cold")
+	else:
+		t.vars["k_cold"] = rate_mult
+	t.recompute()

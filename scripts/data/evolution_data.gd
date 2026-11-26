@@ -224,4 +224,14 @@ const EVOLUTIONS: Dictionary = {
 		},
 		"recipe": {"type": "any", "of": [{"type": "elite_kills", "n": 6}, {"type": "kills", "n": 30}]},  # TUNING (not in GDD) Necropathy Oni's Resolve -> a record of slain foes
 	},
+	"barrow_king": {
+		"from": "draugr_thane", "name": "Barrow King", "sprite": "summons/barrow_king", "icon": "barrow_king",
+		"stats": {"damage": 1.35, "hp": 1.4},  # TUNING (not in GDD)
+		"set": {
+			"hold": 4,  # TUNING (not in GDD)
+			"cleave_radius": 90.0,  # TUNING (not in GDD) px
+			"cleave_freeze": 1.2,  # TUNING (not in GDD) s the cleave freezes what it strikes (Necropathy cleave_freeze_duration)
+		},
+		"recipe": {"type": "near", "class": "frost_wraith", "radius": 220.0},  # TUNING (not in GDD) Necropathy Cold Iron -> the cold beside it
+	},
 }
