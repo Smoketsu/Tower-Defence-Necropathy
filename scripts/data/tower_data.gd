@@ -20,7 +20,8 @@ const ORDER: Array[String] = ["archer", "mage", "frost_wraith", "corpse_catapult
 	"bound_ophan",
 	"spawn_of_the_deep",
 	"grave_drone", "iron_revenant",
-	"ghost_saucer"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
+	"ghost_saucer",
+	"bonehorn"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
 
 ## Targeting modes (GDD §4.3), in the order the Target button cycles them.
 const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
@@ -673,6 +674,33 @@ const TOWERS: Dictionary = {
 		"volley": {"every": 3, "count": 3, "damage": 0.45, "sprite": "volleys/orb", "tint": Color(1.0, 0.92, 0.55)},  # TUNING (not in GDD) tractor-gold soul orbs
 		"evolution": "black_mothership",
 	},
+	# --- Act XIV, the Age of Titans (w2d-titans): unlocked by Old Gravejaw ---
+	"bonehorn": {
+		"name": "Bonehorn", "sprite": "summons/bonehorn", "icon": "bonehorn", "spot": "plot",
+		"desc": "A skeletal horned charger: it charges back down the road through the densest pack, throwing foes back",
+		"unlock": {"map": "last_day"},  # DECISIONS K9: the act's summon, unlocked by its finale's boss (Old Gravejaw)
+		"cost": 130,  # TUNING (not in GDD)
+		"behavior": "bonehorn",
+		"range": 170.0,  # TUNING (not in GDD)
+		"damage": 52.0,  # TUNING (not in GDD) DECISIONS T14.5 (was 38) to each foe the charge passes
+		"interval": 2.3,  # TUNING (not in GDD) DECISIONS T14.5 (was 2.6)
+		"target": "first",
+		"splash": 48.0,  # TUNING (not in GDD) the pack radius its pick scores (fallen_hero.gd)
+		"roll_len": 150.0,  # TUNING (not in GDD) px it charges back along the road
+		"roll_w": 30.0,  # TUNING (not in GDD) DECISIONS T14.5 (was 26) px either side of the road it strikes
+		"knock": 40.0,  # TUNING (not in GDD) px each foe it gores is thrown back (TdCombat.knock_enemy)
+		"patrol_r": 20.0, "patrol_speed": 1.4,  # TUNING (not in GDD) it paws round its plot
+		"dive_time": 0.3,  # TUNING (not in GDD)
+		"swoop_mark": 0.0, "air_bonus": 0.0, "air_mult": 1.0,  # not the Gargoyle's
+		"dive_stun": 0.0, "stone_time": 0.0,  # the Fossil Tyrant sets dive_stun
+		"slam_stagger": 0.6,  # TUNING (not in GDD) s gored foes make no attack
+		"slam_shred": 0.0, "shred_time": 0.0,  # not the hero's armour crack
+		"elite_weight": 2.0,  # TUNING (not in GDD) a non-fodder foe counts as this many in the pack score
+		"chain_slams": 0, "chain_range": 0.0,  # the Fossil Tyrant: charges after the first, px between them
+		"projectile_speed": 440.0,  # TUNING (not in GDD) its Lv3 volley
+		"volley": {"every": 2, "count": 3, "damage": 0.4, "sprite": "volleys/shard", "tint": Color(0.95, 0.9, 0.75)},  # TUNING (not in GDD) bone-white horn shards
+		"evolution": "fossil_tyrant",
+	},
 }
 
 ## Per-level multipliers, 5 rows (levels 1-5) per tower. Keys:
@@ -882,6 +910,14 @@ const LEVELS: Dictionary = {
 		{"damage": 1.75, "rate": 1.05, "range": 1.1},  # TUNING (not in GDD)
 		{"damage": 2.2, "rate": 1.1, "range": 1.15},  # TUNING (not in GDD)
 		{"damage": 2.8, "rate": 1.2, "range": 1.2},  # TUNING (not in GDD)
+	],
+	# --- Act XIV (w2d-titans) ---
+	"bonehorn": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0},
+		{"damage": 1.35, "rate": 1.0, "range": 1.05},  # TUNING (not in GDD)
+		{"damage": 1.7, "rate": 1.1, "range": 1.1},  # TUNING (not in GDD)
+		{"damage": 2.2, "rate": 1.15, "range": 1.15},  # TUNING (not in GDD)
+		{"damage": 2.8, "rate": 1.25, "range": 1.2},  # TUNING (not in GDD)
 	],
 }
 

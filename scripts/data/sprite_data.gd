@@ -614,6 +614,28 @@ const HEIGHTS: Dictionary = {
 	"corsair/cursed_coin": 12.0,  # TUNING (not in GDD) Marrec's cursed coin, 12 x 12 (Pillow, the act's brass ramp)
 	# --- Gravewatch Act XI (w2d-eye) ---
 	"eye/grand_hierophant": 128.0,  # TUNING (not in GDD) the Spire miniboss: the Hierophant's art doubled (nearest, 76 x 128), miniboss tier
+	# --- Act XIV (w2d-titans): the Titans' wide beasts. Their FLAT_SIZES rows compare the width, so
+	# these were drawn smooth at the default height; here as grid art at their texel height ---
+	"primeval/scuttler": 12.0,  # TUNING (not in GDD) 20 x 12
+	"primeval/razorclaw": 34.0,  # TUNING (not in GDD) 40 x 34
+	"primeval/frill_spitter": 32.0,  # TUNING (not in GDD) 36 x 32
+	"primeval/longneck": 80.0,  # TUNING (not in GDD) 88 x 80
+	"primeval/skyraider": 36.0,  # TUNING (not in GDD) 40 x 36
+	"primeval/tyrant": 72.0,  # TUNING (not in GDD) 86 x 72
+	"primeval/bog_croc": 30.0,  # TUNING (not in GDD) 44 x 30
+	"primeval/bog_croc_submerged": 12.0,  # TUNING (not in GDD) 32 x 12
+	"primeval/ironjaw": 60.0,  # TUNING (not in GDD) 72 x 60
+	"primeval/primeval_nest": 32.0,  # TUNING (not in GDD) 40 x 32
+	"primeval/horncharger": 48.0,  # TUNING (not in GDD) 54 x 48
+	"primeval/clubtail": 44.0,  # TUNING (not in GDD) 48 x 44
+	"primeval/mother_clubtail": 60.0,  # TUNING (not in GDD) 68 x 60
+	"primeval/ironbrow": 80.0,  # TUNING (not in GDD) 92 x 80
+	"primeval/ironbrow_broken": 80.0,  # TUNING (not in GDD) his Break pose, 96 x 80
+	"primeval/stormwing": 44.0,  # TUNING (not in GDD) 52 x 44
+	"primeval/stormwing_landed": 44.0,  # TUNING (not in GDD) landed still, 56 x 44
+	"primeval/thunderwing": 64.0,  # TUNING (not in GDD) 70 x 64
+	"summons/bonehorn": 34.0,  # TUNING (not in GDD) 40 x 34
+	"summons/fossil_tyrant": 44.0,  # TUNING (not in GDD) 48 x 44
 }
 
 ## Height (world px) used for a key missing from HEIGHTS.

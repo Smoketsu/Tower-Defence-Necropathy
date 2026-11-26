@@ -231,6 +231,11 @@ Build orders: `<map>_default`, `<map>_weak`, and one kit order per act
 Build orders: `<map>_default`, `<map>_weak`, and one kit order per act
 (`tide_kit`, `court_kit`, `shogunate_kit`, `norse_kit`, `dynasty_kit`,
 `pantheon_kit`, `inferno_kit`, `host_kit`, `concord_kit`: every map of the act; a map entry may
+| XIV the Age of Titans (`primeval`, T14) | `primeval_act_data.gd`; `rules/primeval/stampedes.gd` (herds on off-road trails marked 4 s ahead trample plots and knock down bodies, a hurt herd turns back; tar seeps, the watering hole, rocks, meteors; cue top-left; map keys `herd_trails`, `tar`, `hole`, `rocks`, `meteors`) | fern_basin, great_plain, last_day | Ironjaw (and her nest), Mother Clubtail, Thunderwing / Scarmaw, Old Ironbrow, Old Gravejaw | Bonehorn -> Fossil Tyrant, Thundering Herd | Pack Leap, Stampede, Meteor Call (Fern Huntress, Herd-Warden, Skywatcher) |
+
+Build orders: `<map>_default`, `<map>_weak`, and one kit order per act
+(`tide_kit`, `court_kit`, `shogunate_kit`, `norse_kit`, `dynasty_kit`,
+`pantheon_kit`, `inferno_kit`, `host_kit`, `titans_kit`: every map of the act; a map entry may
 be `{"base": order, "swap": [from, to]}`, DECISIONS Y5). Act runs print
 `act_rule=` / `hostile=`. `towers_check` has one `_<act>_checks()` per act.
 
@@ -287,6 +292,10 @@ be `{"base": order, "swap": [from, to]}`, DECISIONS Y5). Act runs print
   `hatch()` / `line()`, `concord/burrower.gd` `dig()`, `concord/cloak.gd` `cloaked()` /
   `reveal_on_spell()`, `concord/lumen.gd` `soak()`, `concord/archon.gd` `sweep()`,
   Abduction `call_saucers()` / `of(game)`.
+  Stampedes `launch(groups, near, gap)` (a boss's herd), `herd_hurt()`,
+  `in_tar()` / `in_hole()`, `meteor_mult`; `primeval/kit.gd` `start_charge()` /
+  `charge_step()` (the one charge, rock stuns from map key `rocks`), `roar()`,
+  `swallow()`, `line()` / `ring()`; `primeval/pack_leap.gd` `leap()`.
 - HUD widgets of the acts sit in corners no road uses: top-left under the bar
   (Escalation, Wrath, Hell cue, Host dial), top-right (Blood Moon cue, Scales),
   bottom-left (Sun dial, Winter meter). One act per map, so they never meet.

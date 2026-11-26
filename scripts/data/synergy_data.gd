@@ -207,4 +207,12 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "a", "vs": "frozen", "mult": 1.3},  # TUNING (not in GDD) the beams burn what hangs frozen (the wraith's chill, its own lifts)
 		"hint": "Ghost Saucer near a Frost Wraith: beams burn frozen foes",
 	},
+	# --- Act XIV (w2d-titans) ---
+	"thundering_herd": {
+		"name": "Thundering Herd", "icon": "petrified_horns", "a": "bonehorn", "b": "abomination",
+		"radius": 220.0,  # TUNING (not in GDD)
+		"effects": {"a": {"rate": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "a", "vs": "staggered", "mult": 1.3},  # TUNING (not in GDD) the charge gores harder what the stomp already staggered
+		"hint": "Bonehorn near an Abomination: charges gore staggered foes",
+	},
 }

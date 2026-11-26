@@ -338,4 +338,18 @@ const EVOLUTIONS: Dictionary = {
 		},
 		"recipe": {"type": "any", "of": [{"type": "kills", "n": 35}, {"type": "damage", "n": 9000}]},  # TUNING (not in GDD) Necropathy Crop Circles -> a record of the sky
 	},
+	# --- Act XIV (w2d-titans) ---
+	"fossil_tyrant": {
+		"from": "bonehorn", "name": "Fossil Tyrant", "sprite": "summons/fossil_tyrant", "icon": "fossil_tyrant",
+		"stats": {"damage": 1.35, "range": 1.1},  # TUNING (not in GDD)
+		"set": {
+			"roll_len": 200.0,  # TUNING (not in GDD) a longer charge
+			"roll_w": 32.0,  # TUNING (not in GDD) a tyrant's breadth
+			"knock": 60.0,  # TUNING (not in GDD) px thrown back
+			"dive_stun": 0.5,  # TUNING (not in GDD) s gored foes freeze (its roar; rank multipliers apply)
+			"chain_slams": 1,  # TUNING (not in GDD) one more charge at the next pack
+			"chain_range": 160.0,  # TUNING (not in GDD)
+		},
+		"recipe": {"type": "any", "of": [{"type": "kills", "n": 40}, {"type": "damage", "n": 14000}]},  # TUNING (not in GDD) Necropathy Petrified Horns -> a record of the road
+	},
 }

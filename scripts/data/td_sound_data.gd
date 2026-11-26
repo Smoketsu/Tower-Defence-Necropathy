@@ -42,6 +42,7 @@ const FIRE: Dictionary = {
 	"spawn_of_the_deep": "abom_stomp",  # Act XI (w2d-eye): a heavy wet blow (the startup bank)
 	"grave_drone": "drone_zap", "iron_revenant": "turret_shot",  # Act XII (w2d-empire): the Empire pack (prepared on its maps; elsewhere silent until loaded)
 	"ghost_saucer": "bolt_cast",  # Act XIII (w2d-concord): a bank sound (heard on every map)
+	"bonehorn": "abom_stomp",  # Act XIV (w2d-titans): a bank stomp (heard on every map)
 }  # TUNING (not in GDD)
 ## Spell / ultimate id -> Sfx id played on its cast (gw2-kit: the later spells; the
 ## launch spells keep their own sounds). Ultimates use their row's "sound".
@@ -60,6 +61,7 @@ const CAST: Dictionary = {
 	"undertow": "ult_tide", "forbidden_verse": "plague_cast", "call_of_the_drowned": "summon_rise",  # Act XI (w2d-eye): the startup bank ("tide" has no pack)
 	"death_ray": "laser_fire", "hollow_puppet": "magnet_pull", "scrap_swarm": "drone_zap",  # Act XII (w2d-empire): the Empire pack
 	"bone_beetles": "td_hound_bite", "soul_caster": "spear_cast", "tractor_lift": "bolt_cast",  # Act XIII (w2d-concord): bank sounds
+	"pack_leap": "rogue_dash", "stampede": "abom_stomp", "meteor_call": "catapult_launch",  # Act XIV (w2d-titans): bank sounds (heard on every map)
 }  # TUNING (not in GDD)
 
 ## The five Gravewatch sounds (GDD §11), id -> recipe; keys exactly as

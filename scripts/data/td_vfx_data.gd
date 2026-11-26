@@ -75,6 +75,9 @@ const SHOTS: Dictionary = {
 	# --- Act XIII, the Concord of Stars (w2d-concord) ---
 	"ghost_saucer": {"sprite": "projectiles/radiant_bolt", "scale": 1.8, "tint": Color(1.0, 0.92, 0.55), "trail": 70.0, "trail_w": 11.0,
 		"halo": 6.0, "impact": "beam_hit", "impact_d": 48.0, "ring": false, "muzzle": 46.0},  # TUNING (not in GDD) Act XIII: tractor gold (its beams draw a streak their real length, beam_hit on each foe)
+	# --- Act XIV (w2d-titans) ---
+	"bonehorn": {"sprite": "volleys/shard", "scale": 1.8, "tint": Color(0.95, 0.88, 0.7), "trail": 66.0, "trail_w": 11.0,
+		"halo": 6.0, "impact": "volley_hit", "impact_d": 54.0, "ring": false, "muzzle": 44.0},  # TUNING (not in GDD) Act XIV: bone ochre (its charge draws a streak, golem_slam and a ring at the real width)
 }
 ## Look of a class missing from SHOTS (same keys).
 const SHOT_DEFAULT: Dictionary = {"sprite": "", "scale": 2.0, "tint": Color(1.0, 1.0, 1.0), "trail": 40.0, "trail_w": 6.0,
@@ -382,6 +385,10 @@ const SPELLS: Dictionary = {
 	"bone_beetles": {"tint": Color(0.85, 0.95, 0.7), "flash": 80.0, "strip": "spore_cloud", "strip_d": 90.0, "ring": 0.0, "shake": 0.0},  # TUNING (not in GDD) bone-white beetles (they draw themselves)
 	"soul_caster": {"tint": Color(0.45, 1.0, 0.9), "flash": 90.0, "strip": "beam_hit", "strip_d": 70.0, "ring": 0.0, "shake": 1.0},  # TUNING (not in GDD) soul-teal locks and shots
 	"tractor_lift": {"tint": Color(0.75, 1.0, 0.85), "flash": 100.0, "strip": "golem_slam", "strip_d": 120.0, "ring": 60.0, "shake": 2.0},  # TUNING (not in GDD) ring = the slam's real reach
+	# --- Act XIV spells (w2d-titans) ---
+	"pack_leap": {"tint": Color(0.75, 1.0, 0.9), "flash": 90.0, "strip": "volley_hit", "strip_d": 90.0, "ring": 130.0, "shake": 1.0},  # TUNING (not in GDD) soul-teal raptors; ring = its real reach
+	"stampede": {"tint": Color(0.95, 0.85, 0.6), "flash": 90.0, "strip": "golem_slam", "strip_d": 80.0, "ring": 0.0, "shake": 1.5},  # TUNING (not in GDD) bone ochre (the herd draws itself)
+	"meteor_call": {"tint": Color(1.0, 0.55, 0.25), "flash": 110.0, "strip": "", "strip_d": 0.0, "ring": 0.0, "shake": 0.0},  # TUNING (not in GDD) the meteor's own circle and impact draw themselves
 }
 ## Act III spells' own looks (w2b-court; drawn only): Moonfang's jaw strip
 ## diameter as a multiple of its bite radius; Hex Circle's disc alpha and pulse
