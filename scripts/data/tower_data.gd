@@ -17,7 +17,8 @@ const ORDER: Array[String] = ["archer", "mage", "frost_wraith", "corpse_catapult
 	"ushabti_sentinel",
 	"myrmidon_shade",
 	"bound_succubus", "archfiend",
-	"bound_ophan"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
+	"bound_ophan",
+	"grave_drone", "iron_revenant"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
 
 ## Targeting modes (GDD §4.3), in the order the Target button cycles them.
 const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
@@ -576,6 +577,49 @@ const TOWERS: Dictionary = {
 		"volley": {"every": 2, "count": 3, "damage": 0.4, "sprite": "volleys/shard", "tint": Color(0.55, 0.95, 0.9)},  # TUNING (not in GDD) soul-teal bone shards
 		"evolution": "throne_of_bones",
 	},
+	# --- Act XII, the Electronic Empire (w2d-empire): both unlocked by Deus Ex Machina ---
+	"grave_drone": {
+		"name": "Grave Drone", "short": "Drone", "sprite": "summons/grave_drone", "icon": "grave_drone", "spot": "plot",
+		"desc": "A cheap skull drone hovering over its plot, firing quick bone darts; hits flyers",
+		"unlock": {"map": "citadel"},  # DECISIONS K9: the act's summon, unlocked by its finale's boss (Deus Ex Machina)
+		"cost": 60,  # TUNING (not in GDD) Necropathy: "a cheap ranged swarm"
+		"behavior": "grave_drone",
+		"range": 175.0,  # TUNING (not in GDD) Necropathy: "a little past the archers"
+		"damage": 9.0,  # TUNING (not in GDD) per dart
+		"interval": 0.75,  # TUNING (not in GDD)
+		"target": "first",
+		"projectile": "projectiles/scrap_bolt", "projectile_speed": 520.0,  # TUNING (not in GDD) bone darts
+		"feathers": 1,  # TUNING (not in GDD) darts per shot (the Wraith Drone fires 3)
+		"splash": 0.0, "slow": 1.0, "slow_time": 0.0, "freeze_every": 0, "freeze_time": 0.0,
+		"pierce": 0, "armour_pierce": 0.0,
+		"ruin_every": 0, "ruin_mult": 0.0, "ruin_radius": 0.0,  # not the Seraph of Ruin's dive
+		"volley": {"every": 4, "count": 3, "damage": 0.6, "sprite": "volleys/dagger", "tint": Color(0.75, 1.0, 0.85)},  # TUNING (not in GDD) seeking darts
+		"evolution": "wraith_drone",
+	},
+	"iron_revenant": {
+		"name": "Iron Revenant", "short": "Revenant", "sprite": "summons/iron_revenant", "icon": "iron_revenant", "spot": "post",
+		"desc": "A reanimated war walker: holds its post and its cannon fires slowing shells over it",
+		"unlock": {"map": "citadel"},  # DECISIONS K9: Deus Ex Machina's reward
+		"cost": 125,  # TUNING (not in GDD)
+		"behavior": "iron_revenant",
+		"range": 190.0,  # TUNING (not in GDD) its cannon's reach (the body holds at the post)
+		"damage": 18.0,  # TUNING (not in GDD) per strike on what it holds; shells x gun_mult
+		"interval": 1.4,  # TUNING (not in GDD) s between strikes (the gun scales with it)
+		"target": "first",
+		"bodies": 1,
+		"body_hp": 420.0,  # TUNING (not in GDD) a war walker's frame (Abomination 350, Golem 500)
+		"hold": 3,  # TUNING (not in GDD)
+		"hits_all_held": false,
+		"respawn": 11.0,  # TUNING (not in GDD)
+		"gun_interval": 1.7,  # TUNING (not in GDD) s between salvos at level 1 (Necropathy 1.7 s bursts)
+		"gun_mult": 0.7,  # TUNING (not in GDD) a shell's share of its strike damage
+		"shells": 2,  # TUNING (not in GDD) shells per salvo (Necropathy: 3 a burst)
+		"projectile": "projectiles/iron_shell", "projectile_speed": 560.0,  # TUNING (not in GDD)
+		"splash": 0.0, "slow": 0.7, "slow_time": 1.2,  # Necropathy "suppressive fire that slows what it hits": 30% for 1.2 s
+		"freeze_every": 0, "freeze_time": 0.0, "pierce": 0, "armour_pierce": 2.0,  # TUNING (not in GDD)
+		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(0.55, 1.0, 0.9), "reach": 140.0},  # TUNING (not in GDD)
+		"evolution": "deus_revenant",
+	},
 }
 
 ## Per-level multipliers, 5 rows (levels 1-5) per tower. Keys:
@@ -754,6 +798,21 @@ const LEVELS: Dictionary = {
 		{"damage": 1.7, "rate": 1.1, "range": 1.1},  # TUNING (not in GDD)
 		{"damage": 2.2, "rate": 1.15, "range": 1.15},  # TUNING (not in GDD)
 		{"damage": 2.8, "rate": 1.25, "range": 1.2},  # TUNING (not in GDD)
+	],
+	# --- Act XII (w2d-empire) ---
+	"grave_drone": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0},
+		{"damage": 1.35, "rate": 1.05, "range": 1.05},  # TUNING (not in GDD)
+		{"damage": 1.75, "rate": 1.1, "range": 1.1},  # TUNING (not in GDD)
+		{"damage": 2.2, "rate": 1.15, "range": 1.15},  # TUNING (not in GDD)
+		{"damage": 2.8, "rate": 1.25, "range": 1.2},  # TUNING (not in GDD)
+	],
+	"iron_revenant": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0, "bodies": 1, "hp": 1.0},
+		{"damage": 1.3, "rate": 1.0, "range": 1.05, "bodies": 1, "hp": 1.4},  # TUNING (not in GDD)
+		{"damage": 1.6, "rate": 1.1, "range": 1.1, "bodies": 1, "hp": 1.8},  # TUNING (not in GDD)
+		{"damage": 2.0, "rate": 1.2, "range": 1.15, "bodies": 1, "hp": 2.4},  # TUNING (not in GDD)
+		{"damage": 2.5, "rate": 1.3, "range": 1.2, "bodies": 1, "hp": 3.0},  # TUNING (not in GDD)
 	],
 }
 

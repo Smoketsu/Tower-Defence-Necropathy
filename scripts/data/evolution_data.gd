@@ -293,4 +293,25 @@ const EVOLUTIONS: Dictionary = {
 		},
 		"recipe": {"type": "any", "of": [{"type": "kills", "n": 40}, {"type": "damage", "n": 14000}]},  # TUNING (not in GDD) Necropathy Turning Bones -> a record of the road
 	},
+	# --- Act XII (w2d-empire) ---
+	"wraith_drone": {
+		"from": "grave_drone", "name": "Wraith Drone", "sprite": "summons/wraith_drone", "icon": "wraith_drone",
+		"stats": {"damage": 1.3, "range": 1.1},  # TUNING (not in GDD)
+		"set": {
+			"feathers": 3,  # Necropathy: "the Wraith Drone fires 3"
+			"pierce": 1,  # TUNING (not in GDD) each dart runs through one more foe
+		},
+		"recipe": {"type": "any", "of": [{"type": "kills", "n": 45}, {"type": "damage", "n": 12000}]},  # TUNING (not in GDD) Necropathy Overclock -> a record of the road
+	},
+	"deus_revenant": {
+		"from": "iron_revenant", "name": "Deus Revenant", "sprite": "summons/deus_revenant", "icon": "deus_revenant",
+		"stats": {"damage": 1.3, "hp": 1.25},  # TUNING (not in GDD)
+		"set": {
+			"projectile": "projectiles/deus_missile",  # Necropathy's Deus Revenant missiles
+			"splash": 44.0,  # TUNING (not in GDD) px each missile bursts over
+			"shells": 3,  # TUNING (not in GDD)
+			"hold": 4,  # TUNING (not in GDD)
+		},
+		"recipe": {"type": "any", "of": [{"type": "kills", "n": 30}, {"type": "damage", "n": 12000}]},  # TUNING (not in GDD) Necropathy Recoil Frame -> a record of the post
+	},
 }

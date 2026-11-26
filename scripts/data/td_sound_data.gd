@@ -39,6 +39,7 @@ const FIRE: Dictionary = {
 	"myrmidon_shade": "warrior_bash",  # Act VIII (w2c-pantheon): the Warrior's blow (a bank sound: heard on every map)
 	"bound_succubus": "charm_kiss", "archfiend": "brute_slam",  # Act IX (w2c-inferno): the inferno pack
 	"bound_ophan": "td_blood_bite",  # Act X (w2c-host): the td pack's crunch (always prepared)
+	"grave_drone": "drone_zap", "iron_revenant": "turret_shot",  # Act XII (w2d-empire): the Empire pack (prepared on its maps; elsewhere silent until loaded)
 }  # TUNING (not in GDD)
 ## Spell / ultimate id -> Sfx id played on its cast (gw2-kit: the later spells; the
 ## launch spells keep their own sounds). Ultimates use their row's "sound".
@@ -54,6 +55,7 @@ const CAST: Dictionary = {
 
 	"brimstone": "pit_open", "tempt": "charm_kiss", "fall_from_grace": "bolt_cast",  # Act IX (w2c-inferno)
 	"flaming_sword": "power_lunge", "wheel_of_eyes": "light_burn", "revelation": "verdict",  # Act X (w2c-host): the Host pack
+	"death_ray": "laser_fire", "hollow_puppet": "magnet_pull", "scrap_swarm": "drone_zap",  # Act XII (w2d-empire): the Empire pack
 }  # TUNING (not in GDD)
 
 ## The five Gravewatch sounds (GDD §11), id -> recipe; keys exactly as

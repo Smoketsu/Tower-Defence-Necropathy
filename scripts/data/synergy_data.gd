@@ -177,4 +177,18 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "a", "vs": "staggered", "mult": 1.3},  # TUNING (not in GDD) the wheel rolls harder over what it already staggered
 		"hint": "Bound Ophan near a Crypt Warder: rolls crush staggered foes",
 	},
+	# --- Act XII (w2d-empire) ---
+	"overclock": {
+		"name": "Overclock", "icon": "overclock", "a": "grave_drone", "b": "frost_wraith",
+		"radius": 220.0,  # TUNING (not in GDD)
+		"effects": {"a": {"rate": 1.15}},  # TUNING (not in GDD)
+		"hit": {"side": "a", "vs": "slowed", "mult": 1.3},  # TUNING (not in GDD) darts punish what the wraith slowed
+		"hint": "Grave Drone near a Frost Wraith: faster darts, harder on slowed foes",
+	},
+	"recoil_frame": {
+		"name": "Recoil Frame", "icon": "recoil_frame", "a": "iron_revenant", "b": "warrior",
+		"radius": 220.0,  # TUNING (not in GDD)
+		"effects": {"a": {"damage": 1.15}, "b": {"hp": 1.2}},  # TUNING (not in GDD) the walker steadies the line
+		"hint": "Iron Revenant near Warriors: harder shells, tougher Warriors",
+	},
 }
