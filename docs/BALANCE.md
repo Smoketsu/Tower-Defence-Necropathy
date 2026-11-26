@@ -484,3 +484,6 @@ Known: Polyphemus walks through when the posts on his road are full (5 lives,
 2/4 seeds); the kit order (Myrmidon Shades instead of Warriors) keeps all 20
 lives on every map: the Myrmidons out-block the Warriors the default orders use
 (their wall and spear are the act's reward; watch them in the integration).
+Frame time (`tools/gw_perf.js`, shared machine, five agents running: unreliable):
+Sanctum w20 112 ms (74 enemies), Underworld w22 91 ms (33 enemies), 0.81x.
+Screenshots: `/home/user/gw_shots/w2c_pantheon_*.png` (1280x720 and 844x390 touch).
