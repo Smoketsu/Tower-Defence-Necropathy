@@ -168,7 +168,7 @@ const KINDS: Dictionary = {
 	# Temple boss: Sekhmet, the Lioness of Retribution. The Hunt, the Red Wind, the Feast.
 	"sekhmet": {
 		"name": "Sekhmet, the Lioness of Retribution", "sprite": "dynasty/sekhmet", "rank": "boss",
-		"hp": 15000.0, "speed": 24.0, "armour": 3.0, "radius": 22.0,  # TUNING (not in GDD)
+		"hp": 11000.0, "speed": 22.0, "armour": 3.0, "radius": 22.0,  # TUNING (not in GDD)
 		"damage": 32.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "dynasty/sekhmet",
 		"args": {"wind_hp": 0.66, "feast_hp": 0.33,
@@ -288,7 +288,7 @@ const ORDERS: Dictionary = {
 			{"do": "build", "spot": "plot:9", "tower": "mage"},
 			{"do": "build", "spot": "plot:12", "tower": "archer"},
 			{"do": "upgrade", "spot": "plot:11"},
-			{"do": "build", "spot": "plot:15", "tower": "banshee"},
+			{"do": "build", "spot": "plot:15", "tower": "mage"},
 			{"do": "upgrade", "spot": "plot:5"},
 			{"do": "upgrade", "spot": "plot:9"},
 			{"do": "build", "spot": "post:4", "tower": "abomination"},
@@ -306,6 +306,7 @@ const ORDERS: Dictionary = {
 			{"do": "upgrade", "spot": "plot:10"},
 			{"do": "build", "spot": "plot:2", "tower": "corpse_catapult"},
 			{"do": "target", "spot": "plot:2", "mode": "strongest"},
+			{"do": "build", "spot": "plot:13", "tower": "archer"},
 			{"do": "upgrade", "spot": "plot:11"},
 			{"do": "upgrade", "spot": "plot:14"},
 			{"do": "upgrade", "spot": "plot:9"},
@@ -316,8 +317,7 @@ const ORDERS: Dictionary = {
 			{"do": "upgrade", "spot": "plot:4"},
 			{"do": "upgrade", "spot": "plot:10"},
 			{"do": "upgrade", "spot": "plot:11"},
-			{"do": "build", "spot": "plot:13", "tower": "mage"},
-			{"do": "upgrade", "spot": "post:3"},
+						{"do": "upgrade", "spot": "post:3"},
 			{"do": "upgrade", "spot": "plot:14"},
 			{"do": "upgrade", "spot": "plot:2"},
 			{"do": "upgrade", "spot": "plot:15"},
