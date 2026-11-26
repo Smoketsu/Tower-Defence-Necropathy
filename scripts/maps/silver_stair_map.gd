@@ -47,20 +47,20 @@ const MAP: Dictionary = {
 		Vector2(1100, 600),
 	],
 	"posts": [Vector2(600, 640), Vector2(560, 480), Vector2(240, 400), Vector2(880, 320), Vector2(1060, 230), Vector2(400, 180)],
-	"clouds": [[Vector2(420, 560), 80.0], [Vector2(820, 400), 76.0], [Vector2(560, 250), 70.0]], [Vector2(960, 330), 76.0], [Vector2(240, 240), 70.0]],  # TUNING (not in GDD) the low cloud banks of the Stair
+	"clouds": [[Vector2(420, 560), 80.0], [Vector2(820, 400), 76.0], [Vector2(560, 250), 70.0]],  # TUNING (not in GDD) the low cloud banks of the Stair
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 4.4,  # TUNING (not in GDD) Part Two: a step above the Road to the Sun
+	"wave_hp_end": 3.4,  # TUNING (not in GDD) Part Two: a step above the Road to the Sun
 	"rule": "",
 	"act_rule": "host/hallowed_light",
 	"build_order": "silver_stair_default",
 	"weak_order": "silver_stair_weak",
 	"waves": [
 		{"banner": "Lesser lights descend the stair", "groups": [{"kind": "host_lesser_light", "count": 10, "spacing": 0.8}, {"kind": "host_virtue", "count": 3, "spacing": 1.8, "delay": 4.0}]},
-		{"banner": "Virtues: silver spears on the cloud road", "groups": [{"kind": "host_virtue", "count": 6, "spacing": 1.5, "road": "cloud"}, {"kind": "host_lesser_light", "count": 6, "spacing": 0.8, "delay": 3.0}]},
-		{"banner": "Powers: their white blades cut two bodies at once", "groups": [{"kind": "host_power", "count": 6, "spacing": 1.5}, {"kind": "host_virtue", "count": 6, "spacing": 1.3, "delay": 3.0, "road": "cloud"}]},
-		{"banner": "A Choir Angel sings: kill her first", "groups": [{"kind": "host_choir_angel", "count": 1, "spacing": 1.0}, {"kind": "host_virtue", "count": 8, "spacing": 1.1, "delay": 1.0}, {"kind": "host_lesser_light", "count": 10, "spacing": 0.6, "delay": 3.0, "road": "cloud"}]},
-		{"banner": "", "groups": [{"kind": "host_power", "count": 8, "spacing": 1.2}, {"kind": "host_virtue", "count": 8, "spacing": 1.1, "delay": 2.0, "road": "cloud"}]},
+		{"banner": "Virtues: silver spears climb the stair", "groups": [{"kind": "host_virtue", "count": 6, "spacing": 1.5}, {"kind": "host_lesser_light", "count": 6, "spacing": 0.8, "delay": 3.0}]},
+		{"banner": "Powers: their white blades cut two bodies at once", "groups": [{"kind": "host_power", "count": 6, "spacing": 1.5}, {"kind": "host_virtue", "count": 6, "spacing": 1.3, "delay": 3.0}]},
+		{"banner": "A Choir Angel sings: kill her first", "groups": [{"kind": "host_choir_angel", "count": 1, "spacing": 1.0}, {"kind": "host_virtue", "count": 8, "spacing": 1.1, "delay": 1.0}, {"kind": "host_lesser_light", "count": 10, "spacing": 0.6, "delay": 3.0}]},
+		{"banner": "", "groups": [{"kind": "host_power", "count": 8, "spacing": 1.2}, {"kind": "host_virtue", "count": 8, "spacing": 1.1, "delay": 2.0}]},
 		{"banner": "Heralds: each trumpet calls a squad of lights", "groups": [{"kind": "host_herald", "count": 2, "spacing": 4.0}, {"kind": "host_virtue", "count": 8, "spacing": 1.0, "delay": 2.0}]},
 		{"banner": "", "groups": [{"kind": "host_lesser_light", "count": 16, "spacing": 0.5, "road": "cloud"}, {"kind": "host_power", "count": 8, "spacing": 1.1, "delay": 2.0}, {"kind": "host_choir_angel", "count": 1, "spacing": 1.0, "delay": 4.0}]},
 		{"banner": "Cherubs: their flaming swords sweep all around them", "groups": [{"kind": "host_cherub", "count": 2, "spacing": 5.0}, {"kind": "host_virtue", "count": 10, "spacing": 1.0, "delay": 2.0, "road": "cloud"}]},

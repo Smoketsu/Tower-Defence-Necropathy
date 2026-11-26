@@ -48,7 +48,7 @@ const MAP: Dictionary = {
 		Vector2(720, 130),
 	],
 	"posts": [Vector2(260, 650), Vector2(1020, 650), Vector2(100, 370), Vector2(1180, 370), Vector2(640, 165)],
-	"clouds": [[Vector2(640, 400), 84.0], [Vector2(330, 370), 70.0], [Vector2(950, 370), 70.0]], [Vector2(280, 300), 70.0], [Vector2(1000, 300), 70.0]],  # TUNING (not in GDD) the rose's shadowed petals
+	"clouds": [[Vector2(640, 400), 84.0], [Vector2(330, 370), 70.0], [Vector2(950, 370), 70.0]],  # TUNING (not in GDD) the rose's shadowed petals
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
 	"wave_hp_end": 5.0,  # TUNING (not in GDD) the act's finale presses hardest

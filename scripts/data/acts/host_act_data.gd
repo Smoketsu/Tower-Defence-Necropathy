@@ -18,23 +18,23 @@ extends RefCounted
 const KINDS: Dictionary = {
 	# The lesser lights: small winged orbs of light in swarms (Necropathy "Fodder swarm"); they float over the posts.
 	"host_lesser_light": {
-		"name": "Lesser Light", "sprite": "host/lesser_light", "rank": "fodder", "souls": 3,  # TUNING (not in GDD) a swarm pays Act I's fodder 3 (X2: a swarm, not a soldier)
-		"hp": 32.0, "speed": 66.0, "armour": 0.0, "radius": 8.0,  # TUNING (not in GDD)
+		"name": "Lesser Light", "sprite": "host/lesser_light", "rank": "fodder", "souls": 4,  # TUNING (not in GDD) a swarm pays a little under the soldiers' 5 (X2)
+		"hp": 26.0, "speed": 56.0, "armour": 0.0, "radius": 8.0,  # TUNING (not in GDD)
 		"damage": 3.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": true, "ignores_walls": true, "trait": "", "args": {},
 	},
 	# A soldier: a silver spearman with a mirror mask and four wings (Necropathy "Virtue | Blockers").
 	"host_virtue": {
-		"name": "Virtue", "sprite": "host/virtue", "rank": "fodder", "souls": 8,  # TUNING (not in GDD) soldier tier (X2)
+		"name": "Virtue", "sprite": "host/virtue", "rank": "fodder", "souls": 10,  # TUNING (not in GDD) soldier tier, the top of X2 (Part Two)
 		"hp": 115.0, "speed": 48.0, "armour": 2.0, "radius": 11.0,  # TUNING (not in GDD)
-		"damage": 11.0, "attack_interval": 1.2,  # TUNING (not in GDD)
+		"damage": 7.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "", "args": {},
 	},
 	# A soldier: a blade of white flame; a telegraphed lunge cuts the first two bodies of the post holding her.
 	"host_power": {
-		"name": "Power", "sprite": "host/power", "rank": "fodder", "souls": 8,  # TUNING (not in GDD) soldier tier (X2)
+		"name": "Power", "sprite": "host/power", "rank": "fodder", "souls": 10,  # TUNING (not in GDD) soldier tier, the top of X2 (Part Two)
 		"hp": 100.0, "speed": 54.0, "armour": 1.0, "radius": 10.0,  # TUNING (not in GDD)
-		"damage": 9.0, "attack_interval": 1.1,  # TUNING (not in GDD)
+		"damage": 7.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "host/lunge",
 		"args": {"windup": 0.6, "damage": 30.0, "cooldown": 5.5, "targets": 2},  # TUNING (not in GDD) Necropathy: 0.6 s white line, "cuts two summons in a line", every 5.5 s
 	},
@@ -73,7 +73,7 @@ const KINDS: Dictionary = {
 	# The guardians: four faces, four wings of eyes and a flaming sword that SWEEPS ALL AROUND IT (Necropathy "Cherub").
 	"host_cherub": {
 		"name": "Cherub", "sprite": "host/cherub", "rank": "elite",
-		"hp": 680.0, "speed": 34.0, "armour": 4.0, "radius": 15.0,  # TUNING (not in GDD)
+		"hp": 540.0, "speed": 34.0, "armour": 4.0, "radius": 15.0,  # TUNING (not in GDD)
 		"damage": 14.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "host/cherub",
 		"args": {"first": 3.0, "every": 7.0, "windup": 1.0, "reach": 72.0, "body_damage": 36.0, "disable": 0.8},  # TUNING (not in GDD)
@@ -89,10 +89,10 @@ const KINDS: Dictionary = {
 	# Silver Stair miniboss: the Cherub of the Gate, its sword turning a full circle every 6 s.
 	"host_cherub_of_the_gate": {
 		"name": "The Cherub of the Gate", "sprite": "host/cherub_of_the_gate", "rank": "miniboss",
-		"hp": 5200.0, "speed": 26.0, "armour": 6.0, "radius": 24.0,  # TUNING (not in GDD) X3: 4000-6000
+		"hp": 4600.0, "speed": 26.0, "armour": 6.0, "radius": 24.0,  # TUNING (not in GDD) X3: 4000-6000
 		"damage": 22.0, "attack_interval": 1.4,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "host/cherub",
-		"args": {"first": 3.0, "every": 6.0, "windup": 1.0, "reach": 120.0, "body_damage": 70.0, "disable": 1.8},  # TUNING (not in GDD) Necropathy: a full circle every 6 s
+		"args": {"first": 3.0, "every": 6.0, "windup": 1.0, "reach": 110.0, "body_damage": 50.0, "disable": 1.4},  # TUNING (not in GDD) Necropathy: a full circle every 6 s
 	},
 	# Wheel of Thrones miniboss: the Dominion of the Spheres keeps every angel near him quick and whole.
 	"host_dominion_of_the_spheres": {
@@ -116,11 +116,11 @@ const KINDS: Dictionary = {
 	# with still shafts of light; the Trial fills the scales with each phase he survives (Judges come).
 	"host_seraiel": {
 		"name": "Seraiel, Warden of the Gate", "sprite": "host/seraiel", "rank": "boss",
-		"hp": 16000.0, "speed": 24.0, "armour": 5.0, "radius": 26.0,  # TUNING (not in GDD) a step above Amaterasu (14500)
+		"hp": 11500.0, "speed": 22.0, "armour": 5.0, "radius": 26.0,  # TUNING (not in GDD) under Amaterasu (14500): the Gate and the Trial weigh more
 		"damage": 30.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "host/seraiel",
 		"args": {"phase_hp": [0.66, 0.33], "sword_first": 3.0, "sword_every": 7.0, "sword_every_p3": 4.5, "windup": 0.9,
-			"reach": 130.0, "body_damage": 80.0, "disable": 1.5,
+			"reach": 120.0, "body_damage": 70.0, "disable": 1.0,
 			"gate_first": 6.0, "gate_every": 14.0, "gate_life": 9.0, "gate_width": 120.0, "gate_ahead": 220.0, "gates_p3": 2,
 			"trial_judges": 2, "pose_time": 0.7},  # TUNING (not in GDD) Necropathy BossSeraiel: the Sword, the Gate, the Trial
 	},
@@ -418,7 +418,7 @@ const RULE: Dictionary = {
 	# 180 = right to left, 90 = top to bottom), live (most shafts at once from wave
 	# live_at[i]: index i + 1 shafts), choir (extra width share per live Choir Angel).
 	"maps": {
-		"silver_stair": {"first": 12.0, "every": 24.0, "speed": 30.0, "width": 80.0, "widen": 0.02, "angles": [0.0, 180.0],
+		"silver_stair": {"first": 40.0, "every": 24.0, "speed": 30.0, "width": 80.0, "widen": 0.02, "angles": [0.0, 180.0],
 			"live_at": [1, 9, 18], "choir": 0.0},  # TUNING (not in GDD) the Stair: each step a wider shaft
 		"wheel_of_thrones": {"first": 10.0, "every": 22.0, "speed": 32.0, "width": 84.0, "widen": 0.022, "angles": [0.0, 90.0, 180.0, 270.0],
 			"live_at": [1, 7, 15], "choir": 0.0},  # TUNING (not in GDD) the turning spheres: shafts from every side
