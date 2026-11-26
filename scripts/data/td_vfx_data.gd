@@ -257,7 +257,7 @@ const STATUS_TINT: Dictionary = {
 	"slowed": Color(0.75, 0.92, 1.2),  # TUNING (not in GDD) chilled blue
 	"charmed": Color(1.45, 0.7, 1.25),  # TUNING (not in GDD) w2c-inferno: charm pink (enemies and tempted blocker bodies)
 }
-## Status -> icon index (0..5) in td/vfx_status.png.
+## Status -> icon index (0..6) in td/vfx_status.png (7 icons of STATUS_ICON_PX).
 const STATUS_ICON: Dictionary = {"burning": 0, "rot": 1, "cursed": 2, "slowed": 3, "frozen": 4, "weakened": 5, "charmed": 6}  # TUNING (not in GDD)
 ## Icon size (px) and drawn scale; most icons shown over one enemy.
 const STATUS_ICON_PX: int = 9  # TUNING (not in GDD) art size

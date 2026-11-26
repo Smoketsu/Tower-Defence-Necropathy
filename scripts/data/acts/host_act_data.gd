@@ -128,7 +128,7 @@ const KINDS: Dictionary = {
 	# the burning Core can be hurt; it rolls through the posts and its Gaze lays shafts over the towers near it.
 	"host_throne": {
 		"name": "The Throne", "sprite": "host/throne", "rank": "boss",
-		"hp": 5500.0, "speed": 20.0, "armour": 6.0, "radius": 30.0,  # TUNING (not in GDD) its rims (x0.2) make it the act's toughest wall
+		"hp": 4800.0, "speed": 20.0, "armour": 6.0, "radius": 30.0,  # TUNING (not in GDD) DECISIONS Y6 (was 5500); its rims (x0.2) make it the act's toughest wall
 		"damage": 32.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "host/throne",
 		"args": {"rim_mult": 0.25, "core_first": 6.0, "core_every": 14.0, "core_time": 8.0,
@@ -681,6 +681,9 @@ const LOOK: Dictionary = {
 	"core_tint": Color(0.55, 0.85, 1.0, 0.9),  # TUNING (not in GDD) the Throne's open Core glow
 	"core_d": 80.0,  # TUNING (not in GDD) px of that glow
 	"fear_tint": Color(1.0, 1.0, 1.0, 0.5),  # TUNING (not in GDD) Be Not Afraid's flash (an edge band, never full screen)
+	"fear_band": Color(1.0, 0.78, 0.3, 0.9),  # TUNING (not in GDD) DECISIONS Y9: the screen-edge bands while Be Not Afraid is coming (HostLayer)
+	"fear_band_depth": 0.16,  # TUNING (not in GDD) their depth as a share of the map's height
+	"fear_band_pulse": 10.0,  # TUNING (not in GDD) their pulse (radians per s)
 	"judge_tint": Color(0.9, 0.95, 1.0),  # TUNING (not in GDD) a Judge's descent pillar
 	# --- The act spells and tower ---
 	"sword_arc": 2.4,  # TUNING (not in GDD) radians of Flaming Sword's drawn arc

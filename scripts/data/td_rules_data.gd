@@ -8,13 +8,20 @@ extends RefCounted
 const TICK_RATE: int = 60  # TUNING (not in GDD)
 ## Gate lives at the start of a map (before meta bonuses).
 const START_LIVES: int = 20  # GDD §3 "Start with 20 lives"
-## Lives lost when an enemy of each rank reaches the gate; -1 = all (the map is lost).
+## Lives lost when an enemy of each rank reaches the gate; -1 = all (the map is
+## lost). A kind row may set "leak_lives" (int, -1 = all) instead (DECISIONS Y3).
 const LEAK_LIVES: Dictionary = {
 	"fodder": 1,  # GDD §3
 	"elite": 3,  # GDD §3
 	"miniboss": 5,  # TUNING (not in GDD)
-	"boss": -1,  # GDD §3 "a boss ends the map"
+	"boss": 10,  # TUNING (not in GDD) DECISIONS Y3: half the start lives (GDD §3 said "a boss ends the map": a cliff)
 }
+## Ranks that, meeting a post whose bodies are all full, push a lesser enemy
+## (any rank not in this list) out of a body's hold and take its place
+## (RoadBlock.free_body / make_room; DECISIONS Y3).
+const BUMPING_RANKS: Array[String] = ["miniboss"]  # TUNING (not in GDD) bosses not: a held boss empties the post and its column walks through (DECISIONS Y3)
+## Seconds an enemy pushed out of a hold cannot be held again (it walks past the post).
+const BUMP_FREE_TIME: float = 0.5  # TUNING (not in GDD)
 ## Seconds after a wave's LAST SPAWN before the next wave starts by itself
 ## (owner decision: back-to-back waves; no build phase). Call skips it.
 const AUTO_GAP: float = 5.0  # TUNING (not in GDD) owner decision, about 5 s

@@ -39,7 +39,7 @@ const ROLES: Dictionary = {
 	"logo": ROOT + "logo_gravewatch.png",  # 250x124 NECROPATHY logo with the Gravewatch subtitle
 	"vfx_slash": ROOT + "vfx_slash.png",  # 6 frames of 48x48 grey sword crescent facing +x, tinted (tools/vfx_art.py)
 	"vfx_streak": ROOT + "vfx_streak.png",  # 32x8 white trail mask, opaque at +x, stretched behind shots
-	"vfx_status": ROOT + "vfx_status.png",  # 6 status icons of 9x9: burning, rot, cursed, slowed, frozen, weakened
+	"vfx_status": ROOT + "vfx_status.png",  # 7 status icons of 9x9: burning, rot, cursed, slowed, frozen, weakened, charmed
 	"vfx_crack": ROOT + "vfx_crack.png",  # 44x20 ground crack (Abomination smash, boulder impact)
 	"mood_lantern": ROOT + "mood_lantern.png",  # 28x40 lit stone lantern (Necropathy obstacles/stone_lantern_lit), Graveyard mood
 	"mood_fire": ROOT + "mood_fire.png",  # 8 frames of 32x32 lit brazier (Necropathy norse/brazier_lit_anim), Crimson March campfires

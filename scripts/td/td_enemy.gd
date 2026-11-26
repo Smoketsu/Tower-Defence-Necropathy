@@ -213,6 +213,7 @@ func step(dt: float) -> void:
 	var block := game.block_ahead(self, move)  # A block it walks into, with a free body.
 	if block != null:
 		var b := block.free_body(self)  # The body that takes it.
+		block.make_room(b)  # A miniboss / boss at a full post pushes a lesser enemy on.
 		var stop := block.dist - radius - TdRulesData.HOLD_GAP  # Where it stands, just before the block.
 		if stop > follower.dist:
 			follower.advance(stop - follower.dist)
@@ -377,6 +378,20 @@ func _draw() -> void:
 
 ## Body layer callback: the sprite (walk strip when it has one, boss pose),
 ## tinted by its first status (TdVfxData.STATUS_TINT).
+## The one "hidden enemy" test (TdGame.can_target): no tower picks it while
+## any of these vars holds: "mist_until" (game s; Act III Vampire Noble,
+## Carmilla), "hidden_until" (game s; Act III Isolde), "cloak_until" (game s;
+## Act VIII Hades' helm), "untargetable" (bool; Act VI Hrimgar sunk, Odin and
+## Fenrir out of reach), "k_charm_until" (game s; Act IX charmed: it fights
+## for the necromancer, TdCombat.charm_enemy). A trait hides an enemy by
+## setting one of them; sight rules (night, sandstorm) stay in the act rules.
+func hidden_from_towers() -> bool:
+	var t := game.time  # Now.
+	return t < float(vars.get("mist_until", 0.0)) or t < float(vars.get("hidden_until", 0.0)) \
+			or t < float(vars.get("cloak_until", 0.0)) or t < float(vars.get("k_charm_until", 0.0)) \
+			or bool(vars.get("untargetable", false))
+
+
 func _draw_body(ci: CanvasItem) -> void:
 	var key := String(vars.get("sprite", row.get("sprite", "")))  # Sprite key (vars "sprite": a form change, w2c-dynasty's Ammit).
 	var flash := game != null and game.time < flash_until  # Hit flash.

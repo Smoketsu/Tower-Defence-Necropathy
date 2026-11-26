@@ -14,8 +14,8 @@
 ##     foe inside (TdCombat.damage_enemy, source "wrath", x `boss_mult` on
 ##     bosses / minibosses). Both armies. Read on the HUD by the WrathMeter.
 ##   GLORY — Heroes grow with every blocker body they fell (the hero trait).
-## Also the act's two boss hooks: can_target() hides an enemy while its
-## vars "cloak_until" lies ahead (Hades' Helm of Darkness), and
+## Also the act's boss hook: Hades' vars "cloak_until" hides him from the towers
+## (TdEnemy.hidden_from_towers(), the one hidden test), and
 ## on_body_fallen() raises a fallen blocker as a shade while an enemy with vars
 ## "claiming" lives (Hades' Reclaiming, game.spawn_from_body()).
 class_name PantheonActRules
@@ -149,13 +149,6 @@ func _land(p: Array) -> void:
 				0.5, lk["wrath_tint"][kind], String(lk["wrath_anim"][kind]))
 
 
-func can_target(_t: Tower, e: TdEnemy) -> bool:
-	if game.time < float(e.vars.get("cloak_until", 0.0)):
-		counts["hidden"] = int(counts["hidden"]) + 1
-		return false
-	return true
-
-
 func on_body_fallen(b: BlockBody, _by: TdEnemy) -> void:
 	if b.temporary:
 		return
@@ -169,6 +162,7 @@ func on_body_fallen(b: BlockBody, _by: TdEnemy) -> void:
 func summary() -> String:
 	var ev: Dictionary = game.stats.get("events", {})  # Trait counters.
 	var parts: Array[String] = ["wrath:%s" % String(wrath.get("kind", "none"))]
+	counts["hidden"] = int((game.stats.get("events", {}) as Dictionary).get("hidden_picks", 0.0))  # TdEnemy.hidden_from_towers() picks refused.
 	for k: String in ["strikes", "circles", "enemy_hits", "towers_hit", "bodies_hit", "claims", "hidden"]:
 		parts.append("%s:%d" % [k, int(counts[k])])
 	parts.append("enemy_dmg:%d" % int(counts["enemy_damage"]))

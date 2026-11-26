@@ -41,12 +41,17 @@ func _ready() -> void:
 	MetaModifiers.set_max()
 	ok = ok and MetaModifiers.spell_slots() == 4 and MetaModifiers.masteries.size() == TowerData.TOWERS.size()
 	ok = ok and is_equal_approx(MetaModifiers.ultimate_charge_mult(), 1.3)
-	# w2b-int: the campaign unlock chain end to end (Sanctum -> Cutter -> ... -> Road to the Sun):
-	# each map opens exactly when the one before it is cleared.
+	# w2b-int / w2c-int: the campaign unlock chain end to end (Graveyard -> ... -> the Empyrean,
+	# Acts.map_order(), the one list): each map opens exactly when the one before it is cleared.
 	Meta.data["maps"]["cleared"] = []
-	var chain: Array[String] = ["graveyard", "crimson_march", "sanctum", "cutter", "galleon", "maelstrom", "ravensmoor", "witchwood",
-		"castle_sanguis", "skid_row", "fort_kessler", "liberty_heights", "province", "kurogane", "sun_road"]
+	var chain: Array[String] = []  # Every campaign map in order (Acts.map_order() without the hidden test act).
+	for m: String in Acts.map_order():
+		if not bool(Acts.row(Acts.act_of_map(m)).get("hidden", false)):
+			chain.append(m)
+	ok = ok and chain.size() >= 30 and chain[0] == "graveyard" and chain[chain.size() - 1] == "empyrean"
 	for i in range(1, chain.size()):
+		if Meta.unlock_after(chain[i]) != chain[i - 1] or Meta.map_open(chain[i]):
+			push_error("meta_check: %s does not follow %s" % [chain[i], chain[i - 1]])
 		ok = ok and Meta.unlock_after(chain[i]) == chain[i - 1] and not Meta.map_open(chain[i])
 		(Meta.data["maps"]["cleared"] as Array).append(chain[i - 1])
 		ok = ok and Meta.map_open(chain[i])
@@ -57,11 +62,13 @@ func _ready() -> void:
 	var before: Dictionary = (Meta.data["unlocks"] as Dictionary).duplicate(true)
 	Meta.migrate()
 	ok = ok and Meta.data["unlocks"] == before
-	for tw: String in ["powder_wraith", "blood_spawn", "fallen_hero"]:  # Act towers open with their finale cleared (Road to the Sun's not cleared yet).
-		ok = ok and (Meta.data["unlocks"]["towers"] as Array).has(tw)
-	ok = ok and not (Meta.data["unlocks"]["towers"] as Array).has("bound_oni")
-	# w2c-dynasty: Act VII's own chain (its first map's predecessor belongs to the act order) and its tower locked.
-	ok = ok and Meta.unlock_after("lioness_temple") == "necropolis" and Meta.unlock_after("two_truths") == "lioness_temple"
-	ok = ok and not (Meta.data["unlocks"]["towers"] as Array).has("ushabti_sentinel")
+	# Every act tower opens with its finale cleared; the Empyrean (the last map) is not cleared yet,
+	# so the Bound Ophan's unlock is met only once it is (w2c-int).
+	for tw: String in ["powder_wraith", "blood_spawn", "fallen_hero", "bound_oni", "draugr_thane", "ushabti_sentinel", "myrmidon_shade", "bound_succubus", "archfiend"]:
+		ok = ok and Unlocks.tower_open(tw) and (Meta.data["unlocks"]["towers"] as Array).has(tw)
+	var ophan: Dictionary = TowerData.TOWERS["bound_ophan"]["unlock"]  # The Empyrean's boss opens it.
+	ok = ok and not Unlocks.met(ophan)
+	(Meta.data["maps"]["cleared"] as Array).append("empyrean")
+	ok = ok and Unlocks.met(ophan)
 	print("META CHECK OK" if ok else "META CHECK FAILED")
 	get_tree().quit(0 if ok else 1)

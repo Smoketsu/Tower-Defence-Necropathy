@@ -74,9 +74,9 @@ static func kill_enemy(game: TdGame, e: TdEnemy, tower: Tower) -> void:
 	game.remove_enemy(e, false)
 
 
-## Enemy `e` reached the gate: lives lost by rank (a boss ends the map).
+## Enemy `e` reached the gate: lives lost by its row's "leak_lives", else by rank.
 static func leak(game: TdGame, e: TdEnemy) -> void:
-	var lost := int(TdRulesData.LEAK_LIVES[String(e.row["rank"])])  # Lives lost (-1 = all).
+	var lost := int(e.row.get("leak_lives", TdRulesData.LEAK_LIVES[String(e.row["rank"])]))  # Lives lost (-1 = all).
 	game.lose_lives(game.lives if lost < 0 else lost)
 	game.stats["leaks"][e.kind] = int(game.stats["leaks"].get(e.kind, 0)) + 1
 	game.remove_enemy(e, true)

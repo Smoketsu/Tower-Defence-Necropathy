@@ -51,7 +51,7 @@ const MAP: Dictionary = {
 	"rune_stones": [Vector2(140, 300), Vector2(140, 450)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 1.95,  # TUNING (not in GDD) Part Two
+	"wave_hp_end": 1.9,  # TUNING (not in GDD) Part Two
 	"rule": "",
 	"act_rule": "norse/long_winter",
 	"build_order": "valgard_default",

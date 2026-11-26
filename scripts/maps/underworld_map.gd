@@ -46,7 +46,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(240, 400), Vector2(450, 160), Vector2(660, 350), Vector2(1040, 350), Vector2(1125, 160), Vector2(1100, 640)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 2.3,  # TUNING (not in GDD) the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
+	"wave_hp_end": 2.2,  # TUNING (not in GDD) the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
 	"rule": "",
 	"act_rule": "pantheon/pantheon_rules",
 	"build_order": "underworld_default",

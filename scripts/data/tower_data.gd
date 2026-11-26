@@ -24,6 +24,7 @@ const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
 
 ## Tower rows. Keys (every row has the common ones):
 ##   name          — UI name.
+##   short         — short UI name (build-menu tiles; DECISIONS Y8).
 ##   sprite        — SpriteData key of the unit drawn on the spot.
 ##   icon          — icons/<id> key for menus.
 ##   spot          — "plot" (beside the road) or "post" (on the road: a blocker).
@@ -105,7 +106,7 @@ const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
 ##                   most wounded other blocker body within spill_radius px.
 const TOWERS: Dictionary = {
 	"archer": {
-		"name": "Skeleton Archer", "sprite": "summons/archer", "icon": "archer", "spot": "plot",
+		"name": "Skeleton Archer", "short": "Archer", "sprite": "summons/archer", "icon": "archer", "spot": "plot",
 		"cost": 70,  # TUNING (not in GDD) GDD §8.1 range 40-140
 		"behavior": "archer",
 		"range": 165.0,  # TUNING (not in GDD) Necropathy archer 170
@@ -119,7 +120,7 @@ const TOWERS: Dictionary = {
 		"evolution": "gravebow",
 	},
 	"mage": {
-		"name": "Bone Mage", "sprite": "summons/mage", "icon": "mage", "spot": "plot",
+		"name": "Bone Mage", "short": "Mage", "sprite": "summons/mage", "icon": "mage", "spot": "plot",
 		"cost": 100,  # TUNING (not in GDD)
 		"behavior": "mage",
 		"range": 135.0,  # TUNING (not in GDD) Necropathy mage 145
@@ -134,7 +135,7 @@ const TOWERS: Dictionary = {
 		"evolution": "lich",
 	},
 	"frost_wraith": {
-		"name": "Frost Wraith", "sprite": "summons/frost_wraith", "icon": "frost_wraith", "spot": "plot",
+		"name": "Frost Wraith", "short": "Wraith", "sprite": "summons/frost_wraith", "icon": "frost_wraith", "spot": "plot",
 		"cost": 90,  # TUNING (not in GDD)
 		"behavior": "frost_wraith",
 		"range": 125.0,  # TUNING (not in GDD)
@@ -151,7 +152,7 @@ const TOWERS: Dictionary = {
 		"evolution": "winter_revenant",
 	},
 	"corpse_catapult": {
-		"name": "Corpse Catapult", "sprite": "summons/corpse_catapult", "icon": "corpse_catapult", "spot": "plot",
+		"name": "Corpse Catapult", "short": "Catapult", "sprite": "summons/corpse_catapult", "icon": "corpse_catapult", "spot": "plot",
 		"cost": 140,  # GDD §8.1 dearest tower
 		"behavior": "corpse_catapult",
 		"range": 270.0,  # TUNING (not in GDD) GDD §4.1 "very long range"
@@ -181,7 +182,7 @@ const TOWERS: Dictionary = {
 		"evolution": "keening_lady",
 	},
 	"mender": {
-		"name": "Grave Mender", "sprite": "summons/mender", "icon": "mender", "spot": "plot",
+		"name": "Grave Mender", "short": "Mender", "sprite": "summons/mender", "icon": "mender", "spot": "plot",
 		"cost": 80,  # TUNING (not in GDD)
 		"behavior": "mender", "affects": "blockers",
 		"range": 130.0,  # TUNING (not in GDD)
@@ -193,7 +194,7 @@ const TOWERS: Dictionary = {
 		"evolution": "profane_bishop",
 	},
 	"warrior": {
-		"name": "Skeleton Warrior", "sprite": "summons/warrior", "icon": "warrior", "spot": "post",
+		"name": "Skeleton Warrior", "short": "Warrior", "sprite": "summons/warrior", "icon": "warrior", "spot": "post",
 		"cost": 40,  # GDD §8.1 cheapest tower
 		"behavior": "warrior",
 		"range": 30.0,  # TUNING (not in GDD)
@@ -209,7 +210,7 @@ const TOWERS: Dictionary = {
 		"evolution": "death_knight",
 	},
 	"abomination": {
-		"name": "Corpse Abomination", "sprite": "summons/abomination", "icon": "abomination", "spot": "post",
+		"name": "Corpse Abomination", "short": "Abom.", "sprite": "summons/abomination", "icon": "abomination", "spot": "post",
 		"cost": 110,  # TUNING (not in GDD)
 		"behavior": "abomination",
 		"range": 40.0,  # TUNING (not in GDD)
@@ -227,7 +228,7 @@ const TOWERS: Dictionary = {
 	},
 	# --- Later towers (GDD §4.2, gw2-kit): appended rows, each locked until its Unlocks spec is met ---
 	"warder": {
-		"name": "Crypt Warder", "sprite": "summons/warder", "icon": "warder", "spot": "plot",
+		"name": "Crypt Warder", "short": "Warder", "sprite": "summons/warder", "icon": "warder", "spot": "plot",
 		"desc": "Support: bone barriers on blockers in range",
 		"unlock": {"map": "graveyard"},  # TUNING (not in GDD) DECISIONS K2: Act I clears grow the roster
 		"cost": 85,  # TUNING (not in GDD)
@@ -243,7 +244,7 @@ const TOWERS: Dictionary = {
 		"evolution": "bone_aegis",
 	},
 	"rogue": {
-		"name": "Grave Rogue", "sprite": "summons/rogue", "icon": "rogue", "spot": "plot",
+		"name": "Grave Rogue", "short": "Rogue", "sprite": "summons/rogue", "icon": "rogue", "spot": "plot",
 		"desc": "Leaves its grave to dash at elites, bleeds them",
 		"unlock": {"map": "graveyard"},  # TUNING (not in GDD)
 		"cost": 95,  # TUNING (not in GDD)
@@ -263,7 +264,7 @@ const TOWERS: Dictionary = {
 		"evolution": "shadow_reaper",
 	},
 	"gargoyle": {
-		"name": "Crypt Gargoyle", "sprite": "summons/gargoyle", "icon": "gargoyle", "spot": "plot",
+		"name": "Crypt Gargoyle", "short": "Gargoyle", "sprite": "summons/gargoyle", "icon": "gargoyle", "spot": "plot",
 		"desc": "Circles in the air, swoops on packs; the answer to flyers",
 		"unlock": {"map": "crimson_march"},  # TUNING (not in GDD)
 		"cost": 110,  # TUNING (not in GDD)
@@ -283,7 +284,7 @@ const TOWERS: Dictionary = {
 		"evolution": "cathedral_horror",
 	},
 	"bone_hound": {
-		"name": "Bone Hounds", "sprite": "summons/bone_hound", "icon": "bone_hound", "spot": "plot",
+		"name": "Bone Hounds", "short": "Hounds", "sprite": "summons/bone_hound", "icon": "bone_hound", "spot": "plot",
 		"desc": "A pack that runs down the road after the enemy nearest the gate",
 		"unlock": {"map": "crimson_march"},  # TUNING (not in GDD)
 		"cost": 80,  # TUNING (not in GDD)
@@ -303,7 +304,7 @@ const TOWERS: Dictionary = {
 		"evolution": "hellhound",
 	},
 	"fallen_seraph": {
-		"name": "Fallen Seraph", "sprite": "summons/fallen_seraph", "icon": "fallen_seraph", "spot": "plot",
+		"name": "Fallen Seraph", "short": "Seraph", "sprite": "summons/fallen_seraph", "icon": "fallen_seraph", "spot": "plot",
 		"desc": "Black feathers at several foes at once; hits flyers",
 		"unlock": {"map": "sanctum"},  # Owner decision (Nov 25 2026): unlocked by beating Seraphine
 		"cost": 120,  # TUNING (not in GDD) A/B pass: 130 left the early waves thin
@@ -321,7 +322,7 @@ const TOWERS: Dictionary = {
 		"evolution": "seraph_of_ruin",
 	},
 	"bone_golem": {
-		"name": "Bone Golem", "sprite": "summons/bone_golem", "icon": "bone_golem", "spot": "post",
+		"name": "Bone Golem", "short": "Golem", "sprite": "summons/bone_golem", "icon": "bone_golem", "spot": "post",
 		"desc": "Heavy blocker: plants itself when hurt, feeds on what it holds",
 		"unlock": {"map": "sanctum"},  # TUNING (not in GDD)
 		"cost": 125,  # TUNING (not in GDD)
@@ -344,14 +345,14 @@ const TOWERS: Dictionary = {
 	},
 	# --- Act II, the Black Tide (w2b-tide): the act tower, unlocked by Captain Vandermere ---
 	"powder_wraith": {
-		"name": "Powder Wraith", "sprite": "summons/powder_wraith", "icon": "powder_wraith", "spot": "plot",
+		"name": "Powder Wraith", "short": "Powder", "sprite": "summons/powder_wraith", "icon": "powder_wraith", "spot": "plot",
 		"desc": "Marches a lit keg into the densest pack and bursts, then reforms",
 		"unlock": {"map": "maelstrom"},  # DECISIONS K9: the act's summon class, unlocked by its finale's boss
 		"cost": 115,  # TUNING (not in GDD)
 		"behavior": "powder_wraith", "ground_only": true,
 		"range": 190.0,  # TUNING (not in GDD) Necropathy picks a pack within 260 px of its necromancer
-		"damage": 40.0,  # Necropathy 40 damage a burst
-		"interval": 5.5,  # TUNING (not in GDD) s to reform after a burst (Necropathy 12 s on the open deck)
+		"damage": 48.0,  # TUNING (not in GDD) DECISIONS Y4 (Necropathy 40 damage a burst)
+		"interval": 3.6,  # TUNING (not in GDD) DECISIONS Y4 (was 5.5) s to reform after a burst (Necropathy 12 s on the open deck)
 		"target": "first",
 		"splash": 64.0,  # Necropathy 64 px blast
 		"march_speed": 150.0,  # Necropathy 150 px/s
@@ -364,7 +365,7 @@ const TOWERS: Dictionary = {
 	},
 	# --- Act III: the Sanguine Court (w2b-court) ---
 	"blood_spawn": {
-		"name": "Blood Spawn", "sprite": "summons/blood_spawn", "icon": "blood_spawn", "spot": "post",
+		"name": "Blood Spawn", "short": "Spawn", "sprite": "summons/blood_spawn", "icon": "blood_spawn", "spot": "post",
 		"desc": "Fast vampire brawlers that heal themselves with every blow",
 		"unlock": {"map": "castle_sanguis"},  # DECISIONS K9: the act's summon, unlocked by its finale's boss
 		"cost": 90,  # TUNING (not in GDD)
@@ -385,7 +386,7 @@ const TOWERS: Dictionary = {
 	},
 	# --- Act IV, the Last Line (w2b-city) ---
 	"fallen_hero": {
-		"name": "Fallen Hero", "sprite": "summons/fallen_hero", "icon": "fallen_hero", "spot": "plot",
+		"name": "Fallen Hero", "short": "Hero", "sprite": "summons/fallen_hero", "icon": "fallen_hero", "spot": "plot",
 		"desc": "A raised Super: flies over the city and slams into the densest pack, cracking armour",
 		"unlock": {"map": "liberty_heights"},  # DECISIONS K9: the act's summon, unlocked by its finale boss (Paragon)
 		"cost": 130,  # TUNING (not in GDD)
@@ -409,18 +410,18 @@ const TOWERS: Dictionary = {
 	},
 	# --- Act V, the Shogunate (w2b-shogun): unlocked by Amaterasu ---
 	"bound_oni": {
-		"name": "Bound Oni", "sprite": "summons/bound_oni", "icon": "bound_oni", "spot": "post",
+		"name": "Bound Oni", "short": "Oni", "sprite": "summons/bound_oni", "icon": "bound_oni", "spot": "post",
 		"desc": "Heavy blocker: every blow hits all it holds, its kanabo smash stuns them",
 		"unlock": {"map": "sun_road"},  # Act V's finale boss (DECISIONS K9)
 		"cost": 130,  # TUNING (not in GDD)
 		"behavior": "bound_oni",
 		"range": 40.0,  # TUNING (not in GDD)
-		"damage": 20.0,  # TUNING (not in GDD) per held enemy
+		"damage": 24.0,  # TUNING (not in GDD) DECISIONS Y4 (was 20)
 		"interval": 1.6,  # TUNING (not in GDD)
 		"target": "first",
 		"bodies": 1,
 		"body_hp": 440.0,  # TUNING (not in GDD) between the Abomination (350) and the Golem (500)
-		"hold": 3,  # TUNING (not in GDD)
+		"hold": 4,  # TUNING (not in GDD) DECISIONS Y4 (was 3): the Abomination holds 4 for 110
 		"hits_all_held": true,  # Necropathy kanabo sweep
 		"respawn": 11.0,  # TUNING (not in GDD)
 		"smash_every": 3,  # TUNING (not in GDD) every 3rd strike is the smash
@@ -442,7 +443,7 @@ const TOWERS: Dictionary = {
 		"target": "first",
 		"bodies": 1,
 		"body_hp": 470.0,  # TUNING (not in GDD) between the Bound Oni (440) and the Golem (500)
-		"hold": 3,  # TUNING (not in GDD)
+		"hold": 4,  # TUNING (not in GDD) DECISIONS Y4 (was 3): the Abomination holds 4 for 110
 		"hits_all_held": false,
 		"respawn": 11.0,  # TUNING (not in GDD)
 		"chill_mult": 0.6,  # TUNING (not in GDD) speed share left on a foe its axe strikes (Necropathy axe_slow)
@@ -459,7 +460,7 @@ const TOWERS: Dictionary = {
 		"name": "Ushabti Sentinel", "short": "Ushabti", "sprite": "summons/ushabti_sentinel", "icon": "ushabti_sentinel", "spot": "post",
 		"desc": "Stone servants: a felled body reassembles and its sand staggers the foes around it",
 		"unlock": {"map": "two_truths"},  # Act VII's finale boss (DECISIONS K9)
-		"cost": 120,  # TUNING (not in GDD)
+		"cost": 105,  # TUNING (not in GDD) DECISIONS Y4 (was 120)
 		"behavior": "ushabti_sentinel",
 		"range": 40.0,  # TUNING (not in GDD)
 		"damage": 18.0,  # TUNING (not in GDD)
@@ -551,14 +552,14 @@ const TOWERS: Dictionary = {
 	},
 	# --- Act X, the Celestial Host (w2c-host): unlocked by the Voice ---
 	"bound_ophan": {
-		"name": "Bound Ophan", "sprite": "summons/bound_ophan", "icon": "bound_ophan", "spot": "plot",
+		"name": "Bound Ophan", "short": "Ophan", "sprite": "summons/bound_ophan", "icon": "bound_ophan", "spot": "plot",
 		"desc": "A wheel of bone and eyes: circles its plot, then rolls down the road through the densest pack",
 		"unlock": {"map": "empyrean"},  # DECISIONS K9: the act's summon, unlocked by its finale's boss (the Voice)
 		"cost": 130,  # TUNING (not in GDD)
 		"behavior": "bound_ophan",
 		"range": 170.0,  # TUNING (not in GDD)
-		"damage": 28.0,  # TUNING (not in GDD) to each foe the roll passes
-		"interval": 3.0,  # TUNING (not in GDD)
+		"damage": 40.0,  # TUNING (not in GDD) DECISIONS Y4 (was 28) to each foe the roll passes
+		"interval": 2.6,  # TUNING (not in GDD) DECISIONS Y4 (was 3.0)
 		"target": "first",
 		"splash": 48.0,  # TUNING (not in GDD) the pack radius its pick scores (fallen_hero.gd)
 		"roll_len": 150.0,  # TUNING (not in GDD) px it rolls back along the road

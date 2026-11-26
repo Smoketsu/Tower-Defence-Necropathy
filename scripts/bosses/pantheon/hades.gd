@@ -33,7 +33,6 @@ func on_spawn(e: TdEnemy, game: TdGame) -> void:
 	e.vars["pose_until"] = 0.0
 	e.vars["claiming"] = false
 	e.vars["ring"] = []
-	e.modulate.a = 1.0
 
 
 func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
@@ -42,7 +41,10 @@ func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
 		e.pose = 0
 		e.body.queue_redraw()
 	var cloaked := game.time < float(e.vars["cloak_until"])  # Hidden now.
-	e.modulate.a = float(PantheonActRules.look()["cloak_alpha"]) if cloaked else 1.0  # Drawn faint while hidden.
+	var alpha := float(PantheonActRules.look()["cloak_alpha"]) if cloaked else 1.0  # Drawn faint while hidden (TdEnemy vars "vis_alpha", visual only).
+	if not is_equal_approx(float(e.vars.get("vis_alpha", 1.0)), alpha):
+		e.vars["vis_alpha"] = alpha
+		e.body.queue_redraw()
 	var f := e.hp / e.max_hp  # HP fraction.
 	var st := 0 if f > float(a["reclaim_hp"]) else (1 if f > float(a["lord_hp"]) else 2)  # Phase.
 	if st != int(e.vars["stage"]):
@@ -125,5 +127,4 @@ func _pose(e: TdEnemy, game: TdGame, a: Dictionary) -> void:
 
 func on_death(e: TdEnemy, game: TdGame) -> void:
 	e.vars["claiming"] = false
-	e.modulate.a = 1.0
 	game.banner("Hades kneels and gives up his crown: the Underworld is yours")

@@ -6,23 +6,23 @@
 ## SPELL hit (a SpellData source) lands in full and throws her out of the sand.
 ## A sand puff where she dives and where she is revealed; drawn faded while
 ## hidden (row tint through vars "tint"). Args: first, every, time, speed_mult,
-## hidden_mult. vars: "next", "hidden_until" (game s).
+## hidden_mult. vars: "next", "dive_until" (game s).
 extends EnemyTrait
 
 
 func on_spawn(e: TdEnemy, game: TdGame) -> void:
 	e.vars["next"] = game.time + float(e.row["args"]["first"])
-	e.vars["hidden_until"] = 0.0
+	e.vars["dive_until"] = 0.0
 
 
 func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
-	if e.vars.has("tint") and game.time >= float(e.vars["hidden_until"]):
+	if e.vars.has("tint") and game.time >= float(e.vars["dive_until"]):
 		_surface(e, game)
 	if game.time < float(e.vars["next"]) or game.time < e.freeze_until:
 		return
 	var a: Dictionary = e.row["args"]  # Her numbers.
 	e.vars["next"] = game.time + float(a["every"])
-	e.vars["hidden_until"] = game.time + float(a["time"])
+	e.vars["dive_until"] = game.time + float(a["time"])
 	e.unholdable_until = game.time + float(a["time"])
 	if e.holder != null:
 		e.holder.held.erase(e)
@@ -35,10 +35,10 @@ func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
 
 
 func incoming_damage(e: TdEnemy, game: TdGame, amount: float, hit: Dictionary) -> float:
-	if game.time >= float(e.vars.get("hidden_until", 0.0)):
+	if game.time >= float(e.vars.get("dive_until", 0.0)):
 		return amount
 	if SpellData.SPELLS.has(String(hit.get("source", ""))):
-		e.vars["hidden_until"] = 0.0
+		e.vars["dive_until"] = 0.0
 		e.unholdable_until = 0.0
 		_surface(e, game)
 		EnemyTrait.note(game, "bastet_reveals")

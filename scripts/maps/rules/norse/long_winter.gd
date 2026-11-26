@@ -17,8 +17,8 @@
 ##   rune-stones — map key "rune_stones" (Array of map px): the act's
 ##              structures (kind norse_rune_stone, trait norse/rune_stone) raised
 ##              beside the road at the start; cleared when only they remain.
-##   reach    — can_target(): an enemy whose vars "untargetable" is true (a boss
-##              sunk in his barrow, Odin watching) is hidden from every tower.
+##   reach    — an enemy whose vars "untargetable" is true (a boss sunk in his
+##              barrow, Odin watching) is hidden (TdEnemy.hidden_from_towers()).
 ##   holmgang — set_duel(tower, until) / duel_tower(): Sigrun's duel post, drawn
 ##              as a hazel square (WinterLayer).
 ## The look (WinterLayer, drawing only, nothing headless): the brazier sprites
@@ -155,13 +155,6 @@ func step(dt: float) -> void:
 	finish_structures()
 
 
-func can_target(_t: Tower, e: TdEnemy) -> bool:
-	if bool(e.vars.get("untargetable", false)):
-		counts["hidden"] = int(counts["hidden"]) + 1
-		return false
-	return true
-
-
 ## Sigrun's Holmgang: tower `t` is her duel post until game s `until` (drawn).
 func set_duel(t: Tower, until: float) -> void:
 	duel_tower = t
@@ -197,5 +190,6 @@ func _changed() -> void:
 
 
 func summary() -> String:
+	counts["hidden"] = int((game.stats.get("events", {}) as Dictionary).get("hidden_picks", 0.0))  # TdEnemy.hidden_from_towers() picks refused.
 	return "cold:%d braziers:%d/%d doused:%d rekindled:%d relit:%d chilled_tower_s:%d hidden:%d stones:%d" % [level, lit_count(), braziers.size(),
 		int(counts["doused"]), int(counts["rekindled"]), int(counts["relit"]), int(counts["chilled_s"]), int(counts["hidden"]), int(counts["stones"])]

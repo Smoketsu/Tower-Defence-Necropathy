@@ -12,7 +12,9 @@ extends RefCounted
 ##             as "test_bonus") so one run can exercise every evolution.
 ##   ultimate — optional (gw2-kit): SpellData.ULTIMATES id brought (when --ultimate is not given).
 ##   steps_by_map — optional (gw2-kit): {map id: steps} in place of `steps`, so one
-##             order (--build=kit_a / kit_b) plays on every map.
+##             order (--build=kit_a / kit_b) plays on every map. A map's entry may be
+##             {"base": order id, "swap": [from, to]} instead: that order's steps with
+##             its first build of tower `from` building `to` (DECISIONS Y5).
 ##   steps  — step rows. Keys:
 ##     do    — "build" | "upgrade" | "evolve" | "target" | "sell".
 ##     spot  — "plot:N" or "post:N" (index into the map's plots / posts).

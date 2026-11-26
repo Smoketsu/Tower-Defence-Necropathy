@@ -59,10 +59,11 @@ const CURSOR: Color = Color(1.0, 0.84, 0.4, 0.9)  # TUNING (not in GDD)
 const BANNER_NEW: String = "violet"  # TUNING (not in GDD)
 ## See BANNER_NEW.
 const BANNER_BOSS: String = "crimson"  # TUNING (not in GDD)
-## Spot menu build tiles per row, and one tile's size (px).
-const MENU_COLUMNS: int = 3  # TUNING (not in GDD)
+## Spot menu build tiles per row, and one tile's size (px): icon over one line
+## "name cost" (DECISIONS Y8: the compact menu fits the gaps beside the roads).
+const MENU_COLUMNS: int = 6  # TUNING (not in GDD) was 3: one strip
 ## See MENU_COLUMNS.
-const MENU_TILE := Vector2(140.0, 82.0)  # TUNING (not in GDD)
+const MENU_TILE := Vector2(92.0, 58.0)  # TUNING (not in GDD) was 140 x 82
 ## Phones and tablets: top-bar and spell buttons are this much bigger (a thumb, GDD §9.3).
 const TOUCH_SCALE: float = 1.35  # TUNING (not in GDD)
 ## Phones in landscape at least this wide (width / height) put the spell bar in a
@@ -71,7 +72,15 @@ const SIDE_SPELL_ASPECT: float = 1.95  # TUNING (not in GDD)
 ## Phones and tablets: top-bar buttons are this much bigger (about 40 CSS px tall on a phone).
 const TOUCH_TOP_SCALE: float = 1.7  # TUNING (not in GDD)
 ## Build-menu tiles per page (gw2-kit): more open towers than this are paged
-## (MENU_COLUMNS x 2 rows: the Act I menu's size, phone landscape included).
+## (one strip of MENU_COLUMNS, phone landscape included).
 const MENU_PAGE: int = 6  # TUNING (not in GDD)
-## Size (px) of a build-menu page button (a fingertip at phone scale).
-const MENU_PAGER := Vector2(56.0, 36.0)  # TUNING (not in GDD)
+## Size (px) of a build-menu page button at each end of the strip (a full tile tall).
+const MENU_PAGER := Vector2(34.0, 58.0)  # TUNING (not in GDD) was 56 x 36
+## Z index of the map frame (TdGame._draw_frame: covers the screen beyond the
+## map; above every world layer, under the HUD canvas layer), and how far (map
+## px) it reaches past the map's edge.
+const FRAME_Z: int = 4000  # TUNING (not in GDD) under RenderingServer.CANVAS_ITEM_Z_MAX
+## See FRAME_Z.
+const FRAME_REACH: float = 4000.0  # TUNING (not in GDD)
+## Content margin (px) of the spot menu's frame (slim: the strip fits between road runs).
+const MENU_PAD: float = 8.0  # TUNING (not in GDD)

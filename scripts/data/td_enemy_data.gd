@@ -30,6 +30,7 @@ extends RefCounted
 ##   tint            — optional Color multiplied into the sprite (drawn only; w2b-tide's ghost crew).
 ##   souls           — optional: souls its kill pays instead of its rank's EconomyData.KILL_SOULS
 ##                     (later acts' soldier tiers: tougher than fodder, still one life on a leak).
+##   leak_lives      — optional int: lives its leak costs instead of its rank's LEAK_LIVES (-1 = all).
 const KINDS: Dictionary = {
 	# GDD §6.1 "Baseline fodder" (Necropathy: Covenant Recruit).
 	"recruit": {
@@ -250,7 +251,7 @@ const KINDS: Dictionary = {
 	# GDD §6.3 Grand Inquisitor Seraphine: teleports forward, suppresses towers with beams, healed by attendants.
 	"seraphine": {
 		"name": "Grand Inquisitor Seraphine", "sprite": "bosses/seraphine", "rank": "boss",
-		"hp": 13000.0, "speed": 24.0, "armour": 4.0, "radius": 22.0,  # TUNING (not in GDD)
+		"hp": 12000.0, "speed": 24.0, "armour": 4.0, "radius": 22.0,  # TUNING (not in GDD) DECISIONS Y6 (was 13000: a boss leak now costs 10 lives, no longer the map)
 		"damage": 28.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "seraphine",
 		"args": {

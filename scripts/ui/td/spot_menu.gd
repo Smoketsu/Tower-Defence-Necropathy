@@ -31,7 +31,9 @@ var _page: Dictionary = {}
 
 
 func _ready() -> void:
-	add_theme_stylebox_override("panel", UiTheme.style("ornate", "violet"))
+	var sb := UiTheme.style("ornate", "violet").duplicate() as StyleBox  # The frame, with slim margins (a compact strip, DECISIONS Y8).
+	sb.set_content_margin_all(TdUiData.MENU_PAD)
+	add_theme_stylebox_override("panel", sb)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE  # Gaps between buttons pass taps to the map.
 	visible = false
 
@@ -153,12 +155,16 @@ func _button(box: Container, tex: Texture2D, text: String, cb: Callable, accent:
 	return b
 
 
+## Empty spot: one strip of build tiles, with < and > page buttons at its ends
+## when more classes are open than TdUiData.MENU_PAGE (DECISIONS Y8).
 func _build_empty(box: VBoxContainer, s: Spot) -> void:
-	box.add_child(UiTheme.tier_label("Grave plot" if s.kind == "plot" else "Road post", UiTheme.Tier.LABEL, UiTheme.TEXT_DIM))
-	var grid := GridContainer.new()  # Compact tiles (icon, name, cost) so the menu covers few spots.
+	var strip := HBoxContainer.new()  # [<] tiles [>].
+	strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	strip.add_theme_constant_override("separation", 4)
+	box.add_child(strip)
+	var grid := GridContainer.new()  # Compact tiles (icon, short name and cost) so the menu covers little.
 	grid.columns = TdUiData.MENU_COLUMNS
 	grid.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	box.add_child(grid)
 	var ids: Array[String] = []  # Open classes that fit this spot (locked ones hidden, Unlocks).
 	for id: String in TowerData.ORDER:
 		if String(TowerData.TOWERS[id]["spot"]) == s.kind and Unlocks.tower_open(id):
@@ -166,7 +172,10 @@ func _build_empty(box: VBoxContainer, s: Spot) -> void:
 	var pages := maxi(ceili(float(ids.size()) / float(TdUiData.MENU_PAGE)), 1)  # Pages of tiles.
 	var page := clampi(int(_page.get(s.kind, 0)), 0, pages - 1)  # Page shown.
 	if pages > 1:
-		_pager(box, s.kind, page, pages)
+		_page_button(strip, s.kind, page, pages, -1)
+	strip.add_child(grid)
+	if pages > 1:
+		_page_button(strip, s.kind, page, pages, 1)
 	for id: String in ids.slice(page * TdUiData.MENU_PAGE, (page + 1) * TdUiData.MENU_PAGE):
 		var row: Dictionary = TowerData.TOWERS[id]
 		var joins := _would_join(id, s)  # Synergy names it would form here.
@@ -178,7 +187,7 @@ func _build_empty(box: VBoxContainer, s: Spot) -> void:
 		if can:
 			UiTheme.style_button(b, "button", "soul")
 		b.disabled = not can
-		var col := VBoxContainer.new()  # Icon, name, cost.
+		var col := VBoxContainer.new()  # Icon over one line: short name and cost.
 		col.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, 3)
 		col.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		col.add_theme_constant_override("separation", 0)
@@ -188,13 +197,18 @@ func _build_empty(box: VBoxContainer, s: Spot) -> void:
 		ic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		ic.modulate = Color.WHITE if can else Color(0.6, 0.6, 0.6)
 		col.add_child(ic)
-		var nm := UiTheme.tier_label(("+ " if not joins.is_empty() else "") + String(row["name"]), UiTheme.Tier.BODY, UiTheme.TEXT_GOLD if not joins.is_empty() else UiTheme.TEXT)
-		nm.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		var line := HBoxContainer.new()  # Short name (gold "+" when it forms a synergy here) and cost.
+		line.alignment = BoxContainer.ALIGNMENT_CENTER
+		line.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		line.add_theme_constant_override("separation", 4)
+		col.add_child(line)
+		var nm := UiTheme.tier_label(("+" if not joins.is_empty() else "") + String(row.get("short", row["name"])), UiTheme.Tier.BODY, UiTheme.TEXT_GOLD if not joins.is_empty() else UiTheme.TEXT)
 		nm.clip_text = true
-		col.add_child(nm)
+		nm.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		nm.size_flags_stretch_ratio = 1.0
+		line.add_child(nm)
 		var cost := UiTheme.tier_label(str(int(row["cost"])), UiTheme.Tier.BODY, MenuData.TEAL if can else MenuData.CRIMSON)
-		cost.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		col.add_child(cost)
+		line.add_child(cost)
 		b.mouse_entered.connect(func() -> void: hover_id = id)
 		b.focus_entered.connect(func() -> void: hover_id = id)
 		b.mouse_exited.connect(func() -> void: hover_id = "")
@@ -207,26 +221,18 @@ func _build_empty(box: VBoxContainer, s: Spot) -> void:
 		grid.add_child(b)
 
 
-## The page row of the build menu: < page / pages > (gw2-kit; wraps around).
-func _pager(box: VBoxContainer, kind: String, page: int, pages: int) -> void:
-	var row := HBoxContainer.new()  # The pager.
-	row.alignment = BoxContainer.ALIGNMENT_CENTER
-	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	box.add_child(row)
-	for d: int in [-1, 1]:
-		var b := Button.new()  # Previous / next page.
-		b.text = "<" if d < 0 else ">"
-		b.custom_minimum_size = TdUiData.MENU_PAGER
-		b.focus_mode = Control.FOCUS_ALL if pad_focus else Control.FOCUS_NONE
-		b.pressed.connect(func() -> void:
-			_page[kind] = posmod(page + d, pages)
-			refresh())
-		row.add_child(b)
-		if d < 0:
-			var l := UiTheme.tier_label("%d / %d" % [page + 1, pages], UiTheme.Tier.BODY, UiTheme.TEXT_DIM)
-			l.custom_minimum_size.x = 64.0
-			l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			row.add_child(l)
+## A page button of the build strip ("<" for `d` -1, ">" for +1; wraps around),
+## its tooltip the page it shows.
+func _page_button(row: HBoxContainer, kind: String, page: int, pages: int, d: int) -> void:
+	var b := Button.new()  # Previous / next page.
+	b.text = "<" if d < 0 else ">"
+	b.tooltip_text = "Page %d / %d" % [posmod(page + d, pages) + 1, pages]
+	b.custom_minimum_size = TdUiData.MENU_PAGER
+	b.focus_mode = Control.FOCUS_ALL if pad_focus else Control.FOCUS_NONE
+	b.pressed.connect(func() -> void:
+		_page[kind] = posmod(page + d, pages)
+		refresh())
+	row.add_child(b)
 
 
 ## Enables `b` when affordable (soul-teal text), else dims it with a crimson cost.

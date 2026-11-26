@@ -89,7 +89,7 @@ const KINDS: Dictionary = {
 	# Frost giant: hurls a boulder over the posts at a tower and douses the braziers it passes.
 	"norse_frost_giant": {
 		"name": "Frost Giant", "sprite": "norse/frost_giant", "rank": "elite",
-		"hp": 800.0, "speed": 26.0, "armour": 5.0, "radius": 18.0,  # TUNING (not in GDD)
+		"hp": 650.0, "speed": 26.0, "armour": 5.0, "radius": 18.0,  # TUNING (not in GDD) DECISIONS Y6 (was 800: the giants made Vigrid a cliff)
 		"damage": 26.0, "attack_interval": 1.6,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "norse/frost_giant",
 		"args": {"range": 260.0, "interval": 10.0, "target": "tower", "damage": 30.0, "disable": 1.8, "cause": "frozen", "speed": 260.0, "arc": true,
@@ -106,7 +106,7 @@ const KINDS: Dictionary = {
 	# Fire-giant of Muspelheim: a telegraphed stomp that cracks the posts and stuns the towers round it.
 	"norse_fire_giant": {
 		"name": "Fire Giant", "sprite": "norse/fire_giant", "rank": "elite",
-		"hp": 950.0, "speed": 24.0, "armour": 5.0, "radius": 20.0,  # TUNING (not in GDD)
+		"hp": 750.0, "speed": 24.0, "armour": 5.0, "radius": 20.0,  # TUNING (not in GDD) DECISIONS Y6 (was 950)
 		"damage": 28.0, "attack_interval": 1.6,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "norse/fire_giant",
 		"args": {"stomp_first": 4.0, "stomp_every": 9.0, "radius": 90.0, "delay": 1.0, "disable": 1.2, "body_damage": 45.0,
@@ -149,7 +149,7 @@ const KINDS: Dictionary = {
 		"hp": 3100.0, "speed": 22.0, "armour": 5.0, "radius": 22.0,  # TUNING (not in GDD) X3 band
 		"damage": 28.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "norse/champion",
-		"args": {"sweep_first": 3.0, "sweep_every": 6.0, "sweep_radius": 75.0, "sweep_windup": 0.8, "sweep_damage": 50.0,
+		"args": {"sweep_first": 3.0, "sweep_every": 6.0, "sweep_radius": 75.0, "sweep_windup": 0.8, "sweep_damage": 35.0,
 			"horn_first": 6.0, "horn_every": 18.0, "horn_count": 2, "horn_kind": "norse_einherjar", "horn_gap": 26.0, "pose_time": 0.6},  # TUNING (not in GDD) Necropathy sweep / horn
 	},
 	# Vigrid miniboss: the Fire-Giant of the South, a fire-giant's stomp plus burning tracks behind him.
@@ -159,7 +159,7 @@ const KINDS: Dictionary = {
 		"damage": 30.0, "attack_interval": 1.5,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "norse/fire_giant",
 		"args": {"stomp_first": 3.0, "stomp_every": 8.0, "radius": 110.0, "delay": 1.0, "disable": 1.4, "body_damage": 35.0,
-			"track_every": 4.0, "track_radius": 70.0, "track_disable": 1.2},  # TUNING (not in GDD) Necropathy burning tracks
+			"track_every": 4.0, "track_radius": 70.0, "track_disable": 0.6},  # TUNING (not in GDD) Necropathy burning tracks
 	},
 	# Barrow Fields boss: Hrimgar the Draugr-King. He rises three times; his barrow can be broken while he lies in it.
 	"hrimgar": {
@@ -197,6 +197,7 @@ const KINDS: Dictionary = {
 	# Fenrir, the great wolf at Odin's side: he swallows the post that holds him and breaks free.
 	"fenrir": {
 		"name": "Fenrir", "sprite": "norse/fenrir", "rank": "boss",
+		"leak_lives": 5,  # TUNING (not in GDD) DECISIONS Y3: Odin's wolf costs a miniboss's 5, not a boss's 10
 		"hp": 4600.0, "speed": 30.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD)
 		"damage": 30.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "norse/fenrir",
@@ -422,71 +423,7 @@ const ORDERS: Dictionary = {
 		"spells": true,
 		"loadout": ["valkyrie_spear", "gungnir", "barrow_grasp"],  # The Gravecaller's Shadow Bolt takes the last slot (CharacterModifiers.loadout)
 		"steps_by_map": {
-			"barrow_fields": [
-				{"do": "build", "spot": "plot:7", "tower": "archer"},
-				{"do": "build", "spot": "post:0", "tower": "draugr_thane"},
-				{"do": "build", "spot": "plot:8", "tower": "archer"},
-				{"do": "build", "spot": "plot:9", "tower": "mage"},
-				{"do": "upgrade", "spot": "plot:7"},
-				{"do": "upgrade", "spot": "plot:8"},
-				{"do": "build", "spot": "plot:6", "tower": "corpse_catapult"},
-				{"do": "target", "spot": "plot:6", "mode": "strongest"},
-				{"do": "build", "spot": "post:1", "tower": "draugr_thane"},
-				{"do": "upgrade", "spot": "plot:9"},
-				{"do": "upgrade", "spot": "plot:7"},
-				{"do": "upgrade", "spot": "plot:8"},
-				{"do": "build", "spot": "plot:1", "tower": "mage"},
-				{"do": "build", "spot": "plot:2", "tower": "archer"},
-				{"do": "upgrade", "spot": "plot:6"},
-				{"do": "build", "spot": "plot:10", "tower": "banshee"},
-				{"do": "upgrade", "spot": "plot:9"},
-				{"do": "upgrade", "spot": "plot:1"},
-				{"do": "build", "spot": "post:2", "tower": "draugr_thane"},
-				{"do": "upgrade", "spot": "plot:7"},
-				{"do": "upgrade", "spot": "plot:8"},
-				{"do": "upgrade", "spot": "plot:2"},
-				{"do": "upgrade", "spot": "plot:6"},
-				{"do": "build", "spot": "plot:3", "tower": "frost_wraith"},
-				{"do": "upgrade", "spot": "post:2"},
-				{"do": "upgrade", "spot": "post:2"},
-				{"do": "upgrade", "spot": "post:2"},
-				{"do": "upgrade", "spot": "post:2"},
-				{"do": "evolve", "spot": "post:2"},
-				{"do": "upgrade", "spot": "plot:10"},
-				{"do": "upgrade", "spot": "plot:1"},
-				{"do": "upgrade", "spot": "plot:9"},
-				{"do": "upgrade", "spot": "post:0"},
-				{"do": "upgrade", "spot": "plot:2"},
-				{"do": "upgrade", "spot": "plot:7"},
-				{"do": "upgrade", "spot": "plot:8"},
-				{"do": "build", "spot": "plot:4", "tower": "corpse_catapult"},
-				{"do": "target", "spot": "plot:4", "mode": "strongest"},
-				{"do": "upgrade", "spot": "plot:6"},
-				{"do": "upgrade", "spot": "plot:3"},
-				{"do": "upgrade", "spot": "plot:1"},
-				{"do": "upgrade", "spot": "plot:10"},
-				{"do": "upgrade", "spot": "plot:2"},
-				{"do": "upgrade", "spot": "plot:4"},
-				{"do": "upgrade", "spot": "plot:9"},
-				{"do": "upgrade", "spot": "plot:7"},
-				{"do": "upgrade", "spot": "plot:8"},
-				{"do": "upgrade", "spot": "plot:6"},
-				{"do": "build", "spot": "plot:13", "tower": "mage"},
-				{"do": "upgrade", "spot": "post:1"},
-				{"do": "upgrade", "spot": "plot:3"},
-				{"do": "upgrade", "spot": "plot:4"},
-				{"do": "upgrade", "spot": "plot:10"},
-				{"do": "upgrade", "spot": "plot:1"},
-				{"do": "upgrade", "spot": "plot:13"},
-				{"do": "upgrade", "spot": "plot:2"},
-				{"do": "upgrade", "spot": "plot:6"},
-				{"do": "upgrade", "spot": "plot:3"},
-				{"do": "upgrade", "spot": "plot:4"},
-				{"do": "upgrade", "spot": "plot:13"},
-				{"do": "upgrade", "spot": "plot:13"},
-				{"do": "upgrade", "spot": "post:2"},
-				{"do": "upgrade", "spot": "post:0"},
-			],
+			"barrow_fields": {"base": "barrow_fields_default", "swap": ["abomination", "draugr_thane"]},  # DECISIONS Y5: the default order with the act tower in one spot
 			"valgard": [
 				{"do": "build", "spot": "plot:8", "tower": "archer"},
 				{"do": "build", "spot": "post:0", "tower": "draugr_thane"},
@@ -553,71 +490,7 @@ const ORDERS: Dictionary = {
 				{"do": "upgrade", "spot": "post:2"},
 				{"do": "upgrade", "spot": "post:0"},
 			],
-			"vigrid": [
-				{"do": "build", "spot": "plot:1", "tower": "archer"},
-				{"do": "build", "spot": "post:0", "tower": "draugr_thane"},
-				{"do": "build", "spot": "plot:2", "tower": "archer"},
-				{"do": "build", "spot": "plot:4", "tower": "mage"},
-				{"do": "upgrade", "spot": "plot:1"},
-				{"do": "upgrade", "spot": "plot:2"},
-				{"do": "build", "spot": "plot:6", "tower": "corpse_catapult"},
-				{"do": "target", "spot": "plot:6", "mode": "strongest"},
-				{"do": "build", "spot": "post:1", "tower": "draugr_thane"},
-				{"do": "upgrade", "spot": "plot:4"},
-				{"do": "upgrade", "spot": "plot:1"},
-				{"do": "upgrade", "spot": "plot:2"},
-				{"do": "build", "spot": "plot:9", "tower": "mage"},
-				{"do": "build", "spot": "plot:8", "tower": "archer"},
-				{"do": "upgrade", "spot": "plot:6"},
-				{"do": "build", "spot": "plot:3", "tower": "banshee"},
-				{"do": "upgrade", "spot": "plot:4"},
-				{"do": "upgrade", "spot": "plot:9"},
-				{"do": "build", "spot": "post:2", "tower": "draugr_thane"},
-				{"do": "upgrade", "spot": "plot:1"},
-				{"do": "upgrade", "spot": "plot:2"},
-				{"do": "upgrade", "spot": "plot:8"},
-				{"do": "upgrade", "spot": "plot:6"},
-				{"do": "build", "spot": "plot:7", "tower": "frost_wraith"},
-				{"do": "upgrade", "spot": "post:0"},
-				{"do": "upgrade", "spot": "post:0"},
-				{"do": "upgrade", "spot": "post:0"},
-				{"do": "upgrade", "spot": "post:0"},
-				{"do": "evolve", "spot": "post:0"},
-				{"do": "upgrade", "spot": "plot:3"},
-				{"do": "upgrade", "spot": "plot:9"},
-				{"do": "upgrade", "spot": "plot:4"},
-				{"do": "upgrade", "spot": "post:0"},
-				{"do": "upgrade", "spot": "plot:8"},
-				{"do": "upgrade", "spot": "plot:1"},
-				{"do": "upgrade", "spot": "plot:2"},
-				{"do": "build", "spot": "plot:10", "tower": "corpse_catapult"},
-				{"do": "target", "spot": "plot:10", "mode": "strongest"},
-				{"do": "upgrade", "spot": "plot:6"},
-				{"do": "upgrade", "spot": "plot:7"},
-				{"do": "upgrade", "spot": "plot:9"},
-				{"do": "upgrade", "spot": "plot:3"},
-				{"do": "upgrade", "spot": "plot:8"},
-				{"do": "upgrade", "spot": "plot:10"},
-				{"do": "upgrade", "spot": "plot:4"},
-				{"do": "upgrade", "spot": "plot:1"},
-				{"do": "upgrade", "spot": "plot:2"},
-				{"do": "upgrade", "spot": "plot:6"},
-				{"do": "build", "spot": "plot:11", "tower": "mage"},
-				{"do": "upgrade", "spot": "post:1"},
-				{"do": "upgrade", "spot": "plot:7"},
-				{"do": "upgrade", "spot": "plot:10"},
-				{"do": "upgrade", "spot": "plot:3"},
-				{"do": "upgrade", "spot": "plot:9"},
-				{"do": "upgrade", "spot": "plot:11"},
-				{"do": "upgrade", "spot": "plot:8"},
-				{"do": "upgrade", "spot": "plot:6"},
-				{"do": "upgrade", "spot": "plot:7"},
-				{"do": "upgrade", "spot": "plot:10"},
-				{"do": "upgrade", "spot": "plot:11"},
-				{"do": "upgrade", "spot": "plot:11"},
-				{"do": "upgrade", "spot": "post:2"},
-				{"do": "upgrade", "spot": "post:0"},
-			],
+			"vigrid": {"base": "vigrid_default", "swap": ["abomination", "draugr_thane"]},  # DECISIONS Y5: the default order with the act tower in one spot
 		},
 	},
 }

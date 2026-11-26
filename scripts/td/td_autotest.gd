@@ -35,6 +35,8 @@ var _first_leak_wave: int = 0
 var _deaths: Array[float] = []
 ## Game times (s) of every life lost, one entry per life.
 var _life_losses: Array[float] = []
+## True once the summary is printed (several ticks run per frame after quit()).
+var _finished: bool = false
 ## Seconds after a body falls in which lost lives are charged to that fall.
 const DEATH_WINDOW: float = 15.0  # TUNING (not in GDD) report only
 
@@ -63,7 +65,10 @@ func _ready() -> void:
 		SpellCaster.ultimate_id = String(order["ultimate"])
 	if order.has("steps_by_map"):  # One order for every map (gw2-kit kit orders): this map's steps.
 		order = order.duplicate()
-		order["steps"] = order["steps_by_map"].get(GameState.map_id if MapRegistry.has(GameState.map_id) else MapRegistry.DEFAULT_ID, [])
+		var mine: Variant = order["steps_by_map"].get(GameState.map_id if MapRegistry.has(GameState.map_id) else MapRegistry.DEFAULT_ID, [])  # This map's steps.
+		if mine is Dictionary:  # {"base": order id, "swap": [from, to]}: that order with its first build of `from` building `to`.
+			mine = _swapped(Acts.orders()[String(mine["base"])]["steps"], String(mine["swap"][0]), String(mine["swap"][1]))
+		order["steps"] = mine
 	if order.has("loadout"):
 		spells.assign(order["loadout"])  # The order's own spells (test orders).
 		for id: String in SpellData.SPELLS:
@@ -102,13 +107,18 @@ func _swap(from: String, to: String) -> void:
 		push_error("TdAutotest: unknown tower '%s'" % to)
 		return
 	order = order.duplicate()
-	var st: Array = (order["steps"] as Array).duplicate(true)
+	order["steps"] = _swapped(order["steps"], from, to)
+	_order_id += "/swap:" + to
+
+
+## A deep copy of `steps` whose first "build" of class `from` builds `to` instead.
+func _swapped(steps: Array, from: String, to: String) -> Array:
+	var st: Array = steps.duplicate(true)  # The copy.
 	for s: Dictionary in st:
 		if String(s["do"]) == "build" and String(s.get("tower", "")) == from:
 			s["tower"] = to
 			break
-	order["steps"] = st
-	_order_id += "/swap:" + to
+	return st
 
 
 ## Every fixed step: build what the order allows, cast spells, watch the clock.
@@ -123,6 +133,8 @@ func _track_lives() -> void:
 
 
 func _on_tick() -> void:
+	if _finished:
+		return
 	_track_lives()
 	for m: Array in _minis:
 		if String(m[6]) == "":
@@ -252,6 +264,9 @@ func _on_ended(_won: bool) -> void:
 
 ## Prints the run summary (sorted keys, fixed formats: diffable across runs).
 func _summary(result: String) -> void:
+	if _finished:
+		return
+	_finished = true
 	var lines: Array[String] = []  # Summary lines.
 	lines.append("TDAUTOTEST SUMMARY")
 	lines.append("map=%s difficulty=%s seed=%d build=%s speed=%d" % [game.map_id, game.difficulty, game.run_seed, _order_id, game.speed])

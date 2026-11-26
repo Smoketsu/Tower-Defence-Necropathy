@@ -33,16 +33,27 @@ The design is `docs/GDD.md`; decisions it does not cover are in
 - **Later towers** open as Act I is cleared (DECISIONS K2): Crypt Warder (barriers on
   blockers), Grave Rogue (dashes at elites), Crypt Gargoyle (swoops, flyers first), Bone
   Hounds (a pack running the road), Fallen Seraph (three feathers) and Bone Golem (slams,
-  plants). The build menu pages when a spot offers more than six towers.
+  plants). The build menu is one strip of six tiles (icon, short name, cost) with < and > page
+  buttons at its ends when a spot offers more.
 - **Acts:** the map select has one tab per act (fifteen, Necropathy's act order). Acts I-V
   are playable, fifteen maps in one unlock chain (each boss opens the next map): Act I the
   Covenant (Graveyard, Crimson March, Sanctum), Act II the Black Tide (Cutter, Galleon,
   Maelstrom; Broadsides shell plots), Act III the Sanguine Court (Ravensmoor, Witchwood,
   Castle Sanguis; the Blood Moon), Act IV the Last Line (Skid Row, Fort Kessler, Liberty
   Heights; Escalation), Act V the Shogunate (Province, Kurogane, Road to the Sun; the Sun's
-  Course: night hides foes outside lantern light). Each later act opens its own tower
-  (Powder Wraith, Blood Spawn, Fallen Hero, Bound Oni), three spells and three characters.
-  Acts VI-XV say "Coming soon" (`docs/ACT_TEMPLATE.md`).
+  Course: night hides foes outside lantern light); Part Two: Act VI the Hall of the Slain
+  (Barrow Fields, Valgard, Vigrid; the Long Winter chills towers away from lit braziers),
+  Act VII the Necropolis Dynasty (Necropolis of Sand, Temple of the Lioness, Hall of Two
+  Truths; Rebirth: the fallen leave Names that rise again unless smashed, the Sandstorm, the
+  Scales), Act VIII the Olympian Republic (Shores of Ilion, Mount Olympus, Asphodel Underworld;
+  the Phalanx's shield fronts and the Wrath of the Gods), Act IX the Inferno (Burning Gate,
+  Palace of Silk and Ash, Pandemonium; Portals to bar or seal, Hell Pits, Temptation) and Act
+  X the Celestial Host (Silver Stair, Wheel of Thrones, Empyrean; the Hallowed Light weakens
+  towers out of the shade, Judgment returns lost bodies as Judges). Thirty maps in one unlock
+  chain. Each later act opens its own tower (Powder Wraith, Blood Spawn, Fallen Hero, Bound
+  Oni, Draugr Thane, Ushabti Sentinel, Myrmidon Shades, Bound Succubus and Archfiend, Bound
+  Ophan), three spells and three characters. Acts XI-XV say "Coming soon"
+  (`docs/ACT_TEMPLATE.md`).
 - **Spells** (bottom bar, or a left column on wide phones; keys 1-4): tap the
   spell, then the target. Shadow Bolt (aimed shot from the necromancer at the
   gate), Bone Wall (blocks the road a few seconds; bosses walk through), Corpse
@@ -50,7 +61,8 @@ The design is `docs/GDD.md`; decisions it does not cover are in
   road); later Death Mark, Soul Chains, Wither and Raise Dead. Three are brought; the Ossuary's Fourth Rite adds a slot.
   **Ultimate** (Space), charged by kills, picked before the map: Dread Rally (revives every fallen
   blocker, all towers +40% damage and attack speed for 8 s), later Sovereign's Decree, Eclipse, Grave Tide.
-- **Lives:** fodder 1, elite 3, miniboss 5, a boss ends the map. The mid-map
+- **Lives:** fodder 1, elite 3, miniboss 5, boss 10 (a row may set its own). A miniboss
+  meeting a full post pushes a lesser enemy out of a body and is held itself. The mid-map
   miniboss drops a **chest** = one free upgrade or evolution. The stage boss
   walks the road on the final wave. A win is rated 1-3 skulls by lives kept.
 - **Speed** x1 / x2 / x3 (Tab), **Pause** (Esc), Call (Enter). Mouse, touch

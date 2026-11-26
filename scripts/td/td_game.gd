@@ -221,6 +221,7 @@ func _ready() -> void:
 	world.add_child(hostile)
 	spell_layer = _layer(7, caster.draw)
 	overlay = _layer(8, _draw_overlay)
+	_layer(TdUiData.FRAME_Z, _draw_frame)  # The screen beyond the map (wide phones) stays clear: nothing spills past the edge.
 	hud = TdHud.new()
 	hud.game = self
 	add_child(hud)
@@ -229,6 +230,19 @@ func _ready() -> void:
 	Sfx.prepare_pack("td")  # The five Gravewatch sounds (TdSoundData.SOUNDS).
 	get_viewport().size_changed.connect(_fit)
 	_fit()
+
+
+## Covers everything outside the map's rect with the clear colour (four rects):
+## light shafts, bursts and off-map entrances never draw past the map's edge in
+## the side margins of a wider screen (DECISIONS Y8). Drawing only.
+func _draw_frame(ci: CanvasItem) -> void:
+	var c := RenderingServer.get_default_clear_color()  # The margins' colour.
+	var m := TdUiData.FRAME_REACH  # Px the cover reaches past the map.
+	var sz := MapView.SIZE
+	ci.draw_rect(Rect2(-m, -m, sz.x + m * 2.0, m), c)
+	ci.draw_rect(Rect2(-m, sz.y, sz.x + m * 2.0, m), c)
+	ci.draw_rect(Rect2(-m, 0.0, m, sz.y), c)
+	ci.draw_rect(Rect2(sz.x, 0.0, m, sz.y), c)
 
 
 ## A UnitLayer drawing callback `fn` at z `z` under the world.
@@ -363,8 +377,9 @@ func spawn_at(kind: String, road_id: String, w: int, dist: float, lane: float) -
 
 ## True when tower `t` may target enemy `e` (every rule's can_target(): visibility limits).
 func can_target(t: Tower, e: TdEnemy) -> bool:
-	if time < float(e.vars.get("k_charm_until", 0.0)):
-		return false  # A charmed enemy fights for the necromancer (TdCombat.charm_enemy, w2c-inferno).
+	if e.hidden_from_towers():
+		EnemyTrait.note(self, "hidden_picks")
+		return false
 	for r: MapRule in rules:
 		if not r.can_target(t, e):
 			return false

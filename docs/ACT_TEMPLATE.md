@@ -234,3 +234,48 @@ $G --headless res://tools/meta_check.tscn -- --autotest  # META CHECK OK
 - **Merging.** Append each table row as its own line group and each ORDER id at
   the END of the list on its own line, so four acts merge without hand work.
   `acts_check`'s "hidden act open" check already allows later acts.
+
+## 6. Lessons from wave 2c (Acts VI-X; DECISIONS Y rows): do these for Acts XI-XV
+
+- **Leaks and full posts (Y3).** A boss leak costs 10 lives, a miniboss 5 (row
+  `leak_lives` overrides: a companion boss like Fenrir 5). Never design a fight
+  that is lost the moment one unit reaches the gate. A miniboss at a full post
+  pushes a lesser enemy out (`BUMPING_RANKS`); a boss does not, so a boss that
+  must be held needs posts with room on its road, or a kit that stops on its own
+  (Voice-style stand points, Hades-style claims).
+- **Hiding (Y2).** A trait hides an enemy only through one of the vars
+  `TdEnemy.hidden_from_towers()` reads (`mist_until`, `hidden_until`,
+  `cloak_until`, `untargetable`, `k_charm_until`); add a new var there, not a
+  check in your act rule. A "harder to hit" state that towers still hit is NOT
+  one of them (the Bastet Hunter's `dive_until`). A drawn fade is vars
+  `vis_alpha`, a form change vars `sprite`, a tint vars `tint`; never `modulate`
+  (enemy nodes are pooled).
+- **Act towers (Y4).** Before you hand back, run `--swap=<nearest Act I
+  class>:<your tower>` against `--swap=x:x` on your three maps (seeds 1-2) and
+  compare lives and `tower_value` damage per soul: a post tower should hold
+  about as many enemies per soul as the Abomination (4 for 110), a plot tower
+  deal about the Catapult's / Mage's damage per soul. Both Part Two misses were
+  plot towers whose special (the keg march, the roll) fired too rarely.
+- **Kit orders (Y5).** A kit order that buys several dear act towers starves its
+  damage and loses. Start from the map's default order with the act tower in one
+  spot (`{"base": "<map>_default", "swap": [from, to]}`) and add only what wins.
+- **Cliffs (Y6).** Several units with a stun / stomp arriving together (two
+  fire giants plus a miniboss) turn a map into a cliff: one fallen post cascades.
+  Space such units across waves, keep elite-heavy late waves short, and check a
+  map at its `wave_hp_end` and +0.2: the loss rate should rise gradually. A
+  run-wide feedback meter (the Scales) must not feed itself.
+- **Frame time (Y7).** Part Two's heaviest maps were the Norse ones (the Winter
+  layer, 1.12x the Sanctum at 44 enemies) and the Host's (the Light's shafts, 1.05x
+  at 18-42 enemies): both draw cached textures in pieces, which is the budget to
+  copy. `gw_perf.js` takes ~5 min a map on software GL; measure only your maps
+  and the Sanctum.
+- **HUD widgets (Y8).** Corners: top-left under the bar (Escalation, Wrath, Hell
+  cue, Host dial), top-right (Blood Moon cue, Scales), bottom-left (Sun dial,
+  Winter meter). Pick a free corner of your maps; position it from
+  `game.top_inset` (the bar is taller on touch). The build menu is now one strip
+  of six tiles (~660 x 80 px): leave a road-free band that tall beside your
+  spots.
+- **Merging.** Shared `.gd` tables merged cleanly only where every act appended
+  one row group at the very end; `LEVELS` and `towers_check` were mis-merged by
+  git (similar rows aligned). Keep each act's check in its own function at the
+  end of `towers_check.gd`, and give your table rows a leading comment line.

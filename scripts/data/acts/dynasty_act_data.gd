@@ -706,9 +706,9 @@ const RULE: Dictionary = {
 	"tip_return": 1.0,  # TUNING (not in GDD) toward the Dynasty per return
 	"tip_smash": 0.5,  # TUNING (not in GDD) toward the necromancer per smashed Name
 	"tip_jar": 5.0,  # TUNING (not in GDD) toward the necromancer per broken jar
-	"scale_hp_dynasty": 1.15,  # TUNING (not in GDD) x HP of every new spawn on the Dynasty's side (Necropathy +-15%)
+	"scale_hp_dynasty": 1.08,  # TUNING (not in GDD) DECISIONS Y6 (was 1.15: the swing fed itself) x HP of every new spawn on the Dynasty's side (Necropathy +-15%)
 	"scale_hp_player": 0.9,  # TUNING (not in GDD) x HP on the necromancer's side
-	"scale_rise_dynasty": 0.7,  # TUNING (not in GDD) x the Names' wait on the Dynasty's side (Necropathy "2 s sooner")
+	"scale_rise_dynasty": 0.85,  # TUNING (not in GDD) DECISIONS Y6 (was 0.7) x the Names' wait on the Dynasty's side (Necropathy "2 s sooner")
 	"scale_rise_player": 1.4,  # TUNING (not in GDD) x it on the necromancer's side
 }
 

@@ -50,7 +50,7 @@ const MAP: Dictionary = {
 	"clouds": [[Vector2(420, 560), 80.0], [Vector2(820, 400), 76.0], [Vector2(560, 250), 70.0]],  # TUNING (not in GDD) the low cloud banks of the Stair
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 3.2,  # TUNING (not in GDD) Part Two: a step above the Road to the Sun
+	"wave_hp_end": 3.0,  # TUNING (not in GDD) Part Two: a step above the Road to the Sun
 	"rule": "",
 	"act_rule": "host/hallowed_light",
 	"build_order": "silver_stair_default",

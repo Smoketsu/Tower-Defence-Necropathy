@@ -17,7 +17,7 @@
 ## Also: blood pools (add_pool(): the Bloated Thrall's burst, Isolde's bombs)
 ## heal the Court standing in them, moon or not; a foe in mist (vars
 ## "mist_until": the Vampire Noble, Carmilla) or hidden (vars "hidden_until":
-## Isolde among her sisters) cannot be targeted (can_target()).
+## Isolde among her sisters) cannot be targeted (TdEnemy.hidden_from_towers()).
 ## Look: red sky edge bands and a blood moon disc fading in and out (textures,
 ## no full-screen overlay, no screen-reading shader), shield rings, a HUD cue
 ## ("Blood Moon in N waves" / "BLOOD MOON 0:32") and banners. Numbers in the
@@ -167,13 +167,6 @@ func shield(e: TdEnemy, time: float) -> void:
 	counts["shields"] = int(counts["shields"]) + 1
 
 
-func can_target(_t: Tower, e: TdEnemy) -> bool:
-	if game.time < float(e.vars.get("mist_until", 0.0)) or game.time < float(e.vars.get("hidden_until", 0.0)):
-		counts["hidden"] = int(counts["hidden"]) + 1
-		return false
-	return true
-
-
 func step(dt: float) -> void:
 	var up := moon_up()  # Moon state now.
 	if up and not _was_up:
@@ -216,6 +209,7 @@ func _rise() -> void:
 
 
 func summary() -> String:
+	counts["hidden"] = int((game.stats.get("events", {}) as Dictionary).get("hidden_picks", 0.0))  # TdEnemy.hidden_from_towers() picks refused.
 	var keys := counts.keys()  # Sorted for a stable line.
 	keys.sort()
 	var parts: Array[String] = []  # k:v entries.

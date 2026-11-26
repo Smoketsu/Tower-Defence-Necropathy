@@ -20,13 +20,40 @@ var hold_bonus: int = 0
 
 
 ## The living body with a free hold slot for enemy `e`, or null (full, all
-## dead, flying enemy, or a boss at a wall).
+## dead, flying enemy, or a boss at a wall). A miniboss
+## (TdRulesData.BUMPING_RANKS) at a full post gets a body holding a lesser
+## enemy instead: make_room() then pushes that one on (DECISIONS Y3).
 func free_body(e: TdEnemy) -> BlockBody:
 	if bool(e.row["flying"]) or (bool(e.row["ignores_walls"]) and not holds_bosses):
 		return null
+	var bump: BlockBody = null  # A full body holding a lesser enemy (bumping ranks only).
+	var big := TdRulesData.BUMPING_RANKS.has(String(e.row["rank"]))  # It may push a lesser enemy out.
 	for b: BlockBody in bodies:
-		if b.alive and b.held.size() < b.capacity + hold_bonus and e.game.time >= b.charm_until:  # A charmed body holds nobody (w2c-inferno).
-			return b
+		if b.alive and e.game.time >= b.charm_until:  # A charmed body holds nobody (w2c-inferno).
+			if b.held.size() < b.capacity + hold_bonus:
+				return b
+			if big and bump == null and _lesser(b) != null:
+				bump = b
+	return bump
+
+
+## Frees a hold slot on body `b` (from free_body) for its new enemy: the
+## latest-held lesser enemy is let go and walks on past the post.
+func make_room(b: BlockBody) -> void:
+	if b.held.size() < b.capacity + hold_bonus:
+		return
+	var out := _lesser(b)  # The enemy pushed out.
+	b.held.erase(out)
+	out.holder = null
+	out.unholdable_until = out.game.time + TdRulesData.BUMP_FREE_TIME  # It clears this post instead of being caught again.
+	EnemyTrait.note(out.game, "bumped")
+
+
+## The latest-held enemy of body `b` whose rank does not bump, or null.
+func _lesser(b: BlockBody) -> TdEnemy:
+	for i in range(b.held.size() - 1, -1, -1):
+		if not TdRulesData.BUMPING_RANKS.has(String(b.held[i].row["rank"])):
+			return b.held[i]
 	return null
 
 

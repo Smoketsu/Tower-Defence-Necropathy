@@ -6,7 +6,9 @@
 ## fx/host_shaft band, a brighter centre line, the faint band where a sweeping
 ## shaft goes next) and the telegraph of a shaft about to burn (a pulsing
 ## fx/host_shaft_line where it enters and a faint band). Textures only, a few
-## rects per frame. Drawing only: it never writes run state.
+## rects per frame. While the Voice's Be Not Afraid is coming it also draws
+## pulsing gold-white bands on the four map edges (DECISIONS Y9; never a
+## full-screen overlay). Drawing only: it never writes run state.
 extends Node2D
 
 ## Additive glow child: draws back through its HostLayer.
@@ -22,6 +24,8 @@ class Glow:
 var rule: MapRule = null
 ## The additive glow child.
 var _glow: Glow = null
+## Cached edge-band gradient (opaque at the edge, clear inward).
+var _band_tex: GradientTexture2D = null
 
 
 func _ready() -> void:
@@ -103,4 +107,39 @@ func draw_light(ci: CanvasItem) -> void:
 					for x: float in [-w * 0.5, w * 0.5]:
 						ci.draw_texture_rect(line if line != null else soft, Rect2(Vector2(x - 2.0, -seg * 0.5), Vector2(4.0, seg)), false, Color(wt, wt.a * pulse))
 			y += seg
+	ci.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	_draw_fear(ci, g)
+
+
+## Be Not Afraid's warning: four pulsing edge bands, stronger as it nears.
+func _draw_fear(ci: CanvasItem, g: TdGame) -> void:
+	var left := 0.0  # Share of the warning still to run (0 = none coming).
+	for e: TdEnemy in g.enemies:
+		var at := float(e.vars.get("fear_at", 0.0))  # When it lands (the Voice only).
+		if e.kind == "host_voice" and at > g.time:
+			left = clampf((at - g.time) / float(e.row["args"]["fear_warn"]), 0.0, 1.0)
+	if left <= 0.0:
+		return
+	var lk: Dictionary = Acts.data("host")["LOOK"]
+	var c: Color = lk["fear_band"]
+	c.a *= (0.6 + 0.4 * (1.0 - left)) * (0.75 + 0.25 * sin(g.time * float(lk["fear_band_pulse"])))
+	var sz := MapView.SIZE  # Map size (px).
+	var dh := sz.y * float(lk["fear_band_depth"])  # Band depth (px).
+	if _band_tex == null:
+		var gr := Gradient.new()
+		gr.set_color(0, Color.WHITE)
+		gr.set_color(1, Color(1, 1, 1, 0))
+		_band_tex = GradientTexture2D.new()
+		_band_tex.gradient = gr
+		_band_tex.fill_from = Vector2(0.5, 0.0)
+		_band_tex.fill_to = Vector2(0.5, 1.0)
+		_band_tex.width = 8
+		_band_tex.height = 64
+	ci.draw_texture_rect(_band_tex, Rect2(0, 0, sz.x, dh), false, c)
+	ci.draw_set_transform(Vector2(0, sz.y), PI, Vector2(-1, 1))
+	ci.draw_texture_rect(_band_tex, Rect2(0, 0, sz.x, dh), false, c)
+	ci.draw_set_transform(Vector2.ZERO, -PI * 0.5, Vector2(-1, 1))
+	ci.draw_texture_rect(_band_tex, Rect2(0, 0, sz.y, dh), false, c)
+	ci.draw_set_transform(Vector2(sz.x, 0), PI * 0.5, Vector2.ONE)
+	ci.draw_texture_rect(_band_tex, Rect2(0, 0, sz.y, dh), false, c)
 	ci.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
