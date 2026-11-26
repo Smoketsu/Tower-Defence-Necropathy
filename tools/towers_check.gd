@@ -59,6 +59,7 @@ func _ready() -> void:
 	_court_checks()
 	_city_checks()
 	_shogun_checks()
+	_dynasty_checks()
 	print("TOWERS CHECK %s %s" % ["PASS" if _fails.is_empty() else "FAIL", ",".join(_fails)])
 	get_tree().quit(0 if _fails.is_empty() else 1)
 
@@ -438,3 +439,79 @@ func _shogun_checks() -> void:
 	# The Shogun: guarded while his regiments march.
 	var sg := game.spawn_at("shogun", "main", 1, 0.0, 0.0)
 	_check("shogun guarded", TdCombat.damage_enemy(game, sg, 1000.0, {"source": "check", "dot": true}) < 200.0)
+
+## w2c-dynasty: Rebirth and the Names, the jar mark, the storm, the Ushabti
+## Sentinel's reassembly, Answering Words and the three act spells.
+func _dynasty_checks() -> void:
+	var loadout: Array[String] = ["linen_bind", "burning_eye", "feathers_verdict"]
+	var game := TdGame.new()
+	game.setup("necropolis", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(game)
+	game.economy.earn(50000, "test_bonus")
+	var rb: MapRule = game.act_rule
+	_check("rebirth loaded", rb != null and (rb.call("live_jars") as Array).size() == 5)
+	var jar: TdEnemy = (rb.call("live_jars") as Array)[0][0]
+	# A mummy slain beside a jar leaves a Name and rises again, paying nothing.
+	var m := _enemy_at(game, "dyn_mummy", jar.position)
+	TdCombat.kill_enemy(game, m, null)
+	_check("name laid", int(rb.call("names_alive")) == 1)
+	_run(game, 8.0)
+	var back: TdEnemy = null  # The returned mummy.
+	for e: TdEnemy in game.enemies:
+		if e.kind == "dyn_mummy" and bool(e.vars.get("reborn", false)):
+			back = e
+	_check("body returns", back != null and back.hp < back.max_hp and int(back.vars.get("souls", -1)) == 0)
+	var souls := game.economy.souls  # Before its second death.
+	if back != null:
+		TdCombat.kill_enemy(game, back, null)
+	_check("returned pays nothing, no second name", game.economy.souls == souls and int(rb.call("names_alive")) == 0)
+	# A broken jar crumbles its Names; a smashed Name never rises.
+	var m2 := _enemy_at(game, "dyn_mummy", jar.position)
+	TdCombat.kill_enemy(game, m2, null)
+	var arch := _maxed(game, "plot:4", "archer")
+	rb.call("toggle_mark", jar)
+	var other := _enemy_at(game, "dyn_mummy", arch.position + Vector2(0, 40))
+	_check("marked jar draws the fire", game.can_target(arch, jar) and (arch.position.distance_to(jar.position) > float(arch.stats["range"]) or not game.can_target(arch, other)))
+	TdCombat.kill_enemy(game, jar, null)
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))
+	_check("jar break crumbles", int(rb.call("names_alive")) == 0 and int((rb.get("counts") as Dictionary)["crumbled"]) == 1)
+	# The storm halves a tower's sight inside the band.
+	rb.call("force_storm")
+	_run(game, 3.5)
+	rb.set("storm_x", arch.position.x)
+	var far := _enemy_at(game, "dyn_mummy", arch.position + Vector2(float(arch.stats["range"]) * 0.8, 0))
+	_check("storm hides far foes", bool(rb.call("in_storm", arch.position)) and not game.can_target(arch, far))
+	rb.set("storm_on", false)
+	game.remove_enemy(far, false)
+	game.remove_enemy(other, false)
+	# Ushabti Sentinel: a felled body reassembles at half HP; Answering Words beside a Mage.
+	var us := game.spot_by_id("post:2")
+	game.build(us, "ushabti_sentinel")
+	var b: BlockBody = us.tower.block.bodies[0]
+	TdCombat.damage_body(game, b, b.max_hp + 10.0)
+	_run(game, 2.0)
+	_check("ushabti reassembles", b.alive and b.hp < b.max_hp and int(us.tower.vars.get("reassembled", 0)) == 1)
+	TdCombat.damage_body(game, b, b.max_hp + 10.0)
+	_run(game, 2.0)
+	_check("ushabti reassembles once", not b.alive)
+	var eg := _maxed(game, "post:3", "ushabti_sentinel")
+	_check("eternal guard set", eg.evolution == "eternal_guard" and int(eg.stats["reassembles"]) == 2)
+	var mg := _maxed(game, "plot:8", "mage")
+	_check("answering words active", mg.synergies.any(func(p: Array) -> bool: return p[0] == "answering_words"))
+	# The act spells: Linen Bind binds (no Name), Burning Eye beams, Feather's Verdict executes.
+	var foe := _enemy_at(game, "khopesh_guard", Vector2(600, 390))
+	foe.max_hp = 1.0e6
+	foe.hp = foe.max_hp
+	var weak := _enemy_at(game, "dyn_mummy", Vector2(630, 390))
+	weak.max_hp = 1.0e5  # Out of the towers' reach in a second, under the execute line.
+	weak.hp = weak.max_hp * 0.1
+	game.tick(1.0 / float(TdRulesData.TICK_RATE))  # Into the spatial hash (dynasty).
+	_check("cast feathers_verdict", game.cast_spell(2, foe.position))
+	_run(game, 1.2)
+	_check("verdict executes", int(game.stats.get("verdict_executions", 0)) > 0 and not weak.alive)
+	_check("cast linen_bind", game.cast_spell(0, foe.position))
+	_check("linen binds", bool(foe.vars.get("no_name", false)))
+	_check("cast burning_eye", game.cast_spell(1, foe.position))
+	_run(game, 2.0)
+	_check("eye beams", int(game.stats.get("eye_beams", 0)) > 0)
+	game.queue_free()
