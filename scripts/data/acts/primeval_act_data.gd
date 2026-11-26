@@ -680,7 +680,7 @@ const MOODS: Dictionary = {
 			{"sprite": "obstacles/primeval_fossil_m", "frames": 1, "count": 3, "scale": 1.0, "glow": Color(0.95, 0.9, 0.75, 0.3), "glow_r": 34.0,
 			"glow_at": Vector2(0, -6), "flicker": 0.03, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD) bleached fossils
 		"fog": 3,  # TUNING (not in GDD) swamp mist
-		"pools": 2,  # TUNING (not in GDD)
+		"pools": 0,  # no stained glass in the basin
 	},
 	"great_plain": {
 		"props": [{"sprite": "obstacles/primeval_rock_m", "frames": 1, "count": 5, "scale": 1.0, "glow": Color(1.0, 0.85, 0.55, 0.25), "glow_r": 38.0,
@@ -696,7 +696,7 @@ const MOODS: Dictionary = {
 			{"sprite": "obstacles/primeval_fossil_m", "frames": 1, "count": 2, "scale": 1.0, "glow": Color(1.0, 0.6, 0.3, 0.3), "glow_r": 36.0,
 			"glow_at": Vector2(0, -6), "flicker": 0.1, "flame": "", "flame_at": Vector2.ZERO, "sway": 0.0}],  # TUNING (not in GDD)
 		"fog": 3,  # TUNING (not in GDD) ash drifting
-		"pools": 3,  # TUNING (not in GDD) pools of lava light
+		"pools": 0,  # no stained glass on the Last Day
 	},
 }
 

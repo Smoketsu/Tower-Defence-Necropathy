@@ -158,6 +158,47 @@ Anubis, Sekhmet, Osiris and Ammit, Zeus, Hades, Moloch, Lilith, the Morning Star
 Seraiel, the Throne, the Voice (27; Alaric, Vael, Achilles and the Shogun have one).
 
 
+## Wave 2d: Act XIV, the Age of Titans (w2d-titans, DECISIONS T14)
+
+Necromancer, default orders, seeds 1-4 (lives kept of 20; 0 script errors,
+`stuck_enemies=0` in every run). Income from `tools/map_list.tscn`. Measured on
+a shared 4-core machine (frame times not measured here; the integration
+re-measures them).
+
+| Act | Map | wave_hp_end | Income | s1 | s2 | s3 | s4 | Runs losing lives | Miniboss killed | Leaks (4 seeds) | Weak s1 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| XIV | fern_basin | 2.8 | 4185 | 20 | 10 | 17 | 4 | 3/4 | 4/4 | prim_scarmaw 2, prim_tyrant 2, prim_skyraider 2, prim_razorclaw 1 | lost w4 |
+| XIV | great_plain | 2.5 | 3935 | 20 | 14 | 14 | 20 | 2/4 | 4/4 | prim_clubtail 2, prim_horncharger 2 | lost w5 |
+| XIV | last_day | 2.4 | 4228 | 14 | 9 | 11 | 11 | 4/4 | 4/4 | prim_skyraider 9, prim_tyrant 3, prim_horncharger 3, prim_razorclaw_alpha 2, prim_razorclaw 2 | lost w4 |
+
+Cliff checks (`wave_hp_end` +0.2, seeds 1-2): the Fern Basin at 3.0 won 19 / 17,
+the Great Plain at 2.6 won 11 / 17 (measured before the last herd nerf, T14.7). Before the boss kits were reworked the Fern
+Basin was a cliff (2.6 won 4/4, 2.9 lost 4/4: Ironjaw and Scarmaw leaks cascaded);
+Ironjaw now 3600 HP at speed 22 with her nest in the towers' reach, Scarmaw 7000.
+The step up from Part Two is in the kit, not the raw HP (Part Two's ends are
+3.0-3.6): herds that disable plots, charges and swallows that empty posts, the
+tower stuns of roars / gusts / sweeps, hidden crocs, meteors.
+
+`titans_kit` (the default with the first Corpse Catapult a Bonehorn raised to
+the Fossil Tyrant, the Abomination on the post beside it, Meteor Call and
+Stampede): fern_basin 20, 20; great_plain 20, 20; last_day 20, 20 (seeds 1-2),
+evolution and Thundering Herd in the summary.
+
+Act tower (`--swap=corpse_catapult:bonehorn` against `--swap=corpse_catapult:corpse_catapult`,
+seeds 1-2; lives, damage per soul):
+
+| Map | Bonehorn | Catapult (control) |
+|---|---|---|
+| fern_basin | 20, 20; 28.1-29.4 | 20, 20; 27.7-30.8 |
+| great_plain | 20, 20; 42.6-44.3 | 20, 14; 34.1-34.9 |
+| last_day | 17, 17; 18.0-19.9 | 14, 9; 37.3-39.7 |
+
+First pass (damage 38, interval 2.6): 13.8-39.6 per soul, the Fern Basin lost 10
+lives; damage 52, interval 2.3, width 30 now. On the Last Day its spot (the
+Catapult's, by the gate) leaves a short road to charge down, so its damage per
+soul is half the Catapult's while it keeps more lives (its knockback).
+
+
 ## Wave 2c: Act IX, the Inferno (w2c-inferno, DECISIONS T9)
 
 Necromancer, default orders, seeds 1-4 (lives kept of 20; 0 script errors,
