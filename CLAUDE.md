@@ -200,6 +200,7 @@ character in the menus.
 | IV the Last Line (`city`, T4) | `city_act_data.gd`; `rules/city/escalation.gd` (gangs -> police -> army -> heroes; `EscalationMeter`, `CityStreets`) | skid_row, fort_kessler, liberty_heights | Big Sal, the Mammoth, Atlas / Don Marrow, Harrow, Paragon | Fallen Hero -> Black Paragon, Origin Story | Hearse Run, Bone Mines, Hero's Fist (Undertaker, Fallen Sergeant, Revenant Heroine) |
 | V the Shogunate (`shogunate`, T5) | `shogunate_act_data.gd`; `rules/shogunate/sun_course.gd` (+ `sun_layer`, `sun_dial`: day / dusk / night, lanterns, ambushes) | province, kurogane, sun_road | Shuten-doji, General of the Left, the Kirin / Kage, Shogun Kurogane, Amaterasu | Bound Oni -> Oni Lord, Iron and Bone | Hundred Shadows, Banner of the Dead, Black Sun (Grave Kunoichi, Ronin Revenant, Shrine Maiden) |
 | VI the Hall of the Slain (`norse`, T6, wave 2c) | `norse_act_data.gd`; `rules/norse/long_winter.gd` (+ `winter_layer`, `winter_meter`: cold by wave slows towers away from lit braziers, dousers, tap to relight, Rune-Stone structures) | barrow_fields, valgard (split aisles), vigrid (flank road) | Barrow-Wight, Einherjar Champion, Fire-Giant of the South / Hrimgar (three lives, his barrow), Sigrun (Charge, Holmgang, Doors), Odin with Fenrir | Draugr Thane -> Barrow King, Cold Iron | Barrow Grasp, Valkyrie Spear, Gungnir (Rune-Seer, Shield-Maiden, Berserker) |
+| VII the Necropolis Dynasty (`dynasty`, T7; w2c) | `dynasty_act_data.gd` (+ `JARS`); `rules/dynasty/rebirth.gd` (+ `dynasty_layer`, `scales_bar`: jars, Names that rise again, the jar mark by tap, the Sandstorm band, the Scales on the Hall) | necropolis, lioness_temple, two_truths | Sand Colossus, Lion Warden, Devourer's Whelp / Anubis, Sekhmet, Osiris and Ammit | Ushabti Sentinel -> Eternal Guard, Answering Words | Linen Bind, Burning Eye, Feather's Verdict (the Embalmer, the Lion-Priestess, the Pharaoh's Shade) |
 
 Build orders: `<map>_default`, `<map>_weak`, plus `tide_kit`, `court_kit`,
 `shogunate_kit`, `norse_kit` (every map of the act). Act runs print `act_rule=` / `hostile=`.
@@ -231,6 +232,13 @@ Build orders: `<map>_default`, `<map>_weak`, plus `tide_kit`, `court_kit`,
   reusable `norse/berserk.gd` statics `rage_step()` / `rage_blow()`,
   `norse/seer.gd` `douse_step()`, `norse/barrow_wight.gd` `howl()`; Long Winter
   `warm_at()`, `douse_near()`, `relight()`, `set_duel()`, `LongWinter.of(game)`.
+- Act VII (w2c-dynasty): enemy row keys `rebirth`, `embalms`, `markable`, `blastable`
+  (Corpse Explosion reaches that structure); `vars.souls` (one enemy's bounty),
+  `vars.sprite` / `vars.tint` (form change / tint, drawn by TdEnemy); Rebirth's
+  duck-typed calls `place_jar()`, `eat_near()`, `set_rise_mult()`, `force_storm()`,
+  `in_storm()`, `names_alive()`, `markables()`; reusable traits `dynasty/slam`
+  (`slam()`: a telegraphed shell on oneself), `dynasty/heka` (`write()`),
+  `dynasty/devour` (`eat()`); `dynasty_kit` order; `towers_check` `_dynasty_checks`.
 - Autotest: one generic spell branch (any later spell on the leader), deferred
   evolve steps, `minibosses=` line, `--perf-wave=N`. Tools: `tools/gw_perf.js`
   (late-map frame time), `tools/gw_wave_shot.js` (screenshots at a wave, any

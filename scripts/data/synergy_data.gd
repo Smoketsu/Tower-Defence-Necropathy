@@ -139,4 +139,12 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "a", "vs": "slowed", "mult": 1.3},  # TUNING (not in GDD) Necropathy Cold Iron: blows on slowed foes hit harder
 		"hint": "Draugr Thane near a Frost Wraith: its axe bites slowed foes harder",
 	},
+	# --- Act VII (w2c-dynasty) ---
+	"answering_words": {
+		"name": "Answering Words", "icon": "answering_words", "a": "ushabti_sentinel", "b": "mage",
+		"radius": 230.0,  # TUNING (not in GDD)
+		"effects": {"a": {"hp": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "b", "vs": "staggered", "mult": 1.35},  # TUNING (not in GDD) the mage's fire on what the sentinel's sand staggered
+		"hint": "Ushabti Sentinel near a Mage: fire hits staggered foes harder",
+	},
 }

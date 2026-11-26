@@ -60,5 +60,8 @@ func _ready() -> void:
 	for tw: String in ["powder_wraith", "blood_spawn", "fallen_hero"]:  # Act towers open with their finale cleared (Road to the Sun's not cleared yet).
 		ok = ok and (Meta.data["unlocks"]["towers"] as Array).has(tw)
 	ok = ok and not (Meta.data["unlocks"]["towers"] as Array).has("bound_oni")
+	# w2c-dynasty: Act VII's own chain (its first map's predecessor belongs to the act order) and its tower locked.
+	ok = ok and Meta.unlock_after("lioness_temple") == "necropolis" and Meta.unlock_after("two_truths") == "lioness_temple"
+	ok = ok and not (Meta.data["unlocks"]["towers"] as Array).has("ushabti_sentinel")
 	print("META CHECK OK" if ok else "META CHECK FAILED")
 	get_tree().quit(0 if ok else 1)

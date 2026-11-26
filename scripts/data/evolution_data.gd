@@ -234,4 +234,16 @@ const EVOLUTIONS: Dictionary = {
 		},
 		"recipe": {"type": "near", "class": "frost_wraith", "radius": 220.0},  # TUNING (not in GDD) Necropathy Cold Iron -> the cold beside it
 	},
+	"eternal_guard": {
+		"from": "ushabti_sentinel", "name": "Eternal Guard", "sprite": "summons/eternal_guard", "icon": "eternal_guard",
+		"stats": {"damage": 1.4, "hp": 1.3},  # TUNING (not in GDD)
+		"set": {
+			"hold": 3,  # TUNING (not in GDD)
+			"reassembles": 2,  # TUNING (not in GDD) Necropathy's Eternal Guard: it answers again
+			"reassemble_frac": 1.0,  # TUNING (not in GDD) stands up whole
+			"reassemble_radius": 90.0,  # TUNING (not in GDD)
+			"stagger_time": 1.6,  # TUNING (not in GDD)
+		},
+		"recipe": {"type": "any", "of": [{"type": "kills", "n": 22}, {"type": "elite_kills", "n": 5}]},  # TUNING (not in GDD) Necropathy Answering Words -> a record of slain foes
+	},
 }

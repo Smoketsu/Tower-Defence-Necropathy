@@ -16,7 +16,8 @@ const DEFAULT_ID: String = "gravecaller"
 const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "plague_scholar",
 	"doomsayer", "soulbinder", "wither_witch", "grave_herald",
 	"marooned_quartermaster", "corsair_queen", "ghost_helmsman", "moon_huntress", "hedge_witch", "dhampir", "undertaker", "fallen_sergeant", "revenant_heroine", "grave_kunoichi", "ronin_revenant", "shrine_maiden",
-	"rune_seer", "shield_maiden_hero", "berserker_hero"]  # The later spells' characters (gw2-kit), appended
+	"rune_seer", "shield_maiden_hero", "berserker_hero",
+	"the_embalmer", "lion_priestess", "pharaohs_shade"]  # The later spells' characters (gw2-kit), appended
 
 ## Character rows. Keys:
 ##   name         — UI name.
@@ -32,7 +33,9 @@ const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "p
 ##                  Chains), wither_rot (Wither's aura adds this Rot damage per s),
 ##                  temp_time (x every temporary Risen's lifetime); w2b-court: moonfang_jaws
 ##                  (+jaws per Moonfang cast), circle_radius (+share of Hex Circle's radius),
-##                  swarm_bats (+bats in Night Swarm), read by those spells. {} = none.
+##                  swarm_bats (+bats in Night Swarm), read by those spells; w2c-dynasty:
+##                  linen_life (+s of Linen Bind's Mummies), eye_reach (x Burning Eye's beam
+##                  length), verdict_line (+share of max HP Feather's Verdict executes). {} = none.
 ##   unlock_after — map id whose boss opens it ("" = open from the start).
 const CHARACTERS: Dictionary = {
 	"gravecaller": {
@@ -182,6 +185,25 @@ const CHARACTERS: Dictionary = {
 		"boost": {"damage": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
 		"innate": {"name": "Bear-Shirt", "desc": "Gungnir throws one more spear", "gungnir_spears": 1},  # Necropathy "throws one more spear"
 		"unlock_after": "vigrid",  # Odin
+	},
+	# --- Act VII's characters (w2c-dynasty; Necropathy's Dynasty characters) ---
+	"the_embalmer": {
+		"name": "The Embalmer", "short": "Embalmer", "sprite": "player/the_embalmer", "spell": "linen_bind",
+		"boost": {"targets": 1.4, "hold": 1.25, "cooldown": 0.85},  # TUNING (not in GDD) targets 5 -> 7
+		"innate": {"name": "Linen Ward", "desc": "Linen Bind's Mummies last 4 s longer", "linen_life": 4.0},  # Necropathy's innate
+		"unlock_after": "necropolis",  # Anubis
+	},
+	"lion_priestess": {
+		"name": "The Lion-Priestess", "short": "Lion-Priestess", "sprite": "player/lion_priestess", "spell": "burning_eye",
+		"boost": {"damage": 1.25, "duration": 1.2, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Lioness's Gaze", "desc": "Burning Eye's beam reaches a fifth farther", "eye_reach": 1.2},  # Necropathy's innate
+		"unlock_after": "lioness_temple",  # Sekhmet
+	},
+	"pharaohs_shade": {
+		"name": "The Pharaoh's Shade", "short": "Pharaoh", "sprite": "player/pharaohs_shade", "spell": "feathers_verdict",
+		"boost": {"damage": 1.25, "ring": 1.15, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Crook and Flail", "desc": "Feather's Verdict executes foes 5% healthier", "verdict_line": 0.05},  # Necropathy's innate
+		"unlock_after": "two_truths",  # Osiris and Ammit
 	},
 }
 
