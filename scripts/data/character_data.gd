@@ -20,7 +20,8 @@ const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "p
 	"the_embalmer", "lion_priestess", "pharaohs_shade",
 	"doomed_prophetess", "oathbreaker", "ferrywoman",
 	"furnace_priest", "succubus_queen", "fallen_saint",
-	"fallen_herald", "blind_saint", "the_unveiled"]  # The later spells' characters (gw2-kit), appended
+	"fallen_herald", "blind_saint", "the_unveiled",
+	"fern_huntress", "herd_warden", "skywatcher"]  # The later spells' characters (gw2-kit), appended
 
 ## Character rows. Keys:
 ##   name         — UI name.
@@ -42,7 +43,8 @@ const ORDER: Array[String] = ["gravecaller", "barrow_warden", "carrion_lord", "p
 ##                  brimstone_stones (+stones per Brimstone), tempt_time (x Temptation's
 ##                  charm time), grace_second (share of a second Fall from Grace star); w2c-host: light_cut
 ##                  (share of the Hallowed Light's weakening removed, read by the act rule),
-##                  wheel_rebounds (+passes of Wheel of Eyes), reveal_shred (armour Revelation strips). {} = none.
+##                  wheel_rebounds (+passes of Wheel of Eyes), reveal_shred (armour Revelation strips); w2d-titans:
+##                  leap_extra (+raptors per Pack Leap), meteor_radius (+share of Meteor Call's radius). {} = none.
 ##   unlock_after — map id whose boss opens it ("" = open from the start).
 const CHARACTERS: Dictionary = {
 	"gravecaller": {
@@ -271,6 +273,25 @@ const CHARACTERS: Dictionary = {
 		"boost": {"radius": 1.15, "stun": 1.25, "cooldown": 0.85},  # TUNING (not in GDD)
 		"innate": {"name": "Seventh Seal", "desc": "Revelation also strips 3 armour", "reveal_shred": 3.0},  # Necropathy's paired passive name
 		"unlock_after": "empyrean",  # the Voice
+	},
+	# --- Act XIV's characters (w2d-titans; Necropathy's Age of Titans characters) ---
+	"fern_huntress": {
+		"name": "The Fern Huntress", "short": "Fern Huntress", "sprite": "player/fern_huntress", "spell": "pack_leap",
+		"boost": {"damage": 1.2, "bleed_dps": 1.25, "cooldown": 0.9},  # TUNING (not in GDD)
+		"innate": {"name": "Pack Instinct", "desc": "Pack Leap sends one more raptor", "leap_extra": 1},  # Necropathy's paired passive name
+		"unlock_after": "fern_basin",  # Scarmaw
+	},
+	"herd_warden": {
+		"name": "The Herd-Warden", "short": "Herd-Warden", "sprite": "player/herd_warden", "spell": "stampede",
+		"boost": {"damage": 1.2, "length": 1.2, "cooldown": 0.9},  # TUNING (not in GDD)
+		"innate": {"name": "Calcified Hide", "desc": "Blockers have 10% more HP", "blocker_hp": 1.1},  # Necropathy's paired passive name
+		"unlock_after": "great_plain",  # Old Ironbrow
+	},
+	"skywatcher": {
+		"name": "The Skywatcher", "sprite": "player/skywatcher", "spell": "meteor_call",
+		"boost": {"damage": 1.2, "cooldown": 0.85},  # TUNING (not in GDD)
+		"innate": {"name": "Star Reader", "desc": "Meteor Call's meteors strike 30% wider", "meteor_radius": 0.3},  # Necropathy "Star Reader"
+		"unlock_after": "last_day",  # Old Gravejaw
 	},
 }
 

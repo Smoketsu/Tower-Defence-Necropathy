@@ -426,6 +426,38 @@ const SPELLS: Dictionary = {
 		"weaken": 0.6,  # TUNING (not in GDD) damage x of the foes it weakens
 		"weaken_time": 6.0,  # TUNING (not in GDD) s
 	},
+	# --- Act XIV spells (w2d-titans; Necropathy's Age of Titans rewards) ---
+	"pack_leap": {
+		"name": "Pack Leap", "short": "Leap", "icon": "pack_leap", "cooldown": 13.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "A pack of bone raptors leaps on the strongest foes near the tap and leaves them bleeding",
+		"unlock": {"map": "fern_basin"},  # Scarmaw's reward
+		"radius": 130.0,  # TUNING (not in GDD) px round the tap the raptors pick their prey in
+		"raptors": 3,  # TUNING (not in GDD) raptors per cast (the Fern Huntress's innate adds leap_extra)
+		"damage": 60.0,  # TUNING (not in GDD) each raptor's bite
+		"bleed_dps": 14.0,  # TUNING (not in GDD) damage per s of the bleed
+		"bleed_time": 4.0,  # TUNING (not in GDD) s
+		"leap_time": 0.35,  # TUNING (not in GDD) s a raptor flies before it bites
+	},
+	"stampede": {
+		"name": "Stampede", "icon": "stampede", "cooldown": 18.0, "target": "road", "ready": true,  # TUNING (not in GDD)
+		"desc": "A spectral herd thunders back down the road from the tap, goring and throwing back all it passes",
+		"unlock": {"map": "great_plain"},  # Old Ironbrow's reward
+		"max_snap": 60.0,  # px: a tap farther than this from any road does nothing
+		"speed": 300.0,  # TUNING (not in GDD) px/s the herd runs
+		"length": 280.0,  # TUNING (not in GDD) px it runs toward the entrance
+		"width": 30.0,  # TUNING (not in GDD) px it strikes round its front
+		"damage": 70.0,  # TUNING (not in GDD) per foe
+		"knock": 50.0,  # TUNING (not in GDD) px each foe is thrown back (TdCombat.knock_enemy)
+	},
+	"meteor_call": {
+		"name": "Meteor Call", "short": "Meteor", "icon": "meteor_call", "cooldown": 22.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "A meteor falls on a telegraphed circle at the tap: every foe inside is struck and stunned",
+		"unlock": {"map": "last_day"},  # Old Gravejaw's reward
+		"radius": 80.0,  # TUNING (not in GDD) px of the circle (the Skywatcher's innate widens it by meteor_radius)
+		"delay": 1.0,  # TUNING (not in GDD) s the circle shows before it lands (Necropathy 0.9 s)
+		"damage": 220.0,  # TUNING (not in GDD) to each foe inside
+		"stun": 1.0,  # TUNING (not in GDD) s frozen (rank multipliers apply)
+	},
 }
 
 ## The ultimate (GDD §5 Dread Rally), cast through SpellCaster like a spell
