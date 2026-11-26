@@ -234,6 +234,6 @@ const EVOLUTIONS: Dictionary = {
 			"grip_slow": 0.7,  # TUNING (not in GDD) Necropathy grip_slow 0.3 = 30% slower
 			"grip_time": 1.0,  # Necropathy special_set grip_time (s)
 		},
-		"recipe": {"type": "any", "of": [{"type": "elite_kills", "n": 6}, {"type": "kills", "n": 35}]},  # TUNING (not in GDD) Necropathy Myrmidon Oath -> a record of foes held and slain
+		"recipe": {"type": "any", "of": [{"type": "kills", "n": 20}, {"type": "near_level", "class": "corpse_catapult", "level": 4, "radius": 240.0}]},  # TUNING (not in GDD) Necropathy Myrmidon Oath -> foes slain on the spear, or the hammer to its anvil (a Catapult Lv4 beside it)
 	},
 }
