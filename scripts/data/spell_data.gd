@@ -244,6 +244,44 @@ const SPELLS: Dictionary = {
 		"tick": 0.8,  # TUNING (not in GDD) s between beams
 		"duration": 8.0,  # TUNING (not in GDD) s it hangs
 	},
+	# --- Act VII spells (w2c-dynasty; Necropathy's Dynasty rewards) ---
+	"linen_bind": {
+		"name": "Linen Bind", "short": "Linen", "icon": "linen_bind", "cooldown": 20.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "Bandages hold the foes near the tap; the bound leave no Name and rise as your Mummies",
+		"unlock": {"map": "necropolis"},  # Anubis' reward
+		"radius": 120.0,  # TUNING (not in GDD) px around the tap
+		"targets": 5,  # Necropathy "up to 5 enemies"
+		"damage": 30.0,  # TUNING (not in GDD) per wrapped foe
+		"hold": 1.6,  # TUNING (not in GDD) s held (x rank)
+		"mark": 6.0,  # TUNING (not in GDD) s a wrapped foe that dies still rises
+		"cap": 4,  # TUNING (not in GDD) Mummies standing at once
+		"mummy_hp": 120.0,  # TUNING (not in GDD)
+		"mummy_hold": 2,  # TUNING (not in GDD)
+		"mummy_damage": 12.0,  # TUNING (not in GDD)
+		"mummy_interval": 1.0,  # TUNING (not in GDD)
+		"mummy_life": 8.0,  # TUNING (not in GDD) s
+	},
+	"burning_eye": {
+		"name": "Burning Eye", "short": "Eye", "icon": "burning_eye", "cooldown": 18.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "A solar eye opens and sweeps its burning beam across the road",
+		"unlock": {"map": "lioness_temple"},  # Sekhmet's reward
+		"range": 210.0,  # TUNING (not in GDD) px the beam reaches
+		"width": 26.0,  # TUNING (not in GDD) px
+		"damage": 26.0,  # TUNING (not in GDD) per tick to each foe on the beam
+		"tick": 0.35,  # TUNING (not in GDD) s
+		"turn": 0.9,  # TUNING (not in GDD) rad/s it sweeps (Necropathy: a 90 degree arc)
+		"duration": 5.0,  # TUNING (not in GDD) s it stays open
+	},
+	"feathers_verdict": {
+		"name": "Feather's Verdict", "short": "Verdict", "icon": "feathers_verdict", "cooldown": 22.0, "target": "point", "ready": true,  # TUNING (not in GDD)
+		"desc": "A gold feather falls on the strongest foe and executes the weak around it",
+		"unlock": {"map": "two_truths"},  # Osiris and Ammit's reward
+		"radius": 160.0,  # TUNING (not in GDD) px around the tap it looks for the strongest
+		"fall_time": 0.8,  # TUNING (not in GDD) s
+		"damage": 160.0,  # TUNING (not in GDD) to the judged foe
+		"ring": 110.0,  # TUNING (not in GDD) px of the execution ring
+		"execute": 0.3,  # TUNING (not in GDD) share of max HP at or under which a foe is executed
+	},
 }
 
 ## The ultimate (GDD §5 Dread Rally), cast through SpellCaster like a spell

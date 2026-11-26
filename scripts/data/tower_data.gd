@@ -12,7 +12,8 @@ extends RefCounted
 ## Build-menu order of the towers.
 const ORDER: Array[String] = ["archer", "mage", "frost_wraith", "corpse_catapult", "banshee", "mender", "warrior", "abomination",
 	"warder", "rogue", "gargoyle", "bone_hound", "fallen_seraph", "bone_golem",
-	"powder_wraith", "blood_spawn", "fallen_hero", "bound_oni"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
+	"powder_wraith", "blood_spawn", "fallen_hero", "bound_oni",
+	"ushabti_sentinel"]  # Later towers (GDD §4.2): appended; locked rows hide in the menus (Unlocks)
 
 ## Targeting modes (GDD §4.3), in the order the Target button cycles them.
 const TARGET_MODES: Array[String] = ["first", "last", "strongest", "nearest"]
@@ -424,6 +425,30 @@ const TOWERS: Dictionary = {
 		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(1.0, 0.55, 0.4), "reach": 120.0},  # TUNING (not in GDD)
 		"evolution": "oni_lord",
 	},
+	# --- Act VII, the Necropolis Dynasty (w2c-dynasty): unlocked by Osiris and Ammit ---
+	"ushabti_sentinel": {
+		"name": "Ushabti Sentinel", "short": "Ushabti", "sprite": "summons/ushabti_sentinel", "icon": "ushabti_sentinel", "spot": "post",
+		"desc": "Stone servants: a felled body reassembles and its sand staggers the foes around it",
+		"unlock": {"map": "two_truths"},  # Act VII's finale boss (DECISIONS K9)
+		"cost": 120,  # TUNING (not in GDD)
+		"behavior": "ushabti_sentinel",
+		"range": 40.0,  # TUNING (not in GDD)
+		"damage": 15.0,  # TUNING (not in GDD)
+		"interval": 1.2,  # TUNING (not in GDD)
+		"target": "first",
+		"bodies": 2,
+		"body_hp": 260.0,  # TUNING (not in GDD) lighter than the Warrior pair, but it gets up again
+		"hold": 2,  # TUNING (not in GDD)
+		"hits_all_held": false,
+		"respawn": 12.0,  # TUNING (not in GDD)
+		"reassembles": 1,  # Necropathy: "reassembles once on a lethal blow"
+		"reassemble_delay": 1.2,  # TUNING (not in GDD) s the pieces take to gather
+		"reassemble_frac": 0.5,  # TUNING (not in GDD) share of its HP it stands up with
+		"reassemble_radius": 70.0,  # TUNING (not in GDD) px of foes its sand staggers
+		"stagger_time": 1.0,  # TUNING (not in GDD) s
+		"volley": {"every": 3, "count": 3, "damage": 0.5, "sprite": "volleys/shard", "tint": Color(0.95, 0.82, 0.5), "reach": 120.0},  # TUNING (not in GDD) sandstone shards
+		"evolution": "eternal_guard",
+	},
 }
 
 ## Per-level multipliers, 5 rows (levels 1-5) per tower. Keys:
@@ -560,6 +585,13 @@ const LEVELS: Dictionary = {
 		{"damage": 1.6, "rate": 1.1, "range": 1.0, "bodies": 1, "hp": 1.8},  # TUNING (not in GDD)
 		{"damage": 2.0, "rate": 1.2, "range": 1.0, "bodies": 1, "hp": 2.4},  # TUNING (not in GDD)
 		{"damage": 2.5, "rate": 1.3, "range": 1.0, "bodies": 1, "hp": 3.0},  # TUNING (not in GDD)
+	],
+	"ushabti_sentinel": [
+		{"damage": 1.0, "rate": 1.0, "range": 1.0, "bodies": 2, "hp": 1.0},
+		{"damage": 1.3, "rate": 1.0, "range": 1.0, "bodies": 2, "hp": 1.4},  # TUNING (not in GDD)
+		{"damage": 1.6, "rate": 1.1, "range": 1.0, "bodies": 2, "hp": 1.8},  # TUNING (not in GDD)
+		{"damage": 2.0, "rate": 1.2, "range": 1.0, "bodies": 3, "hp": 2.3},  # TUNING (not in GDD)
+		{"damage": 2.5, "rate": 1.3, "range": 1.0, "bodies": 3, "hp": 2.8},  # TUNING (not in GDD)
 	],
 }
 

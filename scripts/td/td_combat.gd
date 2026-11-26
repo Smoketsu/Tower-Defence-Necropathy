@@ -59,7 +59,7 @@ static func kill_enemy(game: TdGame, e: TdEnemy, tower: Tower) -> void:
 	var rank := String(e.row["rank"])  # fodder / elite / miniboss / boss.
 	if e.traits != null:
 		e.traits.on_death(e, game)
-	game.economy.earn(int(e.row.get("souls", EconomyData.KILL_SOULS[rank])), "kills")  # A row's "souls" overrides its rank's (w2b-shogun).
+	game.economy.earn(int(e.vars.get("souls", e.row.get("souls", EconomyData.KILL_SOULS[rank]))), "kills")  # A row's "souls" overrides its rank's (w2b-shogun); vars "souls" one enemy's (w2c-dynasty: a reborn body pays 0).
 	game.caster.charge(rank)
 	if tower != null:
 		tower.kills += 1

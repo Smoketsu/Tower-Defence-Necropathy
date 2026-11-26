@@ -371,9 +371,10 @@ func _draw() -> void:
 ## Body layer callback: the sprite (walk strip when it has one, boss pose),
 ## tinted by its first status (TdVfxData.STATUS_TINT).
 func _draw_body(ci: CanvasItem) -> void:
-	var key := String(row.get("sprite", ""))  # Sprite key.
+	var key := String(vars.get("sprite", row.get("sprite", "")))  # Sprite key (vars "sprite": a form change, w2c-dynasty's Ammit).
 	var flash := game != null and game.time < flash_until  # Hit flash.
 	var tint: Color = row.get("tint", Color.WHITE)  # Status look (an optional row tint: the Black Tide's ghost crew).
+	tint *= vars.get("tint", Color.WHITE) as Color  # One enemy's tint (w2c-dynasty: a reborn body's gold, a hunter in the sand).
 	if game != null:
 		var sts := statuses()  # Statuses on it.
 		if not sts.is_empty():

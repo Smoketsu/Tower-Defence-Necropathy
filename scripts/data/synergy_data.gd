@@ -131,4 +131,12 @@ const SYNERGIES: Dictionary = {
 		"hit": {"side": "b", "vs": "frozen", "mult": 1.35},  # TUNING (not in GDD) arrows punish the oni's stunned foes
 		"hint": "Bound Oni near Archers: arrows hit stunned foes harder",
 	},
+	# --- Act VII (w2c-dynasty) ---
+	"answering_words": {
+		"name": "Answering Words", "icon": "answering_words", "a": "ushabti_sentinel", "b": "mage",
+		"radius": 230.0,  # TUNING (not in GDD)
+		"effects": {"a": {"hp": 1.1}},  # TUNING (not in GDD)
+		"hit": {"side": "b", "vs": "staggered", "mult": 1.35},  # TUNING (not in GDD) the mage's fire on what the sentinel's sand staggered
+		"hint": "Ushabti Sentinel near a Mage: fire hits staggered foes harder",
+	},
 }
