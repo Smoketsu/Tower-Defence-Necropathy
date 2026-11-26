@@ -197,6 +197,10 @@ bot on screen (add `,--perf-wave=N` to jump to wave N then play at x1, and
 `,--build=<order>` for another order) and `?gw_flags=--unlock-all` to open
 every later tower / spell / ultimate / character in the menus.
 
+Wave 2d (w2d-empire, Nov 2026): **Act XII, the Electronic Empire**, live on its
+branch (three maps, row below, DECISIONS T12, BALANCE.md "Act XII"); kit order
+`empire_kit`.
+
 ## Acts II-X (one data file each in `scripts/data/acts/`)
 
 | Act | Data / rule (HUD widget) | Maps | Miniboss / boss | Tower -> evolution, synergy | Spells (characters) |
@@ -210,6 +214,7 @@ every later tower / spell / ultimate / character in the menus.
 | VIII the Olympian Republic (`pantheon`, T8) | `pantheon_act_data.gd`; `rules/pantheon/pantheon_rules.gd` (Phalanx shield fronts, Wrath of the Gods on both armies, Glory; meter top-left) | ilion, olympus, underworld | Polyphemus, Ares, Cerberus / Achilles, Zeus, Hades | Myrmidon Shades -> Legion of Tartarus, Hammer and Anvil | Paris's Arrow, Stolen Thunder, River Styx (Doomed Prophetess, Oathbreaker, Ferrywoman) |
 | IX the Inferno (`inferno`, T9) | `inferno_act_data.gd`; `rules/inferno/portals.gd` (portals marked a wave ahead, barred by a post / Bone Wall or sealed by Brimstone; Hell Pits; Temptation; cue top-left) | burning_gate, silk_palace, pandemonium | the Gatekeeper, the Twin Succubi, the Seraph General / Moloch, Lilith, the Morning Star | Bound Succubus -> Lilim Matriarch, Velvet Chains; Archfiend -> Prince of Hell, Pride | Brimstone, Temptation (`tempt`), Fall from Grace (Furnace Priest, Succubus Queen, Fallen Saint) |
 | X the Celestial Host (`host`, T10) | `host_act_data.gd`; `rules/host/hallowed_light.gd` (sweeping shafts weaken towers out of the shade, Grace, Judgment; dial top-left) | silver_stair, wheel_of_thrones, empyrean (map key `clouds`) | Cherub of the Gate, Dominion of the Spheres, Herald of the Seventh Trumpet / Seraiel, the Throne, the Voice | Bound Ophan -> Throne of Bones, Turning Wheel | Flaming Sword, Wheel of Eyes, Revelation (Fallen Herald, Blind Saint, the Unveiled) |
+| XII the Electronic Empire (`empire`, T12) | `empire_act_data.gd`; `rules/empire/line_of_fire.gd` (Empire guns disable towers, posts / Bone Walls in the line stop the shots; Lock-On paints; cue top-left) | wastes, assembly, citadel | the Trojan Horse, the Beta Build, Valkyrie 2.0 / Kestrel, the Motherboard, Deus Ex Machina with Varn | Grave Drone -> Wraith Drone, Overclock; Iron Revenant -> Deus Revenant, Recoil Frame | Death Ray, Hollow Puppet, Scrap Swarm (Lightning Abbess, Marionette, Rust Prophet) |
 
 Build orders: `<map>_default`, `<map>_weak`, and one kit order per act
 (`tide_kit`, `court_kit`, `shogunate_kit`, `norse_kit`, `dynasty_kit`,
@@ -251,6 +256,12 @@ be `{"base": order, "swap": [from, to]}`, DECISIONS Y5). Act runs print
   Hallowed Light `add_shaft()`, `in_light()`, `shaded()`, `send_judges()`,
   `judges_due()`, `boss_width` / `boss_live`, `host/lunge.gd` `line()` /
   `sweep_ring()`, `host/cherub.gd` `sweep()`, `host/ophan.gd` `roll_over()`.
+- Act XII (w2d-empire): `empire/empire_kit.gd` `towers_near()` / `fire_at()` / `lock()`
+  (every Empire shot and Lock-On), Line of Fire `paint(e, tower, args, boss)` / `of(game)`,
+  `empire/rifle.gd` (marching fire at the nearest tower, disabled or not),
+  `empire/duelist.gd` `lunge()` / `line()` (a jet lunge through a post), `empire/sentry.gd`
+  (`stand`: plants on the road and fires); `HostileData` cause `jammed`, looks `zap`, `rifle`,
+  `bolt_amber`, `rail`, `rocket`, `rivet`, `missile`, `lance`.
 - HUD widgets of the acts sit in corners no road uses: top-left under the bar
   (Escalation, Wrath, Hell cue, Host dial), top-right (Blood Moon cue, Scales),
   bottom-left (Sun dial, Winter meter). One act per map, so they never meet.

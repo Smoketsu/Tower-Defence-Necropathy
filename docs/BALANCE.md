@@ -365,6 +365,46 @@ The autotest's `leak_curve=` line (first leak wave, end wave, lives lost,
 permanent body deaths, lives lost within 15 s of a death, per death) reports
 this on every run.
 
+## Act XII, the Electronic Empire (wave 2d, w2d-empire; DECISIONS T12)
+
+Necromancer, default orders, seeds 1-4 (lives kept of 20); 0 script errors,
+`stuck_enemies=0`, the same seed twice identical (Wastes s1), Act I baselines
+byte-identical.
+
+| Act | Map | wave_hp_end | Income | s1 | s2 | s3 | s4 | Runs losing lives | Miniboss killed | Leaks (4 seeds) | Weak s1 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| XII | wastes | 3.9 | 3870 | 17 | 20 | 15 | 20 | 2/4 | 3/4 | empire_mortar_walker 1, empire_trojan_horse 1 | lost w1 |
+| XII | assembly | 3.35 | 3850 | 12 | 20 | 20 | 11 | 2/4 | 2/4 | empire_beta_build 2, empire_mortar_walker 1, empire_aegis_bot 1, empire_juggernaut 1 | lost w1 |
+| XII | citadel | 2.65 | 4124 | 20 | 20 | 14 | 9 | 2/4 | 3/4 | empire_valkyrie_duelist 2, empire_spotter 1, empire_kill_drone 1, empire_valkyrie_prime 1 | lost w2 |
+
+Cliff check at `wave_hp_end` +0.2: the Wastes (4.1-4.2) lose one seed in four
+(a seed-1 early cascade at wave 7 in the first pass; the Kill-Drone 260 -> 200
+HP and lighter waves 4 / 6 moved it to the boss), the Assembly (3.35 -> 3.55
+before the final step) and the Citadel (2.7) win 4 / 4 with more lives lost.
+The Wastes' band is the narrowest (3.85: 3 / 4 losing lives, 4.05: one loss).
+Raw HP sits below the Empyrean on the finale: the Line of Fire's disables
+(~10-20 % tower downtime, `hostile=` / `act_rule=` lines; 29-37 % of the shots
+that land are stopped by bodies), the two columns, the jams, Valkyrie 2.0 and
+Deus Ex Machina are the step up (T12.7).
+
+### Act towers (Y4 swap, seeds 1-2, lives kept; damage per soul from `tower_value`)
+
+| Swap | wastes | assembly | citadel |
+|---|---|---|---|
+| archer:archer (control) | 17, 20; 24-26 | 12, 20; 30 | 20, 20; 31-35 |
+| archer:grave_drone | 20, 17; 32-33 | 20, 6; 33 | 20, 12; 41-44 |
+| abomination:abomination (control) | 17, 20; 34-37 | 12, 20; 5-9 | 20, 20; 2-4 |
+| abomination:iron_revenant (first pass: hold 3, one target) | 0, 1 | 12, 20 | 15, 12 |
+| abomination:iron_revenant (final: hold 4, all held) | 12, 20; 59 | 20, 20; 13-22 | 15, 12; 5-10 |
+
+The Grave Drone (60 souls) deals the Archer's damage per soul or better; the
+Iron Revenant now holds like the Abomination with its shells on top (the Citadel
+post:5 sits by the gate, where neither tower sees much). `empire_kit` (seeds 1)
+wins all three maps (20 / 20 each): the Deus Revenant on the Wastes, the Wraith
+Drone on the Assembly and the Citadel; Death Ray and Scrap Swarm cast (Hollow
+Puppet loses the third slot to the Gravecaller's Shadow Bolt, as every kit's
+third spell does; `--character=marionette --build=empire_kit` casts all three).
+
 ### Act I baseline summaries (the same-seed gate; re-recorded by the wave 2c integration, DECISIONS Y3 / Y6)
 
 Default build, Necromancer, `--autotest --map=<id> --seed=<n>`; the lines from
