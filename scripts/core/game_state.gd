@@ -39,6 +39,12 @@ var test_act: bool = false
 ## --unlock-all (Web visual checks, `?gw_flags=--unlock-all`; gw2-kit): every later
 ## tower, spell, ultimate and character shows as open in the menus. Never saved.
 var unlock_all: bool = false
+## --menu=ID (Web look checks of the menus, `?gw_flags=--menu=codex`; DECISIONS M1):
+## opens that screen at start instead of the title: a title item id (play,
+## codex, ossuary, settings, credits), "setup" (the pre-map setup of --map),
+## "pause" (a run of --map, paused) or "won" / "lost" (a run of --map ended at
+## once, its results card). Debug only, never saved; "" = the title.
+var menu_preview: String = ""
 ## Ultimate of the autotest run (--ultimate=; "" = Dread Rally; SpellData.ULTIMATES key).
 var autotest_ultimate: String = ""
 ## Autotest A/B swap (--swap=from:to, gw2-kit): the first "build" step of class
@@ -87,3 +93,4 @@ func _init() -> void:
 			"--perf-wave": autotest_perf_wave = int(v)
 			"--hp-end": autotest_hp_end = float(v)
 			"--unlock-all": unlock_all = true
+			"--menu": menu_preview = v

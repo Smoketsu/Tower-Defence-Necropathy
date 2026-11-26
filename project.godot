@@ -36,6 +36,12 @@ window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[gui]
+
+; Menu overhaul (DECISIONS M2): the pixel font is a fixed raster scaled per tier; with
+; oversampling on, a stretched canvas (phones) spaced its scaled glyphs apart.
+fonts/dynamic_fonts/use_oversampling=false
+
 [input]
 
 spell_1={
