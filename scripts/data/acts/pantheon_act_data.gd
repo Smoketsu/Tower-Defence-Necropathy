@@ -164,7 +164,7 @@ const KINDS: Dictionary = {
 	# Underworld: Cerberus: three bites a blow, fire breath on as many towers as he has heads.
 	"cerberus": {
 		"name": "Cerberus, Hound of the Gates", "sprite": "pantheon/cerberus", "rank": "miniboss",
-		"hp": 4200.0, "speed": 30.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD) X3: his three bites break posts fast, so less HP
+		"hp": 3800.0, "speed": 26.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD) X3: his three bites break posts fast, so less HP
 		"damage": 16.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "pantheon/cerberus",
 		"args": {"breath_first": 4.0, "breath_every": 9.0, "breath_range": 260.0, "breath_radius": 55.0, "breath_delay": 1.3,
@@ -197,11 +197,11 @@ const KINDS: Dictionary = {
 	# Underworld: Hades, Lord of the Dead: the Helm of Darkness, the Reclaiming, his ring of wardens.
 	"hades": {
 		"name": "Hades, Lord of the Dead", "sprite": "bosses/hades", "rank": "boss",
-		"hp": 11000.0, "speed": 22.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD)
+		"hp": 9000.0, "speed": 22.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD)
 		"damage": 32.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "pantheon/hades",
 		"args": {"reclaim_hp": 0.66, "lord_hp": 0.33, "cloak_first": 4.0, "cloak_every": 13.0, "cloak_time": 2.5, "claim_kind": "claimed_shade",
-			"ring_kind": "tartarus_warden", "ring_count": 4, "ring_every": 12.0, "ring_hold": 2, "ring_mult": 0.5, "ring_refresh": 0.3,
+			"ring_kind": "tartarus_warden", "ring_count": 3, "ring_every": 14.0, "ring_hold": 2, "ring_mult": 0.6, "ring_refresh": 0.3,
 			"ring_back": 60.0, "ring_ahead": 90.0, "ring_gap": 18.0,
 			"fissure_every": 10.0, "fissure_ahead": 120.0, "fissure_count": 3, "fissure_gap": 40.0, "fissure_radius": 40.0, "fissure_delay": 1.4,
 			"fissure_disable": 2.0, "fissure_damage": 50.0, "pose_time": 0.7},  # TUNING (not in GDD) Necropathy: three phases, claims, the ring of the dead
