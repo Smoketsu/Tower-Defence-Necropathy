@@ -238,6 +238,25 @@ static func disc() -> Texture2D:
 	return _disc
 
 
+## Unit size multiplier for draw() / draw_pose() / draw_rising(): `mult` when
+## above 0 (an explicit caller: an enemy's rank scale, a Risen drawn on a spell
+## layer), else the UnitLayer's size_mult (a tower's body layers), else 1.
+static func _unit_mult(ci: CanvasItem, mult: float) -> float:
+	if mult > 0.0:
+		return mult
+	return (ci as UnitLayer).size_mult if ci is UnitLayer else 1.0
+
+
+## Height (px) to use in overlay maths written for an unscaled sprite whose head
+## line is -h * 0.5 above the unit's origin (HP bars, status icons, damage
+## numbers), for sprite `key` drawn `mult` times larger with its feet kept in
+## place (draw()): the overlay keeps the same place relative to the sprite's
+## top. Equals drawn_height(key) at mult 1.
+static func overlay_height(key: String, mult: float) -> float:
+	var c := SpriteData.CENTER_OFFSET  # Centre offset (fraction of the height).
+	return drawn_height(key) * (2.0 * mult * (1.0 + c) - 2.0 * c - 1.0)
+
+
 ## Draws a filled disc of radius `r` (px) at `o` on `ci` from disc(): the look of
 ## ci.draw_circle(o, r, color) without the per-redraw polygon.
 static func draw_disc(ci: CanvasItem, o: Vector2, r: float, color: Color) -> void:
@@ -252,15 +271,18 @@ static func draw_disc(ci: CanvasItem, o: Vector2, r: float, color: Color) -> voi
 ## Grid art is drawn on the art grid through the sharp-pixel shader (see the
 ## header). Returns false and draws nothing when there is no art, so the
 ## caller can draw its glyph.
-static func draw(ci: CanvasItem, key: String, o: Vector2, flash: bool, tint: Color = Color.WHITE) -> bool:
+static func draw(ci: CanvasItem, key: String, o: Vector2, flash: bool, tint: Color = Color.WHITE, mult: float = 0.0) -> bool:
 	var tex := texture(key)  # Art for this key, or null.
 	if tex == null:
 		return false
 	var still := tex  # The still to draw.
 	var icon := icon_cap > 0.0  # Drawing a HUD / card icon rather than a world unit.
 	var size := _drawn_size(key, tex)  # Drawn size (px).
+	var h0 := size.y  # Unscaled drawn height (px): fixes the feet line.
+	if not icon:
+		size *= _unit_mult(ci, mult)  # Unit size (TdVfxData.UNIT_SCALE_*), feet kept in place.
 	var h := size.y  # Drawn height (px).
-	var centre := o + Vector2(0.0, 0.0 if icon else h * SpriteData.CENTER_OFFSET)  # Sprite centre (px).
+	var centre := o + Vector2(0.0, 0.0 if icon else h0 * (SpriteData.CENTER_OFFSET + 0.5) - h * 0.5)  # Sprite centre (px).
 	if not icon:
 		# Drop shadow at the feet: a flattened circle via a scaled transform.
 		var sw := h * SpriteData.SHADOW_WIDTH  # Shadow width (px).
@@ -303,24 +325,26 @@ static func draw(ci: CanvasItem, key: String, o: Vector2, flash: bool, tint: Col
 ## or wider than the still (a hammer raised overhead), so it is drawn centred
 ## on `o` horizontally with its bottom edge on the still's bottom edge, under
 ## the still's drop shadow: the boss's feet never jump when the pose changes.
-## Returns false (nothing drawn) when not even the still has art.
-static func draw_pose(ci: CanvasItem, key: String, pose: int, o: Vector2, flash: bool, tint: Color = Color.WHITE) -> bool:
+## Returns false (nothing drawn) when not even the still has art. `mult`: as
+## draw() (the unit size, feet kept in place).
+static func draw_pose(ci: CanvasItem, key: String, pose: int, o: Vector2, flash: bool, tint: Color = Color.WHITE, mult: float = 0.0) -> bool:
 	var still := texture(key)  # The boss's still sprite, or null.
 	var suffix := String(BossPoseData.POSES.get(key, {}).get(pose, ""))  # This pose's file suffix ("" = none).
 	if still == null or suffix == "" or icon_cap > 0.0 or not bool(_grid[key]):
-		return draw(ci, key, o, flash, tint)
+		return draw(ci, key, o, flash, tint, mult)
 	var pose_key := key + "_" + suffix  # Pose sprite key.
 	var tex := texture(pose_key)  # Pose art, or null.
 	if tex == null or not bool(_grid[pose_key]):
-		return draw(ci, key, o, flash, tint)
-	var still_size := _drawn_size(key, still)  # The still's drawn size (px).
-	var h := still_size.y  # The still's drawn height (px).
-	var centre := o + Vector2(0.0, h * SpriteData.CENTER_OFFSET)  # The still's centre (px).
+		return draw(ci, key, o, flash, tint, mult)
+	var m := _unit_mult(ci, mult)  # Unit size multiplier.
+	var h0 := _drawn_size(key, still).y  # The still's unscaled drawn height (px): fixes the feet line.
+	var h := h0 * m  # The still's drawn height (px).
+	var centre := o + Vector2(0.0, h0 * (SpriteData.CENTER_OFFSET + 0.5) - h * 0.5)  # The still's centre (px).
 	var sw := h * SpriteData.SHADOW_WIDTH  # Shadow width (px), the still's.
 	ci.draw_set_transform(centre + Vector2(0.0, h * 0.46), 0.0, Vector2(1.0, SpriteData.SHADOW_SQUASH))
 	ci.draw_circle(Vector2.ZERO, sw * 0.5, Color(0.0, 0.0, 0.0, SpriteData.SHADOW_ALPHA))
 	ci.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
-	var size := _drawn_size(pose_key, tex)  # Pose drawn size (px).
+	var size := _drawn_size(pose_key, tex) * m  # Pose drawn size (px).
 	var bottom := centre.y + h * 0.5  # The still's bottom edge = the feet line (px).
 	var top_left := Vector2(o.x - size.x * 0.5, bottom - size.y)  # Pose rect corner (px).
 	var step := float(SpriteData.ART_SCALE)  # Grid pitch (local px).
@@ -390,8 +414,8 @@ static func draw_flat_frame(ci: CanvasItem, key: String, frames: int, frame: int
 ## crumbling). `flip` mirrors it horizontally (a wall alternates its
 ## segments). `tint` multiplies the colours. Grid art only (it needs whole
 ## texel rows); returns false and draws nothing otherwise, so the caller
-## draws its glyph.
-static func draw_rising(ci: CanvasItem, key: String, o: Vector2, rise: float, flip: bool, tint: Color = Color.WHITE) -> bool:
+## draws its glyph. `mult`: as draw() (the unit size, feet kept in place).
+static func draw_rising(ci: CanvasItem, key: String, o: Vector2, rise: float, flip: bool, tint: Color = Color.WHITE, mult: float = 0.0) -> bool:
 	var tex := texture(key)  # Art for this key, or null.
 	if tex == null or not bool(_grid[key]) or icon_cap > 0.0:
 		return false
@@ -399,8 +423,10 @@ static func draw_rising(ci: CanvasItem, key: String, o: Vector2, rise: float, fl
 	if rows <= 0.0:
 		return true
 	var size := _drawn_size(key, tex)  # Full drawn size (px).
+	var h0 := size.y  # Unscaled drawn height (px): fixes the feet line.
+	size *= _unit_mult(ci, mult)
 	var k := size.y / float(tex.get_height())  # Layout px per texel.
-	var centre := o + Vector2(0.0, size.y * SpriteData.CENTER_OFFSET)  # Full sprite centre (px).
+	var centre := o + Vector2(0.0, h0 * (SpriteData.CENTER_OFFSET + 0.5) - size.y * 0.5)  # Full sprite centre (px).
 	var feet := centre.y + size.y * 0.5  # Feet line (px).
 	var sw := size.y * SpriteData.SHADOW_WIDTH * clampf(rise, 0.0, 1.0)  # Shadow width (px), grows with the sprite.
 	ci.draw_set_transform(centre + Vector2(0.0, size.y * 0.46), 0.0, Vector2(1.0, SpriteData.SHADOW_SQUASH))

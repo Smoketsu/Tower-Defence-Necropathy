@@ -216,6 +216,7 @@ func ensure_layers(n: int) -> void:
 		var l := UnitLayer.new()  # A new body layer.
 		var i := layers.size()  # Its index.
 		l.draw_fn = func(ci: CanvasItem) -> void: behavior.draw_body(self, ci, i)
+		l.size_mult = TdVfxData.UNIT_SCALE_TOWER  # Every tower body is drawn larger (drawn only).
 		add_child(l)
 		layers.append(l)
 

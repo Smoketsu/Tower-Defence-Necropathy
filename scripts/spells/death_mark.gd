@@ -83,7 +83,7 @@ func draw(ci: CanvasItem) -> void:
 	for b: Array in _brands:
 		var e: TdEnemy = b[0]
 		if TdEnemy.valid(e, int(b[1])):
-			var top := e.position + Vector2(-s * 0.5, -SpriteBank.drawn_height(String(e.row["sprite"])) - s - 2.0)  # Above its head.
+			var top := e.position + Vector2(-s * 0.5, -SpriteBank.drawn_height(e.sprite_key()) * e.draw_scale() - s - 2.0)  # Above its head (its drawn top is art height x scale above the feet line).
 			ci.draw_texture_rect(tex, Rect2(top, Vector2(s, s)), false, Color(1, 1, 1, 0.75 + 0.25 * sin(game.time * 8.0)))
 
 

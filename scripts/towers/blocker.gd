@@ -137,7 +137,7 @@ func body_offset(t: Tower, b: BlockBody) -> Vector2:
 
 
 func draw_overlay(t: Tower) -> void:
-	var lift := SpriteBank.drawn_height(String(t.stats["sprite"])) * 0.5 + 6.0  # Bar height above the feet line.
+	var lift := SpriteBank.overlay_height(String(t.stats["sprite"]), TdVfxData.UNIT_SCALE_TOWER) * 0.5 + 6.0  # Bar height above the body origin, at the drawn size.
 	for b: BlockBody in t.block.bodies:
 		if b.alive and b.hp < b.max_hp:
 			var o := b.pos - t.position + Vector2(-10, -lift)  # Bar corner (px).

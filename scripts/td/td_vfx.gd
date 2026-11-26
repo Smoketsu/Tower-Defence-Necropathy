@@ -113,6 +113,15 @@ static func reduced() -> bool:
 	return Settings.reduced_effects()
 
 
+## Drawn size multiplier of an enemy of row `row` showing sprite `key`
+## (TdVfxData.UNIT_SCALE_ENEMY by rank, capped by UNIT_MAX_PX, never under 1).
+## Drawn only.
+static func enemy_scale(row: Dictionary, key: String) -> float:
+	var k := float(TdVfxData.UNIT_SCALE_ENEMY.get(String(row.get("rank", "")), 1.0))  # Rank scale.
+	var h := SpriteBank.drawn_height(key)  # Art height (px).
+	return clampf(TdVfxData.UNIT_MAX_PX / maxf(h, 1.0), 1.0, k) if k > 1.0 else k
+
+
 ## True when motion effects (shake, lunges, breathing) may play.
 static func motion() -> bool:
 	return not Settings.reduce_motion and not GameState.autotest_reduce_motion
@@ -306,9 +315,10 @@ func death(e: TdEnemy) -> void:
 		add(Kind.FLASH, e.position, TdVfxData.BOSS_FLASH_R, TdVfxData.BOSS_FLASH_TIME, Color(1, 1, 1, 0.9), "", float(TdVfxData.BOSS_BURSTS - 1) * TdVfxData.BOSS_BURST_GAP)
 		shake(TdVfxData.BOSS_DEATH_SHAKE)
 	else:
-		add(Kind.ANIM, e.position, d, TdVfxData.DEATH_TIME, Color.WHITE, "enemy_death")
+		var c := e.body_centre()  # Middle of the drawn body (map px).
+		add(Kind.ANIM, c, d, TdVfxData.DEATH_TIME, Color.WHITE, "enemy_death")
 		if rank != "fodder":
-			add(Kind.ANIM, e.position, d * 0.9, TdVfxData.DEATH_TIME, TdVfxData.ELITE_TINT, "volley_hit")
+			add(Kind.ANIM, c, d * 0.9, TdVfxData.DEATH_TIME, TdVfxData.ELITE_TINT, "volley_hit")
 			var r := add(Kind.RING, e.position, d * 0.6, 0.4, TdVfxData.ELITE_TINT)
 			if r != null:
 				r.size0 = 8.0
@@ -360,7 +370,7 @@ func number(e: TdEnemy, dmg: float) -> void:
 				_live.remove_at(i)
 				_numbers -= 1
 				break
-	var f := add(Kind.NUMBER, e.position + Vector2(_rng.randf_range(-8, 8), -SpriteBank.drawn_height(String(e.row["sprite"])) * 0.5 - 14.0),
+	var f := add(Kind.NUMBER, e.position + Vector2(_rng.randf_range(-8, 8), -e.overlay_height() * 0.5 - 14.0),
 			0.0, TdVfxData.NUMBER_TIME, TdVfxData.NUMBER_BIG_TINT if dmg >= TdVfxData.NUMBER_BIG else TdVfxData.NUMBER_TINT)
 	if f != null:
 		f.text = str(roundi(dmg))

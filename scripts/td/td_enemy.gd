@@ -348,15 +348,39 @@ func _process(_delta: float) -> void:
 	body.scale = Vector2(sx * (1.0 + sq), 1.0 - sq)
 
 
+## Its sprite key now (vars "sprite": a form change, w2c-dynasty's Ammit).
+func sprite_key() -> String:
+	return String(vars.get("sprite", row.get("sprite", "")))
+
+
+## Its drawn size multiplier (TdVfx.enemy_scale; drawn only).
+func draw_scale() -> float:
+	return TdVfx.enemy_scale(row, sprite_key())
+
+
+## Height (px) for overlays placed at -h * 0.5 above its origin (HP bar, icons,
+## sigils, damage numbers) at its drawn size (SpriteBank.overlay_height).
+func overlay_height() -> float:
+	return SpriteBank.overlay_height(sprite_key(), draw_scale())
+
+
+## Map px of the middle of its drawn body (it grows upward from its feet with
+## draw_scale(); death bursts centre here). Drawn only.
+func body_centre() -> Vector2:
+	var h0 := SpriteBank.drawn_height(sprite_key())  # Art height (px).
+	return position + Vector2(0.0, h0 * (SpriteData.CENTER_OFFSET + 0.5) - h0 * draw_scale() * 0.5)
+
+
 ## Draws the HP bar and the status icons on the node (not on the mirrored body).
 func _draw() -> void:
-	var h := SpriteBank.drawn_height(String(row["sprite"]))  # Sprite height (px).
+	var h := overlay_height()  # Overlay height at its drawn size (px).
 	if bool(row.get("flying", false)) and game != null and game.vfx.on:
-		var sh := HostileData.FLY_SHADOW  # Its ground shadow (px).
-		draw_texture_rect(SpriteBank.disc(), Rect2(Vector2(-sh.x * 0.5, h * 0.3 - sh.y * 0.5), sh), false, Color(0, 0, 0, HostileData.FLY_SHADOW_A))
+		var sh := HostileData.FLY_SHADOW * draw_scale()  # Its ground shadow (px), sized with the drawn body.
+		var hs := SpriteBank.drawn_height(sprite_key())  # Art height (px): the shadow stays under the feet.
+		draw_texture_rect(SpriteBank.disc(), Rect2(Vector2(-sh.x * 0.5, hs * 0.3 - sh.y * 0.5), sh), false, Color(0, 0, 0, HostileData.FLY_SHADOW_A))
 		h += HostileData.FLY_LIFT * 2.0  # HP bar and icons above the lifted body.
 	if hp < max_hp:
-		var w := clampf(radius * 2.2, 18.0, 60.0)  # Bar width (px).
+		var w := clampf(radius * 2.2, 18.0, 60.0) * draw_scale()  # Bar width (px), grows with the drawn body.
 		var top := Vector2(-w * 0.5, -h * 0.5 - 8.0)  # Bar corner (px).
 		draw_rect(Rect2(top, Vector2(w, 3.0)), Color(0.1, 0.0, 0.0, 0.8))
 		draw_rect(Rect2(top, Vector2(w * hp / max_hp, 3.0)), Color(0.85, 0.15, 0.2))
@@ -393,7 +417,8 @@ func hidden_from_towers() -> bool:
 
 
 func _draw_body(ci: CanvasItem) -> void:
-	var key := String(vars.get("sprite", row.get("sprite", "")))  # Sprite key (vars "sprite": a form change, w2c-dynasty's Ammit).
+	var key := sprite_key()  # Sprite key.
+	var k := TdVfx.enemy_scale(row, key)  # Drawn size multiplier.
 	var flash := game != null and game.time < flash_until  # Hit flash.
 	var tint: Color = row.get("tint", Color.WHITE)  # Status look (an optional row tint: the Black Tide's ghost crew).
 	tint *= vars.get("tint", Color.WHITE) as Color  # One enemy's tint (w2c-dynasty: a reborn body's gold, a hunter in the sand).
@@ -404,8 +429,8 @@ func _draw_body(ci: CanvasItem) -> void:
 	tint.a *= float(vars.get("vis_alpha", 1.0))  # A trait's fade (drawn only: Hrimgar sunk in his barrow, Act VI).
 	if row.get("rank", "") == "boss":
 		var p := 3 if pose == 0 and game != null and _striking() else pose  # A blow shows the strike pose.
-		if not SpriteBank.draw_pose(ci, key, p, Vector2.ZERO, flash, tint):
+		if not SpriteBank.draw_pose(ci, key, p, Vector2.ZERO, flash, tint, k):
 			ci.draw_rect(Rect2(-radius, -radius, radius * 2.0, radius * 2.0), Color(0.9, 0.8, 0.3))
 		return
-	if not SpriteBank.draw(ci, key, Vector2.ZERO, flash, tint):
+	if not SpriteBank.draw(ci, key, Vector2.ZERO, flash, tint, k):
 		ci.draw_rect(Rect2(-radius, -radius, radius * 2.0, radius * 2.0), Color(0.8, 0.2, 0.2))

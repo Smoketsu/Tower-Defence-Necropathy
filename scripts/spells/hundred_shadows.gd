@@ -58,7 +58,7 @@ func draw(ci: CanvasItem) -> void:
 		var left := clampf((float(c[1]) - game.time) / 0.4, 0.0, 1.0)  # Fades at the end.
 		var flick := 0.75 + 0.25 * sin(game.time * 9.0 + float(c[3]) * 2.0)  # Shadow flicker.
 		var tint: Color = lk["clone_tint"]
-		SpriteBank.draw(ci, String(row["sprite"]), c[0], false, Color(tint, tint.a * left * flick))
+		SpriteBank.draw(ci, String(row["sprite"]), c[0], false, Color(tint, tint.a * left * flick), TdVfxData.UNIT_SCALE_TOWER)
 
 
 func busy() -> bool:

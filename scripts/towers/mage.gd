@@ -75,5 +75,5 @@ func draw_overlay(t: Tower) -> void:
 	for r: Array in t.vars.get("risen", []):
 		var blk: RoadBlock = r[0]
 		if not blk.bodies.is_empty():
-			if not SpriteBank.draw(t, "summons/risen", blk.bodies[0].pos - t.position, t.game.time < blk.bodies[0].flash_until):
+			if not SpriteBank.draw(t, "summons/risen", blk.bodies[0].pos - t.position, t.game.time < blk.bodies[0].flash_until, Color.WHITE, TdVfxData.UNIT_SCALE_TOWER):
 				t.draw_rect(Rect2(blk.bodies[0].pos - t.position - Vector2(6, 14), Vector2(12, 20)), Color(0.8, 0.8, 0.7))

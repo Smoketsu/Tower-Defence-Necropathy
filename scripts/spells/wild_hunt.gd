@@ -18,5 +18,5 @@ func draw(ci: CanvasItem) -> void:
 		var back := rd.point_at(clampf(d - float(w["dir"]) * px, 0.0, rd.length))  # A ghostly trail behind it.
 		ci.draw_texture_rect(TdVfx._soft(), Rect2(p - Vector2(px, px * 0.7), Vector2(px, px * 0.7) * 2.0), false, Color(tint, 0.45))
 		ci.draw_texture_rect(TdVfx._soft(), Rect2(back - Vector2(px, px) * 0.4, Vector2(px, px) * 0.8), false, Color(tint, 0.25))
-		if not SpriteBank.draw(ci, "wild/wild_rider", p, false, Color(tint.r, tint.g, tint.b, 0.85)):
+		if not SpriteBank.draw(ci, "wild/wild_rider", p, false, Color(tint.r, tint.g, tint.b, 0.85), TdVfxData.UNIT_SCALE_TOWER):
 			SpriteBank.draw_disc(ci, p, px * 0.4, tint)

@@ -8,6 +8,28 @@
 class_name TdVfxData
 extends RefCounted
 
+## --- Unit size (SpriteBank.draw() mult; DECISIONS V19) ---------------------------
+
+## Drawn size multiplier of every tower body (all classes and evolutions, blocker
+## bodies on posts, kit units out of their spot), the temporary Risen and the
+## spells' friendly figures, on the art size (1 = 1 art px per layout px). The
+## feet stay in place, the sprite grows upward. Set on the tower's body layers
+## (Tower.ensure_layers -> UnitLayer.size_mult); explicit callers pass it.
+const UNIT_SCALE_TOWER: float = 1.5  # TUNING (not in GDD) owner: "make all the towers and enemies larger"
+## Drawn size multiplier of an enemy by its row "rank" (fodder | elite | miniboss
+## | boss), feet kept in place (TdVfx.enemy_scale). Bosses and minibosses are
+## already big art, so they grow less. A rank not listed draws at 1.
+const UNIT_SCALE_ENEMY: Dictionary = {
+	"fodder": 1.5,  # TUNING (not in GDD)
+	"elite": 1.3,  # TUNING (not in GDD) big elite art (Sentinels, Titans) would crowd the road at 1.4
+	"miniboss": 1.25,  # TUNING (not in GDD)
+	"boss": 1.15,  # TUNING (not in GDD)
+}
+## Tallest an enemy is drawn by UNIT_SCALE_ENEMY (px): its multiplier is cut so
+## the scaled height stays under this, never below its art size (1x), so a giant
+## boss does not swallow the road.
+const UNIT_MAX_PX: float = 160.0  # TUNING (not in GDD)
+
 ## --- Shots (TdProjectiles._draw) -------------------------------------------------
 
 ## Per tower class (TowerData id) shot look. Keys:

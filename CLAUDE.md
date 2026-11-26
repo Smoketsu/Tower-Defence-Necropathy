@@ -319,19 +319,25 @@ decisions `docs/DECISIONS.md` V1-V15. **A fight must read in one still frame.**
    AFTER resolving the event; lunges, nudges and shakes are drawn offsets
    (`vis_*` fields, never read by gameplay); never `game.rng` (hash or a visual
    RNG); nothing runs headless. Gate: the same-seed summaries stay byte-identical.
-4. **All visual numbers in `TdVfxData` / `TdMoodData`** (tagged, commented), new
+4. **Unit size:** towers and enemies are drawn larger than their art
+   (`TdVfxData.UNIT_SCALE_TOWER`, `UNIT_SCALE_ENEMY` by rank, `UNIT_MAX_PX`;
+   DECISIONS V19), feet kept in place: draw a unit with `SpriteBank.draw()` on
+   its body layer (or pass `mult`), place overlays with
+   `SpriteBank.overlay_height()` / `TdEnemy.overlay_height()`, never a raw
+   `drawn_height()`.
+5. **All visual numbers in `TdVfxData` / `TdMoodData`** (tagged, commented), new
    art made by `tools/vfx_art.py` or reused from Necropathy's `effects/` strips.
-5. **Cheap drawing.** Textures only (no per-frame polygons or circles), glows and
+6. **Cheap drawing.** Textures only (no per-frame polygons or circles), glows and
    trails on the additive layers, no screen-reading shaders, no full-screen
    overlays (edge bands instead), effects pooled under the cap (160 Full / 70
    Reduced).
-6. **Three settings must keep working:** Effects Full / Reduced (Reduced keeps
+7. **Three settings must keep working:** Effects Full / Reduced (Reduced keeps
    shots, slashes, impacts, deaths; drops trails, wisps, fog, glows, breathing),
    Reduce motion (no lunges, shake, recoil), Screen shake. Damage numbers stay
    off by default.
-7. **The interface stays off the fight:** banners inside the top bar, menus open
+8. **The interface stays off the fight:** banners inside the top bar, menus open
    away from neighbouring spots, nothing covers a road.
-8. **Check by eye.** Build the Web export, run `?gw_autotest=--map=<id>,--speed=1`
+9. **Check by eye.** Build the Web export, run `?gw_autotest=--map=<id>,--speed=1`
    in Playwright at 1280x720 and phone landscape, look at the screenshots, and
    compare the late-Sanctum frame time with DECISIONS V15 before publishing.
 

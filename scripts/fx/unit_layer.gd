@@ -31,6 +31,10 @@ var idle_frame: int = -1
 ## Frames in the idle strip of the sprite this layer drew last (0 = none). Set
 ## by SpriteBank.draw() during _draw(), like walk_count.
 var idle_count: int = 0
+## Size multiplier of the unit sprites SpriteBank draws on this layer (feet kept
+## in place; 1 = art size). Towers set TdVfxData.UNIT_SCALE_TOWER on their body
+## layers; other layers keep 1. Drawn only.
+var size_mult: float = 1.0
 
 
 func _draw() -> void:

@@ -202,6 +202,7 @@ func _ready() -> void:
 	var necro := _layer(-3, func(ci: CanvasItem) -> void: SpriteBank.draw(ci, TdArtData.NECROMANCER, Vector2.ZERO, false))  # The necromancer beside the gate.
 	necro.position = necromancer_pos()
 	necro.scale = Vector2(-1, 1)  # Faces the road (the art faces right).
+	necro.size_mult = TdVfxData.UNIT_SCALE_TOWER  # Drawn at the towers' size.
 	var mood := MapMood.new()  # Props, glows, fog, light pools (visual only).
 	mood.game = self
 	world.add_child(mood)

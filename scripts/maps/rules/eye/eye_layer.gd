@@ -64,7 +64,7 @@ func draw_top(ci: CanvasItem) -> void:
 	var px := float(rr["curse_px"])  # Sigil size.
 	for e: TdEnemy in g.enemies:
 		if g.time < float(e.vars.get("claimer_until", 0.0)):
-			var h := SpriteBank.drawn_height(String(e.row["sprite"]))  # Its height (px).
+			var h := e.overlay_height()  # Its overlay height at its drawn size (px).
 			var p := e.position + Vector2(0, -h * 0.5 - 14.0 - px * 0.5)  # Above its head.
 			ci.draw_texture_rect(TdVfx._soft(), Rect2(p - Vector2(px, px), Vector2(px, px) * 2.0), false, Color(rr["curse_tint"], 0.5))
 			if not SpriteBank.draw_icon_art(ci, "marginalia", Rect2(p - Vector2(px, px) * 0.5, Vector2(px, px))):
