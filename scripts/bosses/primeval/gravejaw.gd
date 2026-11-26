@@ -9,7 +9,9 @@
 ##                the swarm answers (`call`, from the entrances, `call_gap` s
 ##                apart) and a herd (`roar_herd`, `herd_gap` s apart) stampedes down the
 ##                trail nearest him (Stampedes.launch()).
-##   the Last Day — below `last_hp` of his HP, once: the meteors fall faster
+##   the Mound — `mound_dist` px down his road he stops on the Mound and
+##                stands there roaring (speed 0) until the Last Day.
+##   the Last Day — below `last_hp` of his HP, once: he leaves the Mound, the meteors fall faster
 ##                (the rule's meteor_mult x `meteor_mult`) and every
 ##                `rampage_every` s he RAMPAGES for `rampage_time` s at
 ##                `speed_mult` x through the posts, goring each (`gore`).
@@ -39,8 +41,13 @@ func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
 		var s: Array = q.pop_front()
 		game.waves.spawn_extra(String(s[1]), String(s[2]), 0.0, game.rng.randf_range(-TdRulesData.LANE_SPREAD, TdRulesData.LANE_SPREAD))
 	var rule := Stampedes.of(game)
+	if not bool(e.vars["last"]) and e.speed > 0.0 and e.follower.dist >= float(a["mound_dist"]):
+		e.speed = 0.0
+		game.banner("Gravejaw stands on the Mound and roars at the burning sky!")
+		EnemyTrait.note(game, "gravejaw_mound")
 	if not bool(e.vars["last"]) and e.hp / e.max_hp <= float(a["last_hp"]):
 		e.vars["last"] = true
+		e.speed = float(e.row["speed"])
 		e.vars["next_rampage"] = game.time + 2.0
 		if rule != null:
 			rule.set("meteor_mult", float(a["meteor_mult"]))

@@ -2,15 +2,19 @@
 ## rakes the nearest summon"): the first time a post holds it, it crouches for
 ## `windup` s (a line shows the leap), then rakes the body holding it for
 ## `rake` (x its weaken) and LEAPS `leap` px on down the road past the post,
-## unholdable for `unhold` s. Once a life. Not while frozen or staggered.
-## Args: windup (s), leap (px), rake, unhold (s). vars: "leapt" (bool), "at" (game s it springs; 0 = not crouched).
+## unholdable for `unhold` s. Once a life, and only every `one_in`-th
+## Razorclaw of the run is a leaper (the pack's hunters; a run counter, so
+## deterministic). Not while frozen or staggered.
+## Args: windup (s), leap (px), rake, unhold (s), one_in. vars: "leapt" (bool), "at" (game s it springs; 0 = not crouched).
 extends EnemyTrait
 
 const Kit := preload("res://scripts/enemies/traits/primeval/kit.gd")
 
 
-func on_spawn(e: TdEnemy, _game: TdGame) -> void:
-	e.vars["leapt"] = false
+func on_spawn(e: TdEnemy, game: TdGame) -> void:
+	var n := int(game.stats.get("razor_spawns", 0))  # Razorclaws so far this run (only every `one_in`-th one leaps).
+	game.stats["razor_spawns"] = n + 1
+	e.vars["leapt"] = n % int(e.row["args"]["one_in"]) != 0
 	e.vars["at"] = 0.0
 
 
