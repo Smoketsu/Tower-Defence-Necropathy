@@ -178,7 +178,7 @@ const KINDS: Dictionary = {
 	# Tentacled and armoured: a tentacle GRABS a body of the post ahead and squeezes it.
 	"eye_spawn": {
 		"name": "Spawn of the Deep", "sprite": "eye/eye_spawn", "rank": "elite",
-		"hp": 640.0, "speed": 34.0, "armour": 4.0, "radius": 14.0,  # TUNING (not in GDD)
+		"hp": 560.0, "speed": 34.0, "armour": 4.0, "radius": 14.0,  # TUNING (not in GDD)
 		"damage": 14.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "eye/grab",
 		"args": {"first": 2.0, "every": 9.0, "range": 90.0, "windup": 0.5, "hold": 2.4, "tick": 0.5, "damage": 9.0},  # TUNING (not in GDD) Necropathy SpawnKit grab_hold 2.4 s, a squeeze every 0.5 s
@@ -189,7 +189,7 @@ const KINDS: Dictionary = {
 		"hp": 420.0, "speed": 40.0, "armour": 2.0, "radius": 11.0,  # TUNING (not in GDD)
 		"damage": 7.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "eye/hierophant",
-		"args": {"claim_radius": 110.0, "first": 8.0, "channel": 4.0, "break": 0.25, "retry": 8.0, "into": "eye_spawn", "calls": 0},  # TUNING (not in GDD) Necropathy ascend_channel / ascend_break
+		"args": {"claim_radius": 110.0, "first": 6.0, "near": 2, "channel": 5.0, "break": 0.12, "retry": 8.0, "into": "eye_spawn", "calls": 0},  # TUNING (not in GDD) Necropathy ascend_channel / ascend_break
 	},
 	# The Spire miniboss: the Grand Hierophant (Necropathy has none here: the Hierophant raised to a miniboss); his
 	# Ascension calls Spawns of the Deep out of the sea instead of becoming one; he claims far.
@@ -198,7 +198,7 @@ const KINDS: Dictionary = {
 		"hp": 4400.0, "speed": 26.0, "armour": 5.0, "radius": 22.0,  # TUNING (not in GDD) X3
 		"damage": 22.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "eye/hierophant",
-		"args": {"claim_radius": 150.0, "first": 5.0, "channel": 4.0, "break": 0.08, "retry": 12.0, "into": "eye_spawn", "calls": 2, "call_gap": 36.0},  # TUNING (not in GDD)
+		"args": {"claim_radius": 150.0, "first": 5.0, "near": 1, "channel": 4.0, "break": 0.08, "retry": 12.0, "into": "eye_spawn", "calls": 2, "call_gap": 36.0},  # TUNING (not in GDD)
 	},
 	# One of Vhal'Neth's arms: it stands where it rose and SLAMS a telegraphed lane toward the nearest tower.
 	"eye_vhalneth_arm": {

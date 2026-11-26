@@ -1,7 +1,8 @@
 ## The Hierophant of the Eye's ASCENSION (Necropathy's HierophantKit; it also
 ## claims the dead like a Chanter: row args "claim_radius", read by the act
-## rule). `first` s after it arrives it stops and channels for `channel` s
-## inside a magenta pillar. If it survives and is not broken:
+## rule). From `first` s after it arrives, once it stands in the reach of at
+## least `near` towers that can hit it (in the towers' sight: the counterplay), it stops and channels for
+## `channel` s inside a magenta pillar. If it survives and is not broken:
 ##   calls 0 (the Hierophant) — it tears itself open and rises as a kind
 ##     `into` (a Spawn of the Deep) in its place, an extra of the current wave;
 ##     it leaves the road without a kill.
@@ -50,10 +51,20 @@ func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
 			game.waves.spawn_extra(String(a["into"]), e.follower.road.id, maxf(e.follower.dist - float(a["call_gap"]) * float(i + 1), 0.0), float(i % 2 * 2 - 1) * 8.0)
 		game.banner("The Grand Hierophant calls the Spawn of the Deep out of the sea!")
 		return
-	if game.time < float(e.vars["next"]) or game.time < e.freeze_until:
+	if game.time < float(e.vars["next"]) or game.time < e.freeze_until or not _in_sight(e, game, float(a["near"])):
 		return
 	e.vars["until"] = game.time + float(a["channel"])
 	e.vars["hp0"] = e.hp
 	Kit.stand(e)
 	game.fx.spawn("abyssal_burst", e.position + Vector2(0, -20), float(lk["pillar_d"]), float(a["channel"]), Color(lk["magenta"], 0.6))
 	Kit.ring(game, e.position, float(lk["pillar_d"]) * 0.6, float(a["channel"]), false, "", lk["magenta"])
+
+
+## True when at least `n` towers can shoot `e` where it stands (range and Tower.can_hit()).
+func _in_sight(e: TdEnemy, game: TdGame, n: float) -> bool:
+	var k := 0  # Towers in reach.
+	for t: Tower in game.towers:
+		var r := float(t.stats["range"])  # Its reach (px).
+		if t.block == null and t.position.distance_squared_to(e.position) <= r * r and t.can_hit(e):
+			k += 1
+	return float(k) >= n
