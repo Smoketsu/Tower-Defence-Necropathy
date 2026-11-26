@@ -653,6 +653,7 @@ const RULE: Dictionary = {
 	"warn_band": 0.16,  # TUNING (not in GDD) alpha of the faint band under the telegraph line
 	"path_tint": Color(0.75, 0.88, 1.0, 0.18),  # TUNING (not in GDD) the faint band showing where a burning shaft goes next
 	"path_ahead": 90.0,  # TUNING (not in GDD) px of that band ahead of the shaft
+	"seg_px": 64.0,  # TUNING (not in GDD) px of one drawn piece of a shaft (pieces off the map are skipped)
 	"cloud_tint": Color(0.1, 0.12, 0.22, 0.55),  # TUNING (not in GDD) a cloud bank's shadow on the floor
 	"shade_tint": Color(0.12, 0.1, 0.25, 0.35),  # TUNING (not in GDD) the shade a Warder / Bound Ophan casts
 	"lit_tint": Color(1.0, 0.98, 0.85, 0.7),  # TUNING (not in GDD) the white glare ring under a tower weakened by the Light

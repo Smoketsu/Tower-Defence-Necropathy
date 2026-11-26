@@ -70,6 +70,8 @@ func draw_light(ci: CanvasItem) -> void:
 	var ln := MapView.SIZE.length() * 0.5  # Half the band's length (px).
 	var g: TdGame = rule.game
 	var pulse := 0.6 + 0.4 * sin(g.time * 8.0)  # Telegraph pulse.
+	var seg := float(rr["seg_px"])  # Px of one band piece along the shaft.
+	var map := Rect2(Vector2.ZERO, MapView.SIZE)  # Pieces outside the map are skipped (no glow past its edge).
 	for sh: Dictionary in rule.get("shafts"):
 		var n: Vector2 = sh["n"]
 		var w := float(rule.call("shaft_width", sh))  # Px.
@@ -78,18 +80,27 @@ func draw_light(ci: CanvasItem) -> void:
 		var moving := float(sh["speed"]) > 0.0
 		if not burn and moving:
 			s = -float(rule.call("half_extent", n)) + w * 0.5  # Telegraph just inside the edge it enters by.
-		ci.draw_set_transform(c + n * s, n.angle(), Vector2.ONE)
-		var rect := Rect2(Vector2(-w * 0.5, -ln), Vector2(w, ln * 2.0))  # The band in its own frame.
-		if burn:
-			ci.draw_texture_rect(band if band != null else soft, rect, false, rr["shaft_tint"])
-			if line != null:
-				ci.draw_texture_rect(line, Rect2(Vector2(-3.0, -ln), Vector2(6.0, ln * 2.0)), false, rr["shaft_core"])
-			if moving and not TdVfx.reduced():
-				var ah := float(rr["path_ahead"])  # Px of the path band.
-				ci.draw_texture_rect(soft, Rect2(Vector2(w * 0.5, -ln), Vector2(ah, ln * 2.0)), false, rr["path_tint"])
-		else:
-			ci.draw_texture_rect(soft, rect, false, Color(rr["warn_tint"], float(rr["warn_band"]) * pulse))
-			var wt: Color = rr["warn_tint"]
-			for x: float in [-w * 0.5, w * 0.5]:
-				ci.draw_texture_rect(line if line != null else soft, Rect2(Vector2(x - 2.0, -ln), Vector2(4.0, ln * 2.0)), false, Color(wt, wt.a * pulse))
+		var along := Vector2(-n.y, n.x)  # The band's long axis.
+		var y := -ln
+		while y < ln:
+			var mid := c + n * s + along * (y + seg * 0.5)  # This piece's centre (map px).
+			if map.has_point(mid):
+				ci.draw_set_transform(mid, n.angle(), Vector2.ONE)
+				var rect := Rect2(Vector2(-w * 0.5, -seg * 0.5), Vector2(w, seg))  # The piece in its own frame.
+				var src := Rect2(0.0, fposmod(y, maxf(128.0 - seg, 1.0)), 32.0, minf(seg, 128.0)) if band != null else Rect2()  # Texels of the band art.
+				if burn:
+					if band != null:
+						ci.draw_texture_rect_region(band, rect, src, rr["shaft_tint"])
+					else:
+						ci.draw_texture_rect(soft, rect, false, rr["shaft_tint"])
+					if line != null:
+						ci.draw_texture_rect(line, Rect2(Vector2(-3.0, -seg * 0.5), Vector2(6.0, seg)), false, rr["shaft_core"])
+					if moving and not TdVfx.reduced():
+						ci.draw_texture_rect(soft, Rect2(Vector2(w * 0.5, -seg * 0.5), Vector2(float(rr["path_ahead"]), seg)), false, rr["path_tint"])
+				else:
+					ci.draw_texture_rect(soft, rect, false, Color(rr["warn_tint"], float(rr["warn_band"]) * pulse))
+					var wt: Color = rr["warn_tint"]
+					for x: float in [-w * 0.5, w * 0.5]:
+						ci.draw_texture_rect(line if line != null else soft, Rect2(Vector2(x - 2.0, -seg * 0.5), Vector2(4.0, seg)), false, Color(wt, wt.a * pulse))
+			y += seg
 	ci.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
