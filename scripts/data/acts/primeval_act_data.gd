@@ -28,10 +28,10 @@ const KINDS: Dictionary = {
 	# A hunter: the pack raptor. Held, it LEAPS over the post once and rakes a body (Necropathy "pack leap over the first blocker").
 	"prim_razorclaw": {
 		"name": "Razorclaw", "sprite": "primeval/razorclaw", "rank": "fodder", "souls": 8,  # TUNING (not in GDD) soldier tier (X2, Part Three)
-		"hp": 130.0, "speed": 60.0, "armour": 1.0, "radius": 11.0,  # TUNING (not in GDD)
+		"hp": 110.0, "speed": 60.0, "armour": 1.0, "radius": 11.0,  # TUNING (not in GDD)
 		"damage": 8.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "primeval/pack_leap",
-		"args": {"windup": 0.6, "leap": 80.0, "rake": 28.0, "unhold": 0.7},  # TUNING (not in GDD) one leap a life
+		"args": {"windup": 1.0, "leap": 60.0, "rake": 16.0, "unhold": 0.5},  # TUNING (not in GDD) one leap a life
 	},
 	# The pack's alpha (female, a bone-white crest): the raptors near her run faster (Act I banner_aura; "kill the alpha first").
 	"prim_razorclaw_alpha": {
@@ -47,7 +47,7 @@ const KINDS: Dictionary = {
 		"hp": 105.0, "speed": 50.0, "armour": 0.0, "radius": 10.0,  # TUNING (not in GDD)
 		"damage": 6.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "shooter",
-		"args": {"range": 200.0, "interval": 3.2, "target": "any", "damage": 18.0, "disable": 1.5, "cause": "shot", "speed": 260.0, "arc": true, "look": "spit"},  # TUNING (not in GDD)
+		"args": {"range": 200.0, "interval": 4.0, "target": "body", "damage": 12.0, "disable": 1.0, "cause": "shot", "speed": 260.0, "arc": true, "look": "spit"},  # TUNING (not in GDD)
 	},
 	# A herd beast: a huge, slow sauropod on a herd trail; it never fights, it TRAMPLES (the Stampedes).
 	"prim_longneck": {
@@ -75,11 +75,11 @@ const KINDS: Dictionary = {
 	# A titan: the great tyrant. Its ROAR stuns the towers round it; held, it SWALLOWS the body holding it.
 	"prim_tyrant": {
 		"name": "Tyrant", "sprite": "primeval/tyrant", "rank": "elite",
-		"hp": 1500.0, "speed": 30.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD)
+		"hp": 950.0, "speed": 30.0, "armour": 4.0, "radius": 24.0,  # TUNING (not in GDD)
 		"damage": 26.0, "attack_interval": 1.4,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": false, "trait": "primeval/tyrant",
 		"args": {"roar_first": 5.0, "roar_every": 13.0, "roar_windup": 1.0, "roar_radius": 130.0, "roar_stun": 1.6,
-			"swallow_every": 11.0, "swallow_windup": 0.9},  # TUNING (not in GDD) Necropathy TyrantKit: the roar and the swallow
+			"swallow_every": 14.0, "swallow_windup": 0.9},  # TUNING (not in GDD) Necropathy TyrantKit: the roar and the swallow
 	},
 	# A hunter of the tar: in a tar seep it lies SUBMERGED (no tower sees it); its first bite on a post is a lunge.
 	"prim_bog_croc": {
@@ -118,7 +118,7 @@ const KINDS: Dictionary = {
 	# Ironjaw's nest: a mound of fern and eggshells beside the road; it pours out Scuttlers and shields its mother.
 	"prim_nest": {
 		"name": "Primeval Nest", "sprite": "primeval/primeval_nest", "rank": "elite", "souls": 20,  # TUNING (not in GDD)
-		"hp": 1100.0, "speed": 0.0, "armour": 2.0, "radius": 18.0,  # TUNING (not in GDD)
+		"hp": 700.0, "speed": 0.0, "armour": 2.0, "radius": 18.0,  # TUNING (not in GDD)
 		"damage": 0.0, "attack_interval": 1.0,
 		"flying": false, "ignores_walls": true, "trait": "primeval/nest",
 		"args": {"every": 6.0, "brood": 3, "kind": "prim_scuttler"},  # TUNING (not in GDD) Necropathy: "the nest spawns Scuttlers until it is destroyed"
@@ -126,11 +126,11 @@ const KINDS: Dictionary = {
 	# Fern Basin miniboss: Ironjaw, the Nest Mother. Her nest wards her; held, her iron jaw lunges through the post.
 	"prim_ironjaw": {
 		"name": "Ironjaw, the Nest Mother", "sprite": "primeval/ironjaw", "rank": "miniboss",
-		"hp": 4800.0, "speed": 26.0, "armour": 5.0, "radius": 24.0,  # TUNING (not in GDD) X3: 4000-6000
+		"hp": 3600.0, "speed": 22.0, "armour": 5.0, "radius": 24.0,  # TUNING (not in GDD) X3: under 4000, her nest wards her
 		"damage": 26.0, "attack_interval": 1.3,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "primeval/ironjaw",
-		"args": {"nest_kind": "prim_nest", "nest_ahead": 420.0, "nest_lane": 46.0, "nest_ward": 0.55,
-			"bite_first": 3.0, "bite_every": 6.0, "windup": 0.7, "bite_damage": 90.0, "targets": 2},  # TUNING (not in GDD) Necropathy IronjawKit
+		"args": {"nest_kind": "prim_nest", "nest_ahead": 700.0, "nest_lane": 46.0, "nest_ward": 0.7,
+			"bite_first": 3.0, "bite_every": 6.0, "windup": 0.7, "bite_damage": 55.0, "targets": 1},  # TUNING (not in GDD) Necropathy IronjawKit
 	},
 	# Scarmaw's alpha-guard: a great Razorclaw with a bone crest; while she lives Scarmaw's blood is up.
 	"prim_scarmaw_guard": {
@@ -144,12 +144,12 @@ const KINDS: Dictionary = {
 	# the Ambush hides her in the ferns; Blood Up brings her alpha-guard.
 	"prim_scarmaw": {
 		"name": "Scarmaw, the Great Raptor", "sprite": "primeval/scarmaw", "rank": "boss",
-		"hp": 11000.0, "speed": 30.0, "armour": 4.0, "radius": 26.0,  # TUNING (not in GDD) above the Empyrean's Voice in reach, under it in HP
+		"hp": 7000.0, "speed": 30.0, "armour": 4.0, "radius": 26.0,  # TUNING (not in GDD) she walks and leaps: under the Voice (12000, who stands still)
 		"damage": 30.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "primeval/scarmaw",
 		"args": {"hunt_first": 4.0, "hunt_every": 15.0, "hunt": [["prim_razorclaw", 3], ["prim_razorclaw_alpha", 1]], "hunt_gap": 0.8,
-			"leap_first": 6.0, "leap_every": 10.0, "windup": 0.8, "leap": 120.0, "leap_damage": 60.0, "leap_radius": 50.0,
-			"ambush_hp": 0.6, "ambush_every": 16.0, "ambush_time": 4.0, "ambush_lunge": 90.0,
+			"leap_first": 8.0, "leap_every": 14.0, "windup": 0.9, "leap": 90.0, "leap_damage": 60.0, "leap_radius": 50.0,
+			"ambush_hp": 0.6, "ambush_every": 18.0, "ambush_time": 3.0, "ambush_lunge": 90.0,
 			"blood_hp": 0.3, "guard_kind": "prim_scarmaw_guard", "blood_haste": 1.3, "pose_time": 0.6},  # TUNING (not in GDD) Necropathy BossScarmaw / ScarmawData
 	},
 	# Great Plain miniboss: Mother Clubtail, an armoured matriarch whose tail sweep stuns the towers round her.

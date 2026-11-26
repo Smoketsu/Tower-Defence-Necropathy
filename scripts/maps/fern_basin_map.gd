@@ -55,7 +55,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(170, 240), Vector2(520, 530), Vector2(760, 360), Vector2(940, 190), Vector2(1120, 330)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 3.4,  # TUNING (not in GDD) Part Three: a step above the Empyrean
+	"wave_hp_end": 2.6,  # TUNING (not in GDD) Part Three: a step above the Empyrean
 	"rule": "",
 	"act_rule": "primeval/stampedes",
 	"build_order": "fern_basin_default",
@@ -63,11 +63,11 @@ const MAP: Dictionary = {
 	"waves": [
 		{"banner": "The Fern Floor: scuttlers stream through the ferns", "groups": [{"kind": "prim_scuttler", "count": 14, "spacing": 0.5}, {"kind": "prim_razorclaw", "count": 4, "spacing": 1.4, "delay": 3.0}]},
 		{"banner": "", "groups": [{"kind": "prim_razorclaw", "count": 8, "spacing": 1.1}, {"kind": "prim_scuttler", "count": 10, "spacing": 0.5, "delay": 2.0, "road": "ford"}]},
-		{"banner": "Frill-Spitters lob venom over your posts", "groups": [{"kind": "prim_frill_spitter", "count": 6, "spacing": 1.4}, {"kind": "prim_razorclaw", "count": 6, "spacing": 1.1, "delay": 3.0}]},
-		{"banner": "A herd on the fern trail: hurt it before it reaches your plots and it turns back", "groups": [{"kind": "prim_duckbill", "count": 4, "spacing": 1.2, "delay": 5.0, "road": "fern_trail"}, {"kind": "prim_scuttler", "count": 12, "spacing": 0.5}, {"kind": "prim_razorclaw", "count": 4, "spacing": 1.2, "delay": 3.0, "road": "ford"}]},
+		{"banner": "Frill-Spitters lob venom over your posts", "groups": [{"kind": "prim_frill_spitter", "count": 3, "spacing": 1.4}, {"kind": "prim_razorclaw", "count": 4, "spacing": 1.1, "delay": 3.0}]},
+		{"banner": "A herd on the fern trail: hurt it before it reaches your plots and it turns back", "groups": [{"kind": "prim_duckbill", "count": 4, "spacing": 1.2, "delay": 5.0, "road": "fern_trail"}, {"kind": "prim_scuttler", "count": 10, "spacing": 0.5}, {"kind": "prim_razorclaw", "count": 3, "spacing": 1.2, "delay": 3.0, "road": "ford"}]},
 		{"banner": "Razorclaws leap over the first post that holds them", "groups": [{"kind": "prim_razorclaw", "count": 10, "spacing": 0.9}, {"kind": "prim_frill_spitter", "count": 4, "spacing": 1.4, "delay": 4.0, "road": "ford"}]},
-		{"banner": "Bog Crocs sink out of sight in the tar seeps", "groups": [{"kind": "prim_bog_croc", "count": 4, "spacing": 2.0}, {"kind": "prim_scuttler", "count": 14, "spacing": 0.4, "delay": 2.0}, {"kind": "prim_frill_spitter", "count": 4, "spacing": 1.3, "delay": 5.0}]},
-		{"banner": "", "groups": [{"kind": "prim_skyraider", "count": 8, "spacing": 0.9}, {"kind": "prim_razorclaw", "count": 8, "spacing": 1.0, "delay": 2.0, "road": "ford"}, {"kind": "prim_duckbill", "count": 3, "spacing": 1.2, "delay": 6.0, "road": "fern_trail"}]},
+		{"banner": "Bog Crocs sink out of sight in the tar seeps", "groups": [{"kind": "prim_bog_croc", "count": 3, "spacing": 2.0}, {"kind": "prim_scuttler", "count": 14, "spacing": 0.4, "delay": 2.0}, {"kind": "prim_frill_spitter", "count": 4, "spacing": 1.3, "delay": 5.0}]},
+		{"banner": "", "groups": [{"kind": "prim_skyraider", "count": 4, "spacing": 1.0}, {"kind": "prim_razorclaw", "count": 6, "spacing": 1.0, "delay": 2.0, "road": "ford"}, {"kind": "prim_duckbill", "count": 3, "spacing": 1.2, "delay": 6.0, "road": "fern_trail"}]},
 		{"banner": "An alpha leads the pack: kill her first", "groups": [{"kind": "prim_razorclaw_alpha", "count": 1, "spacing": 1.0}, {"kind": "prim_razorclaw", "count": 10, "spacing": 0.8, "delay": 1.0}, {"kind": "prim_bog_croc", "count": 3, "spacing": 2.0, "delay": 5.0, "road": "ford"}]},
 		{"banner": "Longnecks: slow, huge, and they flatten what they pass", "groups": [{"kind": "prim_longneck", "count": 2, "spacing": 3.0, "delay": 5.0, "road": "fern_trail"}, {"kind": "prim_frill_spitter", "count": 8, "spacing": 1.0}, {"kind": "prim_scuttler", "count": 16, "spacing": 0.4, "delay": 3.0, "road": "ford"}]},
 		{"banner": "", "groups": [{"kind": "prim_bog_croc", "count": 5, "spacing": 1.8}, {"kind": "prim_skyraider", "count": 8, "spacing": 0.8, "delay": 3.0}, {"kind": "prim_razorclaw", "count": 8, "spacing": 0.9, "delay": 5.0, "road": "ford"}]},

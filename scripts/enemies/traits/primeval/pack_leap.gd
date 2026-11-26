@@ -37,9 +37,10 @@ func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
 ## first; unholdable `unhold` s. The leap Scarmaw shares.
 static func leap(e: TdEnemy, game: TdGame, px: float, rake: float, unhold: float) -> void:
 	var from := e.position
-	if e.holder != null:
-		TdCombat.damage_body(game, e.holder, rake * e.damage_mult(), e)
-		e.holder.held.erase(e)
+	var h := e.holder  # The body holding it (the rake may fell it: it then lets go by itself).
+	if h != null:
+		TdCombat.damage_body(game, h, rake * e.damage_mult(), e)
+		h.held.erase(e)
 		e.holder = null
 	e.follower.advance(minf(px, maxf(e.follower.road.length - e.follower.dist - 1.0, 0.0)))
 	e.position = e.follower.position()

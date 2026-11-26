@@ -16,7 +16,7 @@ const Kit := preload("res://scripts/enemies/traits/primeval/kit.gd")
 func on_spawn(e: TdEnemy, game: TdGame) -> void:
 	var a: Dictionary = e.row["args"]
 	var rd := e.follower.road
-	var n := game.waves.spawn_extra(String(a["nest_kind"]), rd.id, minf(float(a["nest_ahead"]), rd.length * 0.5), float(a["nest_lane"]))
+	var n := game.waves.spawn_extra(String(a["nest_kind"]), rd.id, minf(float(a["nest_ahead"]), rd.length * 0.6), float(a["nest_lane"]))
 	e.vars["nest"] = n
 	e.vars["nest_gen"] = n.generation
 	e.vars["next_bite"] = game.time + float(a["bite_first"])
