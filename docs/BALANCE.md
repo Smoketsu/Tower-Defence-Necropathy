@@ -377,11 +377,11 @@ byte-identical.
 | XII | assembly | 3.35 | 3850 | 12 | 20 | 20 | 11 | 2/4 | 2/4 | empire_beta_build 2, empire_mortar_walker 1, empire_aegis_bot 1, empire_juggernaut 1 | lost w1 |
 | XII | citadel | 2.65 | 4124 | 20 | 20 | 14 | 9 | 2/4 | 3/4 | empire_valkyrie_duelist 2, empire_spotter 1, empire_kill_drone 1, empire_valkyrie_prime 1 | lost w2 |
 
-Cliff check at `wave_hp_end` +0.2: the Wastes (4.1-4.2) lose one seed in four
-(a seed-1 early cascade at wave 7 in the first pass; the Kill-Drone 260 -> 200
-HP and lighter waves 4 / 6 moved it to the boss), the Assembly (3.35 -> 3.55
-before the final step) and the Citadel (2.7) win 4 / 4 with more lives lost.
-The Wastes' band is the narrowest (3.85: 3 / 4 losing lives, 4.05: one loss).
+Cliff check at `wave_hp_end` +0.2 (final data, seeds 1-4): the Wastes at 4.1
+lose one seed (s1; 15 / 20 / 20 on the others), the Assembly at 3.55 wins all
+four (15, 20, 9, 9), the Citadel at 2.85 loses two (20, 15, lost, lost): the
+finale's band is the narrowest (two columns, Valkyrie 2.0 and Deus Ex Machina's
+10-life leak stack up), like Vigrid's in Part Two.
 Raw HP sits below the Empyrean on the finale: the Line of Fire's disables
 (~10-20 % tower downtime, `hostile=` / `act_rule=` lines; 29-37 % of the shots
 that land are stopped by bodies), the two columns, the jams, Valkyrie 2.0 and
