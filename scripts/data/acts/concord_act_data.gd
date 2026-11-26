@@ -610,14 +610,14 @@ const RULE: Dictionary = {
 	"kind": "concord_saucer",  # TUNING (not in GDD) the kind a flight sends
 	"warn": 5.0,  # TUNING (not in GDD) s the HUD cue counts down before a flight (and a banner the first time)
 	# --- The look (drawing only) ---
-	"cone_tint": Color(0.7, 1.0, 0.75, 0.55),  # TUNING (not in GDD) the tractor cone while it grows (additive)
-	"cone_hot": Color(0.85, 1.0, 0.85, 0.9),  # TUNING (not in GDD) the cone once it lifts
-	"cone_w0": 10.0,  # TUNING (not in GDD) px of the cone at the start of the telegraph
-	"cone_w1": 64.0,  # TUNING (not in GDD) px of the cone when it lifts
-	"spot_tint": Color(0.6, 1.0, 0.65, 0.5),  # TUNING (not in GDD) the light disc on the ground under the target
+	"cone_tint": Color(0.7, 1.0, 0.75, 0.9),  # TUNING (not in GDD) the tractor cone while it grows (additive)
+	"cone_hot": Color(0.9, 1.0, 0.9, 1.0),  # TUNING (not in GDD) the cone once it lifts
+	"cone_w0": 14.0,  # TUNING (not in GDD) px of the cone at the start of the telegraph
+	"cone_w1": 84.0,  # TUNING (not in GDD) px of the cone when it lifts
+	"spot_tint": Color(0.6, 1.0, 0.65, 0.8),  # TUNING (not in GDD) the light disc on the ground under the target
 	"lifted_tint": Color(0.7, 1.0, 0.75, 0.45),  # TUNING (not in GDD) the column over a tower lifted out of the fight
 	"lifted_w": 46.0,  # TUNING (not in GDD) px of that column
-	"lane_tint": Color(0.55, 1.0, 0.6, 0.16),  # TUNING (not in GDD) the faint flight lane drawn over the map
+	"lane_tint": Color(0.55, 1.0, 0.6, 0.3),  # TUNING (not in GDD) the faint flight lane drawn over the map
 	"lane_dash": 26.0,  # TUNING (not in GDD) px of one dash of the lane (gaps as long)
 	"mound_px": 28.0,  # TUNING (not in GDD) px of a burrow mound drawn over a burrowed enemy
 	"cue_px": 30.0,  # TUNING (not in GDD) HUD cue icon size (px)
