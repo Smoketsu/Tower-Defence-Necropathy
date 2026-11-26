@@ -178,6 +178,7 @@ const HEIGHTS: Dictionary = {
 	"eye/dream_pillar": 88.0,  # TUNING (not in GDD) structure tier: a cyclopean obelisk (~36 px wide for its 18 px radius)
 	"eye/vhalneth_arm": 124.0,  # TUNING (not in GDD) boss part: an arm rearing out of the surf
 	"bosses/vhalneth": 150.0,  # TUNING (not in GDD) boss tier: her face, eyes open (Stirring)
+	"bosses/vhalneth_strike": 142.0,  # TUNING (not in GDD) boss attack pose (strike: her head lunging forward and her tentacle hair lashing forward in a crushing whip; BossPoseData 3): body as tall as the still; the pose sets the height
 	"bosses/vhalneth_dreaming": 150.0,  # TUNING (not in GDD) her face under the sea, eyes shut (Dreaming)
 	"bosses/vhalneth_waking": 156.0,  # TUNING (not in GDD) her face risen, roaring (Waking)
 	"summons/spawn_of_the_deep": 60.0,  # TUNING (not in GDD) a heavy summon (Abomination 88, Corpse Catapult 56)
@@ -332,6 +333,7 @@ const HEIGHTS: Dictionary = {
 	"shogunate/kappa": 34.0,  # TUNING (not in GDD) fodder: a squat river imp, the water dish on top
 	"shogunate/shuten_doji": 112.0,  # TUNING (not in GDD) miniboss tier (104+, Polyphemus 112): the Oni King, the barrel on his shoulder
 	"bosses/kage": 64.0,  # TUNING (not in GDD) boss tier for a slender figure (a ninja grandmaster, not a giant): body ~58, the hair and scarf above; her clones wear it
+	"bosses/kage_strike": 55.0,  # TUNING (not in GDD) boss attack pose (strike: mid-slash lunging forward with a blade thrust out in a quick cut; BossPoseData 3): body as tall as the still; the pose sets the height
 	"player/grave_kunoichi": 56.0,  # TUNING (not in GDD) character tier: body ~50, the hair knot above
 	"player/grave_kunoichi_hyper": 58.0,  # TUNING (not in GDD) skin art: her body, the gold crest above
 	"player/grave_kunoichi_untouchable": 56.0,  # TUNING (not in GDD) skin art: her body
@@ -371,6 +373,7 @@ const HEIGHTS: Dictionary = {
 	"inferno/pit_cultist": 46.0,  # TUNING (not in GDD) support tier: a robed man, the horned mask above
 	"inferno/gatekeeper": 108.0,  # TUNING (not in GDD) miniboss tier (104+, the General 100): a chained giant
 	"bosses/moloch": 124.0,  # TUNING (not in GDD) boss tier, colossal: the bull horns and the furnace belly (the Shogun 116)
+	"bosses/moloch_strike": 123.0,  # TUNING (not in GDD) boss attack pose (strike: slamming a massive fist or weapon down; BossPoseData 3): body as tall as the still; the pose sets the height
 	"player/furnace_priest": 56.0,  # TUNING (not in GDD) character tier: body ~50, the horned mitre above
 	"player/furnace_priest_hyper": 56.0,  # TUNING (not in GDD) skin art: his body, gilded
 	"player/furnace_priest_untouchable": 56.0,  # TUNING (not in GDD) skin art: his body, the white phantom
@@ -380,6 +383,7 @@ const HEIGHTS: Dictionary = {
 	"inferno/twin_naamah": 62.0,  # TUNING (not in GDD) miniboss tier, female: body ~54, the tall horns and the crown above, the wings wide
 	"inferno/twin_agrat": 62.0,  # TUNING (not in GDD) miniboss tier, female: her sister's size
 	"bosses/lilith": 112.0,  # TUNING (not in GDD) boss tier: a queen, her horns, crown and great wings above
+	"bosses/lilith_strike": 104.0,  # TUNING (not in GDD) boss attack pose (strike: lashing one hand forward in a whip-like clawed swipe; BossPoseData 3): body as tall as the still; the pose sets the height
 	"bosses/lilith_demon": 124.0,  # TUNING (not in GDD) her true demon form, bigger (the last phase)
 	"player/succubus_queen": 56.0,  # TUNING (not in GDD) character tier: body ~50, the horns and tiara above
 	"player/succubus_queen_hyper": 56.0,  # TUNING (not in GDD) skin art: her body, gold and white
@@ -391,6 +395,7 @@ const HEIGHTS: Dictionary = {
 	"inferno/fallen_angel": 60.0,  # TUNING (not in GDD) elite tier, female (figure redesign at the approved act6_units level, as the succubus): body ~52, the halo and the burning spear above
 	"inferno/seraph_general": 92.0,  # TUNING (not in GDD) miniboss tier: a tall winged warlord, the four wings and the halo crown above
 	"bosses/morning_star": 116.0,  # TUNING (not in GDD) boss tier: the Angel, six wings fanned and the halo above
+	"bosses/morning_star_strike": 96.0,  # TUNING (not in GDD) boss attack pose (strike: sweeping his blade forward in a wide burning slash; BossPoseData 3): body as tall as the still; the pose sets the height
 	"bosses/morning_star_beast": 140.0,  # TUNING (not in GDD) boss tier, bigger: the throne-skull Beast, horns and torn wings
 	"player/fallen_saint": 56.0,  # TUNING (not in GDD) character tier: body ~48, the halo and the staff above
 	"player/fallen_saint_hyper": 56.0,  # TUNING (not in GDD) skin art: her body, gold and white
@@ -425,6 +430,7 @@ const HEIGHTS: Dictionary = {
 	"court/ghoul": 38.0,  # TUNING (not in GDD) pack fodder: a gaunt grey corpse-eater, hunched and walking, big head carried forward (raised 30 -> 38 so its face reads)
 	"court/old_greymane": 96.0,  # TUNING (not in GDD) miniboss tier: a huge grey-maned wolf-man (the werewolf beast 84), the scarred mane above
 	"bosses/vargr": 120.0,  # TUNING (not in GDD) boss tier: the black wolf king, red cloak and iron crown (Moloch 124)
+	"bosses/vargr_strike": 100.0,  # TUNING (not in GDD) boss attack pose (strike: mid-lunge; BossPoseData 3): body as tall as the still; the pose sets the height
 	"player/moon_huntress": 56.0,  # TUNING (not in GDD) character tier, female (figure redesign): body ~50, the wolf ears above
 	"player/moon_huntress_hyper": 56.0,  # TUNING (not in GDD) skin art: her body, gilded
 	"player/moon_huntress_untouchable": 56.0,  # TUNING (not in GDD) skin art: her body, the white phantom
@@ -434,6 +440,7 @@ const HEIGHTS: Dictionary = {
 	"court/bloated_thrall": 60.0,  # TUNING (not in GDD) heavy tier: a vast pale belly on short legs
 	"court/bog_mother": 110.0,  # TUNING (not in GDD) miniboss tier (the Gatekeeper 108), female: a vast drowned witch, the root crown above; she glides (wades)
 	"bosses/isolde": 104.0,  # TUNING (not in GDD) boss tier, female (figure redesign): body ~86, the tall hat with its crescent above (Lilith 112); her sisters wear it tinted
+	"bosses/isolde_strike": 94.0,  # TUNING (not in GDD) boss attack pose (strike: thrusting one hand forward and casting a hex; BossPoseData 3): body as tall as the still; the pose sets the height
 	"structures/hex_stone": 44.0,  # TUNING (not in GDD) a tall black standing stone, red runes
 	"structures/hex_stone_broken": 28.0,  # TUNING (not in GDD) the same stone snapped: the dead ground's stump
 	"player/hedge_witch": 56.0,  # TUNING (not in GDD) character tier, female (figure redesign): body ~48, the floppy hat above
@@ -444,6 +451,7 @@ const HEIGHTS: Dictionary = {
 	"court/chiropteran": 50.0,  # TUNING (not in GDD) elite tier, male bat-man: body ~44, the wings spread wide and the ears above (it glides)
 	"court/chiropteran_king": 96.0,  # TUNING (not in GDD) miniboss tier (the Fallen Seraph General 92): a giant bat-man, the bone crown and the wings above
 	"bosses/carmilla": 64.0,  # TUNING (not in GDD) boss tier, female (the figure style at its limit, the Countess's 56 and up): body ~58, the crown above; she glides, the bust and hip box sway in the glide strip
+	"bosses/carmilla_strike": 57.0,  # TUNING (not in GDD) boss attack pose (strike: one clawed hand raked forward in a vicious swipe; BossPoseData 3): body as tall as the still; the pose sets the height
 	"bosses/elder": 120.0,  # TUNING (not in GDD) boss tier, bigger: the first vampire, hunched, the great bat wings above
 	"bosses/elder_vampire": 120.0,  # TUNING (not in GDD) boss tier, the Elder's first form: a tall regal vampire lord in a long black coat, no wings (the bat-winged "bosses/elder" is his second form)
 	"structures/blood_fountain": 40.0,  # TUNING (not in GDD) the Banquet's blood fountain: a stone basin brimming red
@@ -459,6 +467,7 @@ const HEIGHTS: Dictionary = {
 	"city/armoured_limo": 36.0,  # TUNING (not in GDD) the miniboss's car, drawn from above-front facing right: about 80 wide x 36 high (body ~72 x 30); drive strip (the cart rock)
 	"city/big_sal": 52.0,  # TUNING (not in GDD) miniboss tier on foot, male: a huge enforcer in a pinstripe suit, the sledgehammer above his shoulder
 	"bosses/don_marrow": 72.0,  # TUNING (not in GDD) boss tier, male: the Kingpin in a white suit, a gold cane and a gold minigun (body radius 18, drawn larger)
+	"bosses/don_marrow_strike": 67.0,  # TUNING (not in GDD) boss attack pose (strike: firing his big rotary gun forward in a blazing burst with a muzzle flash; BossPoseData 3): body as tall as the still; the pose sets the height
 	"structures/bounty_board": 44.0,  # TUNING (not in GDD) a billboard of wanted posters on two legs (no letters)
 	"projectiles/spectral_hearse": 30.0,  # TUNING (not in GDD) Hearse Run's spectral hearse from above-front, facing right (~56 wide); drawn faded by code
 	"player/undertaker": 56.0,  # TUNING (not in GDD) character tier, male: the top hat above
@@ -470,6 +479,7 @@ const HEIGHTS: Dictionary = {
 	"city/attack_helicopter": 44.0,  # TUNING (not in GDD) a flying vehicle facing right (40 art px and 2 empty rows above and below for the hover bob): about 84 long with the tail boom, the rotor disc on top; hover strip
 	"city/mammoth": 60.0,  # TUNING (not in GDD) miniboss tier: the super-heavy tank, two turrets, about 108 long (the tank 78); drive strip
 	"bosses/harrow": 72.0,  # TUNING (not in GDD) boss tier, male: General Harrow in olive power armour, the hammer on his shoulder (drawn larger than his 30 px body)
+	"bosses/harrow_strike": 90.0,  # TUNING (not in GDD) boss attack pose (strike: bringing his huge hammer down in a crushing overhead blow; BossPoseData 3): body as tall as the still; the pose sets the height
 	"bosses/harrow_command": 60.0,  # TUNING (not in GDD) boss tier: his six-wheeled command car, the General in the roof hatch (phase 1)
 	"player/fallen_sergeant": 56.0,  # TUNING (not in GDD) character tier, female (figure redesign, clothed): olive field jacket and helmet, a bone mine in hand
 	"player/fallen_sergeant_hyper": 56.0,  # TUNING (not in GDD) skin art: her body, white and gold
@@ -484,6 +494,7 @@ const HEIGHTS: Dictionary = {
 	"city/nightjar": 48.0,  # TUNING (not in GDD) elite Super, male vigilante: the cowl and the spread cloak
 	"city/conscript": 32.0,  # TUNING (not in GDD) army fodder (the rifleman 40, the thug 30): the bayonet above
 	"bosses/paragon": 64.0,  # TUNING (not in GDD) boss tier, male: the strongest man alive, the cape behind
+	"bosses/paragon_strike": 56.0,  # TUNING (not in GDD) boss attack pose (strike: throwing a powerful punch forward; BossPoseData 3): body as tall as the still; the pose sets the height
 	"player/revenant_heroine": 56.0,  # TUNING (not in GDD) character tier, female (figure redesign): body ~50, the hair above
 	"player/revenant_heroine_hyper": 56.0,  # TUNING (not in GDD) skin art: her body, gold and white
 	"player/revenant_heroine_untouchable": 56.0,  # TUNING (not in GDD) skin art: her body, the white phantom
@@ -513,9 +524,13 @@ const HEIGHTS: Dictionary = {
 	"norse/einherjar_champion": 60.0,  # TUNING (not in GDD) Hall of the Slain art, on-screen height in px
 	"norse/fire_giant": 80.0,  # TUNING (not in GDD) Hall of the Slain art, on-screen height in px
 	"norse/hrimgar": 88.0,  # TUNING (not in GDD) Hall of the Slain art, on-screen height in px
+	"norse/hrimgar_strike": 79.0,  # TUNING (not in GDD) boss attack pose (strike: swinging his greatsword in a heavy diagonal chop; BossPoseData 3): body as tall as the still; the pose sets the height
 	"norse/sigrun": 80.0,  # TUNING (not in GDD) Hall of the Slain art, on-screen height in px
+	"norse/sigrun_strike": 57.0,  # TUNING (not in GDD) boss attack pose (strike: thrusting her spear forward in a lunge; BossPoseData 3): body as tall as the still; the pose sets the height
 	"norse/odin": 72.0,  # TUNING (not in GDD) Hall of the Slain art, on-screen height in px
+	"norse/odin_strike": 56.0,  # TUNING (not in GDD) boss attack pose (strike: thrusting his spear Gungnir forward in a lunge; BossPoseData 3): body as tall as the still; the pose sets the height
 	"norse/fenrir": 80.0,  # TUNING (not in GDD) Hall of the Slain art, on-screen height in px
+	"norse/fenrir_strike": 85.0,  # TUNING (not in GDD) boss attack pose (strike: lunging forward with jaws wide open to bite and one front paw raked forward; BossPoseData 3): body as tall as the still; the pose sets the height
 	"norse/raven": 18.0,  # TUNING (not in GDD) Hall of the Slain art, on-screen height in px
 	"norse/boss_barrow": 56.0,  # TUNING (not in GDD) Hall of the Slain art, on-screen height in px
 	"norse/boss_barrow_broken": 56.0,  # TUNING (not in GDD) Hall of the Slain art, on-screen height in px
@@ -548,6 +563,7 @@ const HEIGHTS: Dictionary = {
 	# --- Act IX: the Proving Moon (assets/sprites/concord/, bosses/, player/) ---
 	"concord/warbeast": 44.0,  # TUNING (not in GDD) miniboss tier, a creature: the Vrask's armoured war-hound, long and low (about 92 wide); walk strip
 	"bosses/vrask_tal": 84.0,  # TUNING (not in GDD) boss tier, male: the Hunt-Lord, horned crest, shoulder caster, skull belt and glaive (about 106 wide); walk strip
+	"bosses/vrask_tal_strike": 73.0,  # TUNING (not in GDD) boss attack pose (strike: thrusting a long weapon forward in a lunging stab; BossPoseData 3): body as tall as the still; the pose sets the height
 	"player/blooded": 56.0,  # TUNING (not in GDD) character tier, female (figure redesign, clothed): a brown hunting coat, the red braid, the shoulder cannon
 	"player/blooded_hyper": 56.0,  # TUNING (not in GDD) skin art: her body, white and gold
 	"player/blooded_untouchable": 56.0,  # TUNING (not in GDD) skin art: her body, the white phantom
@@ -562,6 +578,7 @@ const HEIGHTS: Dictionary = {
 	"structures/reactor_vent_dead": 22.0,  # TUNING (not in GDD) the same cracked and dark
 	"structures/reap_emitter": 46.0,  # TUNING (not in GDD) a gunmetal pylon with a plasma lens (tools/ark_tiles.py)
 	"bosses/harvester": 96.0,  # TUNING (not in GDD) boss tier, sex unmarked: the oldest grey, white robes, its great head (its throne of rings is code)
+	"bosses/harvester_strike": 79.0,  # TUNING (not in GDD) boss attack pose (strike: one long thin arm sweeping forward in a wide reaping slash; BossPoseData 3): body as tall as the still; the pose sets the height
 	"bosses/harvester_true": 112.0,  # TUNING (not in GDD) its true form, a vast being of light and rings (the Gardener)
 	"player/starborn": 56.0,  # TUNING (not in GDD) character tier, female (figure redesign, suit covers chest and hips): a grey deserter in hull white and gunmetal
 	"player/starborn_hyper": 56.0,  # TUNING (not in GDD) skin art: her suit gilded
@@ -595,8 +612,11 @@ const HEIGHTS: Dictionary = {
 	"corsair/old_hollow_eye": 76.0,  # TUNING (not in GDD) OLD HOLLOW-EYE, creature (a hover still: 2 empty rows above and below the art for the bob; hover strip)
 	"corsair/ghost_bosun": 48.0,  # TUNING (not in GDD) THE GHOST BOSUN, male; walk strip
 	"corsair/crow": 88.0,  # TUNING (not in GDD) CAPTAIN EZEKIEL CROW, male; walk strip
+	"corsair/crow_strike": 86.0,  # TUNING (not in GDD) boss attack pose (strike: swinging his cutlass in a wide slash across his body; BossPoseData 3): body as tall as the still; the pose sets the height
 	"corsair/marrec": 92.0,  # TUNING (not in GDD) ADMIRAL ISABEAU MARREC, female; walk strip; bust rig + idle strip
+	"corsair/marrec_strike": 94.0,  # TUNING (not in GDD) boss attack pose (strike: bringing his sabre down in a hard overhead chop; BossPoseData 3): body as tall as the still; the pose sets the height
 	"corsair/vandermere": 100.0,  # TUNING (not in GDD) CAPTAIN CORNELIUS VANDERMERE, male (a hover still: 2 empty rows above and below the art for the bob; hover strip)
+	"corsair/vandermere_strike": 87.0,  # TUNING (not in GDD) boss attack pose (strike: a ghostly arm and spectral cutlass lunging forward out of the helm in a stab; BossPoseData 3): body as tall as the still; the pose sets the height
 	"player/marooned_quartermaster": 56.0,  # TUNING (not in GDD) THE MAROONED QUARTERMASTER, male; walk strip
 	"player/corsair_queen": 56.0,  # TUNING (not in GDD) THE CORSAIR QUEEN, female; walk strip; bust rig + idle strip
 	"player/ghost_helmsman": 56.0,  # TUNING (not in GDD) THE GHOST HELMSMAN, male; walk strip
@@ -630,6 +650,7 @@ const HEIGHTS: Dictionary = {
 	"primeval/clubtail": 44.0,  # TUNING (not in GDD) 48 x 44
 	"primeval/mother_clubtail": 60.0,  # TUNING (not in GDD) 68 x 60
 	"primeval/ironbrow": 80.0,  # TUNING (not in GDD) 92 x 80
+	"primeval/ironbrow_strike": 75.0,  # TUNING (not in GDD) boss attack pose (strike: head lowered and horns thrust forward in a ramming gore; BossPoseData 3): body as tall as the still; the pose sets the height
 	"primeval/ironbrow_broken": 80.0,  # TUNING (not in GDD) his Break pose, 96 x 80
 	"primeval/stormwing": 44.0,  # TUNING (not in GDD) 52 x 44
 	"primeval/stormwing_landed": 44.0,  # TUNING (not in GDD) landed still, 56 x 44
@@ -758,9 +779,13 @@ const FLAT_SIZES: Dictionary = {
 	"dynasty/lion_warden": 80.0,  # TUNING (not in GDD) Necropolis / Temple miniboss, male: a stone lion-headed warrior with a slab shield (about 60 wide)
 	"dynasty/devourers_whelp": 36.0,  # TUNING (not in GDD) Hall of Two Truths miniboss, a creature: crocodile head, lion body, hippo rump (about 60 wide)
 	"dynasty/anubis": 90.0,  # TUNING (not in GDD) boss, male god: jackal head, crook staff (about 56 wide)
+	"dynasty/anubis_strike": 89.0,  # TUNING (not in GDD) boss attack pose (strike: swinging his weapon in a hard downward strike; BossPoseData 3): body as tall as the still; the pose sets the height
 	"dynasty/sekhmet": 92.0,  # TUNING (not in GDD) boss, female goddess (figure redesign): lioness head and sun disc, red gown; bust rig, idle strip (about 52 wide)
+	"dynasty/sekhmet_strike": 73.0,  # TUNING (not in GDD) boss attack pose (strike: slashing forward with a clawed hand or blade; BossPoseData 3): body as tall as the still; the pose sets the height
 	"dynasty/osiris": 96.0,  # TUNING (not in GDD) boss, male god seated on his throne (still only, no strip) (about 46 wide)
+	"dynasty/osiris_strike": 84.0,  # TUNING (not in GDD) boss attack pose (strike: staying seated on his throne but leaning forward; BossPoseData 3): body as tall as the still; the pose sets the height
 	"dynasty/ammit": 44.0,  # TUNING (not in GDD) boss, a monster: crocodile jaws, lion front, hippo rump (about 76 wide)
+	"dynasty/ammit_strike": 52.0,  # TUNING (not in GDD) boss attack pose (strike: lunging forward with jaws wide open in a snapping bite; BossPoseData 3): body as tall as the still; the pose sets the height
 	# --- Act XIV slot: the Age of Titans (assets/sprites/primeval/; beasts: no bust rigs, no idle strips) ---
 	"primeval/scuttler": 12.0,  # TUNING (not in GDD) fodder, no sex: a tiny fast lizard (about 20 wide); walk strip
 	"primeval/razorclaw": 34.0,  # TUNING (not in GDD) soldier, male: a feathered raptor (about 40 wide); walk strip
@@ -820,11 +845,13 @@ const FLAT_SIZES: Dictionary = {
 	"host/seraiel_raised": 96.0,  # TUNING (not in GDD) Seraiel with the sword raised overhead (pose 1 of BossPoseData)
 	"host/dominion_of_the_spheres": 70.0,  # TUNING (not in GDD) Wheel of Thrones miniboss, male: a larger Dominion among crystal rings; walk strip (about 44 wide)
 	"host/throne": 96.0,  # TUNING (not in GDD) Wheel of Thrones boss: a colossal wheel within a wheel of silver and blue fire, rims covered in eyes; roll strip, pose 1 (the wheels open) (about 96 wide)
+	"host/throne_strike": 93.0,  # TUNING (not in GDD) boss attack pose (strike: its wheels spun hard and thrusting forward in a crushing lunge; BossPoseData 3): body as tall as the still; the pose sets the height
 	"host/throne_open": 96.0,  # TUNING (not in GDD) the Throne with its wheels parted (pose 1 of BossPoseData)
 	"host/throne_core": 32.0,  # TUNING (not in GDD) the Throne's burning eye at its centre (drawn over it while the Core is open)
 	# --- Act XIII (temporary number): the Empyrean (phase 2; art pending, HostGlyphs / the boss's glyph / the tint until then) ---
 	"host/herald_of_the_seventh_trumpet": 70.0,  # TUNING (not in GDD) Empyrean miniboss, male: a larger Herald with a great trumpet; walk strip (about 44 wide)
 	"host/voice": 106.0,  # TUNING (not in GDD) Empyrean boss (a sexless seraph): six wings of light (two over the face, two over the feet, two spread) in a white rose; glide strip (about 80 wide)
+	"host/voice_strike": 94.0,  # TUNING (not in GDD) boss attack pose (strike: wings snapped wide and flung forward in a blasting burst; BossPoseData 3): body as tall as the still; the pose sets the height
 	"host/voice_unveiled": 104.0,  # TUNING (not in GDD) the Voice with its face wings lowered (Be Not Afraid): the face pure light, never features (about 80 wide)
 	"player/the_unveiled": 56.0,  # TUNING (not in GDD) female (figure style): violet dress, a lowered violet veil, small grey wings folded, a staff of a dead star (about 38 wide); walk and idle strips
 	"player/blind_saint": 56.0,  # TUNING (not in GDD) female (figure style): violet gown, a violet blindfold, a staff ringed with a bone wheel of closed eyes (about 36 wide); walk and idle strips
@@ -854,12 +881,14 @@ const FLAT_SIZES: Dictionary = {
 	"wild/huntsman": 68.0,  # TUNING (not in GDD) Greenwood miniboss, male: the Huntsman of the Wild Hunt on a great antlered mount, a horn at his belt (about 80 wide); walk strip (the Rider's art until then)
 	"wild/antler_thicket": 28.0,  # TUNING (not in GDD) one thorn of the Stag King's Antler Crown: a knot of antler-shaped thorns (about 28 wide); no strip
 	"wild/stag_king": 88.0,  # TUNING (not in GDD) Greenwood boss, male: stag-headed, antlered lord of the forest, a hunting horn, a mantle of leaves (about 72 wide); walk strip, pose 1 (the horn raised)
+	"wild/stag_king_strike": 83.0,  # TUNING (not in GDD) boss attack pose (strike: lowering his antlers and thrusting forward in a goring charge; BossPoseData 3): body as tall as the still; the pose sets the height
 	"player/horned_herald": 56.0,  # TUNING (not in GDD) male: violet hunting robes, a bone-antler hood, a bone hunting horn, an antler-tined soul staff (about 42 wide); walk strip
 	"obstacles/wild_grove_tree": 48.0,  # TUNING (not in GDD) a sacred grove's standing tree (40 x 48; drawn by GreenwoodDirector, never an obstacle)
 	# --- Act XV (temporary number): the Fae Court (phase 2; art pending, WildGlyphs / the boss's code shape until then) ---
 	"wild/winter_prince": 56.0,  # TUNING (not in GDD) Fae Court miniboss, male: frost armour, a cloak of snow, an icicle sword (about 40 wide); walk strip
 	"wild/masked_courtier": 52.0,  # TUNING (not in GDD) a fae courtier, female (figure style): a gown of roses, a thorn rapier (about 32 wide); walk strip (drawn as wild/summer_queen_mask while masked)
 	"wild/summer_queen": 80.0,  # TUNING (not in GDD) Fae Court boss, female (figure style): butterfly wings, a gown of roses, a crown of blossoms (about 64 wide); glide, idle strips, pose 1 (the bargain held out)
+	"wild/summer_queen_strike": 76.0,  # TUNING (not in GDD) boss attack pose (strike: sweeping one arm forward in a blooming burst of petals; BossPoseData 3): body as tall as the still; the pose sets the height
 	"wild/summer_queen_mask": 80.0,  # TUNING (not in GDD) her masked face the Masque's courtiers wear (same size as her)
 	"player/changeling_princess": 56.0,  # TUNING (not in GDD) female (figure style): violet gown with gossamer-leaf layers, a bone mask on a stick, a moth wand (about 38 wide); walk, idle strips
 	# --- Act XV (temporary number): the World-Tree (phase 2; art pending, WildGlyphs / the boss's and the class's code shapes until then) ---
