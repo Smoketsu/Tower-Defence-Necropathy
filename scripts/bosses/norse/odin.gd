@@ -26,7 +26,7 @@
 ##                   path).
 ## Args in his row. vars: "phase" ("wolf" | "allfather" | "ragnarok"), "wolf"
 ## ([TdEnemy, generation]), "next_spear", "next_raven", "next_fire", "fire_i",
-## "doom_at", "untargetable", "pose_until".
+## "doom_at", "untargetable", "vis_alpha" (drawn fade while out of reach), "pose_until".
 extends EnemyTrait
 
 
@@ -37,6 +37,7 @@ func on_spawn(e: TdEnemy, game: TdGame) -> void:
 	e.vars["wolf"] = [w, w.generation]
 	e.vars["phase"] = "wolf"
 	e.vars["untargetable"] = true
+	e.vars["vis_alpha"] = 0.55  # Drawn as a watching shade while out of reach (visual only).
 	e.vars["next_spear"] = 0.0
 	e.vars["next_raven"] = 0.0
 	e.vars["next_fire"] = 0.0
@@ -73,6 +74,8 @@ func step(e: TdEnemy, game: TdGame, _dt: float) -> void:
 			if wolf == null or wolf.hp < wolf.max_hp * float(a["chain_hp"]):
 				e.vars["phase"] = "allfather"
 				e.vars.erase("untargetable")
+				e.vars.erase("vis_alpha")
+				e.body.queue_redraw()
 				e.speed = float(e.row["speed"])
 				e.vars["next_spear"] = game.time + float(a["spear_first"])
 				e.vars["next_raven"] = game.time + float(a["raven_every"]) * 0.5

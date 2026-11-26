@@ -462,3 +462,28 @@ Kirin 2500) and Kage 6000 / speed 26. The Road to the Sun was re-laid after the 
 its last two waves (a late lump, not an early cliff); the minibosses are the
 swing factor on Kurogane and the Road (5 lives when one walks through).
 Act I summaries: byte-identical to the baseline (seeds 1-2, three maps).
+
+## Wave 2c: Act VI, the Hall of the Slain (w2c-norse; DECISIONS T6)
+
+Necromancer, default orders, seeds 1-4 (lives kept of 20; 0 script errors,
+`stuck_enemies=0`; Income = `MapLoader.income()`):
+
+| Map | wave_hp_end | Income | s1 | s2 | s3 | s4 | Runs losing lives | Miniboss killed | Weak s1 / s2 |
+|---|---|---|---|---|---|---|---|---|---|
+| barrow_fields | 2.5 | 3876 | 17 | 11 | 11 | 14 | 4/4 | 2/4 (Wight) | lost w5 / w5 |
+| valgard | 1.95 | 4056 | 10 | 20 | 13 | 20 | 2/4 | 2/4 (Champion) | lost w5 / w5 |
+| vigrid | 2.9 | 4081 | 20 | 15 | 20 | 20 | 1/4 | 3/4 (Fire-Giant) | lost w5 / w5 |
+
+The `wave_hp_end` values are below Act V's on purpose: the Norse rows are
+tougher per unit (raider 84 HP vs ashigaru 72, shield-maiden 220 with a 0.7
+front shield, einherjar that die twice) and the act stacks tower debuffs (the
+Long Winter's cold to x0.7 away from the fires, seer blinds, frost-giant
+boulders, valkyrie dives, fire-giant stomps), so Part Two's step up is in what
+the towers face, not in the ramp. Vigrid has a cliff: 3.15 loses all four
+seeds (the Fire-Giant of the South leaks, then the giants), 2.9 wins all four.
+`norse_kit` (Draugr Thanes on every post, the Barrow King, Cold Iron, Valkyrie
+Spear and Gungnir) wins the Barrow Fields (18 lives, Barrow King evolved) and
+loses Valgard (Sigrun leaks at the end) and Vigrid (wave 17), like
+`tide_kit` / `court_kit` on their harder maps. Act I's six baseline summaries
+are byte-identical on this branch; the same seed twice is identical on all
+three maps.
