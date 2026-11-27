@@ -128,6 +128,8 @@ obstacles and act objects; posts on their road, apart, not at an entrance or in 
 `tools/spot_audit.tscn -- --autotest` prints every bad spot (`--fix` proposes the nearest
 good place, `--json=` + `tools/spot_overlay.py` draws overlays); never reorder plots.
 
+**Road style** — a themed road is `assets/sprites/td/roads/<id>_fill.png` (48x48 seamless) + `<id>_edge.png` (48x8 kerb) and a row in `TdRoadData.STYLES` (optional wear colours); an act uses it through the `"road"` key of its `ActData` row, one map through `TdRoadData.MAP_STYLES` (not in the map file). Made by `tools/gw_road_art.py` (prompts / palette recipes in `tools/gw_road_styles.py`, DECISIONS R1-R3). `MapRegistry` is the one reader (map key `"road"`, "" = flagstones); `MapView` draws it.
+
 **Map rule** — `scripts/maps/rules/<id>.gd` `extends MapRule` (MAP "rule": id):
 `setup()`, `step(dt: float)`, `tower_damage_mult(t: Tower) -> float` (read by
 `Tower.recompute()`); numbers in a new data file. Add nodes under `game.world`.
@@ -153,7 +155,7 @@ build menu pages (`TdUiData.MENU_PAGE`), the Codex scrolls and the mastery badge
 wrap, so ~30 towers fit; masteries need nothing (any class at Lv 5). A tower
 that cannot hit flyers says `"ground_only": true`. Spells use the same `unlock` key.
 
-**Art** (regenerated with the image API for roads and candles, DECISIONS V17; `tools/gw_gen.sh`, `gw_tile.py`, `gw_art.py`, originals in `art_source/td_pillow/`) — Gravewatch-only roles in `TdArtData.ROLES` (drawn with `TdArt.draw /
+**Art** (themed roads: DECISIONS R1-R3; regenerated with the image API for roads and candles, DECISIONS V17; `tools/gw_gen.sh`, `gw_tile.py`, `gw_art.py`, originals in `art_source/td_pillow/`) — Gravewatch-only roles in `TdArtData.ROLES` (drawn with `TdArt.draw /
 texture`); Necropathy sprites by their `SpriteData` key via `SpriteBank`.
 
 ## Status (wave 2d integrated, Nov 2026: the campaign's content is complete)

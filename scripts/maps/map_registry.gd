@@ -46,5 +46,7 @@ static func get_map(id: String) -> Dictionary:
 		for pair: Array in [["floor", "floor"], ["mood", "mood"], ["music", "music"], ["act_rule", "rule"]]:
 			if not m.has(pair[0]):
 				m[pair[0]] = act.get(pair[1], "")
+		if not m.has("road"):  # Road style (TdRoadData): the one reader.
+			m["road"] = TdRoadData.style_for(id, String(act.get("road", "")))
 		_maps[id] = m
 	return _maps[id]

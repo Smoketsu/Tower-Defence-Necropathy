@@ -177,7 +177,7 @@ static func offset(path: PackedVector2Array, dist: float) -> PackedVector2Array:
 ## The road fill along drawn path `path` (TdArtData road_fill mapped in map space, so
 ## pieces and roads meet seamlessly).
 func _draw_fill(path: PackedVector2Array) -> void:
-	var fill := TdArt.texture("road_fill", true)  # Seamless 48 px flagstones.
+	var fill := TdArt.road(String(map.get("road", "")), "fill")  # Seamless 48 px paving of the map's road style.
 	var hw := TdArtData.ROAD_WIDTH * 0.5  # Half width (px).
 	var l := offset(path, hw)  # Left edge.
 	var rr := offset(path, -hw)  # Right edge.
@@ -193,7 +193,7 @@ func _draw_fill(path: PackedVector2Array) -> void:
 ## pattern running on unbroken; a piece lying under another paved road (corner
 ## polylines `others`: a merge or a crossing) is left out, so the roads open into each other.
 func _draw_kerbs(path: PackedVector2Array, others: Array) -> void:
-	var edge := TdArt.texture("road_edge", true)  # 48 x 8 kerb strip.
+	var edge := TdArt.road(String(map.get("road", "")), "edge")  # 48 x 8 kerb strip.
 	if edge == null:
 		return
 	var hw := TdArtData.ROAD_WIDTH * 0.5  # Half width (px).
@@ -237,26 +237,32 @@ static func _under(p: Vector2, lines: Array, r: float) -> bool:
 	return false
 
 
+## Wear colour `key` of the map's road style (TdRoadData.STYLES), else `fallback`.
+func _wear(key: String, fallback: Color) -> Color:
+	var st: Dictionary = TdRoadData.STYLES.get(String(map.get("road", "")), {})  # The style's row.
+	return st.get(key, fallback)
+
+
 ## The worn shoulder: a dark band reaching past the road edges (half width
 ## `w`) along drawn path `path`, one clean outline (no doubled alpha at the
 ## bends), drawn under the road (static: this layer is drawn once).
 func _draw_shoulder(path: PackedVector2Array, w: float) -> void:
 	for poly: PackedVector2Array in Geometry2D.offset_polyline(path, w, Geometry2D.JOIN_ROUND, Geometry2D.END_BUTT):
-		draw_colored_polygon(poly, TdMoodData.SHOULDER_TINT)
+		draw_colored_polygon(poly, _wear("shoulder", TdMoodData.SHOULDER_TINT))
 
 
 ## Cart ruts along drawn path `path` (round the bends) and loose cobbles at hashed
 ## pieces of it (static).
 func _draw_wear(r: Road, path: PackedVector2Array) -> void:
 	for side: float in [1.0, -1.0]:
-		draw_polyline(offset(path, side * TdMoodData.RUT_OFFSET), TdMoodData.RUT_TINT, TdMoodData.RUT_W)
+		draw_polyline(offset(path, side * TdMoodData.RUT_OFFSET), _wear("rut", TdMoodData.RUT_TINT), TdMoodData.RUT_W)
 	var n := path.size() - 1  # Pieces.
 	for k in int(float(n) * TdArtData.ROAD_PIECE_PX * TdMoodData.COBBLE_PER_PX):
 		var h := hash(Vector3i(k, 0, r.id.hash()))  # Pure hash.
 		var i := h % n  # The piece.
 		var d := (path[i + 1] - path[i]).normalized()  # Its direction.
 		var p := path[i] + Vector2(d.y, -d.x) * (float((h / 97) % 36) - 18.0)  # On the road.
-		draw_rect(Rect2(p.round(), Vector2(TdMoodData.COBBLE_PX, TdMoodData.COBBLE_PX - 1.0)), TdMoodData.COBBLE_TINT)
+		draw_rect(Rect2(p.round(), Vector2(TdMoodData.COBBLE_PX, TdMoodData.COBBLE_PX - 1.0)), _wear("cobble", TdMoodData.COBBLE_TINT))
 
 
 ## Map-space UVs (in tiles of `tex`) for polygon `pts`.
