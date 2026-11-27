@@ -1,14 +1,15 @@
 ## The Witchwood (the Sanguine Court, map 2; Necropathy Stage 20, GDD §7.3): the
-## fen, the hanging wood, the standing stones and the cauldron. Two entrances on
-## the west edge, a north fen path and a south fen path, mirror each other round
-## the stone circle and merge into one trunk that winds down to the gate, so the
-## circle's plots see both paths and the trunk's posts take everything. 15
-## plots, 5 posts. Rule: three hex stones beside the paths (court/court_structures:
-## a Crimson Witch near a standing stone casts twice as fast and heals the
-## Court). Act rule: the Blood Moon. 23 back-to-back waves: covens of Crimson
-## Witches, Bloated Thralls, ghouls, bats, knights, werewolves and nobles; the
-## Bog Mother (miniboss, chest) on wave 12 and Isolde Vane, the Witch of the Red
-## Moon on wave 23. Data only, no logic. MAP keys: graveyard_map.gd.
+## fen, the hanging wood, the standing stones and the cauldron. Two entrances, a
+## north fen path and a south fen path, each curl half way round the witches'
+## circle (mirrored arcs, the hex stones inside it) and merge at its east side
+## into one trunk that winds down to the gate, so the circle's plots see both
+## paths and the trunk's posts take everything. 15 plots, 5 posts. Rule: three
+## hex stones beside the paths (court/court_structures: a Crimson Witch near a
+## standing stone casts twice as fast and heals the Court). Act rule: the Blood
+## Moon. 23 back-to-back waves: covens of Crimson Witches, Bloated Thralls,
+## ghouls, bats, knights, werewolves and nobles; the Bog Mother (miniboss,
+## chest) on wave 12 and Isolde Vane, the Witch of the Red Moon on wave 23. Data
+## only, no logic. MAP keys: graveyard_map.gd.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd).
@@ -27,25 +28,43 @@ const MAP: Dictionary = {
 	],
 	"roads": {
 		"north": {
-			"points": [Vector2(150, -40), Vector2(150, 200), Vector2(210, 260), Vector2(600, 260), Vector2(660, 320), Vector2(660, 360)],
-			"next": "trunk", "next_at": 0.0, "entrance": true,
+			"points": [Vector2(120, -40), Vector2(122, -22), Vector2(123, 5), Vector2(126, 36), Vector2(130, 67),
+				Vector2(138, 97), Vector2(150, 120), Vector2(168, 137), Vector2(192, 152), Vector2(219, 163),
+				Vector2(248, 173), Vector2(275, 182), Vector2(300, 190), Vector2(335, 201), Vector2(369, 209),
+				Vector2(398, 214), Vector2(419, 219), Vector2(439, 200), Vector2(463, 185), Vector2(488, 174),
+				Vector2(514, 165), Vector2(542, 161), Vector2(569, 160), Vector2(597, 163), Vector2(624, 170),
+				Vector2(649, 181), Vector2(673, 195), Vector2(695, 212), Vector2(714, 232), Vector2(730, 255),
+				Vector2(743, 279), Vector2(752, 305), Vector2(758, 332), Vector2(760, 360)],
+			"next": "trunk", "next_at": 0.0,  # joins trunk at (760, 360)
+			"entrance": true,
 		},
 		"south": {
-			"points": [Vector2(150, 760), Vector2(150, 520), Vector2(210, 460), Vector2(600, 460), Vector2(660, 400), Vector2(660, 360)],
-			"next": "trunk", "next_at": 0.0, "entrance": true,
+			"points": [Vector2(120, 760), Vector2(122, 742), Vector2(123, 715), Vector2(126, 684), Vector2(130, 653),
+				Vector2(138, 623), Vector2(150, 600), Vector2(168, 583), Vector2(192, 568), Vector2(219, 557),
+				Vector2(248, 547), Vector2(275, 538), Vector2(300, 530), Vector2(335, 519), Vector2(369, 511),
+				Vector2(398, 506), Vector2(419, 501), Vector2(439, 520), Vector2(463, 535), Vector2(488, 546),
+				Vector2(514, 555), Vector2(542, 559), Vector2(569, 560), Vector2(597, 557), Vector2(624, 550),
+				Vector2(649, 539), Vector2(673, 525), Vector2(695, 508), Vector2(714, 488), Vector2(730, 465),
+				Vector2(743, 441), Vector2(752, 415), Vector2(758, 388), Vector2(760, 360)],
+			"next": "trunk", "next_at": 0.0,  # joins trunk at (760, 360)
+			"entrance": true,
 		},
 		"trunk": {
-			"points": [Vector2(660, 360), Vector2(860, 360), Vector2(920, 420), Vector2(920, 560), Vector2(980, 620), Vector2(1190, 620)],
+			"points": [Vector2(760, 360), Vector2(780, 358), Vector2(809, 355), Vector2(842, 352), Vector2(874, 353),
+				Vector2(900, 360), Vector2(920, 375), Vector2(937, 395), Vector2(952, 419), Vector2(966, 445),
+				Vector2(980, 470), Vector2(992, 496), Vector2(1001, 526), Vector2(1010, 555), Vector2(1023, 581),
+				Vector2(1040, 600), Vector2(1067, 611), Vector2(1101, 617), Vector2(1136, 619), Vector2(1168, 619),
+				Vector2(1190, 620)],
 			"next": "", "next_at": 0.0, "entrance": false,
 		},
 	},
-	"gate": Vector2(1218, 590),
+	"gate": Vector2(1218, 591),
 	"plots": [
-		Vector2(330, 360), Vector2(500, 360), Vector2(780, 460), Vector2(350, 150), Vector2(580, 160),
-		Vector2(350, 570), Vector2(580, 560), Vector2(1020, 470), Vector2(780, 250), Vector2(970, 340),
-		Vector2(60, 90), Vector2(60, 620), Vector2(1060, 690), Vector2(860, 625), Vector2(1150, 530),
+		Vector2(1080, 500), Vector2(840, 460), Vector2(1150, 540), Vector2(520, 490), Vector2(590, 230), Vector2(220, 630),
+		Vector2(600, 450), Vector2(660, 280), Vector2(810, 290), Vector2(340, 130), Vector2(510, 240), Vector2(90, 160),
+		Vector2(90, 560), Vector2(260, 110), Vector2(320, 590),
 	],
-	"posts": [Vector2(400, 260), Vector2(400, 460), Vector2(760, 360), Vector2(920, 490), Vector2(1080, 620)],
+	"posts": [Vector2(516, 165), Vector2(516, 555), Vector2(840, 352), Vector2(982, 475), Vector2(1102, 617)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
 	"wave_hp_end": 2.8,  # TUNING (not in GDD) the act's middle map presses a little harder than Ravensmoor
