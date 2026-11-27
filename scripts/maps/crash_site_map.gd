@@ -22,7 +22,7 @@ const MAP: Dictionary = {
 		["obstacles/wreck_ribs_l", Vector2(760, 470)], ["obstacles/wreck_plate_l", Vector2(120, 470)],
 		["obstacles/crash_hull_shard_l", Vector2(900, 620)], ["obstacles/crash_rubble_l", Vector2(1220, 640)],
 		["obstacles/wreck_plate_s", Vector2(1240, 265)], ["obstacles/crash_rubble_m", Vector2(60, 300)],
-		["obstacles/crash_hull_shard_l_v", Vector2(680, 640)], ["obstacles/wreck_ribs_s", Vector2(240, 110)],
+		["obstacles/crash_hull_shard_l_v", Vector2(680, 640)], ["obstacles/wreck_ribs_s", Vector2(274, 182)],
 		["obstacles/crash_rubble_s", Vector2(1040, 130)], ["obstacles/crash_hull_shard_s", Vector2(400, 360)],
 	],
 	"roads": {
@@ -37,9 +37,8 @@ const MAP: Dictionary = {
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"ridge": {
-			"points": [Vector2(-40, 110), Vector2(374, 288), Vector2(388, 273), Vector2(403, 260), Vector2(419, 249),
-				Vector2(437, 239), Vector2(455, 231), Vector2(474, 226), Vector2(494, 222), Vector2(513, 220)],
-			"next": "main", "next_at": 1186.6,  # joins main at (520, 220)
+			"points": [Vector2(-40, 110), Vector2(380, 120), Vector2(560, 160), Vector2(660, 218)],
+			"next": "main", "next_at": 1326.6,  # joins main at (660, 220)
 			"entrance": true,
 		},
 		"sky_a": {
@@ -53,14 +52,14 @@ const MAP: Dictionary = {
 	},
 	"gate": Vector2(1218, 190),
 	"plots": [
-		Vector2(160, 120), Vector2(600, 480), Vector2(530, 520), Vector2(620, 340), Vector2(540, 290), Vector2(720, 160),
-		Vector2(330, 190), Vector2(110, 250), Vector2(410, 180), Vector2(890, 160), Vector2(360, 620), Vector2(230, 650),
-		Vector2(130, 550), Vector2(750, 280), Vector2(1040, 160), Vector2(1040, 280), Vector2(150, 680),
+		Vector2(340, 620), Vector2(600, 480), Vector2(330, 180), Vector2(620, 340), Vector2(690, 160), Vector2(420, 190),
+		Vector2(620, 120), Vector2(530, 520), Vector2(820, 290), Vector2(450, 510), Vector2(160, 170), Vector2(80, 170),
+		Vector2(1000, 160), Vector2(740, 280), Vector2(230, 650), Vector2(130, 550), Vector2(1040, 290),
 	],
-	"posts": [Vector2(338, 557), Vector2(710, 417), Vector2(694, 220), Vector2(273, 244), Vector2(994, 220)],
+	"posts": [Vector2(383, 545), Vector2(686, 317), Vector2(798, 220), Vector2(362, 120), Vector2(1035, 220)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 2.4,  # TUNING (not in GDD) L4: 2.65 before the road redraw; Part Three: a step above the Empyrean
+	"wave_hp_end": 3.2,  # TUNING (not in GDD) L7: 2.4 before the break fixes; L4: 2.65 before the road redraw; Part Three: a step above the Empyrean
 	"rule": "",
 	"act_rule": "concord/abduction",
 	"build_order": "crash_site_default",

@@ -875,8 +875,9 @@ func _host_checks() -> void:
 	var oph := game.spot_by_id("plot:5")
 	game.build(oph, "bound_ophan")
 	var pack: Array[TdEnemy] = []  # Foes in its reach.
+	var orr := game.nearest_road(oph.position, 2000.0)  # The road beside the Ophan.
 	for i in 4:
-		var e := _enemy_at(game, "host_virtue", Vector2(520.0 - float(i) * 30.0, 480))
+		var e := _enemy_at(game, "host_virtue", orr.point_at(orr.project(oph.position) + float(i) * 30.0))
 		e.max_hp = 1.0e6
 		e.hp = e.max_hp
 		pack.append(e)
@@ -1165,17 +1166,23 @@ func _concord_checks() -> void:
 	_run(game, 1.5)
 	_check("saucer flies on", sc.speed > 0.0)
 	game.remove_enemy(sc, false)
-	var post := game.spot_by_id("post:1")
+	game.sell(arch)  # Only the post below the next saucer (DECISIONS L7).
+	var sky: Road = game.roads["sky_a"]  # The saucers' lane.
+	var post: Spot = null  # The post nearest the lane.
+	for s: Spot in game.spots:
+		if s.kind == "post" and (post == null or sky.distance_to(s.position) < sky.distance_to(post.position)):
+			post = s
+	var stop := maxf(sky.project(post.position) - 85.0, 0.0)  # Px along the lane a saucer starts at, short of the post.
 	game.build(post, "warrior")
 	var bodies := post.tower.block.bodies.filter(func(b: BlockBody) -> bool: return b.alive).size()
-	var s2 := game.spawn_at("concord_saucer", "sky_a", 1, 640.0, 0.0)
+	var s2 := game.spawn_at("concord_saucer", "sky_a", 1, stop, 0.0)
 	s2.max_hp = 1.0e6
 	s2.hp = s2.max_hp
 	_run(game, 4.0)
 	_check("saucer takes a body", post.tower.block.bodies.filter(func(b: BlockBody) -> bool: return b.alive).size() < bodies)
 	game.remove_enemy(s2, false)
 	_run(game, 8.0)
-	var s3 := game.spawn_at("concord_saucer", "sky_a", 1, 640.0, 0.0)
+	var s3 := game.spawn_at("concord_saucer", "sky_a", 1, stop, 0.0)
 	_run(game, 0.5)
 	var before := post.tower.block.bodies.filter(func(b: BlockBody) -> bool: return b.alive).size()
 	TdCombat.damage_enemy(game, s3, 1.0e6, {"source": "check"})

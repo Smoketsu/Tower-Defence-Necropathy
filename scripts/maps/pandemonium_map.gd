@@ -21,7 +21,7 @@ const MAP: Dictionary = {
 	"decals": [],
 	"obstacles": [
 		["obstacles/skull_pillar_l", Vector2(60, 100)], ["obstacles/iron_wall_l", Vector2(180, 420)],
-		["obstacles/ash_column_l", Vector2(567, 318)], ["obstacles/ash_pew_l", Vector2(710, 259)],
+		["obstacles/ash_column_l", Vector2(621, 241)], ["obstacles/ash_pew_l", Vector2(553, 330)],
 		["obstacles/chain_post_l", Vector2(120, 330)], ["obstacles/obsidian_shard_l", Vector2(1240, 120)],
 		["obstacles/iron_brazier_l", Vector2(1240, 440)], ["obstacles/bridge_rail_l", Vector2(128, 574)],
 		["obstacles/burning_censer_l", Vector2(960, 460)], ["obstacles/skull_pillar_s", Vector2(1080, 60)],
@@ -31,7 +31,7 @@ const MAP: Dictionary = {
 		"main": {
 			"points": [Vector2(1320, 273), Vector2(1013, 273), Vector2(806, 399), Vector2(870, 587), Vector2(640, 485),
 				Vector2(410, 587), Vector2(474, 399), Vector2(267, 273), Vector2(537, 259), Vector2(640, 80),
-				Vector2(640, 320)],
+				Vector2(743, 259), Vector2(640, 330)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"bridges": {
@@ -40,24 +40,24 @@ const MAP: Dictionary = {
 			"entrance": true,
 		},
 	},
-	"gate": Vector2(640, 338),
+	"gate": Vector2(617, 316),
 	"plots": [
-		Vector2(750, 380), Vector2(710, 590), Vector2(700, 150), Vector2(330, 390), Vector2(550, 100), Vector2(180, 580),
-		Vector2(1050, 330), Vector2(520, 460), Vector2(760, 460), Vector2(530, 380), Vector2(70, 580), Vector2(360, 470),
-		Vector2(280, 560), Vector2(500, 170), Vector2(410, 210), Vector2(890, 450), Vector2(1130, 330), Vector2(1130, 210),
+		Vector2(800, 300), Vector2(710, 590), Vector2(530, 140), Vector2(420, 200), Vector2(750, 140), Vector2(180, 580),
+		Vector2(1070, 330), Vector2(470, 320), Vector2(530, 390), Vector2(750, 420), Vector2(70, 580), Vector2(380, 480),
+		Vector2(310, 550), Vector2(350, 400), Vector2(890, 440), Vector2(560, 590), Vector2(1150, 330), Vector2(1130, 210),
 	],
-	"posts": [Vector2(949, 312), Vector2(870, 584), Vector2(313, 619), Vector2(540, 529), Vector2(369, 268), Vector2(640, 210)],
+	"posts": [Vector2(949, 312), Vector2(870, 584), Vector2(313, 619), Vector2(540, 529), Vector2(411, 266), Vector2(738, 262)],
 	"portals": [
 		{"at": Vector2(870, 584), "wave": 7, "squad": [["damned_soul", 3], ["hell_imp", 2]], "every": 7.0, "squads": 4},  # TUNING (not in GDD) on post 1
 		{"at": Vector2(313, 619), "wave": 11, "squad": [["hell_knight", 1], ["lava_hound", 3]], "every": 8.0, "squads": 4},  # TUNING (not in GDD) on post 2
 		{"at": Vector2(540, 529), "wave": 15, "squad": [["hell_knight", 2], ["damned_soul", 3]], "every": 8.0, "squads": 4},  # TUNING (not in GDD) on post 3
-		{"at": Vector2(425, 542), "wave": 20, "squad": [["demon_brute", 1], ["hell_imp", 3]], "every": 10.0, "squads": 3},  # TUNING (not in GDD) no post
+		{"at": Vector2(441, 496), "wave": 20, "squad": [["demon_brute", 1], ["hell_imp", 3]], "every": 10.0, "squads": 3},  # TUNING (not in GDD) no post
 	],
-	"pits": [Vector2(665, 547), Vector2(264, 228), Vector2(700, 195)],
+	"pits": [Vector2(641, 537), Vector2(328, 224), Vector2(800, 255)],
 	"pits_from": 6,  # TUNING (not in GDD)
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 3.9,  # TUNING (not in GDD) L4: 3.4 before the road redraw; the act's finale presses hardest
+	"wave_hp_end": 4.88,  # TUNING (not in GDD) L7: 3.9 before the break fixes; L4: 3.4 before the road redraw; the act's finale presses hardest
 	"rule": "",
 	"act_rule": "inferno/portals",
 	"build_order": "pandemonium_default",
