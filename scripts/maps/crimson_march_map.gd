@@ -1,12 +1,14 @@
-## The Crimson March (GDD §7.2): two roads that wind down the field and merge
-## into one trunk before the gate, plus two short side lanes near the gate by
-## which Marshal Vael's reinforcements enter. 16 grave plots, 5 road posts on
-## Necropathy's March camp floor. Rule: Holy Ward Generators beside the roads
-## shield enemies until destroyed (holy_ward_generators). 25 back-to-back
-## waves: Shieldbearers, Banner Bearers, Halberdiers and Sisters join the
-## column; the Templar Commander (miniboss, chest) on wave 12, Marshal Vael on
-## wave 25. Roads run mostly left to right (GDD §13 sprite facing).
-## Data only, no logic. MAP keys are documented in graveyard_map.gd.
+## The Crimson March (GDD §7.2): two march columns come in from the north-west
+## and the south-west and zig-zag east in long chevrons (mirror images), turn in
+## at the east edge and merge into one parade road that runs straight back west
+## to the gate, plus two short side lanes at the east edge by which Marshal
+## Vael's reinforcements join it. 16 grave plots, 5 road posts on Necropathy's
+## March camp floor. Rule: Holy Ward Generators beside the roads shield enemies
+## until destroyed (holy_ward_generators). 25 back-to-back waves: Shieldbearers,
+## Banner Bearers, Halberdiers and Sisters join the column; the Templar
+## Commander (miniboss, chest) on wave 12, Marshal Vael on wave 25. Units are
+## mirrored side views (GDD §13 sprite facing). Data only, no logic. MAP keys
+## are documented in graveyard_map.gd.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd).
@@ -19,48 +21,49 @@ const MAP: Dictionary = {
 		"decals/march_camp_rope_2", "decals/march_checkpoint_stakes", "decals/march_checkpoint_pennant",
 		"decals/march_arrow", "decals/march_arrow_2"],
 	"obstacles": [
-		["obstacles/tent_m", Vector2(80, 175)], ["obstacles/tent_m", Vector2(70, 560)],
+		["obstacles/tent_m", Vector2(102, 119)], ["obstacles/tent_m", Vector2(122, 589)],
 		["obstacles/siege_engine_m", Vector2(1190, 140)], ["obstacles/cart_wreck_m", Vector2(1190, 620)],
 		["obstacles/crates_s", Vector2(1180, 40)], ["obstacles/crates_s", Vector2(1180, 712)],
 		["obstacles/barricade_m", Vector2(200, 700)], ["obstacles/stakes_l", Vector2(940, 700)],
 	],
 	"roads": {
 		"north": {
-			"points": [Vector2(-40, 100), Vector2(900, 100), Vector2(950, 150), Vector2(950, 175),
-				Vector2(900, 225), Vector2(300, 225), Vector2(250, 275), Vector2(250, 310), Vector2(300, 360)],
-			"next": "trunk", "next_at": 0.0, "entrance": true,
+			"points": [Vector2(-40, 100), Vector2(180, 250), Vector2(400, 100), Vector2(620, 250), Vector2(840, 100),
+				Vector2(1060, 250), Vector2(1100, 360)],
+			"next": "trunk", "next_at": 0.0,  # joins trunk at (1100, 360)
+			"entrance": true,
 		},
 		"south": {
-			"points": [Vector2(-40, 620), Vector2(900, 620), Vector2(950, 570), Vector2(950, 545),
-				Vector2(900, 495), Vector2(300, 495), Vector2(250, 445), Vector2(250, 410), Vector2(300, 360)],
-			"next": "trunk", "next_at": 0.0, "entrance": true,
+			"points": [Vector2(-40, 620), Vector2(180, 470), Vector2(400, 620), Vector2(620, 470), Vector2(840, 620),
+				Vector2(1060, 470), Vector2(1102, 362)],
+			"next": "trunk", "next_at": 0.0,  # joins trunk at (1100, 360)
+			"entrance": true,
 		},
 		"trunk": {
-			"points": [Vector2(300, 360), Vector2(1190, 360)],
+			"points": [Vector2(1100, 360), Vector2(90, 360)],
 			"next": "", "next_at": 0.0, "entrance": false,
 		},
-		# Side lanes for Vael's reinforcements (no arch: only his squads use them).
 		"lane_n": {
-			"points": [Vector2(1060, -40), Vector2(1060, 330), Vector2(1090, 360)],
-			"next": "trunk", "next_at": 790.0, "entrance": false,
+			"points": [Vector2(1320, 300), Vector2(1200, 300), Vector2(1130, 356)],
+			"next": "trunk", "next_at": 0.0,  # joins trunk at (1100, 360)
+			"entrance": false,
 		},
 		"lane_s": {
-			"points": [Vector2(1060, 760), Vector2(1060, 390), Vector2(1090, 360)],
-			"next": "trunk", "next_at": 790.0, "entrance": false,
+			"points": [Vector2(1320, 420), Vector2(1200, 420), Vector2(1130, 364)],
+			"next": "trunk", "next_at": 0.0,  # joins trunk at (1100, 360)
+			"entrance": false,
 		},
 	},
-	"gate": Vector2(1218, 330),
+	"gate": Vector2(62, 330),
 	"plots": [
-		Vector2(360, 162), Vector2(600, 162), Vector2(840, 162),
-		Vector2(150, 292), Vector2(450, 292), Vector2(700, 292), Vector2(990, 292),
-		Vector2(150, 428), Vector2(450, 428), Vector2(700, 428), Vector2(990, 428),
-		Vector2(360, 558), Vector2(600, 558), Vector2(840, 558),
-		Vector2(1160, 260), Vector2(1160, 460),
+		Vector2(700, 280), Vector2(1010, 300), Vector2(890, 480), Vector2(470, 240), Vector2(1130, 260), Vector2(370, 250),
+		Vector2(350, 470), Vector2(540, 440), Vector2(1140, 460), Vector2(810, 470), Vector2(870, 250), Vector2(90, 450),
+		Vector2(430, 470), Vector2(170, 130), Vector2(790, 250), Vector2(240, 430),
 	],
-	"posts": [Vector2(520, 360), Vector2(880, 360), Vector2(600, 225), Vector2(600, 495), Vector2(1130, 360)],
+	"posts": [Vector2(850, 360), Vector2(442, 360), Vector2(854, 109), Vector2(853, 611), Vector2(158, 360)],
 	"lives": 0,
 	"souls": 250,
-	"wave_hp_end": 2.4,  # TUNING (not in GDD) integration balance
+	"wave_hp_end": 1.88,  # TUNING (not in GDD) L4: 2.4 before the road redraw; integration balance
 	"rule": "holy_ward_generators",
 	"build_order": "march_default",
 	"weak_order": "march_weak",

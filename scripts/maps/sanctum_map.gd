@@ -1,12 +1,14 @@
-## The Sanctum of Judgment (GDD §7.2): one long road that winds four times
-## across the cloisters through two sanctified chambers. 15 grave plots (8 of
-## them inside a chamber), 5 road posts on Necropathy's cloister floor. Rule:
-## towers inside a chamber deal 25% less until its two ward crystals are
-## broken (sanctified_chambers). 25 back-to-back waves: Sentinels, Radiant
-## Inquisitors, High Confessors and Sun Paladins; the Cathedral Guardian
-## (miniboss, chest) on wave 13 and Grand Inquisitor Seraphine on wave 25.
-## The road enters top right and its runs alternate direction (GDD §13: units
-## are mirrored side views). Data only, no logic. MAP keys: graveyard_map.gd.
+## The Sanctum of Judgment (GDD §7.2): one long procession: in from the west
+## along the south ambulatory, up the east side, back along the north
+## ambulatory, down the west aisle and east up the nave, then three quarters
+## round the round apse to the altar gate at its heart, through two sanctified
+## chambers (the north ambulatory and the nave). 15 grave plots (6 of them
+## inside a chamber), 5 road posts on Necropathy's cloister floor. Rule: towers
+## inside a chamber deal 25% less until its two ward crystals are broken
+## (sanctified_chambers). 25 back-to-back waves: Sentinels, Radiant Inquisitors,
+## High Confessors and Sun Paladins; the Cathedral Guardian (miniboss, chest) on
+## wave 13 and Grand Inquisitor Seraphine on wave 25. Units are mirrored side
+## views (GDD §13). Data only, no logic. MAP keys: graveyard_map.gd.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd).
@@ -18,31 +20,33 @@ const MAP: Dictionary = {
 	"decals": ["decals/sanctum_cloisters_flowers", "decals/sanctum_cloisters_flowers_2", "decals/sanctum_cloisters_leaves",
 		"decals/sanctum_cloisters_leaves_2", "decals/sanctum_cloisters_sundial", "decals/sanctum_courtyard_moss"],
 	"obstacles": [
-		["obstacles/fountain_m", Vector2(1160, 190)], ["obstacles/saint_statue_m", Vector2(120, 345)],
-		["obstacles/marble_column_m", Vector2(1190, 260)], ["obstacles/marble_column_m", Vector2(1200, 430)],
-		["obstacles/cypress_m", Vector2(60, 660)], ["obstacles/pew_m", Vector2(1040, 685)],
+		["obstacles/fountain_m", Vector2(1112, 205)], ["obstacles/saint_statue_m", Vector2(125, 425)],
+		["obstacles/marble_column_m", Vector2(1116, 289)], ["obstacles/marble_column_m", Vector2(1115, 460)],
+		["obstacles/cypress_m", Vector2(75, 686)], ["obstacles/pew_m", Vector2(1040, 685)],
 		["obstacles/stone_bench_m", Vector2(260, 680)], ["obstacles/cypress_s", Vector2(60, 250)],
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(1320, 105), Vector2(280, 105), Vector2(225, 160), Vector2(225, 195),
-				Vector2(280, 250), Vector2(1000, 250), Vector2(1060, 310), Vector2(1060, 350),
-				Vector2(1000, 410), Vector2(280, 410), Vector2(220, 470), Vector2(220, 510),
-				Vector2(280, 570), Vector2(1190, 570)],
+			"points": [Vector2(-40, 620), Vector2(1180, 620), Vector2(1180, 110), Vector2(110, 110), Vector2(110, 360),
+				Vector2(760, 360), Vector2(762, 338), Vector2(768, 317), Vector2(777, 298), Vector2(790, 280),
+				Vector2(806, 266), Vector2(824, 254), Vector2(844, 245), Vector2(866, 241), Vector2(887, 240),
+				Vector2(909, 243), Vector2(929, 251), Vector2(948, 261), Vector2(965, 275), Vector2(979, 292),
+				Vector2(989, 311), Vector2(997, 331), Vector2(1000, 353), Vector2(999, 374), Vector2(995, 396),
+				Vector2(986, 416), Vector2(974, 434), Vector2(960, 450), Vector2(942, 463), Vector2(923, 472),
+				Vector2(902, 478), Vector2(880, 480), Vector2(880, 400)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 	},
-	"gate": Vector2(1218, 540),
+	"gate": Vector2(880, 372),
 	"plots": [
-		Vector2(120, 178), Vector2(400, 178), Vector2(640, 178), Vector2(880, 178),
-		Vector2(400, 330), Vector2(640, 330), Vector2(880, 330), Vector2(1160, 330),
-		Vector2(120, 490), Vector2(400, 490), Vector2(640, 490), Vector2(880, 490), Vector2(1140, 490),
-		Vector2(440, 648), Vector2(880, 648),
+		Vector2(760, 540), Vector2(450, 270), Vector2(840, 560), Vector2(1040, 530), Vector2(530, 270), Vector2(870, 180),
+		Vector2(1050, 220), Vector2(720, 210), Vector2(260, 170), Vector2(480, 560), Vector2(1100, 320), Vector2(200, 230),
+		Vector2(1110, 490), Vector2(240, 300), Vector2(160, 560),
 	],
-	"posts": [Vector2(700, 105), Vector2(960, 250), Vector2(640, 410), Vector2(960, 570), Vector2(1120, 570)],
+	"posts": [Vector2(633, 620), Vector2(835, 110), Vector2(173, 110), Vector2(998, 378), Vector2(880, 476)],
 	"lives": 0,
 	"souls": 250,
-	"wave_hp_end": 3.15,  # TUNING (not in GDD) integration balance: the last map presses hardest
+	"wave_hp_end": 2.9,  # TUNING (not in GDD) L4: 3.15 before the road redraw; integration balance: the last map presses hardest
 	"rule": "sanctified_chambers",
 	"build_order": "sanctum_default",
 	"weak_order": "sanctum_weak",
