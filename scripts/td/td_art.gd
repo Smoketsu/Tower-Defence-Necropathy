@@ -26,6 +26,26 @@ static func texture(role: String, repeat: bool = false) -> Texture2D:
 	return _cache[key]
 
 
+## The tiled `part` ("fill" | "edge") of road style `style` (TdRoadData); the original
+## flagstones (roles road_fill / road_edge) when `style` is "" or its file is missing.
+static func road(style: String, part: String) -> Texture2D:
+	if style != "":
+		var key := "road:" + style + ":" + part  # Cache key.
+		if not _cache.has(key):
+			var path := TdRoadData.path(style, part)  # Its PNG.
+			var tex: Texture2D = null  # Wrapped texture.
+			if ResourceLoader.exists(path):
+				var ct := CanvasTexture.new()
+				ct.diffuse_texture = load(path) as Texture2D
+				ct.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+				ct.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+				tex = ct
+			_cache[key] = tex
+		if _cache[key] != null:
+			return _cache[key]
+	return texture("road_" + part, true)
+
+
 ## Draws `role` centred on `o` at its art size times `scale` (tinted by
 ## `tint`); returns false when the art is missing.
 static func draw(ci: CanvasItem, role: String, o: Vector2, scale: float = 1.0, tint: Color = Color.WHITE) -> bool:

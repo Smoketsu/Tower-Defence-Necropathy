@@ -149,6 +149,9 @@ Replace `<act>` with your ActData id (`corsair`, `court`, `city`, `shogunate`, .
 
 ## 3. The look (CLAUDE.md "Visual conventions": not done without it)
 
+- A road style for the act (DECISIONS R1-R3): `"road": "<style>"` on its `ActData` row, a fill + kerb pair from
+  `tools/gw_road_art.py` (clearly lighter / differently hued than the floor, not noisy, kerb distinct), wear colours in
+  `TdRoadData.STYLES` if the default dark ruts clash; a finale that differs goes in `TdRoadData.MAP_STYLES`.
 - Every map: a mood row in your data file's `MOODS` (props with glows).
 - Every kind: walk strip if Necropathy has one; bosses get a strike pose
   (`BossPoseData`). Blows on blockers already go through `game.vfx.enemy_blow()`.

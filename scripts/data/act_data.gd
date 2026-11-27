@@ -32,6 +32,8 @@ const NUMERALS: Array[String] = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII
 ##             of their own ("" = none).
 ##   rule    — default act rule id (scripts/maps/rules/<id>.gd, extends MapRule)
 ##             for its maps that set no "act_rule" key ("" = none).
+##   road    — optional road style id (TdRoadData.STYLES; "" or absent = the grey flagstones); a map listed in
+##             TdRoadData.MAP_STYLES overrides it.
 ##   hidden  — optional, true: shown nowhere unless --test-act (the framework's test act).
 ##   data    — optional path of its data file (default DATA_PATH with its id).
 const ACTS: Array[Dictionary] = [
@@ -42,11 +44,11 @@ const ACTS: Array[Dictionary] = [
 
 	{"id": "corsair", "name": "the Black Tide", "faction": "The Black Tide", "part": 1,
 		"maps": ["cutter", "galleon", "maelstrom"],
-		"music": "shanty", "floor": "tiles/corsair_cutter", "mood": "", "rule": ""},
+		"music": "shanty", "floor": "tiles/corsair_cutter", "mood": "", "rule": "", "road": "deck"},
 
 	{"id": "court", "name": "the Sanguine Court", "faction": "The Sanguine Court", "part": 1,
 		"maps": ["ravensmoor", "witchwood", "castle_sanguis"],
-		"music": "sanguine", "floor": "tiles/ravensmoor_moor", "mood": "", "rule": ""},
+		"music": "sanguine", "floor": "tiles/ravensmoor_moor", "mood": "", "rule": "", "road": "cobble"},
 
 	{"id": "city", "name": "the Last Line", "faction": "The Last Line", "part": 1,
 		"maps": ["skid_row", "fort_kessler", "liberty_heights"],
@@ -54,49 +56,49 @@ const ACTS: Array[Dictionary] = [
 
 	{"id": "shogunate", "name": "the Shogunate", "faction": "The Shogunate of the Rising Sun", "part": 1,
 		"maps": ["province", "kurogane", "sun_road"],
-		"music": "sun", "floor": "tiles/province_paddies", "mood": "", "rule": ""},
+		"music": "sun", "floor": "tiles/province_paddies", "mood": "", "rule": "", "road": "earth"},
 
 	# --- Part Two: gods, hell and heaven ---
 	{"id": "norse", "name": "the Hall of the Slain", "faction": "The Hall of the Slain", "part": 2,
 		"maps": ["barrow_fields", "valgard", "vigrid"],
-		"music": "valhall", "floor": "tiles/norse_snow", "mood": "", "rule": ""},
+		"music": "valhall", "floor": "tiles/norse_snow", "mood": "", "rule": "", "road": "frost"},
 
 	{"id": "dynasty", "name": "the Necropolis Dynasty", "faction": "The Necropolis Dynasty", "part": 2,
 		"maps": ["necropolis", "lioness_temple", "two_truths"],
-		"music": "weighing", "floor": "tiles/necropolis_dunes", "mood": "", "rule": ""},
+		"music": "weighing", "floor": "tiles/necropolis_dunes", "mood": "", "rule": "", "road": "sandstone"},
 
 	{"id": "pantheon", "name": "the Olympian Republic", "faction": "The Olympian Republic", "part": 2,
 		"maps": ["ilion", "olympus", "underworld"],
-		"music": "bronze", "floor": "tiles/ilion_beach", "mood": "", "rule": ""},
+		"music": "bronze", "floor": "tiles/ilion_beach", "mood": "", "rule": "", "road": "marble"},
 
 	{"id": "inferno", "name": "the Inferno", "faction": "The Inferno", "part": 2,
 		"maps": ["burning_gate", "silk_palace", "pandemonium"],
-		"music": "brimstone", "floor": "tiles/burning_gate_ash_plain", "mood": "", "rule": ""},
+		"music": "brimstone", "floor": "tiles/burning_gate_ash_plain", "mood": "", "rule": "", "road": "basalt"},
 
 	{"id": "host", "name": "the Celestial Host", "faction": "The Celestial Host", "part": 2,
 		"maps": ["silver_stair", "wheel_of_thrones", "empyrean"],
-		"music": "hosanna", "floor": "tiles/silver_stair_stair", "mood": "", "rule": ""},
+		"music": "hosanna", "floor": "tiles/silver_stair_stair", "mood": "", "rule": "", "road": "cloud"},
 
 	# --- Part Three: beyond and before ---
 	{"id": "eye", "name": "the Ancient Eye", "faction": "The Ancient Eye", "part": 3,
 		"maps": ["harbour", "archive", "spire"],
-		"music": "tide", "floor": "tiles/harbour_market", "mood": "", "rule": ""},
+		"music": "tide", "floor": "tiles/harbour_market", "mood": "", "rule": "", "road": "harbour"},
 
 	{"id": "empire", "name": "the Electronic Empire", "faction": "The Electronic Empire", "part": 3,
 		"maps": ["wastes", "assembly", "citadel"],
-		"music": "iron", "floor": "tiles/wastes_slag", "mood": "", "rule": ""},
+		"music": "iron", "floor": "tiles/wastes_slag", "mood": "", "rule": "", "road": "steel"},
 
 	{"id": "concord", "name": "the Concord of Stars", "faction": "The Concord of Stars", "part": 3,
 		"maps": ["crash_site", "proving_moon", "ark"],
-		"music": "starsong", "floor": "tiles/crash_site_ruins", "mood": "", "rule": ""},
+		"music": "starsong", "floor": "tiles/crash_site_ruins", "mood": "", "rule": "", "road": "hex"},
 
 	{"id": "primeval", "name": "the Age of Titans", "faction": "The Age of Titans", "part": 3,
 		"maps": ["fern_basin", "great_plain", "last_day"],
-		"music": "primordial", "floor": "tiles/fern_basin_fern_floor", "mood": "", "rule": ""},
+		"music": "primordial", "floor": "tiles/fern_basin_fern_floor", "mood": "", "rule": "", "road": "mud"},
 
 	{"id": "wild", "name": "the Turning Year", "faction": "The Turning Year", "part": 3,
 		"maps": ["greenwood", "fae_court", "world_tree"],
-		"music": "wildwood", "floor": "tiles/greenwood_glade", "mood": "", "rule": ""},
+		"music": "wildwood", "floor": "tiles/greenwood_glade", "mood": "", "rule": "", "road": "moss_path"},
 
 	# --- Hidden: the act framework's own test act (docs/ACT_TEMPLATE.md; --test-act) ---
 	{"id": "test", "name": "the Proving Grounds", "faction": "Framework test", "part": 0,
