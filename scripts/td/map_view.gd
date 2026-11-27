@@ -61,7 +61,7 @@ func _draw() -> void:
 	var paths := {}  # Road id -> [drawn path (rounded(), cut), its corner polyline].
 	for r: Road in roads.values():
 		if not r.sky:  # A sky lane (Act XIII) leaves no trail.
-			var bends := rounded(r.points)  # Arcs at the joints.
+			var bends := joined(r, roads)  # Arcs at the joints, run on into the road it joins.
 			paths[r.id] = [cut(bends), bends]
 	for r: Road in roads.values():
 		if paths.has(r.id):
@@ -72,7 +72,7 @@ func _draw() -> void:
 		if paths.has(r.id) and not r.off_road:
 			built.append(r)
 	for r: Road in built:
-		_draw_fill(paths[r.id][0])
+		_draw_fill(paths[r.id][0], r.next_id != "")
 	for r: Road in built:
 		_draw_wear(r, paths[r.id][0])
 	for r: Road in built:
@@ -80,7 +80,7 @@ func _draw() -> void:
 		for o: Road in built:
 			if o != r:
 				others.append(paths[o.id][1])
-		_draw_kerbs(paths[r.id][0], others)
+		_draw_kerbs(paths[r.id][0], others, r.next_id != "")
 	for r: Road in roads.values():
 		if r.entrance and not r.off_road:
 			var p := r.points[0].lerp(r.points[1], clampf(80.0 / maxf(r.points[0].distance_to(r.points[1]), 1.0), 0.0, 1.0))  # Arch just inside the map.
@@ -141,6 +141,27 @@ static func rounded(pts: PackedVector2Array, radius: float = TdArtData.ROAD_TURN
 	return out
 
 
+## Road `r`'s drawn corner polyline: rounded() at `radius`, and when it joins another
+## road its end runs on to the nearest point of that road's own rounded line. The
+## join point sits on the sharp corner polyline, which the rounded bends cut inside
+## of, so without this a side road met at a bend (the Pandemonium star's points)
+## stopped short of the road it joins (DECISIONS L6).
+static func joined(r: Road, all: Dictionary, radius: float = TdArtData.ROAD_TURN_RADIUS) -> PackedVector2Array:
+	var bends := rounded(r.points, radius)
+	if r.next_id == "" or not all.has(r.next_id):
+		return bends
+	var nb := rounded((all[r.next_id] as Road).points, radius)  # The joined road's drawn line.
+	var end := r.points[r.points.size() - 1]  # The join point.
+	var q := nb[0]  # Its nearest point on the drawn line.
+	for i in range(nb.size() - 1):
+		var c := Geometry2D.get_closest_point_to_segment(end, nb[i], nb[i + 1])
+		if c.distance_to(end) < q.distance_to(end):
+			q = c
+	if q.distance_to(bends[bends.size() - 1]) > 0.5:
+		bends.append(q)
+	return bends
+
+
 ## Polyline `pts` cut into pieces of at most TdArtData.ROAD_PIECE_PX; points closer than
 ## 0.5 px to the last one are dropped (two bends sharing a short segment meet in one
 ## point, and a zero-length piece cannot be drawn).
@@ -176,7 +197,7 @@ static func offset(path: PackedVector2Array, dist: float) -> PackedVector2Array:
 
 ## The road fill along drawn path `path` (TdArtData road_fill mapped in map space, so
 ## pieces and roads meet seamlessly).
-func _draw_fill(path: PackedVector2Array) -> void:
+func _draw_fill(path: PackedVector2Array, joins: bool = false) -> void:
 	var fill := TdArt.road(String(map.get("road", "")), "fill")  # Seamless 48 px paving of the map's road style.
 	var hw := TdArtData.ROAD_WIDTH * 0.5  # Half width (px).
 	var l := offset(path, hw)  # Left edge.
@@ -187,17 +208,35 @@ func _draw_fill(path: PackedVector2Array) -> void:
 			piece(self, quad, _uv(quad, fill), fill)
 		else:
 			draw_colored_polygon(quad, Color(0.35, 0.33, 0.3))
+	# Round caps (DECISIONS L6): a sharp joint the bend could not round (two short
+	# legs) leaves a wedge on its outer side; a side road's end meets the road it
+	# joins at an angle. The fill is mapped in map space, so a disc of the same paving
+	# over the joint is seamless. Drawn once (static layer).
+	if fill == null:
+		return
+	for i in range(1, path.size()):
+		var sharp := i == path.size() - 1 and joins  # The joining end.
+		if i < path.size() - 1:
+			sharp = absf((path[i] - path[i - 1]).angle_to(path[i + 1] - path[i])) > deg_to_rad(TdArtData.ROAD_CAP_DEG)
+		if sharp:
+			var disc := PackedVector2Array()  # The cap.
+			for k in TdArtData.ROAD_CAP_SIDES:
+				disc.append(path[i] + Vector2.RIGHT.rotated(TAU * float(k) / float(TdArtData.ROAD_CAP_SIDES)) * hw)
+			piece(self, disc, _uv(disc, fill), fill)
 
 
 ## Both road_edge kerbs along drawn path `path`, bent round its bends with the strip's
 ## pattern running on unbroken; a piece lying under another paved road (corner
 ## polylines `others`: a merge or a crossing) is left out, so the roads open into each other.
-func _draw_kerbs(path: PackedVector2Array, others: Array) -> void:
+func _draw_kerbs(path: PackedVector2Array, others: Array, joins: bool = false) -> void:
 	var edge := TdArt.road(String(map.get("road", "")), "edge")  # 48 x 8 kerb strip.
 	if edge == null:
 		return
 	var hw := TdArtData.ROAD_WIDTH * 0.5  # Half width (px).
 	var eh := edge.get_size().y  # Kerb thickness (px).
+	var cum := PackedFloat32Array([0.0])  # Px along `path` at each point.
+	for i in range(1, path.size()):
+		cum.append(cum[i - 1] + path[i - 1].distance_to(path[i]))
 	for side: float in [1.0, -1.0]:
 		var mid := side * (hw - eh * 0.5)  # Kerb centre offset (px).
 		var c := offset(path, mid)  # Kerb centre line (its length drives u).
@@ -206,7 +245,8 @@ func _draw_kerbs(path: PackedVector2Array, others: Array) -> void:
 		var u := 0.0  # Strip tiles so far.
 		for i in range(path.size() - 1):
 			var u1 := u + c[i].distance_to(c[i + 1]) / edge.get_size().x  # u at the piece end.
-			if not _under(c[i].lerp(c[i + 1], 0.5), others, hw - eh):
+			var m := c[i].lerp(c[i + 1], 0.5)  # The piece's middle.
+			if not _under(m, others, hw) and not _over_self(m, path, cum, i, hw - eh):  # Inside another road's paving: open (DECISIONS L6).
 				piece(self, PackedVector2Array([top[i], top[i + 1], bot[i + 1], bot[i]]),
 						PackedVector2Array([Vector2(u, 0), Vector2(u1, 0), Vector2(u1, 1), Vector2(u, 1)]), edge)
 			u = u1
@@ -236,6 +276,20 @@ static func piece(ci: CanvasItem, pts: PackedVector2Array, uv: PackedVector2Arra
 			var tp := PackedVector2Array([p[tri[0]], p[tri[1]], p[tri[2]]])  # One triangle.
 			if absf((tp[1] - tp[0]).cross(tp[2] - tp[0])) > 0.5:
 				ci.draw_polygon(tp, PackedColorArray([Color.WHITE]), PackedVector2Array([u[tri[0]], u[tri[1]], u[tri[2]]]), tex)
+
+
+## True when `p` (on the kerb of piece `i`) lies within `r` px of a piece of the same
+## path `path` (`cum`: px along it) more than ROAD_SELF_GAP x the road width away along
+## it: the inner kerb of a hairpin or acute point running over the road's own other leg
+## (DECISIONS L6). Pieces are checked by a coarse distance cut first (drawn once).
+static func _over_self(p: Vector2, path: PackedVector2Array, cum: PackedFloat32Array, i: int, r: float) -> bool:
+	var gap := TdArtData.ROAD_WIDTH * TdArtData.ROAD_SELF_GAP  # Px along the path that count as "the same stretch".
+	for j in range(path.size() - 1):
+		if absf(cum[j] - cum[i]) < gap or p.distance_squared_to(path[j]) > 900.0 + r * r * 4.0:
+			continue
+		if p.distance_to(Geometry2D.get_closest_point_to_segment(p, path[j], path[j + 1])) < r:
+			return true
+	return false
 
 
 ## True when `p` lies within `r` px of any of the polylines `lines`.

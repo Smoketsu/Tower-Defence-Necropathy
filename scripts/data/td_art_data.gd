@@ -64,6 +64,14 @@ const ROAD_TURN_STEP_DEG: float = 7.5  # TUNING (not in GDD)
 ## Max length (px) of one drawn road piece: kerbs are cut there, so a kerb under another
 ## road's fill (a merge or crossing) is skipped piece by piece.
 const ROAD_PIECE_PX: float = 8.0  # TUNING (not in GDD)
+## Turn (degrees) between two drawn road pieces above which MapView puts a round cap
+## of the road's paving on the joint (a bend that could not be rounded; DECISIONS L6).
+const ROAD_CAP_DEG: float = 20.0  # TUNING (not in GDD) above ROAD_TURN_STEP_DEG x 2
+## Sides of that round cap (a polygon of the paving, drawn once).
+const ROAD_CAP_SIDES: int = 16  # TUNING (not in GDD)
+## A kerb piece over the road's own path farther than this many road widths away along
+## it (a hairpin's other leg, a spoke beside a star edge) is not drawn (DECISIONS L6).
+const ROAD_SELF_GAP: float = 2.0  # TUNING (not in GDD)
 ## Sprite key (SpriteData) of the necromancer drawn beside the gate.
 const NECROMANCER: String = "player/necromancer"
 ## Offset (px) of the necromancer from the gate centre.

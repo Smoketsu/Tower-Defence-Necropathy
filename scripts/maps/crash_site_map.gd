@@ -19,27 +19,27 @@ const MAP: Dictionary = {
 	"floor": "tiles/crash_site_ruins",
 	"decals": [],
 	"obstacles": [
-		["obstacles/wreck_ribs_l", Vector2(760, 470)], ["obstacles/wreck_plate_l", Vector2(120, 470)],
+		["obstacles/wreck_ribs_l", Vector2(765, 479)], ["obstacles/wreck_plate_l", Vector2(120, 470)],
 		["obstacles/crash_hull_shard_l", Vector2(900, 620)], ["obstacles/crash_rubble_l", Vector2(1220, 640)],
-		["obstacles/wreck_plate_s", Vector2(1240, 265)], ["obstacles/crash_rubble_m", Vector2(60, 300)],
-		["obstacles/crash_hull_shard_l_v", Vector2(680, 640)], ["obstacles/wreck_ribs_s", Vector2(240, 110)],
+		["obstacles/wreck_plate_s", Vector2(1200, 220)], ["obstacles/crash_rubble_m", Vector2(60, 300)],
+		["obstacles/crash_hull_shard_l_v", Vector2(680, 640)], ["obstacles/wreck_ribs_s", Vector2(271, 161)],
 		["obstacles/crash_rubble_s", Vector2(1040, 130)], ["obstacles/crash_hull_shard_s", Vector2(400, 360)],
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 660), Vector2(386, 544), Vector2(405, 561), Vector2(426, 575), Vector2(450, 587),
-				Vector2(474, 594), Vector2(499, 599), Vector2(525, 600), Vector2(551, 597), Vector2(576, 592),
-				Vector2(600, 582), Vector2(622, 570), Vector2(643, 555), Vector2(661, 537), Vector2(677, 517),
-				Vector2(690, 494), Vector2(700, 471), Vector2(707, 446), Vector2(710, 420), Vector2(709, 395),
-				Vector2(706, 369), Vector2(698, 344), Vector2(688, 321), Vector2(674, 299), Vector2(658, 279),
-				Vector2(639, 262), Vector2(618, 247), Vector2(595, 235), Vector2(571, 227), Vector2(546, 222),
-				Vector2(520, 220), Vector2(1190, 220)],
+			"points": [Vector2(520, 760), Vector2(520, 600), Vector2(494, 598), Vector2(469, 593), Vector2(445, 585),
+				Vector2(423, 573), Vector2(402, 559), Vector2(383, 541), Vector2(366, 522), Vector2(353, 500),
+				Vector2(342, 477), Vector2(335, 452), Vector2(331, 427), Vector2(330, 401), Vector2(333, 376),
+				Vector2(339, 351), Vector2(349, 328), Vector2(361, 305), Vector2(377, 285), Vector2(395, 267),
+				Vector2(415, 251), Vector2(438, 239), Vector2(461, 229), Vector2(486, 223), Vector2(511, 220),
+				Vector2(537, 221), Vector2(562, 225), Vector2(587, 232), Vector2(610, 243), Vector2(632, 256),
+				Vector2(651, 273), Vector2(669, 292), Vector2(683, 313), Vector2(695, 335), Vector2(703, 359),
+				Vector2(708, 384), Vector2(710, 410), Vector2(1190, 410)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"ridge": {
-			"points": [Vector2(-40, 110), Vector2(374, 288), Vector2(388, 273), Vector2(403, 260), Vector2(419, 249),
-				Vector2(437, 239), Vector2(455, 231), Vector2(474, 226), Vector2(494, 222), Vector2(513, 220)],
-			"next": "main", "next_at": 1186.6,  # joins main at (520, 220)
+			"points": [Vector2(-40, 110), Vector2(420, 90), Vector2(800, 120), Vector2(900, 250), Vector2(900, 408)],
+			"next": "main", "next_at": 1244.7,  # joins main at (900, 410)
 			"entrance": true,
 		},
 		"sky_a": {
@@ -51,16 +51,16 @@ const MAP: Dictionary = {
 			"next": "", "next_at": 0.0, "entrance": false, "off_road": true, "exit": true, "sky": true,
 		},
 	},
-	"gate": Vector2(1218, 190),
+	"gate": Vector2(1218, 380),
 	"plots": [
-		Vector2(160, 120), Vector2(600, 480), Vector2(530, 520), Vector2(620, 340), Vector2(540, 290), Vector2(720, 160),
-		Vector2(330, 190), Vector2(110, 250), Vector2(410, 180), Vector2(890, 160), Vector2(360, 620), Vector2(230, 650),
-		Vector2(130, 550), Vector2(750, 280), Vector2(1040, 160), Vector2(1040, 280), Vector2(150, 680),
+		Vector2(390, 630), Vector2(390, 180), Vector2(440, 440), Vector2(790, 270), Vector2(840, 340), Vector2(700, 210),
+		Vector2(480, 160), Vector2(960, 310), Vector2(440, 360), Vector2(460, 520), Vector2(1030, 350), Vector2(290, 190),
+		Vector2(460, 670), Vector2(590, 170), Vector2(1040, 470), Vector2(160, 160), Vector2(80, 170),
 	],
-	"posts": [Vector2(338, 557), Vector2(710, 417), Vector2(694, 220), Vector2(273, 244), Vector2(994, 220)],
+	"posts": [Vector2(336, 457), Vector2(667, 290), Vector2(975, 410), Vector2(609, 105), Vector2(1105, 410)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 2.4,  # TUNING (not in GDD) L4: 2.65 before the road redraw; Part Three: a step above the Empyrean
+	"wave_hp_end": 2.0,  # TUNING (not in GDD) L7: 3.2 before the break fixes (crater ring redrawn); L4: 2.65 before the road redraw
 	"rule": "",
 	"act_rule": "concord/abduction",
 	"build_order": "crash_site_default",

@@ -63,7 +63,11 @@ Replace `<act>` with your ActData id (`corsair`, `court`, `city`, `shogunate`, .
    keep right angles only where they are the theme. Plots between two passes of a
    road (inside bends, between lanes) are what make a layout defendable: an
    organic route that passes each plot once needs a lower `wave_hp_end`
-   (DECISIONS L4); roads that only meet at the gate split the defence.
+   (DECISIONS L4); roads that only meet at the gate split the defence. Then look
+   at it in game (DECISIONS L6-L7): no two legs of a road closer than a road
+   width (a pinched point leaves slivers), no road running along another's edge,
+   no hairpin that doubles back on itself, and side roads join in a clear T or Y,
+   never tangentially.
 3. **Traits** `scripts/enemies/traits/<act>/<trait>.gd` (`extends EnemyTrait`),
    named in a kind's `"trait"` as `"<act>/<trait>"`. **Bosses**
    `scripts/bosses/<act>/<boss>.gd`, named `"<act>/<boss>"`. Numbers in the

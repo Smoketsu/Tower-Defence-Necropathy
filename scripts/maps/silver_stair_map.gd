@@ -28,27 +28,33 @@ const MAP: Dictionary = {
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(720, 760), Vector2(720, 600), Vector2(540, 600), Vector2(440, 470), Vector2(860, 470),
-				Vector2(960, 340), Vector2(300, 340), Vector2(200, 210), Vector2(1170, 210)],
+			"points": [Vector2(720, 760), Vector2(720, 600), Vector2(520, 600), Vector2(500, 597), Vector2(482, 588),
+				Vector2(467, 573), Vector2(458, 555), Vector2(455, 535), Vector2(458, 515), Vector2(467, 497),
+				Vector2(482, 482), Vector2(500, 473), Vector2(520, 470), Vector2(860, 470), Vector2(880, 467),
+				Vector2(898, 458), Vector2(913, 443), Vector2(922, 425), Vector2(925, 405), Vector2(922, 385),
+				Vector2(913, 367), Vector2(898, 352), Vector2(880, 343), Vector2(860, 340), Vector2(300, 340),
+				Vector2(280, 337), Vector2(262, 328), Vector2(247, 313), Vector2(238, 295), Vector2(235, 275),
+				Vector2(238, 255), Vector2(247, 237), Vector2(262, 222), Vector2(280, 213), Vector2(300, 210),
+				Vector2(1170, 210)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"cloud": {
 			"points": [Vector2(-40, 480), Vector2(150, 480), Vector2(380, 342)],
-			"next": "main", "next_at": 1668.0,  # joins main at (380, 340)
+			"next": "main", "next_at": 1586.7,  # joins main at (380, 340)
 			"entrance": true,
 		},
 	},
 	"gate": Vector2(1198, 180),
 	"plots": [
-		Vector2(520, 280), Vector2(360, 270), Vector2(440, 280), Vector2(800, 400), Vector2(200, 360), Vector2(380, 420),
-		Vector2(820, 280), Vector2(680, 540), Vector2(130, 400), Vector2(500, 410), Vector2(600, 530), Vector2(680, 270),
-		Vector2(940, 280), Vector2(780, 570), Vector2(1020, 280), Vector2(340, 150),
+		Vector2(150, 540), Vector2(400, 280), Vector2(620, 540), Vector2(620, 270), Vector2(320, 280), Vector2(760, 410),
+		Vector2(170, 390), Vector2(850, 280), Vector2(700, 270), Vector2(390, 460), Vector2(480, 280), Vector2(700, 540),
+		Vector2(840, 400), Vector2(990, 270), Vector2(570, 660), Vector2(1020, 150),
 	],
-	"posts": [Vector2(478, 520), Vector2(923, 388), Vector2(769, 340), Vector2(226, 210), Vector2(754, 210), Vector2(178, 463)],
-	"clouds": [[Vector2(411, 563), 80.0], [Vector2(850, 260), 76.0], [Vector2(450, 140), 70.0]],  # TUNING (not in GDD) the low cloud banks of the Stair
+	"posts": [Vector2(468, 574), Vector2(918, 432), Vector2(750, 340), Vector2(274, 216), Vector2(775, 210), Vector2(178, 463)],
+	"clouds": [[Vector2(394, 605), 80.0], [Vector2(828, 260), 76.0], [Vector2(485, 140), 70.0]],  # TUNING (not in GDD) the low cloud banks of the Stair
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 3.0,  # TUNING (not in GDD) Part Two: a step above the Road to the Sun
+	"wave_hp_end": 3.8,  # TUNING (not in GDD) L7: 3.0 before the break fixes; Part Two: a step above the Road to the Sun
 	"rule": "",
 	"act_rule": "host/hallowed_light",
 	"build_order": "silver_stair_default",

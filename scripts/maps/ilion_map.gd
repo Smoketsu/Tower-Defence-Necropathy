@@ -18,19 +18,21 @@ const MAP: Dictionary = {
 	"floor": "tiles/ilion_beach",
 	"decals": [],
 	"obstacles": [
-		["obstacles/beached_warship_l", Vector2(490, 180)], ["obstacles/sea_rock_l", Vector2(255, 250)],
+		["obstacles/beached_warship_l", Vector2(517, 244)], ["obstacles/sea_rock_l", Vector2(332, 270)],
 		["obstacles/sea_rock_s", Vector2(1245, 530)], ["obstacles/beached_warship_s", Vector2(220, 460)],
 		["obstacles/siege_tent_l", Vector2(40, 460)], ["obstacles/siege_tent_s", Vector2(270, 696)],
 		["obstacles/palisade_l", Vector2(1080, 696)], ["obstacles/troy_wall_l", Vector2(760, 320)],
 		["obstacles/troy_wall_s", Vector2(1245, 670)], ["obstacles/fallen_column_l", Vector2(705, 530)],
 		["obstacles/fallen_column_s", Vector2(75, 250)], ["obstacles/sea_rock_s", Vector2(580, 320)],
-		["obstacles/siege_tent_s", Vector2(940, 180)], ["obstacles/palisade_s", Vector2(415, 419)],
+		["obstacles/siege_tent_s", Vector2(940, 180)], ["obstacles/palisade_s", Vector2(400, 320)],
 	],
 	"roads": {
 		"main": {
 			"points": [Vector2(-40, 630), Vector2(1080, 630), Vector2(1105, 626), Vector2(1127, 615), Vector2(1145, 597),
 				Vector2(1156, 575), Vector2(1160, 550), Vector2(1156, 525), Vector2(1145, 503), Vector2(1127, 485),
-				Vector2(1105, 474), Vector2(1080, 470), Vector2(300, 330), Vector2(622, 165)],
+				Vector2(1105, 474), Vector2(1080, 470), Vector2(380, 355), Vector2(356, 350), Vector2(321, 342),
+				Vector2(285, 333), Vector2(260, 320), Vector2(245, 295), Vector2(242, 265), Vector2(250, 240),
+				Vector2(276, 222), Vector2(313, 209), Vector2(340, 200), Vector2(622, 165)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"shore": {
@@ -41,14 +43,14 @@ const MAP: Dictionary = {
 	},
 	"gate": Vector2(632, 140),
 	"plots": [
-		Vector2(370, 410), Vector2(570, 540), Vector2(830, 540), Vector2(400, 200), Vector2(160, 570), Vector2(500, 300),
-		Vector2(1000, 520), Vector2(1220, 560), Vector2(650, 540), Vector2(750, 520), Vector2(1080, 540), Vector2(910, 540),
-		Vector2(620, 320), Vector2(470, 570), Vector2(240, 570),
+		Vector2(550, 540), Vector2(420, 570), Vector2(500, 280), Vector2(630, 540), Vector2(160, 570), Vector2(400, 260),
+		Vector2(1000, 520), Vector2(1220, 560), Vector2(580, 260), Vector2(830, 530), Vector2(1080, 540), Vector2(910, 530),
+		Vector2(750, 520), Vector2(260, 570), Vector2(190, 320),
 	],
-	"posts": [Vector2(339, 630), Vector2(736, 630), Vector2(1035, 630), Vector2(1042, 463), Vector2(531, 371), Vector2(1191, 448)],
+	"posts": [Vector2(339, 630), Vector2(736, 630), Vector2(1035, 630), Vector2(1036, 463), Vector2(457, 368), Vector2(1191, 448)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 2.75,  # TUNING (not in GDD) L4: 2.5 before the road redraw; the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
+	"wave_hp_end": 3.08,  # TUNING (not in GDD) L7: 2.75 before the break fixes; L4: 2.5 before the road redraw; the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
 	"rule": "",
 	"act_rule": "pantheon/pantheon_rules",
 	"build_order": "ilion_default",

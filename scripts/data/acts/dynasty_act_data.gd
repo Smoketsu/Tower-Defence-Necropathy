@@ -673,7 +673,7 @@ const MOODS: Dictionary = {
 ## (Structures.raise() stands each on the nearest road's side).
 const JARS: Dictionary = {
 	"necropolis": [Vector2(378, 495), Vector2(608, 75), Vector2(906, 415), Vector2(826, 150), Vector2(624, 575)],  # TUNING (not in GDD) Necropathy: jars beside the tombs
-	"lioness_temple": [Vector2(399, 120), Vector2(916, 536), Vector2(159, 254), Vector2(290, 441), Vector2(612, 402)],  # TUNING (not in GDD)
+	"lioness_temple": [Vector2(320, 228), Vector2(1014, 383), Vector2(356, 334), Vector2(309, 532), Vector2(608, 394)],  # TUNING (not in GDD)
 	"two_truths": [Vector2(1105, 391), Vector2(880, 206), Vector2(760, 319), Vector2(535, 91), Vector2(65, 379)],  # TUNING (not in GDD)
 }
 
