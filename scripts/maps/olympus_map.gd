@@ -46,7 +46,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(300, 170), Vector2(900, 318), Vector2(640, 370), Vector2(380, 470), Vector2(800, 570), Vector2(1150, 280)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 3.6,  # TUNING (not in GDD) the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
+	"wave_hp_end": 3.4,  # TUNING (not in GDD) S3: 3.6 before the spot fix; the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
 	"rule": "",
 	"act_rule": "pantheon/pantheon_rules",
 	"build_order": "olympus_default",

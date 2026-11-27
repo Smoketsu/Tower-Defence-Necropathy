@@ -51,7 +51,7 @@ const MAP: Dictionary = {
 	"clouds": [[Vector2(640, 400), 84.0], [Vector2(330, 370), 70.0], [Vector2(950, 370), 70.0]],  # TUNING (not in GDD) the rose's shadowed petals
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 3.2,  # TUNING (not in GDD) the act's finale presses hardest
+	"wave_hp_end": 3.0,  # TUNING (not in GDD) S3: 3.2 before the spot fix; the act's finale presses hardest
 	"rule": "",
 	"act_rule": "host/hallowed_light",
 	"build_order": "empyrean_default",

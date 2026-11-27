@@ -43,7 +43,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(300, 190), Vector2(1000, 190), Vector2(640, 320), Vector2(850, 420), Vector2(500, 600)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 2.8,  # TUNING (not in GDD)
+	"wave_hp_end": 3.0,  # TUNING (not in GDD) S3: 2.8 before the spot fix
 	"rule": "",
 	"act_rule": "dynasty/rebirth",
 	"build_order": "lioness_temple_default",
