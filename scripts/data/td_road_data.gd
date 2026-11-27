@@ -18,7 +18,7 @@ const ROOT: String = "res://assets/sprites/td/roads/"
 ## the two cart ruts), "cobble" (Color, the loose pebbles). Tiles: ROOT + id + "_fill.png"
 ## and ROOT + id + "_edge.png".
 const STYLES: Dictionary = {
-	"deck": {},  # TUNING (not in GDD)
+	"deck": {"rut": Color(0.2, 0.18, 0.15, 0.12), "cobble": Color(0.3, 0.27, 0.24, 0.3)},  # TUNING (not in GDD)
 	"cobble": {},  # TUNING (not in GDD)
 	"carpet": {},  # TUNING (not in GDD)
 	"earth": {},  # TUNING (not in GDD)

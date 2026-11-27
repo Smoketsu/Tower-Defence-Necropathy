@@ -82,3 +82,11 @@ utc,key,model,quality,size,refs,text_in,image_in,image_out,usd_est,file
 2026-11-27 03:15,road_ash_stone_edge,gpt-image-2.5-flare,medium,1024x1024,0,128,0,439,0.0138,ash_stone_edge_a.png
 2026-11-27 03:15,road_steel_edge,gpt-image-2.5-flare,medium,1024x1024,0,123,0,439,0.0138,steel_edge_a.png
 2026-11-27 03:18,road_hex_fill,gpt-image-2.5-flare,medium,1024x1024,0,138,0,439,0.0139,hex_fill_a.png
+2026-11-27 03:29,road_ash_stone_fill,gpt-image-2.5-flare,medium,1024x1024,0,121,0,439,0.0138,ash_stone_fill_a.png
+2026-11-27 03:29,road_deck_fill,gpt-image-2.5-flare,medium,1024x1024,0,130,0,439,0.0138,deck_fill_a.png
+2026-11-27 03:29,road_moss_path_fill,gpt-image-2.5-flare,medium,1024x1024,0,122,0,439,0.0138,moss_path_fill_a.png
+2026-11-27 03:29,road_harbour_fill,gpt-image-2.5-flare,medium,1024x1024,0,122,0,439,0.0138,harbour_fill_a.png
+2026-11-27 03:29,road_ash_stone_edge,gpt-image-2.5-flare,medium,1024x1024,0,128,0,439,0.0138,ash_stone_edge_a.png
+2026-11-27 03:29,road_deck_edge,gpt-image-2.5-flare,medium,1024x1024,0,137,0,439,0.0139,deck_edge_a.png
+2026-11-27 03:29,road_moss_path_edge,gpt-image-2.5-flare,medium,1024x1024,0,132,0,439,0.0138,moss_path_edge_a.png
+2026-11-27 03:29,road_harbour_edge,gpt-image-2.5-flare,medium,1024x1024,0,125,0,439,0.0138,harbour_edge_a.png
