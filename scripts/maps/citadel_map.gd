@@ -43,8 +43,8 @@ const MAP: Dictionary = {
 	"plots": [
 		Vector2(180, 210), Vector2(380, 210), Vector2(580, 210), Vector2(780, 210),
 		Vector2(180, 530), Vector2(380, 530), Vector2(580, 530), Vector2(780, 530),
-		Vector2(1090, 170), Vector2(1090, 370), Vector2(1090, 570), Vector2(790, 370),
-		Vector2(1200, 270), Vector2(1200, 470),
+		Vector2(1040, 170), Vector2(1020, 425), Vector2(1040, 570), Vector2(790, 370),
+		Vector2(1045, 245), Vector2(1045, 495),
 		Vector2(300, 300), Vector2(300, 440), Vector2(520, 300), Vector2(520, 440),
 	],
 	"posts": [Vector2(600, 130), Vector2(600, 610), Vector2(960, 220), Vector2(960, 520), Vector2(450, 370), Vector2(220, 370)],

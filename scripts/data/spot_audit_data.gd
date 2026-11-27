@@ -41,9 +41,10 @@ const ENTRANCE_CLEAR: float = 60.0  # TUNING (not in GDD)
 
 ## --- Covered (under the interface or off the map) ------------------------------
 
-## Size (px) of the spell bar on a desktop (4 spells + the ultimate, 64 px buttons,
-## 8 px apart; TdHud places it in the bottom slot covering the least road, mirrored here).
-const SPELL_BAR: Vector2 = Vector2(352.0, 64.0)  # TUNING (not in GDD) 5 x 64 + 4 x 8
+## Size (px) of the spell bar on a desktop (the three loadout spells + the ultimate,
+## 64 px buttons 8 px apart; TdHud places it in the bottom slot covering the least road,
+## mirrored here).
+const SPELL_BAR: Vector2 = Vector2(280.0, 64.0)  # TUNING (not in GDD) 4 x 64 + 3 x 8 (SpellData.DEFAULT_LOADOUT is 3)
 ## Act HUD widget corner per act id ("tl" top-left under the top bar, "tr"
 ## top-right under it, "bl" bottom-left); acts not listed have none.
 const WIDGET_CORNER: Dictionary = {
@@ -78,6 +79,20 @@ const MAP_AREAS: Array[String] = ["tar", "hole"]  # TUNING (not in GDD)
 const POST_SNAP: float = 24.0  # TUNING (not in GDD) half the road width
 ## Overlap: two posts on the same road nearer than this along it (px; the 70 px mark).
 const POST_GAP: float = 70.0  # TUNING (not in GDD)
-## Dead end: a post nearer than this to its road's start (an entrance) or the gate, or
-## off the visible map: enemies barely meet it there.
+## Dead end: a post nearer than this to its road's start (an entrance) or off the
+## visible map: enemies barely meet it there.
 const POST_END: float = 40.0  # TUNING (not in GDD)
+## Dead end: a post nearer than this to the end of a road that ends at the gate (it
+## would stand inside the gate art). A last-ditch post just in front of the gate is fine.
+const POST_GATE: float = 24.0  # TUNING (not in GDD) half the road width
+
+## --- The fixer (tools/spot_audit.tscn -- --fix: proposes new places for flagged plots) ---
+
+## Road px the shortest-range tower must cover at level 1 from a proposed new place:
+## 110 px is ~2.1 s of fodder, more than one Banshee wail interval with room to spare
+## (a plot ~100 px from a straight road), so a moved plot is a clear choice, not borderline.
+const FIX_PX: float = 110.0  # TUNING (not in GDD)
+## Px grid of the proposed places (round numbers in the map data).
+const FIX_STEP: float = 5.0  # TUNING (not in GDD)
+## Farthest (px) the fixer moves a plot; past it the plot is reported as unfixable.
+const FIX_REACH: float = 260.0  # TUNING (not in GDD)

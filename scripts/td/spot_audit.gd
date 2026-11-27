@@ -187,15 +187,19 @@ static func rect_dist(r: Rect2, p: Vector2) -> float:
 ## trail_px (off-road trail px in the typical range), flags (Array of "dead",
 ## "weak", "too_close", "crowded", "covered", "prop")}.
 static func plots(map: Dictionary, roads: Dictionary) -> Array[Dictionary]:
+	var ctx := context(map, roads)
+	var out: Array[Dictionary] = []
+	var all: Array = map["plots"]
+	for i in all.size():
+		out.append(plot_row(map, roads, ctx, i, all[i], all))
+	return out
+
+
+## What plot_row() needs once per map: {r1, r5, rt (ranges, px), smp (road samples),
+## posts (snapped_posts()), cov (covers()), pts (act_points()), obs (obstacle_rects()),
+## entries (where entrance roads come on screen)}.
+static func context(map: Dictionary, roads: Dictionary) -> Dictionary:
 	var sh := shortest_tower()
-	var r1 := float(sh[0])  # Shortest range, level 1.
-	var r5 := range_of(String(sh[1]), 5)  # Its level 5 range.
-	var rt := range_of(SpotAuditData.TYPICAL_TOWER, 1)  # Typical range.
-	var smp := samples(roads)
-	var posts := snapped_posts(map, roads)
-	var cov := covers(map, roads)
-	var pts := act_points(map)
-	var obs := obstacle_rects(map)
 	var vp := MapView.SIZE
 	var entries: Array[Vector2] = []  # Where entrance roads come on screen.
 	for rd: Road in roads.values():
@@ -204,72 +208,74 @@ static func plots(map: Dictionary, roads: Dictionary) -> Array[Dictionary]:
 			while d < rd.length and not Rect2(Vector2.ZERO, vp).has_point(rd.point_at(d)):
 				d += SpotAuditData.SAMPLE_STEP
 			entries.append(rd.point_at(d))
-	var out: Array[Dictionary] = []
-	var all: Array = map["plots"]
-	for i in all.size():
-		var p: Vector2 = all[i]
-		var row := {"i": i, "pos": p, "road_d": INF, "short_px": 0.0, "short5_px": 0.0, "typ_px": 0.0, "trail_px": 0.0}
-		var flags: Array[String] = []
-		for rd: Road in roads.values():
-			if rd.sky:
-				continue
-			if rd.off_road:
-				row["trail_px"] = float(row["trail_px"]) + road_in(rd, p, rt)
-				continue
-			row["road_d"] = minf(float(row["road_d"]), rd.distance_to(p))
-			row["short_px"] = float(row["short_px"]) + road_in(rd, p, r1)
-			row["short5_px"] = float(row["short5_px"]) + road_in(rd, p, r5)
-			row["typ_px"] = float(row["typ_px"]) + road_in(rd, p, rt)
-		row["short_s"] = float(row["short_px"]) / SpotAuditData.FODDER_SPEED
-		row["typ_s"] = float(row["typ_px"]) / SpotAuditData.FODDER_SPEED
-		if float(row["short_px"]) <= 0.0:
-			flags.append("dead")
-		elif float(row["short_px"]) < SpotAuditData.WEAK_PX:
-			flags.append("weak")
-		var fp := footprint(p)
-		var close := false  # Footprint on the road or a post.
-		for q: Vector2 in smp:
-			if rect_dist(fp, q) < TdArtData.ROAD_WIDTH * 0.5 + SpotAuditData.ROAD_MARGIN:
-				close = true
-				break
-		for po: Dictionary in posts:
-			close = close or p.distance_to(po["pos"]) < SpotAuditData.POST_CLEAR
-		if close:
-			flags.append("too_close")
-		var crowd := p.distance_to(map["gate"]) < SpotAuditData.GATE_CLEAR  # On a spot, the gate or an entrance.
-		for j in all.size():
-			crowd = crowd or (j != i and p.distance_to(all[j]) < SpotAuditData.PLOT_CLEAR)
-		for e: Vector2 in entries:
-			crowd = crowd or p.distance_to(e) < SpotAuditData.ENTRANCE_CLEAR
-		if crowd:
-			flags.append("crowded")
-		var art := fp  # The plot art.
-		var hid := not Rect2(Vector2.ZERO, vp).encloses(art)  # Off the map, or under the interface.
-		for c: Rect2 in cov:
-			hid = hid or c.intersects(art)
-		if hid:
-			flags.append("covered")
-		var on := false  # On an obstacle or act object.
-		for o: Rect2 in obs:
-			on = on or o.intersects(art)
-		for q: Vector2 in pts:
-			on = on or p.distance_to(q) < SpotAuditData.POINT_CLEAR
-		for k: String in SpotAuditData.MAP_AREAS:
-			var a: Array = map.get(k, [])
-			if a.size() == 2 and a[0] is Vector2:
-				a = [a]  # A single [centre, radius] area (the watering hole).
-			for ar: Array in a:
-				on = on or p.distance_to(ar[0]) < float(ar[1]) + SpotAuditData.FOOT_HALF
-		if on:
-			flags.append("prop")
-		row["flags"] = flags
-		out.append(row)
-	return out
+	return {"r1": float(sh[0]), "r5": range_of(String(sh[1]), 5), "rt": range_of(SpotAuditData.TYPICAL_TOWER, 1),
+		"smp": samples(roads), "posts": snapped_posts(map, roads), "cov": covers(map, roads), "pts": act_points(map),
+		"obs": obstacle_rects(map), "entries": entries}
+
+
+## The audit row of plot `i` standing at `p` among the plots `all` (see plots()).
+static func plot_row(map: Dictionary, roads: Dictionary, ctx: Dictionary, i: int, p: Vector2, all: Array) -> Dictionary:
+	var vp := MapView.SIZE
+	var row := {"i": i, "pos": p, "road_d": INF, "short_px": 0.0, "short5_px": 0.0, "typ_px": 0.0, "trail_px": 0.0}
+	var flags: Array[String] = []
+	for rd: Road in roads.values():
+		if rd.sky:
+			continue
+		if rd.off_road:
+			row["trail_px"] = float(row["trail_px"]) + road_in(rd, p, ctx["rt"])
+			continue
+		row["road_d"] = minf(float(row["road_d"]), rd.distance_to(p))
+		row["short_px"] = float(row["short_px"]) + road_in(rd, p, ctx["r1"])
+		row["short5_px"] = float(row["short5_px"]) + road_in(rd, p, ctx["r5"])
+		row["typ_px"] = float(row["typ_px"]) + road_in(rd, p, ctx["rt"])
+	row["short_s"] = float(row["short_px"]) / SpotAuditData.FODDER_SPEED
+	row["typ_s"] = float(row["typ_px"]) / SpotAuditData.FODDER_SPEED
+	if float(row["short_px"]) <= 0.0:
+		flags.append("dead")
+	elif float(row["short_px"]) < SpotAuditData.WEAK_PX:
+		flags.append("weak")
+	var fp := footprint(p)  # The plot art.
+	var close := false  # Footprint on the road or a post.
+	for q: Vector2 in ctx["smp"]:
+		if rect_dist(fp, q) < TdArtData.ROAD_WIDTH * 0.5 + SpotAuditData.ROAD_MARGIN:
+			close = true
+			break
+	for po: Dictionary in ctx["posts"]:
+		close = close or p.distance_to(po["pos"]) < SpotAuditData.POST_CLEAR
+	if close:
+		flags.append("too_close")
+	var crowd := p.distance_to(map["gate"]) < SpotAuditData.GATE_CLEAR  # On a spot, the gate or an entrance.
+	for j in all.size():
+		crowd = crowd or (j != i and p.distance_to(all[j]) < SpotAuditData.PLOT_CLEAR)
+	for e: Vector2 in ctx["entries"]:
+		crowd = crowd or p.distance_to(e) < SpotAuditData.ENTRANCE_CLEAR
+	if crowd:
+		flags.append("crowded")
+	var hid := not Rect2(Vector2.ZERO, vp).encloses(fp)  # Off the map, or under the interface.
+	for c: Rect2 in ctx["cov"]:
+		hid = hid or c.intersects(fp)
+	if hid:
+		flags.append("covered")
+	var on := false  # On an obstacle or act object.
+	for o: Rect2 in ctx["obs"]:
+		on = on or o.intersects(fp)
+	for q: Vector2 in ctx["pts"]:
+		on = on or p.distance_to(q) < SpotAuditData.POINT_CLEAR
+	for k: String in SpotAuditData.MAP_AREAS:
+		var a: Array = map.get(k, [])
+		if a.size() == 2 and a[0] is Vector2:
+			a = [a]  # A single [centre, radius] area (the watering hole).
+		for ar: Array in a:
+			on = on or p.distance_to(ar[0]) < float(ar[1]) + SpotAuditData.FOOT_HALF
+	if on:
+		flags.append("prop")
+	row["flags"] = flags
+	return row
 
 
 ## One row per post: {i, pos (snapped), road, flags ("off_road": authored far from its
 ## road, "overlap": too near another post on its road, "dead_end": at a road's start
-## (an entrance), at the gate end or off screen)}.
+## (an entrance), inside the gate or off screen)}.
 static func posts(map: Dictionary, roads: Dictionary) -> Array[Dictionary]:
 	var sp := snapped_posts(map, roads)
 	var out: Array[Dictionary] = []
@@ -285,7 +291,7 @@ static func posts(map: Dictionary, roads: Dictionary) -> Array[Dictionary]:
 				break
 		var end := SpotAuditData.POST_END
 		var at_start := rd.entrance and float(a["dist"]) < end  # At an entrance.
-		var at_gate := rd.next_id == "" and float(a["dist"]) > rd.length - end  # At the gate.
+		var at_gate := rd.next_id == "" and float(a["dist"]) > rd.length - SpotAuditData.POST_GATE  # Inside the gate.
 		if at_start or at_gate or not Rect2(Vector2.ZERO, MapView.SIZE).grow(-end).has_point(a["pos"]):
 			flags.append("dead_end")
 		out.append({"i": i, "pos": a["pos"], "road": rd.id, "flags": flags})

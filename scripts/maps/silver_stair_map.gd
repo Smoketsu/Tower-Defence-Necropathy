@@ -43,8 +43,8 @@ const MAP: Dictionary = {
 	"plots": [
 		Vector2(180, 560), Vector2(420, 560), Vector2(660, 560), Vector2(860, 560), Vector2(380, 400),
 		Vector2(600, 400), Vector2(820, 400), Vector2(1060, 400), Vector2(300, 250), Vector2(560, 250),
-		Vector2(900, 250), Vector2(200, 110), Vector2(480, 110), Vector2(1160, 260), Vector2(1180, 440),
-		Vector2(1100, 600),
+		Vector2(900, 250), Vector2(280, 110), Vector2(480, 110), Vector2(1160, 260), Vector2(1100, 350),
+		Vector2(1040, 580),
 	],
 	"posts": [Vector2(600, 640), Vector2(560, 480), Vector2(240, 400), Vector2(880, 320), Vector2(1060, 230), Vector2(400, 180)],
 	"clouds": [[Vector2(420, 560), 80.0], [Vector2(820, 400), 76.0], [Vector2(560, 250), 70.0]],  # TUNING (not in GDD) the low cloud banks of the Stair

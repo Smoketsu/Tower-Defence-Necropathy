@@ -3,7 +3,9 @@
 ## check of the map rules every map must keep (an entrance road, roads that
 ## join existing roads, known enemy kinds and roads in the waves, a boss on the
 ## final wave (GDD §3), rule scripts that exist, and a default and a weak build
-## order (MAP "build_order" / "weak_order") whose steps name real spots).
+## order (MAP "build_order" / "weak_order") whose steps name real spots, and
+## spots that pass the spot audit (SpotAudit, DECISIONS S1: no dead or weak plot,
+## none on the road, a post, another spot, a prop or under the HUD; posts on their road)).
 class_name MapLoader
 extends RefCounted
 
@@ -87,6 +89,9 @@ static func validate(map: Dictionary, roads: Dictionary) -> bool:
 				push_error("Map %s: build order %s names a missing spot %s" % [map["id"], oid, st["spot"]])
 				ok = false
 				break
+	for line: String in SpotAudit.problems(map, roads):
+		push_error("Map %s: bad spot %s (SpotAudit; details: tools/spot_audit.tscn)" % [map["id"], line])
+		ok = false
 	return ok
 
 
