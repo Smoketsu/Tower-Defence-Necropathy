@@ -1,13 +1,14 @@
 ## The Fern Basin (Act XIV map 1, the Age of Titans; Necropathy's "fern_basin"
 ## stage, GDD §7.3): a steaming basin of tree ferns, tar seeps and bleached
-## fossils. The hunters' path enters from the west, winds down through a tar
-## seep and back up to the necromancer's gate in the east; a second path comes
-## up from the river ford in the south and joins it. A herd trail runs north to
-## south across the eastern basin (off-road, an exit): herds trample the plots
-## beside it unless they are hurt enough to turn back. Tar seeps slow every
-## walker (Bog Crocs sink out of sight in them). Act rule: the Stampedes
-## (rules/primeval/stampedes.gd). 16 plots, 5 posts, 22 waves; Ironjaw, the
-## Nest Mother (miniboss) on wave 11, Scarmaw on wave 22. Keys as
+## fossils. The hunters' game trail enters from the west, dips in one big smooth
+## bowl down through the basin (through a tar seep) and climbs out to the
+## necromancer's gate in the east; a second path comes up from the river ford in
+## the south (through another seep) and joins it at the bowl's bottom. A herd
+## trail runs north to south across the eastern basin (off-road, an exit): herds
+## trample the plots beside it unless they are hurt enough to turn back. Tar
+## seeps slow every walker (Bog Crocs sink out of sight in them). Act rule: the
+## Stampedes (rules/primeval/stampedes.gd). 16 plots, 5 posts, 22 waves;
+## Ironjaw, the Nest Mother (miniboss) on wave 11, Scarmaw on wave 22. Keys as
 ## graveyard_map.gd plus "herd_trails", "tar" (the act rule). Data only.
 extends RefCounted
 
@@ -20,42 +21,56 @@ const MAP: Dictionary = {
 	"obstacles": [
 		["obstacles/primeval_tree_fern_m", Vector2(60, 420)], ["obstacles/primeval_tree_fern_m", Vector2(250, 120)],
 		["obstacles/primeval_fossil_m", Vector2(520, 300)], ["obstacles/primeval_tree_fern_m", Vector2(700, 110)],
-		["obstacles/primeval_rock_m", Vector2(1210, 140)], ["obstacles/primeval_tree_fern_m", Vector2(1240, 620)],
-		["obstacles/primeval_fossil_m_v", Vector2(80, 620)], ["obstacles/primeval_tree_fern_m", Vector2(820, 640)],
+		["obstacles/primeval_rock_m", Vector2(1205, 131)], ["obstacles/primeval_tree_fern_m", Vector2(1240, 620)],
+		["obstacles/primeval_fossil_m_v", Vector2(80, 620)], ["obstacles/primeval_tree_fern_m", Vector2(830, 657)],
 		["obstacles/primeval_rock_m", Vector2(400, 680)], ["obstacles/primeval_tree_fern_m", Vector2(1040, 420)],
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 240), Vector2(260, 240), Vector2(320, 300), Vector2(320, 470), Vector2(380, 530),
-				Vector2(700, 530), Vector2(760, 470), Vector2(760, 250), Vector2(820, 190), Vector2(1060, 190),
-				Vector2(1120, 250), Vector2(1120, 420), Vector2(1180, 480), Vector2(1190, 480)],
+			"points": [Vector2(-40, 190), Vector2(-23, 190), Vector2(-1, 189), Vector2(26, 188), Vector2(56, 186),
+				Vector2(88, 186), Vector2(119, 186), Vector2(149, 187), Vector2(177, 190), Vector2(200, 195),
+				Vector2(230, 206), Vector2(257, 222), Vector2(282, 240), Vector2(303, 259), Vector2(319, 280),
+				Vector2(330, 300), Vector2(331, 324), Vector2(320, 350), Vector2(306, 377), Vector2(296, 404),
+				Vector2(300, 430), Vector2(312, 449), Vector2(330, 470), Vector2(351, 490), Vector2(376, 511),
+				Vector2(403, 529), Vector2(431, 546), Vector2(460, 560), Vector2(483, 569), Vector2(508, 576),
+				Vector2(534, 583), Vector2(561, 588), Vector2(588, 593), Vector2(616, 596), Vector2(644, 598),
+				Vector2(672, 600), Vector2(700, 600), Vector2(728, 600), Vector2(757, 598), Vector2(787, 596),
+				Vector2(816, 593), Vector2(846, 588), Vector2(874, 583), Vector2(902, 576), Vector2(927, 569),
+				Vector2(950, 560), Vector2(977, 546), Vector2(1003, 530), Vector2(1027, 511), Vector2(1048, 491),
+				Vector2(1066, 470), Vector2(1080, 450), Vector2(1090, 430), Vector2(1091, 401), Vector2(1078, 371),
+				Vector2(1062, 341), Vector2(1049, 313), Vector2(1050, 290), Vector2(1069, 272), Vector2(1100, 257),
+				Vector2(1135, 246), Vector2(1168, 237), Vector2(1190, 230)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"ford": {
-			"points": [Vector2(560, 760), Vector2(560, 600), Vector2(600, 530)],
-			"next": "main", "next_at": 859.7, "entrance": true,
+			"points": [Vector2(620, 770), Vector2(627, 749), Vector2(638, 720), Vector2(650, 690), Vector2(664, 659),
+				Vector2(679, 627), Vector2(690, 604)],
+			"next": "main", "next_at": 994.2,  # joins main at (690, 600)
+			"entrance": true,
 		},
 		"fern_trail": {
-			"points": [Vector2(980, -40), Vector2(980, 110), Vector2(930, 300), Vector2(900, 420), Vector2(940, 620), Vector2(940, 780)],
+			"points": [Vector2(980, -40), Vector2(980, 110), Vector2(930, 300), Vector2(900, 420), Vector2(940, 620),
+				Vector2(940, 780)],
 			"next": "", "next_at": 0.0, "entrance": false, "off_road": true, "exit": true,
 		},
 		"fern_trail_back": {
-			"points": [Vector2(940, 780), Vector2(940, 620), Vector2(900, 420), Vector2(930, 300), Vector2(980, 110), Vector2(980, -40)],
+			"points": [Vector2(940, 780), Vector2(940, 620), Vector2(900, 420), Vector2(930, 300), Vector2(980, 110),
+				Vector2(980, -40)],
 			"next": "", "next_at": 0.0, "entrance": false, "off_road": true, "exit": true,
 		},
 	},
 	"herd_trails": {"fern_trail": "fern_trail_back"},  # The herd trail and the road a turned herd runs back along.
-	"tar": [[Vector2(320, 385), 52.0], [Vector2(905, 370), 48.0], [Vector2(560, 660), 40.0]],  # TUNING (not in GDD) tar seeps: [centre px, radius px]
-	"gate": Vector2(1218, 450),
+	"tar": [[Vector2(331, 314), 52.0], [Vector2(905, 370), 48.0], [Vector2(662, 660), 40.0]],  # TUNING (not in GDD) tar seeps: [centre px, radius px]
+	"gate": Vector2(1217, 192),
 	"plots": [
-		Vector2(130, 170), Vector2(130, 320), Vector2(230, 390), Vector2(420, 420), Vector2(470, 620), Vector2(660, 620),
-		Vector2(620, 420), Vector2(660, 300), Vector2(520, 440), Vector2(855, 310), Vector2(860, 100), Vector2(1015, 300),
-		Vector2(1075, 505), Vector2(1200, 330), Vector2(1065, 100), Vector2(410, 310),
+		Vector2(1140, 310), Vector2(820, 530), Vector2(1000, 380), Vector2(180, 290), Vector2(960, 450), Vector2(380, 380),
+		Vector2(530, 650), Vector2(640, 540), Vector2(780, 660), Vector2(1150, 390), Vector2(490, 500), Vector2(250, 330),
+		Vector2(110, 250), Vector2(420, 450), Vector2(1020, 600), Vector2(720, 540),
 	],
-	"posts": [Vector2(170, 240), Vector2(520, 530), Vector2(760, 360), Vector2(940, 190), Vector2(1120, 330)],
+	"posts": [Vector2(202, 196), Vector2(598, 594), Vector2(897, 578), Vector2(1077, 455), Vector2(1067, 273)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 2.9,  # TUNING (not in GDD) S3: 2.8 before the spot fix; Part Three: its roster carries the step up (DECISIONS T14.7)
+	"wave_hp_end": 2.4,  # TUNING (not in GDD) L4: 2.9 before the road redraw; S3: 2.8 before the spot fix; Part Three: its roster carries the step up (DECISIONS T14.7)
 	"rule": "",
 	"act_rule": "primeval/stampedes",
 	"build_order": "fern_basin_default",

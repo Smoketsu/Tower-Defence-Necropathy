@@ -1,16 +1,17 @@
 ## The Last Day (Act XIV map 3, the Age of Titans' finale; Necropathy's
-## "last_day" stage, GDD §7.3): a scorched plain under a white sky, lava
-## fields and an ash forest, the meteor already burning overhead. Two paths
-## come in from the west and the east along the bottom of the plain, climb
-## either side of the impact rim, meet in the middle and run up together to
-## the necromancer's gate at the top. The ash trail crosses the whole plain west to east (off-road, an exit):
-## the last herds run for their lives over it. FIRE FROM THE SKY: meteorites
-## fall on telegraphed circles, on your towers half the time and on the road
-## ahead of the foes otherwise, striking both armies. Act rule: the Stampedes
-## (rules/primeval/stampedes.gd). 16 plots, 5 posts, 24 waves; Thunderwing,
-## the Sky King (miniboss) on wave 12, Old Gravejaw on wave 24. Beating him
-## unlocks the Bonehorn. Keys as graveyard_map.gd plus "herd_trails",
-## "meteors" (the act rule). Data only.
+## "last_day" stage, GDD §7.3): a scorched plain under a white sky, lava fields
+## and an ash forest, the meteor already burning overhead. Two paths come in
+## from the west and the east along the bottom of the plain and curve between
+## the meteor craters (each bend round an old crater), meet in the middle and
+## run up together to the necromancer's gate on the mound at the top. The ash
+## trail crosses the whole plain west to east (off-road, an exit): the last
+## herds run for their lives over it. FIRE FROM THE SKY: meteorites fall on
+## telegraphed circles, on your towers half the time and on the road ahead of
+## the foes otherwise, striking both armies. Act rule: the Stampedes
+## (rules/primeval/stampedes.gd). 16 plots, 5 posts, 24 waves; Thunderwing, the
+## Sky King (miniboss) on wave 12, Old Gravejaw on wave 24. Beating him unlocks
+## the Bonehorn. Keys as graveyard_map.gd plus "herd_trails", "meteors" (the act
+## rule). Data only.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd and stampedes.gd).
@@ -24,20 +25,32 @@ const MAP: Dictionary = {
 		["obstacles/primeval_fossil_m", Vector2(640, 600)], ["obstacles/primeval_lava_rock_m", Vector2(380, 140)],
 		["obstacles/primeval_lava_rock_m", Vector2(900, 140)], ["obstacles/primeval_fossil_m_v", Vector2(40, 520)],
 		["obstacles/primeval_lava_rock_m", Vector2(1240, 520)], ["obstacles/primeval_rock_m", Vector2(560, 690)],
-		["obstacles/primeval_rock_m", Vector2(740, 690)],
-		["obstacles/primeval_lava_rock_m", Vector2(400, 470)], ["obstacles/primeval_lava_rock_m", Vector2(880, 470)],
-		["obstacles/primeval_lava_rock_m", Vector2(680, 290)],
+		["obstacles/primeval_rock_m", Vector2(740, 690)], ["obstacles/primeval_lava_rock_m", Vector2(490, 432)],
+		["obstacles/primeval_lava_rock_m", Vector2(776, 559)], ["obstacles/primeval_lava_rock_m", Vector2(589, 334)],
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 620), Vector2(300, 620), Vector2(360, 560), Vector2(360, 400), Vector2(420, 340),
-				Vector2(640, 340), Vector2(640, 130)],
+			"points": [Vector2(-40, 600), Vector2(-24, 602), Vector2(-3, 605), Vector2(22, 608), Vector2(50, 613),
+				Vector2(79, 617), Vector2(110, 620), Vector2(140, 623), Vector2(170, 625), Vector2(196, 626),
+				Vector2(220, 625), Vector2(250, 621), Vector2(279, 615), Vector2(305, 607), Vector2(330, 597),
+				Vector2(353, 586), Vector2(373, 573), Vector2(390, 560), Vector2(410, 538), Vector2(425, 513),
+				Vector2(435, 485), Vector2(440, 457), Vector2(440, 430), Vector2(430, 403), Vector2(409, 376),
+				Vector2(386, 349), Vector2(367, 323), Vector2(360, 300), Vector2(370, 273), Vector2(392, 247),
+				Vector2(421, 227), Vector2(450, 215), Vector2(479, 215), Vector2(511, 224), Vector2(543, 237),
+				Vector2(570, 250), Vector2(600, 274), Vector2(624, 299), Vector2(640, 300), Vector2(644, 283),
+				Vector2(645, 255), Vector2(644, 221), Vector2(643, 186), Vector2(641, 155), Vector2(640, 135)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"east": {
-			"points": [Vector2(1320, 620), Vector2(980, 620), Vector2(920, 560), Vector2(920, 400), Vector2(860, 340),
-				Vector2(640, 340)],
-			"next": "main", "next_at": 889.7, "entrance": true,
+			"points": [Vector2(1320, 600), Vector2(1303, 598), Vector2(1281, 594), Vector2(1254, 589), Vector2(1224, 584),
+				Vector2(1193, 579), Vector2(1161, 575), Vector2(1131, 572), Vector2(1104, 570), Vector2(1080, 570),
+				Vector2(1045, 577), Vector2(1016, 591), Vector2(990, 607), Vector2(965, 618), Vector2(940, 620),
+				Vector2(917, 612), Vector2(892, 599), Vector2(868, 581), Vector2(847, 561), Vector2(830, 540),
+				Vector2(820, 520), Vector2(822, 495), Vector2(835, 467), Vector2(853, 439), Vector2(867, 413),
+				Vector2(870, 390), Vector2(856, 367), Vector2(831, 348), Vector2(800, 332), Vector2(770, 320),
+				Vector2(737, 311), Vector2(700, 307), Vector2(666, 304), Vector2(643, 302)],
+			"next": "main", "next_at": 1090.2,  # joins main at (640, 300)
+			"entrance": true,
 		},
 		"ash_trail": {
 			"points": [Vector2(-60, 500), Vector2(220, 490), Vector2(640, 470), Vector2(1060, 490), Vector2(1340, 480)],
@@ -50,14 +63,14 @@ const MAP: Dictionary = {
 	},
 	"herd_trails": {"ash_trail": "ash_trail_back"},  # The herd trail and the road a turned herd runs back along.
 	"meteors": true,  # Fire from the Sky (the act rule's RULE "meteor").
-	"rocks": [Vector2(400, 470), Vector2(880, 470), Vector2(680, 290)],  # Lava rocks beside the road a charge breaks on (the obstacles of the same place).
-	"gate": Vector2(640, 108),
+	"rocks": [Vector2(490, 432), Vector2(776, 559), Vector2(589, 334)],  # Lava rocks beside the road a charge breaks on (the obstacles of the same place).
+	"gate": Vector2(640, 110),
 	"plots": [
-		Vector2(220, 560), Vector2(300, 335), Vector2(480, 400), Vector2(480, 250), Vector2(560, 200), Vector2(720, 200),
-		Vector2(800, 250), Vector2(800, 400), Vector2(1060, 560), Vector2(980, 335), Vector2(560, 100), Vector2(720, 100),
-		Vector2(1100, 690), Vector2(180, 690), Vector2(355, 685), Vector2(1180, 560),
+		Vector2(240, 680), Vector2(1120, 640), Vector2(750, 250), Vector2(490, 380), Vector2(520, 300), Vector2(970, 510),
+		Vector2(730, 380), Vector2(310, 500), Vector2(840, 280), Vector2(150, 680), Vector2(440, 310), Vector2(570, 180),
+		Vector2(420, 620), Vector2(70, 680), Vector2(1200, 640), Vector2(850, 650),
 	],
-	"posts": [Vector2(160, 620), Vector2(360, 460), Vector2(920, 460), Vector2(1120, 620), Vector2(640, 250)],
+	"posts": [Vector2(203, 626), Vector2(415, 384), Vector2(820, 513), Vector2(1109, 570), Vector2(645, 230)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
 	"wave_hp_end": 2.3,  # TUNING (not in GDD) DECISIONS Z4: 2.4 -> 2.3 (skyraiders 64 -> 54 px/s); the act's finale presses hardest
