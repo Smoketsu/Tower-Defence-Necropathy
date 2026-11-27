@@ -1,12 +1,13 @@
 ## Fort Kessler (Act IV map 2, Necropathy stage `fort_kessler`; GDD §7.3 the
-## Last Line): the army's checkpoint city. The main street winds in from the
-## south-west, the north road drops past the barracks and joins it on the
-## last climb, which runs up past the airfield to the gate in the north-east:
-## 15 lots, 6 road posts. The full ladder short of the heroes: gangs, police
-## from wave 4, SWAT from 8, the army from 12 (riflemen, machine gunners,
-## tanks, helicopters). The Mammoth (miniboss, chest) on wave 14; General
-## Harrow, the Hammer, on wave 23. Act rule: the escalation. Data only, no
-## logic. MAP keys: graveyard_map.gd (+ "escalation", skid_row_map.gd).
+## Last Line): the army's checkpoint city. A star fort: the main street comes in
+## from the west and follows the zig-zag bastion perimeter (a six-pointed star)
+## almost all the way round, then cuts in to the command post at the centre; the
+## north road drops past the barracks onto the first bastion: 15 lots, 6 road
+## posts. The full ladder short of the heroes: gangs, police from wave 4, SWAT
+## from 8, the army from 12 (riflemen, machine gunners, tanks, helicopters). The
+## Mammoth (miniboss, chest) on wave 14; General Harrow, the Hammer, on wave 23.
+## Act rule: the escalation. Data only, no logic. MAP keys: graveyard_map.gd (+
+## "escalation", skid_row_map.gd).
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd, "escalation" as skid_row_map.gd).
@@ -21,25 +22,27 @@ const MAP: Dictionary = {
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 600), Vector2(260, 600), Vector2(260, 360), Vector2(640, 360), Vector2(640, 620),
-				Vector2(960, 620), Vector2(960, 200), Vector2(1190, 200)],
+			"points": [Vector2(-40, 380), Vector2(312, 380), Vector2(478, 292), Vector2(501, 146), Vector2(690, 205),
+				Vector2(879, 146), Vector2(902, 292), Vector2(1068, 380), Vector2(902, 468), Vector2(879, 614),
+				Vector2(690, 555), Vector2(501, 614), Vector2(600, 420)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"north": {
-			"points": [Vector2(380, -40), Vector2(380, 240), Vector2(800, 240), Vector2(800, 500), Vector2(960, 500)],
-			"next": "main", "next_at": 1620.0, "entrance": true,  # joins main at (960, 500)
+			"points": [Vector2(380, -40), Vector2(380, 120), Vector2(478, 292)],
+			"next": "main", "next_at": 539.5,  # joins main at (478, 292)
+			"entrance": true,
 		},
 	},
-	"gate": Vector2(1218, 170),
+	"gate": Vector2(611, 393),
 	"plots": [
-		Vector2(150, 480), Vector2(370, 470), Vector2(530, 470), Vector2(195, 330), Vector2(520, 150),
-		Vector2(700, 160), Vector2(720, 440), Vector2(880, 380), Vector2(880, 560), Vector2(1060, 320),
-		Vector2(1060, 500), Vector2(810, 690), Vector2(500, 300), Vector2(1100, 90), Vector2(60, 520),
+		Vector2(740, 480), Vector2(360, 250), Vector2(590, 270), Vector2(730, 110), Vector2(450, 80), Vector2(1000, 250),
+		Vector2(890, 380), Vector2(820, 250), Vector2(480, 460), Vector2(660, 480), Vector2(990, 520), Vector2(220, 310),
+		Vector2(820, 480), Vector2(140, 310), Vector2(440, 540),
 	],
-	"posts": [Vector2(130, 600), Vector2(260, 480), Vector2(380, 120), Vector2(640, 500), Vector2(960, 400), Vector2(1080, 200)],
+	"posts": [Vector2(147, 380), Vector2(410, 328), Vector2(380, 52), Vector2(892, 229), Vector2(745, 572), Vector2(545, 528)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 3.1,  # TUNING (not in GDD)
+	"wave_hp_end": 4.1,  # TUNING (not in GDD)L4: 3.1 before the road redraw; 
 	"rule": "",
 	"act_rule": "city/escalation",
 	"escalation": [[1, "gangs"], [4, "police"], [8, "swat"], [12, "army"]],  # Necropathy Fort Kessler: the ladder stops at the army

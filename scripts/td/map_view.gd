@@ -224,8 +224,18 @@ static func piece(ci: CanvasItem, pts: PackedVector2Array, uv: PackedVector2Arra
 		if p.is_empty() or (pts[i].distance_to(p[p.size() - 1]) >= 0.5 and (i < pts.size() - 1 or pts[i].distance_to(p[0]) >= 0.5)):
 			p.append(pts[i])
 			u.append(uv[i])
-	if p.size() >= 3:
+	if p.size() < 3:
+		return
+	if not Geometry2D.triangulate_polygon(p).is_empty():
 		ci.draw_polygon(p, PackedColorArray([Color.WHITE]), u, tex)
+		return
+	# A quad folded at a tight bend's inner edge (a bow tie, DECISIONS L1) cannot be
+	# triangulated: draw it as its two triangles instead (a degenerate one is dropped).
+	for tri: Array in [[0, 1, 2], [0, 2, 3]]:
+		if p.size() == 4:
+			var tp := PackedVector2Array([p[tri[0]], p[tri[1]], p[tri[2]]])  # One triangle.
+			if absf((tp[1] - tp[0]).cross(tp[2] - tp[0])) > 0.5:
+				ci.draw_polygon(tp, PackedColorArray([Color.WHITE]), PackedVector2Array([u[tri[0]], u[tri[1]], u[tri[2]]]), tex)
 
 
 ## True when `p` lies within `r` px of any of the polylines `lines`.

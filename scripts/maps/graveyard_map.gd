@@ -1,9 +1,11 @@
-## The Desecrated Graveyard (GDD §7.2): the teaching map. One winding road,
-## one entrance, 14 grave plots and 4 road posts on Necropathy's graveyard
+## The Desecrated Graveyard (GDD §7.2): the teaching map. One road, one
+## entrance: the churchyard path winds in from the west between the graves and
+## rounds the central crypt in a long flat oval (three quarters of it, so the
+## plots inside see both sides), then winds back west along the bottom to the
+## ossuary gate; 14 grave plots and 4 road posts on Necropathy's graveyard
 ## floor, 22 back-to-back waves, the Inquisitor miniboss on wave 11 and Sir
-## Alaric on the final wave. The road runs mostly left to right (GDD §13
-## sprite facing: units have side views only and are mirrored).
-## Data only, no logic. This file documents every MAP key for all maps.
+## Alaric on the final wave. Units are mirrored side views (GDD §13 sprite
+## facing). Data only, no logic. This file documents every MAP key for all maps.
 extends RefCounted
 
 ## The map. Keys:
@@ -51,31 +53,50 @@ const MAP: Dictionary = {
 		["obstacles/dead_tree_l", Vector2(70, 300)], ["obstacles/gravestone_l", Vector2(140, 230)],
 		["obstacles/gravestone_s", Vector2(330, 60)], ["obstacles/crypt_wall_m", Vector2(420, 80)],
 		["obstacles/dead_tree_m", Vector2(800, 70)], ["obstacles/gravestone_s", Vector2(1000, 90)],
-		["obstacles/dead_tree_s", Vector2(1150, 160)], ["obstacles/gravestone_l", Vector2(1150, 330)],
-		["obstacles/crypt_wall_s", Vector2(520, 255)], ["obstacles/gravestone_s", Vector2(720, 255)],
+		["obstacles/dead_tree_s", Vector2(1150, 160)], ["obstacles/gravestone_l", Vector2(1165, 304)],
+		["obstacles/crypt_wall_s", Vector2(542, 311)], ["obstacles/gravestone_s", Vector2(737, 302)],
 		["obstacles/gravestone_l", Vector2(510, 440)], ["obstacles/dead_tree_m", Vector2(940, 425)],
-		["obstacles/gravestone_s", Vector2(60, 560)], ["obstacles/crypt_wall_l", Vector2(300, 630)],
+		["obstacles/gravestone_s", Vector2(43, 524)], ["obstacles/crypt_wall_l", Vector2(303, 670)],
 		["obstacles/dead_tree_s", Vector2(760, 650)], ["obstacles/gravestone_l", Vector2(1100, 640)],
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 150), Vector2(880, 150), Vector2(940, 210),
-				Vector2(940, 290), Vector2(880, 350), Vector2(300, 350), Vector2(240, 410),
-				Vector2(240, 470), Vector2(300, 530), Vector2(1190, 530)],
+			"points": [Vector2(-40, 170), Vector2(-19, 164), Vector2(11, 155), Vector2(45, 146), Vector2(80, 139),
+				Vector2(110, 140), Vector2(136, 151), Vector2(161, 170), Vector2(185, 191), Vector2(208, 210),
+				Vector2(230, 220), Vector2(258, 215), Vector2(285, 198), Vector2(310, 183), Vector2(330, 180),
+				Vector2(344, 198), Vector2(353, 230), Vector2(359, 262), Vector2(363, 285), Vector2(381, 278),
+				Vector2(400, 272), Vector2(420, 267), Vector2(441, 261), Vector2(463, 257), Vector2(485, 252),
+				Vector2(508, 248), Vector2(532, 245), Vector2(557, 242), Vector2(582, 240), Vector2(607, 238),
+				Vector2(633, 236), Vector2(658, 235), Vector2(684, 235), Vector2(710, 235), Vector2(736, 236),
+				Vector2(762, 237), Vector2(787, 239), Vector2(812, 241), Vector2(837, 244), Vector2(861, 247),
+				Vector2(885, 250), Vector2(908, 255), Vector2(930, 259), Vector2(951, 264), Vector2(971, 270),
+				Vector2(991, 276), Vector2(1009, 282), Vector2(1026, 288), Vector2(1043, 295), Vector2(1057, 302),
+				Vector2(1071, 310), Vector2(1083, 318), Vector2(1094, 326), Vector2(1104, 334), Vector2(1112, 342),
+				Vector2(1119, 351), Vector2(1124, 360), Vector2(1127, 368), Vector2(1129, 377), Vector2(1130, 386),
+				Vector2(1129, 395), Vector2(1127, 404), Vector2(1123, 412), Vector2(1117, 421), Vector2(1110, 429),
+				Vector2(1102, 438), Vector2(1092, 446), Vector2(1081, 454), Vector2(1068, 462), Vector2(1054, 469),
+				Vector2(1039, 476), Vector2(1023, 483), Vector2(1005, 490), Vector2(987, 496), Vector2(967, 502),
+				Vector2(946, 507), Vector2(925, 512), Vector2(902, 516), Vector2(879, 520), Vector2(856, 524),
+				Vector2(831, 527), Vector2(807, 530), Vector2(781, 532), Vector2(756, 533), Vector2(730, 534),
+				Vector2(704, 535), Vector2(678, 535), Vector2(653, 534), Vector2(627, 533), Vector2(601, 532),
+				Vector2(576, 530), Vector2(551, 527), Vector2(527, 524), Vector2(503, 521), Vector2(480, 517),
+				Vector2(458, 512), Vector2(436, 507), Vector2(415, 502), Vector2(396, 496), Vector2(402, 519),
+				Vector2(411, 553), Vector2(421, 590), Vector2(425, 621), Vector2(420, 640), Vector2(402, 641),
+				Vector2(375, 630), Vector2(342, 613), Vector2(309, 597), Vector2(280, 590), Vector2(247, 595),
+				Vector2(216, 608), Vector2(186, 621), Vector2(160, 630), Vector2(118, 628), Vector2(90, 620)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 	},
-	"gate": Vector2(1218, 500),
+	"gate": Vector2(63, 583),
 	"plots": [
-		Vector2(240, 80), Vector2(600, 80),
-		Vector2(200, 250), Vector2(420, 250), Vector2(620, 250), Vector2(800, 250), Vector2(1030, 250),
-		Vector2(140, 440), Vector2(400, 440), Vector2(620, 440), Vector2(840, 440), Vector2(1040, 440),
-		Vector2(560, 612), Vector2(940, 612),
+		Vector2(880, 460), Vector2(130, 260), Vector2(920, 320), Vector2(300, 530), Vector2(990, 380), Vector2(480, 590),
+		Vector2(180, 100), Vector2(740, 470), Vector2(560, 590), Vector2(490, 180), Vector2(410, 200), Vector2(240, 670),
+		Vector2(730, 180), Vector2(1180, 440),
 	],
-	"posts": [Vector2(700, 150), Vector2(560, 350), Vector2(640, 530), Vector2(1060, 530)],
+	"posts": [Vector2(516, 247), Vector2(1126, 406), Vector2(403, 499), Vector2(290, 595)],
 	"lives": 0,
 	"souls": 0,
-	"wave_hp_end": 2.6,  # TUNING (not in GDD) integration balance: the first map is the gentlest
+	"wave_hp_end": 2.0,  # TUNING (not in GDD) L4: 2.6 before the road redraw; integration balance: the first map is the gentlest
 	"rule": "",
 	"build_order": "graveyard_default",
 	"weak_order": "weak",

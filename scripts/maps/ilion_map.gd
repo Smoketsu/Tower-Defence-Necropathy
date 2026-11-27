@@ -1,13 +1,14 @@
-## The Shores of Ilion (Act VIII map 1; Necropathy stage "ilion"): the
-## Achaean beachhead before Troy. The main road runs east along the surf,
-## turns back west through the siege camp and east again up to the Scaean Gate
-## road; a second landing ("shore") comes in from the western beach and joins
-## the climb between the camp and the gate. Each turn lets the plots between
-## two runs shoot the shield fronts in the back as the column comes round (the
-## Phalanx, GDD §7.3). 15 plots, 6 posts, 22 waves. Wrath of
-## the Gods: Poseidon's waves from wave 4. Polyphemus (miniboss, chest) on wave
-## 13; Achilles on wave 22 (his heel: strike him from behind).
-## Keys as graveyard_map.gd. Data only.
+## The Shores of Ilion (Act VIII map 1; Necropathy stage "ilion"): the Achaean
+## beachhead before Troy. The main road runs east along the surf, swings round a
+## hairpin at the end of the beach and climbs west across the siege camp, then
+## turns up to the Scaean Gate in the wall at the top; a second landing
+## ("shore") comes in from the eastern beach and joins it at the hairpin, so
+## both landing lanes converge on the gate. Each turn lets the plots between two
+## runs shoot the shield fronts in the back as the column comes round (the
+## Phalanx, GDD §7.3). 15 plots, 6 posts, 22 waves. Wrath of the Gods:
+## Poseidon's waves from wave 4. Polyphemus (miniboss, chest) on wave 13;
+## Achilles on wave 22 (his heel: strike him from behind). Keys as
+## graveyard_map.gd. Data only.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd).
@@ -17,37 +18,37 @@ const MAP: Dictionary = {
 	"floor": "tiles/ilion_beach",
 	"decals": [],
 	"obstacles": [
-		["obstacles/beached_warship_l", Vector2(490, 180)],
-		["obstacles/sea_rock_l", Vector2(255, 250)],
-		["obstacles/sea_rock_s", Vector2(1245, 530)],
-		["obstacles/beached_warship_s", Vector2(220, 460)],
-		["obstacles/siege_tent_l", Vector2(40, 460)],
-		["obstacles/siege_tent_s", Vector2(255, 670)],
-		["obstacles/palisade_l", Vector2(1065, 670)],
-		["obstacles/troy_wall_l", Vector2(760, 320)],
-		["obstacles/troy_wall_s", Vector2(1245, 670)],
-		["obstacles/fallen_column_l", Vector2(705, 530)],
-		["obstacles/fallen_column_s", Vector2(75, 250)],
-		["obstacles/sea_rock_s", Vector2(580, 320)],
-		["obstacles/siege_tent_s", Vector2(940, 180)],
-		["obstacles/palisade_s", Vector2(400, 320)],
+		["obstacles/beached_warship_l", Vector2(490, 180)], ["obstacles/sea_rock_l", Vector2(255, 250)],
+		["obstacles/sea_rock_s", Vector2(1245, 530)], ["obstacles/beached_warship_s", Vector2(220, 460)],
+		["obstacles/siege_tent_l", Vector2(40, 460)], ["obstacles/siege_tent_s", Vector2(270, 696)],
+		["obstacles/palisade_l", Vector2(1080, 696)], ["obstacles/troy_wall_l", Vector2(760, 320)],
+		["obstacles/troy_wall_s", Vector2(1245, 670)], ["obstacles/fallen_column_l", Vector2(705, 530)],
+		["obstacles/fallen_column_s", Vector2(75, 250)], ["obstacles/sea_rock_s", Vector2(580, 320)],
+		["obstacles/siege_tent_s", Vector2(940, 180)], ["obstacles/palisade_s", Vector2(415, 419)],
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 610), Vector2(960, 610), Vector2(1000, 570), Vector2(1000, 470), Vector2(960, 430), Vector2(340, 430), Vector2(300, 390), Vector2(300, 290), Vector2(340, 250), Vector2(1190, 250)],
+			"points": [Vector2(-40, 630), Vector2(1080, 630), Vector2(1105, 626), Vector2(1127, 615), Vector2(1145, 597),
+				Vector2(1156, 575), Vector2(1160, 550), Vector2(1156, 525), Vector2(1145, 503), Vector2(1127, 485),
+				Vector2(1105, 474), Vector2(1080, 470), Vector2(300, 330), Vector2(622, 165)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"shore": {
-			"points": [Vector2(-40, 340), Vector2(300, 340)],
-			"next": "main", "next_at": 1939.7, "entrance": true,
+			"points": [Vector2(1320, 420), Vector2(1090, 470)],
+			"next": "main", "next_at": 1360.4,  # joins main at (1090, 472)
+			"entrance": true,
 		},
 	},
-	"gate": Vector2(1222, 250),
-	"plots": [Vector2(150, 520), Vector2(420, 520), Vector2(620, 520), Vector2(820, 520), Vector2(1100, 520), Vector2(480, 340), Vector2(680, 340), Vector2(880, 340), Vector2(1100, 350), Vector2(420, 150), Vector2(640, 150), Vector2(860, 150), Vector2(1060, 150), Vector2(150, 230), Vector2(900, 690)],
-	"posts": [Vector2(500, 610), Vector2(1000, 520), Vector2(640, 430), Vector2(300, 300), Vector2(700, 250), Vector2(150, 340)],
+	"gate": Vector2(632, 140),
+	"plots": [
+		Vector2(370, 410), Vector2(570, 540), Vector2(830, 540), Vector2(400, 200), Vector2(160, 570), Vector2(500, 300),
+		Vector2(1000, 520), Vector2(1220, 560), Vector2(650, 540), Vector2(750, 520), Vector2(1080, 540), Vector2(910, 540),
+		Vector2(620, 320), Vector2(470, 570), Vector2(240, 570),
+	],
+	"posts": [Vector2(339, 630), Vector2(736, 630), Vector2(1035, 630), Vector2(1042, 463), Vector2(531, 371), Vector2(1191, 448)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 2.5,  # TUNING (not in GDD) the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
+	"wave_hp_end": 2.75,  # TUNING (not in GDD) L4: 2.5 before the road redraw; the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
 	"rule": "",
 	"act_rule": "pantheon/pantheon_rules",
 	"build_order": "ilion_default",

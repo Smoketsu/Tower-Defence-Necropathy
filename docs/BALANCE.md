@@ -1,6 +1,85 @@
 # Balance
 
-## Spot fix: every plot reaches the road (Nov 2026; DECISIONS S1-S4)
+## Road shapes: every map's road redrawn (Nov 2026; DECISIONS L1-L4)
+
+The owner found the roads generic ("can we make them more themed"). Every one of
+the 45 roads was redrawn to a shape that tells its place (DECISIONS L1-L2; plan
+and pictures in `/home/user/gw_shots/layouts/`), spots re-placed with the same
+counts and road ids (L3), and every map re-tuned with `wave_hp_end` only (L4, the
+`--hp-end` probe, seeds 1-4). Act I was redrawn too: its six baseline summaries
+are re-recorded below.
+
+Default orders, Necromancer, seeds 1-4, lives kept of 20 (changed `wave_hp_end` in
+bold); all 180 runs won, 0 script errors / warnings, `stuck_enemies=0`; every weak
+order loses (seed 1); seed 1 run twice gives the same summary on all 45 maps. 107
+of 180 runs lose lives (97 before); no map keeps 20 lives on all four seeds. Every
+kit order wins on seed 1 (`tide_kit`, `court_kit`, `shogunate_kit`, `norse_kit`,
+`dynasty_kit`, `pantheon_kit`, `inferno_kit`, `host_kit`, `eye_kit`, `empire_kit`,
+`concord_kit`, `titans_kit`, `year_kit`, Act I's `kit_a` / `kit_b`), unchanged. Route
+px: the longest entrance's on-screen walk to the gate.
+
+| Act | Map | Shape (DECISIONS L2) | Route px old -> new | wave_hp_end | s1 | s2 | s3 | s4 | Lose lives | Before (spot fix, s1-s4) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| I | graveyard | three-quarter oval round the crypt | 2829 -> 2589 | 2.6 -> **2.0** | 20 | 20 | 20 | 10 | 1/4 | 20, 13, 20, 20 |
+| I | crimson_march | chevron columns, parade road back west | 2733 -> 2406 | 2.4 -> **1.88** | 15 | 20 | 14 | 20 | 2/4 | 9, 20, 20, 17 |
+| I | sanctum | ambulatory, nave, round apse | 3960 -> 4305 | 3.15 -> **2.9** | 20 | 20 | 20 | 17 | 1/4 | 9, 20, 20, 20 |
+| II | cutter | gangplanks, cargo zig-zags | 1669 -> 1722 | 4.3 | 17 | 20 | 14 | 20 | 2/4 | 15, 9, 20, 20 |
+| II | galleon | hull outline | 2244 -> 2731 | 2.95 | 12 | 15 | 15 | 12 | 4/4 | 17, 17, 12, 20 |
+| II | maelstrom | spiral to the eye | 4634 -> 3510 | 4.0 | 20 | 20 | 17 | 20 | 1/4 | 20, 11, 20, 20 |
+| III | ravensmoor | crooked moor track | 2929 -> 2745 | 4.2 -> **3.2** | 14 | 14 | 11 | 20 | 3/4 | 12, 14, 12, 15 |
+| III | witchwood | mirrored half-rings round the circle | 1519 -> 1459 | 2.8 | 14 | 20 | 17 | 20 | 2/4 | 20, 14, 20, 20 |
+| III | castle_sanguis | crenellated rampart, keep spiral | 4597 -> 4853 | 5.3 -> **4.9** | 20 | 17 | 20 | 17 | 2/4 | 17, 20, 20, 14 |
+| IV | skid_row | dog-leg alleys, a crossing | 1850 -> 1880 | 3.6 -> **4.2** | 20 | 20 | 20 | 14 | 1/4 | 20, 12, 20, 20 |
+| IV | fort_kessler | star fort | 2110 -> 2329 | 3.1 -> **4.1** | 17 | 17 | 20 | 20 | 2/4 | 14, 17, 14, 20 |
+| IV | liberty_heights | avenue grid, boulevard, traffic circle | 3090 -> 3312 | 2.2 | 12 | 20 | 17 | 12 | 3/4 | 11, 20, 11, 11 |
+| V | province | paddy dikes | 1509 -> 1770 | 2.7 -> **3.2** | 17 | 17 | 20 | 19 | 3/4 | 13, 17, 20, 11 |
+| V | kurogane | concentric square baileys | 1565 -> 2150 | 2.8 -> **4.0** | 20 | 20 | 17 | 17 | 2/4 | 15, 14, 20, 20 |
+| V | sun_road | rising pilgrim S-bends | 3039 -> 3163 | 4.2 | 14 | 10 | 15 | 20 | 3/4 | 17, 20, 20, 20 |
+| VI | barrow_fields | arcs round the barrows | 2474 -> 2388 | 2.5 -> **3.5** | 11 | 7 | 11 | 20 | 3/4 | 18, 20, 10, 19 |
+| VI | valgard | wall benches and central aisle | 1839 -> 2060 | 1.9 -> **2.4** | 16 | 20 | 16 | 20 | 2/4 | 10, 10, 10, 10 |
+| VI | vigrid | W of diagonal battle lines | 3129 -> 2503 | 3.2 -> **2.3** | 20 | 14 | 11 | 19 | 3/4 | 19, 20, 20, 15 |
+| VII | necropolis | stepped pyramid | 3059 -> 2880 | 4.3 -> **4.5** | 20 | 20 | 14 | 20 | 1/4 | 14, 20, 20, 17 |
+| VII | lioness_temple | mirrored slaloms, central aisle | 2288 -> 2388 | 3.0 -> **2.2** | 20 | 20 | 11 | 20 | 1/4 | 17, 20, 20, 20 |
+| VII | two_truths | the scales (two pans, a post) | 4110 -> 3580 | 3.55 -> **4.0** | 20 | 8 | 20 | 20 | 1/4 | 2, 15, 20, 15 |
+| VIII | ilion | landing lanes to the wall gate | 2856 -> 2485 | 2.5 -> **2.75** | 14 | 20 | 20 | 20 | 1/4 | 12, 19, 20, 20 |
+| VIII | olympus | narrowing switchbacks | 2536 -> 2682 | 3.4 -> **3.9** | 17 | 20 | 17 | 20 | 2/4 | 20, 20, 20, 16 |
+| VIII | underworld | Styx S-bends, the ferry | 2269 -> 2491 | 2.2 | 13 | 12 | 10 | 6 | 4/4 | 20, 19, 17, 20 |
+| IX | burning_gate | shrinking flame teeth | 1649 -> 2030 | 5.3 -> **5.6** | 17 | 9 | 20 | 20 | 2/4 | 20, 17, 12, 20 |
+| IX | silk_palace | mirrored silk ribbons | 2189 -> 1722 | 4.0 -> **3.4** | 17 | 20 | 16 | 14 | 3/4 | 20, 17, 16, 20 |
+| IX | pandemonium | five-pointed star | 2269 -> 2369 | 3.4 -> **3.9** | 20 | 20 | 20 | 14 | 1/4 | 20, 16, 13, 20 |
+| X | silver_stair | widening switchback flights | 2919 -> 2842 | 3.0 | 19 | 20 | 20 | 20 | 1/4 | 15, 20, 19, 20 |
+| X | wheel_of_thrones | concentric ring arcs | 3999 -> 4289 | 3.6 -> **3.2** | 20 | 17 | 12 | 11 | 3/4 | 8, 11, 20, 9 |
+| X | empyrean | rose window lobes, spoke | 1754 -> 1600 | 3.0 -> **2.7** | 10 | 10 | 15 | 7 | 4/4 | 9, 9, 17, 11 |
+| XI | harbour | quay and finger piers | 1874 -> 2156 | 3.8 | 12 | 20 | 20 | 20 | 1/4 | 20, 17, 20, 20 |
+| XI | archive | stack aisles, the rift | 3409 -> 3520 | 5.6 -> **5.2** | 10 | 14 | 18 | 18 | 4/4 | 15, 19, 20, 20 |
+| XI | spire | two tentacle spirals | 2719 -> 2480 | 3.5 -> **3.1** | 19 | 17 | 20 | 17 | 3/4 | 20, 12, 20, 20 |
+| XII | wastes | broken highway | 3219 -> 3333 | 4.1 -> **3.6** | 14 | 14 | 14 | 20 | 3/4 | 15, 20, 20, 20 |
+| XII | assembly | two conveyor loops | 3279 -> 2796 | 3.6 -> **2.6** | 12 | 20 | 19 | 20 | 2/4 | 20, 18, 20, 20 |
+| XII | citadel | circuit traces, central chip | 1965 -> 1806 | 2.95 | 17 | 17 | 15 | 19 | 4/4 | 20, 11, 12, 20 |
+| XIII | crash_site | furrows round the crater rim | 1605 -> 1813 | 2.65 -> **2.4** | 10 | 10 | 19 | 7 | 4/4 | 19, 20, 18, 20 |
+| XIII | proving_moon | arena oval and dais | 2414 -> 2534 | 3.0 | 20 | 20 | 20 | 14 | 1/4 | 17, 20, 17, 17 |
+| XIII | ark | ring corridor and spoke | 1245 -> 1633 | 2.2 | 10 | 20 | 20 | 17 | 2/4 | 20, 14, 15, 17 |
+| XIV | fern_basin | the basin's bowl | 1899 -> 1714 | 2.9 -> **2.4** | 20 | 7 | 20 | 14 | 2/4 | 13, 20, 20, 20 |
+| XIV | great_plain | sweeping arcs | 2015 -> 2015 | 2.5 -> **2.25** | 20 | 20 | 20 | 11 | 1/4 | 14, 17, 20, 14 |
+| XIV | last_day | paths between craters | 1060 -> 1212 | 2.3 | 14 | 15 | 7 | 16 | 4/4 | 17, 12, 20, 16 |
+| XV | greenwood | meandering forest trail | 3209 -> 3448 | 2.8 -> **2.4** | 14 | 19 | 19 | 16 | 4/4 | 20, 19, 15, 17 |
+| XV | fae_court | three fairy rings | 1925 -> 1958 | 4.2 -> **3.6** | 10 | 10 | 10 | 10 | 4/4 | 17, 17, 20, 14 |
+| XV | world_tree | canopy, root line, branch | 4139 -> 4177 | 3.2 -> **2.6** | 14 | 7 | 7 | 14 | 4/4 | 17, 12, 1, 20 |
+
+**Thin margins** (lowest seed under 8 lives, or a cliff within 0.1): Ilion (2.8
+loses seed 1: Polyphemus survives and the run snowballs), the Underworld (6 on
+seed 4: hoplites' shield fronts leak on the S-bends; a lower `wave_hp_end` does
+not help), the Crash Site (the Hive Mother leaks 10 on most seeds; 7 on seed 4),
+the Last Day (7 on seed 3), the Empyrean (7 on seed 4), the World-Tree (7 on
+seeds 2-3), the Barrow Fields and the Fern Basin (7 on one seed), the Fae Court
+(the Summer Queen leaks 10 on every seed: 10 lives each), and steep `wave_hp_end`
+cliffs on Castle Sanguis (5.1 loses), the Crimson March (1.92 loses a seed), the
+Sanctum (3.2 loses two), the Great Plain (2.5 loses two) and the Assembly Halls
+(3.0 loses all). Organic routes that pass each plot once are the hard ones (the
+Temple of the Lioness, the Crash Site, the Fae Court, the World-Tree): their
+`wave_hp_end` came down most.
+
+## Spot fix: every plot reaches the road (superseded by the road shapes above) (Nov 2026; DECISIONS S1-S4)
 
 The owner reported plots from which no tower hits anything. The spot audit
 (`tools/spot_audit.tscn`, `SpotAudit`, thresholds in `SpotAuditData`) found 140
@@ -715,149 +794,148 @@ Drone on the Assembly and the Citadel; Death Ray and Scrap Swarm cast (Hollow
 Puppet loses the third slot to the Gravecaller's Shadow Bolt, as every kit's
 third spell does; `--character=marionette --build=empire_kit` casts all three).
 
-### Act I baseline summaries (the same-seed gate; re-recorded by the wave 2c integration, DECISIONS Y3 / Y6)
+### Act I baseline summaries (the same-seed gate; re-recorded by the road-shape redraw, DECISIONS L4)
 
 Default build, Necromancer, `--autotest --map=<id> --seed=<n>`; the lines from
 `TDAUTOTEST SUMMARY`. A change that must not touch Act I reproduces these byte
-for byte. Wave 2c changed them on purpose (minibosses push a lesser enemy out of
-a full post: the Inquisitor on seed 2 of the Graveyard; Seraphine 12000 HP; the
-`bumped` event); the wave 2b set is in git history.
+for byte. The road-shape redraw changed them on purpose (new roads, spots, wave_hp_end and the
+Sanctum's chambers, DECISIONS L1-L4); the wave 2c set is in git history.
 
 ```
 TDAUTOTEST SUMMARY
 map=graveyard difficulty=necromancer seed=1 build=graveyard_default speed=8
-result=won skulls=3 time=450.52s ticks=27031
+result=won skulls=3 time=480.52s ticks=28831
 waves_cleared=22/22 reached=22 lives=20/20
-souls_now=115 earned=2864 spent=2899 earned_by=kills:2138,no_leak:726
+souls_now=122 earned=2864 spent=2892 earned_by=kills:2138,no_leak:726
 kills=alaric:1,archer:64,chaplain:28,footman:130,inquisitor:1,purifier:80,recruit:116,templar:46
 leaks=
-damage_by_source=archer:35394,corpse_catapult:22915,corpse_explosion:6119,frost_wraith:729,mage:31889,shadow_bolt:6931,warrior:3761
-towers=plot:4:archer/gravebow:lv5:k91:d18401,post:0:warrior:lv2:k28:d3390,plot:5:archer:lv5:k82:d15556,plot:3:mage:lv5:k44:d31889,post:1:warrior:lv1:k1:d371,plot:8:frost_wraith:lv3:k10:d729,plot:10:corpse_catapult:lv4:k84:d22915,post:2:abomination:lv2:k0:d0,plot:9:mender:lv1:k0:d0,plot:6:archer:lv2:k6:d1437,plot:11:mage:lv2:k0:d0,post:3:warrior:lv1:k0:d0
+damage_by_source=abomination:148,archer:27131,corpse_catapult:35911,corpse_explosion:5623,frost_wraith:3000,mage:3387,shadow_bolt:7979,warrior:5948
+towers=plot:4:archer/gravebow:lv5:k71:d17715,post:0:warrior:lv2:k33:d4338,plot:5:archer:lv5:k41:d7040,plot:3:mage:lv5:k29:d3387,post:1:warrior:lv1:k23:d1610,plot:8:frost_wraith:lv3:k13:d3000,plot:10:corpse_catapult:lv4:k136:d35911,post:2:abomination:lv2:k1:d148,plot:9:mender:lv1:k0:d0,plot:6:archer:lv2:k9:d2377,plot:11:mage:lv2:k0:d0,post:3:warrior:lv1:k0:d0
 build_steps_done=35/45 chests=1 free_upgrades_left=0
-blocker_damage_taken=6726 bodies_lost=49 spells=corpse_explosion:32,dread_rally:7,shadow_bolt:113
-wave_spawn/clear_s=w1:9.5/22.6 w2:11.9/26.6 w3:10.2/26.4 w4:10.8/25.3 w5:11.3/25.0 w6:11.0/30.8 w7:15.4/36.4 w8:13.8/26.9 w9:12.7/29.2 w10:14.1/50.0 w11:14.9/91.2 w12:10.2/55.4 w13:16.0/62.4 w14:12.4/43.7 w15:13.2/57.1 w16:13.6/38.0 w17:17.8/36.9 w18:12.2/34.9 w19:17.0/31.3 w20:14.9/51.3 w21:18.9/48.8 w22:17.8/63.9
+blocker_damage_taken=9730 bodies_lost=63 spells=bone_wall:8,corpse_explosion:32,dread_rally:7,shadow_bolt:120
+wave_spawn/clear_s=w1:9.5/16.8 w2:11.9/26.7 w3:10.2/34.7 w4:10.8/53.1 w5:11.3/46.9 w6:11.0/77.1 w7:15.4/61.1 w8:13.8/62.1 w9:12.7/44.1 w10:14.1/65.9 w11:14.9/98.2 w12:10.2/75.3 w13:16.0/62.2 w14:12.4/43.4 w15:13.2/63.5 w16:13.6/38.6 w17:17.8/62.8 w18:12.2/45.8 w19:17.0/31.1 w20:14.9/69.6 w21:18.9/65.1 w22:17.8/93.9
 evolutions=1 gravebow synergies=flesh_rampart:2,killing_field:2
-spell_casts/damage=bone_wall:0c/0d,corpse_explosion:32c/6119d,dread_rally:7c/0d,shadow_bolt:113c/6931d
-blockers_lost=49 respawned=49 healed=622 risen=0 deep_freezes=9 shatters=0 shrapnel=0 corpses_detonated=166
+spell_casts/damage=bone_wall:8c/0d,corpse_explosion:32c/5623d,dread_rally:7c/0d,shadow_bolt:120c/7979d
+blockers_lost=63 respawned=62 healed=1872 risen=0 deep_freezes=28 shatters=0 shrapnel=0 corpses_detonated=117
 reckoning=false reckoning_wave=0 suppressed_tower_s=0.0
-events=alaric_charges:2,bumped:1
+events=alaric_charges:3
 meta=none character=gravecaller loadout=shadow_bolt,bone_wall,corpse_explosion ash=300 bonuses= masteries=0 saved=false
-leak_curve=first_leak_wave:0 end_wave:22 lives_lost:0 body_deaths:49 lives_after_deaths:0 per_death:0.00
-minibosses=inquisitor:170:3200:held12:killed@262
+leak_curve=first_leak_wave:0 end_wave:22 lives_lost:0 body_deaths:63 lives_after_deaths:0 per_death:0.00
+minibosses=inquisitor:170:3200:held19:killed@269
 stuck_enemies=0 alive_at_end=0
 
 TDAUTOTEST SUMMARY
 map=graveyard difficulty=necromancer seed=2 build=graveyard_default speed=8
-result=won skulls=2 time=495.72s ticks=29743
-waves_cleared=22/22 reached=22 lives=13/20
-souls_now=87 earned=2710 spent=2773 earned_by=kills:2052,no_leak:658
-kills=alaric:1,archer:64,chaplain:28,footman:128,purifier:80,recruit:116,templar:46
-leaks=footman:2,inquisitor:1
-damage_by_source=abomination:563,archer:33463,corpse_catapult:26644,corpse_explosion:6860,frost_wraith:1849,mage:29928,shadow_bolt:8212,warrior:4413
-towers=plot:4:archer:lv5:k79:d16963,post:0:warrior:lv2:k34:d3557,plot:5:archer:lv5:k80:d14819,plot:3:mage:lv5:k34:d29928,post:1:warrior:lv1:k9:d856,plot:8:frost_wraith:lv3:k4:d1849,plot:10:corpse_catapult:lv4:k107:d26644,post:2:abomination:lv2:k2:d563,plot:9:mender:lv1:k0:d0,plot:6:archer:lv2:k12:d1680,plot:11:mage:lv2:k0:d0,post:3:warrior:lv1:k0:d0
-build_steps_done=34/45 chests=0 free_upgrades_left=0
-blocker_damage_taken=8518 bodies_lost=60 spells=bone_wall:3,corpse_explosion:32,dread_rally:6,shadow_bolt:124
-wave_spawn/clear_s=w1:9.5/21.1 w2:11.9/26.8 w3:10.2/26.4 w4:10.8/39.3 w5:11.3/35.7 w6:11.0/42.7 w7:15.4/47.3 w8:13.8/51.5 w9:12.7/36.1 w10:14.1/54.3 w11:14.9/130.8L w12:10.2/59.4 w13:16.0/89.5L w14:12.4/50.7 w15:13.2/66.1 w16:13.6/38.6 w17:17.8/49.9 w18:12.2/41.9 w19:17.0/33.8 w20:14.9/54.2 w21:18.9/51.4 w22:17.8/109.1
-evolutions=0  synergies=flesh_rampart:2,killing_field:2
-spell_casts/damage=bone_wall:3c/0d,corpse_explosion:32c/6860d,dread_rally:6c/0d,shadow_bolt:124c/8212d
-blockers_lost=60 respawned=60 healed=852 risen=0 deep_freezes=19 shatters=0 shrapnel=0 corpses_detonated=148
+result=won skulls=3 time=479.00s ticks=28740
+waves_cleared=22/22 reached=22 lives=20/20
+souls_now=122 earned=2864 spent=2892 earned_by=kills:2138,no_leak:726
+kills=alaric:1,archer:64,chaplain:28,footman:130,inquisitor:1,purifier:80,recruit:116,templar:46
+leaks=
+damage_by_source=abomination:189,archer:27127,corpse_catapult:36386,corpse_explosion:6550,frost_wraith:3564,mage:4049,shadow_bolt:8002,warrior:6377
+towers=plot:4:archer/gravebow:lv5:k71:d17495,post:0:warrior:lv2:k44:d4687,plot:5:archer:lv5:k35:d7163,plot:3:mage:lv5:k36:d4049,post:1:warrior:lv1:k19:d1690,plot:8:frost_wraith:lv3:k17:d3564,plot:10:corpse_catapult:lv4:k124:d36386,post:2:abomination:lv2:k2:d189,plot:9:mender:lv1:k0:d0,plot:6:archer:lv2:k2:d2470,plot:11:mage:lv2:k0:d0,post:3:warrior:lv1:k0:d0
+build_steps_done=35/45 chests=1 free_upgrades_left=0
+blocker_damage_taken=10840 bodies_lost=65 spells=bone_wall:8,corpse_explosion:32,dread_rally:7,shadow_bolt:120
+wave_spawn/clear_s=w1:9.5/16.8 w2:11.9/27.7 w3:10.2/34.8 w4:10.8/53.6 w5:11.3/46.7 w6:11.0/77.1 w7:15.4/61.1 w8:13.8/62.2 w9:12.7/39.4 w10:14.1/70.0 w11:14.9/102.9 w12:10.2/73.9 w13:16.0/69.1 w14:12.4/46.3 w15:13.2/63.6 w16:13.6/37.6 w17:17.8/61.4 w18:12.2/46.2 w19:17.0/37.0 w20:14.9/71.0 w21:18.9/64.4 w22:17.8/92.4
+evolutions=1 gravebow synergies=flesh_rampart:2,killing_field:2
+spell_casts/damage=bone_wall:8c/0d,corpse_explosion:32c/6550d,dread_rally:7c/0d,shadow_bolt:120c/8002d
+blockers_lost=65 respawned=65 healed=2358 risen=0 deep_freezes=28 shatters=0 shrapnel=0 corpses_detonated=111
 reckoning=false reckoning_wave=0 suppressed_tower_s=0.0
-events=alaric_charges:2,bumped:3
-meta=none character=gravecaller loadout=shadow_bolt,bone_wall,corpse_explosion ash=220 bonuses= masteries=0 saved=false
-leak_curve=first_leak_wave:17 end_wave:22 lives_lost:7 body_deaths:60 lives_after_deaths:7 per_death:0.12
-minibosses=inquisitor:170:3200:held18:gone@301
+events=alaric_charges:3,bumped:2
+meta=none character=gravecaller loadout=shadow_bolt,bone_wall,corpse_explosion ash=300 bonuses= masteries=0 saved=false
+leak_curve=first_leak_wave:0 end_wave:22 lives_lost:0 body_deaths:65 lives_after_deaths:0 per_death:0.00
+minibosses=inquisitor:170:3200:held24:killed@273
 stuck_enemies=0 alive_at_end=0
 
 TDAUTOTEST SUMMARY
 map=crimson_march difficulty=necromancer seed=1 build=march_default speed=8
-result=won skulls=1 time=611.32s ticks=36679
-waves_cleared=25/25 reached=25 lives=9/20
-souls_now=150 earned=4399 spent=4499 earned_by=kills:3561,no_leak:838
-kills=archer:33,banner_bearer:20,battle_sister:31,chaplain:31,footman:211,halberdier:27,purifier:104,recruit:78,shieldbearer:161,templar:35,vael:1,ward_generator:6
-leaks=halberdier:2,templar_commander:1
-damage_by_source=archer:59995,corpse_catapult:43114,corpse_explosion:6017,frost_wraith:3493,mage:41304,shadow_bolt:8294,warrior:4326
-towers=plot:1:archer:lv5:k55:d19873,plot:12:archer/gravebow:lv5:k65:d20120,post:0:warrior:lv2:k11:d519,plot:4:mage:lv5:k118:d19795,plot:8:mage:lv5:k93:d19954,post:2:warrior:lv1:k6:d1152,post:3:warrior:lv1:k9:d2560,plot:5:archer:lv5:k36:d8937,plot:9:archer:lv5:k34:d11065,plot:10:corpse_catapult:lv4:k160:d43114,post:4:warrior:lv2:k0:d95,plot:6:frost_wraith:lv3:k8:d3493,post:1:abomination:lv2:k0:d0,plot:14:mage:lv4:k13:d1556,plot:15:mender:lv1:k0:d0
+result=won skulls=2 time=584.33s ticks=35060
+waves_cleared=25/25 reached=25 lives=15/20
+souls_now=130 earned=4379 spent=4499 earned_by=kills:3513,no_leak:866
+kills=archer:33,banner_bearer:20,battle_sister:31,chaplain:31,footman:199,halberdier:29,purifier:104,recruit:78,shieldbearer:153,templar:35,vael:1,ward_generator:5
+leaks=templar_commander:1
+damage_by_source=archer:61523,corpse_catapult:28187,corpse_explosion:5191,frost_wraith:2152,mage:30132,shadow_bolt:6855,warrior:5590
+towers=plot:1:archer/gravebow:lv5:k119:d16633,plot:12:archer:lv5:k63:d21160,post:0:warrior:lv2:k4:d264,plot:4:mage:lv5:k89:d10467,plot:8:mage:lv5:k114:d15560,post:2:warrior:lv1:k11:d2538,post:3:warrior:lv1:k18:d2700,plot:5:archer:lv5:k5:d11893,plot:9:archer:lv5:k38:d11838,plot:10:corpse_catapult:lv4:k120:d28187,post:4:warrior:lv2:k0:d88,plot:6:frost_wraith:lv3:k2:d2152,post:1:abomination:lv2:k0:d0,plot:14:mage:lv4:k14:d4105,plot:15:mender:lv1:k0:d0
 build_steps_done=55/55 chests=0 free_upgrades_left=0
-blocker_damage_taken=11824 bodies_lost=110 spells=bone_wall:12,corpse_explosion:43,dread_rally:11,shadow_bolt:153
-wave_spawn/clear_s=w1:15.3/28.9 w2:12.6/37.0 w3:9.4/38.2 w4:17.9/57.6 w5:9.9/39.6 w6:8.5/56.9 w7:11.9/61.7 w8:13.6/67.5 w9:12.5/80.5L w10:11.9/80.2 w11:15.9/61.6 w12:15.9/105.1L w13:15.4/73.2 w14:16.8/72.8 w15:13.6/60.2 w16:18.3/74.6 w17:18.1/43.3 w18:20.0/63.5 w19:19.2/67.0 w20:22.8/63.0 w21:21.9/56.8 w22:19.7/63.9 w23:25.5/68.3 w24:26.2/65.2 w25:15.9/98.0
-evolutions=1 gravebow synergies=killing_field:2,shatterfall:2
-spell_casts/damage=bone_wall:12c/0d,corpse_explosion:43c/6017d,dread_rally:11c/0d,shadow_bolt:153c/8294d
-blockers_lost=110 respawned=109 healed=0 risen=0 deep_freezes=40 shatters=0 shrapnel=0 corpses_detonated=163
+blocker_damage_taken=12146 bodies_lost=115 spells=bone_wall:9,corpse_explosion:41,dread_rally:11,shadow_bolt:146
+wave_spawn/clear_s=w1:15.3/30.4 w2:12.6/37.9 w3:9.4/39.9 w4:17.9/57.4 w5:9.9/40.7 w6:8.5/62.6 w7:11.9/57.9 w8:13.6/64.6 w9:12.5/65.6 w10:11.9/71.4 w11:15.9/59.4 w12:15.9/91.1L w13:15.4/54.3 w14:16.8/56.1 w15:13.6/56.0 w16:18.3/56.6 w17:18.1/37.4 w18:20.0/52.2 w19:19.2/51.0 w20:22.8/57.4 w21:21.9/49.6 w22:19.7/53.7 w23:25.5/58.1 w24:26.2/56.3 w25:15.9/71.0
+evolutions=1 gravebow synergies=
+spell_casts/damage=bone_wall:9c/0d,corpse_explosion:41c/5191d,dread_rally:11c/0d,shadow_bolt:146c/6855d
+blockers_lost=115 respawned=114 healed=0 risen=0 deep_freezes=50 shatters=0 shrapnel=0 corpses_detonated=180
 reckoning=false reckoning_wave=0 suppressed_tower_s=0.0
-events=halberd_reach:61,lash_second:24,structures_destroyed:6,vael_calls:8,vael_shieldwalls:8
-rule=holy_ward_generators generators_raised=6 destroyed=6
-meta=none character=gravecaller loadout=shadow_bolt,bone_wall,corpse_explosion ash=175 bonuses= masteries=0 saved=false
-leak_curve=first_leak_wave:13 end_wave:25 lives_lost:11 body_deaths:110 lives_after_deaths:11 per_death:0.10
-minibosses=templar_commander:195:2600:held16:gone@300
+events=bumped:1,halberd_reach:49,lash_second:22,structures_destroyed:5,vael_calls:6,vael_shieldwalls:6
+rule=holy_ward_generators generators_raised=6 destroyed=5
+meta=none character=gravecaller loadout=shadow_bolt,bone_wall,corpse_explosion ash=275 bonuses= masteries=0 saved=false
+leak_curve=first_leak_wave:16 end_wave:25 lives_lost:5 body_deaths:115 lives_after_deaths:5 per_death:0.04
+minibosses=templar_commander:195:2600:held9:gone@286
 stuck_enemies=0 alive_at_end=0
 
 TDAUTOTEST SUMMARY
 map=crimson_march difficulty=necromancer seed=2 build=march_default speed=8
-result=won skulls=3 time=611.32s ticks=36679
+result=won skulls=3 time=579.12s ticks=34747
 waves_cleared=25/25 reached=25 lives=20/20
-souls_now=407 earned=4565 spent=4408 earned_by=kills:3665,no_leak:900
-kills=archer:33,banner_bearer:20,battle_sister:31,chaplain:31,footman:211,halberdier:29,purifier:104,recruit:78,shieldbearer:161,templar:35,templar_commander:1,vael:1,ward_generator:6
+souls_now=107 earned=4475 spent=4618 earned_by=kills:3575,no_leak:900
+kills=archer:33,banner_bearer:20,battle_sister:31,chaplain:31,footman:193,halberdier:29,purifier:104,recruit:78,shieldbearer:149,templar:35,templar_commander:1,vael:1,ward_generator:6
 leaks=
-damage_by_source=archer:62534,corpse_catapult:48192,corpse_explosion:5083,frost_wraith:3738,mage:35838,shadow_bolt:7461,warrior:4199
-towers=plot:1:archer/gravebow:lv5:k67:d21209,plot:12:archer:lv5:k58:d18901,post:0:warrior:lv2:k10:d504,plot:4:mage:lv5:k121:d15461,plot:8:mage:lv5:k88:d18595,post:2:warrior:lv1:k12:d1100,post:3:warrior:lv1:k8:d2564,plot:5:archer:lv5:k37:d10530,plot:9:archer:lv5:k37:d11894,plot:10:corpse_catapult:lv4:k174:d48192,post:4:warrior:lv2:k0:d32,plot:6:frost_wraith:lv3:k9:d3738,post:1:abomination:lv2:k0:d0,plot:14:mage:lv4:k13:d1783,plot:15:mender:lv1:k0:d0
+damage_by_source=archer:61482,corpse_catapult:29533,corpse_explosion:5332,frost_wraith:4282,mage:27340,shadow_bolt:6505,warrior:5206
+towers=plot:1:archer/gravebow:lv5:k98:d12784,plot:12:archer/gravebow:lv5:k61:d24432,post:0:warrior:lv2:k6:d107,plot:4:mage:lv5:k81:d9114,plot:8:mage:lv5:k101:d13519,post:2:warrior:lv1:k15:d2406,post:3:warrior:lv1:k26:d2639,plot:5:archer:lv5:k10:d13172,plot:9:archer:lv5:k48:d11094,plot:10:corpse_catapult:lv4:k135:d29533,post:4:warrior:lv2:k0:d55,plot:6:frost_wraith:lv3:k1:d4282,post:1:abomination:lv2:k0:d0,plot:14:mage:lv4:k16:d4707,plot:15:mender:lv1:k0:d0
 build_steps_done=55/55 chests=1 free_upgrades_left=0
-blocker_damage_taken=10638 bodies_lost=98 spells=bone_wall:11,corpse_explosion:42,dread_rally:12,shadow_bolt:153
-wave_spawn/clear_s=w1:15.3/28.9 w2:12.6/37.0 w3:9.4/40.8 w4:17.9/59.1 w5:9.9/39.5 w6:8.5/60.9 w7:11.9/59.4 w8:13.6/61.7 w9:12.5/72.5 w10:11.9/76.4 w11:15.9/62.1 w12:15.9/106.2 w13:15.4/63.7 w14:16.8/78.9 w15:13.6/64.7 w16:18.3/67.1 w17:18.1/46.7 w18:20.0/64.2 w19:19.2/62.5 w20:22.8/58.9 w21:21.9/55.5 w22:19.7/58.3 w23:25.5/57.9 w24:26.2/60.9 w25:15.9/98.0
-evolutions=1 gravebow synergies=killing_field:2,shatterfall:2
-spell_casts/damage=bone_wall:11c/0d,corpse_explosion:42c/5083d,dread_rally:12c/0d,shadow_bolt:153c/7461d
-blockers_lost=98 respawned=98 healed=48 risen=0 deep_freezes=44 shatters=0 shrapnel=0 corpses_detonated=170
+blocker_damage_taken=10014 bodies_lost=100 spells=bone_wall:3,corpse_explosion:38,dread_rally:11,shadow_bolt:145
+wave_spawn/clear_s=w1:15.3/29.1 w2:12.6/37.6 w3:9.4/39.9 w4:17.9/47.0 w5:9.9/33.5 w6:8.5/49.3 w7:11.9/47.7 w8:13.6/53.4 w9:12.5/65.6 w10:11.9/53.1 w11:15.9/49.9 w12:15.9/94.2 w13:15.4/52.3 w14:16.8/53.7 w15:13.6/50.3 w16:18.3/53.3 w17:18.1/36.9 w18:20.0/51.9 w19:19.2/48.9 w20:22.8/55.5 w21:21.9/50.0 w22:19.7/51.9 w23:25.5/51.5 w24:26.2/54.5 w25:15.9/65.8
+evolutions=2 gravebow,gravebow synergies=
+spell_casts/damage=bone_wall:3c/0d,corpse_explosion:38c/5332d,dread_rally:11c/0d,shadow_bolt:145c/6505d
+blockers_lost=100 respawned=100 healed=0 risen=0 deep_freezes=47 shatters=0 shrapnel=0 corpses_detonated=152
 reckoning=false reckoning_wave=0 suppressed_tower_s=0.0
-events=halberd_reach:58,lash_second:20,structures_destroyed:6,vael_calls:8,vael_shieldwalls:8
+events=bumped:1,halberd_reach:49,lash_second:21,structures_destroyed:6,vael_calls:5,vael_shieldwalls:5
 rule=holy_ward_generators generators_raised=6 destroyed=6
 meta=none character=gravecaller loadout=shadow_bolt,bone_wall,corpse_explosion ash=375 bonuses= masteries=0 saved=false
-leak_curve=first_leak_wave:0 end_wave:25 lives_lost:0 body_deaths:98 lives_after_deaths:0 per_death:0.00
-minibosses=templar_commander:195:2600:held13:killed@301
+leak_curve=first_leak_wave:0 end_wave:25 lives_lost:0 body_deaths:100 lives_after_deaths:0 per_death:0.00
+minibosses=templar_commander:195:2600:held15:killed@289
 stuck_enemies=0 alive_at_end=0
 
 TDAUTOTEST SUMMARY
 map=sanctum difficulty=necromancer seed=1 build=sanctum_default speed=8
-result=won skulls=1 time=688.35s ticks=41301
-waves_cleared=25/25 reached=25 lives=9/20
-souls_now=254 earned=3994 spent=3990 earned_by=kills:3216,no_leak:778
-kills=archer:8,banner_bearer:8,battle_sister:23,chaplain:4,confessor_attendant:3,footman:126,halberdier:13,high_confessor:23,purifier:97,radiant_inquisitor:21,recruit:61,sanctified_sentinel:43,seraphine:1,shieldbearer:60,sun_paladin:17,templar:21,ward_crystal:4
-leaks=cathedral_guardian:1,radiant_inquisitor:1,sun_paladin:1
-damage_by_source=abomination:788,archer:58423,banshee:8,corpse_catapult:77088,corpse_explosion:5670,frost_wraith:2454,mage:66514,shadow_bolt:13867,warrior:4402
-towers=plot:6:archer/gravebow:lv5:k72:d27945,post:2:warrior:lv2:k7:d1827,plot:11:archer/gravebow:lv5:k75:d22881,plot:3:mage:lv5:k69:d41534,plot:5:corpse_catapult:lv4:k99:d67618,post:1:warrior:lv1:k7:d2575,plot:7:mage:lv4:k30:d17306,plot:12:archer:lv4:k19:d7597,plot:10:frost_wraith:lv2:k8:d2454,post:3:abomination:lv1:k3:d788,plot:2:mage:lv3:k13:d7674,plot:13:corpse_catapult:lv3:k13:d9471,plot:8:banshee:lv1:k0:d8
-build_steps_done=46/55 chests=0 free_upgrades_left=0
-blocker_damage_taken=13179 bodies_lost=103 spells=bone_wall:15,corpse_explosion:42,dread_rally:10,shadow_bolt:172
-wave_spawn/clear_s=w1:13.8/45.3 w2:10.7/51.8 w3:12.2/82.4 w4:13.5/65.1 w5:13.6/94.7 w6:12.5/68.4 w7:12.3/63.1 w8:12.5/97.5 w9:18.7/144.4 w10:10.5/59.7 w11:15.3/97.3 w12:15.9/152.4 w13:21.9/188.3L w14:17.7/117.4 w15:19.4/161.9 w16:22.1/114.9L w17:20.2/109.1L w18:21.1/153.6 w19:20.2/112.2 w20:22.6/104.6 w21:23.8/134.8 w22:22.8/71.6 w23:24.3/100.7 w24:28.9/117.8 w25:19.4/141.3
-evolutions=2 gravebow,gravebow synergies=shatterfall:2
-spell_casts/damage=bone_wall:15c/0d,corpse_explosion:42c/5670d,dread_rally:10c/0d,shadow_bolt:172c/13867d
-blockers_lost=103 respawned=102 healed=0 risen=0 deep_freezes=70 shatters=0 shrapnel=0 corpses_detonated=126
-reckoning=false reckoning_wave=0 suppressed_tower_s=616.7
-events=bumped:1,chambers_broken:2,confessor_heal:26486,confessor_revives:30,guardian_beams:16,guardian_slams:3,halberd_reach:35,holy_zones:76,lash_second:33,seraphine_teleports:7,structures_destroyed:4
-rule=sanctified_chambers crystals_broken=4/4 chambers_broken_at=442s,634s
-meta=none character=gravecaller loadout=shadow_bolt,bone_wall,corpse_explosion ash=210 bonuses= masteries=0 saved=false
-leak_curve=first_leak_wave:20 end_wave:25 lives_lost:11 body_deaths:103 lives_after_deaths:11 per_death:0.11
-minibosses=cathedral_guardian:222:4000:held24:gone@410
+result=won skulls=3 time=683.28s ticks=40997
+waves_cleared=25/25 reached=25 lives=20/20
+souls_now=53 earned=4208 spent=4405 earned_by=kills:3308,no_leak:900
+kills=archer:8,banner_bearer:7,battle_sister:25,cathedral_guardian:1,chaplain:4,confessor_attendant:3,footman:128,halberdier:13,high_confessor:23,purifier:95,radiant_inquisitor:23,recruit:62,sanctified_sentinel:44,seraphine:1,shieldbearer:51,sun_paladin:19,templar:20,ward_crystal:2
+leaks=
+damage_by_source=abomination:85,archer:66552,banshee:4,corpse_catapult:49902,corpse_explosion:5793,frost_wraith:5351,mage:62960,shadow_bolt:13996,warrior:2497
+towers=plot:6:archer/gravebow:lv5:k102:d41196,post:2:warrior:lv2:k11:d1322,plot:11:archer:lv5:k54:d12298,plot:3:mage:lv5:k28:d43908,plot:5:corpse_catapult:lv5:k143:d46131,post:1:warrior:lv1:k7:d1175,plot:7:mage:lv5:k38:d9336,plot:12:archer:lv5:k18:d13058,plot:10:frost_wraith:lv2:k9:d5351,post:3:abomination:lv1:k0:d85,plot:2:mage:lv4:k0:d9716,plot:13:corpse_catapult:lv3:k13:d3771,plot:8:banshee:lv1:k0:d4
+build_steps_done=50/55 chests=1 free_upgrades_left=0
+blocker_damage_taken=9064 bodies_lost=82 spells=bone_wall:7,corpse_explosion:42,dread_rally:10,shadow_bolt:171
+wave_spawn/clear_s=w1:13.8/44.6 w2:10.7/53.9 w3:12.2/99.0 w4:13.5/76.2 w5:13.6/130.5 w6:12.5/91.8 w7:12.3/69.7 w8:12.5/151.0 w9:18.7/159.7 w10:10.5/78.2 w11:15.3/116.4 w12:15.9/136.5 w13:21.9/178.1 w14:17.7/108.5 w15:19.4/115.5 w16:22.1/76.5 w17:20.2/79.5 w18:21.1/119.7 w19:20.2/94.7 w20:22.6/70.6 w21:23.8/103.4 w22:22.8/77.3 w23:24.3/65.7 w24:28.9/90.1 w25:19.4/136.2
+evolutions=1 gravebow synergies=killing_field:2
+spell_casts/damage=bone_wall:7c/0d,corpse_explosion:42c/5793d,dread_rally:10c/0d,shadow_bolt:171c/13996d
+blockers_lost=82 respawned=82 healed=0 risen=0 deep_freezes=63 shatters=0 shrapnel=0 corpses_detonated=121
+reckoning=false reckoning_wave=0 suppressed_tower_s=283.8
+events=bumped:1,confessor_heal:17628,confessor_revives:25,guardian_beams:15,guardian_slams:1,halberd_reach:20,holy_zones:32,lash_second:7,seraphine_teleports:8,structures_destroyed:2
+rule=sanctified_chambers crystals_broken=2/4 chambers_broken_at=never,never
+meta=none character=gravecaller loadout=shadow_bolt,bone_wall,corpse_explosion ash=450 bonuses= masteries=0 saved=false
+leak_curve=first_leak_wave:0 end_wave:25 lives_lost:0 body_deaths:82 lives_after_deaths:0 per_death:0.00
+minibosses=cathedral_guardian:222:4000:held11:killed@400
 stuck_enemies=0 alive_at_end=0
 
 TDAUTOTEST SUMMARY
 map=sanctum difficulty=necromancer seed=2 build=sanctum_default speed=8
-result=won skulls=3 time=657.27s ticks=39436
+result=won skulls=3 time=674.50s ticks=40470
 waves_cleared=25/25 reached=25 lives=20/20
-souls_now=62 earned=4256 spent=4444 earned_by=kills:3356,no_leak:900
-kills=archer:8,banner_bearer:9,battle_sister:24,cathedral_guardian:1,chaplain:4,confessor_attendant:3,footman:126,halberdier:13,high_confessor:23,purifier:96,radiant_inquisitor:24,recruit:60,sanctified_sentinel:43,seraphine:1,shieldbearer:54,sun_paladin:18,templar:22,ward_crystal:4
+souls_now=110 earned=4202 spent=4342 earned_by=kills:3302,no_leak:900
+kills=archer:8,banner_bearer:7,battle_sister:23,cathedral_guardian:1,chaplain:5,confessor_attendant:3,footman:126,halberdier:13,high_confessor:23,purifier:100,radiant_inquisitor:23,recruit:60,sanctified_sentinel:43,seraphine:1,shieldbearer:56,sun_paladin:20,templar:19,ward_crystal:2
 leaks=
-damage_by_source=abomination:116,archer:58391,corpse_catapult:75478,corpse_explosion:6543,frost_wraith:1510,mage:65471,shadow_bolt:13703,warrior:3768
-towers=plot:6:archer/gravebow:lv5:k96:d38165,post:2:warrior:lv2:k7:d1175,plot:11:archer:lv5:k46:d13764,plot:3:mage:lv5:k73:d41580,plot:5:corpse_catapult:lv5:k114:d70983,post:1:warrior:lv1:k4:d2593,plot:7:mage:lv5:k31:d15328,plot:12:archer:lv5:k17:d6462,plot:10:frost_wraith:lv2:k9:d1510,post:3:abomination:lv1:k0:d116,plot:2:mage:lv4:k10:d8563,plot:13:corpse_catapult:lv3:k6:d4495,plot:8:banshee:lv1:k0:d0
+damage_by_source=abomination:427,archer:67014,banshee:16,corpse_catapult:50711,corpse_explosion:5736,frost_wraith:4580,mage:63002,shadow_bolt:13707,warrior:3371
+towers=plot:6:archer/gravebow:lv5:k111:d38839,post:2:warrior:lv2:k15:d2121,plot:11:archer:lv5:k54:d16555,plot:3:mage:lv5:k41:d44503,plot:5:corpse_catapult:lv5:k121:d44133,post:1:warrior:lv1:k2:d1249,plot:7:mage:lv5:k27:d9661,plot:12:archer:lv5:k23:d11621,plot:10:frost_wraith:lv2:k12:d4580,post:3:abomination:lv1:k1:d427,plot:2:mage:lv4:k0:d8838,plot:13:corpse_catapult:lv3:k13:d6578,plot:8:banshee:lv1:k0:d16
 build_steps_done=50/55 chests=1 free_upgrades_left=0
-blocker_damage_taken=9315 bodies_lost=86 spells=bone_wall:8,corpse_explosion:43,dread_rally:11,shadow_bolt:164
-wave_spawn/clear_s=w1:13.8/45.3 w2:10.7/52.6 w3:12.2/82.4 w4:13.5/65.2 w5:13.6/95.0 w6:12.5/72.4 w7:12.3/63.1 w8:12.5/101.5 w9:18.7/96.4 w10:10.5/59.7 w11:15.3/89.1 w12:15.9/132.8 w13:21.9/189.6 w14:17.7/103.1 w15:19.4/146.8 w16:22.1/77.3 w17:20.2/107.0 w18:21.1/142.8 w19:20.2/100.1 w20:22.6/65.2 w21:23.8/98.6 w22:22.8/69.2 w23:24.3/71.4 w24:28.9/91.3 w25:19.4/110.2
-evolutions=1 gravebow synergies=shatterfall:2
-spell_casts/damage=bone_wall:8c/0d,corpse_explosion:43c/6543d,dread_rally:11c/0d,shadow_bolt:164c/13703d
-blockers_lost=86 respawned=86 healed=0 risen=0 deep_freezes=52 shatters=0 shrapnel=0 corpses_detonated=141
-reckoning=false reckoning_wave=0 suppressed_tower_s=533.8
-events=bumped:2,chambers_broken:2,confessor_heal:21598,confessor_revives:27,guardian_beams:16,guardian_slams:5,halberd_reach:23,holy_zones:63,lash_second:12,seraphine_teleports:8,structures_destroyed:4
-rule=sanctified_chambers crystals_broken=4/4 chambers_broken_at=411s,526s
+blocker_damage_taken=11160 bodies_lost=96 spells=bone_wall:14,corpse_explosion:41,dread_rally:10,shadow_bolt:169
+wave_spawn/clear_s=w1:13.8/44.7 w2:10.7/53.3 w3:12.2/103.1 w4:13.5/77.5 w5:13.6/138.4 w6:12.5/99.7 w7:12.3/82.4 w8:12.5/145.0 w9:18.7/161.6 w10:10.5/95.8 w11:15.3/124.4 w12:15.9/153.5 w13:21.9/219.4 w14:17.7/120.3 w15:19.4/172.2 w16:22.1/78.2 w17:20.2/118.2 w18:21.1/145.2 w19:20.2/112.9 w20:22.6/83.2 w21:23.8/111.6 w22:22.8/75.0 w23:24.3/62.0 w24:28.9/87.9 w25:19.4/127.4
+evolutions=1 gravebow synergies=killing_field:2
+spell_casts/damage=bone_wall:14c/0d,corpse_explosion:41c/5736d,dread_rally:10c/0d,shadow_bolt:169c/13707d
+blockers_lost=96 respawned=96 healed=0 risen=0 deep_freezes=61 shatters=0 shrapnel=0 corpses_detonated=118
+reckoning=false reckoning_wave=0 suppressed_tower_s=369.6
+events=bumped:4,confessor_heal:19136,confessor_revives:29,guardian_beams:18,guardian_slams:7,halberd_reach:29,holy_zones:40,lash_second:9,seraphine_teleports:9,structures_destroyed:2
+rule=sanctified_chambers crystals_broken=2/4 chambers_broken_at=never,never
 meta=none character=gravecaller loadout=shadow_bolt,bone_wall,corpse_explosion ash=450 bonuses= masteries=0 saved=false
-leak_curve=first_leak_wave:0 end_wave:25 lives_lost:0 body_deaths:86 lives_after_deaths:0 per_death:0.00
-minibosses=cathedral_guardian:222:4000:held34:killed@411
+leak_curve=first_leak_wave:0 end_wave:25 lives_lost:0 body_deaths:96 lives_after_deaths:0 per_death:0.00
+minibosses=cathedral_guardian:222:4000:held50:killed@441
 stuck_enemies=0 alive_at_end=0
 ```
 

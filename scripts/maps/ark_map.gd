@@ -1,12 +1,13 @@
 ## The Ark of the Concord (Act XIII map 3, the act's finale; Necropathy stage
-## "ark"): the Harvesters' mothership, its hangars, vaults and reactor. Two
-## gangways come in from the upper corners, run down either side of the hangar
-## and meet at the bottom, then climb the central spine to the gate (the
-## bridge) in the middle of the deck, so the central plots cover three roads.
-## Two sky lanes cross the deck (map road key "sky"). 16 plots, 6 posts, 25
-## waves. Abduction (act rule concord/abduction): the Ark sends saucers most
-## often. The Luminous Archon (miniboss, chest) on wave 13; the Harvester on
-## wave 25. Keys as graveyard_map.gd. Data only.
+## "ark"): the Harvesters' mothership, its hangars, vaults and reactor. A ring
+## corridor round the core: the main gangway comes in from the upper left onto
+## the ring and runs most of the way round it (over the top, down the east side,
+## along the bottom), then up the spoke to the gate (the bridge) at the core;
+## the east gangway comes straight in onto the ring's east side. Two sky lanes
+## cross the deck (map road key "sky"). 16 plots, 6 posts, 25 waves. Abduction
+## (act rule concord/abduction): the Ark sends saucers most often. The Luminous
+## Archon (miniboss, chest) on wave 13; the Harvester on wave 25. Keys as
+## graveyard_map.gd. Data only.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd).
@@ -19,19 +20,27 @@ const MAP: Dictionary = {
 		["obstacles/ark_pillar_l", Vector2(560, 120)], ["obstacles/ark_pillar_l", Vector2(720, 120)],
 		["obstacles/ark_crate_l", Vector2(80, 620)], ["obstacles/ark_crate_l", Vector2(1200, 620)],
 		["obstacles/ark_console_l", Vector2(640, 220)], ["obstacles/ark_crate_s_v", Vector2(140, 400)],
-		["obstacles/ark_crate_s_v", Vector2(1140, 400)], ["obstacles/ark_pillar_s", Vector2(400, 700)],
+		["obstacles/ark_crate_s_v", Vector2(1152, 438)], ["obstacles/ark_pillar_s", Vector2(400, 700)],
 		["obstacles/ark_pillar_s", Vector2(880, 700)], ["obstacles/ark_console_s", Vector2(640, 690)],
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 200), Vector2(300, 200), Vector2(360, 260), Vector2(360, 560), Vector2(420, 620),
-				Vector2(580, 620), Vector2(640, 560), Vector2(640, 330)],
+			"points": [Vector2(-40, 120), Vector2(110, 120), Vector2(428, 225), Vector2(445, 214), Vector2(464, 204),
+				Vector2(483, 195), Vector2(504, 187), Vector2(525, 181), Vector2(547, 175), Vector2(570, 171),
+				Vector2(593, 168), Vector2(616, 166), Vector2(640, 165), Vector2(664, 166), Vector2(687, 168),
+				Vector2(710, 171), Vector2(733, 175), Vector2(755, 181), Vector2(776, 187), Vector2(797, 195),
+				Vector2(816, 204), Vector2(835, 214), Vector2(852, 225), Vector2(868, 237), Vector2(883, 250),
+				Vector2(896, 263), Vector2(907, 277), Vector2(917, 292), Vector2(925, 307), Vector2(932, 322),
+				Vector2(936, 338), Vector2(939, 354), Vector2(940, 370), Vector2(939, 386), Vector2(936, 402),
+				Vector2(932, 418), Vector2(925, 433), Vector2(917, 448), Vector2(907, 463), Vector2(896, 477),
+				Vector2(883, 490), Vector2(868, 503), Vector2(852, 515), Vector2(835, 526), Vector2(816, 536),
+				Vector2(797, 545), Vector2(776, 553), Vector2(755, 559), Vector2(733, 565), Vector2(710, 569),
+				Vector2(687, 572), Vector2(664, 574), Vector2(640, 575), Vector2(640, 410)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"east": {
-			"points": [Vector2(1320, 200), Vector2(980, 200), Vector2(920, 260), Vector2(920, 560), Vector2(860, 620),
-				Vector2(700, 620), Vector2(640, 560)],
-			"next": "main", "next_at": 1054.6,  # joins main at (640, 560)
+			"points": [Vector2(1320, 370), Vector2(942, 370)],
+			"next": "main", "next_at": 1108.5,  # joins main at (940, 370)
 			"entrance": true,
 		},
 		"sky_a": {
@@ -43,14 +52,13 @@ const MAP: Dictionary = {
 			"next": "", "next_at": 0.0, "entrance": false, "off_road": true, "exit": true, "sky": true,
 		},
 	},
-	"gate": Vector2(640, 310),
+	"gate": Vector2(640, 380),
 	"plots": [
-		Vector2(260, 320), Vector2(260, 480), Vector2(460, 300), Vector2(460, 470), Vector2(820, 300),
-		Vector2(820, 470), Vector2(1020, 320), Vector2(1020, 480), Vector2(180, 130), Vector2(360, 130),
-		Vector2(920, 130), Vector2(1100, 135), Vector2(500, 690), Vector2(780, 690), Vector2(560, 420),
-		Vector2(720, 420),
+		Vector2(760, 290), Vector2(1140, 310), Vector2(840, 300), Vector2(1000, 440), Vector2(700, 440), Vector2(1060, 310),
+		Vector2(580, 230), Vector2(700, 230), Vector2(140, 200), Vector2(760, 620), Vector2(500, 120), Vector2(280, 110),
+		Vector2(420, 150), Vector2(60, 180), Vector2(770, 480), Vector2(880, 370),
 	],
-	"posts": [Vector2(200, 200), Vector2(360, 420), Vector2(1080, 200), Vector2(920, 420), Vector2(640, 460), Vector2(500, 620)],
+	"posts": [Vector2(207, 152), Vector2(547, 175), Vector2(1228, 370), Vector2(1110, 370), Vector2(791, 547), Vector2(855, 227)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
 	"wave_hp_end": 2.2,  # TUNING (not in GDD) DECISIONS Z4: kept with the Z4 roster changes (2.4 lost lives on 4 seeds); the act's finale presses hardest

@@ -1,14 +1,16 @@
 ## Vigrid, the Last Field (Act VI map 3, the finale; Necropathy stage "vigrid"):
 ## the ash plain where the gods' last battle is fought, Muspel's embers on the
-## wind. One long road zig-zags down from the north-west (three long runs, so
-## each row of plots covers two of them); from wave 6 a flank road comes in
-## from the east and joins it on the middle run. 14 plots, 5 posts, 24 waves.
-## The Long Winter (act rule norse/long_winter): cold from wave 3, deeper from
-## waves 8 and 14; six braziers; two Rune-Stones. The Fire-Giant of the South
-## (miniboss, chest) on wave 12; Odin the All-Father with Fenrir on wave 24
-## (the Wolf, the All-Father, Ragnarok). Beating him unlocks the Draugr Thane
-## tower, Gungnir and the Berserker.
-## Keys as graveyard_map.gd plus braziers / rune_stones (rules/norse/long_winter.gd). Data only.
+## wind. An open battlefield: one long war-road charges across it in five
+## straight diagonal battle lines (a broad W from the north-west to the gate in
+## the east), so the plots inside each V cover two of them; from wave 6 a flank
+## road comes in from the south-east and joins it at the W's middle point. 14
+## plots, 5 posts, 24 waves. The Long Winter (act rule norse/long_winter): cold
+## from wave 3, deeper from waves 8 and 14; six braziers; two Rune-Stones. The
+## Fire-Giant of the South (miniboss, chest) on wave 12; Odin the All-Father
+## with Fenrir on wave 24 (the Wolf, the All-Father, Ragnarok). Beating him
+## unlocks the Draugr Thane tower, Gungnir and the Berserker. Keys as
+## graveyard_map.gd plus braziers / rune_stones (rules/norse/long_winter.gd).
+## Data only.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd and long_winter.gd).
@@ -18,34 +20,35 @@ const MAP: Dictionary = {
 	"floor": "tiles/norse_ash",
 	"decals": ["decals/march_burned_ash", "decals/march_burned_ash_2", "decals/march_burned_embers", "decals/march_burned_embers_2"],
 	"obstacles": [
-		["obstacles/standing_shield_l", Vector2(60, 230)], ["obstacles/mound_l", Vector2(640, 230)],
+		["obstacles/standing_shield_l", Vector2(90, 230)], ["obstacles/mound_l", Vector2(640, 230)],
 		["obstacles/standing_shield_s", Vector2(1240, 120)], ["obstacles/mound_s", Vector2(1000, 430)],
-		["obstacles/standing_shield_l_v", Vector2(60, 620)], ["obstacles/mound_l_v", Vector2(1240, 650)],
+		["obstacles/standing_shield_l_v", Vector2(60, 620)], ["obstacles/mound_l_v", Vector2(1222, 593)],
 		["obstacles/standing_shield_s", Vector2(640, 650)], ["obstacles/mound_s", Vector2(450, 430)],
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 130), Vector2(1000, 130), Vector2(1060, 190), Vector2(1060, 270), Vector2(1000, 330),
-				Vector2(280, 330), Vector2(220, 390), Vector2(220, 470), Vector2(280, 530), Vector2(1190, 530)],
+			"points": [Vector2(-40, 120), Vector2(210, 600), Vector2(460, 130), Vector2(710, 600), Vector2(960, 130),
+				Vector2(1190, 520)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"flank": {
-			"points": [Vector2(1320, 420), Vector2(960, 420), Vector2(910, 375), Vector2(880, 330)],
-			"next": "main", "next_at": 1410.0, "entrance": true,
+			"points": [Vector2(1320, 660), Vector2(960, 660), Vector2(712, 602)],
+			"next": "main", "next_at": 1605.9,  # joins main at (710, 600)
+			"entrance": true,
 		},
 	},
-	"gate": Vector2(1220, 530),
+	"gate": Vector2(1202, 535),
 	"plots": [
-		Vector2(150, 230), Vector2(350, 230), Vector2(550, 230), Vector2(750, 230), Vector2(950, 230),
-		Vector2(350, 430), Vector2(550, 430), Vector2(750, 470), Vector2(110, 430), Vector2(1180, 320),
-		Vector2(1150, 200), Vector2(320, 620), Vector2(980, 620), Vector2(1170, 600),
+		Vector2(890, 570), Vector2(460, 300), Vector2(200, 440), Vector2(500, 370), Vector2(970, 290), Vector2(130, 300),
+		Vector2(700, 420), Vector2(820, 530), Vector2(190, 360), Vector2(1010, 360), Vector2(850, 200), Vector2(560, 180),
+		Vector2(1110, 570), Vector2(1030, 570),
 	],
-	"posts": [Vector2(900, 530), Vector2(220, 430), Vector2(600, 330), Vector2(1100, 420), Vector2(600, 130)],
-	"braziers": [Vector2(420, 175), Vector2(860, 175), Vector2(640, 375), Vector2(400, 485), Vector2(840, 485), Vector2(1105, 230)],
-	"rune_stones": [Vector2(480, 375), Vector2(1060, 465)],
+	"posts": [Vector2(1070, 316), Vector2(775, 477), Vector2(605, 402), Vector2(1039, 660), Vector2(202, 584)],
+	"braziers": [Vector2(89, 483), Vector2(351, 449), Vector2(639, 352), Vector2(820, 279), Vector2(1093, 251), Vector2(353, 216)],
+	"rune_stones": [Vector2(700, 467), Vector2(928, 700)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 3.2,  # TUNING (not in GDD) the act's finale presses hardest
+	"wave_hp_end": 2.3,  # TUNING (not in GDD) L4: 3.2 before the road redraw; the act's finale presses hardest
 	"rule": "",
 	"act_rule": "norse/long_winter",
 	"build_order": "vigrid_default",

@@ -1,12 +1,12 @@
 ## The Wheel of Thrones (Act X map 2; Necropathy stage "wheel_of_thrones"): the
-## turning spheres of heaven. One road coils inward like a wheel within a wheel:
-## in from the west along the bottom, up the east side, back along the top, down
-## the west side and round the inner ring to the gate at the hub, so every plot
-## between two turns covers both. 16 plots, 6 posts, 23 waves. The Hallowed
-## Light: shafts sweep from every side in turn. Two cloud banks drift over the
-## inner ring. The Dominion of the Spheres (miniboss, chest) on wave 12; the
-## Throne on wave 23. Keys as graveyard_map.gd plus "clouds"
-## (rules/host/hallowed_light.gd). Data only.
+## turning spheres of heaven. One road runs the wheels within wheels: in from
+## the west round most of the outer ring, through a spoke onto the middle ring
+## and back round it the other way, then onto the inner ring to the gate at the
+## hub, so every plot between two rings covers both. 16 plots, 6 posts, 23
+## waves. The Hallowed Light: shafts sweep from every side in turn. Two cloud
+## banks drift over the inner ring. The Dominion of the Spheres (miniboss,
+## chest) on wave 12; the Throne on wave 23. Keys as graveyard_map.gd plus
+## "clouds" (rules/host/hallowed_light.gd). Data only.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd and hallowed_light.gd).
@@ -17,31 +17,63 @@ const MAP: Dictionary = {
 	"decals": [],
 	"obstacles": [
 		["obstacles/host_crystal_m", Vector2(60, 110)], ["obstacles/host_crystal_m_v", Vector2(1220, 110)],
-		["obstacles/host_crystal_m", Vector2(1220, 690)], ["obstacles/host_pillar_m", Vector2(640, 690)],
-		["obstacles/host_crystal_m", Vector2(300, 690)], ["obstacles/host_pillar_m", Vector2(700, 350)],
-		["obstacles/host_crystal_m_v", Vector2(60, 400)], ["obstacles/host_pillar_m", Vector2(1020, 520)],
+		["obstacles/host_crystal_m", Vector2(1220, 690)], ["obstacles/host_pillar_m", Vector2(460, 695)],
+		["obstacles/host_crystal_m", Vector2(300, 690)], ["obstacles/host_pillar_m", Vector2(585, 385)],
+		["obstacles/host_crystal_m_v", Vector2(77, 447)], ["obstacles/host_pillar_m", Vector2(1083, 550)],
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 590), Vector2(1060, 590), Vector2(1120, 530), Vector2(1120, 170),
-				Vector2(1060, 110), Vector2(240, 110), Vector2(180, 170), Vector2(180, 380),
-				Vector2(240, 440), Vector2(860, 440), Vector2(920, 380), Vector2(920, 320),
-				Vector2(860, 260), Vector2(500, 260)],
+			"points": [Vector2(-40, 380), Vector2(194, 380), Vector2(195, 364), Vector2(198, 349), Vector2(201, 333),
+				Vector2(207, 318), Vector2(213, 303), Vector2(221, 288), Vector2(231, 273), Vector2(242, 259),
+				Vector2(254, 245), Vector2(268, 232), Vector2(283, 219), Vector2(299, 206), Vector2(316, 195),
+				Vector2(334, 184), Vector2(354, 173), Vector2(374, 163), Vector2(395, 154), Vector2(417, 146),
+				Vector2(440, 139), Vector2(464, 132), Vector2(488, 126), Vector2(512, 121), Vector2(537, 117),
+				Vector2(563, 114), Vector2(588, 112), Vector2(614, 110), Vector2(640, 110), Vector2(666, 110),
+				Vector2(692, 112), Vector2(717, 114), Vector2(743, 117), Vector2(768, 121), Vector2(792, 126),
+				Vector2(816, 132), Vector2(840, 139), Vector2(863, 146), Vector2(885, 154), Vector2(906, 163),
+				Vector2(926, 173), Vector2(946, 184), Vector2(964, 195), Vector2(981, 206), Vector2(997, 219),
+				Vector2(1012, 232), Vector2(1026, 245), Vector2(1038, 259), Vector2(1049, 273), Vector2(1059, 288),
+				Vector2(1067, 303), Vector2(1073, 318), Vector2(1079, 333), Vector2(1082, 349), Vector2(1085, 364),
+				Vector2(1086, 380), Vector2(1085, 396), Vector2(1082, 411), Vector2(1079, 427), Vector2(1073, 442),
+				Vector2(1067, 457), Vector2(1059, 472), Vector2(1049, 487), Vector2(1038, 501), Vector2(1026, 515),
+				Vector2(1012, 528), Vector2(997, 541), Vector2(981, 554), Vector2(964, 565), Vector2(946, 576),
+				Vector2(926, 587), Vector2(906, 597), Vector2(885, 606), Vector2(863, 614), Vector2(840, 621),
+				Vector2(816, 628), Vector2(792, 634), Vector2(768, 639), Vector2(743, 643), Vector2(717, 646),
+				Vector2(692, 648), Vector2(666, 650), Vector2(640, 650), Vector2(614, 650), Vector2(588, 648),
+				Vector2(563, 646), Vector2(537, 643), Vector2(512, 639), Vector2(488, 634), Vector2(464, 628),
+				Vector2(440, 621), Vector2(417, 614), Vector2(496, 532), Vector2(518, 539), Vector2(542, 545),
+				Vector2(567, 549), Vector2(592, 553), Vector2(617, 554), Vector2(643, 555), Vector2(668, 554),
+				Vector2(694, 552), Vector2(718, 548), Vector2(743, 544), Vector2(766, 537), Vector2(789, 530),
+				Vector2(810, 521), Vector2(830, 512), Vector2(849, 501), Vector2(866, 489), Vector2(881, 477),
+				Vector2(894, 463), Vector2(905, 449), Vector2(914, 435), Vector2(921, 420), Vector2(926, 405),
+				Vector2(928, 389), Vector2(929, 374), Vector2(927, 358), Vector2(922, 343), Vector2(916, 328),
+				Vector2(907, 313), Vector2(896, 299), Vector2(883, 286), Vector2(869, 273), Vector2(852, 261),
+				Vector2(834, 250), Vector2(814, 240), Vector2(793, 232), Vector2(771, 224), Vector2(748, 218),
+				Vector2(723, 212), Vector2(699, 209), Vector2(673, 206), Vector2(648, 205), Vector2(622, 205),
+				Vector2(597, 207), Vector2(571, 210), Vector2(547, 214), Vector2(523, 220), Vector2(500, 227),
+				Vector2(478, 235), Vector2(458, 244), Vector2(439, 255), Vector2(421, 266), Vector2(405, 278),
+				Vector2(391, 291), Vector2(379, 305), Vector2(369, 319), Vector2(361, 334), Vector2(356, 349),
+				Vector2(352, 364), Vector2(351, 380), Vector2(505, 380), Vector2(506, 367), Vector2(512, 354),
+				Vector2(520, 342), Vector2(532, 330), Vector2(547, 320), Vector2(564, 312), Vector2(583, 306),
+				Vector2(604, 301), Vector2(625, 298), Vector2(647, 298), Vector2(669, 300), Vector2(690, 304),
+				Vector2(710, 310), Vector2(728, 318), Vector2(743, 327), Vector2(756, 338), Vector2(766, 350),
+				Vector2(772, 362), Vector2(775, 376), Vector2(775, 389), Vector2(770, 402), Vector2(763, 414),
+				Vector2(752, 426), Vector2(738, 436), Vector2(722, 445), Vector2(703, 452), Vector2(683, 458),
+				Vector2(662, 461), Vector2(640, 462), Vector2(660, 350)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 	},
-	"gate": Vector2(472, 262),
+	"gate": Vector2(664, 320),
 	"plots": [
-		Vector2(300, 515), Vector2(520, 515), Vector2(740, 515), Vector2(960, 515), Vector2(1020, 250),
-		Vector2(1020, 400), Vector2(380, 185), Vector2(600, 185), Vector2(820, 185), Vector2(560, 350),
-		Vector2(780, 350), Vector2(90, 280), Vector2(300, 330), Vector2(1200, 350), Vector2(1180, 595),
-		Vector2(70, 520),
+		Vector2(580, 420), Vector2(830, 380), Vector2(500, 470), Vector2(970, 470), Vector2(420, 510), Vector2(860, 80),
+		Vector2(420, 80), Vector2(130, 280), Vector2(270, 360), Vector2(990, 360), Vector2(310, 290), Vector2(860, 680),
+		Vector2(1000, 140), Vector2(420, 680), Vector2(940, 660), Vector2(340, 100),
 	],
-	"posts": [Vector2(420, 590), Vector2(1120, 350), Vector2(700, 110), Vector2(180, 300), Vector2(560, 440), Vector2(920, 350)],
-	"clouds": [[Vector2(640, 350), 84.0], [Vector2(300, 330), 70.0]],  # TUNING (not in GDD) shade over the hub
+	"posts": [Vector2(339, 181), Vector2(1063, 464), Vector2(456, 626), Vector2(916, 329), Vector2(445, 251), Vector2(592, 304)],
+	"clouds": [[Vector2(453, 357), 84.0], [Vector2(699, 320), 70.0]],  # TUNING (not in GDD) shade over the hub
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 3.6,  # TUNING (not in GDD) rising through the act
+	"wave_hp_end": 3.2,  # TUNING (not in GDD) L4: 3.6 before the road redraw; rising through the act
 	"rule": "",
 	"act_rule": "host/hallowed_light",
 	"build_order": "wheel_of_thrones_default",

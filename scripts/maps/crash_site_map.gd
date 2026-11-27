@@ -1,13 +1,15 @@
 ## The Crash Site (Act XIII map 1; Necropathy stage "crash_site"): the crater
 ## where a Concord harvester ship came down, the Brood hatching in its wreck.
-## The main road climbs out of the crater from the bottom left, up past the
-## wreck and across to the gate on the right; the ridge road comes in from the
-## upper left and joins it in the middle, so the centre plots cover both. Two
-## sky lanes cross the map (map road key "sky": the saucers' flight paths,
-## drawn by the act's layer). 17 plots, 5 posts, 22 waves. Abduction (act rule
-## concord/abduction): saucers stop over a post or a plot and lift it. The
-## Brood Matriarch (miniboss, chest) on wave 12; the Hive Mother on wave 22.
-## Keys as graveyard_map.gd. Data only.
+## Debris furrows run straight in toward the crater: the main road's furrow
+## comes from the bottom left, wraps three quarters of the way round the
+## crater's rim and leaves along the top to the gate on the right; the ridge
+## road's furrow comes from the upper left and meets it at the top of the rim,
+## so the plots inside the crater cover the whole wrap. Two sky lanes cross the
+## map (map road key "sky": the saucers' flight paths, drawn by the act's
+## layer). 17 plots, 5 posts, 22 waves. Abduction (act rule concord/abduction):
+## saucers stop over a post or a plot and lift it. The Brood Matriarch
+## (miniboss, chest) on wave 12; the Hive Mother on wave 22. Keys as
+## graveyard_map.gd. Data only.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd).
@@ -19,19 +21,25 @@ const MAP: Dictionary = {
 	"obstacles": [
 		["obstacles/wreck_ribs_l", Vector2(760, 470)], ["obstacles/wreck_plate_l", Vector2(120, 470)],
 		["obstacles/crash_hull_shard_l", Vector2(900, 620)], ["obstacles/crash_rubble_l", Vector2(1220, 640)],
-		["obstacles/wreck_plate_s", Vector2(1200, 220)], ["obstacles/crash_rubble_m", Vector2(60, 300)],
+		["obstacles/wreck_plate_s", Vector2(1240, 265)], ["obstacles/crash_rubble_m", Vector2(60, 300)],
 		["obstacles/crash_hull_shard_l_v", Vector2(680, 640)], ["obstacles/wreck_ribs_s", Vector2(240, 110)],
 		["obstacles/crash_rubble_s", Vector2(1040, 130)], ["obstacles/crash_hull_shard_s", Vector2(400, 360)],
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 620), Vector2(520, 620), Vector2(580, 560), Vector2(580, 320),
-				Vector2(640, 260), Vector2(1000, 260), Vector2(1060, 320), Vector2(1060, 420), Vector2(1190, 420)],
+			"points": [Vector2(-40, 660), Vector2(386, 544), Vector2(405, 561), Vector2(426, 575), Vector2(450, 587),
+				Vector2(474, 594), Vector2(499, 599), Vector2(525, 600), Vector2(551, 597), Vector2(576, 592),
+				Vector2(600, 582), Vector2(622, 570), Vector2(643, 555), Vector2(661, 537), Vector2(677, 517),
+				Vector2(690, 494), Vector2(700, 471), Vector2(707, 446), Vector2(710, 420), Vector2(709, 395),
+				Vector2(706, 369), Vector2(698, 344), Vector2(688, 321), Vector2(674, 299), Vector2(658, 279),
+				Vector2(639, 262), Vector2(618, 247), Vector2(595, 235), Vector2(571, 227), Vector2(546, 222),
+				Vector2(520, 220), Vector2(1190, 220)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"ridge": {
-			"points": [Vector2(-40, 170), Vector2(640, 170), Vector2(700, 260)],
-			"next": "main", "next_at": 1029.7,  # joins main at (700, 260)
+			"points": [Vector2(-40, 110), Vector2(374, 288), Vector2(388, 273), Vector2(403, 260), Vector2(419, 249),
+				Vector2(437, 239), Vector2(455, 231), Vector2(474, 226), Vector2(494, 222), Vector2(513, 220)],
+			"next": "main", "next_at": 1186.6,  # joins main at (520, 220)
 			"entrance": true,
 		},
 		"sky_a": {
@@ -43,17 +51,16 @@ const MAP: Dictionary = {
 			"next": "", "next_at": 0.0, "entrance": false, "off_road": true, "exit": true, "sky": true,
 		},
 	},
-	"gate": Vector2(1218, 420),
+	"gate": Vector2(1218, 190),
 	"plots": [
-		Vector2(220, 560), Vector2(420, 560), Vector2(660, 560), Vector2(500, 440), Vector2(660, 400),
-		Vector2(500, 320), Vector2(820, 330), Vector2(980, 350), Vector2(820, 200), Vector2(960, 190),
-		Vector2(1140, 340), Vector2(1140, 520), Vector2(300, 240), Vector2(480, 240), Vector2(380, 110),
-		Vector2(1000, 480), Vector2(440, 680),
+		Vector2(160, 120), Vector2(600, 480), Vector2(530, 520), Vector2(620, 340), Vector2(540, 290), Vector2(720, 160),
+		Vector2(330, 190), Vector2(110, 250), Vector2(410, 180), Vector2(890, 160), Vector2(360, 620), Vector2(230, 650),
+		Vector2(130, 550), Vector2(750, 280), Vector2(1040, 160), Vector2(1040, 280), Vector2(150, 680),
 	],
-	"posts": [Vector2(300, 620), Vector2(580, 440), Vector2(860, 260), Vector2(400, 170), Vector2(1060, 370)],
+	"posts": [Vector2(338, 557), Vector2(710, 417), Vector2(694, 220), Vector2(273, 244), Vector2(994, 220)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 2.65,  # TUNING (not in GDD) Part Three: a step above the Empyrean
+	"wave_hp_end": 2.4,  # TUNING (not in GDD) L4: 2.65 before the road redraw; Part Three: a step above the Empyrean
 	"rule": "",
 	"act_rule": "concord/abduction",
 	"build_order": "crash_site_default",

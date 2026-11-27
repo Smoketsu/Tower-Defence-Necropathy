@@ -36,8 +36,17 @@ func _ready() -> void:
 	game.economy.earn(20000, "test_bonus")
 	_fresh_bodies(game)
 	# Bone Colossus at post:1 beside a Warrior at post:2 (197 px apart).
-	var col := _maxed(game, "post:1", "abomination")
-	var war := _maxed(game, "post:2", "warrior")
+	var pa := ""  # The two posts closest together.
+	var pb := ""
+	var pd := INF
+	for s: Spot in game.spots:
+		for o: Spot in game.spots:
+			if s.kind == "post" and o.kind == "post" and s != o and s.position.distance_to(o.position) < pd:
+				pd = s.position.distance_to(o.position)
+				pa = "post:%d" % s.index
+				pb = "post:%d" % o.index
+	var col := _maxed(game, pa, "abomination")
+	var war := _maxed(game, pb, "warrior")
 	game.tick(1.0 / 60.0)
 	_check("colossus taunt", war.block.bodies.any(func(o: BlockBody) -> bool: return o.taunt_by == col.block.bodies[0]))
 	game.spawn_enemy("footman", game.first_entrance(), 1)
@@ -62,7 +71,7 @@ func _ready() -> void:
 	# Silence, curse and Shatterfall on one enemy.
 	TdCombat.silence_enemy(game, b, 1.0)
 	_check("silence query", not EnemyTrait.can_heal(b, game))
-	var cat := _maxed(game, "plot:10", "corpse_catapult")
+	var cat := _maxed(game, _near(game, "plot", rev.position), "corpse_catapult")
 	_check("shatterfall active", cat.synergies.any(func(p: Array) -> bool: return p[0] == "shatterfall"))
 	b.hp = b.max_hp
 	var plain := TdCombat.damage_enemy(game, b, 10.0, {"tower": cat, "dot": true})  # Not frozen.
@@ -118,6 +127,26 @@ func _maxed(game: TdGame, spot: String, id: String) -> Tower:
 	return s.tower
 
 
+## The id ("plot:3", "post:1") of the free spot of `kind` ("plot" or "post") nearest
+## `p`, skipping the ids in `skip`: the checks find a tower's partner by place, not by
+## index, so they hold whatever a map's road shape (DECISIONS L3).
+func _near(game: TdGame, kind: String, p: Vector2, skip: Array = []) -> String:
+	var best := ""  # Its id.
+	var bd := INF  # Its distance (px).
+	for s: Spot in game.spots:
+		var id := "%s:%d" % [s.kind, s.index]  # This spot's id.
+		if s.kind == kind and s.tower == null and not skip.has(id) and s.position.distance_to(p) < bd:
+			best = id
+			bd = s.position.distance_to(p)
+	return best
+
+
+## The point on the nearest road to `p` (map px).
+func _road_at(game: TdGame, p: Vector2) -> Vector2:
+	var r := game.nearest_road(p, 2000.0)  # Its road.
+	return r.point_at(r.project(p))
+
+
 ## Records check `name` as failed unless `ok`.
 func _check(name: String, ok: bool) -> void:
 	if not ok:
@@ -149,7 +178,7 @@ func _kit_checks() -> void:
 	game.economy.earn(50000, "test_bonus")
 	# Warder (Bone Aegis) beside a Warrior: barrier, then a hit is absorbed.
 	var war := _maxed(game, "post:1", "warrior")
-	var wd := _maxed(game, "plot:4", "warder")
+	var wd := _maxed(game, _near(game, "plot", war.position), "warder")
 	_check("shieldwall active", wd.synergies.any(func(p: Array) -> bool: return p[0] == "shieldwall"))
 	_run(game, 0.1)
 	var b: BlockBody = war.block.bodies[0]
@@ -158,7 +187,7 @@ func _kit_checks() -> void:
 	TdCombat.damage_body(game, b, 5.0)
 	_check("barrier absorbs", b.hp == hp0)
 	# Statuses.
-	var e := _enemy_at(game, "footman", Vector2(620, 340))
+	var e := _enemy_at(game, "footman", wd.position)
 	e.armour = 6.0
 	var plain := TdCombat.damage_enemy(game, e, 10.0, {"source": "check"})
 	TdCombat.shred_enemy(game, e, 5.0, 2.0)
@@ -167,17 +196,17 @@ func _kit_checks() -> void:
 	TdCombat.swoop_enemy(game, e, 2.0)
 	_check("swooped status", Synergies.has_status(e, "swooped", game))
 	# Profane Bishop: "any" recipe met by the Warder beside the Mender.
-	var mend := game.spot_by_id("plot:3")
+	var mend := game.spot_by_id(_near(game, "plot", wd.position))
 	game.build(mend, "mender")
 	for i in 4:
 		game.upgrade(mend)
 	_check("bishop via warder", mend.tower.can_evolve())
 	# Rogue, Gargoyle, Hounds, Seraph, Golem: their specials fire.
-	var rg := _maxed(game, "plot:5", "rogue")
-	var gg := _maxed(game, "plot:6", "gargoyle")
-	var hd := _maxed(game, "plot:9", "bone_hound")
-	var sr := _maxed(game, "plot:8", "fallen_seraph")
-	var gl := _maxed(game, "post:2", "bone_golem")
+	var rg := _maxed(game, _near(game, "plot", Vector2(200, 300)), "rogue")
+	var gg := _maxed(game, _near(game, "plot", Vector2(600, 300)), "gargoyle")
+	var hd := _maxed(game, _near(game, "plot", Vector2(1000, 300)), "bone_hound")
+	var sr := _maxed(game, _near(game, "plot", Vector2(600, 550)), "fallen_seraph")
+	var gl := _maxed(game, _near(game, "post", Vector2(640, 360)), "bone_golem")
 	for i in 3:  # Fresh foes beside every tower, three times over.
 		for t: Tower in [rg, gg, hd, sr]:
 			_enemy_at(game, "templar", t.position)
@@ -191,12 +220,13 @@ func _kit_checks() -> void:
 	_run(game, 0.05)
 	_check("golem plants", gb.damage_cut > 0.0)
 	# Spells and the Grave Tide.
-	for p: Vector2 in [Vector2(620, 340), Vector2(640, 345), Vector2(660, 350)]:
-		_enemy_at(game, "templar", p)
+	var mid := _road_at(game, wd.position)  # A road point beside the Warder.
+	for k in 3:
+		_enemy_at(game, "templar", mid + Vector2(k * 20, k * 5))
 	game.tick(1.0 / float(TdRulesData.TICK_RATE))  # Into the spatial hash.
 	var cast := 0  # Spells cast.
 	for i in loadout.size():
-		var at := Vector2(620, 340) if loadout[i] != "wither" else Vector2(620, 250)  # Wither needs a spot.
+		var at := mid if loadout[i] != "wither" else wd.position  # Wither needs a spot.
 		var near := game.foes_near(at, 200.0)
 		if game.cast_spell(i, near[0].position if not near.is_empty() and loadout[i] != "wither" else at):
 			cast += 1
@@ -227,20 +257,22 @@ func _tide_checks() -> void:
 	add_child(game)
 	game.economy.earn(50000, "test_bonus")
 	var ab := _maxed(game, "post:3", "abomination")
-	var pw := _maxed(game, "plot:4", "powder_wraith")
+	var pw := _maxed(game, _near(game, "plot", ab.position), "powder_wraith")
 	_check("tide magazine lord", pw.evolution == "magazine_lord" and float(pw.stats["second_burst"]) > 0.0)
 	_check("tide boarding party", pw.synergies.any(func(p: Array) -> bool: return p[0] == "boarding_party") and ab != null)
-	for x: float in [620.0, 640.0, 660.0, 760.0, 780.0]:
-		_enemy_at(game, "tide_boarding_bruiser", Vector2(x, 480)).hp = 5000.0
+	var near_pw := _road_at(game, pw.position)  # The road beside the wraith.
+	for x: float in [-40.0, -20.0, 0.0, 20.0, 40.0]:
+		_enemy_at(game, "tide_boarding_bruiser", near_pw + Vector2(x, 0)).hp = 5000.0
 	_run(game, 3.0)
 	_check("tide wraith burst", int(pw.vars.get("bursts", 0)) > 0)
 	_check("tide knockback", float(game.stats.get("events", {}).get("knocked_back", 0.0)) > 0.0)
-	for p: Vector2 in [Vector2(420, 260), Vector2(420, 280), Vector2(420, 300)]:
-		_enemy_at(game, "tide_boarding_bruiser", p)
+	var spot_at := _road_at(game, Vector2(420, 280))  # A road point for the spells.
+	for k in 3:
+		_enemy_at(game, "tide_boarding_bruiser", spot_at + Vector2(0, (k - 1) * 20))
 	game.tick(1.0 / float(TdRulesData.TICK_RATE))
 	var cast := 0  # Act spells cast.
 	for i in [1, 2, 0]:  # Cannonade lands before the chain-shot knocks its marks away.
-		if game.cast_spell(i, Vector2(420, 280)):
+		if game.cast_spell(i, spot_at):
 			cast += 1
 		_run(game, 1.0)
 	_run(game, 2.0)
@@ -249,6 +281,8 @@ func _tide_checks() -> void:
 		_check("tide " + id + " hits", float(game.stats["damage"].get(id, 0.0)) > 0.0)
 	var rule: MapRule = game.act_rule
 	var slot: Dictionary = rule.slots[0]
+	var cpos: Vector2 = Acts.data("corsair")["BROADSIDES"]["cutter"][0]["pos"]  # Its cannon.
+	game.build(game.spot_by_id(_near(game, "plot", cpos)), "archer")  # A plot tower in its reach.
 	rule._run_out(slot)
 	slot["next"] = game.time
 	_run(game, 2.0)
@@ -381,12 +415,13 @@ func _city_checks() -> void:
 	_check("super weakness", is_equal_approx(weak, plain * 2.0))
 	game.remove_enemy(atlas, false)
 	# The act spells.
-	for p: Vector2 in [Vector2(500, 560), Vector2(520, 560), Vector2(540, 560)]:
-		_enemy_at(game, "city_tank", p)
+	var tank_at := _road_at(game, Vector2(520, 560))  # A road point for the spells.
+	for k in 3:
+		_enemy_at(game, "city_tank", tank_at + Vector2((k - 1) * 20, 0))
 	game.tick(1.0 / float(TdRulesData.TICK_RATE))
 	var cast := 0  # Spells cast.
 	for i in loadout.size():
-		if game.cast_spell(i, Vector2(560, 560)):
+		if game.cast_spell(i, tank_at):
 			cast += 1
 	_run(game, 2.0)
 	_check("act iv spells cast", cast == 3)
@@ -695,7 +730,7 @@ func _pantheon_checks() -> void:
 	game.sell(my)
 	var leg := _maxed(game, "post:4", "myrmidon_shade")
 	_check("legion set", leg.evolution == "legion_of_tartarus" and int(leg.stats["pierce"]) == 2 and float(leg.stats["grip_time"]) > 0.0)
-	_maxed(game, "plot:7", "corpse_catapult")
+	_maxed(game, _near(game, "plot", leg.position), "corpse_catapult")
 	_check("hammer and anvil", leg.synergies.any(func(p: Array) -> bool: return p[0] == "hammer_and_anvil"))
 	# Glory: a Hero that fells a body grows.
 	var hero := game.spawn_at("pan_hero", "main", 1, leg.spot.road_dist - 40.0, 0.0)
@@ -777,7 +812,7 @@ func _inferno_checks() -> void:
 	_check("archfiend breathes", int(af.tower.vars.get("breaths", 0)) > 0)
 	var prince := _maxed(game, "post:4", "archfiend")
 	_check("prince of hell set", prince.evolution == "prince_of_hell" and int(prince.stats["breath_every"]) == 2)
-	var mage := _maxed(game, "plot:11", "mage")
+	var mage := _maxed(game, _near(game, "plot", prince.position), "mage")
 	_check("pride active", prince.synergies.any(func(p: Array) -> bool: return p[0] == "pride") or mage.synergies.any(func(p: Array) -> bool: return p[0] == "pride"))
 	# A tempted body: lets go, holds nobody, a heal cleanses it.
 	var b: BlockBody = af.tower.block.bodies[0]
@@ -788,9 +823,9 @@ func _inferno_checks() -> void:
 	for e: TdEnemy in held:
 		game.remove_enemy(e, false)
 	# Bound Succubus: kisses weaken, a charm turns a foe on its own.
-	var bs := _maxed(game, "plot:6", "bound_succubus")
+	var bs := _maxed(game, _near(game, "plot", (game.roads["river"] as Road).point_at(120.0)), "bound_succubus")
 	_check("lilim matriarch set", bs.evolution == "lilim_matriarch" and int(bs.stats["charm_count"]) == 2)
-	var cat := _maxed(game, "plot:5", "corpse_catapult")
+	var cat := _maxed(game, _near(game, "plot", bs.position), "corpse_catapult")
 	_check("velvet chains active", bs.synergies.any(func(p: Array) -> bool: return p[0] == "velvet_chains"))
 	var k1 := game.spawn_at("hell_knight", "river", 1, 120.0, 0.0)
 	var k2 := game.spawn_at("damned_soul", "river", 1, 126.0, 0.0)
@@ -851,7 +886,7 @@ func _host_checks() -> void:
 	_check("ophan roll staggers", pack.any(func(e: TdEnemy) -> bool: return e.staggered_until > 0.0))
 	var throne := _maxed(game, "plot:9", "bound_ophan")
 	_check("throne of bones set", throne.evolution == "throne_of_bones" and int(throne.stats["chain_slams"]) == 1 and float(throne.stats["dive_stun"]) > 0.0)
-	var wd := _maxed(game, "plot:6", "warder")
+	var wd := _maxed(game, _near(game, "plot", throne.position), "warder")
 	_check("turning wheel active", throne.synergies.any(func(p: Array) -> bool: return p[0] == "turning_wheel") or wd.synergies.any(func(p: Array) -> bool: return p[0] == "turning_wheel"))
 	# The act spells.
 	var foe := pack[0]
@@ -867,11 +902,14 @@ func _host_checks() -> void:
 		game.remove_enemy(e, false)
 	# The Hallowed Light: a still shaft weakens a tower out of the shade, not one in it; angels in it are graced.
 	light.call("on_wave_start", 1)
-	var arch := game.spot_by_id("plot:0")
+	var arch: Spot = null  # A free plot out of every cloud's shade.
+	for s: Spot in game.spots:
+		if arch == null and s.kind == "plot" and s.tower == null and not bool(light.call("shaded", s.position)):
+			arch = s
 	game.build(arch, "archer")
 	var dmg := float(arch.tower.stats["damage"])  # Before the light.
 	light.call("add_shaft", arch.position, Vector2.RIGHT, 80.0, 10.0)
-	var angel := _enemy_at(game, "host_virtue", Vector2(180, 640))
+	var angel := _enemy_at(game, "host_virtue", _road_at(game, arch.position))  # Under the shaft.
 	angel.max_hp = 1.0e6  # Grace far outheals the archer's shots.
 	angel.hp = angel.max_hp * 0.5
 	_run(game, 2.5)
@@ -911,13 +949,13 @@ func _eye_checks() -> void:
 	# The Spawn of the Deep seizes the strongest foe near its post and squeezes it.
 	var sp := game.spot_by_id("post:1")
 	game.build(sp, "spawn_of_the_deep")
-	var foe := game.spawn_at("eye_deep_kin", "main", 1, game.roads["main"].project(Vector2(360, 330)), 0.0)
+	var foe := game.spawn_at("eye_deep_kin", sp.road_id, 1, maxf(sp.road_dist - 30.0, 0.0), 0.0)
 	foe.max_hp = 1.0e6
 	foe.hp = foe.max_hp
 	_run(game, 1.5)
 	_check("spawn grasps", int(sp.tower.vars.get("grasps", 0)) > 0 and foe.freeze_until > game.time)
 	_check("spawn squeezes", foe.hp < foe.max_hp)
-	var mg := game.spot_by_id("plot:3")
+	var mg := game.spot_by_id(_near(game, "plot", sp.position))
 	game.build(mg, "mage")
 	_check("salt of the deep active", sp.tower.synergies.any(func(p: Array) -> bool: return p[0] == "salt_of_the_deep"))
 	var lev := _maxed(game, "post:2", "spawn_of_the_deep")
@@ -975,6 +1013,10 @@ func _eye_checks() -> void:
 	_check("undertow and call strike", int(game.stats.get("undertow_hits", 0)) > 0 and int(game.stats.get("drowned_bursts", 0)) > 0 and tgt.hp < tgt.max_hp)
 	game.remove_enemy(tgt, false)
 	# Vhal'Neth dreams out of reach while her arms stand; severing them wakes her.
+	var vg := TdGame.new()  # A fresh harbour: no tower or body near her stand (DECISIONS L3).
+	vg.setup("harbour", DifficultyData.DEFAULT_ID, 1, loadout)
+	add_child(vg)
+	game = vg
 	var vh := game.spawn_at("eye_vhalneth", "main", 1, 0.0, 0.0)
 	_check("vhalneth dreams", vh.hidden_from_towers() and TdCombat.damage_enemy(game, vh, 500.0, {"source": "check", "dot": true}) == 0.0)
 	var arms: Array[TdEnemy] = []
@@ -1000,7 +1042,7 @@ func _empire_checks() -> void:
 	# Marching fire: a Line Trooper on the road disables the nearest tower.
 	var arch := game.spot_by_id("plot:3")
 	game.build(arch, "archer")
-	var tr := _enemy_at(game, "empire_line_trooper", Vector2(780, 150))
+	var tr := _enemy_at(game, "empire_line_trooper", _road_at(game, arch.position))
 	tr.freeze_until = 0.0
 	tr.speed = 0.0
 	_run(game, 4.0)
@@ -1008,9 +1050,9 @@ func _empire_checks() -> void:
 	if tr.alive:
 		game.remove_enemy(tr, false)
 	# Lock-On: a Spotter paints the tower, then the rail slug flies.
-	var a2 := game.spot_by_id("plot:1")
+	var a2 := game.spot_by_id(_near(game, "plot", Vector2(1280, 720) - arch.position))  # Far from the first archer.
 	game.build(a2, "archer")
-	var sp := _enemy_at(game, "empire_spotter", Vector2(380, 150))
+	var sp := _enemy_at(game, "empire_spotter", _road_at(game, a2.position))
 	sp.freeze_until = 0.0
 	sp.speed = 0.0
 	_run(game, 2.3)
@@ -1022,7 +1064,7 @@ func _empire_checks() -> void:
 	# The act towers: the Wraith Drone's darts, the Iron Revenant's slowing shells and its body.
 	var wd := _maxed(game, "plot:5", "grave_drone")
 	_check("wraith drone set", wd.evolution == "wraith_drone" and int(wd.stats["feathers"]) == 3 and int(wd.stats["pierce"]) == 1)
-	var fw := _maxed(game, "plot:6", "frost_wraith")
+	var fw := _maxed(game, _near(game, "plot", wd.position), "frost_wraith")
 	_check("overclock active", wd.synergies.any(func(p: Array) -> bool: return p[0] == "overclock") or fw.synergies.any(func(p: Array) -> bool: return p[0] == "overclock"))
 	var rev_spot := game.spot_by_id("post:4")
 	game.build(rev_spot, "iron_revenant")
@@ -1079,8 +1121,9 @@ func _concord_checks() -> void:
 	var gs := game.spot_by_id("plot:3")
 	game.build(gs, "ghost_saucer")
 	var pack: Array[TdEnemy] = []
+	var gr := game.nearest_road(gs.position, 2000.0)  # The road beside the saucer.
 	for i in 4:
-		var e := _enemy_at(game, "concord_burrower", Vector2(580, 400.0 + float(i) * 24.0))
+		var e := _enemy_at(game, "concord_burrower", gr.point_at(gr.project(gs.position) + float(i) * 24.0))
 		e.max_hp = 1.0e6
 		e.hp = e.max_hp
 		e.freeze_until = 0.0
@@ -1092,7 +1135,7 @@ func _concord_checks() -> void:
 	_check("ghost saucer lifts", int(gs.tower.vars.get("lifted", 0)) >= 1)
 	var bm := _maxed(game, "plot:4", "ghost_saucer")
 	_check("black mothership set", bm.evolution == "black_mothership" and int(bm.stats["beams"]) == 3 and int(bm.stats["lifts"]) == 2)
-	_maxed(game, "plot:2", "frost_wraith")
+	_maxed(game, _near(game, "plot", bm.position), "frost_wraith")
 	_check("crop circles active", bm.synergies.any(func(p: Array) -> bool: return p[0] == "crop_circles"))
 	# The act spells.
 	var foe := pack[0]
@@ -1109,7 +1152,7 @@ func _concord_checks() -> void:
 		if s.tower != null:
 			game.sell(s)
 	# A saucer stops over a tower and lifts it after its cone; one shot down mid-beam lifts nothing.
-	var arch := game.spot_by_id("plot:3")
+	var arch := game.spot_by_id(_near(game, "plot", (game.roads["sky_a"] as Road).point_at(555.0)))  # Under the saucer's stop.
 	game.build(arch, "archer")
 	var sc := game.spawn_at("concord_saucer", "sky_a", 1, 555.0, 0.0)
 	sc.max_hp = 1.0e6
@@ -1139,7 +1182,7 @@ func _concord_checks() -> void:
 	_run(game, 3.0)
 	_check("saucer downed mid-beam", int(rule.get("counts")["downed_beaming"]) == 1 and post.tower.block.bodies.filter(func(b: BlockBody) -> bool: return b.alive).size() == before)
 	# The Burrower digs under the post holding it; the Vrask Hunter is cloaked while it walks, a spell reveals it.
-	var bur := game.spawn_at("concord_burrower", "main", 1, 700.0, 0.0)
+	var bur := game.spawn_at("concord_burrower", post.road_id, 1, maxf(post.road_dist - 60.0, 0.0), 0.0)
 	bur.max_hp = 1.0e6
 	bur.hp = bur.max_hp
 	_run(game, 6.0)
@@ -1174,8 +1217,9 @@ func _titans_checks() -> void:
 	game.build(bh, "bonehorn")
 	var pack: Array[TdEnemy] = []  # Foes in its reach.
 	var d0: Array[float] = []  # Their distances along the road before.
+	var br := game.nearest_road(bh.position, 2000.0)  # The road beside the Bonehorn.
 	for i in 4:
-		var e := _enemy_at(game, "prim_razorclaw", Vector2(380.0 + float(i) * 30.0, 530))
+		var e := _enemy_at(game, "prim_razorclaw", br.point_at(br.project(bh.position) + float(i) * 30.0))
 		e.max_hp = 1.0e6
 		e.hp = e.max_hp
 		pack.append(e)
@@ -1205,8 +1249,9 @@ func _titans_checks() -> void:
 		if e.alive:
 			game.remove_enemy(e, false)
 	# The tar: a walker in a seep is slowed, a Bog Croc sinks out of sight.
-	var sc := _enemy_at(game, "prim_scuttler", Vector2(560, 660))
-	var croc := _enemy_at(game, "prim_bog_croc", Vector2(560, 665))
+	var seep: Vector2 = (game.map["tar"] as Array)[0][0]  # A tar seep on the road.
+	var sc := _enemy_at(game, "prim_scuttler", seep)
+	var croc := _enemy_at(game, "prim_bog_croc", seep + Vector2(0, 5))
 	for o: TdEnemy in [sc, croc]:
 		o.max_hp = 1.0e6  # The Bonehorns nearby keep charging.
 		o.hp = o.max_hp
@@ -1216,9 +1261,12 @@ func _titans_checks() -> void:
 	game.remove_enemy(sc, false)
 	game.remove_enemy(croc, false)
 	# A herd beast tramples the tower beside its trail; hurt enough, the herd turns back.
-	var arch := game.spot_by_id("plot:9")
-	game.build(arch, "archer")
 	var trail: Road = game.roads["fern_trail"]
+	var arch: Spot = null  # The plot nearest the herd trail.
+	for s: Spot in game.spots:
+		if s.kind == "plot" and s.tower == null and (arch == null or trail.distance_to(s.position) < trail.distance_to(arch.position)):
+			arch = s
+	game.build(arch, "archer")
 	var beast := game.spawn_at("prim_longneck", "fern_trail", 1, trail.project(arch.position) - 10.0, 0.0)
 	beast.max_hp = 1.0e5  # Towers shooting it must not turn it before the check.
 	beast.hp = beast.max_hp
@@ -1238,6 +1286,9 @@ func _titans_checks() -> void:
 	TdCombat.damage_enemy(gp, drinker, drinker.max_hp * 0.5, {"source": "check", "dot": true})
 	_check("herd bolts", int((gp.act_rule.get("counts") as Dictionary)["bolted"]) == 1 and drinker.haste_until > gp.time)
 	var rock: Vector2 = (gp.map["rocks"] as Array)[0]
+	for r: Vector2 in gp.map["rocks"]:  # The rock nearest the main road.
+		if gp.roads["main"].distance_to(r) < gp.roads["main"].distance_to(rock):
+			rock = r
 	var hc := gp.spawn_at("prim_horncharger", "main", 1, gp.roads["main"].project(rock) - 30.0, 0.0)
 	hc.vars["next"] = 0.0
 	_run(gp, 3.0)
@@ -1306,7 +1357,7 @@ func _year_checks() -> void:
 	var oak := game.spot_by_id("plot:2")
 	game.build(oak, "ossuary_oak")
 	_check("oak ground only", bool(oak.tower.row.get("ground_only", false)))
-	var walker := game.spawn_at("wild_treant", "main", 1, game.roads["main"].project(Vector2(560, 490)), 0.0)
+	var walker := game.spawn_at("wild_treant", "main", 1, game.roads["main"].project(oak.position), 0.0)
 	walker.max_hp = 1.0e6
 	walker.hp = walker.max_hp
 	walker.speed = 0.0
@@ -1316,7 +1367,7 @@ func _year_checks() -> void:
 	game.sell(oak)
 	var warden := _maxed(game, "plot:2", "ossuary_oak")
 	_check("world-root warden set", warden.evolution == "world_root_warden" and float(warden.stats["field_time"]) > 0.0 and float(warden.stats["root_time"]) > 1.0)
-	var wr := _maxed(game, "post:0", "warrior")
+	var wr := _maxed(game, _near(game, "post", warden.position), "warrior")
 	_check("heartwood active", warden.synergies.any(func(p: Array) -> bool: return p[0] == "heartwood") or wr.synergies.any(func(p: Array) -> bool: return p[0] == "heartwood"))
 	# The act spells.
 	var foe := _enemy_at(game, "wild_fae_knight", Vector2(800, 490))

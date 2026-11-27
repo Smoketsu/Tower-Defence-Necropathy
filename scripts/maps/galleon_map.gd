@@ -1,12 +1,12 @@
 ## The Treasure Galleon (Act II map 2, the Black Tide; Necropathy's "galleon"
-## stage, GDD §7.3): a wide dawn deck. Three ways aboard: the stern gangway
-## (left) runs right, down and back left in a long Z to the necromancer's hatch
-## at the waist (bottom left); boarders from the bow (right) cross the deck and
-## join it mid-run; grapplers hook the bottom rail and join its last leg.
-## Gunboats sail the sea lane under the rail. Act rule: the Broadsides
-## (rules/corsair/broadsides.gd), four cannons this time. 18 plots, 6 posts,
-## 24 waves; Old Hollow-Eye (miniboss) on wave 12, Admiral Marrec on wave 24.
-## MAP keys: graveyard_map.gd. Data only, no logic.
+## stage, GDD §7.3): a wide dawn deck. The road traces the hull: from the stern
+## gangway (top left) along the top rail to the pointed bow (right), back along
+## the bottom rail, round the stern and in to the necromancer's hatch amidships.
+## Boarders climb onto the bow's tip (right); grapplers hook the bottom rail and
+## join it. Gunboats sail the sea lane under the rail. Act rule: the Broadsides
+## (rules/corsair/broadsides.gd), four cannons this time. 18 plots, 6 posts, 24
+## waves; Old Hollow-Eye (miniboss) on wave 12, Admiral Marrec on wave 24. MAP
+## keys: graveyard_map.gd. Data only, no logic.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd).
@@ -16,38 +16,42 @@ const MAP: Dictionary = {
 	"floor": "tiles/corsair_galleon",
 	"decals": [],
 	"obstacles": [
-		["obstacles/deck_mast_l", Vector2(800, 120)], ["obstacles/deck_mast_l", Vector2(300, 300)],
+		["obstacles/deck_mast_l", Vector2(815, 199)], ["obstacles/deck_mast_l", Vector2(305, 309)],
 		["obstacles/deck_hatch_l", Vector2(860, 480)], ["obstacles/deck_barrels_l", Vector2(40, 470)],
 		["obstacles/deck_hatch_l_v", Vector2(1220, 600)], ["obstacles/deck_barrels_s", Vector2(560, 650)],
 		["obstacles/deck_cannon_l", Vector2(60, 640)],
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 130), Vector2(500, 130), Vector2(560, 190), Vector2(560, 330), Vector2(620, 390),
-				Vector2(1000, 390), Vector2(1060, 450), Vector2(1060, 520), Vector2(1000, 580), Vector2(320, 580),
-				Vector2(260, 520), Vector2(260, 470)],
+			"points": [Vector2(-40, 130), Vector2(840, 130), Vector2(1100, 360), Vector2(840, 590), Vector2(300, 590),
+				Vector2(273, 587), Vector2(248, 578), Vector2(225, 564), Vector2(206, 545), Vector2(192, 522),
+				Vector2(183, 497), Vector2(180, 470), Vector2(180, 360), Vector2(183, 333), Vector2(192, 308),
+				Vector2(206, 285), Vector2(225, 266), Vector2(248, 252), Vector2(273, 243), Vector2(300, 240),
+				Vector2(470, 240)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"bow": {
-			"points": [Vector2(1320, 240), Vector2(820, 240), Vector2(760, 300), Vector2(760, 390)],
-			"next": "main", "next_at": 989.7, "entrance": true,
+			"points": [Vector2(1320, 360), Vector2(1100, 360)],
+			"next": "main", "next_at": 1227.1,  # joins main at (1100, 360)
+			"entrance": true,
 		},
 		"grapple": {
-			"points": [Vector2(940, 664), Vector2(940, 580)],
-			"next": "main", "next_at": 1529.4, "entrance": true,
+			"points": [Vector2(760, 664), Vector2(760, 592)],
+			"next": "main", "next_at": 1654.3,  # joins main at (760, 590)
+			"entrance": true,
 		},
 		"sea": {
 			"points": [Vector2(-40, 700), Vector2(1320, 700)],
 			"next": "", "next_at": 0.0, "entrance": false, "off_road": true, "exit": true,
 		},
 	},
-	"gate": Vector2(260, 440),
+	"gate": Vector2(498, 210),
 	"plots": [
-		Vector2(150, 75), Vector2(330, 75), Vector2(420, 240), Vector2(480, 350), Vector2(660, 280), Vector2(660, 480),
-		Vector2(860, 320), Vector2(905, 480), Vector2(980, 160), Vector2(1160, 160), Vector2(1160, 330), Vector2(1160, 520),
-		Vector2(1040, 645), Vector2(640, 645), Vector2(380, 470), Vector2(190, 560), Vector2(160, 230), Vector2(1060, 300),
+		Vector2(140, 210), Vector2(580, 190), Vector2(660, 190), Vector2(930, 400), Vector2(1130, 290), Vector2(910, 620),
+		Vector2(770, 520), Vector2(690, 530), Vector2(1140, 430), Vector2(770, 190), Vector2(840, 230), Vector2(470, 530),
+		Vector2(370, 530), Vector2(300, 480), Vector2(240, 420), Vector2(300, 340), Vector2(220, 190), Vector2(1000, 360),
 	],
-	"posts": [Vector2(300, 130), Vector2(560, 260), Vector2(900, 390), Vector2(1060, 490), Vector2(700, 580), Vector2(380, 580)],
+	"posts": [Vector2(372, 130), Vector2(803, 130), Vector2(993, 455), Vector2(771, 590), Vector2(269, 585), Vector2(237, 259)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
 	"wave_hp_end": 2.95,  # TUNING (not in GDD)

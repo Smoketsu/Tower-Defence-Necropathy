@@ -1,11 +1,11 @@
 ## The Hollow Archive (Act XI map 2; Necropathy stage "archive"): a library
 ## buried under the town where the Eye keeps what must not be read. One long
-## road snakes down three aisles between the shelves (left to right, back
-## along the middle, left to right again) to the gate; a rift tears open on
-## the right and its short road joins the first bend. 15 plots, 6 posts, 22
-## waves. Claims (act rule eye/claims): the Scribes' curses make any cultist
-## a claimer. The Librarian (miniboss, chest) on wave 12; the Archivist on
-## wave 22. Keys as graveyard_map.gd. Data only.
+## road walks the stacks: up and down five tall aisles between the bookshelves,
+## left to right, to the gate in the north-east; a rift tears open on the right
+## and its road cuts straight across the last aisle (a deliberate crossing) into
+## the fourth. 15 plots, 6 posts, 22 waves. Claims (act rule eye/claims): the
+## Scribes' curses make any cultist a claimer. The Librarian (miniboss, chest)
+## on wave 12; the Archivist on wave 22. Keys as graveyard_map.gd. Data only.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd).
@@ -18,32 +18,34 @@ const MAP: Dictionary = {
 		["obstacles/bookshelf_l", Vector2(450, 250)], ["obstacles/bookshelf_l", Vector2(680, 250)],
 		["obstacles/bookshelf_m", Vector2(890, 250)], ["obstacles/bookshelf_l", Vector2(450, 470)],
 		["obstacles/bookshelf_l", Vector2(680, 470)], ["obstacles/reading_desk_l", Vector2(900, 470)],
-		["obstacles/book_pile_l", Vector2(240, 250)], ["obstacles/brass_globe_l", Vector2(1210, 470)],
-		["obstacles/chart_table_l", Vector2(60, 650)], ["obstacles/page_heap_l", Vector2(1240, 660)],
+		["obstacles/book_pile_l", Vector2(240, 250)], ["obstacles/brass_globe_l", Vector2(1215, 500)],
+		["obstacles/chart_table_l", Vector2(70, 667)], ["obstacles/page_heap_l", Vector2(1240, 660)],
 		["obstacles/toppled_shelf_m", Vector2(400, 670)], ["obstacles/blank_shelf_m", Vector2(800, 670)],
-		["obstacles/book_pile_s", Vector2(40, 330)], ["obstacles/page_heap_s", Vector2(1240, 80)],
+		["obstacles/book_pile_s", Vector2(40, 330)], ["obstacles/page_heap_s", Vector2(1240, 170)],
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 140), Vector2(1060, 140), Vector2(1120, 200), Vector2(1120, 300), Vector2(1060, 360), Vector2(220, 360), Vector2(160, 420), Vector2(160, 520), Vector2(220, 580), Vector2(1190, 580)],
+			"points": [Vector2(-40, 600), Vector2(150, 600), Vector2(150, 595), Vector2(150, 130), Vector2(360, 130),
+				Vector2(360, 595), Vector2(570, 595), Vector2(570, 130), Vector2(780, 130), Vector2(780, 595),
+				Vector2(990, 595), Vector2(990, 130), Vector2(1190, 130)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"rift": {
-			"points": [Vector2(1320, 250), Vector2(1120, 250)],
-			"next": "main", "next_at": 1234.9,  # joins main at (1120, 250)
+			"points": [Vector2(1320, 470), Vector2(1160, 410), Vector2(782, 330)],
+			"next": "main", "next_at": 2420.0,  # joins main at (780, 330)
 			"entrance": true,
 		},
 	},
-	"gate": Vector2(1218, 580),
+	"gate": Vector2(1218, 100),
 	"plots": [
-		Vector2(120, 250), Vector2(330, 250), Vector2(560, 250), Vector2(790, 250), Vector2(990, 250),
-		Vector2(330, 470), Vector2(560, 470), Vector2(790, 470), Vector2(1010, 470), Vector2(1165, 385),
-		Vector2(70, 470), Vector2(1215, 170), Vector2(240, 470), Vector2(670, 280), Vector2(1200, 330),
+		Vector2(510, 240), Vector2(280, 240), Vector2(850, 460), Vector2(1080, 270), Vector2(270, 470), Vector2(480, 500),
+		Vector2(920, 500), Vector2(690, 280), Vector2(210, 200), Vector2(640, 540), Vector2(80, 460), Vector2(840, 170),
+		Vector2(1120, 490), Vector2(880, 280), Vector2(1060, 190),
 	],
-	"posts": [Vector2(600, 140), Vector2(800, 360), Vector2(300, 360), Vector2(160, 470), Vector2(700, 580), Vector2(1050, 580)],
+	"posts": [Vector2(360, 514), Vector2(780, 533), Vector2(976, 595), Vector2(990, 499), Vector2(990, 182), Vector2(1118, 130)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 5.6,  # TUNING (not in GDD) DECISIONS Z4: 5.5 -> 5.6 with slower splits; Part Three: above the Harbour
+	"wave_hp_end": 5.2,  # TUNING (not in GDD) L4: 5.6 before the road redraw; DECISIONS Z4: 5.5 -> 5.6 with slower splits; Part Three: above the Harbour
 	"rule": "",
 	"act_rule": "eye/claims",
 	"build_order": "archive_default",

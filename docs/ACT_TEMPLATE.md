@@ -56,7 +56,14 @@ Replace `<act>` with your ActData id (`corsair`, `court`, `city`, `shogunate`, .
    1-3 entrances. Place the spots so `tools/spot_audit.tscn -- --autotest` prints
    `SPOT AUDIT OK` (DECISIONS S1: every plot within the Banshee's reach of a road,
    clear of the road, posts, other spots, the HUD corners and props; `--fix` proposes
-   places). `MapLoader.validate()` fails a map with a bad spot.
+   places). `MapLoader.validate()` fails a map with a bad spot. **Give each road
+   a shape that tells its place** (DECISIONS L1-L2): no boxy serpentine of
+   horizontal runs; use curves (many short segments: `MapView.rounded()` bends
+   every joint), diagonals, spirals, acute points, merges and gates anywhere, and
+   keep right angles only where they are the theme. Plots between two passes of a
+   road (inside bends, between lanes) are what make a layout defendable: an
+   organic route that passes each plot once needs a lower `wave_hp_end`
+   (DECISIONS L4); roads that only meet at the gate split the defence.
 3. **Traits** `scripts/enemies/traits/<act>/<trait>.gd` (`extends EnemyTrait`),
    named in a kind's `"trait"` as `"<act>/<trait>"`. **Bosses**
    `scripts/bosses/<act>/<boss>.gd`, named `"<act>/<boss>"`. Numbers in the

@@ -1,12 +1,13 @@
 ## The Iron Citadel (Act XII map 3; Necropathy stage "citadel"), the Empire's
-## fortress and the act's finale. Two roads come in from the west through the
-## two outer gates, run east along the top and the bottom, turn back through
-## the courts and meet in the middle; the last stretch runs west to the
-## Citadel's core gate (2000 px from either entrance), past every plot. 18
-## plots, 6 posts. 25 waves. Line of Fire (act rule empire/line_of_fire).
-## Sentry Turrets are carried in and plant on the long stretches; Valkyrie 2.0
-## (miniboss, chest) on wave 13; Deus Ex Machina with Varn on wave 25. Keys as
-## graveyard_map.gd. Data only.
+## fortress and the act's finale. Circuit-board traces (horizontal runs and 45
+## degree chamfers only): two roads come in from the west through the two outer
+## gates, mirror each other east along the top and the bottom with chamfered
+## jogs, turn in at the east edge and meet; the last stretch runs west into the
+## core chip at the centre (1800 px from either entrance). 18 plots, 6 posts. 25
+## waves. Line of Fire (act rule empire/line_of_fire). Sentry Turrets are
+## carried in and plant on the long stretches; Valkyrie 2.0 (miniboss, chest) on
+## wave 13; Deus Ex Machina with Varn on wave 25. Keys as graveyard_map.gd. Data
+## only.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd).
@@ -16,38 +17,38 @@ const MAP: Dictionary = {
 	"floor": "tiles/citadel_courts",
 	"decals": [],
 	"obstacles": [
-		["obstacles/citadel_crate_l", Vector2(480, 200)], ["obstacles/citadel_crate_l", Vector2(480, 540)],
+		["obstacles/citadel_crate_l", Vector2(498, 132)], ["obstacles/citadel_crate_l", Vector2(514, 576)],
 		["obstacles/gate_pylon_m", Vector2(1210, 140)], ["obstacles/gate_pylon_m", Vector2(1210, 600)],
 		["obstacles/citadel_crate_m_v", Vector2(1245, 370)], ["obstacles/emitter_pylon_m", Vector2(30, 220)],
-		["obstacles/emitter_pylon_m", Vector2(30, 520)], ["obstacles/citadel_crate_s", Vector2(680, 220)],
-		["obstacles/citadel_crate_s", Vector2(680, 520)], ["obstacles/gate_pylon_s", Vector2(410, 300)],
+		["obstacles/emitter_pylon_m", Vector2(30, 520)], ["obstacles/citadel_crate_s", Vector2(702, 276)],
+		["obstacles/citadel_crate_s", Vector2(702, 576)], ["obstacles/gate_pylon_s", Vector2(410, 300)],
 		["obstacles/citadel_crate_s_v", Vector2(1040, 680)],
 	],
 	"roads": {
 		"north": {
-			"points": [Vector2(-40, 130), Vector2(900, 130), Vector2(960, 190), Vector2(960, 250),
-				Vector2(900, 310), Vector2(680, 310), Vector2(620, 370)],
-			"next": "main", "next_at": 0.0, "entrance": true,
+			"points": [Vector2(-40, 130), Vector2(400, 130), Vector2(480, 210), Vector2(820, 210), Vector2(900, 130),
+				Vector2(1120, 130), Vector2(1180, 190), Vector2(1180, 300), Vector2(1120, 360)],
+			"next": "main", "next_at": 0.0,  # joins main at (1120, 360)
+			"entrance": true,
 		},
 		"south": {
-			"points": [Vector2(-40, 610), Vector2(900, 610), Vector2(960, 550), Vector2(960, 490),
-				Vector2(900, 430), Vector2(680, 430), Vector2(620, 370)],
-			"next": "main", "next_at": 0.0, "entrance": true,
+			"points": [Vector2(-40, 590), Vector2(400, 590), Vector2(480, 510), Vector2(820, 510), Vector2(900, 590),
+				Vector2(1120, 590), Vector2(1180, 530), Vector2(1180, 420), Vector2(1120, 360)],
+			"next": "main", "next_at": 0.0,  # joins main at (1120, 360)
+			"entrance": true,
 		},
 		"main": {
-			"points": [Vector2(620, 370), Vector2(90, 370)],
+			"points": [Vector2(1120, 360), Vector2(780, 360)],
 			"next": "", "next_at": 0.0, "entrance": false,
 		},
 	},
-	"gate": Vector2(62, 370),
+	"gate": Vector2(752, 330),
 	"plots": [
-		Vector2(180, 210), Vector2(380, 210), Vector2(580, 210), Vector2(780, 210),
-		Vector2(180, 530), Vector2(380, 530), Vector2(580, 530), Vector2(780, 530),
-		Vector2(1040, 170), Vector2(1020, 425), Vector2(1040, 570), Vector2(790, 370),
-		Vector2(1045, 245), Vector2(1045, 495),
-		Vector2(300, 300), Vector2(300, 440), Vector2(520, 300), Vector2(520, 440),
+		Vector2(570, 580), Vector2(320, 190), Vector2(760, 450), Vector2(740, 150), Vector2(550, 150), Vector2(1080, 200),
+		Vector2(480, 610), Vector2(400, 230), Vector2(150, 530), Vector2(320, 530), Vector2(160, 190), Vector2(890, 240),
+		Vector2(160, 650), Vector2(80, 190), Vector2(890, 480), Vector2(1110, 460), Vector2(1040, 270), Vector2(1040, 500),
 	],
-	"posts": [Vector2(600, 130), Vector2(600, 610), Vector2(960, 220), Vector2(960, 520), Vector2(450, 370), Vector2(220, 370)],
+	"posts": [Vector2(581, 210), Vector2(581, 510), Vector2(971, 130), Vector2(971, 590), Vector2(1011, 360), Vector2(863, 360)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
 	"wave_hp_end": 2.95,  # TUNING (not in GDD) DECISIONS Z4: 2.65 -> 2.95 with the softer trooper fire; Part Three: the act's hardest

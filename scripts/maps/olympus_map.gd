@@ -1,12 +1,12 @@
 ## Mount Olympus, the Pantheon Trial (Act VIII map 2; Necropathy stage
-## "olympus"): three terraces of the god's mountain. The main road runs east
-## along the top terrace, back west along the middle one and east again to the
-## gate, so the plots between the terraces see one run coming and the next
-## going (shield fronts on one side, backs on the other); the grove road comes
-## in from the eastern slope and joins the bend. 15 plots, 6 posts, 23 waves.
-## Wrath of the Gods: Zeus's lightning from wave 3. Ares (miniboss, chest) on
-## wave 12; Zeus on wave 23.
-## Keys as graveyard_map.gd. Data only.
+## "olympus"): three terraces of the god's mountain. The main road climbs the
+## mountain in switchbacks that narrow toward the summit: east along the wide
+## foot, back west, east again and a last short run to the gate at the top, so
+## the plots between the terraces see one run coming and the next going (shield
+## fronts on one side, backs on the other); the grove road comes in from the
+## eastern slope onto the second switchback. 15 plots, 6 posts, 23 waves. Wrath
+## of the Gods: Zeus's lightning from wave 3. Ares (miniboss, chest) on wave 12;
+## Zeus on wave 23. Keys as graveyard_map.gd. Data only.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd).
@@ -16,37 +16,36 @@ const MAP: Dictionary = {
 	"floor": "tiles/olympus_terrace",
 	"decals": [],
 	"obstacles": [
-		["obstacles/marble_column_l", Vector2(795, 250)],
-		["obstacles/war_trophy_l", Vector2(885, 110)],
-		["obstacles/chariot_wreck_l", Vector2(220, 600)],
-		["obstacles/cypress_l", Vector2(255, 390)],
-		["obstacles/cypress_m", Vector2(1155, 670)],
-		["obstacles/moon_shrine_l", Vector2(1120, 180)],
-		["obstacles/fountain_l", Vector2(40, 320)],
-		["obstacles/balustrade_l", Vector2(75, 670)],
-		["obstacles/marble_column_s", Vector2(435, 670)],
-		["obstacles/war_trophy_s", Vector2(255, 110)],
-		["obstacles/cypress_s", Vector2(130, 460)],
-		["obstacles/moon_shrine_s", Vector2(435, 250)],
-		["obstacles/broken_column_l", Vector2(1245, 390)],
-		["obstacles/fountain_s", Vector2(1065, 390)],
+		["obstacles/marble_column_l", Vector2(737, 265)], ["obstacles/war_trophy_l", Vector2(885, 110)],
+		["obstacles/chariot_wreck_l", Vector2(202, 543)], ["obstacles/cypress_l", Vector2(255, 390)],
+		["obstacles/cypress_m", Vector2(1155, 670)], ["obstacles/moon_shrine_l", Vector2(1120, 180)],
+		["obstacles/fountain_l", Vector2(40, 320)], ["obstacles/balustrade_l", Vector2(75, 670)],
+		["obstacles/marble_column_s", Vector2(440, 679)], ["obstacles/war_trophy_s", Vector2(255, 110)],
+		["obstacles/cypress_s", Vector2(130, 460)], ["obstacles/moon_shrine_s", Vector2(435, 250)],
+		["obstacles/broken_column_l", Vector2(1245, 390)], ["obstacles/fountain_s", Vector2(1065, 390)],
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 170), Vector2(860, 170), Vector2(900, 210), Vector2(900, 330), Vector2(860, 370), Vector2(420, 370), Vector2(380, 410), Vector2(380, 530), Vector2(420, 570), Vector2(1190, 570)],
+			"points": [Vector2(-40, 610), Vector2(1000, 610), Vector2(900, 470), Vector2(300, 470), Vector2(400, 330),
+				Vector2(860, 330), Vector2(770, 200), Vector2(650, 200)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"grove": {
-			"points": [Vector2(1320, 280), Vector2(900, 280)],
-			"next": "main", "next_at": 1026.6, "entrance": true,
+			"points": [Vector2(1320, 470), Vector2(902, 470)],
+			"next": "main", "next_at": 1210.9,  # joins main at (901, 471)
+			"entrance": true,
 		},
 	},
-	"gate": Vector2(1222, 570),
-	"plots": [Vector2(300, 270), Vector2(520, 270), Vector2(700, 270), Vector2(1000, 190), Vector2(280, 470), Vector2(560, 470), Vector2(760, 470), Vector2(980, 470), Vector2(1180, 360), Vector2(1210, 200), Vector2(620, 95), Vector2(140, 270), Vector2(345, 615), Vector2(1000, 660), Vector2(820, 95)],
-	"posts": [Vector2(300, 170), Vector2(900, 318), Vector2(640, 370), Vector2(380, 470), Vector2(800, 570), Vector2(1150, 280)],
+	"gate": Vector2(630, 170),
+	"plots": [
+		Vector2(820, 390), Vector2(840, 550), Vector2(1060, 530), Vector2(360, 530), Vector2(1140, 540), Vector2(440, 530),
+		Vector2(720, 390), Vector2(460, 410), Vector2(540, 390), Vector2(560, 550), Vector2(690, 270), Vector2(830, 170),
+		Vector2(150, 550), Vector2(740, 550), Vector2(150, 670),
+	],
+	"posts": [Vector2(361, 610), Vector2(864, 470), Vector2(583, 470), Vector2(326, 433), Vector2(758, 330), Vector2(1151, 470)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 3.4,  # TUNING (not in GDD) S3: 3.6 before the spot fix; the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
+	"wave_hp_end": 3.9,  # TUNING (not in GDD) L4: 3.4 before the road redraw; S3: 3.6 before the spot fix; the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
 	"rule": "",
 	"act_rule": "pantheon/pantheon_rules",
 	"build_order": "olympus_default",

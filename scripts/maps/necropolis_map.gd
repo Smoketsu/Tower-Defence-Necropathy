@@ -1,11 +1,13 @@
-## The Necropolis of Sand (Act VII map 1; Necropathy stage "necropolis"): a
-## tomb road through the dunes. Two entrances: the main road from the west
-## winds down in three runs to the gate in the south-east; the tomb road from
-## the west joins it on its middle run. Five Canopic Jars stand beside the
-## road (JARS): the dead near them rise again (Rebirth and the Names). 16
-## plots, 5 posts, 22 waves. The Sandstorm from wave 8. The Sand Colossus
-## (miniboss, chest) on wave 12; Anubis on wave 22, who sets new jars down.
-## Keys as graveyard_map.gd. Data only.
+## The Necropolis of Sand (Act VII map 1; Necropathy stage "necropolis"): a tomb
+## road through the dunes. Two entrances: the main road comes along the avenue
+## of sphinxes from the west, climbs the pyramid's west face in five right-angle
+## steps, descends its east face in five more, and returns west along the
+## causeway at its foot to the gate; the tomb road drops straight down a shaft
+## from the north onto the east face. Five Canopic Jars stand beside the road
+## (JARS): the dead near them rise again (Rebirth and the Names). 16 plots, 5
+## posts, 22 waves. The Sandstorm from wave 8. The Sand Colossus (miniboss,
+## chest) on wave 12; Anubis on wave 22, who sets new jars down. Keys as
+## graveyard_map.gd. Data only.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd).
@@ -23,27 +25,29 @@ const MAP: Dictionary = {
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 150), Vector2(980, 150), Vector2(1040, 210), Vector2(1040, 330),
-				Vector2(980, 390), Vector2(320, 390), Vector2(260, 450), Vector2(260, 540),
-				Vector2(320, 600), Vector2(1190, 600)],
+			"points": [Vector2(-40, 520), Vector2(230, 520), Vector2(312, 520), Vector2(312, 440), Vector2(394, 440),
+				Vector2(394, 360), Vector2(476, 360), Vector2(476, 280), Vector2(558, 280), Vector2(558, 200),
+				Vector2(640, 200), Vector2(640, 120), Vector2(722, 120), Vector2(722, 200), Vector2(804, 200),
+				Vector2(804, 280), Vector2(886, 280), Vector2(886, 360), Vector2(968, 360), Vector2(968, 440),
+				Vector2(1050, 440), Vector2(1050, 520), Vector2(1150, 520), Vector2(1150, 630), Vector2(330, 630)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"tomb": {
-			"points": [Vector2(-40, 290), Vector2(230, 290), Vector2(320, 390)],
-			"next": "main", "next_at": 1969.7, "entrance": true,
+			"points": [Vector2(886, -40), Vector2(886, 358)],
+			"next": "main", "next_at": 1564.0,  # joins main at (886, 358)
+			"entrance": true,
 		},
 	},
-	"gate": Vector2(1218, 570),
+	"gate": Vector2(302, 600),
 	"plots": [
-		Vector2(300, 90), Vector2(700, 90), Vector2(1090, 135), Vector2(420, 290), Vector2(600, 290),
-		Vector2(860, 290), Vector2(1140, 260), Vector2(420, 495), Vector2(600, 495), Vector2(860, 495),
-		Vector2(1040, 495), Vector2(150, 500), Vector2(1090, 410), Vector2(520, 680), Vector2(900, 680),
-		Vector2(110, 210),
+		Vector2(160, 460), Vector2(420, 510), Vector2(490, 550), Vector2(780, 140), Vector2(1000, 560), Vector2(940, 290),
+		Vector2(690, 570), Vector2(930, 520), Vector2(940, 210), Vector2(820, 340), Vector2(620, 260), Vector2(240, 440),
+		Vector2(530, 340), Vector2(1210, 580), Vector2(580, 140), Vector2(770, 560),
 	],
-	"posts": [Vector2(600, 150), Vector2(120, 290), Vector2(650, 390), Vector2(720, 600), Vector2(1080, 600)],
+	"posts": [Vector2(403, 360), Vector2(886, 117), Vector2(886, 339), Vector2(773, 630), Vector2(434, 630)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 4.3,  # TUNING (not in GDD) S3: 4.65 before the spot fix; Part Two: a step above the Road to the Sun
+	"wave_hp_end": 4.5,  # TUNING (not in GDD) L4: 4.3 before the road redraw; S3: 4.65 before the spot fix; Part Two: a step above the Road to the Sun
 	"rule": "",
 	"act_rule": "dynasty/rebirth",
 	"build_order": "necropolis_default",

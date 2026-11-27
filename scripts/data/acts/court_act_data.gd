@@ -221,9 +221,9 @@ const KINDS: Dictionary = {
 ## Map structures raised by the map rule court_structures at the start of a
 ## map: map id -> [[kind, map px], ...] (beside the nearest road).
 const STRUCTURES: Dictionary = {
-	"ravensmoor": [["court_coffin", Vector2(330, 196)], ["court_coffin", Vector2(1020, 300)], ["court_coffin", Vector2(520, 436)], ["court_coffin", Vector2(680, 640)]],  # Necropathy "sealed coffins in each zone"
-	"witchwood": [["hex_stone", Vector2(420, 310)], ["hex_stone", Vector2(410, 410)], ["hex_stone", Vector2(990, 520)]],  # Necropathy "standing stones that power the covens' circles"
-	"castle_sanguis": [["blood_fountain", Vector2(560, 280)], ["blood_fountain", Vector2(1100, 430)], ["blood_fountain", Vector2(175, 570)]],  # the Banquet's blood fountains
+	"ravensmoor": [["court_coffin", Vector2(284, 229)], ["court_coffin", Vector2(306, 568)], ["court_coffin", Vector2(559, 435)], ["court_coffin", Vector2(885, 343)]],  # Necropathy "sealed coffins in each zone"
+	"witchwood": [["hex_stone", Vector2(520, 320)], ["hex_stone", Vector2(520, 410)], ["hex_stone", Vector2(620, 365)]],  # Necropathy "standing stones that power the covens' circles"
+	"castle_sanguis": [["blood_fountain", Vector2(300, 300)], ["blood_fountain", Vector2(990, 420)], ["blood_fountain", Vector2(420, 530)]],  # the Banquet's blood fountains
 }
 
 ## The Blood Moon (the act rule, GDD §7.3 Blood Moon): every `every` waves from
