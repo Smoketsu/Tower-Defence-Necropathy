@@ -86,7 +86,8 @@ scenes/main.tscn         -> scripts/main.gd
 scripts/
   main.gd                title -> map select -> TdGame; --autotest -> TdAutotest
   core/                  copied: sprite_bank, spatial_hash, settings (trimmed); new: game_state (CLI options)
-  audio/                 copied as is: sfx (run_mode_for trimmed to Act I), synth, startup/run-loop/menu synths
+  audio/                 copied as is: sfx (run_mode_for reads the map registry; Necropathy's audio overhaul:
+                         sampled takes, per-map songs), synth, startup/run-loop/menu synths
   fx/                    copied: sharp_pixel.gdshader, unit_layer.gd (a draw-callback layer, reused everywhere)
   ui/                    copied: ui_theme, kit_style_box, ui_motion, confirm_dialog, input_hints, touch_support,
                          rotate_overlay (+ chamfer() from Necropathy's TouchControls)
@@ -241,7 +242,17 @@ autotest query also takes `--reduce-motion` and `--damage-numbers`.
   from `TdCombat.damage_enemy()`), `extend_weaken` and `aim`.
 - Corpse Explosion (corpse markers from kills) and Plague Cloud (Rot fields
   along the road) are built; the five GDD §11 sounds are synthesized
-  (`TdSoundData.SOUNDS`, Sfx pack "td").
+  (`TdSoundData.SOUNDS`, Sfx pack "td"); since DECISIONS N1 place / sell /
+  life lost play Necropathy's sampled `summon_rise` / `summon_death` /
+  `player_hurt` instead.
+- **Audio overhaul (DECISIONS N1, from Necropathy, Nov 2026):** every Necropathy
+  bank sound with a file in `assets/audio/sfx/` (57 ids, 87 takes, built from
+  Kenney's CC0 packs) plays the sample instead of its synth render, and every
+  one of the 45 maps plays its Necropathy stage's song (`assets/audio/music/<map
+  id>.ogg`, loop points `SongData.LOOPS`). Never loaded headless for songs;
+  same-seed summaries unchanged. Sources: `assets/audio/LICENSES.md`. The act
+  packs, the td pack's own sounds, the menu theme and every fallback stay
+  synthesized.
 - Self-check: `$G --headless tools/towers_check.tscn` (prints `TOWERS CHECK PASS`).
 ## Act I maps and the Covenant (gw-maps)
 

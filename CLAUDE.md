@@ -77,7 +77,8 @@ loaded by name; reuse `projectile` / `aura` / `blocker`, or write a new file
 `volley(t: Tower, target: TdEnemy)`, `on_removed(t: Tower)`,
 `draw_body(t: Tower, ci: CanvasItem, index: int)`, `draw_overlay(t: Tower)`.
 Fire shots with `t.game.projectiles.fire(t, target, damage, sprite, tint, is_volley)`;
-per-tower state in `t.vars`; stats only from `t.stats`. Add its sound to `TdSoundData.FIRE`.
+per-tower state in `t.vars`; stats only from `t.stats`. Add its sound to `TdSoundData.FIRE` (a Necropathy id with a file in
+`assets/audio/sfx/` plays its sampled takes, DECISIONS N1).
 
 **Evolution (tier 6)** — a row in `EvolutionData.EVOLUTIONS`: from, name, sprite,
 icon, stats {damage|rate|range|hp: mult}, set {row key: value}, recipe. Recipe
@@ -173,12 +174,13 @@ act rule, **30 towers** (8 Act I + 6 kit + 16 act towers) with 30 hidden
 evolutions, 27 synergies, **50 spells** (8 + three per later act), 4 ultimates,
 **50 characters**, the act framework (hidden test act), unlocks (save version
 2), difficulty levels, the Reckoning, menus, meta save + backup codes,
-masteries, gamepad cursor, touch layout, synthesized sounds, CI with a map
+masteries, gamepad cursor, touch layout, Necropathy's sampled sounds and per-map
+songs (DECISIONS N1; synth for the rest and as the fallback), CI with a map
 matrix (45 jobs from `tools/map_list.tscn`), Web build.
 
 Balance: `docs/BALANCE.md` (its first section is the one 45-map table and the
 **Act I baseline summaries**: a change that must not touch Act I reproduces them
-byte for byte). Decisions: `docs/DECISIONS.md` (I, V, A, K, W, T2-T15, X, Y, Z, M, S, L rows).
+byte for byte). Decisions: `docs/DECISIONS.md` (I, V, A, K, W, T2-T15, X, Y, Z, M, S, L, N rows).
 Next: owner playtests; `docs/ACT_TEMPLATE.md` keeps the lessons (sections 5-7)
 for any later content.
 
