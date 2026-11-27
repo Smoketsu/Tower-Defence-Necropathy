@@ -47,7 +47,7 @@ func _draw() -> void:
 func _strip(r: Road, tex: Texture2D, from: float, to: float, both: bool) -> void:
 	var sz := tex.get_size()  # Tile size (px).
 	var rad := maxf(TdArtData.ROAD_TURN_RADIUS, float(rule["sidewalk_px"]) + TdArtData.ROAD_WIDTH * 0.5 + float(rule["street_extra"]) * 0.5)  # Bend radius (px): the whole street's half width.
-	var path := MapView.cut(MapView.rounded(r.points, rad))  # The drawn centre line.
+	var path := MapView.cut(MapView.joined(r, game.roads, rad))  # The drawn centre line (run on into the road it joins, DECISIONS L6).
 	var v0 := 1.0 if both else float(rule["asphalt_v"])  # v at `from`.
 	var v1 := 0.0 if both else float(rule["asphalt_v"]) + (to - from) / sz.y  # v at `to`.
 	for side: float in ([1.0, -1.0] if both else [1.0]):
