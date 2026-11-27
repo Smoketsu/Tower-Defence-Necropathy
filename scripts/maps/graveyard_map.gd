@@ -93,7 +93,7 @@ const MAP: Dictionary = {
 		Vector2(180, 100), Vector2(740, 470), Vector2(560, 590), Vector2(490, 180), Vector2(410, 200), Vector2(240, 670),
 		Vector2(730, 180), Vector2(1180, 440),
 	],
-	"posts": [Vector2(516, 247), Vector2(1126, 406), Vector2(403, 499), Vector2(205, 613)],
+	"posts": [Vector2(516, 247), Vector2(1126, 406), Vector2(403, 499), Vector2(290, 595)],
 	"lives": 0,
 	"souls": 0,
 	"wave_hp_end": 2.0,  # TUNING (not in GDD) L4: 2.6 before the road redraw; integration balance: the first map is the gentlest

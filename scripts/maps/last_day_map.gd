@@ -25,8 +25,8 @@ const MAP: Dictionary = {
 		["obstacles/primeval_fossil_m", Vector2(640, 600)], ["obstacles/primeval_lava_rock_m", Vector2(380, 140)],
 		["obstacles/primeval_lava_rock_m", Vector2(900, 140)], ["obstacles/primeval_fossil_m_v", Vector2(40, 520)],
 		["obstacles/primeval_lava_rock_m", Vector2(1240, 520)], ["obstacles/primeval_rock_m", Vector2(560, 690)],
-		["obstacles/primeval_rock_m", Vector2(740, 690)], ["obstacles/primeval_lava_rock_m", Vector2(490, 432)],
-		["obstacles/primeval_lava_rock_m", Vector2(776, 559)], ["obstacles/primeval_lava_rock_m", Vector2(589, 334)],
+		["obstacles/primeval_rock_m", Vector2(740, 690)], ["obstacles/primeval_lava_rock_m", Vector2(478, 432)],
+		["obstacles/primeval_lava_rock_m", Vector2(793, 551)], ["obstacles/primeval_lava_rock_m", Vector2(597, 325)],
 	],
 	"roads": {
 		"main": {
@@ -63,7 +63,7 @@ const MAP: Dictionary = {
 	},
 	"herd_trails": {"ash_trail": "ash_trail_back"},  # The herd trail and the road a turned herd runs back along.
 	"meteors": true,  # Fire from the Sky (the act rule's RULE "meteor").
-	"rocks": [Vector2(490, 432), Vector2(776, 559), Vector2(589, 334)],  # Lava rocks beside the road a charge breaks on (the obstacles of the same place).
+	"rocks": [Vector2(478, 432), Vector2(793, 551), Vector2(597, 325)],  # Lava rocks beside the road a charge breaks on (the obstacles of the same place).
 	"gate": Vector2(640, 110),
 	"plots": [
 		Vector2(240, 680), Vector2(1120, 640), Vector2(750, 250), Vector2(490, 380), Vector2(520, 300), Vector2(970, 510),

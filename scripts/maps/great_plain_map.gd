@@ -21,11 +21,11 @@ const MAP: Dictionary = {
 	"floor": "tiles/great_plain_dust_flats",
 	"decals": [],
 	"obstacles": [
-		["obstacles/primeval_rock_m", Vector2(490, 614)], ["obstacles/primeval_rock_m", Vector2(652, 84)],
-		["obstacles/primeval_rock_m", Vector2(1001, 477)], ["obstacles/primeval_canyon_wall_m_v", Vector2(1250, 330)],
+		["obstacles/primeval_rock_m", Vector2(483, 604)], ["obstacles/primeval_rock_m", Vector2(653, 95)],
+		["obstacles/primeval_rock_m", Vector2(1012, 464)], ["obstacles/primeval_canyon_wall_m_v", Vector2(1250, 330)],
 		["obstacles/primeval_canyon_wall_m", Vector2(1010, 120)], ["obstacles/primeval_canyon_wall_m_v", Vector2(1250, 560)],
 		["obstacles/primeval_fossil_m", Vector2(120, 380)], ["obstacles/primeval_rock_m", Vector2(60, 690)],
-		["obstacles/primeval_fossil_m_v", Vector2(660, 690)], ["obstacles/primeval_rock_m", Vector2(911, 204)],
+		["obstacles/primeval_fossil_m_v", Vector2(660, 690)], ["obstacles/primeval_rock_m", Vector2(913, 193)],
 	],
 	"roads": {
 		"main": {
@@ -75,7 +75,7 @@ const MAP: Dictionary = {
 	},
 	"herd_trails": {"long_trail": "long_trail_back", "canyon_trail": "canyon_trail_back"},  # Herd trails and the roads a turned herd runs back along.
 	"hole": [Vector2(815, 425), 56.0],  # TUNING (not in GDD) the watering hole: centre px, radius px
-	"rocks": [Vector2(490, 614), Vector2(652, 84), Vector2(1001, 477), Vector2(911, 204)],  # The rocks beside the road a charge breaks on (the obstacles of the same place).
+	"rocks": [Vector2(483, 604), Vector2(653, 95), Vector2(1012, 464), Vector2(913, 193)],  # The rocks beside the road a charge breaks on (the obstacles of the same place).
 	"gate": Vector2(1210, 495),
 	"plots": [
 		Vector2(350, 550), Vector2(250, 580), Vector2(1140, 430), Vector2(420, 510), Vector2(640, 230), Vector2(240, 250),
@@ -85,7 +85,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(177, 642), Vector2(135, 309), Vector2(490, 551), Vector2(714, 132), Vector2(1054, 443)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 2.0,  # TUNING (not in GDD) L4: 2.5 before the road redraw; its roster (charges, sweeps, herds) carries the difficulty; 2.6 still wins (cliff check)
+	"wave_hp_end": 2.25,  # TUNING (not in GDD) L4: 2.5 before the road redraw; its roster (charges, sweeps, herds) carries the difficulty; 2.5 loses seeds 3-4 (cliff check)
 	"rule": "",
 	"act_rule": "primeval/stampedes",
 	"build_order": "great_plain_default",
