@@ -53,7 +53,10 @@ Replace `<act>` with your ActData id (`corsair`, `court`, `city`, `shogunate`, .
    the Act I ones: `build_order`, `weak_order`. Optional: `act_rule` (else the
    act row's `rule`), `music`, `mood`, `floor`, and road keys `off_road` /
    `exit`. The final wave must hold the boss. GDD §7.1: 12-20 plots, 3-6 posts,
-   1-3 entrances.
+   1-3 entrances. Place the spots so `tools/spot_audit.tscn -- --autotest` prints
+   `SPOT AUDIT OK` (DECISIONS S1: every plot within the Banshee's reach of a road,
+   clear of the road, posts, other spots, the HUD corners and props; `--fix` proposes
+   places). `MapLoader.validate()` fails a map with a bad spot.
 3. **Traits** `scripts/enemies/traits/<act>/<trait>.gd` (`extends EnemyTrait`),
    named in a kind's `"trait"` as `"<act>/<trait>"`. **Bosses**
    `scripts/bosses/<act>/<boss>.gd`, named `"<act>/<boss>"`. Numbers in the
@@ -168,6 +171,7 @@ Replace `<act>` with your ActData id (`corsair`, `court`, `city`, `shogunate`, .
 G=/home/user/tools/godot/Godot_v4.3-stable_linux.x86_64
 $G --headless --import                                   # no errors
 $G --headless tools/map_list.tscn                        # lists your maps, validates them (exit 0)
+$G --headless tools/spot_audit.tscn -- --autotest        # SPOT AUDIT OK (no dead / weak / covered plot)
 for m in <map1> <map2> <map3>; do for s in 1 2; do
   $G --headless --fixed-fps 60 --quit-after 200000 -- --autotest --map=$m --seed=$s
   $G --headless --fixed-fps 60 --quit-after 200000 -- --autotest --map=$m --seed=$s --build=<map>_weak

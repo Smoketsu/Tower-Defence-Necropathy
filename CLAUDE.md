@@ -120,6 +120,13 @@ waves [{banner, groups [{kind, count, spacing, delay, road}]}], weak_order) —
 Act I maps are preloaded in `MapRegistry.MAPS`; a later act's map is found by
 its file name once its ActData row lists the id. Merging roads: a side road with `next` = the main road and
 `next_at` = the join distance on it. Its build orders go in its act data file's `ORDERS` (Act I: `BuildOrderData`); its music comes from its act row.
+**Spots** must pass the spot audit (DECISIONS S1-S4; `MapLoader.validate()` fails the map
+otherwise): every plot reaches at least `SpotAuditData.WEAK_PX` of real road with the
+shortest-range plot tower (the Banshee, 115 px), its 56 px art clear of the road, posts,
+other plots, the gate, entrances, the HUD (top bar, spell bar, the act widget corner),
+obstacles and act objects; posts on their road, apart, not at an entrance or in the gate.
+`tools/spot_audit.tscn -- --autotest` prints every bad spot (`--fix` proposes the nearest
+good place, `--json=` + `tools/spot_overlay.py` draws overlays); never reorder plots.
 
 **Map rule** — `scripts/maps/rules/<id>.gd` `extends MapRule` (MAP "rule": id):
 `setup()`, `step(dt: float)`, `tower_damage_mult(t: Tower) -> float` (read by
@@ -166,7 +173,7 @@ matrix (45 jobs from `tools/map_list.tscn`), Web build.
 
 Balance: `docs/BALANCE.md` (its first section is the one 45-map table and the
 **Act I baseline summaries**: a change that must not touch Act I reproduces them
-byte for byte). Decisions: `docs/DECISIONS.md` (I, V, A, K, W, T2-T15, X, Y, Z rows).
+byte for byte). Decisions: `docs/DECISIONS.md` (I, V, A, K, W, T2-T15, X, Y, Z, M, S rows).
 Next: owner playtests; `docs/ACT_TEMPLATE.md` keeps the lessons (sections 5-7)
 for any later content.
 
@@ -419,4 +426,5 @@ The bar is Necropathy's owner-approved menu modernization; these rules apply her
   `--test-act`. Every run prints `leak_curve=`; kit runs add `tower_value=` /
   `kit=`, act runs `act_rule=` / `hostile=`. Tools: `tools/run_all_maps.sh`
   (`WEAK=1`, `SEED=`), `tools/map_list.tscn` (the CI matrix),
-  `tools/towers_check.tscn`, `tools/meta_check.tscn`, `tools/acts_check.tscn`.
+  `tools/towers_check.tscn`, `tools/meta_check.tscn`, `tools/acts_check.tscn`,
+  `tools/spot_audit.tscn` (the spot audit, `SPOT AUDIT OK`; DECISIONS S1).

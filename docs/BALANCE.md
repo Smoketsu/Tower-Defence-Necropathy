@@ -1,5 +1,82 @@
 # Balance
 
+## Spot fix: every plot reaches the road (Nov 2026; DECISIONS S1-S4)
+
+The owner reported plots from which no tower hits anything. The spot audit
+(`tools/spot_audit.tscn`, `SpotAudit`, thresholds in `SpotAuditData`) found 140
+bad spots on 38 maps (145 flags): 95 dead plots (the Banshee, the shortest-range plot tower at
+115 px, reaches no road from them), 12 weak (under 52 px of road, 1 s of fodder),
+26 under the HUD (top bar, the act's widget corner, the Black Tide's sea band), 9
+on a prop, 1 on the road, 1 crowded, and 1 post (the Road to the Sun's last post
+40 px before the gate: kept, the rule now flags only a post inside the gate). 139 plots on 38 maps moved
+(each to the nearest 5 px grid place passing every test with 110 px of road for the
+Banshee; the Maelstrom's plot 0 placed by hand between its row's neighbours), no
+plot added or removed, indices kept; Act I passes the audit and is untouched (its
+six baseline summaries below are byte-identical). The audit is now a gate in
+`MapLoader.validate()` (map_list, every run start) and a CI self-check.
+
+Default orders, Necromancer, seeds 1-4, lives kept of 20 (after the changes in
+bold); every run won, 0 errors, `stuck_enemies=0`; every weak order still loses
+(seed 1); the same seed twice is identical (Underworld, Ravensmoor seed 1). 97 of
+180 runs lose lives (97 before too); no map went to 0 of 4. Retuned (`--hp-end`
+probes, seeds 1-4): Necropolis and Olympus lost seed 4 and the Empyrean seed 3 at
+their old values (the moved plots had held their default orders' long-range
+towers); the Skid Row, Lioness Temple and Fern Basin went to 20 lives on all four
+seeds. The Fern Basin's band is narrow (3.0 loses seed 2). Kit orders, seed 1:
+39/39 won after `host_kit` puts the Bound Ophan on the Empyrean's plot 9 (its old
+plot 4 sat at the dead centre between both roads, where the Ophan dealt 70k; at
+the new plot 4 the order lost; on plot 9 it wins 4/4 with 14-20 lives, the Ophan
+~20k). Valgard's `norse_kit` keeps 10 lives (17 before).
+
+| Act | Map | Plots moved | wave_hp_end | s1 | s2 | s3 | s4 | Runs losing lives | Before (s1-s4) |
+|---|---|---|---|---|---|---|---|---|---|
+| I | graveyard | 0 | 2.6 | 20 | 13 | 20 | 20 | 1/4 | 20, 13, 20, 20 |
+| I | crimson_march | 0 | 2.4 | 9 | 20 | 20 | 17 | 2/4 | 9, 20, 20, 17 |
+| I | sanctum | 0 | 3.15 | 9 | 20 | 20 | 20 | 1/4 | 9, 20, 20, 20 |
+| II | cutter | 2 | 4.3 | 15 | 9 | 20 | 20 | 2/4 | 15, 15, 20, 20 |
+| II | galleon | 8 | 2.95 | 17 | 17 | 12 | 20 | 3/4 | 12, 17, 12, 20 |
+| II | maelstrom | 6 | 4.0 | 20 | 11 | 20 | 20 | 1/4 | 20, 20, 14, 11 |
+| III | ravensmoor | 9 | 4.2 | 12 | 14 | 12 | 15 | 4/4 | 20, 20, 15, 14 |
+| III | witchwood | 5 | 2.8 | 20 | 14 | 20 | 20 | 1/4 | 14, 14, 20, 20 |
+| III | castle_sanguis | 4 | 5.3 | 17 | 20 | 20 | 14 | 2/4 | 14, 20, 20, 17 |
+| IV | skid_row | 2 | 3.2 -> **3.6** | 20 | 12 | 20 | 20 | 1/4 | 20, 15, 20, 19 |
+| IV | fort_kessler | 5 | 3.1 | 14 | 17 | 14 | 20 | 3/4 | 20, 17, 17, 17 |
+| IV | liberty_heights | 0 | 2.2 | 11 | 20 | 11 | 11 | 3/4 | 11, 20, 11, 11 |
+| V | province | 1 | 2.7 | 13 | 17 | 20 | 11 | 3/4 | 15, 14, 20, 11 |
+| V | kurogane | 1 | 2.8 | 15 | 14 | 20 | 20 | 2/4 | 15, 14, 20, 20 |
+| V | sun_road | 1 | 4.2 | 17 | 20 | 20 | 20 | 1/4 | 17, 20, 20, 20 |
+| VI | barrow_fields | 1 | 2.5 | 18 | 20 | 10 | 19 | 3/4 | 18, 20, 10, 19 |
+| VI | valgard | 6 | 1.9 | 10 | 10 | 10 | 10 | 4/4 | 17, 20, 14, 20 |
+| VI | vigrid | 2 | 3.2 | 19 | 20 | 20 | 15 | 2/4 | 19, 17, 20, 15 |
+| VII | necropolis | 5 | 4.65 -> **4.3** | 14 | 20 | 20 | 17 | 2/4 | 17, 14, 20, 20 |
+| VII | lioness_temple | 5 | 2.8 -> **3.0** | 17 | 20 | 20 | 20 | 1/4 | 13, 20, 11, 20 |
+| VII | two_truths | 1 | 3.55 | 2 | 15 | 20 | 15 | 3/4 | 15, 20, 20, 17 |
+| VIII | ilion | 1 | 2.5 | 12 | 19 | 20 | 20 | 2/4 | 12, 19, 20, 20 |
+| VIII | olympus | 3 | 3.6 -> **3.4** | 20 | 20 | 20 | 16 | 1/4 | 20, 14, 20, 5 |
+| VIII | underworld | 11 | 2.2 | 20 | 19 | 17 | 20 | 2/4 | 17, 6, 20, 20 |
+| IX | burning_gate | 2 | 5.3 | 20 | 17 | 12 | 20 | 2/4 | 20, 17, 12, 20 |
+| IX | silk_palace | 3 | 4.0 | 20 | 17 | 16 | 20 | 2/4 | 20, 17, 15, 20 |
+| IX | pandemonium | 0 | 3.4 | 20 | 16 | 13 | 20 | 2/4 | 20, 16, 13, 20 |
+| X | silver_stair | 3 | 3.0 | 15 | 20 | 19 | 20 | 2/4 | 15, 20, 19, 20 |
+| X | wheel_of_thrones | 1 | 3.6 | 8 | 11 | 20 | 9 | 3/4 | 8, 11, 20, 9 |
+| X | empyrean | 2 | 3.2 -> **3.0** | 9 | 9 | 17 | 11 | 4/4 | 12, 18, 18, 20 |
+| XI | harbour | 6 | 3.8 | 20 | 17 | 20 | 20 | 1/4 | 20, 16, 20, 20 |
+| XI | archive | 2 | 5.6 | 15 | 19 | 20 | 20 | 2/4 | 16, 20, 18, 19 |
+| XI | spire | 8 | 3.5 | 20 | 12 | 20 | 20 | 1/4 | 17, 17, 20, 20 |
+| XII | wastes | 7 | 4.1 | 15 | 20 | 20 | 20 | 1/4 | 20, 20, 17, 20 |
+| XII | assembly | 2 | 3.6 | 20 | 18 | 20 | 20 | 1/4 | 20, 18, 20, 20 |
+| XII | citadel | 5 | 2.95 | 20 | 11 | 12 | 20 | 2/4 | 20, 8, 12, 20 |
+| XIII | crash_site | 0 | 2.65 | 19 | 20 | 18 | 20 | 2/4 | 19, 20, 18, 20 |
+| XIII | proving_moon | 1 | 3.0 | 17 | 20 | 17 | 17 | 3/4 | 17, 20, 17, 17 |
+| XIII | ark | 1 | 2.2 | 20 | 14 | 15 | 17 | 3/4 | 20, 14, 15, 17 |
+| XIV | fern_basin | 3 | 2.8 -> **2.9** | 13 | 20 | 20 | 20 | 1/4 | 20, 20, 17, 20 |
+| XIV | great_plain | 3 | 2.5 | 14 | 17 | 20 | 14 | 3/4 | 20, 17, 20, 17 |
+| XIV | last_day | 5 | 2.3 | 17 | 12 | 20 | 16 | 3/4 | 11, 15, 20, 20 |
+| XV | greenwood | 1 | 2.8 | 20 | 19 | 15 | 17 | 3/4 | 20, 19, 15, 17 |
+| XV | fae_court | 5 | 4.2 | 17 | 17 | 20 | 14 | 3/4 | 17, 17, 20, 14 |
+| XV | world_tree | 0 | 3.2 | 17 | 12 | 1 | 20 | 3/4 | 17, 12, 1, 20 |
+
+
 ## Wave 2d integration: all 45 maps (Nov 2026; DECISIONS Z1-Z7)
 
 The five Part Three act branches were merged and checked against their own
