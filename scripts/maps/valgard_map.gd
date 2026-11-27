@@ -1,15 +1,16 @@
 ## Valgard, the Hall of Heroes (Act VI map 2; Necropathy stage "valgard"): the
-## planked hall of the slain, its long tables down the middle. The road splits
-## at the western doors: the north aisle and the south aisle run round the
-## tables and meet at the eastern hearth, then the trunk runs down to the gate in
-## the south-east. Each wave group picks an aisle, so the hall's centre plots
-## cover both. 15 plots, 4 posts, 23 waves. The Long Winter (act rule
-## norse/long_winter): cold from wave 3, deeper from waves 9 and 15; six
-## hearth braziers; two Rune-Stones by the doors. The Einherjar Champion
-## (miniboss, chest) on wave 12; Sigrun, the Shield-Queen, on wave 23 (the
-## Charge, the Holmgang duel with one post, the Doors of the Hall). Beating her
-## unlocks Valkyrie Spear and the Shield-Maiden.
-## Keys as graveyard_map.gd plus braziers / rune_stones (rules/norse/long_winter.gd). Data only.
+## planked hall of the slain, its long tables down the middle. The doors are in
+## the east: the north and south roads run west along the hall's long walls (the
+## benches), turn in at the far end and meet, and the trunk walks back east
+## straight up the central aisle to the gate at the high seat. Each wave group
+## picks an aisle, so the hall's centre plots cover both. 15 plots, 4 posts, 23
+## waves. The Long Winter (act rule norse/long_winter): cold from wave 3, deeper
+## from waves 9 and 15; six hearth braziers; two Rune-Stones by the doors. The
+## Einherjar Champion (miniboss, chest) on wave 12; Sigrun, the Shield-Queen, on
+## wave 23 (the Charge, the Holmgang duel with one post, the Doors of the Hall).
+## Beating her unlocks Valkyrie Spear and the Shield-Maiden. Keys as
+## graveyard_map.gd plus braziers / rune_stones (rules/norse/long_winter.gd).
+## Data only.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd and long_winter.gd).
@@ -26,32 +27,32 @@ const MAP: Dictionary = {
 	],
 	"roads": {
 		"north": {
-			"points": [Vector2(-40, 360), Vector2(140, 360), Vector2(200, 300), Vector2(200, 190), Vector2(260, 130),
-				Vector2(840, 130), Vector2(900, 190), Vector2(900, 315), Vector2(960, 375)],
-			"next": "trunk", "next_at": 0.0, "entrance": true,
+			"points": [Vector2(1320, 130), Vector2(230, 130), Vector2(230, 360)],
+			"next": "trunk", "next_at": 0.0,  # joins trunk at (230, 360)
+			"entrance": true,
 		},
 		"south": {
-			"points": [Vector2(-40, 390), Vector2(140, 390), Vector2(200, 450), Vector2(200, 500), Vector2(260, 560),
-				Vector2(840, 560), Vector2(900, 500), Vector2(900, 435), Vector2(960, 375)],
-			"next": "trunk", "next_at": 0.0, "entrance": true,
+			"points": [Vector2(1320, 590), Vector2(230, 590), Vector2(230, 360)],
+			"next": "trunk", "next_at": 0.0,  # joins trunk at (230, 360)
+			"entrance": true,
 		},
 		"trunk": {
-			"points": [Vector2(960, 375), Vector2(1100, 375), Vector2(1160, 435), Vector2(1160, 580), Vector2(1100, 640), Vector2(1010, 640)],
+			"points": [Vector2(230, 360), Vector2(1010, 360)],
 			"next": "", "next_at": 0.0, "entrance": false,
 		},
 	},
-	"gate": Vector2(990, 640),
+	"gate": Vector2(1038, 330),
 	"plots": [
-		Vector2(360, 240), Vector2(520, 220), Vector2(680, 240), Vector2(360, 470), Vector2(520, 500),
-		Vector2(680, 470), Vector2(420, 460), Vector2(620, 460), Vector2(820, 360), Vector2(60, 250),
-		Vector2(1030, 275), Vector2(1030, 475), Vector2(1250, 420), Vector2(60, 500), Vector2(1225, 635),
+		Vector2(970, 500), Vector2(570, 220), Vector2(650, 220), Vector2(170, 460), Vector2(930, 220), Vector2(440, 500),
+		Vector2(530, 500), Vector2(690, 500), Vector2(330, 260), Vector2(370, 190), Vector2(330, 480), Vector2(850, 220),
+		Vector2(800, 500), Vector2(1130, 190), Vector2(1130, 530),
 	],
-	"posts": [Vector2(1160, 510), Vector2(1060, 375), Vector2(560, 130), Vector2(560, 560)],
-	"braziers": [Vector2(420, 175), Vector2(720, 175), Vector2(420, 515), Vector2(720, 515), Vector2(1000, 330), Vector2(1105, 300)],
-	"rune_stones": [Vector2(140, 300), Vector2(140, 450)],
+	"posts": [Vector2(659, 360), Vector2(373, 360), Vector2(568, 130), Vector2(559, 590)],
+	"braziers": [Vector2(400, 245), Vector2(760, 245), Vector2(400, 475), Vector2(760, 475), Vector2(1110, 300), Vector2(1110, 420)],
+	"rune_stones": [Vector2(110, 290), Vector2(110, 440)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 1.9,  # TUNING (not in GDD) Part Two
+	"wave_hp_end": 2.4,  # TUNING (not in GDD) L4: 1.9 before the road redraw; Part Two
 	"rule": "",
 	"act_rule": "norse/long_winter",
 	"build_order": "valgard_default",
