@@ -672,9 +672,9 @@ const MOODS: Dictionary = {
 ## Canopic Jars beside each map's road at the start: map id -> [map px, ...]
 ## (Structures.raise() stands each on the nearest road's side).
 const JARS: Dictionary = {
-	"necropolis": [Vector2(470, 195), Vector2(1090, 270), Vector2(520, 345), Vector2(180, 335), Vector2(860, 645)],  # TUNING (not in GDD) Necropathy: jars beside the tombs
-	"lioness_temple": [Vector2(430, 235), Vector2(850, 150), Vector2(690, 300), Vector2(960, 465), Vector2(380, 645)],  # TUNING (not in GDD)
-	"two_truths": [Vector2(420, 175), Vector2(1050, 420), Vector2(850, 605), Vector2(230, 360), Vector2(780, 465)],  # TUNING (not in GDD)
+	"necropolis": [Vector2(378, 495), Vector2(608, 75), Vector2(906, 415), Vector2(826, 150), Vector2(624, 575)],  # TUNING (not in GDD) Necropathy: jars beside the tombs
+	"lioness_temple": [Vector2(399, 120), Vector2(916, 536), Vector2(159, 254), Vector2(290, 441), Vector2(612, 402)],  # TUNING (not in GDD)
+	"two_truths": [Vector2(1105, 391), Vector2(880, 206), Vector2(760, 319), Vector2(535, 91), Vector2(65, 379)],  # TUNING (not in GDD)
 }
 
 ## Rebirth and the Names, the Sandstorm and the Scales
