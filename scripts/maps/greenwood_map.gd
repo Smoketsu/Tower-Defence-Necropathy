@@ -1,13 +1,13 @@
 ## The Greenwood (Act XV map 1; Necropathy stage "greenwood"): the old forest
-## where the Wild Hunt rides. The main road comes in from the left along the
-## top of the wood, winds back west through the glade and east again through
-## the hunting grounds to the gate of the deep wood, three long rows with the
-## plots between them; the hunters' trail comes in along the forest floor at
-## the bottom left and joins the last row. 18 plots, 6 posts, 22 waves.
-## The Turning Year (act rule wild/turning_year): the season turns every 4
-## waves (Spring thickets, Summer haste, Autumn sprouts, Winter cold). The
-## Huntsman of the Wild Hunt (miniboss, chest) on wave 12; the Stag King on
-## wave 22. Keys as graveyard_map.gd. Data only.
+## where the Wild Hunt rides. The main road is a meandering forest trail: it
+## wanders in irregular bends from the left along the top of the wood, back west
+## through the glade and east again through the hunting grounds to the gate of
+## the deep wood, with the plots between its loops; the hunters' trail wanders
+## in along the forest floor at the bottom left and joins the last stretch. 18
+## plots, 6 posts, 22 waves. The Turning Year (act rule wild/turning_year): the
+## season turns every 4 waves (Spring thickets, Summer haste, Autumn sprouts,
+## Winter cold). The Huntsman of the Wild Hunt (miniboss, chest) on wave 12; the
+## Stag King on wave 22. Keys as graveyard_map.gd. Data only.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd).
@@ -25,26 +25,53 @@ const MAP: Dictionary = {
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 170), Vector2(1040, 170), Vector2(1100, 230), Vector2(1100, 270), Vector2(1040, 330),
-				Vector2(240, 330), Vector2(180, 390), Vector2(180, 430), Vector2(240, 490), Vector2(1190, 490)],
+			"points": [Vector2(-40, 170), Vector2(-22, 166), Vector2(2, 159), Vector2(31, 152), Vector2(62, 145),
+				Vector2(93, 141), Vector2(120, 140), Vector2(149, 147), Vector2(177, 160), Vector2(205, 174),
+				Vector2(232, 186), Vector2(260, 190), Vector2(288, 183), Vector2(315, 169), Vector2(343, 152),
+				Vector2(371, 137), Vector2(400, 130), Vector2(426, 133), Vector2(453, 141), Vector2(480, 152),
+				Vector2(507, 164), Vector2(534, 172), Vector2(560, 175), Vector2(589, 169), Vector2(616, 155),
+				Vector2(644, 139), Vector2(671, 125), Vector2(700, 120), Vector2(726, 125), Vector2(753, 135),
+				Vector2(781, 149), Vector2(808, 163), Vector2(835, 174), Vector2(860, 180), Vector2(888, 177),
+				Vector2(916, 166), Vector2(942, 154), Vector2(966, 143), Vector2(990, 140), Vector2(1020, 147),
+				Vector2(1049, 161), Vector2(1074, 180), Vector2(1090, 200), Vector2(1096, 233), Vector2(1089, 270),
+				Vector2(1070, 300), Vector2(1051, 313), Vector2(1026, 325), Vector2(998, 333), Vector2(968, 339),
+				Vector2(940, 340), Vector2(913, 334), Vector2(885, 321), Vector2(856, 306), Vector2(828, 294),
+				Vector2(800, 290), Vector2(777, 296), Vector2(753, 309), Vector2(730, 326), Vector2(707, 342),
+				Vector2(683, 354), Vector2(660, 360), Vector2(632, 354), Vector2(604, 340), Vector2(576, 322),
+				Vector2(548, 306), Vector2(520, 300), Vector2(492, 306), Vector2(464, 320), Vector2(436, 337),
+				Vector2(408, 352), Vector2(380, 360), Vector2(351, 356), Vector2(321, 345), Vector2(292, 332),
+				Vector2(264, 322), Vector2(240, 320), Vector2(212, 331), Vector2(187, 352), Vector2(168, 376),
+				Vector2(160, 400), Vector2(165, 423), Vector2(181, 448), Vector2(203, 471), Vector2(230, 490),
+				Vector2(255, 501), Vector2(285, 510), Vector2(317, 517), Vector2(349, 520), Vector2(380, 520),
+				Vector2(409, 513), Vector2(437, 500), Vector2(464, 485), Vector2(492, 474), Vector2(520, 470),
+				Vector2(543, 476), Vector2(567, 489), Vector2(590, 506), Vector2(613, 522), Vector2(637, 534),
+				Vector2(660, 540), Vector2(688, 534), Vector2(716, 520), Vector2(743, 502), Vector2(771, 486),
+				Vector2(800, 480), Vector2(825, 484), Vector2(850, 495), Vector2(876, 509), Vector2(901, 523),
+				Vector2(926, 534), Vector2(950, 540), Vector2(978, 537), Vector2(1004, 528), Vector2(1030, 516),
+				Vector2(1056, 505), Vector2(1080, 500), Vector2(1111, 503), Vector2(1143, 512), Vector2(1171, 523),
+				Vector2(1190, 530)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"trail": {
-			"points": [Vector2(-40, 620), Vector2(300, 620), Vector2(360, 560), Vector2(360, 490)],
-			"next": "main", "next_at": 2419.4,  # joins main at (360, 490)
+			"points": [Vector2(-40, 640), Vector2(-22, 636), Vector2(2, 630), Vector2(31, 622), Vector2(62, 616),
+				Vector2(93, 611), Vector2(120, 610), Vector2(150, 615), Vector2(178, 625), Vector2(206, 637),
+				Vector2(234, 647), Vector2(260, 650), Vector2(286, 647), Vector2(310, 639), Vector2(335, 628),
+				Vector2(358, 615), Vector2(380, 600), Vector2(403, 581), Vector2(425, 558), Vector2(447, 534),
+				Vector2(465, 513), Vector2(478, 498)],
+			"next": "main", "next_at": 2714.8,  # joins main at (471, 482)
 			"entrance": true,
 		},
 	},
-	"gate": Vector2(1218, 490),
+	"gate": Vector2(1216, 510),
 	"plots": [
-		Vector2(360, 410), Vector2(300, 250), Vector2(520, 410), Vector2(460, 250), Vector2(680, 410), Vector2(1000, 410),
-		Vector2(840, 410), Vector2(940, 250), Vector2(240, 560), Vector2(620, 250), Vector2(780, 250), Vector2(560, 570),
-		Vector2(760, 570), Vector2(960, 570), Vector2(400, 96), Vector2(760, 96), Vector2(90, 410), Vector2(1175, 250),
+		Vector2(320, 440), Vector2(650, 420), Vector2(930, 230), Vector2(130, 530), Vector2(240, 570), Vector2(640, 220),
+		Vector2(460, 420), Vector2(490, 600), Vector2(720, 230), Vector2(360, 230), Vector2(440, 250), Vector2(1010, 230),
+		Vector2(740, 430), Vector2(970, 430), Vector2(890, 440), Vector2(220, 250), Vector2(140, 250), Vector2(1050, 440),
 	],
-	"posts": [Vector2(600, 490), Vector2(950, 490), Vector2(640, 330), Vector2(1100, 250), Vector2(180, 620), Vector2(400, 170)],
+	"posts": [Vector2(676, 537), Vector2(977, 537), Vector2(547, 306), Vector2(1064, 304), Vector2(211, 639), Vector2(427, 133)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 2.8,  # TUNING (not in GDD) Part Three: a step above the Empyrean
+	"wave_hp_end": 2.4,  # TUNING (not in GDD) L4: 2.8 before the road redraw; Part Three: a step above the Empyrean
 	"rule": "",
 	"act_rule": "wild/turning_year",
 	"build_order": "greenwood_default",
