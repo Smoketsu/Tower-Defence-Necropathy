@@ -1,12 +1,14 @@
-## Skid Row (Act IV map 1, Necropathy stage `skid_row`; GDD §7.3 the Last
-## Line): the docks and alleys where the gangs own the blocks. Two streets
-## come in, one from the west and one down from the north, and meet past the
-## overpass before the last blocks to the gate: 16 lots for towers, 5 road
-## posts. The escalation stops at SWAT (Necropathy's owner ladder for this
-## stage): gangs, then police from wave 7, SWAT from wave 14. Big Sal (miniboss,
-## chest) on wave 12 with his armoured limo; Don Marrow, the Kingpin, on wave 22.
-## Act rule: the escalation (rules/city/escalation.gd). Data only, no logic.
-## MAP keys: graveyard_map.gd; "escalation" is the act rule's key (below).
+## Skid Row (Act IV map 1, Necropathy stage `skid_row`; GDD §7.3 the Last Line):
+## the docks and alleys where the gangs own the blocks. Cramped alleys of small,
+## irregular blocks: the west street dog-legs through short jogs and right turns
+## to the gate in the east, and the north street drops straight down, crosses it
+## at an intersection and meets it at a T-junction further on: 16 lots for
+## towers, 5 road posts. The escalation stops at SWAT (Necropathy's owner ladder
+## for this stage): gangs, then police from wave 7, SWAT from wave 14. Big Sal
+## (miniboss, chest) on wave 12 with his armoured limo; Don Marrow, the Kingpin,
+## on wave 22. Act rule: the escalation (rules/city/escalation.gd). Data only,
+## no logic. MAP keys: graveyard_map.gd; "escalation" is the act rule's key
+## (below).
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd). Extra key:
@@ -24,26 +26,27 @@ const MAP: Dictionary = {
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 380), Vector2(300, 380), Vector2(300, 560), Vector2(700, 560), Vector2(700, 300),
-				Vector2(1000, 300), Vector2(1000, 520), Vector2(1190, 520)],
+			"points": [Vector2(-40, 400), Vector2(140, 400), Vector2(140, 470), Vector2(380, 470), Vector2(380, 240),
+				Vector2(600, 240), Vector2(600, 300), Vector2(820, 300), Vector2(820, 560), Vector2(1010, 560),
+				Vector2(1010, 490), Vector2(1190, 490)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"north": {
-			"points": [Vector2(520, -40), Vector2(520, 200), Vector2(850, 200), Vector2(850, 300)],
-			"next": "main", "next_at": 1330.0, "entrance": true,  # joins main at (850, 300)
+			"points": [Vector2(500, -40), Vector2(500, 440), Vector2(820, 440)],
+			"next": "main", "next_at": 1360.0,  # joins main at (820, 440)
+			"entrance": true,
 		},
 	},
-	"gate": Vector2(1218, 490),
+	"gate": Vector2(1218, 460),
 	"plots": [
-		Vector2(200, 300), Vector2(400, 470), Vector2(600, 470), Vector2(360, 345), Vector2(620, 300),
-		Vector2(440, 120), Vector2(620, 120), Vector2(780, 120), Vector2(780, 400), Vector2(920, 400),
-		Vector2(930, 200), Vector2(1100, 400), Vector2(1100, 620), Vector2(1065, 270), Vector2(150, 470),
-		Vector2(420, 650),
+		Vector2(1080, 560), Vector2(660, 370), Vector2(430, 170), Vector2(740, 370), Vector2(910, 430), Vector2(70, 470),
+		Vector2(910, 630), Vector2(140, 330), Vector2(580, 370), Vector2(310, 350), Vector2(570, 150), Vector2(1050, 420),
+		Vector2(240, 390), Vector2(750, 530), Vector2(450, 510), Vector2(430, 90),
 	],
-	"posts": [Vector2(150, 380), Vector2(300, 470), Vector2(520, 140), Vector2(700, 430), Vector2(1000, 420)],
+	"posts": [Vector2(140, 413), Vector2(327, 470), Vector2(500, 175), Vector2(667, 300), Vector2(965, 560)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 3.6,  # TUNING (not in GDD) S3: 3.2 before the spot fix; Act IV map 1: a step above the Sanctum's ramp with the escalation on top
+	"wave_hp_end": 4.2,  # TUNING (not in GDD) L4: 3.6 before the road redraw; S3: 3.2 before the spot fix; Act IV map 1: a step above the Sanctum's ramp with the escalation on top
 	"rule": "",
 	"act_rule": "city/escalation",
 	"escalation": [[1, "gangs"], [7, "police"], [14, "swat"]],  # Necropathy Skid Row: the ladder stops at SWAT

@@ -1,14 +1,16 @@
 ## Liberty Heights (Act IV map 3, the act's finale, Necropathy stage
 ## `liberty_heights`; GDD §7.3 the Last Line): the towers downtown where the
-## army makes its last stand and the heroes come down. The avenue enters from
-## the north-east, runs the whole skyline west, turns down and snakes back
-## east to the gate; a side street climbs from the south, crosses the avenue
-## and joins it in the plaza, so the central lots see three runs: 15 lots, 6 road posts. The army
-## from wave 1, the heroes from wave 9 (Blitz, Aurora, Nightjar on the way);
-## Atlas (miniboss, chest) on wave 13; the final wave is staged: Blitz,
-## Aurora, Atlas and Nightjar, then Paragon, the Last Hero. Beating Paragon
-## opens the Fallen Hero. Act rule: the escalation. Data only, no logic.
-## MAP keys: graveyard_map.gd (+ "escalation", skid_row_map.gd).
+## army makes its last stand and the heroes come down. A grand grid: the avenue
+## runs the whole skyline from the west, turns down a cross street onto a
+## diagonal boulevard into a traffic circle, rounds three quarters of it, and
+## leaves west, then down and back east along the bottom avenue to the gate; a
+## side street climbs from the south, crosses the bottom avenue and enters the
+## circle: 15 lots, 6 road posts. The army from wave 1, the heroes from wave 9
+## (Blitz, Aurora, Nightjar on the way); Atlas (miniboss, chest) on wave 13; the
+## final wave is staged: Blitz, Aurora, Atlas and Nightjar, then Paragon, the
+## Last Hero. Beating Paragon opens the Fallen Hero. Act rule: the escalation.
+## Data only, no logic. MAP keys: graveyard_map.gd (+ "escalation",
+## skid_row_map.gd).
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd, "escalation" as skid_row_map.gd).
@@ -23,22 +25,26 @@ const MAP: Dictionary = {
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(1320, 140), Vector2(200, 140), Vector2(200, 600), Vector2(560, 600), Vector2(560, 320),
-				Vector2(900, 320), Vector2(900, 600), Vector2(1190, 600)],
+			"points": [Vector2(-40, 130), Vector2(1050, 130), Vector2(1050, 260), Vector2(767, 353), Vector2(781, 371),
+				Vector2(791, 392), Vector2(795, 415), Vector2(793, 439), Vector2(786, 461), Vector2(773, 480),
+				Vector2(757, 496), Vector2(736, 508), Vector2(714, 514), Vector2(691, 515), Vector2(668, 509),
+				Vector2(647, 499), Vector2(630, 484), Vector2(616, 465), Vector2(608, 443), Vector2(605, 420),
+				Vector2(250, 460), Vector2(250, 625), Vector2(1190, 625)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"south": {
-			"points": [Vector2(420, 760), Vector2(420, 460), Vector2(560, 460)],
-			"next": "main", "next_at": 2080.0, "entrance": true,  # crosses the avenue at (420, 600), joins main at (560, 460)
+			"points": [Vector2(940, 760), Vector2(940, 540), Vector2(782, 468)],
+			"next": "main", "next_at": 1641.7,  # joins main at (782, 467)
+			"entrance": true,
 		},
 	},
-	"gate": Vector2(1218, 570),
+	"gate": Vector2(1218, 595),
 	"plots": [
-		Vector2(330, 240), Vector2(480, 240), Vector2(700, 230), Vector2(1000, 230), Vector2(1150, 240),
-		Vector2(300, 500), Vector2(480, 520), Vector2(640, 400), Vector2(800, 400), Vector2(800, 540),
-		Vector2(640, 540), Vector2(1000, 500), Vector2(1050, 690), Vector2(100, 380), Vector2(330, 660),
+		Vector2(180, 530), Vector2(700, 430), Vector2(900, 200), Vector2(910, 430), Vector2(460, 200), Vector2(600, 200),
+		Vector2(800, 210), Vector2(390, 540), Vector2(580, 550), Vector2(480, 530), Vector2(980, 200), Vector2(1010, 550),
+		Vector2(160, 200), Vector2(260, 200), Vector2(1090, 550),
 	],
-	"posts": [Vector2(700, 140), Vector2(200, 380), Vector2(300, 600), Vector2(560, 400), Vector2(420, 540), Vector2(900, 460)],
+	"posts": [Vector2(624, 130), Vector2(825, 334), Vector2(645, 497), Vector2(250, 505), Vector2(940, 563), Vector2(729, 625)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
 	"wave_hp_end": 2.2,  # TUNING (not in GDD) the act's finale presses hardest
