@@ -2,8 +2,8 @@
 # Each entry: fill_desc, edge_desc, fill {colors, shares, patches?}, edge {colors, shares}. Palette names: tools/palette.json.
 STYLES.update({
     "deck": {
-        "fill_desc": "a wooden ship deck: parallel horizontal planks of weathered oak, each plank about 12 pixels tall, black tarred caulking seams between planks, staggered plank ends, a few nail heads and knots.",
-        "edge_desc": "a coiled ship's rope laid along the gunwale: thick twisted hemp rope with diagonal twist lines, tan and brown.",
+        "fill_desc": "pale sun-bleached holystoned ship deck: wide light grey-cream planks, nearly white, running horizontally, thin dark grey seams between planks, very subtle grain, a few small nail heads, clean and calm, little detail.",
+        "edge_desc": "a thick coil of black tarred rope laid along the edge of a deck: heavy twisted dark brown-black rope with diagonal twist lines and faint lighter highlights.",
     },
     "cobble": {
         "fill_desc": "dark wet round cobblestones of a gothic old-town street, tightly packed, irregular rounded stones with dark narrow gaps, a faint damp sheen, a few moss specks.",
@@ -34,8 +34,8 @@ STYLES.update({
         "edge_desc": "a row of white marble kerb blocks with a darker Greek key meander pattern engraved along the middle.",
     },
     "ash_stone": {
-        "fill_desc": "grey ash-covered slate flagstones of the underworld, dull cold grey, powdery ash in the cracks, no colour.",
-        "edge_desc": "a row of dark grey bone-white-flecked stones, like stacked rough tombstones, dull and cold.",
+        "fill_desc": "dark slate flagstones of the underworld: large irregular charcoal-blue slabs with narrow cracks, a few thin pale ghost-green glowing veins running in some of the cracks, calm, low contrast, little detail.",
+        "edge_desc": "a row of dark slate stones studded with small bone-white skulls and bone fragments set between the stones.",
     },
     "basalt": {
         "fill_desc": "cracked black volcanic basalt paving of hell: dark irregular plates with glowing orange-red lava seams between them, a few ember specks.",
@@ -46,8 +46,8 @@ STYLES.update({
         "edge_desc": "a band of polished gold trim on white marble with a repeating small leaf-and-bead pattern.",
     },
     "harbour": {
-        "fill_desc": "wet slimy teal-green harbour paving stones, uneven slabs coated in algae, puddles, barnacle clusters and small shells, dark gaps.",
-        "edge_desc": "a row of rough dark teal stones encrusted with white barnacles and strands of seaweed.",
+        "fill_desc": "large smooth wet harbour paving slabs in muted teal-grey, only a few big stones per image, wide dark gaps, very low contrast inside each stone, faint wet sheen, calm and simple, no barnacles.",
+        "edge_desc": "a row of smooth wet dark teal stones with just a few small white barnacles on them.",
     },
     "steel": {
         "fill_desc": "riveted steel deck plating of a futuristic machine fortress: grey-blue metal panels with thin dark seams and rows of small rivets, subtle scratches, diamond-tread pattern patches.",
@@ -62,8 +62,8 @@ STYLES.update({
         "edge_desc": "a ragged border of churned mud clods and tufts of fern leaves and grass, brown and olive green.",
     },
     "moss_path": {
-        "fill_desc": "a mossy forest path: packed earth and flat stones overgrown with soft green moss patches, a few fallen leaves and tiny mushrooms.",
-        "edge_desc": "a border of gnarled tree roots, twisting brown roots with green moss tufts, running along the edge.",
+        "fill_desc": "calm packed brown earth path seen from above: nearly uniform warm brown dirt with a few faint darker patches and very sparse small pebbles, simple and smooth, very low contrast, no leaves, no moss.",
+        "edge_desc": "a border of gnarled brown tree roots with soft green moss tufts growing along them, thick roots running along the edge.",
     },
 })
 
@@ -150,3 +150,21 @@ STYLES["hex"]["fill"] = _r(["concord_gunmetal_dark", "concord_gunmetal", "grey_d
 STYLES["hex"]["fill"] = _r(["grey_dark", "grey", "concord_lav_dark", "concord_plasma"], chroma_w=1.0, keep=["concord_plasma"], l_range=(0.42, 0.66))
 STYLES["hex"]["fill"] = _r(["concord_gunmetal_dark", "concord_gunmetal", "concord_lav_dark", "concord_lav"], _sh("concord_gunmetal_dark", .18, "concord_gunmetal", .32, "concord_lav_dark", .3, "concord_lav", .2), despeck=2)
 STYLES["hex"]["fill"] = _r(["concord_gunmetal_dark", "concord_gunmetal", "concord_lav_dark"], _sh("concord_gunmetal_dark", .2, "concord_gunmetal", .12, "concord_lav_dark", .68), despeck=2)
+
+# Redo (DECISIONS R4): deck pale holystoned planks with a black tarred rope kerb; ash_stone dark slate with ghost-green veins and a bone-studded
+# kerb; harbour large calm wet slabs; moss_path calm packed earth with a mossy root kerb. Sources regenerated with calmer prompts.
+STYLES["deck"]["fill"] = _r(["steel_dark", "steel", "steel_light"], _sh("steel_dark", .1, "steel", .35, "steel_light", .55), despeck=3)
+STYLES["deck"]["edge"] = _r(["ink_warm", "corsair_oak_dark", "corsair_oak", "corsair_oak_light"], _sh("ink_warm", .25, "corsair_oak_dark", .35, "corsair_oak", .28, "corsair_oak_light", .12))
+STYLES["ash_stone"]["fill"] = _r(["ink_cold", "norse_slab", "norse_slab_light", "norse_iron", "soul_dark", "soul"], chroma_w=1.0, keep=["soul", "soul_dark"], l_range=(0.2, 0.5), despeck=2)
+STYLES["ash_stone"]["edge"] = _r(["ink_cold", "grey_dark", "grey", "bone_mid", "bone"], chroma_w=0.5, keep=["bone", "bone_mid"])
+STYLES["harbour"]["fill"] = _r(["ink_drowned", "drowned_dark", "drowned"], _sh("ink_drowned", .14, "drowned_dark", .36, "drowned", .5), despeck=3, flatten=8)
+STYLES["harbour"]["edge"] = _r(["ink_drowned", "drowned_dark", "drowned", "bone_mid"], chroma_w=1.0, keep=["bone_mid"])
+STYLES["moss_path"]["fill"] = _r(["wild_bark_dark", "wild_bark", "wild_bark_light"], _sh("wild_bark_dark", .2, "wild_bark", .6, "wild_bark_light", .2), despeck=4, flatten=8)
+STYLES["moss_path"]["edge"] = _r(["wild_bark_dark", "wild_bark", "wild_bark_light", "wild_moss_dark", "wild_moss"], chroma_w=1.0)
+STYLES["deck"]["fill"] = _r(["steel_dark", "steel", "steel_light"], _sh("steel_dark", .08, "steel", .2, "steel_light", .72), despeck=4)
+STYLES["ash_stone"]["fill"] = _r(["ink_cold", "norse_slab", "norse_slab_light", "norse_iron", "soul_dark", "soul"], chroma_w=1.0, keep=["soul", "soul_dark"], l_range=(0.2, 0.5), despeck=2, box=(0.0, 0.0, 1.0, 1.0))
+STYLES["harbour"]["fill"] = _r(["ink_drowned", "drowned_dark", "drowned"], _sh("ink_drowned", .12, "drowned_dark", .6, "drowned", .28), despeck=3, flatten=8, l_range=(0.3, 0.46))
+STYLES["moss_path"]["fill"] = _r(["wild_bark_dark", "wild_bark", "wild_bark_light"], _sh("wild_bark_dark", .25, "wild_bark", .65, "wild_bark_light", .1), despeck=6, flatten=8, l_range=(0.38, 0.46))
+STYLES["moss_path"]["fill"] = _r(["wild_bark_dark", "wild_bark", "wild_bark_light"], _sh("wild_bark_dark", .18, "wild_bark", .78, "wild_bark_light", .04), despeck=8, flatten=10, l_range=(0.4, 0.45))
+STYLES["ash_stone"]["fill"] = _r(["ink_cold", "norse_slab", "norse_slab_light", "norse_iron", "soul_dark", "soul"], chroma_w=1.0, keep=["soul", "soul_dark"], l_range=(0.28, 0.58), despeck=2, box=(0.0, 0.0, 1.0, 1.0))
+STYLES["moss_path"]["fill"] = _r(["wild_bark_dark", "wild_bark", "wild_bark_light"], _sh("wild_bark_dark", .12, "wild_bark", .3, "wild_bark_light", .58), despeck=8, flatten=10, l_range=(0.5, 0.58))
