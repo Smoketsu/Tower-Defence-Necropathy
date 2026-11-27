@@ -1,12 +1,12 @@
-## The Assembly Halls (Act XII map 2; Necropathy stage "assembly"): the
-## Empire's factory, three assembly lines one above the other. The one road
-## comes in from the east along the top line, doubles back along the middle
-## line and again along the bottom line to the gate in the west (3320 px), so
-## every row of plots between two lines covers both. 14 plots, 6 posts. 23
-## waves. Line of Fire (act rule empire/line_of_fire). Fabricators crawl the
-## lines building drones; the Beta Build (miniboss, chest) on wave 12 patches
-## itself from them; the Motherboard on wave 23. Keys as graveyard_map.gd.
-## Data only.
+## The Assembly Halls (Act XII map 2; Necropathy stage "assembly"): the Empire's
+## factory floor of conveyor loops. The one road drops in from the north onto
+## the east conveyor and rides three quarters of its loop, crosses to the west
+## conveyor and rides three quarters of that one the other way, then runs off to
+## the gate at the bottom centre (2800 px), so the plots inside each loop cover
+## it all the way round. 14 plots, 6 posts. 23 waves. Line of Fire (act rule
+## empire/line_of_fire). Fabricators crawl the lines building drones; the Beta
+## Build (miniboss, chest) on wave 12 patches itself from them; the Motherboard
+## on wave 23. Keys as graveyard_map.gd. Data only.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd).
@@ -18,28 +18,45 @@ const MAP: Dictionary = {
 	"obstacles": [
 		["obstacles/press_machine_l", Vector2(430, 265)], ["obstacles/cargo_crate_l", Vector2(830, 265)],
 		["obstacles/press_machine_s", Vector2(630, 460)], ["obstacles/cargo_crate_s", Vector2(1030, 470)],
-		["obstacles/press_machine_l_v", Vector2(1240, 360)], ["obstacles/cargo_crate_l_v", Vector2(40, 450)],
+		["obstacles/press_machine_l_v", Vector2(1142, 380)], ["obstacles/cargo_crate_l_v", Vector2(43, 490)],
 		["obstacles/citadel_crate_m", Vector2(400, 660)], ["obstacles/press_machine_s", Vector2(900, 660)],
-		["obstacles/cargo_crate_s", Vector2(80, 230)], ["obstacles/press_machine_s_v", Vector2(240, 460)],
+		["obstacles/cargo_crate_s", Vector2(50, 230)], ["obstacles/press_machine_s_v", Vector2(240, 460)],
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(1320, 170), Vector2(240, 170), Vector2(180, 230), Vector2(180, 300),
-				Vector2(240, 360), Vector2(1040, 360), Vector2(1100, 420), Vector2(1100, 500),
-				Vector2(1040, 560), Vector2(90, 560)],
+			"points": [Vector2(955, -40), Vector2(955, 150), Vector2(981, 151), Vector2(1006, 154), Vector2(1031, 160),
+				Vector2(1055, 167), Vector2(1078, 176), Vector2(1099, 188), Vector2(1120, 201), Vector2(1138, 216),
+				Vector2(1155, 232), Vector2(1170, 249), Vector2(1183, 268), Vector2(1193, 288), Vector2(1201, 308),
+				Vector2(1206, 329), Vector2(1209, 351), Vector2(1210, 372), Vector2(1208, 394), Vector2(1203, 415),
+				Vector2(1196, 436), Vector2(1186, 456), Vector2(1174, 475), Vector2(1160, 493), Vector2(1144, 509),
+				Vector2(1126, 524), Vector2(1106, 538), Vector2(1085, 550), Vector2(1062, 560), Vector2(1039, 568),
+				Vector2(1014, 574), Vector2(989, 578), Vector2(964, 580), Vector2(938, 580), Vector2(913, 577),
+				Vector2(888, 572), Vector2(863, 566), Vector2(840, 557), Vector2(818, 546), Vector2(797, 534),
+				Vector2(778, 520), Vector2(760, 504), Vector2(745, 487), Vector2(731, 468), Vector2(720, 449),
+				Vector2(711, 429), Vector2(705, 408), Vector2(701, 387), Vector2(700, 365), Vector2(585, 365),
+				Vector2(584, 343), Vector2(580, 322), Vector2(574, 301), Vector2(565, 281), Vector2(554, 262),
+				Vector2(540, 243), Vector2(525, 226), Vector2(507, 210), Vector2(488, 196), Vector2(467, 184),
+				Vector2(445, 173), Vector2(422, 164), Vector2(397, 158), Vector2(372, 153), Vector2(347, 150),
+				Vector2(321, 150), Vector2(296, 152), Vector2(271, 156), Vector2(246, 162), Vector2(223, 170),
+				Vector2(200, 180), Vector2(179, 192), Vector2(159, 206), Vector2(141, 221), Vector2(125, 237),
+				Vector2(111, 255), Vector2(99, 274), Vector2(89, 294), Vector2(82, 315), Vector2(77, 336),
+				Vector2(75, 358), Vector2(76, 379), Vector2(79, 401), Vector2(84, 422), Vector2(92, 442),
+				Vector2(102, 462), Vector2(115, 481), Vector2(130, 498), Vector2(147, 514), Vector2(165, 529),
+				Vector2(186, 542), Vector2(207, 554), Vector2(230, 563), Vector2(254, 570), Vector2(279, 576),
+				Vector2(304, 579), Vector2(330, 580), Vector2(640, 615)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 	},
-	"gate": Vector2(62, 560),
+	"gate": Vector2(668, 588),
 	"plots": [
-		Vector2(330, 265), Vector2(530, 265), Vector2(730, 265), Vector2(930, 265), Vector2(1200, 265),
-		Vector2(330, 460), Vector2(530, 460), Vector2(730, 460), Vector2(930, 460), Vector2(1210, 460),
-		Vector2(100, 320), Vector2(130, 460), Vector2(1130, 600), Vector2(640, 655),
+		Vector2(480, 280), Vector2(170, 340), Vector2(1080, 110), Vector2(650, 500), Vector2(640, 310), Vector2(270, 220),
+		Vector2(160, 420), Vector2(1130, 310), Vector2(1130, 410), Vector2(880, 500), Vector2(370, 220), Vector2(960, 520),
+		Vector2(300, 510), Vector2(400, 530),
 	],
-	"posts": [Vector2(800, 170), Vector2(180, 265), Vector2(600, 360), Vector2(1100, 460), Vector2(700, 560), Vector2(320, 560)],
+	"posts": [Vector2(1175, 257), Vector2(861, 565), Vector2(584, 344), Vector2(201, 180), Vector2(139, 507), Vector2(445, 593)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 3.6,  # TUNING (not in GDD) DECISIONS Z4: 3.35 -> 3.6; Part Three
+	"wave_hp_end": 2.6,  # TUNING (not in GDD) L4: 3.6 before the road redraw; DECISIONS Z4: 3.35 -> 3.6; Part Three
 	"rule": "",
 	"act_rule": "empire/line_of_fire",
 	"build_order": "assembly_default",
