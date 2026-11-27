@@ -1,13 +1,14 @@
-## The Smuggler's Cutter (Act II map 1, the Black Tide; Necropathy's
-## "cutter" stage, GDD §7.3): a night deck. The boarders' gangway enters at
-## the stern (left) and snakes over the deck to the necromancer's hatch on the
-## bow (right); grapplers hook the bottom rail and board by a short second
-## gangway that joins the main lane mid-deck; gunboats sail the sea lane under
-## the rail (an off-road crossing: no lives lost). Act rule: the Broadsides
-## (rules/corsair/broadsides.gd): deck cannons run out at the rail shell plots on
-## a telegraph; powder barrels beside them spike them; Gunnery Mates man them.
-## 16 plots, 6 posts, 22 waves; Bosun Gorran (miniboss) on wave 11, Captain
-## Crow on wave 22. MAP keys: graveyard_map.gd. Data only, no logic.
+## The Smuggler's Cutter (Act II map 1, the Black Tide; Necropathy's "cutter"
+## stage, GDD §7.3): a night deck. The boarders' gangplank runs straight in from
+## the stern (left), then the lane zig-zags in sharp diagonals between the cargo
+## stacks to the necromancer's hatch on the bow (right); grapplers hook the
+## bottom rail and board by a straight second gangplank onto the zig-zag's
+## lowest point; gunboats sail the sea lane under the rail (an off-road
+## crossing: no lives lost). Act rule: the Broadsides
+## (rules/corsair/broadsides.gd): deck cannons run out at the rail shell plots
+## on a telegraph; powder barrels beside them spike them; Gunnery Mates man
+## them. 16 plots, 6 posts, 22 waves; Bosun Gorran (miniboss) on wave 11,
+## Captain Crow on wave 22. MAP keys: graveyard_map.gd. Data only, no logic.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd).
@@ -17,32 +18,33 @@ const MAP: Dictionary = {
 	"floor": "tiles/corsair_cutter",
 	"decals": [],
 	"obstacles": [
-		["obstacles/deck_mast_l", Vector2(660, 300)], ["obstacles/deck_hatch_l", Vector2(110, 300)],
+		["obstacles/deck_mast_l", Vector2(632, 290)], ["obstacles/deck_hatch_l", Vector2(137, 364)],
 		["obstacles/deck_barrels_l", Vector2(1180, 560)], ["obstacles/deck_hatch_l_v", Vector2(680, 140)],
-		["obstacles/deck_barrels_s", Vector2(60, 560)], ["obstacles/deck_cannon_l_v", Vector2(1230, 470)],
+		["obstacles/deck_barrels_s", Vector2(60, 560)], ["obstacles/deck_cannon_l_v", Vector2(1240, 487)],
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 160), Vector2(360, 160), Vector2(420, 220), Vector2(420, 420), Vector2(480, 480),
-				Vector2(860, 480), Vector2(920, 420), Vector2(920, 240), Vector2(980, 180), Vector2(1190, 180)],
+			"points": [Vector2(-40, 300), Vector2(250, 300), Vector2(430, 160), Vector2(610, 450), Vector2(790, 160),
+				Vector2(970, 450), Vector2(1190, 450)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"grapple": {
-			"points": [Vector2(660, 664), Vector2(660, 540), Vector2(640, 480)],
-			"next": "main", "next_at": 929.7, "entrance": true,
+			"points": [Vector2(610, 664), Vector2(610, 452)],
+			"next": "main", "next_at": 859.4,  # joins main at (610, 450)
+			"entrance": true,
 		},
 		"sea": {
 			"points": [Vector2(-40, 700), Vector2(1320, 700)],
 			"next": "", "next_at": 0.0, "entrance": false, "off_road": true, "exit": true,
 		},
 	},
-	"gate": Vector2(1218, 150),
+	"gate": Vector2(1218, 420),
 	"plots": [
-		Vector2(200, 95), Vector2(330, 95), Vector2(520, 260), Vector2(520, 400), Vector2(680, 400), Vector2(820, 260),
-		Vector2(820, 400), Vector2(1040, 110), Vector2(1150, 105), Vector2(1010, 300), Vector2(1010, 410), Vector2(330, 300),
-		Vector2(330, 440), Vector2(560, 570), Vector2(760, 570), Vector2(900, 560),
+		Vector2(90, 360), Vector2(150, 240), Vector2(180, 360), Vector2(440, 320), Vector2(670, 520), Vector2(980, 320),
+		Vector2(740, 370), Vector2(1040, 380), Vector2(1040, 510), Vector2(810, 320), Vector2(910, 230), Vector2(360, 300),
+		Vector2(280, 190), Vector2(590, 290), Vector2(550, 510), Vector2(660, 230),
 	],
-	"posts": [Vector2(240, 160), Vector2(420, 330), Vector2(560, 480), Vector2(800, 480), Vector2(920, 330), Vector2(1080, 180)],
+	"posts": [Vector2(249, 300), Vector2(480, 241), Vector2(619, 436), Vector2(749, 226), Vector2(877, 300), Vector2(1077, 450)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
 	"wave_hp_end": 4.3,  # TUNING (not in GDD) a little harder than the Sanctum through the roster
