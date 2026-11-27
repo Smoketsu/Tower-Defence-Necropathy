@@ -101,17 +101,19 @@ jobs:
             echo "::error::Script errors during import"; exit 1
           fi
 
-      - name: Self-checks (towers, meta, acts)
+      - name: Self-checks (towers, meta, acts, spots)
         if: matrix.map == 'graveyard'
         run: |
           set -euo pipefail
           timeout 120 "$GODOT_BIN" --headless res://tools/towers_check.tscn 2>&1 | tee towers_check.log
           timeout 120 "$GODOT_BIN" --headless res://tools/meta_check.tscn -- --autotest 2>&1 | tee meta_check.log
           timeout 120 "$GODOT_BIN" --headless res://tools/acts_check.tscn -- --autotest 2>&1 | tee acts_check.log
+          timeout 120 "$GODOT_BIN" --headless res://tools/spot_audit.tscn -- --autotest 2>&1 | tee spot_audit.log
           grep -qF "TOWERS CHECK PASS" towers_check.log
           grep -qF "META CHECK OK" meta_check.log
           grep -qF "ACTS CHECK PASS" acts_check.log
-          if grep -qE "SCRIPT ERROR|ERROR:|WARNING:" towers_check.log meta_check.log acts_check.log; then
+          grep -qF "SPOT AUDIT OK" spot_audit.log
+          if grep -qE "SCRIPT ERROR|ERROR:|WARNING:" towers_check.log meta_check.log acts_check.log spot_audit.log; then
             echo "::error::Errors in a self-check"; exit 1
           fi
 

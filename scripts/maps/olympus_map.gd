@@ -42,11 +42,11 @@ const MAP: Dictionary = {
 		},
 	},
 	"gate": Vector2(1222, 570),
-	"plots": [Vector2(300, 270), Vector2(520, 270), Vector2(700, 270), Vector2(1000, 190), Vector2(260, 470), Vector2(560, 470), Vector2(760, 470), Vector2(980, 470), Vector2(1180, 360), Vector2(1210, 200), Vector2(620, 95), Vector2(140, 300), Vector2(300, 660), Vector2(1000, 660), Vector2(820, 95)],
+	"plots": [Vector2(300, 270), Vector2(520, 270), Vector2(700, 270), Vector2(1000, 190), Vector2(280, 470), Vector2(560, 470), Vector2(760, 470), Vector2(980, 470), Vector2(1180, 360), Vector2(1210, 200), Vector2(620, 95), Vector2(140, 270), Vector2(345, 615), Vector2(1000, 660), Vector2(820, 95)],
 	"posts": [Vector2(300, 170), Vector2(900, 318), Vector2(640, 370), Vector2(380, 470), Vector2(800, 570), Vector2(1150, 280)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 3.6,  # TUNING (not in GDD) the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
+	"wave_hp_end": 3.4,  # TUNING (not in GDD) S3: 3.6 before the spot fix; the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
 	"rule": "",
 	"act_rule": "pantheon/pantheon_rules",
 	"build_order": "olympus_default",

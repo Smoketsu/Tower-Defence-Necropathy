@@ -35,15 +35,15 @@ const MAP: Dictionary = {
 	},
 	"gate": Vector2(1218, 570),
 	"plots": [
-		Vector2(300, 90), Vector2(700, 90), Vector2(1110, 90), Vector2(420, 270), Vector2(600, 270),
-		Vector2(860, 270), Vector2(1140, 260), Vector2(420, 495), Vector2(600, 495), Vector2(860, 495),
-		Vector2(1040, 495), Vector2(150, 500), Vector2(1140, 440), Vector2(520, 680), Vector2(900, 680),
+		Vector2(300, 90), Vector2(700, 90), Vector2(1090, 135), Vector2(420, 290), Vector2(600, 290),
+		Vector2(860, 290), Vector2(1140, 260), Vector2(420, 495), Vector2(600, 495), Vector2(860, 495),
+		Vector2(1040, 495), Vector2(150, 500), Vector2(1090, 410), Vector2(520, 680), Vector2(900, 680),
 		Vector2(110, 210),
 	],
 	"posts": [Vector2(600, 150), Vector2(120, 290), Vector2(650, 390), Vector2(720, 600), Vector2(1080, 600)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 4.65,  # TUNING (not in GDD) Part Two: a step above the Road to the Sun
+	"wave_hp_end": 4.3,  # TUNING (not in GDD) S3: 4.65 before the spot fix; Part Two: a step above the Road to the Sun
 	"rule": "",
 	"act_rule": "dynasty/rebirth",
 	"build_order": "necropolis_default",

@@ -39,9 +39,9 @@ const MAP: Dictionary = {
 	},
 	"gate": Vector2(1218, 600),
 	"plots": [
-		Vector2(180, 270), Vector2(380, 270), Vector2(580, 270), Vector2(780, 270), Vector2(940, 270),
+		Vector2(180, 250), Vector2(380, 290), Vector2(580, 290), Vector2(780, 290), Vector2(950, 260),
 		Vector2(330, 495), Vector2(530, 495), Vector2(730, 495), Vector2(930, 495), Vector2(1110, 495),
-		Vector2(1180, 400), Vector2(90, 480), Vector2(1190, 170), Vector2(60, 280),
+		Vector2(1180, 370), Vector2(90, 480), Vector2(1190, 170), Vector2(60, 250),
 	],
 	"posts": [Vector2(700, 150), Vector2(1060, 310), Vector2(600, 390), Vector2(200, 495), Vector2(560, 600), Vector2(900, 600)],
 	"lives": 0,

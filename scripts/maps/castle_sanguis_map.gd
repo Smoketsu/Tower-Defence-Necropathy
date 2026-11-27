@@ -36,7 +36,7 @@ const MAP: Dictionary = {
 	"gate": Vector2(900, 448),
 	"plots": [
 		Vector2(500, 157), Vector2(630, 157), Vector2(760, 157), Vector2(890, 157), Vector2(1020, 157),
-		Vector2(480, 355), Vector2(660, 355), Vector2(830, 340), Vector2(1040, 355),
+		Vector2(480, 320), Vector2(660, 320), Vector2(830, 320), Vector2(1060, 355),
 		Vector2(500, 553), Vector2(680, 553), Vector2(860, 553), Vector2(1040, 553),
 		Vector2(210, 300), Vector2(210, 430), Vector2(1230, 420),
 	],

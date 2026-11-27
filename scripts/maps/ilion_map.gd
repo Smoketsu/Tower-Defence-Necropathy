@@ -43,7 +43,7 @@ const MAP: Dictionary = {
 		},
 	},
 	"gate": Vector2(1222, 250),
-	"plots": [Vector2(150, 520), Vector2(420, 520), Vector2(620, 520), Vector2(820, 520), Vector2(1100, 520), Vector2(480, 340), Vector2(680, 340), Vector2(880, 340), Vector2(1100, 370), Vector2(420, 150), Vector2(640, 150), Vector2(860, 150), Vector2(1060, 150), Vector2(150, 230), Vector2(900, 690)],
+	"plots": [Vector2(150, 520), Vector2(420, 520), Vector2(620, 520), Vector2(820, 520), Vector2(1100, 520), Vector2(480, 340), Vector2(680, 340), Vector2(880, 340), Vector2(1100, 350), Vector2(420, 150), Vector2(640, 150), Vector2(860, 150), Vector2(1060, 150), Vector2(150, 230), Vector2(900, 690)],
 	"posts": [Vector2(500, 610), Vector2(1000, 520), Vector2(640, 430), Vector2(300, 300), Vector2(700, 250), Vector2(150, 340)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300

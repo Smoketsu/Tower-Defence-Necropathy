@@ -49,13 +49,13 @@ const MAP: Dictionary = {
 	"gate": Vector2(1218, 450),
 	"plots": [
 		Vector2(130, 170), Vector2(130, 320), Vector2(230, 390), Vector2(420, 420), Vector2(470, 620), Vector2(660, 620),
-		Vector2(620, 420), Vector2(660, 300), Vector2(520, 440), Vector2(860, 320), Vector2(860, 100), Vector2(1015, 300),
-		Vector2(1015, 560), Vector2(1200, 330), Vector2(1065, 100), Vector2(440, 300),
+		Vector2(620, 420), Vector2(660, 300), Vector2(520, 440), Vector2(855, 310), Vector2(860, 100), Vector2(1015, 300),
+		Vector2(1075, 505), Vector2(1200, 330), Vector2(1065, 100), Vector2(410, 310),
 	],
 	"posts": [Vector2(170, 240), Vector2(520, 530), Vector2(760, 360), Vector2(940, 190), Vector2(1120, 330)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 2.8,  # TUNING (not in GDD) Part Three: its roster carries the step up (DECISIONS T14.7)
+	"wave_hp_end": 2.9,  # TUNING (not in GDD) S3: 2.8 before the spot fix; Part Three: its roster carries the step up (DECISIONS T14.7)
 	"rule": "",
 	"act_rule": "primeval/stampedes",
 	"build_order": "fern_basin_default",

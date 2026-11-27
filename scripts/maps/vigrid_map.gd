@@ -38,7 +38,7 @@ const MAP: Dictionary = {
 	"plots": [
 		Vector2(150, 230), Vector2(350, 230), Vector2(550, 230), Vector2(750, 230), Vector2(950, 230),
 		Vector2(350, 430), Vector2(550, 430), Vector2(750, 470), Vector2(110, 430), Vector2(1180, 320),
-		Vector2(1180, 190), Vector2(320, 620), Vector2(980, 620), Vector2(1240, 610),
+		Vector2(1150, 200), Vector2(320, 620), Vector2(980, 620), Vector2(1170, 600),
 	],
 	"posts": [Vector2(900, 530), Vector2(220, 430), Vector2(600, 330), Vector2(1100, 420), Vector2(600, 130)],
 	"braziers": [Vector2(420, 175), Vector2(860, 175), Vector2(640, 375), Vector2(400, 485), Vector2(840, 485), Vector2(1105, 230)],

@@ -42,8 +42,8 @@ const MAP: Dictionary = {
 	},
 	"gate": Vector2(640, 98),
 	"plots": [
-		Vector2(200, 560), Vector2(360, 560), Vector2(920, 560), Vector2(1080, 560), Vector2(640, 560),
-		Vector2(240, 370), Vector2(420, 370), Vector2(860, 370), Vector2(1040, 370), Vector2(640, 400),
+		Vector2(200, 560), Vector2(360, 560), Vector2(920, 560), Vector2(1080, 560), Vector2(715, 560),
+		Vector2(240, 370), Vector2(420, 370), Vector2(860, 370), Vector2(1040, 370), Vector2(640, 350),
 		Vector2(300, 190), Vector2(480, 190), Vector2(800, 190), Vector2(980, 190), Vector2(560, 130),
 		Vector2(720, 130),
 	],
@@ -51,7 +51,7 @@ const MAP: Dictionary = {
 	"clouds": [[Vector2(640, 400), 84.0], [Vector2(330, 370), 70.0], [Vector2(950, 370), 70.0]],  # TUNING (not in GDD) the rose's shadowed petals
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 3.2,  # TUNING (not in GDD) the act's finale presses hardest
+	"wave_hp_end": 3.0,  # TUNING (not in GDD) S3: 3.2 before the spot fix; the act's finale presses hardest
 	"rule": "",
 	"act_rule": "host/hallowed_light",
 	"build_order": "empyrean_default",

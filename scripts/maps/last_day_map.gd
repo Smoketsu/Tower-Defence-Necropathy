@@ -53,9 +53,9 @@ const MAP: Dictionary = {
 	"rocks": [Vector2(400, 470), Vector2(880, 470), Vector2(680, 290)],  # Lava rocks beside the road a charge breaks on (the obstacles of the same place).
 	"gate": Vector2(640, 108),
 	"plots": [
-		Vector2(220, 560), Vector2(280, 330), Vector2(480, 400), Vector2(480, 250), Vector2(560, 200), Vector2(720, 200),
-		Vector2(800, 250), Vector2(800, 400), Vector2(1060, 560), Vector2(1000, 330), Vector2(560, 100), Vector2(720, 100),
-		Vector2(1100, 700), Vector2(180, 700), Vector2(360, 700), Vector2(1180, 560),
+		Vector2(220, 560), Vector2(300, 335), Vector2(480, 400), Vector2(480, 250), Vector2(560, 200), Vector2(720, 200),
+		Vector2(800, 250), Vector2(800, 400), Vector2(1060, 560), Vector2(980, 335), Vector2(560, 100), Vector2(720, 100),
+		Vector2(1100, 690), Vector2(180, 690), Vector2(355, 685), Vector2(1180, 560),
 	],
 	"posts": [Vector2(160, 620), Vector2(360, 460), Vector2(920, 460), Vector2(1120, 620), Vector2(640, 250)],
 	"lives": 0,
