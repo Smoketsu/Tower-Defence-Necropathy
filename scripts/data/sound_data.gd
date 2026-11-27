@@ -39,6 +39,12 @@ const SONG_DIR: String = "res://assets/audio/music/"
 const SONG_DB: float = -9.0  # TUNING (not in GDD)
 ## Seconds a stage song fades in when a run starts.
 const SONG_FADE_IN: float = 1.5  # TUNING (not in GDD)
+## Web build (DECISIONS P1): the songs are left out of index.pck and fetched one at a time from
+## this folder, relative to the page (build/web/music/<stage id>.ogg, copied by tools/web_music.sh).
+const SONG_WEB_DIR: String = "music/"  # TUNING (not in GDD)
+## Real seconds after a fetched song arrives that Sfx prints its "[audio] song" check line
+## (stream on the player, playing state; read by tools/gw_phone.js).
+const SONG_CHECK_DELAY: float = 3.0  # TUNING (not in GDD)
 
 const SOUNDS: Dictionary = {  # TUNING (not in GDD)
 	# --- Player necromancy: low and unsettling (GDD §12) --------------------

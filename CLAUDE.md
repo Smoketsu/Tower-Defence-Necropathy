@@ -55,6 +55,8 @@ $G --headless --fixed-fps 60 --quit-after 40000 -- --autotest --seed=1          
 $G --headless --fixed-fps 60 --quit-after 40000 -- --autotest --seed=1 --build=weak
 # Web: mkdir -p build/web && touch build/.gdignore; $G --headless --export-release "Web" build/web/index.html;
 #      python3 tools/patch_web_audio.py build/web/index.js   (always; it also runs the GL patch)
+#      sh tools/web_music.sh build/web   (always: the songs ship beside the page as music/<map>.ogg, DECISIONS P1;
+#      publish index.* AND the music/ folder)
 ```
 Run at most 4 Godot processes at once (4-core machine).
 
@@ -180,7 +182,7 @@ matrix (45 jobs from `tools/map_list.tscn`), Web build.
 
 Balance: `docs/BALANCE.md` (its first section is the one 45-map table and the
 **Act I baseline summaries**: a change that must not touch Act I reproduces them
-byte for byte). Decisions: `docs/DECISIONS.md` (I, V, A, K, W, T2-T15, X, Y, Z, M, S, L, N rows).
+byte for byte). Decisions: `docs/DECISIONS.md` (I, V, A, K, W, T2-T15, X, Y, Z, M, S, L, N, P rows; phones: `docs/PHONE.md`).
 Next: owner playtests; `docs/ACT_TEMPLATE.md` keeps the lessons (sections 5-7)
 for any later content.
 

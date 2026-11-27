@@ -60,6 +60,10 @@
 ## player loops it from SongData.LOOPS, and the act's sound pack is still prepared with it. Songs
 ## are never loaded headless, so the autotest is unchanged. Ids and stages without files keep the
 ## synthesized audio, which stays the fallback.
+## Songs on demand (DECISIONS P1): the Web build has no songs in index.pck; _songs_fetched() is the
+## one switch, and the run fetches its one song from SoundData.SONG_WEB_DIR beside the page
+## (HTTPRequest -> AudioStreamOggVorbis.load_from_buffer()), playing the map's synth loop until it
+## arrives (forever if the fetch fails). One song in memory at a time; headless never fetches.
 ## Positional sounds are not panned; they are attenuated with distance from
 ## the camera centre and culled beyond CULL_DISTANCE.
 ## Runs with PROCESS_MODE_ALWAYS so menus and the level-up panel (tree
@@ -331,6 +335,12 @@ var _samples: Dictionary = {}
 var _song: ScoreLoop = null
 ## Stage id whose song is on _song's player ("" = none loaded yet).
 var _song_stage: String = ""
+## Web (DECISIONS P1): the request that fetches a song beside the page (null off the Web / headless).
+var _song_http: HTTPRequest = null
+## Web: stage id whose song _song_http is fetching ("" = none in flight).
+var _song_fetching: String = ""
+## Web: Time.get_ticks_msec() when the current fetch started (for the check line).
+var _song_fetch_msec: int = 0
 
 
 func _ready() -> void:
@@ -372,6 +382,10 @@ func _ready() -> void:
 	_song.player.bus = BUS_MUSIC
 	_song.player.volume_db = SoundData.SONG_DB
 	add_child(_song.player)
+	if _songs_fetched() and not _silent:
+		_song_http = HTTPRequest.new()
+		_song_http.request_completed.connect(_on_song_fetched)
+		add_child(_song_http)
 	for id: String in SoundData.SOUNDS:
 		_load_samples(id)
 	_last_usec = Time.get_ticks_usec()
@@ -547,6 +561,14 @@ func play_music(mode: StringName) -> void:
 		if song != "":
 			prepare_pack(String(SoundData.SCORE_PACKS.get(_stage_music(song), "")))  # The act's sounds come with its song too.
 			_start_song(song)
+			if _song_stage != song and not _silent:
+				# Web: the song is still on its way (or never came): the map's synth loop plays
+				# meanwhile; _on_song_fetched() asks for this mode again once it is on the player.
+				var synth := _stage_music(song)  # The loop the map had before the songs.
+				score = synth if _scores.has(synth) else ""
+				song = ""
+				if score != "":
+					_start_score(score)
 		elif score != "":
 			_start_score(score)
 			prepare_pack(String(SoundData.SCORE_PACKS.get(score, "")))
@@ -567,7 +589,7 @@ func play_music(mode: StringName) -> void:
 ## same id has a song (SoundData.SONG_DIR/<id>.ogg, audio overhaul; every Gravewatch map shares its
 ## stage's id), else its map "music" id when that is a SoundData.SCORES entry, MUSIC_RUN otherwise.
 static func run_mode_for(stage_id: String) -> StringName:
-	if ResourceLoader.exists(SoundData.SONG_DIR + stage_id + ".ogg"):
+	if SongData.LOOPS.has(stage_id) if _songs_fetched() else ResourceLoader.exists(SoundData.SONG_DIR + stage_id + ".ogg"):
 		return StringName(SONG_PREFIX + stage_id)
 	var music := _stage_music(stage_id)  # Score id.
 	return StringName(music) if SoundData.SCORES.has(music) else MUSIC_RUN
@@ -583,9 +605,59 @@ static func _stage_music(stage_id: String) -> String:
 ## headless: nothing can be heard and the autotest stays as it was). A new stage swaps the stream;
 ## the same stage keeps it (and its fade).
 func _start_song(stage_id: String) -> void:
-	if _silent or stage_id == _song_stage:
+	if _silent or stage_id == _song_stage or stage_id == _song_fetching:
 		return
-	var stream := load(SoundData.SONG_DIR + stage_id + ".ogg") as AudioStreamOggVorbis  # The song file.
+	if _songs_fetched():
+		_fetch_song(stage_id)
+		return
+	_put_song(stage_id, load(SoundData.SONG_DIR + stage_id + ".ogg") as AudioStreamOggVorbis)
+
+
+## THE one place that decides where the songs come from (DECISIONS P1): the Web build fetches
+## them one at a time from SoundData.SONG_WEB_DIR beside the page (they are not in index.pck, so
+## a phone does not hold all of them in memory); every other build loads them from SONG_DIR.
+static func _songs_fetched() -> bool:
+	return OS.has_feature("web")
+
+
+## Web: drops the song on the player (at most one song in memory) and fetches stage `stage_id`'s
+## song from SoundData.SONG_WEB_DIR, relative to the page; the map's synth loop plays meanwhile.
+func _fetch_song(stage_id: String) -> void:
+	_song_http.cancel_request()
+	_song.player.stop()
+	_song.player.stream = null
+	_song_stage = ""
+	var url := String(JavaScriptBridge.eval("new URL('%s', document.baseURI).href" % (SoundData.SONG_WEB_DIR + stage_id + ".ogg"), true))  # Absolute URL of the file.
+	_song_fetching = stage_id if _song_http.request(url) == OK else ""
+	_song_fetch_msec = Time.get_ticks_msec()
+
+
+## Web: a song fetch finished. A good file goes on the song player and, when its run is still
+## the music mode, the synth loop fades out under it; anything else keeps the synth loop (one line).
+func _on_song_fetched(result: int, code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
+	var stage_id := _song_fetching  # The stage the file belongs to.
+	_song_fetching = ""
+	if result != HTTPRequest.RESULT_SUCCESS or code != 200 or body.is_empty():
+		print("[audio] song %s: not fetched (result %d, HTTP %d); the synth loop plays" % [stage_id, result, code])
+		return
+	_put_song(stage_id, AudioStreamOggVorbis.load_from_buffer(body))
+	var mode := StringName(SONG_PREFIX + stage_id)  # Its run's music mode.
+	if _song_stage != stage_id or _music_mode != mode:
+		return
+	var synth := _stage_music(stage_id)  # Its fallback loop: stop rendering it if unfinished.
+	if _scores.has(synth) and (_scores[synth] as ScoreLoop).incremental:
+		(_scores[synth] as ScoreLoop).synth = null
+	_music_mode = &""
+	play_music(mode)
+	var kb := body.size() / 1024  # Size of the file (KB).
+	var ms := Time.get_ticks_msec() - _song_fetch_msec  # Fetch time (ms).
+	get_tree().create_timer(SoundData.SONG_CHECK_DELAY, true, false, true).timeout.connect(func() -> void:
+		print("[audio] song %s: %d KB in %d ms; stream=%s playing=%s" % [stage_id, kb, ms,
+			_song.player.stream != null, _song.player.playing]))
+
+
+## Puts `stream` (stage `stage_id`'s song; null = nothing happens) on the song player.
+func _put_song(stage_id: String, stream: AudioStreamOggVorbis) -> void:
 	if stream == null:
 		return
 	stream.loop = true

@@ -10,7 +10,7 @@
 #            on any script error / warning, a stuck enemy, or a run that does not
 #            complete.
 #   export - the no-threads Web build (index.html + .js + .wasm + .pck), patched with
-#            tools/patch_web_audio.py, uploaded as the artifact Gravewatch-web.
+#            tools/patch_web_audio.py and tools/web_music.sh (songs in music/), uploaded as the artifact Gravewatch-web.
 # There is NO publish job: pushing the build to the public play repository needs a
 # token secret (PAGES_TOKEN) that only the owner can create (see README "Web build").
 
@@ -176,6 +176,9 @@ jobs:
           # Always: shares sample buffers (phone tabs ran out of memory without it)
           # and runs tools/patch_web_gl.py (WebGL id reuse).
           python3 tools/patch_web_audio.py build/web/index.js
+          # The songs are not in index.pck: they ship beside the page as music/<map>.ogg (DECISIONS P1).
+          sh tools/web_music.sh build/web
+          test -s build/web/music/graveyard.ogg
 
       - name: Upload Web build
         uses: actions/upload-artifact@v4
