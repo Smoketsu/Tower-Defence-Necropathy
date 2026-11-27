@@ -5,7 +5,9 @@
 // plays at x1 (--perf-wave, the frame-time probe's switch); the shot is taken
 // <delay_ms> after the switch and saved as <out_dir>/<name>.png. Playwright from NODE_PATH.
 // An optional fifth field <x>,<y> (viewport px) clicks / taps there first and waits 0.7 s
-// (opens a spot's build menu: the menu layout check, DECISIONS Y8).
+// (opens a spot's build menu: the menu layout check, DECISIONS Y8). Several taps
+// separated by "/" (x,y/x,y/...) run in turn, each followed by a shot <name>_<i>.png
+// (the sell-confirm check, DECISIONS M8).
 const http = require('http'), fs = require('fs'), path = require('path');
 const { chromium } = require('playwright');
 const [buildDir, outDir, size, ...jobs] = process.argv.slice(2);
@@ -35,10 +37,12 @@ const server = http.createServer((q, r) => {
     if (touch) await play.tap().catch(() => {}); else await play.click().catch(() => {});
     const ok = await Promise.race([first.then(() => true), new Promise((r) => setTimeout(() => r(false), 900000))]);
     if (ok) await page.waitForTimeout(Number(delay));
-    if (tapAt) {
-      const [tx, ty] = tapAt.split(',').map(Number);
+    const taps = tapAt ? tapAt.split('/') : [];
+    for (let i = 0; i < taps.length; i++) {
+      const [tx, ty] = taps[i].split(',').map(Number);
       if (touch) await page.touchscreen.tap(tx, ty); else await page.mouse.click(tx, ty);
       await page.waitForTimeout(700);
+      if (taps.length > 1) await page.screenshot({ path: path.join(outDir, `${name}_${i + 1}.png`) });
     }
     await page.screenshot({ path: path.join(outDir, `${name}.png`) });
     console.log(ok ? 'saved' : 'TIMEOUT (saved anyway)', name);

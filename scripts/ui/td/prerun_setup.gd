@@ -9,6 +9,10 @@
 ## (DECISIONS Z8): a finger drags it (TouchSupport.pass_drags: a drag never
 ## selects, a tap does), the wheel and the arrow buttons scroll it, and pad /
 ## key focus scrolls the focused tile into view (follow_focus).
+## Menu overhaul (DECISIONS M9): the chosen character is the hero on the left
+## (big portrait, name, innate, the spell it brings, the map); the strips,
+## the ultimate and the difficulty (each with its pixel icon) on the right;
+## the totals beside Start.
 class_name PreRunSetup
 extends MenuScreen
 
@@ -27,8 +31,20 @@ var _ultimate: String = "dread_rally"
 var _difficulty: String = DifficultyData.DEFAULT_ID
 ## Character id -> tile; spell id -> tile; "d:" + difficulty -> button (selection looks).
 var _tiles: Dictionary = {}
-## The innate line under the characters.
+## The hero column: the chosen character's portrait, name, innate line and its spell (icon, name).
+var _hero_pic: TextureRect = null
+## See _hero_pic.
+var _hero_name: Label = null
+## See _hero_pic.
 var _innate: Label = null
+## See _hero_pic.
+var _own_icon: TextureRect = null
+## See _hero_pic.
+var _own_name: Label = null
+## The hero column's ultimate line (the chosen ultimate and what it does).
+var _ult_line: Label = null
+## The spells section label (shows the slots used).
+var _spell_label: Label = null
 ## The total Soul Ash multiplier line.
 var _mult: Label = null
 ## The character strip and the spell strip (opened on the selection).
@@ -39,6 +55,7 @@ var _spell_strip: ScrollContainer = null
 
 func _init() -> void:
 	title_text = "Prepare"
+	show_ash = true
 
 
 func _build(b: VBoxContainer) -> void:
@@ -51,21 +68,29 @@ func _build(b: VBoxContainer) -> void:
 			_spells.append(String(id))
 	var u := String(Meta.prerun("ultimate", "dread_rally"))  # Remembered ultimate.
 	_ultimate = u if CharacterData.ULTIMATES.has(u) and _ult_open(u) else "dread_rally"
-	b.add_child(UiTheme.tier_label(String(MapRegistry.get_map(map_id)["name"]), UiTheme.Tier.NAME, UiTheme.TEXT_DIM))
-	(b.get_child(b.get_child_count() - 1) as Label).horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_char_strip = _strip(b, MenuData.CHAR_TILE)  # Character tiles.
+	var cols := HBoxContainer.new()  # Hero | choices.
+	cols.add_theme_constant_override("separation", MenuData.PRERUN_GAP)
+	b.add_child(cols)
+	cols.add_child(_hero())
+	var right := VBoxContainer.new()  # Strips, ultimate and difficulty.
+	right.add_theme_constant_override("separation", 6)
+	cols.add_child(right)
+	right.add_child(section("Characters"))
+	_char_strip = _strip(right, MenuData.CHAR_TILE)  # Character tiles.
 	for id: String in CharacterData.ORDER:
 		_char_strip.get_child(0).add_child(_char_tile(id))
-	_innate = UiTheme.para("", MenuData.PANEL_WIDTH, UiTheme.TEXT)
-	_innate.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	b.add_child(_innate)
-	b.add_child(section("Spells"))
-	_spell_strip = _strip(b, MenuData.SPELL_TILE)  # Spell tiles.
+	_spell_label = section("Spells")
+	right.add_child(_spell_label)
+	_spell_strip = _strip(right, MenuData.SPELL_TILE)  # Spell tiles.
 	for id: String in SpellData.SPELLS:
 		_spell_strip.get_child(0).add_child(_spell_tile(id))
 	TouchSupport.pass_drags(_char_strip)
 	TouchSupport.pass_drags(_spell_strip)
-	var low := _row(b)  # Ultimate and difficulty.
+	var heads := HBoxContainer.new()  # The two group labels over the last row.
+	heads.add_theme_constant_override("separation", MenuData.PRERUN_GAP)
+	right.add_child(heads)
+	var low := _row(right)  # Ultimate and difficulty.
+	low.add_theme_constant_override("separation", 6)
 	for id: String in CharacterData.ULTIMATES:
 		var ur := SpellCaster.ult_row(id)  # Its row.
 		var open := _ult_open(id)  # Pickable now.
@@ -78,25 +103,82 @@ func _build(b: VBoxContainer) -> void:
 		low.add_child(t)
 		_tiles["u:" + id] = t
 	var gap := Control.new()  # Space between the two groups.
-	gap.custom_minimum_size = Vector2(24, 0)
+	gap.custom_minimum_size = Vector2(MenuData.PRERUN_GAP, 0)
 	low.add_child(gap)
 	for id: String in DifficultyData.ORDER:
 		var row: Dictionary = DifficultyData.LEVELS[id]
-		var db := Button.new()  # One difficulty.
-		db.text = "%s\nx%s" % [String(row["name"]), str(float(row["ash_mult"]))]
-		db.custom_minimum_size = Vector2(118, MenuData.SPELL_TILE.y)
+		var db := _tile(null, "", MenuData.ULT_TILE)  # One difficulty.
+		var ic := MaskIcon.new(String(MenuData.DIFF_ICONS.get(id, "skull")), MenuData.PRERUN_DIFF_SCALE)  # Its pixel icon, in the icon's place.
+		ic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		ic.size_flags_vertical = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER
+		var col := db.get_child(0) as VBoxContainer  # Icon over name.
+		col.get_child(0).free()  # The empty icon slot.
+		col.add_child(ic)
+		col.move_child(ic, 0)
+		var lab := col.get_child(1) as Label  # Name over its Soul Ash multiplier.
+		lab.text = "%s\nx%s" % [String(row["name"]), str(float(row["ash_mult"]))]
+		lab.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 		db.pressed.connect(_pick_difficulty.bind(id))
 		low.add_child(db)
 		_tiles["d:" + id] = db
+	var ul := section("Ultimate")  # Group labels, each over its half of the row.
+	ul.custom_minimum_size.x = MenuData.ULT_TILE.x * 4.0 + 18.0
+	heads.add_child(ul)
+	var dl := section("Difficulty")
+	dl.custom_minimum_size.x = MenuData.ULT_TILE.x * 4.0 + 18.0
+	heads.add_child(dl)
+	heads.alignment = BoxContainer.ALIGNMENT_CENTER
 	_fix_spells()
 	_mark()
 	_open_on_selection.call_deferred()
 
 
+## The hero column: the map, the chosen character's portrait and name, its innate and its spell.
+func _hero() -> PanelContainer:
+	var p := PanelContainer.new()  # Framed column.
+	p.add_theme_stylebox_override("panel", UiTheme.style("card", "gold"))
+	p.custom_minimum_size = Vector2(MenuData.HERO_W, 0)
+	var col := VBoxContainer.new()  # Its rows.
+	col.add_theme_constant_override("separation", 4)
+	p.add_child(col)
+	var map := UiTheme.tier_label(String(MapRegistry.get_map(map_id)["name"]), UiTheme.Tier.BODY, UiTheme.TEXT_DIM)  # The map.
+	map.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	col.add_child(map)
+	var slot := PanelContainer.new()  # Recessed portrait frame.
+	slot.add_theme_stylebox_override("panel", UiTheme.style("slot", "grey"))
+	col.add_child(slot)
+	_hero_pic = MenuScreen.icon_rect(null, MenuData.HERO_PORTRAIT)
+	_hero_pic.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	slot.add_child(_hero_pic)
+	_hero_name = UiTheme.tier_label("", UiTheme.Tier.NAME, UiTheme.TEXT_GOLD)
+	_hero_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	col.add_child(_hero_name)
+	col.add_child(UiTheme.divider("gold"))
+	_innate = UiTheme.para("", MenuData.HERO_W - 30.0, UiTheme.TEXT)
+	_innate.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	col.add_child(_innate)
+	var own := HBoxContainer.new()  # Its spell.
+	own.alignment = BoxContainer.ALIGNMENT_CENTER
+	own.add_theme_constant_override("separation", 6)
+	col.add_child(own)
+	_own_icon = MenuScreen.icon_rect(null, MenuData.HERO_SPELL_ICON)
+	own.add_child(_own_icon)
+	_own_name = UiTheme.tier_label("", UiTheme.Tier.BODY, MenuData.TEAL)
+	_own_name.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	own.add_child(_own_name)
+	col.add_child(UiTheme.divider("gold"))
+	_ult_line = UiTheme.para("", MenuData.HERO_W - 30.0, UiTheme.TEXT_DIM)
+	_ult_line.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	col.add_child(_ult_line)
+	return p
+
+
 func _after_nav() -> void:
-	_mult = UiTheme.tier_label("", UiTheme.Tier.BODY, UiTheme.TEXT_GOLD)
+	_mult = UiTheme.tier_label("", UiTheme.Tier.NAME, UiTheme.TEXT_GOLD)
 	nav.add_child(_mult)
 	var go := button(nav, "Start", _go, "gold")
+	go.custom_minimum_size = MenuData.START_BUTTON
+	go.add_theme_color_override("font_color", UiTheme.TEXT_GOLD)
 	UiTheme.focus_deferred(go)
 	_mark()
 
@@ -257,12 +339,19 @@ func _mark() -> void:
 	for k: String in _tiles:
 		var on := k == _character or k == "d:" + _difficulty or k == "u:" + _ultimate or (k.begins_with("s:") and _spells.has(k.substr(2)))  # Chosen.
 		UiTheme.style_button(_tiles[k], "card" if not k.begins_with("d:") else "button", "gold" if on else "")
-	var inn: Dictionary = CharacterData.CHARACTERS[_character]["innate"]
-	_innate.text = "%s: %s" % [inn["name"], inn["desc"]] if not inn.is_empty() else "No innate. Brings %s." % String(SpellData.SPELLS[_own()]["name"])
-	if not inn.is_empty():
-		_innate.text += "  Brings %s, stronger." % String(SpellData.SPELLS[_own()]["name"])
+	var crow: Dictionary = CharacterData.CHARACTERS[_character]
+	var inn: Dictionary = crow["innate"]
+	_hero_pic.texture = SpriteBank.texture(String(crow["sprite"]))
+	_hero_name.text = String(crow["name"])
+	_innate.text = "%s: %s" % [inn["name"], inn["desc"]] if not inn.is_empty() else "No innate."
+	var sp: Dictionary = SpellData.SPELLS[_own()]
+	_own_icon.texture = SpriteBank.texture("icons/" + String(sp["icon"]))
+	_own_name.text = "Brings %s%s" % [String(sp["name"]), ", stronger" if not inn.is_empty() else ""]
+	var ur := SpellCaster.ult_row(_ultimate)  # The chosen ultimate's row.
+	_ult_line.text = "%s: %s" % [String(ur["name"]), String(ur.get("desc", "Revives every blocker; towers +40% for 8 s"))]
+	_spell_label.text = "SPELLS  %d / %d" % [_spells.size(), MetaModifiers.spell_slots()]
 	if _mult != null:
-		_mult.text = "Soul Ash x%s   %d / %d spells" % [str(float(DifficultyData.LEVELS[_difficulty]["ash_mult"])), _spells.size(), MetaModifiers.spell_slots()]
+		_mult.text = "Soul Ash x%s" % str(float(DifficultyData.LEVELS[_difficulty]["ash_mult"]))
 
 
 func _go() -> void:

@@ -22,6 +22,8 @@ func _ready() -> void:
 		return
 	Meta.load_save()
 	_show_title()
+	if GameState.menu_preview != "":
+		_preview.call_deferred(GameState.menu_preview)
 
 
 ## Frees the current screen and shows `node`.
@@ -109,6 +111,22 @@ func _on_run_ended(_won: bool, g: TdGame) -> void:
 	var nxt := Acts.next_map(g.map_id)  # The next map in the campaign order ("" = none).
 	if nxt != "" and Meta.map_open(nxt):
 		g.set_meta("on_next", func() -> void: _start_run.call_deferred(nxt, g.difficulty, GameState.character, GameState.loadout))
+
+
+## --menu=ID (Web look checks, GameState.menu_preview): opens that screen at once.
+func _preview(id: String) -> void:
+	var m := GameState.map_id if GameState.map_id != "" else MapRegistry.DEFAULT_ID  # Map of a previewed run.
+	match id:
+		"setup": _show_setup(m)
+		"pause", "won", "lost":
+			_start_run(m, DifficultyData.DEFAULT_ID, CharacterData.DEFAULT_ID, SpellData.DEFAULT_LOADOUT.duplicate())
+			await get_tree().create_timer(0.5).timeout
+			var g := _current as TdGame  # The run just started.
+			if id == "pause":
+				g.hud.open_pause()
+			else:
+				g.call("_end", id == "won")
+		_: _on_title(id)
 
 
 ## Phones: turning to portrait pauses a run (the rotate overlay covers it).

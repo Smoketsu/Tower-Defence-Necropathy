@@ -6,11 +6,29 @@
 class_name MenuData
 extends RefCounted
 
-## Title menu items, top to bottom: [id, button word]. "quit" is hidden on the Web.
-const TITLE_ITEMS: Array = [["play", "Play"], ["codex", "Codex"], ["ossuary", "Ossuary"],
-	["settings", "Settings"], ["credits", "Credits"], ["quit", "Quit"]]  # GDD §9.3
+## Title menu items, top to bottom: [id, button word, MaskIconData icon]. "quit" is hidden on the Web.
+const TITLE_ITEMS: Array = [["play", "Play", "skull_crown"], ["codex", "Codex", "quill"], ["ossuary", "Ossuary", "icons/soul_ash"],
+	["settings", "Settings", "candle"], ["credits", "Credits", "trophy"], ["quit", "Quit", "tomb"]]  # GDD §9.3; icons M5
 ## Size (px) of a title menu button.
-const TITLE_BUTTON := Vector2(220.0, 40.0)  # TUNING (not in GDD)
+const TITLE_BUTTON := Vector2(260.0, 44.0)  # TUNING (not in GDD) M5 (was 220 x 40)
+## Size (px) of the title's Play button (first, larger, gold).
+const TITLE_PLAY := Vector2(300.0, 56.0)  # TUNING (not in GDD) M5
+## Layout px per art px of a title button's icon, and its inset (px) from the button's left edge.
+const TITLE_ICON_SCALE: int = 2  # TUNING (not in GDD) M5
+## See TITLE_ICON_SCALE.
+const TITLE_ICON_INSET: float = 14.0  # TUNING (not in GDD) M5
+## Size (px) of a title button's icon when it is a sprite icon ("icons/..." in TITLE_ITEMS).
+const TITLE_SPRITE_ICON: float = 30.0  # TUNING (not in GDD) M5
+## Gap (px) between the title column's rows.
+const TITLE_GAP: int = 8  # TUNING (not in GDD) M5
+## Width (design px) and alpha (0-1) of the dark band the backdrop draws behind the title column.
+const TITLE_BAND_DARK_W: float = 420.0  # TUNING (not in GDD) M5
+## See TITLE_BAND_DARK_W.
+const TITLE_BAND_ALPHA: float = 0.6  # TUNING (not in GDD) M5
+## Title progress plaque: icon scale (layout px per art px) and the gap (px) between stats.
+const PLAQUE_ICON_SCALE: int = 2  # TUNING (not in GDD) M5
+## See PLAQUE_ICON_SCALE.
+const PLAQUE_GAP: int = 28  # TUNING (not in GDD) M5
 ## Size (px) the logo is drawn at (the 250 x 124 art at 2x).
 const LOGO_SIZE := Vector2(500.0, 248.0)  # TUNING (not in GDD)
 
@@ -18,11 +36,74 @@ const LOGO_SIZE := Vector2(500.0, 248.0)  # TUNING (not in GDD)
 const PANEL_WIDTH: float = 960.0  # TUNING (not in GDD)
 ## Size (px) of a screen's Back / Start buttons.
 const NAV_BUTTON := Vector2(140.0, 40.0)  # TUNING (not in GDD)
+## --- Shared frame (menu overhaul, DECISIONS M4) ---------------------------------
+## Margin (px) between the screen edge and the header / content / hints.
+const SCREEN_MARGIN: float = 12.0  # TUNING (not in GDD) M4
+## Size (px) of the header's Back button (and of the matching right column).
+const BACK_BUTTON := Vector2(150.0, 48.0)  # TUNING (not in GDD) M4: 48 px = ~31 CSS px tall at 844x390, wide for a thumb
+## Minimum width (px) of the header's title band.
+const TITLE_BAND_W: float = 420.0  # TUNING (not in GDD) M4
+## Size (px) of the Soul Ash icon in the header pill.
+const ASH_ICON: float = 28.0  # TUNING (not in GDD) M4
+## Minimum width (px) of the Soul Ash pill.
+const ASH_PILL_W: float = 110.0  # TUNING (not in GDD) M4
+## Room (px) kept above the content panel for its skull keystone (it rises 9 px).
+const KEYSTONE_ROOM: float = 12.0  # TUNING (not in GDD) M4
+## Default bottom hint strip of a screen: [[action(s), word], ...].
+const DEFAULT_HINTS: Array = [["ui_accept", "Select"], ["ui_cancel", "Back"]]  # TUNING (not in GDD) M4
+## Size (px) of a tab button (Codex, Settings, Credits, map select parts).
+const TAB_BUTTON := Vector2(150.0, 44.0)  # TUNING (not in GDD) M4
+## Gap (px) between tab buttons.
+const TAB_GAP: int = 6  # TUNING (not in GDD) M4
+
 ## Gap (px) between rows of a screen.
 const ROW_GAP: int = 10  # TUNING (not in GDD)
 
-## Map select: size (px) of one map card.
-const MAP_CARD := Vector2(290.0, 230.0)  # TUNING (not in GDD)
+## Map select: size (px) of one map card (three in a row; M6: was 290 x 230 text only).
+const MAP_CARD := Vector2(372.0, 300.0)  # TUNING (not in GDD) M6
+## Map select: inner padding (px) of a card and the gap (px) between cards.
+const MAP_CARD_PAD: int = 10  # TUNING (not in GDD) M6
+## See MAP_CARD_PAD.
+const MAP_CARD_GAP: int = 14  # TUNING (not in GDD) M6
+## Map select: size (px) of a card's picture (the thumbnail is cropped to cover it).
+const THUMB_SIZE := Vector2(344.0, 168.0)  # TUNING (not in GDD) M6
+## Path of a map's pre-rendered picture ("%s" = map id; tools/gw_map_thumbs.sh, lossy WebP in the pack).
+const THUMB_PATH: String = "res://assets/thumbs/%s.jpg"
+## Modulate of a locked map's picture, and the colour shown when a map has no picture yet.
+const THUMB_LOCKED: Color = Color(0.34, 0.31, 0.42)  # TUNING (not in GDD) M6
+## See THUMB_LOCKED.
+const THUMB_EMPTY: Color = Color(0.07, 0.05, 0.11)  # TUNING (not in GDD) M6
+## Boss on a card: the box (px) its sprite is scaled into (whole steps when it grows),
+## its feet's inset (px) from the picture's right and bottom edges, and its shadow's tint.
+const BOSS_MAX := Vector2(130.0, 120.0)  # TUNING (not in GDD) M6
+## See BOSS_MAX.
+const BOSS_RIGHT: float = 70.0  # TUNING (not in GDD) M6
+## See BOSS_MAX.
+const BOSS_BOTTOM: float = 10.0  # TUNING (not in GDD) M6
+## See BOSS_MAX.
+const BOSS_SHADOW: Color = Color(0.0, 0.0, 0.0, 0.75)  # TUNING (not in GDD) M6
+## Modulate of a locked map's boss (a black silhouette: not met yet).
+const BOSS_LOCKED: Color = Color(0.03, 0.02, 0.05, 0.9)  # TUNING (not in GDD) M6
+## Ribbon words of a map's place in its act ("%d" = 1-based), the last map's word.
+const MAP_PLACE: String = "Map %d"  # TUNING (not in GDD) M6
+## See MAP_PLACE.
+const MAP_PLACE_FINALE: String = "Finale"  # TUNING (not in GDD) M6
+## Scale (layout px per art px) of the padlock on a locked card.
+const LOCK_SCALE: int = 4  # TUNING (not in GDD) M6
+## Map cards: MaskIconData icon per difficulty, its scale, the skull size (px), the gap (px) between groups.
+const DIFF_ICONS: Dictionary = {"initiate": "candle", "necromancer": "skull", "lich": "lich", "deathlord": "deathlord"}  # TUNING (not in GDD) M6 (Necropathy's difficulty icons)
+## See DIFF_ICONS.
+const DIFF_ICON_SCALE: int = 2  # TUNING (not in GDD) M6
+## See DIFF_ICONS.
+const SKULL_SMALL: float = 14.0  # TUNING (not in GDD) M6
+## See DIFF_ICONS.
+const SKULL_GROUP_GAP: int = 12  # TUNING (not in GDD) M6
+## Map select: size (px) of a Part tab, its word ("%s" = numeral) and an act tab's numeral line.
+const PART_TAB := Vector2(150.0, 44.0)  # TUNING (not in GDD) M6
+## See PART_TAB.
+const PART_WORD: String = "Part %s"  # TUNING (not in GDD) M6
+## See PART_TAB.
+const ACT_WORD: String = "Act %s"  # TUNING (not in GDD) M6
 ## Size (px) of a skull mark on the map cards and results.
 const SKULL: float = 20.0  # TUNING (not in GDD)
 ## The 16 x 16 skull mark of the skull ratings (bone, tinted gold when earned).
@@ -39,7 +120,7 @@ const CHAR_TILE := Vector2(124.0, 112.0)  # TUNING (not in GDD) Z8 (118 x 112 in
 ## See CHAR_TILE.
 const SPELL_TILE := Vector2(146.0, 92.0)  # TUNING (not in GDD) wide enough for "Corpse Explosion" (W4); Z8: 84 -> 92 tall
 ## Pre-map strips: width (px) of the scrolling window of a strip (between its arrows).
-const STRIP_WIDTH: float = 880.0  # TUNING (not in GDD) Z8
+const STRIP_WIDTH: float = 812.0  # TUNING (not in GDD) Z8; M9 880 -> 812 (beside the hero column)
 ## Height (px) added under a strip's tiles for its horizontal scroll bar.
 const STRIP_BAR: float = 14.0  # TUNING (not in GDD) Z8
 ## Size (px) of a strip's scroll arrow button (beside the window, tile height).
@@ -51,10 +132,50 @@ const STRIP_GAP: int = 8  # TUNING (not in GDD) Z8
 ## Size (px) of a pre-map ultimate tile (four beside the difficulties; gw2-kit).
 const ULT_TILE := Vector2(104.0, 84.0)  # TUNING (not in GDD)
 
+## Pre-map setup (M9): gap (px) between the hero column and the choices; the hero
+## column's width, portrait (px), spell icon (px); a difficulty icon's scale; Start's size.
+const PRERUN_GAP: int = 14  # TUNING (not in GDD) M9
+## See PRERUN_GAP.
+const HERO_W: float = 280.0  # TUNING (not in GDD) M9
+## See PRERUN_GAP.
+const HERO_PORTRAIT: float = 168.0  # TUNING (not in GDD) M9
+## See PRERUN_GAP.
+const HERO_SPELL_ICON: float = 28.0  # TUNING (not in GDD) M9
+## See PRERUN_GAP.
+const PRERUN_DIFF_SCALE: int = 2  # TUNING (not in GDD) M9
+## See PRERUN_GAP.
+const START_BUTTON := Vector2(190.0, 48.0)  # TUNING (not in GDD) M9
+
+## Results card (M10): content width (px), a stat tile's size (px), its icon (px).
+const RESULTS_W: float = 480.0  # TUNING (not in GDD) M10
+## See RESULTS_W.
+const RESULTS_STAT := Vector2(148.0, 112.0)  # TUNING (not in GDD) M10
+## See RESULTS_W.
+const RESULTS_ICON: float = 32.0  # TUNING (not in GDD) M10
+## Pause card (M11): size (px) of the wave / lives icons.
+const PAUSE_STAT_ICON: float = 24.0  # TUNING (not in GDD) M11
+
 ## Ossuary: size (px) of an upgrade tile and of a mastery badge.
-const OSSUARY_TILE := Vector2(300.0, 84.0)  # TUNING (not in GDD)
+const OSSUARY_TILE := Vector2(250.0, 76.0)  # TUNING (not in GDD) M12 (was 300 x 84 with its own Buy button)
+## Ossuary (M12): tiles per row, the detail panel's width (px), its badge (px), its Buy button (px),
+## a tile's badge (px), the cost line's Ash icon (px), a level pip (px) and an unlit pip's colour.
+const OSSUARY_COLUMNS: int = 3  # TUNING (not in GDD) M12
+## See OSSUARY_COLUMNS.
+const OSSUARY_DETAIL_W: float = 300.0  # TUNING (not in GDD) M12
+## See OSSUARY_COLUMNS.
+const OSSUARY_DETAIL_ICON: float = 64.0  # TUNING (not in GDD) M12
+## See OSSUARY_COLUMNS.
+const OSSUARY_BUY := Vector2(200.0, 52.0)  # TUNING (not in GDD) M12
+## See OSSUARY_COLUMNS.
+const OSSUARY_ICON: float = 36.0  # TUNING (not in GDD) M12
+## See OSSUARY_COLUMNS.
+const OSSUARY_COST_ICON: float = 18.0  # TUNING (not in GDD) M12
+## See OSSUARY_COLUMNS.
+const OSSUARY_PIP := Vector2(14.0, 8.0)  # TUNING (not in GDD) M12
+## See OSSUARY_COLUMNS.
+const PIP_OFF: Color = Color(0.25, 0.21, 0.32)  # TUNING (not in GDD) M12
 ## See OSSUARY_TILE.
-const MASTERY_ICON: float = 40.0  # TUNING (not in GDD)
+const MASTERY_ICON: float = 30.0  # TUNING (not in GDD) M12 (was 40, now inside a badge frame)
 
 ## Codex: tab words per Meta.CODEX category.
 const CODEX_TABS: Dictionary = {"towers": "Towers", "spells": "Spells", "enemies": "Foes", "bosses": "Bosses", "evolutions": "Evolutions"}  # TUNING (not in GDD)
@@ -62,6 +183,8 @@ const CODEX_TABS: Dictionary = {"towers": "Towers", "spells": "Spells", "enemies
 const CODEX_TILE := Vector2(72.0, 72.0)  # TUNING (not in GDD)
 ## See CODEX_TILE.
 const CODEX_DETAIL_W: float = 300.0  # TUNING (not in GDD)
+## Codex: size (px) of the detail panel's picture (M13).
+const CODEX_PIC: float = 120.0  # TUNING (not in GDD) M13
 ## Codex: tiles per row of the grid.
 const CODEX_COLUMNS: int = 8  # TUNING (not in GDD)
 ## Modulate of an entry not met yet (a dark silhouette, GDD §8.3).
@@ -73,6 +196,12 @@ const SETTINGS_TABS: Array = [["audio", "Audio"], ["video", "Video"], ["controls
 const SETTINGS_LABEL_W: float = 220.0  # TUNING (not in GDD)
 ## See SETTINGS_LABEL_W.
 const SLIDER_W: float = 320.0  # TUNING (not in GDD)
+## Inner padding (px) of a framed card holding a page (Settings, Credits; M14).
+const CARD_PAD: int = 14  # TUNING (not in GDD) M14
+## Settings: minimum size (px) of a tab's page inside its card (M14).
+const SETTINGS_PAGE := Vector2(640.0, 230.0)  # TUNING (not in GDD) M14
+## Credits: size (px) the logo is drawn at, heading the roll (the 250 x 124 art; M14).
+const CREDITS_LOGO := Vector2(250.0, 124.0)  # TUNING (not in GDD) M14
 
 ## Crimson text (danger / defeat / cannot afford, GDD §9 colour meaning).
 const CRIMSON: Color = Color(0.95, 0.35, 0.35)  # TUNING (not in GDD)
@@ -80,10 +209,10 @@ const CRIMSON: Color = Color(0.95, 0.35, 0.35)  # TUNING (not in GDD)
 const TEAL: Color = Color(0.35, 0.95, 0.8)  # TUNING (not in GDD)
 
 ## --- Act framework (gw2-acts) ---------------------------------------------------
-## Map select: size (px) of one act tab (its numeral; 15 acts fit one row of the panel).
-const ACT_TAB := Vector2(52.0, 38.0)  # TUNING (not in GDD)
+## Map select: size (px) of one act tab (numeral over name; one part's five acts in a row; M6: was 52 x 38, numeral only).
+const ACT_TAB := Vector2(218.0, 58.0)  # TUNING (not in GDD) M6
 ## Map select: gap (px) between act tabs.
-const ACT_TAB_GAP: int = 4  # TUNING (not in GDD)
+const ACT_TAB_GAP: int = 6  # TUNING (not in GDD) M6
 ## Map select: modulate of a locked act's tab (its first map not open yet).
 const ACT_LOCKED: Color = Color(0.55, 0.5, 0.62, 0.8)  # TUNING (not in GDD)
 ## Map select: size (px) of the "Coming soon" panel of an act with no playable map.

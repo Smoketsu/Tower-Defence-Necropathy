@@ -5,6 +5,7 @@
 ## pad and touch layouts are fixed and shown as InputHints chips) and Save (backup / restore code,
 ## SaveBackup; Restore only from the title). Every change goes through the
 ## Settings autoload; the file is written when the screen closes.
+## Menu overhaul (DECISIONS M14): kit tabs, the page in a framed card.
 class_name SettingsScreen
 extends MenuScreen
 
@@ -27,16 +28,18 @@ func _init() -> void:
 
 
 func _build(b: VBoxContainer) -> void:
-	var tabs := HBoxContainer.new()  # Tab buttons.
-	tabs.alignment = BoxContainer.ALIGNMENT_CENTER
-	b.add_child(tabs)
-	for t: Array in MenuData.SETTINGS_TABS:
-		_tabs[t[0]] = button(tabs, String(t[1]), _show.bind(String(t[0])))
-	b.add_child(UiTheme.divider())
+	_tabs = tab_row(b, MenuData.SETTINGS_TABS, _show)
+	var card := PanelContainer.new()  # The page's frame.
+	card.add_theme_stylebox_override("panel", UiTheme.style("card", "violet"))
+	b.add_child(card)
+	var pad := MarginContainer.new()  # Room inside the frame.
+	for side: String in ["left", "right", "top", "bottom"]:
+		pad.add_theme_constant_override("margin_" + side, MenuData.CARD_PAD)
+	card.add_child(pad)
 	_page = VBoxContainer.new()
-	_page.custom_minimum_size = Vector2(MenuData.SETTINGS_LABEL_W + MenuData.SLIDER_W + 80.0, 260.0)
-	_page.add_theme_constant_override("separation", 8)
-	b.add_child(_page)
+	_page.custom_minimum_size = MenuData.SETTINGS_PAGE
+	_page.add_theme_constant_override("separation", 10)
+	pad.add_child(_page)
 	_show("audio")
 	UiTheme.focus_deferred(_tabs["audio"])
 
@@ -63,8 +66,7 @@ func _toggle(text: String, on: bool, cb: Callable) -> void:
 func _show(id: String) -> void:
 	_waiting = ""
 	_keys.clear()
-	for k: String in _tabs:
-		UiTheme.style_button(_tabs[k], "button", "gold" if k == id else "")
+	mark_tabs(_tabs, id)
 	for c: Node in _page.get_children():
 		_page.remove_child(c)
 		c.queue_free()

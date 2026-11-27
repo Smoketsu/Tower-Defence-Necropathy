@@ -31,7 +31,7 @@ var _page: Dictionary = {}
 
 
 func _ready() -> void:
-	var sb := UiTheme.style("ornate", "violet").duplicate() as StyleBox  # The frame, with slim margins (a compact strip, DECISIONS Y8).
+	var sb := UiTheme.style("panel", "violet").duplicate() as StyleBox  # The frame, with slim margins (a compact strip, DECISIONS Y8; M7 an opaque kit panel).
 	sb.set_content_margin_all(TdUiData.MENU_PAD)
 	add_theme_stylebox_override("panel", sb)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE  # Gaps between buttons pass taps to the map.
@@ -139,32 +139,53 @@ func _first_button(n: Node) -> Button:
 	return null
 
 
-## A menu button with icon texture `tex`, text and callback.
-func _button(box: Container, tex: Texture2D, text: String, cb: Callable, accent: String = "") -> Button:
+## A menu button with icon texture `tex`, text and callback (an optional
+## second, smaller `sub` line under the text: the next level's gains).
+func _button(box: Container, tex: Texture2D, text: String, cb: Callable, accent: String = "", sub: String = "") -> Button:
 	var b := Button.new()  # The button.
-	b.text = text
-	b.icon = tex
+	b.text = text if sub == "" else ""
+	b.icon = tex if sub == "" else null
 	b.expand_icon = false
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	b.focus_mode = Control.FOCUS_ALL if pad_focus else Control.FOCUS_NONE
 	b.custom_minimum_size.y = TdUiData.MENU_BUTTON_H
+	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	b.pressed.connect(cb)
 	if accent != "":
 		UiTheme.style_button(b, "button", accent)
+	if sub != "":
+		var row := HBoxContainer.new()  # Icon | text over sub line.
+		row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, 6)
+		row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_theme_constant_override("separation", 8)
+		b.add_child(row)
+		row.add_child(MenuScreen.icon_rect(tex, TdUiData.MENU_ROW_ICON))
+		var col := VBoxContainer.new()  # Text, sub line.
+		col.alignment = BoxContainer.ALIGNMENT_CENTER
+		col.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		col.add_theme_constant_override("separation", -2)
+		row.add_child(col)
+		var l := UiTheme.tier_label(text, UiTheme.Tier.NAME)  # Main line.
+		b.set_meta("main", l)
+		col.add_child(l)
+		col.add_child(UiTheme.tier_label(sub, UiTheme.Tier.BODY, UiTheme.TEXT_GOOD))
 	box.add_child(b)
 	return b
 
 
-## Empty spot: one strip of build tiles, with < and > page buttons at its ends
-## when more classes are open than TdUiData.MENU_PAGE (DECISIONS Y8).
+## Empty spot: a strip of build tiles (icon, name, cost) with tall < / > page
+## buttons at its ends and page dots under it when more classes are open than
+## TdUiData.MENU_PAGE (DECISIONS Y8, M7).
 func _build_empty(box: VBoxContainer, s: Spot) -> void:
 	var strip := HBoxContainer.new()  # [<] tiles [>].
 	strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	strip.add_theme_constant_override("separation", 4)
+	strip.add_theme_constant_override("separation", TdUiData.MENU_GAP)
 	box.add_child(strip)
-	var grid := GridContainer.new()  # Compact tiles (icon, short name and cost) so the menu covers little.
+	var grid := GridContainer.new()  # The page's tiles.
 	grid.columns = TdUiData.MENU_COLUMNS
 	grid.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	grid.add_theme_constant_override("h_separation", TdUiData.MENU_GAP)
+	grid.add_theme_constant_override("v_separation", TdUiData.MENU_GAP)
 	var ids: Array[String] = []  # Open classes that fit this spot (locked ones hidden, Unlocks).
 	for id: String in TowerData.ORDER:
 		if String(TowerData.TOWERS[id]["spot"]) == s.kind and Unlocks.tower_open(id):
@@ -176,6 +197,17 @@ func _build_empty(box: VBoxContainer, s: Spot) -> void:
 	strip.add_child(grid)
 	if pages > 1:
 		_page_button(strip, s.kind, page, pages, 1)
+		var dots := HBoxContainer.new()  # One dot per page, the shown one gold.
+		dots.alignment = BoxContainer.ALIGNMENT_CENTER
+		dots.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		dots.add_theme_constant_override("separation", TdUiData.MENU_DOT_GAP)
+		for i in pages:
+			var d := ColorRect.new()  # A page dot.
+			d.custom_minimum_size = TdUiData.MENU_DOT
+			d.color = UiTheme.TEXT_GOLD if i == page else TdUiData.MENU_DOT_OFF
+			d.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			dots.add_child(d)
+		box.add_child(dots)
 	for id: String in ids.slice(page * TdUiData.MENU_PAGE, (page + 1) * TdUiData.MENU_PAGE):
 		var row: Dictionary = TowerData.TOWERS[id]
 		var joins := _would_join(id, s)  # Synergy names it would form here.
@@ -183,32 +215,25 @@ func _build_empty(box: VBoxContainer, s: Spot) -> void:
 		var b := Button.new()  # The tile.
 		b.custom_minimum_size = TdUiData.MENU_TILE
 		b.focus_mode = Control.FOCUS_ALL if pad_focus else Control.FOCUS_NONE
+		b.set_meta("ui_lift", false)  # The strip sits on the map: no rising tiles.
 		b.pressed.connect(_do_build.bind(s, id))
-		if can:
-			UiTheme.style_button(b, "button", "soul")
+		UiTheme.style_button(b, "card", "gold" if not joins.is_empty() and can else ("violet" if can else ""))
 		b.disabled = not can
-		var col := VBoxContainer.new()  # Icon over one line: short name and cost.
-		col.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, 3)
+		var col := VBoxContainer.new()  # Icon, name, cost.
+		col.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, 4)
 		col.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		col.add_theme_constant_override("separation", 0)
 		col.alignment = BoxContainer.ALIGNMENT_CENTER
 		b.add_child(col)
 		var ic := MenuScreen.icon_rect(SpriteBank.texture("icons/" + String(row["icon"])), TdUiData.MENU_ICON)
 		ic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-		ic.modulate = Color.WHITE if can else Color(0.6, 0.6, 0.6)
+		ic.modulate = Color.WHITE if can else TdUiData.MENU_DIM
 		col.add_child(ic)
-		var line := HBoxContainer.new()  # Short name (gold "+" when it forms a synergy here) and cost.
-		line.alignment = BoxContainer.ALIGNMENT_CENTER
-		line.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		line.add_theme_constant_override("separation", 4)
-		col.add_child(line)
-		var nm := UiTheme.tier_label(("+" if not joins.is_empty() else "") + String(row.get("short", row["name"])), UiTheme.Tier.BODY, UiTheme.TEXT_GOLD if not joins.is_empty() else UiTheme.TEXT)
-		nm.clip_text = true
-		nm.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		nm.size_flags_stretch_ratio = 1.0
-		line.add_child(nm)
-		var cost := UiTheme.tier_label(str(int(row["cost"])), UiTheme.Tier.BODY, MenuData.TEAL if can else MenuData.CRIMSON)
-		line.add_child(cost)
+		var nm := UiTheme.tier_label(("+ " if not joins.is_empty() else "") + String(row.get("short", row["name"])), UiTheme.Tier.BODY, UiTheme.TEXT_GOLD if not joins.is_empty() else (UiTheme.TEXT if can else UiTheme.TEXT_DIM))
+		nm.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		nm.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		col.add_child(nm)
+		col.add_child(_cost_line(int(row["cost"]), can))
 		b.mouse_entered.connect(func() -> void: hover_id = id)
 		b.focus_entered.connect(func() -> void: hover_id = id)
 		b.mouse_exited.connect(func() -> void: hover_id = "")
@@ -221,14 +246,28 @@ func _build_empty(box: VBoxContainer, s: Spot) -> void:
 		grid.add_child(b)
 
 
+## A centred cost line: the souls icon and `cost` (soul-teal when affordable, else crimson).
+func _cost_line(cost: int, can: bool) -> HBoxContainer:
+	var line := HBoxContainer.new()  # Icon and number.
+	line.alignment = BoxContainer.ALIGNMENT_CENTER
+	line.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	line.add_theme_constant_override("separation", 3)
+	var si := MenuScreen.icon_rect(TdArt.texture("icon_souls"), TdUiData.MENU_COST_ICON)  # Souls icon.
+	si.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	line.add_child(si)
+	line.add_child(UiTheme.tier_label(str(cost), UiTheme.Tier.BODY, MenuData.TEAL if can else MenuData.CRIMSON))
+	return line
+
+
 ## A page button of the build strip ("<" for `d` -1, ">" for +1; wraps around),
-## its tooltip the page it shows.
+## a full tile tall, its tooltip the page it shows.
 func _page_button(row: HBoxContainer, kind: String, page: int, pages: int, d: int) -> void:
 	var b := Button.new()  # Previous / next page.
 	b.text = "<" if d < 0 else ">"
 	b.tooltip_text = "Page %d / %d" % [posmod(page + d, pages) + 1, pages]
 	b.custom_minimum_size = TdUiData.MENU_PAGER
 	b.focus_mode = Control.FOCUS_ALL if pad_focus else Control.FOCUS_NONE
+	b.set_meta("ui_lift", false)
 	b.pressed.connect(func() -> void:
 		_page[kind] = posmod(page + d, pages)
 		refresh())
@@ -241,6 +280,9 @@ func _afford(b: Button, can: bool) -> void:
 	if can and b.get_theme_stylebox("normal") == UiTheme.style("button", "soul"):
 		b.add_theme_color_override("font_color", MenuData.TEAL)
 	b.add_theme_color_override("font_disabled_color", MenuData.CRIMSON)
+	if b.has_meta("main"):  # A two-line button: its main line carries the colour.
+		var l := b.get_meta("main") as Label
+		l.add_theme_color_override("font_color", MenuData.TEAL if can and b.get_theme_stylebox("normal") == UiTheme.style("button", "soul") else (UiTheme.TEXT if can else MenuData.CRIMSON))
 
 
 ## Names of the synergies tower class `id` would form on spot `s` now.
@@ -259,24 +301,97 @@ func _would_join(id: String, s: Spot) -> Array[String]:
 
 
 func _build_tower(box: VBoxContainer, t: Tower) -> void:
-	var title := "%s  Lv %d" % [String(t.stats["name"]), t.level] if t.evolution == "" else String(t.stats["name"])  # Header line.
-	box.add_child(UiTheme.tier_label(title, UiTheme.Tier.NAME, UiTheme.TEXT_GOLD if t.evolution != "" else UiTheme.TEXT))
-	box.add_child(UiTheme.tier_label("Kills %d" % t.kills, UiTheme.Tier.BODY, UiTheme.TEXT_DIM))
+	box.custom_minimum_size.x = TdUiData.MENU_TOWER_W
+	var head := HBoxContainer.new()  # Icon | name, level, kills.
+	head.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	head.add_theme_constant_override("separation", 8)
+	box.add_child(head)
+	var icon := String(EvolutionData.EVOLUTIONS[t.evolution]["icon"]) if t.evolution != "" else String(t.row["icon"])  # Its icon key.
+	head.add_child(MenuScreen.icon_rect(SpriteBank.texture("icons/" + icon), TdUiData.MENU_HEAD_ICON))
+	var hc := VBoxContainer.new()  # Name over level and kills.
+	hc.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hc.add_theme_constant_override("separation", -2)
+	head.add_child(hc)
+	hc.add_child(UiTheme.tier_label(String(t.stats["name"]), UiTheme.Tier.NAME, UiTheme.TEXT_GOLD if t.evolution != "" else UiTheme.TEXT))
+	var sub := HBoxContainer.new()  # Level pips and kills.
+	sub.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	sub.add_theme_constant_override("separation", 3)
+	hc.add_child(sub)
+	for i in 5:
+		var pip := ColorRect.new()  # A level pip (gold = reached).
+		pip.custom_minimum_size = TdUiData.MENU_PIP
+		pip.color = (UiTheme.TEXT_GOLD if t.evolution != "" else MenuData.TEAL) if i < t.level else TdUiData.MENU_DOT_OFF
+		pip.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		pip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		sub.add_child(pip)
+	sub.add_child(UiTheme.tier_label("  Kills %d" % t.kills, UiTheme.Tier.BODY, UiTheme.TEXT_DIM))
+	box.add_child(UiTheme.tier_label(_stat_line(t), UiTheme.Tier.BODY, UiTheme.TEXT_DIM))
 	if t.level < 5:
 		var cost := t.upgrade_cost()  # Souls for the next level.
 		var free := game.free_upgrades > 0  # A chest credit pays it.
 		var can := free or game.economy.can_afford(cost)  # Affordable now.
-		var b := _button(box, TdArt.texture("icon_upgrade"), "Upgrade  " + ("Free" if free else str(cost)), _act.bind(game.upgrade, t.spot), "gold" if free else ("soul" if can else ""))
+		var b := _button(box, TdArt.texture("icon_upgrade"), "Upgrade  " + ("Free" if free else str(cost)), _act.bind(game.upgrade, t.spot), "gold" if free else ("soul" if can else ""), _gains(t))
 		_afford(b, can)
 	if t.can_evolve():
 		var free := game.free_upgrades > 0  # A chest credit pays it.
 		var e := _button(box, TdArt.texture("icon_evolve"), "Evolve  " + ("Free" if free else str(t.evolve_cost())), _act.bind(game.evolve, t.spot), "gold")
 		_afford(e, free or game.economy.can_afford(t.evolve_cost()))
+	var row := HBoxContainer.new()  # Target | Sell.
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_theme_constant_override("separation", TdUiData.MENU_GAP)
+	box.add_child(row)
 	if t.block == null:
-		_button(box, TdArt.texture("icon_target_" + t.target_mode), "Target  " + t.target_mode.capitalize(), func() -> void: game.set_target(t.spot))
-	_button(box, TdArt.texture("icon_sell"), "Sell  +%d" % t.sell_value(), _act.bind(game.sell, t.spot), "crimson")
+		_button(row, TdArt.texture("icon_target_" + t.target_mode), t.target_mode.capitalize(), func() -> void: game.set_target(t.spot))
+	_button(row, TdArt.texture("icon_sell"), "Sell  +%d" % t.sell_value(), _ask_sell.bind(t), "crimson")
 	for pair: Array in t.synergies:
 		box.add_child(UiTheme.tier_label("+ " + String(SynergyData.SYNERGIES[pair[0]]["name"]), UiTheme.Tier.BODY, UiTheme.TEXT_GOOD))
+
+
+## The tower's current numbers in one line (read from its stats; display only).
+func _stat_line(t: Tower) -> String:
+	var parts: Array[String] = []  # "Dmg 24" ...
+	if float(t.stats.get("damage", 0.0)) > 0.0:
+		parts.append("Dmg %d" % roundi(float(t.stats["damage"])))
+	if float(t.stats.get("interval", 0.0)) > 0.0:
+		parts.append("%.1f/s" % (1.0 / float(t.stats["interval"])))
+	if t.stats.has("body_hp"):
+		parts.append("HP %d" % roundi(float(t.stats["body_hp"])))
+	if t.stats.has("heal"):
+		parts.append("Heal %d" % roundi(float(t.stats["heal"])))
+	if float(t.stats.get("range", 0.0)) > 0.0:
+		parts.append("Range %d" % roundi(float(t.stats["range"])))
+	return "  ".join(parts)
+
+
+## What the next level adds, from TowerData.LEVELS (e.g. "+26% dmg  +5% range"; "" at max).
+func _gains(t: Tower) -> String:
+	var lv: Array = TowerData.LEVELS.get(t.tower_id, [])
+	if t.level >= lv.size():
+		return ""
+	var now: Dictionary = lv[t.level - 1]
+	var nxt: Dictionary = lv[t.level]
+	var out: Array[String] = []  # "+26% dmg" ...
+	for k: String in TdUiData.MENU_GAIN_WORDS:
+		var a := float(now.get(k, 1.0))  # This level's multiplier.
+		var b := float(nxt.get(k, 1.0))  # The next one's.
+		if b > a + 0.001:
+			out.append("+%d%% %s" % [roundi((b / a - 1.0) * 100.0), String(TdUiData.MENU_GAIN_WORDS[k])])
+	if int(nxt.get("bodies", 0)) > int(now.get("bodies", 0)):
+		out.append("+1 body")
+	return "  ".join(out)
+
+
+## Sell asks first (DECISIONS M8): "Sell <tower> for N souls?" with Cancel
+## focused (ConfirmDialog); the run waits while it is open (set_paused, back
+## to running on close unless it was paused before). The autotest never comes here (it calls TdGame.sell()).
+func _ask_sell(t: Tower) -> void:
+	var s := t.spot  # The spot sold from.
+	var was := game.paused  # Paused before the dialog.
+	game.set_paused(true)
+	var d := ConfirmDialog.ask(game.hud.root, "Sell?", "Sell %s for %d souls?" % [String(t.stats["name"]), t.sell_value()], "Sell", func() -> void:
+		if s.tower == t:
+			_act(game.sell, s))
+	d.closed.connect(func(_ok: bool) -> void: game.set_paused(was))
 
 
 ## Builds tower `id` on `s` and closes the menu (tap the spot again for its upgrades).
@@ -294,4 +409,5 @@ func _act(fn: Callable, s: Spot) -> void:
 		game.sound("denied")
 	if s.tower == null:
 		game.selected = null
+		game.overlay.queue_redraw()  # The sold tower's range ring goes too (the overlay only redraws while something is selected).
 	game.changed.emit()
