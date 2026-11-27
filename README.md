@@ -113,7 +113,7 @@ scripts/
   bosses/                alaric.gd (an EnemyTrait)
   spells/                td_spell.gd (base) + shadow_bolt, bone_wall, dread_rally
 assets/                  only the Act I art copied from Necropathy (~7 MB) + assets/sprites/td/ (Gravewatch art)
-tools/                   patch_web_audio.py, patch_web_gl.py (copied)
+tools/                   patch_web_audio.py, patch_web_gl.py (copied); web_music.sh (songs beside the Web page), gw_phone.js (phone probe)
 ```
 
 One path per concern: all damage, statuses, heals, kills and leaks go through
@@ -173,6 +173,7 @@ deaths, lives lost within 15 s of a body death and per death) and exits 0 when t
 mkdir -p build/web && touch build/.gdignore
 $G --headless --export-release "Web" build/web/index.html
 python3 tools/patch_web_audio.py build/web/index.js   # always; also runs the GL id patch
+sh tools/web_music.sh build/web                       # always: songs beside the page (music/<map>.ogg; publish it too)
 ```
 
 CI (`.github/workflows/ci.yml`) runs the import, the towers / meta self-checks,

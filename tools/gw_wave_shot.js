@@ -48,5 +48,6 @@ const server = http.createServer((q, r) => {
     console.log(ok ? 'saved' : 'TIMEOUT (saved anyway)', name);
     await ctx.close();
   }
-  await browser.close(); server.close();
+  await browser.close(); server.closeAllConnections(); server.close();
+  process.exit(0);
 })();

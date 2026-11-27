@@ -43,5 +43,6 @@ const server = http.createServer((q, r) => {
     console.log(`${map.padEnd(16)} mean=${mean.toFixed(1)}ms p90=${f[Math.floor(f.length * 0.9)].toFixed(1)}ms frames=${f.length} ${last}`);
     await page.close();
   }
-  await browser.close(); server.close();
+  await browser.close(); server.closeAllConnections(); server.close();
+  process.exit(0);
 })();
