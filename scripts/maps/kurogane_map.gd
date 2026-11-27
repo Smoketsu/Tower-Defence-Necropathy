@@ -1,11 +1,13 @@
 ## Castle Kurogane (Act V map 2; Necropathy stage "kurogane"): the Shogun's
-## fortress. Two gates: the north and south baileys march in from the west and
-## meet at the courtyard, then the keep road loops down past the same plots to
-## the Ossuary gate. 16 plots, 5 posts, 23 waves. The Sun's Course: dusk from
-## wave 9, night from wave 16. The General of the Left (miniboss, chest) on
-## wave 12; Shogun Kurogane on wave 23: his regiments are his health bar.
-## Keys as graveyard_map.gd plus lanterns / ambush (rules/shogunate/sun_course.gd).
-## Data only.
+## fortress. Square concentric baileys (right angles are the theme): the north
+## and south roads come in at the outer bailey's west corners, run its top and
+## bottom walls and meet at its east gate; the keep road then goes in through
+## the inner bailey's gate, round three of its walls, and up to the Ossuary gate
+## at the keep in the centre. 16 plots, 5 posts, 23 waves. The Sun's Course:
+## dusk from wave 9, night from wave 16. The General of the Left (miniboss,
+## chest) on wave 12; Shogun Kurogane on wave 23: his regiments are his health
+## bar. Keys as graveyard_map.gd plus lanterns / ambush
+## (rules/shogunate/sun_course.gd). Data only.
 extends RefCounted
 
 ## The map (keys: graveyard_map.gd and sun_course.gd).
@@ -15,42 +17,42 @@ const MAP: Dictionary = {
 	"floor": "tiles/kurogane_courtyard",
 	"decals": [],
 	"obstacles": [
-		["obstacles/castle_wall_l", Vector2(100, 90)], ["obstacles/castle_wall_l", Vector2(700, 90)],
+		["obstacles/castle_wall_l", Vector2(100, 90)], ["obstacles/castle_wall_l", Vector2(829, 184)],
 		["obstacles/castle_wall_s", Vector2(1000, 90)], ["obstacles/castle_wall_l_v", Vector2(1240, 240)],
-		["obstacles/castle_well_s", Vector2(760, 230)], ["obstacles/black_pine_l", Vector2(60, 380)],
+		["obstacles/castle_well_s", Vector2(859, 240)], ["obstacles/black_pine_l", Vector2(60, 380)],
 		["obstacles/black_pine_s", Vector2(260, 400)], ["obstacles/castle_wall_l", Vector2(1100, 400)],
 		["obstacles/black_pine_l", Vector2(660, 560)], ["obstacles/castle_wall_s", Vector2(560, 700)],
 		["obstacles/black_pine_s", Vector2(1220, 700)], ["obstacles/castle_well_l", Vector2(60, 700)],
 	],
 	"roads": {
 		"north": {
-			"points": [Vector2(-40, 140), Vector2(560, 140), Vector2(620, 200), Vector2(620, 360)],
-			"next": "keep", "next_at": 0.0, "entrance": true,
+			"points": [Vector2(250, -40), Vector2(250, 115), Vector2(940, 115), Vector2(940, 360)],
+			"next": "keep", "next_at": 0.0,  # joins keep at (940, 360)
+			"entrance": true,
 		},
 		"south": {
-			"points": [Vector2(-40, 610), Vector2(380, 610), Vector2(440, 550), Vector2(440, 420),
-				Vector2(500, 360), Vector2(620, 360)],
-			"next": "keep", "next_at": 0.0, "entrance": true,
+			"points": [Vector2(250, 760), Vector2(250, 605), Vector2(940, 605), Vector2(940, 360)],
+			"next": "keep", "next_at": 0.0,  # joins keep at (940, 360)
+			"entrance": true,
 		},
 		"keep": {
-			"points": [Vector2(620, 360), Vector2(820, 360), Vector2(880, 420), Vector2(880, 560),
-				Vector2(940, 620), Vector2(1190, 620)],
+			"points": [Vector2(940, 360), Vector2(790, 360), Vector2(790, 235), Vector2(480, 235), Vector2(480, 485),
+				Vector2(640, 485), Vector2(640, 380)],
 			"next": "", "next_at": 0.0, "entrance": false,
 		},
 	},
-	"gate": Vector2(1218, 590),
+	"gate": Vector2(640, 352),
 	"plots": [
-		Vector2(160, 210), Vector2(400, 210), Vector2(540, 75), Vector2(700, 240), Vector2(160, 540),
-		Vector2(330, 480), Vector2(540, 460), Vector2(520, 270), Vector2(720, 440), Vector2(800, 520),
-		Vector2(980, 480), Vector2(1100, 540), Vector2(1000, 690), Vector2(900, 690), Vector2(300, 690),
-		Vector2(960, 380),
+		Vector2(360, 170), Vector2(390, 550), Vector2(400, 660), Vector2(550, 540), Vector2(1000, 230), Vector2(510, 180),
+		Vector2(730, 370), Vector2(560, 380), Vector2(860, 270), Vector2(830, 500), Vector2(590, 170), Vector2(710, 540),
+		Vector2(1000, 490), Vector2(320, 660), Vector2(280, 170), Vector2(690, 180),
 	],
-	"posts": [Vector2(300, 140), Vector2(260, 610), Vector2(700, 360), Vector2(880, 480), Vector2(1080, 620)],
-	"lanterns": [Vector2(440, 80), Vector2(570, 320), Vector2(250, 670), Vector2(380, 470), Vector2(760, 300), Vector2(950, 560), Vector2(1140, 680)],
-	"ambush": [["north", 520.0], ["south", 500.0], ["keep", 360.0]],
+	"posts": [Vector2(534, 115), Vector2(484, 605), Vector2(824, 360), Vector2(566, 235), Vector2(586, 485)],
+	"lanterns": [Vector2(737, 163), Vector2(890, 425), Vector2(471, 665), Vector2(854, 545), Vector2(730, 307), Vector2(529, 337), Vector2(700, 452)],
+	"ambush": [["north", 670.9], ["south", 649.0], ["keep", 521.3]],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 2.8,  # TUNING (not in GDD) rising through the act
+	"wave_hp_end": 4.0,  # TUNING (not in GDD) L4: 2.8 before the road redraw; rising through the act
 	"rule": "",
 	"act_rule": "shogunate/sun_course",
 	"build_order": "kurogane_default",

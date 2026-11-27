@@ -1,12 +1,13 @@
 ## The Burning Province (Act V map 1; Necropathy stage "province"): rice
-## terraces and a village in flames. Two entrances: the main road winds in
-## from the west through the paddies; the village lane climbs from the south
+## terraces and a village in flames. Two entrances: the main road comes in from
+## the west along the raised dikes, turning at right angles round the staggered
+## rectangular paddies; the village lane climbs from the south by its own dikes
 ## and joins it in the middle, so the towers there cover both. 16 plots, 5
-## posts, 22 waves. The Sun's Course (act rule shogunate/sun_course): day,
-## dusk from wave 9 (ninja ambush mid-road), night from wave 15 (towers see
-## only inside lantern light; the oni, onryo and kappa walk). Shuten-doji
-## (miniboss, chest) on wave 16, Kage, Mistress of the Hidden Hand, on wave 22.
-## Keys as graveyard_map.gd, plus the Sun's Course keys (documented in
+## posts, 22 waves. The Sun's Course (act rule shogunate/sun_course): day, dusk
+## from wave 9 (ninja ambush mid-road), night from wave 15 (towers see only
+## inside lantern light; the oni, onryo and kappa walk). Shuten-doji (miniboss,
+## chest) on wave 16, Kage, Mistress of the Hidden Hand, on wave 22. Keys as
+## graveyard_map.gd, plus the Sun's Course keys (documented in
 ## rules/shogunate/sun_course.gd): lanterns (map px of each stone lantern) and
 ## ambush ([road id, px along it] points ninja appear at). Data only.
 extends RefCounted
@@ -27,30 +28,29 @@ const MAP: Dictionary = {
 	],
 	"roads": {
 		"main": {
-			"points": [Vector2(-40, 180), Vector2(380, 180), Vector2(440, 240), Vector2(440, 380),
-				Vector2(500, 440), Vector2(840, 440), Vector2(900, 380), Vector2(900, 300),
-				Vector2(960, 240), Vector2(1190, 240)],
+			"points": [Vector2(-40, 190), Vector2(240, 190), Vector2(240, 300), Vector2(470, 300), Vector2(470, 190),
+				Vector2(720, 190), Vector2(720, 400), Vector2(950, 400), Vector2(950, 250), Vector2(1190, 250)],
 			"next": "", "next_at": 0.0, "entrance": true,
 		},
 		"village": {
-			"points": [Vector2(240, 770), Vector2(240, 660), Vector2(300, 600), Vector2(560, 600),
-				Vector2(620, 540), Vector2(620, 440)],
-			"next": "main", "next_at": 849.7, "entrance": true,  # joins main at (620, 440)
+			"points": [Vector2(330, 770), Vector2(330, 600), Vector2(600, 600), Vector2(600, 500), Vector2(720, 500),
+				Vector2(720, 402)],
+			"next": "main", "next_at": 1190.0,  # joins main at (720, 400)
+			"entrance": true,
 		},
 	},
-	"gate": Vector2(1218, 210),
+	"gate": Vector2(1218, 220),
 	"plots": [
-		Vector2(180, 110), Vector2(330, 250), Vector2(520, 250), Vector2(700, 360), Vector2(820, 330),
-		Vector2(1040, 170), Vector2(1060, 320), Vector2(360, 330), Vector2(530, 360), Vector2(170, 620),
-		Vector2(540, 520), Vector2(760, 520), Vector2(960, 445), Vector2(420, 680), Vector2(1140, 170),
-		Vector2(220, 260),
+		Vector2(150, 130), Vector2(1040, 190), Vector2(780, 460), Vector2(340, 200), Vector2(1040, 310), Vector2(610, 440),
+		Vector2(380, 360), Vector2(130, 290), Vector2(820, 300), Vector2(450, 540), Vector2(580, 280), Vector2(660, 350),
+		Vector2(1010, 390), Vector2(590, 130), Vector2(530, 530), Vector2(420, 670),
 	],
-	"posts": [Vector2(260, 180), Vector2(440, 330), Vector2(780, 440), Vector2(400, 600), Vector2(1010, 240)],
-	"lanterns": [Vector2(140, 240), Vector2(490, 300), Vector2(360, 650), Vector2(700, 490), Vector2(960, 320), Vector2(1120, 290)],
-	"ambush": [["main", 560.0], ["village", 200.0], ["main", 1000.0]],
+	"posts": [Vector2(240, 260), Vector2(470, 225), Vector2(720, 390), Vector2(509, 600), Vector2(980, 250)],
+	"lanterns": [Vector2(170, 250), Vector2(415, 251), Vector2(462, 650), Vector2(670, 296), Vector2(1007, 345), Vector2(1108, 300)],
+	"ambush": [["main", 654.2], ["village", 237.0], ["main", 1168.2]],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 2.7,  # TUNING (not in GDD) Act V map 1: a little harder than the Sanctum
+	"wave_hp_end": 3.2,  # TUNING (not in GDD) L4: 2.7 before the road redraw; Act V map 1: a little harder than the Sanctum
 	"rule": "",
 	"act_rule": "shogunate/sun_course",
 	"build_order": "province_default",
