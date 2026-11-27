@@ -347,6 +347,30 @@ glows, fog, light pools, vignette, road wear, spot looks); a new map adds a
 `TdMoodData.MOODS` row. Damage numbers: `game.vfx.number()` from
 `TdCombat.damage_enemy()`, off by default (Settings > Video).
 
+## Menu conventions (menu overhaul, Nov 2026; DECISIONS M1-M15, `docs/MENU_OVERHAUL.md`)
+
+The bar is Necropathy's owner-approved menu modernization; these rules apply here:
+- **A new screen extends `MenuScreen`** and fills `_build(box)` / `_after_nav()`: it gets the
+  header (Back with its key chip, the title on the kit header band, `show_ash` for the Soul Ash
+  pill), the ornate panel that scales down to fit a phone, the bottom hint strip (`hints`) and
+  the living backdrop (`MenuBackdrop`; `overlay = true` over a run). Tabs: `tab_row()` +
+  `mark_tabs()`. In-run cards (pause, results) put their hint strip inside the card.
+- **Kit only:** cut corners on every element (kit StyleBoxes: `ornate`, `header`, `card`,
+  `panel`, `slot`, `button`, `divider`), text only through the type tiers (`UiTheme.Tier`:
+  Jersey 10 at 19 / 28 / 38 / 57, Jacquard 24 at 43 for titles), pixel icons (`MaskIcon`,
+  sprite icons), no per-frame polygons, no screen-reading shaders.
+- **Colour means:** gold = selection / evolution / victory, crimson = danger / defeat /
+  cannot afford, soul-teal = affordable / new / focused, violet = base.
+- **Words and controls:** one-word buttons, few words; keys and pad buttons only as
+  `InputHints` chips (never hard-coded key names); destructive actions ask first through
+  `ConfirmDialog` with Cancel focused (Quit, Restart, Menu, Refund, Reset keys, Sell).
+- **Motion:** `UiMotion` only (short, real time, instant under `--autotest` and Reduce motion).
+- **Fit:** 1280 x 720 with mouse and 844 x 390 touch (targets about 44 CSS px, ~68 layout px;
+  nothing cut off), every control reachable by keys / pad with visible focus. Check by eye with
+  `tools/gw_menu_shot.js` and `?gw_flags=--menu=<id>`.
+- A new map needs its map-select picture: `assets/thumbs/<map>.jpg` (`tools/gw_map_thumbs.py`
+  from a `tools/gw_wave_shot.js` 1280 x 720 shot at wave 4; set `compress/mode=1` in its .import).
+
 ## Systems reference (one path each)
 
 - **Tower kits** (`scripts/towers/<class>.gd`): evolution numbers in

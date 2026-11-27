@@ -6,6 +6,9 @@
 ## act that adds kinds, Acts.act_of_kind()). Built from TowerData / SpellData /
 ## Acts.kinds() / EvolutionData / ActData, so new rows and acts appear by
 ## themselves. Only reads Meta.
+## Menu overhaul (DECISIONS M13): kit tabs, a "found" count per tab, the
+## picked tile framed gold, and a detail panel with the picture in a frame,
+## the name, a rank / kind label and the lines.
 class_name CodexScreen
 extends MenuScreen
 
@@ -27,6 +30,12 @@ var _d_name: Label = null
 var _d_pic: TextureRect = null
 ## See _d_name.
 var _d_text: Label = null
+## See _d_name: the rank / kind label.
+var _d_kind: Label = null
+## The "found" count line over the grid.
+var _count: Label = null
+## The tile shown in the detail panel (framed gold).
+var _picked: Button = null
 
 
 func _init() -> void:
@@ -34,12 +43,10 @@ func _init() -> void:
 
 
 func _build(b: VBoxContainer) -> void:
-	var tabs := HBoxContainer.new()  # Category tabs.
-	tabs.alignment = BoxContainer.ALIGNMENT_CENTER
-	b.add_child(tabs)
+	var tabs: Array = []  # [[category, word], ...].
 	for c: String in Meta.CODEX:
-		var t := button(tabs, String(MenuData.CODEX_TABS.get(c, c.capitalize())), _show.bind(c))
-		_tabs[c] = t
+		tabs.append([c, String(MenuData.CODEX_TABS.get(c, c.capitalize()))])
+	_tabs = tab_row(b, tabs, _show)
 	_act_row = HBoxContainer.new()
 	_act_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	_act_row.add_theme_constant_override("separation", MenuData.ACT_TAB_GAP)
@@ -60,6 +67,9 @@ func _build(b: VBoxContainer) -> void:
 			_show(_tab))
 		_act_row.add_child(ab)
 		_act_tabs[act] = ab
+	_count = UiTheme.tier_label("", UiTheme.Tier.LABEL, UiTheme.TEXT_DIM)
+	_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	b.add_child(_count)
 	var row := HBoxContainer.new()  # Grid | detail.
 	row.add_theme_constant_override("separation", 12)
 	b.add_child(row)
@@ -71,16 +81,28 @@ func _build(b: VBoxContainer) -> void:
 	_grid.columns = MenuData.CODEX_COLUMNS
 	scroll.add_child(_grid)
 	var det := PanelContainer.new()  # The detail column.
-	det.add_theme_stylebox_override("panel", UiTheme.style("panel", "violet"))
+	det.add_theme_stylebox_override("panel", UiTheme.style("card", "violet"))
 	det.custom_minimum_size = Vector2(MenuData.CODEX_DETAIL_W, 0)
 	row.add_child(det)
 	var col := VBoxContainer.new()
+	col.add_theme_constant_override("separation", 6)
 	det.add_child(col)
+	var slot := PanelContainer.new()  # Picture frame.
+	slot.add_theme_stylebox_override("panel", UiTheme.style("slot", "grey"))
+	col.add_child(slot)
+	_d_pic = MenuScreen.icon_rect(null, MenuData.CODEX_PIC)
+	_d_pic.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	slot.add_child(_d_pic)
 	_d_name = UiTheme.tier_label("", UiTheme.Tier.NAME, UiTheme.TEXT_GOLD)
+	_d_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_d_name.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	col.add_child(_d_name)
-	_d_pic = MenuScreen.icon_rect(null, 96.0)
-	col.add_child(_d_pic)
+	_d_kind = UiTheme.tier_label("", UiTheme.Tier.LABEL, UiTheme.TEXT_DIM)
+	_d_kind.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	col.add_child(_d_kind)
+	col.add_child(UiTheme.divider())
 	_d_text = UiTheme.para("", MenuData.CODEX_DETAIL_W - 24.0)
+	_d_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	col.add_child(_d_text)
 	_show("towers")
 	TouchSupport.pass_drags(scroll)
@@ -137,8 +159,7 @@ func _recipe(r: Dictionary) -> String:
 
 func _show(c: String) -> void:
 	_tab = c
-	for k: String in _tabs:
-		UiTheme.style_button(_tabs[k], "button", "gold" if k == c else "")
+	mark_tabs(_tabs, c)
 	_act_row.visible = c == "enemies" or c == "bosses"
 	for k: String in _act_tabs:
 		UiTheme.style_button(_act_tabs[k], "button", "gold" if k == _act else "")
@@ -147,27 +168,50 @@ func _show(c: String) -> void:
 		n.queue_free()
 	var cat := c  # Codex category the entries are recorded under.
 	var first: Button = null  # First tile (detail on open).
-	for e: Array in _entries(c):
+	var found := 0  # Entries met.
+	var entries := _entries(c)  # The category's entries.
+	for e: Array in entries:
 		var met := Meta.seen(cat, String(e[0]))  # Met in some run.
+		found += 1 if met else 0
 		var t := Button.new()  # The tile.
 		t.custom_minimum_size = MenuData.CODEX_TILE
+		t.set_meta("ui_lift", false)
+		t.set_meta("met", met)
+		UiTheme.style_button(t, "card", "violet" if met else "")
 		var ic := MenuScreen.icon_rect(e[2], MenuData.CODEX_TILE.x - 16.0, not met)  # Icon or silhouette.
 		ic.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, 8)
 		t.add_child(ic)
-		t.pressed.connect(_detail.bind(e, met))
+		t.pressed.connect(func() -> void:
+			_pick(t)
+			_detail(e, met))
+		t.focus_entered.connect(func() -> void:
+			_pick(t)
+			_detail(e, met))
 		_grid.add_child(t)
 		if first == null:
 			first = t
+			_pick(t)
 			_detail(e, met)
+	_count.text = "Found %d / %d" % [found, entries.size()] if c != "evolutions" else "Found %d" % found
 	if first == null:
 		_d_name.text = ""
+		_d_kind.text = ""
 		_d_pic.texture = null
 		_d_text.text = "Nothing found yet." if c == "evolutions" else ""
 	TouchSupport.pass_drags(_grid.get_parent() as ScrollContainer)
 
 
+## Frames tile `t` gold (the one in the detail panel; gold = selection) and un-frames the last.
+func _pick(t: Button) -> void:
+	if is_instance_valid(_picked) and _picked != t:
+		UiTheme.style_button(_picked, "card", "violet" if _picked.get_meta("met", false) else "")
+	UiTheme.style_button(t, "card", "gold")
+	_picked = t
+
+
 ## Shows entry `e` in the detail column (a "?" while not met).
 func _detail(e: Array, met: bool) -> void:
+	_d_kind.text = MenuData.CODEX_TABS.get(_tab, "") if not met else (String(Acts.kinds()[e[0]]["rank"]) if (_tab == "enemies" or _tab == "bosses") and Acts.kinds().has(e[0]) else String(MenuData.CODEX_TABS.get(_tab, "")).trim_suffix("s"))
 	_d_name.text = String(e[1]) if met else "?"
 	_d_pic.texture = e[2]
 	_d_pic.modulate = Color.WHITE if met else MenuData.SILHOUETTE

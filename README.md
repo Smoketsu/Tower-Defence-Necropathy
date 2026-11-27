@@ -34,7 +34,8 @@ The design is `docs/GDD.md`; decisions it does not cover are in
   blockers), Grave Rogue (dashes at elites), Crypt Gargoyle (swoops, flyers first), Bone
   Hounds (a pack running the road), Fallen Seraph (three feathers) and Bone Golem (slams,
   plants). The build menu is one strip of six tiles (icon, short name, cost) with < and > page
-  buttons at its ends when a spot offers more.
+  buttons at its ends and page dots when a spot offers more; a built tower's panel shows its
+  level, stats and the next level's gains. Selling asks first (DECISIONS M7-M8).
 - **Acts:** the map select has one tab per act (fifteen, Necropathy's act order). Acts I-V
   are playable, fifteen maps in one unlock chain (each boss opens the next map): Act I the
   Covenant (Graveyard, Crimson March, Sanctum), Act II the Black Tide (Cutter, Galleon,
@@ -89,7 +90,8 @@ scripts/
   fx/                    copied: sharp_pixel.gdshader, unit_layer.gd (a draw-callback layer, reused everywhere)
   ui/                    copied: ui_theme, kit_style_box, ui_motion, confirm_dialog, input_hints, touch_support,
                          rotate_overlay (+ chamfer() from Necropathy's TouchControls)
-  ui/td/                 new screens: menu_screen (shared frame), title_screen, title_backdrop, map_select,
+  ui/                    + menu_backdrop (Necropathy's living menu diorama), mask_icon (pixel icons)
+  ui/td/                 new screens: menu_screen (shared frame: header, Back, Ash pill, hint strip), title_screen, map_select + map_card,
                          prerun_setup, ossuary_screen, codex_screen, settings_screen, credits_screen,
                          td_hud, spell_button, spot_menu, spot_cursor (gamepad), map_hints (range /
                          synergy preview), pause_menu, results_screen
@@ -146,6 +148,7 @@ $G --headless --fixed-fps 60 --quit-after 60000 -- --autotest [--map=<any of the
 | `--perf-wave=N` | from wave N the run drops to speed 1 and prints a `PERF` line every game second (the Web frame-time probe `tools/gw_perf.js` and `tools/gw_wave_shot.js` use it) |
 | `--build=<map>_default` / `<map>_weak` / `tide_kit` / `court_kit` / `shogunate_kit` | later acts' orders (in their act data files) |
 | `?gw_flags=--unlock-all` | Web only, no bot: every later tower, spell, ultimate and character shows open in the menus (visual checks) |
+| `?gw_flags=--menu=<id>` | Web (and desktop) look checks: opens `play`, `codex`, `ossuary`, `settings`, `credits`, `setup`, `pause`, `won` or `lost` at start (DECISIONS M1; `tools/gw_menu_shot.js`) |
 
 Every registered map at once: `tools/run_all_maps.sh` (2 at a time, one line per map; `WEAK=1` adds the weak orders, `SEED=N`). Act framework self-check: `tools/acts_check.tscn -- --autotest`. Adding an act: `docs/ACT_TEMPLATE.md`.
 

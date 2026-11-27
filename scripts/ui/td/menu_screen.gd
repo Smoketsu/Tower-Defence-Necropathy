@@ -86,7 +86,32 @@ func _ready() -> void:
 		col.add_child(InputHints.strip(hints))
 	_area.resized.connect(_fit_panel)
 	panel.minimum_size_changed.connect(_fit_panel.call_deferred)
+	_focus_first.call_deferred()
 	UiMotion.open(self)
+
+
+## Keys / pad need a focus to move from: unless the screen focused something
+## itself, the first enabled button of the content (else Back) takes it.
+func _focus_first() -> void:
+	await get_tree().process_frame  # After the screens' own focus_deferred().
+	if not is_inside_tree() or get_viewport().gui_get_focus_owner() != null:
+		return
+	var b := _first_button(box)  # First enabled button of the content.
+	if b == null:
+		b = back_button
+	if b != null:
+		b.grab_focus()
+
+
+## The first enabled, visible, focusable Button under `n` (depth first), or null.
+static func _first_button(n: Node) -> Button:
+	for c: Node in n.get_children():
+		if c is Button and not (c as Button).disabled and (c as Button).is_visible_in_tree() and (c as Button).focus_mode != Control.FOCUS_NONE:
+			return c as Button
+		var r := _first_button(c)
+		if r != null:
+			return r
+	return null
 
 
 ## The header row: Back | title band | Soul Ash pill (equal side columns keep the title centred).

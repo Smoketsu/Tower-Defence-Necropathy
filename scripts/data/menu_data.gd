@@ -146,10 +146,36 @@ const PRERUN_DIFF_SCALE: int = 2  # TUNING (not in GDD) M9
 ## See PRERUN_GAP.
 const START_BUTTON := Vector2(190.0, 48.0)  # TUNING (not in GDD) M9
 
+## Results card (M10): content width (px), a stat tile's size (px), its icon (px).
+const RESULTS_W: float = 480.0  # TUNING (not in GDD) M10
+## See RESULTS_W.
+const RESULTS_STAT := Vector2(148.0, 112.0)  # TUNING (not in GDD) M10
+## See RESULTS_W.
+const RESULTS_ICON: float = 32.0  # TUNING (not in GDD) M10
+## Pause card (M11): size (px) of the wave / lives icons.
+const PAUSE_STAT_ICON: float = 24.0  # TUNING (not in GDD) M11
+
 ## Ossuary: size (px) of an upgrade tile and of a mastery badge.
-const OSSUARY_TILE := Vector2(300.0, 84.0)  # TUNING (not in GDD)
+const OSSUARY_TILE := Vector2(250.0, 76.0)  # TUNING (not in GDD) M12 (was 300 x 84 with its own Buy button)
+## Ossuary (M12): tiles per row, the detail panel's width (px), its badge (px), its Buy button (px),
+## a tile's badge (px), the cost line's Ash icon (px), a level pip (px) and an unlit pip's colour.
+const OSSUARY_COLUMNS: int = 3  # TUNING (not in GDD) M12
+## See OSSUARY_COLUMNS.
+const OSSUARY_DETAIL_W: float = 300.0  # TUNING (not in GDD) M12
+## See OSSUARY_COLUMNS.
+const OSSUARY_DETAIL_ICON: float = 64.0  # TUNING (not in GDD) M12
+## See OSSUARY_COLUMNS.
+const OSSUARY_BUY := Vector2(200.0, 52.0)  # TUNING (not in GDD) M12
+## See OSSUARY_COLUMNS.
+const OSSUARY_ICON: float = 36.0  # TUNING (not in GDD) M12
+## See OSSUARY_COLUMNS.
+const OSSUARY_COST_ICON: float = 18.0  # TUNING (not in GDD) M12
+## See OSSUARY_COLUMNS.
+const OSSUARY_PIP := Vector2(14.0, 8.0)  # TUNING (not in GDD) M12
+## See OSSUARY_COLUMNS.
+const PIP_OFF: Color = Color(0.25, 0.21, 0.32)  # TUNING (not in GDD) M12
 ## See OSSUARY_TILE.
-const MASTERY_ICON: float = 40.0  # TUNING (not in GDD)
+const MASTERY_ICON: float = 30.0  # TUNING (not in GDD) M12 (was 40, now inside a badge frame)
 
 ## Codex: tab words per Meta.CODEX category.
 const CODEX_TABS: Dictionary = {"towers": "Towers", "spells": "Spells", "enemies": "Foes", "bosses": "Bosses", "evolutions": "Evolutions"}  # TUNING (not in GDD)
@@ -157,6 +183,8 @@ const CODEX_TABS: Dictionary = {"towers": "Towers", "spells": "Spells", "enemies
 const CODEX_TILE := Vector2(72.0, 72.0)  # TUNING (not in GDD)
 ## See CODEX_TILE.
 const CODEX_DETAIL_W: float = 300.0  # TUNING (not in GDD)
+## Codex: size (px) of the detail panel's picture (M13).
+const CODEX_PIC: float = 120.0  # TUNING (not in GDD) M13
 ## Codex: tiles per row of the grid.
 const CODEX_COLUMNS: int = 8  # TUNING (not in GDD)
 ## Modulate of an entry not met yet (a dark silhouette, GDD §8.3).
@@ -168,6 +196,12 @@ const SETTINGS_TABS: Array = [["audio", "Audio"], ["video", "Video"], ["controls
 const SETTINGS_LABEL_W: float = 220.0  # TUNING (not in GDD)
 ## See SETTINGS_LABEL_W.
 const SLIDER_W: float = 320.0  # TUNING (not in GDD)
+## Inner padding (px) of a framed card holding a page (Settings, Credits; M14).
+const CARD_PAD: int = 14  # TUNING (not in GDD) M14
+## Settings: minimum size (px) of a tab's page inside its card (M14).
+const SETTINGS_PAGE := Vector2(640.0, 230.0)  # TUNING (not in GDD) M14
+## Credits: size (px) the logo is drawn at, heading the roll (the 250 x 124 art; M14).
+const CREDITS_LOGO := Vector2(250.0, 124.0)  # TUNING (not in GDD) M14
 
 ## Crimson text (danger / defeat / cannot afford, GDD §9 colour meaning).
 const CRIMSON: Color = Color(0.95, 0.35, 0.35)  # TUNING (not in GDD)
