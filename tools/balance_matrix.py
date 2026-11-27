@@ -6,14 +6,15 @@ these sets, at most JOBS Godot processes at once (default 3: the machine is shar
   default  the map's default order, seeds 1-12
   weak     the map's weak order, seeds 1-4
   kit      the act's kit order(s), seeds 1-4 (Act I kit_a and kit_b; Act IV has none)
-  ult      the default order with each non-Rally ultimate, seeds 1-4
+  ult      the default order with each non-Rally ultimate, seeds 1-4 (or name one: eclipse, ...)
 Each run's log is kept in <out>/runs/<key>.log and reused when it already holds a
 summary (delete the folder to measure again), so an interrupted pass resumes.
 Writes <out>/<name>.md: one row per map (wins / seeds and lives kept per set).
 
 Usage: python3 tools/balance_matrix.py <out_dir> <name> [--maps=a,b] [--sets=default,weak,kit,ult]
-       [--seeds=12] [--hp-end=X] [--jobs=3]
---hp-end probes one value on every listed map (its runs are cached under their own key).
+       [--seeds=12] [--hp-end=X | --hp-end=map:X,map:Y] [--tag=name] [--jobs=3]
+--hp-end probes wave_hp_end (one value for every listed map, or one per map); probe runs are
+cached under their own key. --tag names a data edit under test (its runs get their own key too).
 """
 import os
 import re
@@ -70,7 +71,9 @@ def main():
     opt = dict(a[2:].split("=", 1) for a in sys.argv[3:])  # --key=value options.
     sets = opt.get("sets", "default,weak,kit,ult").split(",")
     seeds = int(opt.get("seeds", "12"))
-    hp = opt.get("hp-end", "")
+    hp_opt = opt.get("hp-end", "")
+    hps = dict(x.split(":") for x in hp_opt.split(",")) if ":" in hp_opt else {}  # map -> probe value.
+    tag = opt.get("tag", "")  # Data edit under test ("" = none).
     want = opt.get("maps", "").split(",") if opt.get("maps") else None
     os.makedirs(os.path.join(out, "runs"), exist_ok=True)
     all_maps = maps()
@@ -79,6 +82,7 @@ def main():
         if want and mid not in want:
             continue
         plan[mid] = {}
+        hp = hps.get(mid, "") if hps else hp_opt  # This map's probe value ("" = its own).
         base = ["--map=" + mid] + (["--hp-end=" + hp] if hp else [])
         specs = []  # (set, tag, extra args, seeds)
         if "default" in sets:
@@ -88,18 +92,18 @@ def main():
         if "kit" in sets:
             for k in KITS[i // 3]:
                 specs.append(("kit", k, ["--build=" + k], 4))
-        if "ult" in sets:
-            for u in ULTS:
+        for u in ULTS:
+            if "ult" in sets or u in sets:
                 specs.append((u, u, ["--ultimate=" + u], 4))
-        for st, tag, extra, n in specs:
+        for st, stag, extra, n in specs:
             for s in range(1, n + 1):
-                key = "%s_%s_s%d%s" % (mid, tag, s, ("_hp" + hp) if hp else "")
+                key = "%s_%s_s%d%s%s" % (mid, stag, s, ("_hp" + hp) if hp else "", ("_" + tag) if tag else "")
                 jobs.append((key, base + extra + ["--seed=%d" % s], os.path.join(out, "runs", key + ".log")))
                 plan[mid].setdefault(st, []).append(key)
     with ThreadPoolExecutor(int(opt.get("jobs", "3"))) as ex:
         done = {r["key"]: r for r in ex.map(run, jobs)}
     cols = [c for c in ["default", "weak", "kit"] + ULTS if any(c in p for p in plan.values())]
-    lines = ["# Balance matrix: %s%s" % (name, (" (--hp-end=%s)" % hp) if hp else ""), "",
+    lines = ["# Balance matrix: %s%s%s" % (name, (" (--hp-end=%s)" % hp_opt) if hp_opt else "", (" [%s]" % tag) if tag else ""), "",
              "Cells: wins/runs, median lives kept of wins (worst win). Default seeds 1-%d, others 1-4." % seeds, "",
              "| Map | " + " | ".join(cols) + " | default lives by seed | errors | stuck |",
              "|---|" + "---|" * (len(cols) + 3)]

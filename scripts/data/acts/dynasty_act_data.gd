@@ -168,7 +168,7 @@ const KINDS: Dictionary = {
 	# Temple boss: Sekhmet, the Lioness of Retribution. The Hunt, the Red Wind, the Feast.
 	"sekhmet": {
 		"name": "Sekhmet, the Lioness of Retribution", "sprite": "dynasty/sekhmet", "rank": "boss",
-		"hp": 10000.0, "speed": 22.0, "armour": 3.0, "radius": 22.0,  # TUNING (not in GDD)
+		"hp": 8000.0, "speed": 22.0, "armour": 3.0, "radius": 22.0,  # TUNING (not in GDD) DECISIONS B3: 10000 -> 8000 (leaked on 11 of 12 seeds, even at wave_hp_end 1.4)
 		"damage": 32.0, "attack_interval": 1.0,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "dynasty/sekhmet",
 		"args": {"wind_hp": 0.66, "feast_hp": 0.33,

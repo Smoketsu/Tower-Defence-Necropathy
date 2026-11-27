@@ -146,7 +146,7 @@ const KINDS: Dictionary = {
 	# Ilion: Polyphemus the Cyclops: boulder volleys at three towers, faster in his rage.
 	"polyphemus": {
 		"name": "Polyphemus the Cyclops", "sprite": "pantheon/polyphemus", "rank": "miniboss",
-		"hp": 4500.0, "speed": 22.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD) X3 4000-6000
+		"hp": 3600.0, "speed": 22.0, "armour": 6.0, "radius": 26.0,  # TUNING (not in GDD) X3 4000-6000; DECISIONS B3: 4500 -> 3600 (leaked on 8 of 12 seeds)
 		"damage": 26.0, "attack_interval": 1.6,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "pantheon/cyclops",
 		"args": {"throw_first": 3.0, "throw_every": 10.0, "throw_range": 300.0, "boulders": 2, "radius": 60.0, "delay": 1.5,

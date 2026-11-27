@@ -616,11 +616,12 @@ const ULTIMATE: Dictionary = {
 const ULTIMATES: Dictionary = {
 	"sovereigns_decree": {
 		"name": "Sovereign's Decree", "short": "Decree", "icon": "sovereigns_decree", "sound": "ult_decree",
-		"desc": "Revives every blocker; barriers on all of them, held foes weakened",
+		"desc": "Revives every blocker with barriers; every foe slowed, held foes weakened",
 		"unlock": {"map": "graveyard", "skulls": 3},  # TUNING (not in GDD)
-		"duration": 8.0,  # Necropathy "for 8 s"
-		"barrier_frac": 0.5,  # TUNING (not in GDD) barrier HP as a fraction of each body's max HP (Necropathy "50% less damage")
-		"weaken": 0.5,  # TUNING (not in GDD) damage multiplier on enemies held meanwhile
+		"duration": 10.0,  # TUNING (not in GDD) DECISIONS B2: 8 -> 10 (Necropathy "for 8 s")
+		"barrier_frac": 1.0,  # TUNING (not in GDD) barrier HP as a fraction of each body's max HP (Necropathy "50% less damage")
+		"weaken": 0.3,  # TUNING (not in GDD) damage multiplier on enemies held meanwhile (DECISIONS B2: 0.5 -> 0.3)
+		"slow": 0.6,  # TUNING (not in GDD) DECISIONS B2: speed multiplier (0..1) on every enemy meanwhile (the Decree's damage share)
 	},
 	"eclipse": {
 		"name": "Eclipse", "icon": "eclipse", "sound": "ult_eclipse",
@@ -634,11 +635,11 @@ const ULTIMATES: Dictionary = {
 		"name": "Grave Tide", "icon": "grave_tide", "sound": "ult_tide",
 		"desc": "For a while every foe that dies rises as a Risen for you",
 		"unlock": {"map": "sanctum", "skulls": 3},  # TUNING (not in GDD)
-		"duration": 10.0,  # Necropathy "for 10 s"
-		"risen_hp": 80.0,  # TUNING (not in GDD)
-		"risen_damage": 12.0,  # TUNING (not in GDD)
+		"duration": 14.0,  # TUNING (not in GDD) DECISIONS B2: 10 -> 14 (Necropathy "for 10 s")
+		"risen_hp": 160.0,  # TUNING (not in GDD) DECISIONS B2: 80 -> 160
+		"risen_damage": 20.0,  # TUNING (not in GDD) DECISIONS B2: 12 -> 20
 		"risen_interval": 1.0,  # TUNING (not in GDD)
-		"risen_time": 8.0,  # TUNING (not in GDD) Necropathy 12 s
-		"risen_max": 10,  # TUNING (not in GDD) Risen standing at once
+		"risen_time": 12.0,  # TUNING (not in GDD) DECISIONS B2: 8 -> 12 (Necropathy 12 s)
+		"risen_max": 16,  # TUNING (not in GDD) Risen standing at once (DECISIONS B2: 10 -> 16)
 	},
 }
