@@ -80,7 +80,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(675, 614), Vector2(1206, 490), Vector2(526, 301), Vector2(149, 448), Vector2(797, 481), Vector2(629, 124)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 2.6,  # TUNING (not in GDD) L4: 3.2 before the road redraw; DECISIONS Z4: 2.9 -> 3.2 with her calls every 20 s; Part Three: the act's (and the campaign's) hardest map
+	"wave_hp_end": 2.3,  # TUNING (not in GDD) B4: 2.6 before the balance pass; L4: 3.2 before the road redraw; DECISIONS Z4: 2.9 -> 3.2 with her calls every 20 s; Part Three: the act's (and the campaign's) hardest map
 	"rule": "",
 	"act_rule": "wild/turning_year",
 	"build_order": "world_tree_default",

@@ -45,7 +45,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(361, 610), Vector2(864, 470), Vector2(583, 470), Vector2(326, 433), Vector2(758, 330), Vector2(1151, 470)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 3.9,  # TUNING (not in GDD) L4: 3.4 before the road redraw; S3: 3.6 before the spot fix; the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
+	"wave_hp_end": 3.2,  # TUNING (not in GDD) B4: 3.9 before the balance pass; L4: 3.4 before the road redraw; S3: 3.6 before the spot fix; the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
 	"rule": "",
 	"act_rule": "pantheon/pantheon_rules",
 	"build_order": "olympus_default",

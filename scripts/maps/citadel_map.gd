@@ -51,7 +51,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(581, 210), Vector2(581, 510), Vector2(971, 130), Vector2(971, 590), Vector2(1011, 360), Vector2(863, 360)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 2.95,  # TUNING (not in GDD) DECISIONS Z4: 2.65 -> 2.95 with the softer trooper fire; Part Three: the act's hardest
+	"wave_hp_end": 2.7,  # TUNING (not in GDD) B4: 2.95 before the balance pass; DECISIONS Z4: 2.65 -> 2.95 with the softer trooper fire; Part Three: the act's hardest
 	"rule": "",
 	"act_rule": "empire/line_of_fire",
 	"build_order": "citadel_default",

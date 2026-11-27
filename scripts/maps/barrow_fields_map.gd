@@ -74,7 +74,7 @@ const MAP: Dictionary = {
 	"rune_stones": [Vector2(883, 477)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 3.5,  # TUNING (not in GDD) L4: 2.5 before the road redraw; Part Two: a step above the Road to the Sun
+	"wave_hp_end": 3.3,  # TUNING (not in GDD) B4: 3.5 before the balance pass; L4: 2.5 before the road redraw; Part Two: a step above the Road to the Sun
 	"rule": "",
 	"act_rule": "norse/long_winter",
 	"build_order": "barrow_fields_default",

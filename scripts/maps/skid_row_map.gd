@@ -46,7 +46,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(140, 413), Vector2(327, 470), Vector2(500, 175), Vector2(667, 300), Vector2(965, 560)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 4.2,  # TUNING (not in GDD) L4: 3.6 before the road redraw; S3: 3.2 before the spot fix; Act IV map 1: a step above the Sanctum's ramp with the escalation on top
+	"wave_hp_end": 3.9,  # TUNING (not in GDD) B4: 4.2 before the balance pass; L4: 3.6 before the road redraw; S3: 3.2 before the spot fix; Act IV map 1: a step above the Sanctum's ramp with the escalation on top
 	"rule": "",
 	"act_rule": "city/escalation",
 	"escalation": [[1, "gangs"], [7, "police"], [14, "swat"]],  # Necropathy Skid Row: the ladder stops at SWAT
