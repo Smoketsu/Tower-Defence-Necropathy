@@ -52,7 +52,7 @@ const MAP: Dictionary = {
 	"ambush": [["north", 670.9], ["south", 649.0], ["keep", 521.3]],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 4.2,  # TUNING (not in GDD) B4: 4.0 before the balance pass; L4: 2.8 before the road redraw; rising through the act
+	"wave_hp_end": 4.1,  # TUNING (not in GDD) B4: 4.0 before the balance pass (4.2 lost shogunate_kit on 2 of 4 seeds); L4: 2.8 before the road redraw; rising through the act
 	"rule": "",
 	"act_rule": "shogunate/sun_course",
 	"build_order": "kurogane_default",

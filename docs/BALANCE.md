@@ -1,5 +1,83 @@
 # Balance
 
+## Balance pass: seeds 1-12, four ultimates, kit and weak orders (Nov 2026; DECISIONS B1-B6)
+
+The owner approved "a proper balance pass". Measured with `tools/balance_matrix.py` (DECISIONS B1;
+1440 runs a pass, three Godot processes): every map's default order on seeds 1-12, its weak order
+and its act's kit order(s) on seeds 1-4 (Act IV has no kit order), and the default order with each
+non-Rally ultimate on seeds 1-4. Raw tables and every run's log: `/home/user/gw_shots/balance/`
+(`BEFORE.md`, `AFTER.md`, `runs/`, `after/runs/`, `probe/`). Cells: wins / runs, median lives kept
+of the wins (worst win). Changed `wave_hp_end` in bold.
+
+After: **540 / 540 default runs won** (532 before; losses were on Skid Row, the Barrow Fields 2,
+Ilion, Olympus, the Underworld 2, the Assembly Halls); every weak order loses all four seeds; 0
+script errors / warnings and `stuck_enemies=0` in all 1440 runs; same seed twice identical (Proving
+Moon s3, Castle Sanguis s2 with the Decree); Act I's six baseline summaries below are byte-identical
+(no Act I value changed). Worst default seed under 6 on no map (before: Cutter 4, Silk Palace 1,
+Empyrean 5, Citadel 4, Crash Site 4, Proving Moon 5, Vigrid 5, Lioness 5, Underworld 5, World-Tree
+3). Non-Rally ultimates win at least half the seeds on 44 / 45 maps with the Decree (36 before), 45 / 45
+with Eclipse (44 before), 43 / 45 with Grave Tide (38 before). Kit orders win at least 3 / 4 on 44 / 45
+maps (Ilion's `pantheon_kit` 2 / 4 before, 4 / 4 now).
+
+| Act | Map | wave_hp_end | Default s1-12 (wins, median, worst) | Before | Weak | Kit | Decree | Eclipse | Grave Tide |
+|---|---|---|---|---|---|---|---|---|---|
+| I | graveyard | 2.0 | 12/12 20 (10) | 12/12 20 (10) | 0/4 | 7/8 12 (3) | 4/4 10 (10) | 4/4 10 (10) | 4/4 10 (10) |
+| I | crimson_march | 1.88 | 12/12 20 (14) | 12/12 20 (14) | 0/4 | 8/8 20 (20) | 4/4 20 (9) | 4/4 20 (20) | 4/4 20 (15) |
+| I | sanctum | 2.9 | 12/12 20 (17) | 12/12 20 (17) | 0/4 | 8/8 20 (20) | 3/4 15 (8) | 4/4 20 (3) | 4/4 20 (20) |
+| II | cutter | 4.3 -> **3.9** | 12/12 18.5 (9) | 12/12 14 (4) | 0/4 | 4/4 20 (20) | 4/4 17 (8) | 4/4 17 (11) | 4/4 15.5 (8) |
+| II | galleon | 2.95 | 12/12 15 (12) | 12/12 15 (12) | 0/4 | 4/4 20 (20) | 4/4 15 (12) | 4/4 12 (12) | 4/4 14.5 (12) |
+| II | maelstrom | 4.0 | 12/12 20 (14) | 12/12 20 (14) | 0/4 | 4/4 20 (17) | 4/4 7.5 (3) | 3/4 9 (3) | 4/4 17 (11) |
+| III | ravensmoor | 3.2 -> **3.0** | 12/12 15 (13) | 12/12 14 (11) | 0/4 | 4/4 20 (20) | 4/4 17 (11) | 4/4 17 (17) | 4/4 14.5 (8) |
+| III | witchwood | 2.8 | 12/12 19 (14) | 12/12 19 (14) | 0/4 | 4/4 20 (18) | 4/4 19.5 (17) | 4/4 17.5 (12) | 4/4 18.5 (18) |
+| III | castle_sanguis | 4.9 | 12/12 20 (17) | 12/12 20 (17) | 0/4 | 4/4 20 (20) | 2/4 11.5 (6) | 3/4 12 (9) | 1/4 9 (9) |
+| IV | skid_row | 4.2 -> **4.0** | 12/12 20 (11) | 11/12 20 (11) | 0/4 | - | 3/4 8 (6) | 3/4 20 (6) | 4/4 18.5 (15) |
+| IV | fort_kessler | 4.1 | 12/12 18.5 (14) | 12/12 18.5 (14) | 0/4 | - | 4/4 15.5 (11) | 4/4 18.5 (11) | 4/4 14 (11) |
+| IV | liberty_heights | 2.2 | 12/12 12 (9) | 12/12 12 (9) | 0/4 | - | 1/4 3 (3) | 4/4 12 (9) | 2/4 7.5 (3) |
+| V | province | 3.2 | 12/12 20 (12) | 12/12 20 (12) | 0/4 | 4/4 20 (17) | 4/4 18 (14) | 4/4 20 (13) | 4/4 20 (17) |
+| V | kurogane | 4.0 -> **4.1** | 12/12 17 (14) | 12/12 20 (14) | 0/4 | 2/4 12.5 (11) | 4/4 17 (12) | 4/4 14 (14) | 4/4 20 (16) |
+| V | sun_road | 4.2 | 12/12 15 (10) | 12/12 15 (10) | 0/4 | 4/4 20 (20) | 4/4 9 (6) | 4/4 9 (8) | 4/4 17.5 (15) |
+| VI | barrow_fields | 3.5 -> **3.3** | 12/12 20 (16) | 10/12 12.5 (7) | 0/4 | 4/4 20 (20) | 4/4 20 (10) | 4/4 20 (20) | 4/4 15 (8) |
+| VI | valgard | 2.4 | 12/12 18.5 (12) | 12/12 18.5 (12) | 0/4 | 4/4 20 (17) | 4/4 16.5 (3) | 4/4 10.5 (2) | 4/4 18 (7) |
+| VI | vigrid | 2.3 -> **2.15** | 12/12 19.5 (15) | 12/12 19.5 (5) | 0/4 | 4/4 20 (20) | 4/4 20 (20) | 4/4 20 (14) | 4/4 20 (20) |
+| VII | necropolis | 4.5 | 12/12 20 (11) | 12/12 20 (11) | 0/4 | 4/4 20 (20) | 4/4 20 (20) | 4/4 20 (11) | 4/4 20 (17) |
+| VII | lioness_temple | 1.9 -> **2.2** | 12/12 17 (11) | 12/12 10 (5) | 0/4 | 4/4 20 (19) | 4/4 17 (5) | 4/4 20 (7) | 4/4 14 (11) |
+| VII | two_truths | 4.0 | 12/12 20 (8) | 12/12 20 (8) | 0/4 | 4/4 20 (20) | 4/4 20 (17) | 4/4 20 (20) | 4/4 20 (20) |
+| VIII | ilion | 3.08 -> **2.9** | 12/12 20 (16) | 11/12 12 (7) | 0/4 | 4/4 20 (17) | 4/4 17.5 (12) | 4/4 20 (20) | 4/4 20 (20) |
+| VIII | olympus | 3.9 -> **3.2** | 12/12 20 (16) | 11/12 20 (17) | 0/4 | 4/4 20 (20) | 4/4 20 (20) | 4/4 20 (20) | 4/4 20 (20) |
+| VIII | underworld | 2.2 -> **1.8** | 12/12 15 (7) | 10/12 10 (5) | 0/4 | 4/4 20 (20) | 4/4 13.5 (12) | 4/4 13.5 (7) | 4/4 13.5 (6) |
+| IX | burning_gate | 5.6 | 12/12 20 (9) | 12/12 20 (9) | 0/4 | 4/4 18.5 (5) | 4/4 17.5 (6) | 4/4 17.5 (9) | 3/4 19 (4) |
+| IX | silk_palace | 3.4 -> **3.3** | 12/12 17 (16) | 12/12 17 (1) | 0/4 | 4/4 20 (20) | 4/4 17.5 (4) | 4/4 17 (14) | 4/4 17.5 (13) |
+| IX | pandemonium | 4.88 | 12/12 20 (17) | 12/12 20 (17) | 0/4 | 4/4 17 (17) | 3/4 17 (14) | 2/4 13.5 (7) | 3/4 17 (14) |
+| X | silver_stair | 3.8 | 12/12 17 (14) | 12/12 17 (14) | 0/4 | 4/4 20 (20) | 4/4 13.5 (11) | 4/4 20 (16) | 4/4 17 (16) |
+| X | wheel_of_thrones | 3.2 | 12/12 17 (11) | 12/12 17 (11) | 0/4 | 4/4 20 (20) | 4/4 20 (2) | 4/4 20 (20) | 4/4 20 (14) |
+| X | empyrean | 2.1 -> **1.9** | 12/12 12 (7) | 12/12 11.5 (5) | 0/4 | 4/4 15 (14) | 4/4 7 (4) | 4/4 9 (9) | 4/4 8 (5) |
+| XI | harbour | 3.8 | 12/12 20 (11) | 12/12 20 (11) | 0/4 | 4/4 20 (20) | 4/4 20 (16) | 4/4 20 (19) | 4/4 20 (19) |
+| XI | archive | 5.2 | 12/12 16.5 (10) | 12/12 16.5 (10) | 0/4 | 4/4 20 (20) | 4/4 20 (12) | 4/4 10 (10) | 4/4 14 (10) |
+| XI | spire | 3.1 -> **3.5** | 12/12 17 (13) | 12/12 19 (17) | 0/4 | 4/4 20 (19) | 3/4 10 (7) | 3/4 14 (13) | 4/4 18 (16) |
+| XII | wastes | 3.6 | 12/12 16.5 (8) | 12/12 16.5 (8) | 0/4 | 4/4 20 (20) | 4/4 15.5 (8) | 4/4 15.5 (7) | 4/4 12.5 (5) |
+| XII | assembly | 2.6 -> **2.2** | 12/12 20 (13) | 11/12 19 (12) | 0/4 | 4/4 20 (20) | 4/4 20 (19) | 4/4 20 (19) | 4/4 19.5 (13) |
+| XII | citadel | 2.95 -> **2.7** | 12/12 20 (11) | 12/12 15 (4) | 0/4 | 4/4 20 (20) | 4/4 16 (10) | 4/4 17.5 (13) | 4/4 20 (13) |
+| XIII | crash_site | 2.0 -> **1.8** | 12/12 15 (7) | 12/12 11.5 (4) | 0/4 | 4/4 17 (13) | 4/4 9 (6) | 4/4 12.5 (8) | 4/4 8 (6) |
+| XIII | proving_moon | 2.3 -> **2.9** | 12/12 15 (12) | 12/12 5 (5) | 0/4 | 4/4 20 (20) | 4/4 15 (12) | 4/4 15.5 (14) | 4/4 13.5 (12) |
+| XIII | ark | 2.2 | 12/12 14 (9) | 12/12 14 (9) | 0/4 | 4/4 20 (20) | 4/4 15.5 (8) | 4/4 9 (4) | 4/4 20 (10) |
+| XIV | fern_basin | 2.4 | 12/12 18.5 (7) | 12/12 18.5 (7) | 0/4 | 4/4 20 (20) | 4/4 19.5 (16) | 4/4 16 (16) | 1/4 20 (20) |
+| XIV | great_plain | 2.25 | 12/12 20 (6) | 12/12 20 (6) | 0/4 | 4/4 20 (20) | 4/4 13.5 (4) | 4/4 17 (10) | 4/4 20 (17) |
+| XIV | last_day | 2.3 | 12/12 14.5 (7) | 12/12 14.5 (7) | 0/4 | 4/4 12.5 (7) | 4/4 11 (9) | 4/4 10.5 (4) | 3/4 15 (12) |
+| XV | greenwood | 2.4 | 12/12 17 (9) | 12/12 17 (9) | 0/4 | 4/4 20 (13) | 4/4 20 (15) | 4/4 18.5 (14) | 3/4 12 (9) |
+| XV | fae_court | 3.2 | 12/12 20 (10) | 12/12 20 (10) | 0/4 | 4/4 20 (20) | 4/4 20 (20) | 4/4 20 (10) | 4/4 20 (10) |
+| XV | world_tree | 2.6 -> **2.3** | 12/12 15.5 (7) | 12/12 7 (3) | 0/4 | 4/4 20 (20) | 4/4 17 (7) | 4/4 17 (15) | 4/4 16 (14) |
+
+**Not reached** (DECISIONS B5): the median-lives curve inside each act. Many maps sit at 20 lives
+on most seeds with a cliff just above: Crimson March 2.1, Sanctum 3.2, Maelstrom 4.5, Castle Sanguis
+5.4 (0 / 12), Two Truths 4.4, Pandemonium 5.3, Great Plain 2.5 and the Fae Court 3.6 each lost 1-12
+seeds at the probe value, so they were left; their lives are bimodal (a boss / miniboss leak or
+none), so a median between 9 and 17 would mean losing seeds. Cliffs within 0.1 kept: Skid Row (4.1
+loses seed 2), the Barrow Fields (3.4 loses seed 2), the Assembly Halls (2.4 loses seed 6; 2.2
+chosen). Kit misses: Kurogane's `shogunate_kit` wins 2 / 4 (3 / 4 at 4.0, where the default kept
+20 lives; it lost seed 4 there before too). Ultimate misses: Liberty Heights (Decree
+1 / 4), Castle Sanguis (Grave Tide 1 / 4), the Fern Basin (Grave Tide 1 / 4; 3 / 4
+before with the weaker Tide, so this one is noise of a four-seed sample).
+
 ## Road shapes: every map's road redrawn (Nov 2026; DECISIONS L1-L4)
 
 The owner found the roads generic ("can we make them more themed"). Every one of
