@@ -168,3 +168,5 @@ STYLES["moss_path"]["fill"] = _r(["wild_bark_dark", "wild_bark", "wild_bark_ligh
 STYLES["moss_path"]["fill"] = _r(["wild_bark_dark", "wild_bark", "wild_bark_light"], _sh("wild_bark_dark", .18, "wild_bark", .78, "wild_bark_light", .04), despeck=8, flatten=10, l_range=(0.4, 0.45))
 STYLES["ash_stone"]["fill"] = _r(["ink_cold", "norse_slab", "norse_slab_light", "norse_iron", "soul_dark", "soul"], chroma_w=1.0, keep=["soul", "soul_dark"], l_range=(0.28, 0.58), despeck=2, box=(0.0, 0.0, 1.0, 1.0))
 STYLES["moss_path"]["fill"] = _r(["wild_bark_dark", "wild_bark", "wild_bark_light"], _sh("wild_bark_dark", .12, "wild_bark", .3, "wild_bark_light", .58), despeck=8, flatten=10, l_range=(0.5, 0.58))
+# Owner note (DECISIONS R5): the deck planks were "a bit too white"; deck_fill.png is multiplied by
+# (200, 186, 162) after the build (weathered grey-tan). Re-apply that tint if the deck fill is rebuilt.
