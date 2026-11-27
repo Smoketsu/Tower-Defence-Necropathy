@@ -31,7 +31,7 @@ var _page: Dictionary = {}
 
 
 func _ready() -> void:
-	var sb := UiTheme.style("ornate", "violet").duplicate() as StyleBox  # The frame, with slim margins (a compact strip, DECISIONS Y8).
+	var sb := UiTheme.style("panel", "violet").duplicate() as StyleBox  # The frame, with slim margins (a compact strip, DECISIONS Y8; M7 an opaque kit panel).
 	sb.set_content_margin_all(TdUiData.MENU_PAD)
 	add_theme_stylebox_override("panel", sb)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE  # Gaps between buttons pass taps to the map.
@@ -409,4 +409,5 @@ func _act(fn: Callable, s: Spot) -> void:
 		game.sound("denied")
 	if s.tower == null:
 		game.selected = null
+		game.overlay.queue_redraw()  # The sold tower's range ring goes too (the overlay only redraws while something is selected).
 	game.changed.emit()
