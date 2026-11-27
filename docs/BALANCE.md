@@ -39,32 +39,38 @@ px: the longest entrance's on-screen walk to the gate.
 | VI | valgard | wall benches and central aisle | 1839 -> 2060 | 1.9 -> **2.4** | 16 | 20 | 16 | 20 | 2/4 | 10, 10, 10, 10 |
 | VI | vigrid | W of diagonal battle lines | 3129 -> 2503 | 3.2 -> **2.3** | 20 | 14 | 11 | 19 | 3/4 | 19, 20, 20, 15 |
 | VII | necropolis | stepped pyramid | 3059 -> 2880 | 4.3 -> **4.5** | 20 | 20 | 14 | 20 | 1/4 | 14, 20, 20, 17 |
-| VII | lioness_temple | mirrored slaloms, central aisle | 2288 -> 2388 | 3.0 -> **2.2** | 20 | 20 | 11 | 20 | 1/4 | 17, 20, 20, 20 |
+| VII | lioness_temple | mirrored slaloms, wider tips (L7) | 2288 -> 1949 | 3.0 -> **1.9** | 10 | 10 | 20 | 10 | 3/4 | 17, 20, 20, 20 |
 | VII | two_truths | the scales (two pans, a post) | 4110 -> 3580 | 3.55 -> **4.0** | 20 | 8 | 20 | 20 | 1/4 | 2, 15, 20, 15 |
-| VIII | ilion | landing lanes to the wall gate | 2856 -> 2485 | 2.5 -> **2.75** | 14 | 20 | 20 | 20 | 1/4 | 12, 19, 20, 20 |
+| VIII | ilion | landing lanes, round beach turn (L7) | 2856 -> 2635 | 2.5 -> **3.08** | 7 | 20 | 12 | 14 | 3/4 | 12, 19, 20, 20 |
 | VIII | olympus | narrowing switchbacks | 2536 -> 2682 | 3.4 -> **3.9** | 17 | 20 | 17 | 20 | 2/4 | 20, 20, 20, 16 |
 | VIII | underworld | Styx S-bends, the ferry | 2269 -> 2491 | 2.2 | 13 | 12 | 10 | 6 | 4/4 | 20, 19, 17, 20 |
 | IX | burning_gate | shrinking flame teeth | 1649 -> 2030 | 5.3 -> **5.6** | 17 | 9 | 20 | 20 | 2/4 | 20, 17, 12, 20 |
 | IX | silk_palace | mirrored silk ribbons | 2189 -> 1722 | 4.0 -> **3.4** | 17 | 20 | 16 | 14 | 3/4 | 20, 17, 16, 20 |
-| IX | pandemonium | five-pointed star | 2269 -> 2369 | 3.4 -> **3.9** | 20 | 20 | 20 | 14 | 1/4 | 20, 16, 13, 20 |
-| X | silver_stair | widening switchback flights | 2919 -> 2842 | 3.0 | 19 | 20 | 20 | 20 | 1/4 | 15, 20, 19, 20 |
+| IX | pandemonium | star, nine edges, NE valley drop (L7) | 2269 -> 2461 | 3.4 -> **4.88** | 20 | 20 | 20 | 17 | 1/4 | 20, 16, 13, 20 |
+| X | silver_stair | switchback flights, U-bends (L7) | 2919 -> 2701 | 3.0 -> **3.8** | 20 | 20 | 15 | 20 | 1/4 | 15, 20, 19, 20 |
 | X | wheel_of_thrones | concentric ring arcs | 3999 -> 4289 | 3.6 -> **3.2** | 20 | 17 | 12 | 11 | 3/4 | 8, 11, 20, 9 |
-| X | empyrean | rose window lobes, spoke | 1754 -> 1600 | 3.0 -> **2.7** | 10 | 10 | 15 | 7 | 4/4 | 9, 9, 17, 11 |
+| X | empyrean | rose lobes, Y onto the spoke (L7) | 1754 -> 1387 | 3.0 -> **2.1** | 14 | 14 | 7 | 5 | 4/4 | 9, 9, 17, 11 |
 | XI | harbour | quay and finger piers | 1874 -> 2156 | 3.8 | 12 | 20 | 20 | 20 | 1/4 | 20, 17, 20, 20 |
 | XI | archive | stack aisles, the rift | 3409 -> 3520 | 5.6 -> **5.2** | 10 | 14 | 18 | 18 | 4/4 | 15, 19, 20, 20 |
-| XI | spire | two tentacle spirals | 2719 -> 2480 | 3.5 -> **3.1** | 19 | 17 | 20 | 17 | 3/4 | 20, 12, 20, 20 |
+| XI | spire | two tentacle spirals, arm stops short (L7) | 2719 -> 2480 | 3.5 -> **3.1** | 18 | 20 | 20 | 19 | 2/4 | 20, 12, 20, 20 |
 | XII | wastes | broken highway | 3219 -> 3333 | 4.1 -> **3.6** | 14 | 14 | 14 | 20 | 3/4 | 15, 20, 20, 20 |
 | XII | assembly | two conveyor loops | 3279 -> 2796 | 3.6 -> **2.6** | 12 | 20 | 19 | 20 | 2/4 | 20, 18, 20, 20 |
 | XII | citadel | circuit traces, central chip | 1965 -> 1806 | 2.95 | 17 | 17 | 15 | 19 | 4/4 | 20, 11, 12, 20 |
-| XIII | crash_site | furrows round the crater rim | 1605 -> 1813 | 2.65 -> **2.4** | 10 | 10 | 19 | 7 | 4/4 | 19, 20, 18, 20 |
-| XIII | proving_moon | arena oval and dais | 2414 -> 2534 | 3.0 | 20 | 20 | 20 | 14 | 1/4 | 17, 20, 17, 17 |
+| XIII | crash_site | crater ring from the south, ridge T (L7) | 1605 -> 1495 | 2.65 -> **2.0** | 7 | 5 | 19 | 20 | 3/4 | 19, 20, 18, 20 |
+| XIII | proving_moon | 270 degree lap, straight to the dais (L7) | 2414 -> 1995 | 3.0 -> **2.3** | 15 | 15 | 5 | 5 | 4/4 | 17, 20, 17, 17 |
 | XIII | ark | ring corridor and spoke | 1245 -> 1633 | 2.2 | 10 | 20 | 20 | 17 | 2/4 | 20, 14, 15, 17 |
 | XIV | fern_basin | the basin's bowl | 1899 -> 1714 | 2.9 -> **2.4** | 20 | 7 | 20 | 14 | 2/4 | 13, 20, 20, 20 |
 | XIV | great_plain | sweeping arcs | 2015 -> 2015 | 2.5 -> **2.25** | 20 | 20 | 20 | 11 | 1/4 | 14, 17, 20, 14 |
 | XIV | last_day | paths between craters | 1060 -> 1212 | 2.3 | 14 | 15 | 7 | 16 | 4/4 | 17, 12, 20, 16 |
 | XV | greenwood | meandering forest trail | 3209 -> 3448 | 2.8 -> **2.4** | 14 | 19 | 19 | 16 | 4/4 | 20, 19, 15, 17 |
-| XV | fae_court | three fairy rings | 1925 -> 1958 | 4.2 -> **3.6** | 10 | 10 | 10 | 10 | 4/4 | 17, 17, 20, 14 |
+| XV | fae_court | fairy rings as clean arcs (L7) | 1925 -> 1690 | 4.2 -> **3.2** | 10 | 20 | 20 | 20 | 1/4 | 17, 17, 20, 14 |
 | XV | world_tree | canopy, root line, branch | 4139 -> 4177 | 3.2 -> **2.6** | 14 | 7 | 7 | 14 | 4/4 | 17, 12, 1, 20 |
+
+Nine rows (marked L7) were measured again after the break fixes of DECISIONS L6-L7 (a drawn road
+break was a shape problem there; the other 36 maps keep their seed-1 summaries byte for byte).
+Thin after L7: Pandemonium (4.9 loses seed 4), the Proving Moon (5 on seeds 3-4), the Empyrean
+(5 on seed 4), the Crash Site (5 on seed 2), Ilion (7 on seed 1). Route px marked L7 fall 12-21%
+below the old ones where a pinch was opened (Lioness, Proving Moon, Empyrean, Fae Court).
 
 **Thin margins** (lowest seed under 8 lives, or a cliff within 0.1): Ilion (2.8
 loses seed 1: Polyphemus survives and the run snowballs), the Underworld (6 on
