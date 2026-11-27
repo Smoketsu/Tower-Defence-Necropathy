@@ -24,7 +24,7 @@ func _ready() -> void:
 	_check("act defaults", String(MapRegistry.get_map("test_grounds")["act_rule"]) == "test/proving" and String(MapRegistry.get_map("graveyard")["act"]) == "covenant")
 	_check("merged kinds", Acts.kinds().has("recruit") and Acts.kinds().has("test_bat") and Acts.act_of_kind("test_bat") == "test" and Acts.act_of_kind("recruit") == "covenant")
 	_check("merged orders", Acts.orders().has("graveyard_default") and Acts.orders().has("test_default"))
-	_check("music", Sfx.run_mode_for("graveyard") == Sfx.MUSIC_RUN)
+	_check("music", Sfx.run_mode_for("graveyard") == StringName(Sfx.SONG_PREFIX + "graveyard") and Sfx.run_mode_for("test_grounds") == Sfx.MUSIC_RUN)  # DECISIONS N1: a map with a song plays it; the test act keeps the synth loop
 	_check("mood", not Acts.mood_for(MapRegistry.get_map("test_grounds")).is_empty())
 	# Hooks on the test map.
 	var game := TdGame.new()

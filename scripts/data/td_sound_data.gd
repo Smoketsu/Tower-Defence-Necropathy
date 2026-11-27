@@ -2,16 +2,19 @@
 ## through Sfx.play) each Gravewatch event uses, and the five new synthesized
 ## sounds GDD §11 asks for (place, upgrade, sell, life lost, wave call) as
 ## SoundData-style recipes in SOUNDS, rendered by the Synth as Sfx's lazy
-## "td" pack (TdGame asks for it; no audio files). Data only, no logic.
+## "td" pack (TdGame asks for it). Ids with a file in SoundData.SFX_SAMPLE_DIR
+## play Necropathy's sampled takes instead (DECISIONS N1). Data only, no logic.
 class_name TdSoundData
 extends RefCounted
 
 ## Event -> Sfx id.
 const EVENTS: Dictionary = {
-	"place": "td_place",  # GDD §11 "place"
+	# DECISIONS N1: place / sell / life lost play Necropathy's sampled counterparts (the
+	# td_ recipes below stay in the pack, unused, so the later recipes keep their seeds).
+	"place": "summon_rise",  # GDD §11 "place" (was td_place)
 	"upgrade": "td_upgrade",  # GDD §11 "upgrade"
-	"sell": "td_sell",  # GDD §11 "sell"
-	"life_lost": "td_life_lost",  # GDD §11 "life lost"
+	"sell": "summon_death",  # GDD §11 "sell" (was td_sell)
+	"life_lost": "player_hurt",  # GDD §11 "life lost" (was td_life_lost)
 	"wave_call": "td_wave_call",  # GDD §11 "wave call"
 	"evolve": "level_up",  # TUNING (not in GDD)
 	"chest": "chest_open",  # TUNING (not in GDD)
