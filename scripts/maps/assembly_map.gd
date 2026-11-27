@@ -56,7 +56,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(1175, 257), Vector2(861, 565), Vector2(584, 344), Vector2(201, 180), Vector2(139, 507), Vector2(445, 593)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 2.6,  # TUNING (not in GDD) L4: 3.6 before the road redraw; DECISIONS Z4: 3.35 -> 3.6; Part Three
+	"wave_hp_end": 2.2,  # TUNING (not in GDD) B4: 2.6 before the balance pass; L4: 3.6 before the road redraw; DECISIONS Z4: 3.35 -> 3.6; Part Three
 	"rule": "",
 	"act_rule": "empire/line_of_fire",
 	"build_order": "assembly_default",

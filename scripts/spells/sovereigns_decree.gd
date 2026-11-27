@@ -2,7 +2,8 @@
 ## taunts and takes 50% less damage"): on the Dread Rally meter. Revives every
 ## fallen blocker body, puts a barrier of `barrier_frac` x its max HP on every
 ## blocker body (TdCombat.barrier_body) for `duration` s, and weakens every
-## enemy held meanwhile to `weaken` (TdCombat.weaken_enemy). Row:
+## enemy held meanwhile to `weaken` (TdCombat.weaken_enemy) and slows every
+## enemy on the map to `slow` x its speed (TdCombat.slow_enemy; DECISIONS B2). Row:
 ## SpellData.ULTIMATES "sovereigns_decree". Cast anywhere.
 extends TdSpell
 
@@ -34,6 +35,9 @@ func step(_dt: float) -> void:
 		for b: BlockBody in blk.bodies:
 			for e: TdEnemy in b.held:
 				TdCombat.weaken_enemy(game, e, float(row["weaken"]), 0.2)
+	for e: TdEnemy in game.enemies:
+		if e.alive and not bool(e.row.get("structure", false)):
+			TdCombat.slow_enemy(game, e, float(row["slow"]), 0.2)
 
 
 func draw(ci: CanvasItem) -> void:

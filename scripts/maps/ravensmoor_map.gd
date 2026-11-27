@@ -66,7 +66,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(287, 421), Vector2(546, 182), Vector2(567, 566), Vector2(1015, 316), Vector2(1033, 611)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 3.2,  # TUNING (not in GDD) L4: 4.2 before the road redraw; a step above the Sanctum's late waves (two columns share them)
+	"wave_hp_end": 3.0,  # TUNING (not in GDD) B4: 3.2 before the balance pass; L4: 4.2 before the road redraw; a step above the Sanctum's late waves (two columns share them)
 	"rule": "court/court_structures",
 	"act_rule": "court/blood_moon",
 	"build_order": "ravensmoor_default",

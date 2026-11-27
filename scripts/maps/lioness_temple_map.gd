@@ -65,7 +65,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(334, 285), Vector2(912, 269), Vector2(629, 583), Vector2(563, 496), Vector2(566, 307)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 1.9,  # TUNING (not in GDD) L7: 2.2 before the break fixes; L4: 3.0 before the road redraw; S3: 2.8 before the spot fix
+	"wave_hp_end": 2.2,  # TUNING (not in GDD) B4: 1.9 before the balance pass; L7: 2.2 before the break fixes; L4: 3.0 before the road redraw; S3: 2.8 before the spot fix
 	"rule": "",
 	"act_rule": "dynasty/rebirth",
 	"build_order": "lioness_temple_default",

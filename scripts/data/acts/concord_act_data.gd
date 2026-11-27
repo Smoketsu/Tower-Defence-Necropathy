@@ -120,7 +120,7 @@ const KINDS: Dictionary = {
 	# Proving Moon miniboss: the Warbeast, the Vrask's war-hound; it CHARGES through the posts, striking every body it passes.
 	"concord_warbeast": {
 		"name": "The Warbeast", "sprite": "concord/warbeast", "rank": "miniboss",
-		"hp": 3400.0, "speed": 30.0, "armour": 5.0, "radius": 20.0,  # TUNING (not in GDD) X3: held only between its charges, so under 4000
+		"hp": 2600.0, "speed": 30.0, "armour": 5.0, "radius": 20.0,  # TUNING (not in GDD) X3: held only between its charges, so under 4000; DECISIONS B3: 3400 -> 2600 (leaked on 12 of 12 seeds)
 		"damage": 26.0, "attack_interval": 1.2,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "concord/warbeast",
 		"args": {"first": 6.0, "every": 13.0, "windup": 0.9, "charge_time": 1.2, "speed_mult": 2.6, "roll_damage": 46.0},  # TUNING (not in GDD) Necropathy WarbeastKit: the charge
@@ -151,7 +151,7 @@ const KINDS: Dictionary = {
 	# the Duel (he leaps over the posts), the Last Trophy (a wrist bomb: kill him before it counts down).
 	"concord_vrask_tal": {
 		"name": "Vrask'Tal, the Hunt-Lord", "sprite": "bosses/vrask_tal", "rank": "boss",
-		"hp": 8000.0, "speed": 22.0, "armour": 5.0, "radius": 26.0,  # TUNING (not in GDD) DECISIONS Z4: 9000 -> 8000 (leaked on seed 1)
+		"hp": 6500.0, "speed": 22.0, "armour": 5.0, "radius": 26.0,  # TUNING (not in GDD) DECISIONS Z4: 9000 -> 8000 (leaked on seed 1); B3: 8000 -> 6500 (leaked on 10 of 12)
 		"damage": 34.0, "attack_interval": 1.1,  # TUNING (not in GDD)
 		"flying": false, "ignores_walls": true, "trait": "concord/vrask_tal",
 		"args": {"phase_hp": [0.6, 0.25], "alpha": 0.3, "reveal": 3.0, "skull_step": 0.08, "skull_cap": 8,

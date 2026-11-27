@@ -60,7 +60,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(336, 457), Vector2(667, 290), Vector2(975, 410), Vector2(609, 105), Vector2(1105, 410)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 2.0,  # TUNING (not in GDD) L7: 3.2 before the break fixes (crater ring redrawn); L4: 2.65 before the road redraw
+	"wave_hp_end": 1.8,  # TUNING (not in GDD) B4: 2.0 before the balance pass; L7: 3.2 before the break fixes (crater ring redrawn); L4: 2.65 before the road redraw
 	"rule": "",
 	"act_rule": "concord/abduction",
 	"build_order": "crash_site_default",

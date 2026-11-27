@@ -65,7 +65,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(156, 380), Vector2(361, 552), Vector2(749, 602), Vector2(1036, 457), Vector2(912, 205), Vector2(1228, 380)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 2.3,  # TUNING (not in GDD) L7: 3.0 before the break fixes; (DECISIONS Z4: kept, with Vrask'Tal 9000 -> 8000) rising through the act
+	"wave_hp_end": 2.9,  # TUNING (not in GDD) B4: 2.3 before the balance pass; L7: 3.0 before the break fixes; (DECISIONS Z4: kept, with Vrask'Tal 9000 -> 8000) rising through the act
 	"rule": "",
 	"act_rule": "concord/abduction",
 	"build_order": "proving_moon_default",

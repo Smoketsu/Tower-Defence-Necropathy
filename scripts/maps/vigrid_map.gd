@@ -48,7 +48,7 @@ const MAP: Dictionary = {
 	"rune_stones": [Vector2(700, 467), Vector2(928, 700)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2
-	"wave_hp_end": 2.3,  # TUNING (not in GDD) L4: 3.2 before the road redraw; the act's finale presses hardest
+	"wave_hp_end": 2.15,  # TUNING (not in GDD) B4: 2.3 before the balance pass; L4: 3.2 before the road redraw; the act's finale presses hardest
 	"rule": "",
 	"act_rule": "norse/long_winter",
 	"build_order": "vigrid_default",

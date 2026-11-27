@@ -50,7 +50,7 @@ const MAP: Dictionary = {
 	"posts": [Vector2(339, 630), Vector2(736, 630), Vector2(1035, 630), Vector2(1036, 463), Vector2(457, 368), Vector2(1191, 448)],
 	"lives": 0,
 	"souls": 300,  # TUNING (not in GDD) X2: every map from Act II on starts with 300
-	"wave_hp_end": 3.08,  # TUNING (not in GDD) L7: 2.75 before the break fixes; L4: 2.5 before the road redraw; the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
+	"wave_hp_end": 2.9,  # TUNING (not in GDD) B4: 3.08 before the balance pass; L7: 2.75 before the break fixes; L4: 2.5 before the road redraw; the act's shields and wrath make its kinds tougher than their row HP: tuned to the loss pattern (BALANCE.md)
 	"rule": "",
 	"act_rule": "pantheon/pantheon_rules",
 	"build_order": "ilion_default",
