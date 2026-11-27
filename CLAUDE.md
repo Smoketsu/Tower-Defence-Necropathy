@@ -127,6 +127,9 @@ other plots, the gate, entrances, the HUD (top bar, spell bar, the act widget co
 obstacles and act objects; posts on their road, apart, not at an entrance or in the gate.
 `tools/spot_audit.tscn -- --autotest` prints every bad spot (`--fix` proposes the nearest
 good place, `--json=` + `tools/spot_overlay.py` draws overlays); never reorder plots.
+**Shape:** each map's road has its own themed shape that tells its place (a spiral into the
+Maelstrom, a star round Pandemonium, a ring corridor on the Ark; DECISIONS L1-L2), never the
+old boxy serpentine.
 
 **Map rule** — `scripts/maps/rules/<id>.gd` `extends MapRule` (MAP "rule": id):
 `setup()`, `step(dt: float)`, `tower_damage_mult(t: Tower) -> float` (read by
@@ -173,7 +176,7 @@ matrix (45 jobs from `tools/map_list.tscn`), Web build.
 
 Balance: `docs/BALANCE.md` (its first section is the one 45-map table and the
 **Act I baseline summaries**: a change that must not touch Act I reproduces them
-byte for byte). Decisions: `docs/DECISIONS.md` (I, V, A, K, W, T2-T15, X, Y, Z, M, S rows).
+byte for byte). Decisions: `docs/DECISIONS.md` (I, V, A, K, W, T2-T15, X, Y, Z, M, S, L rows).
 Next: owner playtests; `docs/ACT_TEMPLATE.md` keeps the lessons (sections 5-7)
 for any later content.
 
