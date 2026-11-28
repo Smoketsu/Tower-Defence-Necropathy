@@ -11,6 +11,8 @@
 ## the post stop on it like on any blocker (the Line of Fire's answer).
 ## Evolved into the Deus Revenant (EvolutionData "deus_revenant"): missiles
 ## (`projectile` deus_missile) that splash, and more of them.
+## Under Pinned Down (SynergyData "pin_time") every foe a shell hits is
+## marked pinned (TdCombat.pin_enemy) for the archers.
 ## Tower.vars: "salvos" (bursts fired, the kit summary's counter).
 extends "res://scripts/towers/blocker.gd"
 
@@ -34,3 +36,11 @@ func step(t: Tower, dt: float) -> void:
 		g.projectiles.fire(t, e, float(t.stats["damage"]) * float(t.stats["gun_mult"]), String(t.stats["projectile"]), Color.WHITE, false)
 	t.vars["salvos"] = int(t.vars.get("salvos", 0)) + 1
 	g.sound_fire(t.tower_id)
+
+
+func impact(t: Tower, _shot: TdProjectiles.Shot, victims: Array[TdEnemy]) -> void:
+	var pin := float(Synergies.value(t, "pin_time", 0.0))  # Pinned Down mark (s; 0 = pair not active).
+	if pin > 0.0:
+		for e: TdEnemy in victims:
+			if e.alive:
+				TdCombat.pin_enemy(t.game, e, pin)

@@ -22,6 +22,8 @@
 ## spells, the Stampedes (trample, turning, the tar, the watering hole), a rock stun, meteors.
 ## Act XV (_year_checks): the Turning Year's seasons, the Ossuary Oak and World-Root Warden,
 ## Heartwood, the act spells, the Great Stag's charge, the Green Mother's Last Claim.
+## The later-class pairs (_late_pair_checks, DECISIONS Q1-Q6): each activates in radius, each
+## hit bonus applies to a marked foe and not to an unmarked one; Winter's Edge; Pinned Down's mark.
 ## Run: godot --headless tools/towers_check.tscn   (prints PASS / FAIL, exit 0 / 1)
 extends Node
 
@@ -94,6 +96,7 @@ func _ready() -> void:
 	_concord_checks()
 	_titans_checks()
 	_year_checks()
+	_late_pair_checks()
 	print("TOWERS CHECK %s %s" % ["PASS" if _fails.is_empty() else "FAIL", ",".join(_fails)])
 	get_tree().quit(0 if _fails.is_empty() else 1)
 
@@ -1405,3 +1408,66 @@ func _year_checks() -> void:
 	gm.vars["claim_until"] = game.time + 5.0
 	_check("mother claim halves", is_equal_approx(TdCombat.damage_enemy(game, gm, 1000.0, {"source": "check", "dot": true}), 500.0))
 	game.queue_free()
+
+
+## The later-class pairs (DECISIONS Q1-Q6): pair `id` of classes `a` / `b`
+## activates when they stand 60 px apart; `b`'s hit (10, a DoT: no armour) is
+## plain on an unmarked foe and x `mult` once `mark` has put the status on it.
+func _late_pair_checks() -> void:
+	_pair_hit("searchlight", "gargoyle", "ghost_saucer", 1.35, func(g: TdGame, e: TdEnemy) -> void: TdCombat.swoop_enemy(g, e, 2.0))
+	_pair_hit("carrion_swarm", "abomination", "grave_drone", 1.35, func(g: TdGame, e: TdEnemy) -> void: TdCombat.stagger_enemy(g, e, 2.0))
+	_pair_hit("black_ice", "frost_wraith", "powder_wraith", 1.2, func(g: TdGame, e: TdEnemy) -> void: TdCombat.slow_enemy(g, e, 0.5, 2.0))
+	_pair_hit("black_ice", "frost_wraith", "powder_wraith", 1.4, func(g: TdGame, e: TdEnemy) -> void: TdCombat.slow_enemy(g, e, 0.5, 2.0); TdCombat.freeze_enemy(g, e, 2.0))
+	_pair_hit("hymn_of_ruin", "banshee", "fallen_seraph", 1.25, func(g: TdGame, e: TdEnemy) -> void: TdCombat.weaken_enemy(g, e, 0.8, 2.0))
+	_pair_hit("cold_blood", "draugr_thane", "rogue", 1.4, func(g: TdGame, e: TdEnemy) -> void: TdCombat.slow_enemy(g, e, 0.5, 2.0))
+	_pair_hit("shatterfall", "draugr_thane", "corpse_catapult", 1.6, func(g: TdGame, e: TdEnemy) -> void: TdCombat.freeze_enemy(g, e, 2.0))
+	_pair_hit("blood_in_the_water", "rogue", "blood_spawn", 1.35, func(g: TdGame, e: TdEnemy) -> void: TdCombat.add_dot(g, e, 1.0, 3.0, "rogue_bleed"))
+	_pair_hit("pinned_down", "iron_revenant", "archer", 1.35, _mark_pinned)
+	_pair_hit("anchor_and_stone", "spawn_of_the_deep", "corpse_catapult", 1.3, func(g: TdGame, e: TdEnemy) -> void: TdCombat.freeze_enemy(g, e, 2.0))
+	_pair_hit("broken_guard", "bound_oni", "warrior", 1.3, _mark_held)
+	var pair := _pair_game("warder", "myrmidon_shade")  # Aegis of Tartarus: stat effects only.
+	_check("aegis of tartarus active", (pair[1] as Tower).synergies.any(func(p: Array) -> bool: return p[0] == "aegis_of_tartarus"))
+	_check("aegis of tartarus hp", float(pair[1].stats["body_hp"]) > float(TowerData.TOWERS["myrmidon_shade"]["body_hp"]) * 1.1)
+	(pair[2] as TdGame).queue_free()
+
+
+## A fresh Graveyard run with `a` and `b` built 60 px apart: [a Tower, b Tower].
+func _pair_game(a: String, b: String) -> Array:
+	var game := TdGame.new()
+	game.setup("graveyard", DifficultyData.DEFAULT_ID, 1)
+	add_child(game)
+	game.economy.earn(20000, "test_bonus")
+	var sa := game.spot_by_id(_near(game, String(TowerData.TOWERS[a]["spot"]), Vector2(640, 360)))  # a's spot.
+	game.build(sa, a)
+	var sb := game.spot_by_id(_near(game, String(TowerData.TOWERS[b]["spot"]), sa.position))  # b's spot.
+	game.build(sb, b)
+	sb.tower.position = sa.tower.position + Vector2(60, 0)  # In radius whatever the map.
+	Synergies.evaluate(game.towers)
+	return [sa.tower, sb.tower, game]
+
+
+## Checks pair `id` (see _late_pair_checks).
+func _pair_hit(id: String, a: String, b: String, mult: float, mark: Callable) -> void:
+	var pair := _pair_game(a, b)
+	var tb: Tower = pair[1]  # The finisher.
+	var game: TdGame = pair[2]
+	_check(id + " active (" + a + ")", tb.synergies.any(func(p: Array) -> bool: return p[0] == id))
+	var e := _enemy_at(game, "footman", tb.position)
+	e.freeze_until = 0.0  # Unmarked.
+	_check(id + " unmarked", is_equal_approx(TdCombat.damage_enemy(game, e, 10.0, {"tower": tb, "dot": true}), 10.0))
+	mark.call(game, e)
+	_check(id + " marked x%s" % mult, is_equal_approx(TdCombat.damage_enemy(game, e, 10.0, {"tower": tb, "dot": true}), 10.0 * mult))
+	game.queue_free()
+
+
+## Pinned Down's mark: the Iron Revenant's shell impact hook pins `e`.
+func _mark_pinned(g: TdGame, e: TdEnemy) -> void:
+	var ir: Tower = g.towers.filter(func(t: Tower) -> bool: return t.tower_id == "iron_revenant")[0]  # The setter.
+	var victims: Array[TdEnemy] = [e]  # The shell's victims.
+	ir.behavior.impact(ir, null, victims)
+
+
+## "held": stopped at a blocker body (the Oni's).
+func _mark_held(g: TdGame, e: TdEnemy) -> void:
+	var oni: Tower = g.towers.filter(func(t: Tower) -> bool: return t.tower_id == "bound_oni")[0]  # The setter.
+	e.holder = oni.block.bodies[0]
