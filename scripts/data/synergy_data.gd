@@ -9,25 +9,37 @@ extends RefCounted
 ## Row keys:
 ##   name    — UI name; icon — icons/<id> key.
 ##   a, b    — the two TowerData classes (an evolved tower counts as its base).
+##   a_alt   — optional: a second class that also counts as side "a" (Winter's
+##             Edge: the Draugr Thane is a second setter for Cold Blood and
+##             Shatterfall). Read only by Synergies.side_of().
 ##   radius  — px; the pair is active while the two towers are this close.
 ##   effects — {"a"|"b": {stat: multiplier}} applied to that partner's stats
 ##             (damage, rate, range, hp, hold_bonus (added, not multiplied)).
 ##   hit     — optional conditional hit bonus, read by Synergies.hit_mult() from
 ##             TdCombat.damage_enemy(): {side: "a"|"b" (the partner whose hits
-##             gain it), vs: enemy status "frozen"|"staggered"|"weakened",
-##             mult: damage multiplier}. One bonus per hit, the highest.
+##             gain it), vs: enemy status "frozen"|"staggered"|"weakened"|
+##             "slowed"|"swooped"|"bleeding"|"pinned"|"held" (Synergies.has_status()),
+##             mult: damage multiplier}, or an Array of such dictionaries (Black
+##             Ice: one bonus on frozen foes, a smaller one on chilled foes).
+##             One bonus per hit, the highest.
+##   pin_time — optional, s: the Iron Revenant's shells mark the
+##             foes they hit "pinned" for this long (Pinned Down; read by
+##             iron_revenant.gd through Synergies.value(), so only while the
+##             pair is active).
 ##   extend_weaken — optional, s: the Mage's hits lengthen the Dirge (weaken)
 ##             already on an enemy by this much (Requiem; read by mage.gd).
 ##   aim     — optional: the partner side's boulders aim at enemies with this
-##             status first (Killing Field "staggered"; read by corpse_catapult.gd).
+##             status first (Killing Field "staggered", Anchor and Stone "held";
+##             read by corpse_catapult.gd).
 ##   hint    — one short line shown in the spot menu.
 const SYNERGIES: Dictionary = {
 	"shatterfall": {
 		"name": "Shatterfall", "icon": "syn_shatterfall", "a": "frost_wraith", "b": "corpse_catapult",
+		"a_alt": "draugr_thane",  # Winter's Edge (Necropathy): the Draugr Thane's chill counts as a setter too
 		"radius": 220.0,  # TUNING (not in GDD)
 		"effects": {},
 		"hit": {"side": "b", "vs": "frozen", "mult": 1.6},  # TUNING (not in GDD) GDD §4.4 "frozen targets take more boulder damage"
-		"hint": "Frost Wraith near a Catapult: boulders crush frozen foes",
+		"hint": "Frost Wraith or Draugr near a Catapult: boulders crush frozen foes",
 	},
 	"flesh_rampart": {
 		"name": "Flesh Rampart", "icon": "syn_flesh_rampart", "a": "abomination", "b": "warrior",
@@ -67,10 +79,11 @@ const SYNERGIES: Dictionary = {
 	},
 	"cold_blood": {
 		"name": "Cold Blood", "icon": "syn_cold_blood", "a": "frost_wraith", "b": "rogue",
+		"a_alt": "draugr_thane",  # Winter's Edge (Necropathy): the Draugr Thane's chill counts as a setter too
 		"radius": 220.0,  # TUNING (not in GDD)
 		"effects": {},
 		"hit": {"side": "b", "vs": "slowed", "mult": 1.4},  # Necropathy +40% rogue damage on a chilled foe
-		"hint": "Frost Wraith near a Rogue: Rogues hit chilled foes harder",
+		"hint": "Frost Wraith or Draugr near a Rogue: Rogues hit chilled foes harder",
 	},
 	"wild_hunt": {
 		"name": "The Wild Hunt", "icon": "syn_wild_hunt", "a": "gargoyle", "b": "bone_hound",
@@ -93,7 +106,7 @@ const SYNERGIES: Dictionary = {
 		"hint": "Golem near Warriors: Warriors sturdier, the Golem holds one more",
 	},
 	"hymn_of_ruin": {
-		"name": "Hymn of Ruin", "icon": "syn_requiem", "a": "banshee", "b": "fallen_seraph",
+		"name": "Fallen Choir", "icon": "syn_fallen_choir", "a": "banshee", "b": "fallen_seraph",  # Necropathy's Fallen Choir (id kept: autotest summaries)
 		"radius": 220.0,  # TUNING (not in GDD) new pair (no Necropathy synergy for the Seraph)
 		"effects": {"a": {"range": 1.1}},  # TUNING (not in GDD)
 		"hit": {"side": "b", "vs": "weakened", "mult": 1.25},  # TUNING (not in GDD)
@@ -222,5 +235,66 @@ const SYNERGIES: Dictionary = {
 		"effects": {"a": {"rate": 1.1}},  # TUNING (not in GDD)
 		"hit": {"side": "b", "vs": "frozen", "mult": 1.3},  # TUNING (not in GDD) the blade finds what the roots hold
 		"hint": "Ossuary Oak near a Skeleton Warrior: warriors cut rooted foes harder",
+	},
+	# --- Later-class pairs from Necropathy (DECISIONS Q1-Q6; its capstones not built) ---
+	"searchlight": {
+		"name": "Searchlight", "icon": "syn_searchlight", "a": "gargoyle", "b": "ghost_saucer",
+		"radius": 240.0,  # TUNING (not in GDD)
+		"effects": {},
+		"hit": {"side": "b", "vs": "swooped", "mult": 1.35},  # TUNING (not in GDD) beams find what the gargoyle knocked down
+		"hint": "Gargoyle near a Ghost Saucer: beams burn swooped foes",
+	},
+	"carrion_swarm": {
+		"name": "Carrion Swarm", "icon": "syn_carrion_swarm", "a": "abomination", "b": "grave_drone",
+		"radius": 240.0,  # TUNING (not in GDD)
+		"effects": {},
+		"hit": {"side": "b", "vs": "staggered", "mult": 1.35},  # TUNING (not in GDD) darts on stomped packs
+		"hint": "Abomination near a Grave Drone: darts hit staggered foes harder",
+	},
+	"black_ice": {
+		"name": "Black Ice", "icon": "syn_black_ice", "a": "frost_wraith", "b": "powder_wraith",
+		"radius": 240.0,  # TUNING (not in GDD)
+		"effects": {},
+		"hit": [
+			{"side": "b", "vs": "frozen", "mult": 1.4},  # TUNING (not in GDD) kegs shatter frozen foes
+			{"side": "b", "vs": "slowed", "mult": 1.2},  # TUNING (not in GDD) a smaller bonus on chilled foes
+		],
+		"hint": "Frost Wraith near a Powder Wraith: kegs shatter frozen foes",
+	},
+	"blood_in_the_water": {
+		"name": "Blood in the Water", "icon": "syn_blood_in_the_water", "a": "rogue", "b": "blood_spawn",
+		"radius": 240.0,  # TUNING (not in GDD)
+		"effects": {},
+		"hit": {"side": "b", "vs": "bleeding", "mult": 1.35},  # TUNING (not in GDD) the spawn smell the Rogue's bleed
+		"hint": "Rogue near Blood Spawn: they bite bleeding foes harder",
+	},
+	"pinned_down": {
+		"name": "Pinned Down", "icon": "syn_pinned_down", "a": "iron_revenant", "b": "archer",
+		"radius": 240.0,  # TUNING (not in GDD)
+		"effects": {},
+		"pin_time": 4.0,  # TUNING (not in GDD) s a shell's victim stays pinned
+		"hit": {"side": "b", "vs": "pinned", "mult": 1.35},  # TUNING (not in GDD)
+		"hint": "Iron Revenant near Archers: arrows hit shelled foes harder",
+	},
+	"anchor_and_stone": {
+		"name": "Anchor and Stone", "icon": "syn_anchor_and_stone", "a": "spawn_of_the_deep", "b": "corpse_catapult",
+		"radius": 260.0,  # TUNING (not in GDD)
+		"effects": {},
+		"aim": "held",  # TUNING (not in GDD) boulders aim at foes held still
+		"hit": {"side": "b", "vs": "held", "mult": 1.3},  # TUNING (not in GDD)
+		"hint": "Spawn of the Deep near a Catapult: boulders crush held foes",
+	},
+	"broken_guard": {
+		"name": "Broken Guard", "icon": "syn_broken_guard", "a": "bound_oni", "b": "warrior",
+		"radius": 220.0,  # TUNING (not in GDD)
+		"effects": {},
+		"hit": {"side": "b", "vs": "held", "mult": 1.3},  # TUNING (not in GDD) every foe a Warrior strikes is held, so: +30% Warrior blows
+		"hint": "Bound Oni near Warriors: Warriors hit held foes harder",
+	},
+	"aegis_of_tartarus": {
+		"name": "Aegis of Tartarus", "icon": "syn_aegis_of_tartarus", "a": "warder", "b": "myrmidon_shade",
+		"radius": 200.0,  # TUNING (not in GDD)
+		"effects": {"a": {"rate": 1.2}, "b": {"hp": 1.15}},  # TUNING (not in GDD) as Shieldwall: faster wards on the shield wall
+		"hint": "Warder near Myrmidon Shades: faster wards, sturdier shields",
 	},
 }

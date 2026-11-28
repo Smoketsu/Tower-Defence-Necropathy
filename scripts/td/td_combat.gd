@@ -266,6 +266,12 @@ static func swoop_enemy(game: TdGame, e: TdEnemy, time: float) -> void:
 	e.vars["k_swooped"] = maxf(float(e.vars.get("k_swooped", 0.0)), game.time + time)
 
 
+## Marks `e` pinned for `time` s (an Iron Revenant shell under Pinned Down;
+## read through Synergies.has_status()).
+static func pin_enemy(game: TdGame, e: TdEnemy, time: float) -> void:
+	e.vars["k_pinned"] = maxf(float(e.vars.get("k_pinned", 0.0)), game.time + time)
+
+
 ## Knocks `e` back `px` px along its road, away from the gate (a Powder
 ## Wraith's keg, the Black Tide's blasts; the one knockback path): a body
 ## holding it lets go. Bosses, minibosses, structures and flyers stand firm;

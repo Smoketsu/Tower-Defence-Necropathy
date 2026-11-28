@@ -94,7 +94,7 @@ func recompute() -> void:
 		s["name"] = ev["name"]
 	for pair: Array in synergies:
 		var syn: Dictionary = SynergyData.SYNERGIES[pair[0]]  # Synergy row.
-		var side := "a" if tower_id == String(syn["a"]) else "b"  # Which partner this tower is.
+		var side := Synergies.side_of(tower_id, syn)  # Which partner this tower is (a_alt counts as "a").
 		var fx: Dictionary = syn["effects"].get(side, {})  # Its effects for this side.
 		for k: String in fx:
 			if k == "hold_bonus":

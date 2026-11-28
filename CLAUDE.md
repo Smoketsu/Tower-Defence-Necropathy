@@ -93,9 +93,12 @@ radius}; a new type is one
 effects {"a"|"b": {damage|rate|range|hp: mult, hold_bonus: +n}}, hint.
 `Synergies.evaluate()` runs on build / sell / upgrade / evolve; behaviours can
 test `t.synergies` ([id, partner] pairs) for conditional effects. Optional keys:
-`hit` {side, vs frozen|staggered|weakened, mult} (applied once per hit by
-`Synergies.hit_mult()` from `TdCombat.damage_enemy()`), `extend_weaken`, `aim`
-(read by the class kits through `Synergies.value()`).
+`hit` {side, vs frozen|staggered|weakened|slowed|swooped|bleeding|pinned|held, mult}
+or a list of them (applied once per hit by `Synergies.hit_mult()` from
+`TdCombat.damage_enemy()`; the statuses are `Synergies.has_status()`, DECISIONS
+Q3-Q4), `extend_weaken`, `aim`, `pin_time` (read by the class kits through
+`Synergies.value()`), `a_alt` (a second side-"a" class, read only by
+`Synergies.side_of()`: Winter's Edge).
 
 **Act** — see `docs/ACT_TEMPLATE.md` (the checklist) and the section "Act
 framework" below. Later acts put enemy kinds, build orders and moods in their
@@ -173,7 +176,7 @@ the Inferno, the Celestial Host; Part Three: the Ancient Eye, the Electronic
 Empire, the Concord of Stars, the Age of Titans, the Turning Year, ending on the
 World-Tree), each map with its miniboss and boss kit, each later act with its
 act rule, **30 towers** (8 Act I + 6 kit + 16 act towers) with 30 hidden
-evolutions, 27 synergies, **50 spells** (8 + three per later act), 4 ultimates,
+evolutions, 35 synergies (DECISIONS Q1-Q6), **50 spells** (8 + three per later act), 4 ultimates,
 **50 characters**, the act framework (hidden test act), unlocks (save version
 2), difficulty levels, the Reckoning, menus, meta save + backup codes,
 masteries, gamepad cursor, touch layout, Necropathy's sampled sounds and per-map
@@ -406,7 +409,7 @@ The bar is Necropathy's owner-approved menu modernization; these rules apply her
   Blockers: `BlockBody` (`barrier`, `damage_cut`, `temporary`), held enemies'
   hits x `TdRulesData.BLOCKER_HIT_MULT`; every temporary Risen through
   `TempBlockers.raise()` (never on an off-road trail). Recipe types also `any`
-  {of} and `elite_kills` {n}; synergy statuses also `slowed` / `swooped`.
+  {of} and `elite_kills` {n}; synergy statuses also `slowed` / `swooped` / `bleeding` / `pinned` (`TdCombat.pin_enemy`) / `held`.
 - **Enemies and maps**: EnemyTrait hooks also `on_attack` and `note()`;
   `TdGame.spawn_at()`, `spawn_from_body()` (claims), `WaveDirector.spawn_extra()`;
   `MapRule.summary()` / `finish_structures()`; enemy row key `structure`; map
